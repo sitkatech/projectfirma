@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectCreateNewFeature]
         public ViewResult CreateAndEditBasics()
         {
-            return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.OrganizationID));
+            return ViewCreateAndEditBasics(new BasicsViewModel());
         }
 
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel)
@@ -169,7 +169,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = new ProposedProject(viewModel.ProjectName,
                 viewModel.ProjectDescription,
-                ModelObjectHelpers.NotYetAssignedID,
                 CurrentPerson.PersonID,
                 DateTime.Now,
                 (int) ProjectLocationSimpleType.None.ToEnum,

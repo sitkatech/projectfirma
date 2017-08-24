@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
@@ -67,10 +66,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
         [FieldDefinitionDisplay(FieldDefinitionEnum.SecuredFunding)]
         public Money? SecuredFunding { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
-        [Required]
-        public int? LeadImplementerOrganizationID { get; set; }
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
 
@@ -91,7 +86,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProposedProjectID = proposedProject.ProposedProjectID;
             ProjectName = proposedProject.ProjectName;
             ProjectDescription = proposedProject.ProjectDescription;
-            LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
             FundingTypeID = proposedProject.FundingTypeID;
             EstimatedTotalCost = proposedProject.EstimatedTotalCost;
@@ -102,15 +96,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             CompletionYear = proposedProject.CompletionYear;
         }
 
-        public BasicsViewModel(int? organizationID)
-        {
-            LeadImplementerOrganizationID = organizationID;
-        }
-
         public void UpdateModel(Models.ProposedProject proposedProject, Person person)
         {
             proposedProject.ProposingPersonID = person.PersonID;
-            proposedProject.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
             proposedProject.TaxonomyTierOneID = ProposedTaxonomyTierOneID;
             proposedProject.ProposedProjectID = ProposedProjectID;
             proposedProject.ProjectName = ProjectName;

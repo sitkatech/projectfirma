@@ -50,9 +50,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             var viewModel = new BasicsViewModel(proposedProject);
             viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.ProposedProject.FieldLengths.ProjectName);
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.ProposedProject.FieldLengths.ProjectDescription);
-            viewModel.LeadImplementerOrganizationID = TestFramework.TestOrganization.Create().OrganizationID;
 
-            // Act            
+            // Act
             viewModel.UpdateModel(proposedProject, TestFramework.TestPerson.Create());
 
             // Assert

@@ -37,7 +37,6 @@ namespace ProjectFirma.Web.Common
         public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists";
         public static readonly string OrganizationShortNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} short name already exists";
         public static readonly string OrganizationMustBeSetForNewUser = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} must be set for a new user";
-        public static readonly string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = $"Please select one of the {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} as the {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()}";
         public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists";
         public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists";
         public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists";

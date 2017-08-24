@@ -877,7 +877,6 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
-          <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
           <ScalarProperty Name="ProposingPersonID" ColumnName="ProposingPersonID" />
           <ScalarProperty Name="ProposingDate" ColumnName="ProposingDate" />
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />

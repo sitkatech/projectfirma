@@ -170,7 +170,7 @@
                                             @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
                                         </div>
                                     </div>
-                                                }
+                                }
                             </div>
                         </div>
                         <div class="panel panelFirma">
@@ -178,15 +178,14 @@
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</h3>
                             </div>
                             <div class="panel-body">
-                                <hr />
                                 @Html.Label(string.Format("Associated {0}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()))
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
                                 {
                                     <table class="summaryLayout">
                                         <tr>
                                             <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>                                            
-                                        </tr>                                
+                                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+                                        </tr>
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
                                             <tr >

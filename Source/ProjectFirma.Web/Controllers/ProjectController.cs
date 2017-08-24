@@ -763,9 +763,13 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
-                x => x.IsEditableToThisPerson(CurrentPerson) && x.DoesPersonBelongToProposedProjectLeadImplementingOranization(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects
+                .GetProposedProjectsWithGeoSpatialProperties(
+                    HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
+                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
+                    x => x.IsEditableToThisPerson(CurrentPerson))
+                .Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved &&
+                             x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }

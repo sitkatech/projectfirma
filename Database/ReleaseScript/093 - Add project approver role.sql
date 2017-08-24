@@ -1,6 +1,9 @@
 alter table dbo.RelationshipType add CanApproveProjects bit null
 alter table dbo.RelationshipType add IsPrimaryContact bit null
 
+delete from dbo.FieldDefinitionDataImage where FieldDefinitionDataID = (select top 1 FieldDefinitionDataID from dbo.FieldDefinitionData where FieldDefinitionID = 12)
+delete from dbo.FieldDefinitionData where FieldDefinitionID = 12
+
 go
 
 update dbo.RelationshipType set CanApproveProjects = 0, IsPrimaryContact = 0
@@ -37,6 +40,9 @@ where p.LeadImplementerOrganizationID is not null
 alter table dbo.Project drop constraint FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID
 alter table dbo.Project drop constraint FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID
 
+alter table dbo.ProposedProject drop constraint FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID
+alter table dbo.ProposedProject drop constraint FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID
+
 go
 
 alter table dbo.RelationshipType alter column CanApproveProjects bit not null
@@ -46,3 +52,4 @@ create unique index CK_RelationshipType_CanApproveProjects_OneTruePerTenant on d
 create unique index CK_RelationshipType_IsPrimaryContact_OneTruePerTenant on dbo.RelationshipType (TenantID, IsPrimaryContact) where IsPrimaryContact = 1
 
 alter table dbo.Project drop column LeadImplementerOrganizationID
+alter table dbo.ProposedProject drop column LeadImplementerOrganizationID

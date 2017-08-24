@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             FundingTypes = fundingTypes.OrderBy(x => x.SortOrder).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
             PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.FullNameFirstLastAndOrg,
-                $"Use {Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}");
+                $"Use {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}");
             TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));

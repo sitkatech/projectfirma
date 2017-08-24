@@ -103,10 +103,6 @@ Source code is available upon request via <support@sitkatech.com>.
             primarySimple.OrganizationID = Number.parseInt(option.OrganizationID);
         }
 
-        $scope.updateLeadOrgModel = function (option) {
-            $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID = Number.parseInt(option);
-        }
-
         $scope.validRelationshipTypes = function(organizationID) {
             var organization =
                 Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
@@ -145,31 +141,6 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
     <div class="row">
         <div class="col-xs-12">
-            <div class="row" style="margin-bottom: 10px;">
-                <div class="col-xs-3">
-                    @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
-                </div>
-                <div class="col-xs-9">
-                    <input type="hidden" value="{{AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID}}"
-                           name="LeadOrganizationID"/>
-                    <select ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID"
-                            name="LeadOrganizationID"
-                            ng-required="true" 
-                            ng-change="updateLeadOrgModel(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)"
-                            class="selectpicker"
-                            data-live-search="true"
-                            data-container="body"
-                            title="Select an Organization"
-                            data-width="100%">
-                        <option value="" disabled selected>Select an Organization</option>
-                        <option ng-repeat="organization in AngularViewData.AllOrganizations"
-                                value="{{organization.OrganizationID}}"
-                                ng-selected="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID == organization.OrganizationID"
-                                ng-bind="organization.OrganizationName"
-                                data-tokens="{{organization.OrganizationName}}"></option>
-                    </select>
-                </div>                                
-            </div>
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-xs-3">
                     @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
@@ -180,7 +151,10 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-xs-12">
-                    <p>Enter any other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Project.GetFieldDefinitionLabel(). @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() may have more than one relationship to a @FieldDefinition.Project.GetFieldDefinitionLabel(). If the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel() has other roles on this project enter their other @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel() below in addition to specifying the @FieldDefinition.Organization.GetFieldDefinitionLabel() as the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel().</p>        
+                    <p>
+                        Enter any other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().
+                        @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() may have more than one relationship to a @FieldDefinition.Project.GetFieldDefinitionLabel().
+                    </p>
                 </div>
             </div>
             <div class="row" style="margin-bottom: 10px;">
@@ -192,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">                    
+                <div class="col-xs-12">
                     <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
                         <thead>
                         <tr class="row">
@@ -250,7 +224,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     </button>
                                 </td>
                             </tr>
-                            <tr class="row" ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)" class="subRelationships">
+                            <tr class="row subRelationships" ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)">
                                 <td class="col-xs-1">&nbsp;</td>
                                 <td class="col-xs-5">&nbsp;</td>
                                 <td class="col-xs-1" style="text-align: center">

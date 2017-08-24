@@ -575,10 +575,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
-      <End Role="LeadImplementerOrganization" EntitySet="Organization" />
-      <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="ProposedProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" EntitySet="ProposedProject" />
@@ -1020,7 +1016,6 @@ warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_Organiz
 warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
     <Key>
@@ -1732,7 +1727,6 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
-    <Property Name="LeadImplementerOrganizationID" Type="int" Nullable="false" />
     <Property Name="ProposingPersonID" Type="int" Nullable="false" />
     <Property Name="ProposingDate" Type="datetime" Nullable="false" />
     <Property Name="ImplementationStartYear" Type="int" />
@@ -3462,18 +3456,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectWatersheds">
         <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
-    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadImplementerOrganization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization">
-        <PropertyRef Name="LeadImplementerOrganizationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

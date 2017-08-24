@@ -28,9 +28,8 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static ProposedProject Create()
             {
-                var leadImplementerOrganization = TestOrganization.Create();
                 var person = TestPerson.Create();
-                var project = ProposedProject.CreateNewBlank(leadImplementerOrganization, person, ProjectLocationSimpleType.None, FundingType.Capital, ProposedProjectState.Draft);
+                var project = ProposedProject.CreateNewBlank(person, ProjectLocationSimpleType.None, FundingType.Capital, ProposedProjectState.Draft);
                 return project;
             }
         }
