@@ -473,7 +473,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(proposedProject, viewModel);
             }
             SaveDetailedLocations(viewModel, proposedProject);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)));
         }
 
         [HttpGet]

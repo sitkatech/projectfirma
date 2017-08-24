@@ -84,6 +84,11 @@ namespace ProjectFirma.Web.Models
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
         }
 
+        public void CommitWatershedNotesToProject(Project project)
+        {
+            project.ProjectWatershedNotes = ProjectWatershedNotes;            
+        }
+
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;

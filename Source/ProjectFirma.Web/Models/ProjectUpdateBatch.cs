@@ -629,6 +629,7 @@ namespace ProjectFirma.Web.Models
 
             // project watershed
             ProjectWatershedUpdate.CommitChangesToProject(this, projectWatersheds);
+            ProjectUpdate.CommitWatershedNotesToProject(Project);
 
             // photos
             ProjectImageUpdate.CommitChangesToProject(this, projectImages);
