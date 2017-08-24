@@ -55,7 +55,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var projectOrganization3 = TestFramework.TestProjectOrganization.Create(_project, _organization3);
             _projectOrganizations = new List<Models.ProjectOrganization> { projectOrganization1, projectOrganization2, projectOrganization3 };
             _allOrganizations = new List<Models.Organization> {_organization1, _organization2, _organization3};
-            
         }
 
         [Test]

@@ -53,3 +53,6 @@ create unique index CK_RelationshipType_IsPrimaryContact_OneTruePerTenant on dbo
 
 alter table dbo.Project drop column LeadImplementerOrganizationID
 alter table dbo.ProposedProject drop column LeadImplementerOrganizationID
+
+-- A unit test told me to add this :/
+alter table dbo.Organization add constraint FK_Organization_OrganizationType_OrganizationTypeID_TenantID foreign key (OrganizationTypeID, TenantID) references dbo.OrganizationType(OrganizationTypeID, TenantID)
