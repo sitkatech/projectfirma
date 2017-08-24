@@ -19,10 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Web;
+using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
@@ -41,6 +45,14 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
             Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
+            Add("Legend Color", a => ToLegendColor(a), 50, DhtmlxGridColumnFilterType.None);
+        }
+
+        private static HtmlString ToLegendColor(OrganizationType organizationType)
+        {
+            var div = new TagBuilder("div");
+            div.Attributes["style"] = $"background-color: {organizationType.LegendColor}; height: 1em; width: 1em; display: inline-block;";
+            return div.ToString().ToHTMLFormattedString();
         }
     }
 }
