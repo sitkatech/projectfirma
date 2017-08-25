@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly RoleNormal Normal = RoleNormal.Instance;
         public static readonly RoleUnassigned Unassigned = RoleUnassigned.Instance;
         public static readonly RoleSitkaAdmin SitkaAdmin = RoleSitkaAdmin.Instance;
-        public static readonly RoleProjectApprover ProjectApprover = RoleProjectApprover.Instance;
+        public static readonly RoleProjectOwner ProjectOwner = RoleProjectOwner.Instance;
 
         public static readonly List<Role> All;
         public static readonly ReadOnlyDictionary<int, Role> AllLookupDictionary;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Role()
         {
-            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin, ProjectApprover };
+            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin, ProjectOwner };
             AllLookupDictionary = new ReadOnlyDictionary<int, Role>(All.ToDictionary(x => x.RoleID));
         }
 
@@ -107,8 +107,8 @@ namespace ProjectFirma.Web.Models
                     return Admin;
                 case RoleEnum.Normal:
                     return Normal;
-                case RoleEnum.ProjectApprover:
-                    return ProjectApprover;
+                case RoleEnum.ProjectOwner:
+                    return ProjectOwner;
                 case RoleEnum.SitkaAdmin:
                     return SitkaAdmin;
                 case RoleEnum.Unassigned:
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
         Normal = 2,
         Unassigned = 7,
         SitkaAdmin = 8,
-        ProjectApprover = 9
+        ProjectOwner = 9
     }
 
     public partial class RoleAdmin : Role
@@ -152,9 +152,9 @@ namespace ProjectFirma.Web.Models
         public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"");
     }
 
-    public partial class RoleProjectApprover : Role
+    public partial class RoleProjectOwner : Role
     {
-        private RoleProjectApprover(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleProjectApprover Instance = new RoleProjectApprover(9, @"ProjectApprover", @"Project Approver", @"Users with this role can conditionally approve project updates, and proposed projects.");
+        private RoleProjectOwner(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleProjectOwner Instance = new RoleProjectOwner(9, @"ProjectOwner", @"Project Owner", @"Users with this role can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.");
     }
 }

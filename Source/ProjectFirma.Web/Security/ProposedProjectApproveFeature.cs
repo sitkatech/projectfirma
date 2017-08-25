@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Security
     public class ProposedProjectApproveFeature : FirmaFeature
     {
         public ProposedProjectApproveFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectApprover })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectOwner })
         {            
         }        
     }

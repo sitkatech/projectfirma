@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<FundingSource> _firmaFeatureWithContextImpl;
 
-        public FundingSourceEditFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectApprover})
+        public FundingSourceEditFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectOwner})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FundingSource>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
             }
 
-            if (person.RoleID == Role.ProjectApprover.RoleID && contextModelObject.OrganizationID != person.OrganizationID)
+            if (person.RoleID == Role.ProjectOwner.RoleID && contextModelObject.OrganizationID != person.OrganizationID)
             {
                 return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it does not belong to your {FieldDefinition.Organization.GetFieldDefinitionLabel()}");
             }

@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public ProjectUpdateAdminFeatureWithProjectContext()
-            : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectApprover})
+            : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectOwner})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
             var forbidAdmin = !HasPermissionByPerson(person) ||
-                                       person.Role.RoleID == Role.ProjectApprover.RoleID &&
+                                       person.Role.RoleID == Role.ProjectOwner.RoleID &&
                                        !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
             return forbidAdmin
                 ? new PermissionCheckResult(

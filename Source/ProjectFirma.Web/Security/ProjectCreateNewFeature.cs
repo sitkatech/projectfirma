@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Security
     public class ProjectCreateNewFeature : FirmaFeature
     {
         public ProjectCreateNewFeature()
-            : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectApprover})
+            : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectOwner})
         {
         }
 
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Security
                 return false;
             }
 
-            return !(person.Role.RoleID == Role.ProjectApprover.RoleID && !person.PersonIsProjectApproverWhoCanApproveProjects);
+            return !(person.Role.RoleID == Role.ProjectOwner.RoleID && !person.PersonIsProjectOwnerWhoCanApproveProjects);
         }
     }
 }
