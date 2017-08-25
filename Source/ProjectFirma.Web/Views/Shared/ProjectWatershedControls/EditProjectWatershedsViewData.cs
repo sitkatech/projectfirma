@@ -25,21 +25,20 @@ using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ProjectWatershed
+namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
 {
-    public class EditProjectWatershedsViewData : FirmaUserControlViewData
+    public class EditProjectWatershedsViewData : FirmaViewData
     {
         public readonly EditProjectWatershedsViewDataForAngular ViewDataForAngular;
         public readonly string EditProjectWatershedsFormID;
         public readonly string EditProjectWatershedsUrl;
 
-        public EditProjectWatershedsViewData(Models.Project project, MapInitJson mapInitJson,
-            List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute,
-            string editProjectWatershedsFormID)
+        public EditProjectWatershedsViewData(Person currentPerson, MapInitJson mapInitJson,
+            List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute, string editProjectWatershedsUrl, string editProjectWatershedsFormID) : base(currentPerson)
         {
             ViewDataForAngular = new EditProjectWatershedsViewDataForAngular(mapInitJson, watershedsInViewModel, tenantAttribute);
             EditProjectWatershedsFormID = editProjectWatershedsFormID;
-            EditProjectWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
+            EditProjectWatershedsUrl = editProjectWatershedsUrl;
         }
     }
 

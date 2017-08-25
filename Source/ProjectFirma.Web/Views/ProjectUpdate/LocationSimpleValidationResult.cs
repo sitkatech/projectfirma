@@ -26,18 +26,24 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleValidationResult
     {
-        public readonly Models.ProjectUpdate ProjectUpdate;
+        public static readonly string MissingLocationSimpleOrNotesMessage = "Please specify a point on the map. If a location point or general project area is not available, explanatory information in the Notes section is required.";
 
         private readonly List<string> _warningMessages;
 
-        public LocationSimpleValidationResult(Models.ProjectUpdate projectUpdate)
+        public LocationSimpleValidationResult(bool isIncomplete)
         {
-            ProjectUpdate = projectUpdate;
-
             _warningMessages = new List<string>();
 
-         
+            if (isIncomplete)
+            {
+                _warningMessages.Add(MissingLocationSimpleOrNotesMessage);
+            }
         }
+        public LocationSimpleValidationResult(string customErrorMessage)
+        {
+            _warningMessages = new List<string> { customErrorMessage };
+        }
+
 
         public List<string> GetWarningMessages()
         {     

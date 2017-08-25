@@ -23,6 +23,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[BudgetsDiffLog] [dbo].[html] NULL,
 	[ExternalLinksDiffLog] [dbo].[html] NULL,
 	[NotesDiffLog] [dbo].[html] NULL,
+	[WatershedComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

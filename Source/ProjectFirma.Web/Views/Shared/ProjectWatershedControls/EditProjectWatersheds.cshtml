@@ -1,0 +1,120 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditProjectWatersheds.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectWatershedControls
+@inherits EditProjectWatersheds
+
+<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectWatershedControls/EditProjectWatershedsController.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/typeahead/typeahead.min.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"EditProjectWatershedsController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+<style>
+    #@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID {
+        height: 400px;
+        margin: 0;
+    }
+
+    .firma-modal .modal-body {
+        overflow-y: visible;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            Select one or more @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().
+            You can select @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() by clicking on the map or searching by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name. 
+            If your @FieldDefinition.Project.GetFieldDefinitionLabel() is not associated with any @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectWatershedNotes) field.
+        </p>
+    </div>
+</div>
+
+@Html.ValidationSummary()
+<div class="row" ng-app="ProjectFirmaApp" ng-controller="EditProjectWatershedsController">
+    <div class="col-xs-12 col-md-5 col-lg-4">
+        <form action="@ViewDataTyped.EditProjectWatershedsUrl" method="POST" id="@ViewDataTyped.EditProjectWatershedsFormID">
+            <div class="input-group" id="scrollable-dropdown-menu" style="margin-bottom: 10px;">
+                @* ReSharper disable once UnknownCssClass *@
+                <input type="text"
+                       id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId"
+                       class="typeahead form-control"
+                       placeholder="Search by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name"
+                       autocomplete="off" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" id="@string.Format("{0}Button", ViewDataTyped.ViewDataForAngular.TypeAheadInputId)" ng-click="selectFirstSuggestionFunction()">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="alert alert-warning" ng-if="!AngularModel.WatershedIDs || AngularModel.WatershedIDs.length < 1">
+                No @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() selected for this @FieldDefinition.Project.GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectWatershedNotes) field or select a @FieldDefinition.Watershed.GetFieldDefinitionLabel().
+            </div>
+            <div ng-if="AngularModel.WatershedIDs.length >= 1">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@FieldDefinition.Watershed.GetFieldDefinitionLabel() Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="watershedId in AngularModel.WatershedIDs">
+                            <td>
+                                <input type="hidden" name="@Html.NameFor(x => x.WatershedIDs)" value="{{watershedId}}" />
+                                <a ng-click="toggleWatershed(watershedId)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </td>
+                            <td ng-bind="getWatershedName(watershedId)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label class="control-label">@Html.DisplayNameFor(m => m.ProjectWatershedNotes)</label>
+                    <textarea class="form-control" style="resize: none;" name="@Html.NameFor(m => m.ProjectWatershedNotes)"
+                              ng-model="AngularModel.@Html.NameFor(m => m.ProjectWatershedNotes)"></textarea>
+                    @Html.ValidationMessageFor(m => m.ProjectWatershedNotes)
+                </div>
+            </div>
+            
+        </form>
+    </div>
+    <div class="col-sm-7 col-xs-12">
+        <div id="mapContainer">
+            <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
+        </div>
+    </div>
+
+</div>

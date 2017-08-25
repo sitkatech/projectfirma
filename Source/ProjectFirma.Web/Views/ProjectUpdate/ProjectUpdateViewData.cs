@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         Photos,
         LocationSimple,
         LocationDetailed,
+        Watershed,
         Notes,
         History,
         Budgets,
@@ -57,6 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string ProjectUpdatePhotosUrl;
         public readonly string ProjectUpdateLocationSimpleUrl;
         public readonly string ProjectUpdateLocationDetailedUrl;
+        public readonly string ProjectUpdateWatershedUrl;
         public readonly string ProjectUpdateNotesUrl;
         public readonly string ProjectUpdateExternalLinksUrl;
         public readonly string ProjectUpdateHistoryUrl;
@@ -90,6 +92,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdatePhotosUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(Project));
             ProjectUpdateLocationSimpleUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(Project));
             ProjectUpdateLocationDetailedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(Project));
+            ProjectUpdateWatershedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Watershed(Project));
             ProjectUpdateExternalLinksUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(Project));
             ProjectUpdateNotesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Notes(Project));
             ProjectUpdateHistoryUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.History(Project));
@@ -104,7 +107,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid;
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false);
+            UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
         }
     }

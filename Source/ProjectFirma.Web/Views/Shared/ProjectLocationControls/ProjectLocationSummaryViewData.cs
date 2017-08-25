@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 
@@ -27,17 +30,24 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly string ProjectLocationNotes;
         public readonly ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson;
-
+        public readonly string ProjectWatershedNotes;
+        public readonly List<Models.Watershed> Watersheds;
         public readonly bool HasLocationNotes;
+        public readonly bool HasWatershedNotes;
         public readonly bool HasLocationInformation;
+        public readonly bool HasWatersheds;
+
 
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
-
+            ProjectWatershedNotes = project.ProjectWatershedNotes;
+            Watersheds = project.GetProjectWatersheds().ToList();
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
+            HasWatershedNotes = !string.IsNullOrWhiteSpace(project.ProjectWatershedNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
+            HasWatersheds = project.GetProjectWatersheds().Any();
         }
     }
 }

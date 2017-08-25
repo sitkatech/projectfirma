@@ -23,42 +23,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
-@using Newtonsoft.Json.Linq
 @inherits LocationSimple
 
 @section JavascriptAndStylesContent
-{
-    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
-    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css"/>
-    @{ MapJavascriptIncludes.RenderPartialView(Html); }
-
-    @if (ViewDataTyped.IsEditable)
-    {
-        <script type="text/javascript">
-            // <![CDATA[
-            angular.module("ProjectFirmaApp").controller("LocationSimpleController", function($scope, angularModelAndViewData)
-            {
-                $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-                $scope.AngularModel = angularModelAndViewData.AngularModel;
-            });
-
-            angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
-            {
-                return {
-                    AngularModel: { ShowValidationWarnings: true},
-                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
-                };
-            });
-            // ]]>
-        </script>
-    }
-
-    <style>
-        #@ViewDataTyped.ProjectLocationSimpleViewData.ViewDataForAngular.MapInitJson.MapDivID
-        {
-            height: 450px;
-        }
-    </style>
+{    
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }   
 }
 
 @if (!ViewDataTyped.IsEditable)
@@ -66,12 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
     ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData);
 }
 else
-{
-    /*TODO: Each view seems to have its own Html object - The partial view below therefore never receives the validation summary messages.
-     * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
-     */
-    @Html.ValidationSummary()
-
+{    
     ProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.ProjectLocationSimpleViewData, Model);
 
     if (ViewDataTyped.ShowApproveAndReturnButton)
@@ -87,31 +51,29 @@ else
     }
     <hr />
     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
-    <div ng-app="ProjectFirmaApp" ng-controller="LocationSimpleController">
-        <table class="summaryLayout" style="width: 100%">
-            <tr>
-                <td>
-                    @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
-                </td>
-                <td>
-                    @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
-                    {
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                                    <span data-ng-bind="warning"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-                </td>
-                <td style="text-align: right; white-space: nowrap">
-                    <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
-                </td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="col-xs-2">
+            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+        </div>
+        <div class="col-xs-9">
+            @if (ViewDataTyped.ValidationWarnings.Any())
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var warning in ViewDataTyped.ValidationWarnings)
+                        {
+                            <li>
+                                @warning
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+        <div class="col-xs-1">
+            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
+        </div>         
     </div>
-
 
     @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
     <script type="text/javascript">

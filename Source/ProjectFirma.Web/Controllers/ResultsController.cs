@@ -242,9 +242,7 @@ namespace ProjectFirma.Web.Controllers
 
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
-            var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Hide);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                namedAreasAsPointsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
             {
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
@@ -255,14 +253,13 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
-            var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl, filteredProjectsWithLocationAreasUrl);
+                projectLocationsUrl);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
@@ -302,36 +299,6 @@ namespace ProjectFirma.Web.Controllers
         public ContentResult FilteredProjectsWithLocationAreas()
         {
             return new ContentResult();
-        }
-
-
-        [ProjectLocationsViewFeature]
-        [HttpPost]
-        public JsonNetJArrayResult FilteredProjectsWithLocationAreas(ProjectMapCustomization projectMapCustomization)
-        {
-            if (projectMapCustomization.FilterPropertyValues == null || !projectMapCustomization.FilterPropertyValues.Any())
-            {
-                return new JsonNetJArrayResult(new List<object>());
-            }
-            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.ProjectLocationAreaGroups.ToList().Select(x => x.ToFancyTreeNode()).ToList();
-
-            var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization.GetProjectLocationFilterTypeFromFilterPropertyName();
-            var filterFunction = projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization.FilterPropertyValues);
-            var filteredProjects =
-                HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile()).ToList();
-
-            var projects = IsCurrentUserAnonymous() ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList() : filteredProjects;
-            var filteredProjectsWithLocationAreas = projects.Where(x => !x.HasProjectLocationPoint && x.ProjectLocationAreaID.HasValue).ToList();
-
-            projectLocationGroupsAsFancyTreeNodes.RemoveAll(
-                typeNode =>
-                    typeNode.Children.Count ==
-                    typeNode.Children.RemoveAll(
-                        areaNameNode =>
-                            areaNameNode.Children.Count ==
-                            areaNameNode.Children.RemoveAll(projectNode => !filteredProjectsWithLocationAreas.Select(project => project.ProjectID.ToString()).Contains(projectNode.Key))));
-
-            return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }
 
         [SpendingByOrganizationTypeByOrganizationViewFeature]
