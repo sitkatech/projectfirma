@@ -137,5 +137,16 @@ namespace ProjectFirma.Web.Models
                 project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
             }
         }
+
+        public bool PersonIsProjectApproverWhoCanApproveProjects
+        {
+            get
+            {
+                RelationshipType relationshipTypeThatCanApprove;
+                return Role.ProjectApprover.RoleID == RoleID &&
+                    (relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects)) != null &&
+                    relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+            }
+        }
     }
 }

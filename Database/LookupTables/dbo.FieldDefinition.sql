@@ -68,4 +68,5 @@ VALUES
 (242, N'ClassificationNarrative', N'Classification Narrative', N'<p>Descriptive text describing the criteria for including a project in this classification system..-</p>', 1),
 (243, N'TaxonomySystemName', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>', 1),
 (244, N'TaxonomyTierOneDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>', 1),
-(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1)
+(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1),
+(246, N'ProjectApprover', N'Project Approver', N'<p>A person who can approve Project Proposals, create new Projects, and approve Project Updates.</p>', 1)

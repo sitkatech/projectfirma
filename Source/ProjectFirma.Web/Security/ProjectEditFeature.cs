@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public ProjectEditFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectApprover })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -42,13 +42,13 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            var hasPermissionByPerson = HasPermissionByPerson(person);
-            if (!hasPermissionByPerson)
-            {
-                return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.DisplayName}");
-            }
-
-            return new PermissionCheckResult();
+            var forbidAdmin = !HasPermissionByPerson(person) ||
+                              person.Role.RoleID == Role.ProjectApprover.RoleID &&
+                              !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
+            return forbidAdmin
+                ? new PermissionCheckResult(
+                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
+                : new PermissionCheckResult();
         }
     }
 }

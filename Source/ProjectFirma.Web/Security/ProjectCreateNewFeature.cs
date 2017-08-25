@@ -30,5 +30,15 @@ namespace ProjectFirma.Web.Security
             : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectApprover})
         {
         }
+
+        public override bool HasPermissionByPerson(Person person)
+        {
+            if (!base.HasPermissionByPerson(person))
+            {
+                return false;
+            }
+
+            return !(person.Role.RoleID == Role.ProjectApprover.RoleID && !person.PersonIsProjectApproverWhoCanApproveProjects);
+        }
     }
 }

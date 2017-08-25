@@ -767,5 +767,30 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
+        
+        [HttpGet]
+        [ProjectsViewFullListFeature]
+        public PartialViewResult DenyCreateProject()
+        {
+            var projectApproverLabel = FieldDefinition.ProjectApprover.GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+            var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
+
+            var confirmMessage = CurrentPerson.RoleID == Role.ProjectApprover.RoleID
+                ? $"Although you are a {projectApproverLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
+                : $"You don't have permission to edit {projectLabel}.";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+            var viewModel = new ConfirmDialogFormViewModel();
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectsViewFullListFeature]
+        public ModalDialogFormJsonResult DenyCreateProject(ConfirmDialogFormViewModel viewModel)
+        {
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

@@ -37,10 +37,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly IList<IRole> _grantedRoles;
 
-        public IList<IRole> GrantedRoles
-        {
-            get { return _grantedRoles; }
-        }
+        public IList<IRole> GrantedRoles => _grantedRoles;
 
         protected FirmaBaseFeature(IList<IRole> grantedRoles) // params
         {
@@ -69,10 +66,7 @@ namespace ProjectFirma.Web.Security
             return String.Join(", ", GrantedRoles.Select(r => r.RoleName).ToList());
         }
 
-        public string FeatureName
-        {
-            get { return GetType().Name; }
-        }
+        public string FeatureName => GetType().Name;
 
         public virtual bool HasPermissionByPerson(Person person)
         {
@@ -96,13 +90,13 @@ namespace ProjectFirma.Web.Security
                 filterContext.Result = redirectToLogin;
                 return;
             }
-            throw new SitkaRecordNotAuthorizedException(String.Format("You are not authorized for feature \"{0}\". Log out and log in as a different user or request additional permissions.", FeatureName));
+            throw new SitkaRecordNotAuthorizedException($"You are not authorized for feature \"{FeatureName}\". Log out and log in as a different user or request additional permissions.");
         }
 
         public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, Person currentPerson) where T : Controller
         {
             var firmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
-            Check.RequireNotNull(firmaFeatureLookupAttribute, String.Format("Could not find feature for {0}", sitkaRoute.BuildUrlFromExpression()));
+            Check.RequireNotNull(firmaFeatureLookupAttribute, $"Could not find feature for {sitkaRoute.BuildUrlFromExpression()}");
             // ReSharper disable PossibleNullReferenceException
             return firmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
             // ReSharper restore PossibleNullReferenceException

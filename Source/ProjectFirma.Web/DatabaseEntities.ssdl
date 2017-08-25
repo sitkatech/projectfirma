@@ -1044,6 +1044,7 @@ warning 6035: The relationship 'FK_ProjectOrganization_Organization_Organization
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Organization_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
