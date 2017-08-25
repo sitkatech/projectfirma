@@ -106,6 +106,10 @@ angular.module("ProjectFirmaApp")
             }
 
             function updateSelectedWatershedLayer() {
+                if ($scope.AngularModel.WatershedIDs == null) {
+                    $scope.AngularModel.WatershedIDs = [];
+                }
+
                 if ($scope.firmaMap.selectedWatershedLayer) {
                     $scope.firmaMap.layerControl.removeLayer($scope.firmaMap.selectedWatershedLayer);
                     $scope.firmaMap.map.removeLayer($scope.firmaMap.selectedWatershedLayer);

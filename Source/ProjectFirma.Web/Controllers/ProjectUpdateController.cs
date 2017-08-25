@@ -2100,21 +2100,17 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
 
-            //var originalLocationDetailed = project.GetProjectLocationDetails().ToList();
-            //var updatedLocationDetailed = projectUpdateBatch.ProjectLocationUpdates;
+            var originalWatershedIDs = project.GetProjectWatersheds().Select(x => x.WatershedID).ToList();
+            var updatedWatershedIDs = projectUpdateBatch.ProjectWatershedUpdates.Select(x => x.WatershedID).ToList();
 
-            //if (!originalLocationDetailed.Any() && !updatedLocationDetailed.Any())
-            //    return false;
+            if (!originalWatershedIDs.Any() && !updatedWatershedIDs.Any())
+                return false;
 
-            //if (originalLocationDetailed.Count != updatedLocationDetailed.Count)
-            //    return true;
-
-            //var originalLocationAsListOfStrings = originalLocationDetailed.Select(x => x.ProjectLocationGeometry.ToString() + x.Annotation).ToList();
-            //var updatedLocationAsListOfStrings = updatedLocationDetailed.Select(x => x.ProjectLocationGeometry.ToString() + x.Annotation).ToList();
-
-            //var enumerable = originalLocationAsListOfStrings.Except(updatedLocationAsListOfStrings);
-            //return enumerable.Any();
-            return false; //todo
+            if (originalWatershedIDs.Count != updatedWatershedIDs.Count)
+                return true;
+            
+            var enumerable = originalWatershedIDs.Except(updatedWatershedIDs);
+            return enumerable.Any();
         }
 
         [HttpGet]

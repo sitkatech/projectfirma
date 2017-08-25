@@ -269,6 +269,7 @@ namespace ProjectFirma.Web.Models
             DeleteProjectNoteUpdates();
             DeleteProjectUpdateHistories();
             DeleteProjectUpdate();
+            DeleteProjectWatershedUpdates();
             this.DeleteProjectUpdateBatch();
         }
 
