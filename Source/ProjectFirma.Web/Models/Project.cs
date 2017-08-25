@@ -488,5 +488,11 @@ namespace ProjectFirma.Web.Models
                 .GroupBy(x => x.FundingSource.FixedLengthDisplayName)
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
         }
+
+        public IEnumerable<Person> GetProjectOwnersForProject()
+        {
+            return ProjectOrganizations.Where(x => x.RelationshipType.CanApproveProjects)
+                .SelectMany(x => x.Organization.People.Where(y => y.RoleID == Role.ProjectOwner.RoleID)).ToList();
+        }
     }
 }

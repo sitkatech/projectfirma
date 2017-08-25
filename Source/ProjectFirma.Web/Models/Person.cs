@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool PersonIsProjectApproverWhoCanApproveProjects
+        public bool PersonIsProjectOwnerWhoCanApproveProjects
         {
             get
             {
