@@ -615,7 +615,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ConfirmNonMandatoryUpdate(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -636,7 +636,7 @@ An update for this {FieldDefinition.Project.GetFieldDefinitionLabel()} was alrea
                 } {dateDisplayText}. If {FieldDefinition.Project.GetFieldDefinitionLabel()} information has changed, 
 any new information you'd like to provide will be added to the {
                     FieldDefinition.Project.GetFieldDefinitionLabel()
-                }. Thanks for being pro-active!
+                }. Thanks for being proactive!
 </div>
 <div>
 <hr />
@@ -646,7 +646,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult ConfirmNonMandatoryUpdate(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;

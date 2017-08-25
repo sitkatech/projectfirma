@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public PerformanceMeasureExpectedFromProjectManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Normal })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Normal, Role.ProjectApprover })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

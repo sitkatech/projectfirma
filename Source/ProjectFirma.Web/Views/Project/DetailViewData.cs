@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
-            UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
+            UserHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;
             AssessmentTreeViewData = assessmentTreeViewData;
 

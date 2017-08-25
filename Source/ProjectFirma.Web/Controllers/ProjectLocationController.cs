@@ -232,6 +232,7 @@ namespace ProjectFirma.Web.Controllers
             return $"editMapForProject{projectID}";
         }
 
+        [AnonymousUnclassifiedFeature]
         public ContentResult ProjectLocationAreaIDFromWatershedID(WatershedPrimaryKey watershedPrimaryKey)
         {
             return Content(watershedPrimaryKey.EntityObject.ProjectLocationAreas.Select(x => x.ProjectLocationAreaID).SingleOrDefault().ToString());

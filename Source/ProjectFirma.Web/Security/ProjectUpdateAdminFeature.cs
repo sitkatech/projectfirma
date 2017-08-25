@@ -23,30 +23,19 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
+    /// <summary>
+    /// This class is meant to be used only in cases where Administrative 
+    /// action is taken on a group of projects.
+    /// In any case where administrative action is taken on a specific project,
+    /// such as Approval or Return, the ProjectUpdateAdminFeatureWithProjectContext
+    /// class should be used.
+    /// </summary>
     [SecurityFeatureDescription("_Admin for {0} Updates", FieldDefinitionEnum.Project)]
-    public class ProjectUpdateAdminFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
+    public class ProjectUpdateAdminFeature : FirmaFeature
     {
-        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
-
         public ProjectUpdateAdminFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectApprover })
         {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
-            ActionFilter = _firmaFeatureWithContextImpl;
-        }
-
-
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
-        {
-            var hasPermissionToAdmin = !HasPermissionByPerson(person) || person.Role.RoleID == Role.ProjectApprover.RoleID && !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
-            return hasPermissionToAdmin
-                ? new PermissionCheckResult($"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
-                : new PermissionCheckResult();
-        }
-
-        public void DemandPermission(Person person, Project contextModelObject)
-        {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
     }
 }

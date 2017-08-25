@@ -869,7 +869,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\" to Submitter?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" to Submitter?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -890,7 +890,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\"?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\"?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

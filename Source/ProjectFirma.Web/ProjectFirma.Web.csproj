@@ -366,6 +366,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
     <Compile Include="Views\Watershed\MapTooltipViewData.cs" />
     <Compile Include="Views\Watershed\MapTooltip.cs" />
     <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
@@ -717,7 +718,7 @@
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
     <Compile Include="Security\ProjectClassificationManageFromClassificationFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeature.cs" />
-    <Compile Include="Security\ProjectUpdateManageFeature.cs" />
+    <Compile Include="Security\ProjectUpdateCreateEditSubmitFeature.cs" />
     <Compile Include="Security\ProjectUpdateViewFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
     <Compile Include="Security\ProjectWatershedManageFromProjectFeature.cs" />
