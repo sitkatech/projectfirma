@@ -71,7 +71,13 @@ namespace ProjectFirma.Web.Views.Map
             
             //Handle bounding box separately
             var geometries = project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry).Union(project.GetProjectWatersheds().Select(x => x.WatershedFeature));
-            BoundingBox = BoundingBox.MakeBoundingBoxFromPointAndGeometries(point, geometries);         
+
+            var pointList = geometries.SelectMany(BoundingBox.GetPointsFromDbGeometry).ToList();
+            if (point != null)
+            {
+                pointList.Add(point);
+            }
+            BoundingBox = !pointList.Any() ? BoundingBox.MakeNewDefaultBoundingBox() : new BoundingBox(pointList);         
         }
     }
 }
