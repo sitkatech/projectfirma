@@ -75,14 +75,8 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 FundingType.Capital.FundingTypeID);
+            CurrentPerson.SetProjectOrganizationWithRelationshipThatCanApprove(project);
 
-            /*
-              if (person.BelongsToProjectApproverOrganizations)
-              {
-                    foreach (organization in person.Project
-                    project.Organizations.Add(person.ProjectApproversOrganization); 
-              }
-             */
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
