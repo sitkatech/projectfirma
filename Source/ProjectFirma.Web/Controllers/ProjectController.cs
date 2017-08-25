@@ -266,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ImageGalleryViewData BuildImageGalleryViewData(Project project, Person currentPerson)
         {
-            var userCanAddPhotosToThisProject = new ProjectImageNewFeature().HasPermissionByPerson(currentPerson);
+            var userCanAddPhotosToThisProject = new ProjectImageNewFeature().HasPermission(currentPerson, project).HasPermission;
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
             var selectKeyImageUrl = (new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(currentPerson))
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
