@@ -186,33 +186,19 @@ namespace ProjectFirma.Web.Controllers
             var relatedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
             var leadImplementerProjects = organization.ProjectsWhereYouAreTheLeadImplementerOrganization.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProjectStage.ShouldShowOnMap()).ToList();
             var relatedProjectsThatAreNotInLeadImplementerProjects = relatedProjects.Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
-            var namedAreaFeatures = Project.NamedAreasToPointGeoJsonFeatureCollection(relatedProjects.Union(leadImplementerProjects, new HavePrimaryKeyComparer<Project>()).ToList(), true);
 
             var featureCollection = new FeatureCollection();
-            AddToProjectsFeatureCollection(featureCollection, relatedProjectsThatAreNotInLeadImplementerProjects, namedAreaFeatures, "#99b3ff");
-            AddToProjectsFeatureCollection(featureCollection, leadImplementerProjects, namedAreaFeatures, "#3366ff");
-            var projectsLayerGeoJson = new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
-            return projectsLayerGeoJson;
+            AddToProjectsFeatureCollection(featureCollection, relatedProjectsThatAreNotInLeadImplementerProjects, "#99b3ff");
+            AddToProjectsFeatureCollection(featureCollection, leadImplementerProjects, "#3366ff");
+
+            return new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
         }
 
-        private static void AddToProjectsFeatureCollection(FeatureCollection featureCollection, IEnumerable<Project> projectsToAdd,
-            FeatureCollection namedAreaFeatures, string featureColor)
+        private static void AddToProjectsFeatureCollection(FeatureCollection featureCollection, IEnumerable<Project> projectsToAdd, string featureColor)
         {
             featureCollection.Features.AddRange(projectsToAdd.Select(x =>
             {
-                Feature feature;
-                if (x.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
-                {
-                    feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);
-                }
-                else
-                {
-                    feature = namedAreaFeatures.Features.Single(y =>
-                    {
-                        var projectID = int.Parse(y.Properties["ProjectID"].ToString());
-                        return projectID == x.ProjectID;
-                    });
-                }
+                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);
 
                 feature.Properties["FeatureColor"] = featureColor;
 

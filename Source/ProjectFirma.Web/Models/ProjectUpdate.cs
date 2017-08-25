@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             LoadUpdateFromProject(project);
             LoadSimpleLocationFromProject(project);
+            LoadWatershedNotesFromProject(project);
         }
 
         public void LoadUpdateFromProject(Project project)
@@ -54,10 +55,14 @@ namespace ProjectFirma.Web.Models
 
         public void LoadSimpleLocationFromProject(Project project)
         {
-            ProjectLocationAreaID = project.ProjectLocationAreaID;
             ProjectLocationPoint = project.ProjectLocationPoint;
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
+        }
+
+        public void LoadWatershedNotesFromProject(Project project)
+        {
+            ProjectWatershedNotes = project.ProjectWatershedNotes;            
         }
 
         public void CommitChangesToProject(Project project)
@@ -74,10 +79,14 @@ namespace ProjectFirma.Web.Models
 
         public void CommitSimpleLocationToProject(Project project)
         {
-            project.ProjectLocationAreaID = ProjectLocationAreaID;
             project.ProjectLocationPoint = ProjectLocationPoint;
             project.ProjectLocationNotes = ProjectLocationNotes;
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
+        }
+
+        public void CommitWatershedNotesToProject(Project project)
+        {
+            project.ProjectWatershedNotes = ProjectWatershedNotes;            
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
@@ -100,6 +109,11 @@ namespace ProjectFirma.Web.Models
             return ProjectUpdateBatch.ProjectLocationUpdates.ToList();
         }
 
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProjectUpdateBatch.ProjectWatershedUpdates.Select(x => x.Watershed);
+        }
+
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
         {
             return ProjectUpdateBatch.ProjectLocationUpdates.ToGeoJsonFeatureCollection();
@@ -112,10 +126,6 @@ namespace ProjectFirma.Web.Models
             if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && ProjectLocationPoint != null)
             {
                 featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationPoint));
-            }
-            else if (ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas)
-            {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationArea.GetGeometry()));
             }
             return featureCollection;
         }

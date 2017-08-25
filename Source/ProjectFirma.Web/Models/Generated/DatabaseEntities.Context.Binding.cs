@@ -132,14 +132,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
         public virtual IQueryable<ProjectImageUpdate> ProjectImageUpdates { get { return AllProjectImageUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaGroup> AllProjectLocationAreaGroups { get; set; }
-        public virtual IQueryable<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get { return AllProjectLocationAreaGroups.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationArea> AllProjectLocationAreas { get; set; }
-        public virtual IQueryable<ProjectLocationArea> ProjectLocationAreas { get { return AllProjectLocationAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaStateProvince> AllProjectLocationAreaStateProvinces { get; set; }
-        public virtual IQueryable<ProjectLocationAreaStateProvince> ProjectLocationAreaStateProvinces { get { return AllProjectLocationAreaStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaWatershed> AllProjectLocationAreaWatersheds { get; set; }
-        public virtual IQueryable<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get { return AllProjectLocationAreaWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocation> AllProjectLocations { get; set; }
         public virtual IQueryable<ProjectLocation> ProjectLocations { get { return AllProjectLocations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationStaging> AllProjectLocationStagings { get; set; }
@@ -166,6 +158,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectWatershed> AllProjectWatersheds { get; set; }
         public virtual IQueryable<ProjectWatershed> ProjectWatersheds { get { return AllProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectWatershedUpdate> AllProjectWatershedUpdates { get; set; }
+        public virtual IQueryable<ProjectWatershedUpdate> ProjectWatershedUpdates { get { return AllProjectWatershedUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectAssessmentQuestion> AllProposedProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get { return AllProposedProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectClassification> AllProposedProjectClassifications { get; set; }
@@ -180,6 +174,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProposedProjectWatershed> AllProposedProjectWatersheds { get; set; }
+        public virtual IQueryable<ProposedProjectWatershed> ProposedProjectWatersheds { get { return AllProposedProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
@@ -437,23 +433,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectImageUpdate":
                     return ProjectImageUpdates.GetProjectImageUpdate(primaryKey);
 
-                case "ProjectLocationAreaGroup":
-                    return ProjectLocationAreaGroups.GetProjectLocationAreaGroup(primaryKey);
-
-                case "ProjectLocationAreaGroupType":
-                    var projectLocationAreaGroupType = ProjectLocationAreaGroupType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectLocationAreaGroupType, "ProjectLocationAreaGroupType", primaryKey);
-                    return projectLocationAreaGroupType;
-
-                case "ProjectLocationArea":
-                    return ProjectLocationAreas.GetProjectLocationArea(primaryKey);
-
-                case "ProjectLocationAreaStateProvince":
-                    return ProjectLocationAreaStateProvinces.GetProjectLocationAreaStateProvince(primaryKey);
-
-                case "ProjectLocationAreaWatershed":
-                    return ProjectLocationAreaWatersheds.GetProjectLocationAreaWatershed(primaryKey);
-
                 case "ProjectLocationFilterType":
                     var projectLocationFilterType = ProjectLocationFilterType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectLocationFilterType, "ProjectLocationFilterType", primaryKey);
@@ -513,6 +492,9 @@ namespace ProjectFirma.Web.Models
                 case "ProjectWatershed":
                     return ProjectWatersheds.GetProjectWatershed(primaryKey);
 
+                case "ProjectWatershedUpdate":
+                    return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
+
                 case "ProposedProjectAssessmentQuestion":
                     return ProposedProjectAssessmentQuestions.GetProposedProjectAssessmentQuestion(primaryKey);
 
@@ -538,6 +520,9 @@ namespace ProjectFirma.Web.Models
                     var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
+
+                case "ProposedProjectWatershed":
+                    return ProposedProjectWatersheds.GetProposedProjectWatershed(primaryKey);
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);

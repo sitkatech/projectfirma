@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected MappedRegion()
         {
-            this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
+
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -66,13 +66,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectLocationAreas.Any();
+            return false;
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MappedRegion).Name, typeof(ProjectLocationArea).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MappedRegion).Name};
 
         [Key]
         public int MappedRegionID { get; set; }
@@ -82,7 +82,6 @@ namespace ProjectFirma.Web.Models
         public DbGeometry RegionFeature { get; set; }
         public int PrimaryKey { get { return MappedRegionID; } set { MappedRegionID = value; } }
 
-        public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

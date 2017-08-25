@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectLocationAreaGroup.cs" company="Tahoe Regional Planning Agency">
+<copyright file="LocationSimpleViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,20 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
 
-namespace ProjectFirma.Web.Models
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+
+namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public partial class ProjectLocationAreaGroup
+    public class WatershedViewData : ProposedProjectViewData
     {
-        public FancyTreeNode ToFancyTreeNode()
+        public readonly EditProjectWatershedsViewData EditProjectWatershedsViewData;
+
+        public WatershedViewData(Person currentPerson,
+            Models.ProposedProject proposedProject,
+            ProposalSectionsStatus proposalSectionsStatus,
+            EditProjectWatershedsViewData editProjectWatershedsViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Watershed, proposalSectionsStatus)
         {
-            var fancyTreeNode = new FancyTreeNode(ProjectLocationAreaGroupType.ProjectLocationAreaGroupTypeDisplayName, ProjectLocationAreaGroupType.ProjectLocationAreaGroupTypeName, true)
-            {
-                MapUrl = null,
-                Children = ProjectLocationAreas.OrderBy(x => x.ProjectLocationAreaDisplayName).Select(x => x.ToFancyTreeNode()).ToList()
-            };
-            return fancyTreeNode;
+            EditProjectWatershedsViewData = editProjectWatershedsViewData;
         }
     }
 }

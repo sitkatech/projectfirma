@@ -232,20 +232,6 @@
     <Compile Include="Models\Generated\ProjectImageUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationArea.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationArea.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaGroup.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaGroup.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaGroupPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaGroupType.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaGroupTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaStateProvince.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaStateProvince.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaStateProvincePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaWatershed.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaWatershed.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaWatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationFilterType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationFilterTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationPrimaryKey.Binding.cs" />
@@ -289,6 +275,9 @@
     <Compile Include="Models\Generated\ProjectWatershed.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWatershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectWatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProject.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProject.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProposedProjectAssessmentQuestion.Binding.cs" />
@@ -312,6 +301,9 @@
     <Compile Include="Models\Generated\ProposedProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectState.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershed.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershed.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
@@ -366,6 +358,19 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ProjectWatershedUpdate.cs" />
+    <Compile Include="Models\ProposedProjectWatershed.cs" />
+    <Compile Include="Views\ProjectUpdate\Watershed.cs" />
+    <Compile Include="Views\ProjectUpdate\WatershedValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\WatershedViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\WatershedViewModel.cs" />
+    <Compile Include="Views\ProposedProject\Watershed.cs" />
+    <Compile Include="Views\ProposedProject\WatershedViewData.cs" />
+    <Compile Include="Views\ProposedProject\WatershedViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Watershed\MapTooltipViewData.cs" />
     <Compile Include="Views\Watershed\MapTooltip.cs" />
     <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
@@ -989,8 +994,6 @@
     <Compile Include="Models\ProjectBudgetUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProjectBudgetUpdateTest.cs" />
     <Compile Include="Models\ProjectExternalLink.cs" />
-    <Compile Include="Models\ProjectLocationArea.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ProjectLocationAreaGroup.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdate.cs" />
     <Compile Include="Models\ProjectLocationUpdate.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpenditures.cs" />
@@ -1075,10 +1078,6 @@
     <Compile Include="Views\ProjectUpdate\BudgetsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BudgetsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\UpdateStatus.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatersheds.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewData.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModel.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Project\BasicProjectInfoGridSpec.cs" />
     <Compile Include="Views\Project\EditFeaturedProjects.cs" />
     <Compile Include="Views\Project\EditFeaturedProjectsViewData.cs" />
@@ -1322,8 +1321,8 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
-    <Content Include="Views\ProjectWatershed\EditProjectWatershedsController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
+    <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1334,6 +1333,9 @@
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Content Include="Views\Shared\ViewPageContent.cshtml" />
     <Content Include="Views\Watershed\MapTooltip.cshtml" />
+    <Content Include="Views\ProposedProject\Watershed.cshtml" />
+    <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cshtml" />
+    <Content Include="Views\ProjectUpdate\Watershed.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1518,8 +1520,6 @@
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
     <Compile Include="Models\ProjectSimple.cs" />
     <Compile Include="Models\ProjectLocation.cs" />
-    <Compile Include="Models\ProjectLocationArea.cs" />
-    <Compile Include="Models\ProjectLocationAreaGroupType.cs" />
     <Compile Include="Models\ProjectLocationModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStaging.cs" />
     <Compile Include="Models\ProposedProject.DatabaseContextExtensions.cs" />
@@ -3193,7 +3193,6 @@
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectUpdate\Budgets.cshtml" />
     <Content Include="Views\ProjectUpdate\_ViewStart.cshtml" />
-    <Content Include="Views\ProjectWatershed\EditProjectWatersheds.cshtml" />
     <Content Include="Views\ProposedProjectImage\Edit.cshtml" />
     <Content Include="Views\ProposedProjectImage\New.cshtml" />
     <Content Include="Views\ProposedProject\Basics.cshtml" />

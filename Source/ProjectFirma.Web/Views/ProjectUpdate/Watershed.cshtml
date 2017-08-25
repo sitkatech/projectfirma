@@ -1,0 +1,120 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="LocationSimple.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.ProjectUpdate
+@using ProjectFirma.Web.Views.Shared.ProjectWatershedControls
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@inherits Watershed
+
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css"/>
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+   
+    <style>
+        #@ViewDataTyped.EditProjectWatershedsViewData.ViewDataForAngular.MapInitJson.MapDivID
+        {
+            height: 450px;
+        }
+    </style>
+}
+
+@if (!ViewDataTyped.IsEditable)
+{
+    ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData);
+}
+
+else
+{
+    EditProjectWatersheds.RenderPartialView(Html, ViewDataTyped.EditProjectWatershedsViewData, Model);
+
+    if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+        <hr />
+        <div class="row form-group">
+            <div class="col-md-3">@Html.LabelWithSugarFor(x => x.Comments)</div>
+            <div class="col-md-9">
+                @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
+                @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+            </div>
+        </div>
+    }
+    <hr />
+    SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
+    <div class="row">
+        <div class="col-xs-2">
+            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+        </div>
+        <div class="col-xs-9">                            
+            @if (ViewDataTyped.ValidationWarnings.Any())
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var warning in ViewDataTyped.ValidationWarnings)
+                        {
+                            <li>
+                                @warning
+                            </li>
+                        }                       
+                    </ul>
+                </div>
+            }
+        </div>
+        <div class="col-xs-1">
+            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
+        </div>       
+    </div>
+
+
+    @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID", ".submitProject"); });
+
+        function saveForm()
+        {
+            var form = jQuery("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid())
+            {
+                return false;
+            }
+
+            form.append('<input type="hidden" name="true" value=' + jQuery("#true").is(":checked") + ' />');
+            // we need to inject the comments field if we are in "Submitted" state
+            @if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <text>
+                    var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
+                    form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
+                </text>
+            }
+            form.submit();
+        }
+        // ]]>
+    </script>
+}

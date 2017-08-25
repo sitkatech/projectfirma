@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectWatersheds.cs" company="Tahoe Regional Planning Agency">
+<copyright file="LocationSimple.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.ProjectWatershed
+using LtInfo.Common.Mvc;
+
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class EditProjectWatersheds : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditProjectWatershedsViewData, EditProjectWatershedsViewModel>
+    public abstract class Watershed : TypedWebViewPage<WatershedViewData, WatershedViewModel>
     {
     }
 }

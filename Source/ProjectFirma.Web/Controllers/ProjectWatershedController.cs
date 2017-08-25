@@ -25,7 +25,7 @@ using System.Web.Mvc;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectWatershed;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditProjectWatershedsViewModel(project);
+            var viewModel = new EditProjectWatershedsViewModel(project.ProjectWatersheds.Select(x => x.WatershedID).ToList(), project.ProjectWatershedNotes);
             return ViewEditProjectWatersheds(viewModel, project);
         }
 
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabel()} were successfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()} were successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -77,9 +77,10 @@ namespace ProjectFirma.Web.Controllers
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var editProjectWatershedsPostUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project, null));
             var editProjectWatershedsFormID = GetEditProjectWatershedsFormID();
 
-            var viewData = new EditProjectWatershedsViewData(project, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsFormID);
+            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID);
             return RazorPartialView<EditProjectWatersheds, EditProjectWatershedsViewData, EditProjectWatershedsViewModel>(viewData, viewModel);
         }
         

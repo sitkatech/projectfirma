@@ -24,6 +24,20 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSimple
 
+<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
 <style>
     .groupedControl {
         border: solid grey 1px;
@@ -43,13 +57,14 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Enter your @FieldDefinition.Project.GetFieldDefinitionLabel()’s location by plotting a point on the map or picking a known area from the list.
-            This "Simple" information is used to indicate the general location of your @FieldDefinition.Project.GetFieldDefinitionLabel() within the basin and for
-            summarizing accomplishments by geospatial categories such as State, County/City, or @FieldDefinition.Watershed.GetFieldDefinitionLabel().
+            Enter your @FieldDefinition.Project.GetFieldDefinitionLabel()’s approximate location by plotting a point on the map.
+            This "Simple" information is used to indicate the general location of your @FieldDefinition.Project.GetFieldDefinitionLabel() within the region. 
+            If your @FieldDefinition.Project.GetFieldDefinitionLabel()'s location cannot be approximated by a point, provide a brief explanation of the location information in the @Html.DisplayNameFor(m => m.ProjectLocationNotes) field.
         </p>
     </div>
 </div>
 
+@Html.ValidationSummary()
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="ProjectLocationSimpleController">
     <div class="col-xs-12 col-md-5 col-lg-4">
         <form method="POST" action="@ViewDataTyped.MapPostUrl" id="@ViewDataTyped.MapFormID">
@@ -69,29 +84,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointX)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)}}" />
                 <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointY)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)}}" />
                 @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
-            </div>
-            <div class="form-group">
-                <div class="radio">
-                    <label class="noBold">
-                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
-                               ng-model="AngularModel.ProjectLocationSimpleType"
-                               value="@ProjectLocationSimpleTypeEnum.NamedAreas"
-                               ng-click="toggleMap()" />
-                        Pick a @FieldDefinition.Watershed.GetFieldDefinitionLabel()
-                    </label>
-                </div>
-                <div ng-show="AngularModel.ProjectLocationSimpleType == '@ProjectLocationSimpleTypeEnum.NamedAreas'">
-                    <div class="input-group" style="padding-right: 10px">
-                        @* ReSharper disable once UnknownCssClass *@
-                        <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Enter @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off" />
-                        <span class="input-group-btn">
-                            <button id="@(ViewDataTyped.ViewDataForAngular.TypeAheadInputId)Button" type="button" class="btn btn-default" ng-click="selectFirstSuggestionFunction()">
-                                <span class='glyphicon glyphicon-search'></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationAreaID)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationAreaID)}}" />
             </div>
             <div class="form-group">
                 <div class="radio">
@@ -131,20 +123,3 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
     </div>
 </div>
-
-<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/typeahead/typeahead.min.js")"></script>
-<script type="text/javascript" language="javascript">
-    // <![CDATA[
-    angular.module("ProjectFirmaApp")
-        .factory("angularModelAndViewData",
-            function()
-            {
-                return {
-                    "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
-                    "AngularViewData": @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
-                };
-            });
-    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
-    // ]]>
-</script>

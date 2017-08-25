@@ -15,7 +15,6 @@ CREATE TABLE [dbo].[ProposedProject](
 	[EstimatedTotalCost] [money] NULL,
 	[SecuredFunding] [money] NULL,
 	[ProjectLocationPoint] [geometry] NULL,
-	[ProjectLocationAreaID] [int] NULL,
 	[ProjectLocationNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PlanningDesignStartYear] [int] NULL,
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
@@ -29,6 +28,7 @@ CREATE TABLE [dbo].[ProposedProject](
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
 	[PrimaryContactPersonID] [int] NULL,
+	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProposedProject_ProposedProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectID] ASC
@@ -108,16 +108,6 @@ REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_Project_ProjectID_TenantID]
 GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID] FOREIGN KEY([ProjectLocationAreaID])
-REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID])
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID]
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID_TenantID] FOREIGN KEY([ProjectLocationAreaID], [TenantID])
-REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID], [TenantID])
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID_TenantID]
-GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_ProjectLocationSimpleType_ProjectLocationSimpleTypeID] FOREIGN KEY([ProjectLocationSimpleTypeID])
 REFERENCES [dbo].[ProjectLocationSimpleType] ([ProjectLocationSimpleTypeID])
 GO
@@ -166,10 +156,6 @@ GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_ProjectLocationPoint_IsPointData] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint] IS NOT NULL AND [ProjectLocationPoint].[STGeometryType]()='Point'))
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_ProjectLocationPoint_IsPointData]
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_ProjectLocationPointXorProposedProjectLocationArea] CHECK  (([ProjectLocationAreaID] IS NULL AND [ProjectLocationPoint] IS NULL OR [ProjectLocationAreaID] IS NOT NULL AND [ProjectLocationPoint] IS NULL OR [ProjectLocationAreaID] IS NULL AND [ProjectLocationPoint] IS NOT NULL))
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_ProjectLocationPointXorProposedProjectLocationArea]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_SecuredFundingForCapitalProposedProjectsOnly] CHECK  (([FundingTypeID]=(1) OR [SecuredFunding] IS NULL))
 GO

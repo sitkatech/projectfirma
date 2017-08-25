@@ -504,7 +504,6 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
@@ -514,6 +513,7 @@
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -673,47 +673,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationArea">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationArea">
-        <MappingFragment StoreEntitySet="ProjectLocationArea">
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-          <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
-          <ScalarProperty Name="MappedRegionID" ColumnName="MappedRegionID" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaGroup">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaGroup">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaGroup">
-          <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaStateProvince">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaStateProvince">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaStateProvince">
-          <ScalarProperty Name="ProjectLocationAreaStateProvinceID" ColumnName="ProjectLocationAreaStateProvinceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaWatershed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaWatershed">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaWatershed">
-          <ScalarProperty Name="ProjectLocationAreaWatershedID" ColumnName="ProjectLocationAreaWatershedID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectLocationStaging">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationStaging">
         <MappingFragment StoreEntitySet="ProjectLocationStaging">
@@ -815,11 +774,11 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -846,6 +805,7 @@
           <ScalarProperty Name="BudgetsDiffLog" ColumnName="BudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
+          <ScalarProperty Name="WatershedComment" ColumnName="WatershedComment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -871,6 +831,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectWatershedUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectWatershedUpdate">
+        <MappingFragment StoreEntitySet="ProjectWatershedUpdate">
+          <ScalarProperty Name="ProjectWatershedUpdateID" ColumnName="ProjectWatershedUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProposedProject">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProject">
         <MappingFragment StoreEntitySet="ProposedProject">
@@ -886,7 +856,6 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
@@ -900,6 +869,7 @@
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -973,6 +943,16 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProposedProjectWatershed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectWatershed">
+        <MappingFragment StoreEntitySet="ProposedProjectWatershed">
+          <ScalarProperty Name="ProposedProjectWatershedID" ColumnName="ProposedProjectWatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -27,6 +27,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -45,8 +46,10 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -644,7 +647,6 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var viewModel = new LocationSimpleViewModel(projectUpdate.ProjectLocationPoint,
-                projectUpdate.ProjectLocationAreaID,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
                 projectUpdateBatch.LocationSimpleComment);
@@ -690,18 +692,14 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
                 $"project_{project.ProjectID}_EditMap");
 
-            var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.FindWatershedByName(null));
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.SingleOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
-            var currentFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, projectUpdate, mapInitJsonForEdit, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, tenantAttribute, null, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
-            var viewDataForAngularClass = new LocationSimpleViewData.ViewDataForAngularClass(locationSimpleValidationResult.GetWarningMessages());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, viewDataForAngularClass, updateStatus);
+            var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
 
@@ -953,6 +951,114 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [ProjectUpdateManageFeature]
+        public ActionResult Watershed(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }            
+            var viewModel = new WatershedViewModel(projectUpdateBatch,
+                projectUpdateBatch.WatershedComment);
+            return ViewWatershed(project, projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Watershed(ProjectPrimaryKey projectPrimaryKey, WatershedViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
+                return ViewWatershed(project, projectUpdateBatch, viewModel);
+            }
+            var currentProjectUpdateWatersheds = projectUpdateBatch.ProjectWatershedUpdates.ToList();
+            var allProjectUpdateWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatershedUpdates.Local;
+            viewModel.UpdateModelBatch(projectUpdateBatch, currentProjectUpdateWatersheds, allProjectUpdateWatersheds);
+            if (projectUpdateBatch.IsSubmitted)
+            {
+                projectUpdateBatch.WatershedComment = viewModel.Comments;
+            }
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Watershed(project)));
+        }
+
+        private ViewResult ViewWatershed(Project project, ProjectUpdateBatch projectUpdateBatch, WatershedViewModel viewModel)
+        {
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+
+            var boundingBox = projectUpdateBatch.ProjectWatershedUpdates.Any()
+                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(projectUpdateBatch.ProjectWatershedUpdates
+                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
+                : BoundingBox.MakeNewDefaultBoundingBox();
+
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson> { Models.Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m, LayerInitialVisibility.Show) }, boundingBox);
+           
+            var watershedValidationResult = projectUpdateBatch.ValidateProjectWatershed();
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
+                $"project_{project.ProjectID}_EditMap");
+            var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
+            var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var editProjectWatershedsPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.Watershed(project, null));
+            var editProjectWatershedsFormId = GenerateEditProjectLocationFormID(project);
+
+            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);            
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var viewData = new WatershedViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, watershedValidationResult, updateStatus);
+            return RazorView<Views.ProjectUpdate.Watershed, WatershedViewData, WatershedViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateManageFeature]
+        public PartialViewResult RefreshProjectWatershed(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshProjectWatershed(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshProjectWatershed(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            if (projectUpdate == null)
+            {
+                return new ModalDialogFormJsonResult();
+            }
+            projectUpdateBatch.DeleteProjectWatershedUpdates();
+
+            // refresh the data
+            projectUpdate.LoadWatershedNotesFromProject(project);
+            ProjectWatershedUpdate.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshProjectWatershed(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the {FieldDefinition.Watershed.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }       
+
         [ProjectUpdateManageFeature]
         public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -1128,6 +1234,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectImages = HttpRequestStorage.DatabaseEntities.AllProjectImages.Local;
             HttpRequestStorage.DatabaseEntities.ProjectLocations.Load();
             var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
+            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1139,7 +1247,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectExternalLinks,
                 allProjectNotes,
                 allProjectImages,
-                allProjectLocations);
+                allProjectLocations,
+                allProjectWatersheds);
 
 
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
@@ -1960,9 +2069,6 @@ namespace ProjectFirma.Web.Controllers
                         return true;
                     }
                     return project.ProjectLocationPoint.ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.ProjectLocationPoint.ToSqlGeometry()).IsFalse;
-
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    return project.ProjectLocationAreaID != projectUpdateBatch.ProjectUpdate.ProjectLocationAreaID;
             }
 
             return false;
@@ -1986,6 +2092,24 @@ namespace ProjectFirma.Web.Controllers
             var updatedLocationAsListOfStrings = updatedLocationDetailed.Select(x => x.ProjectLocationGeometry.ToString() + x.Annotation).ToList();
 
             var enumerable = originalLocationAsListOfStrings.Except(updatedLocationAsListOfStrings);
+            return enumerable.Any();
+        }
+
+        private static bool IsWatershedUpdated(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+
+            var originalWatershedIDs = project.GetProjectWatersheds().Select(x => x.WatershedID).ToList();
+            var updatedWatershedIDs = projectUpdateBatch.ProjectWatershedUpdates.Select(x => x.WatershedID).ToList();
+
+            if (!originalWatershedIDs.Any() && !updatedWatershedIDs.Any())
+                return false;
+
+            if (originalWatershedIDs.Count != updatedWatershedIDs.Count)
+                return true;
+            
+            var enumerable = originalWatershedIDs.Except(updatedWatershedIDs);
             return enumerable.Any();
         }
 
@@ -2134,6 +2258,7 @@ namespace ProjectFirma.Web.Controllers
             var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
+            var isWatershedUpdated = IsWatershedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isNotesUpdated = DiffNotesImpl(projectUpdateBatch.ProjectID).HasChanged;
 
@@ -2147,6 +2272,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,
                 isLocationDetailUpdated,
+                isWatershedUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated);
         }

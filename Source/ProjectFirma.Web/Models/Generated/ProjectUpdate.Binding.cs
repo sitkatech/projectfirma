@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, string projectWatershedNotes) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -41,11 +41,11 @@ namespace ProjectFirma.Web.Models
             this.EstimatedTotalCost = estimatedTotalCost;
             this.SecuredFunding = securedFunding;
             this.ProjectLocationPoint = projectLocationPoint;
-            this.ProjectLocationAreaID = projectLocationAreaID;
             this.ProjectLocationNotes = projectLocationNotes;
             this.PlanningDesignStartYear = planningDesignStartYear;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
+            this.ProjectWatershedNotes = projectWatershedNotes;
         }
 
         /// <summary>
@@ -109,23 +109,23 @@ namespace ProjectFirma.Web.Models
         public decimal? EstimatedTotalCost { get; set; }
         public decimal? SecuredFunding { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
-        public int? ProjectLocationAreaID { get; set; }
         public string ProjectLocationNotes { get; set; }
         public int? PlanningDesignStartYear { get; set; }
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
+        public string ProjectWatershedNotes { get; set; }
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
-        public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
 
         public static class FieldLengths
         {
             public const int ProjectDescription = 4000;
             public const int ProjectLocationNotes = 4000;
+            public const int ProjectWatershedNotes = 4000;
         }
     }
 }

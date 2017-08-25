@@ -18,15 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
-using LtInfo.Common.Models;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.UnitTestCommon;
 
-namespace ProjectFirma.Web.Views.ProjectWatershed
+namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
 {
     [TestFixture]
     public class EditProjectWatershedsViewModelTest
@@ -49,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectWatershed
             var allWatersheds = new List<Models.Watershed> { watershed1, watershed2, watershed3, watershed4 };
 
             // Act
-            var viewModel = new EditProjectWatershedsViewModel(project);
+            var viewModel = new EditProjectWatershedsViewModel(project.ProjectWatersheds.Select(x => x.WatershedID).ToList(), project.ProjectWatershedNotes);
 
             // Assert
             Assert.That(viewModel.WatershedIDs, Is.EquivalentTo(allWatersheds.Select(x => x.WatershedID)));

@@ -18,23 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInitJson, projectLocationInformationContainer)
-{
+ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInitJson,
+    projectLocationInformationContainer) {
     ProjectFirmaMaps.Map.call(this, projectLocationSummaryMapInitJson);
-
-    var projectLocationType = projectLocationSummaryMapInitJson.ProjectLocationSimpleTypeID;
-
-    if (projectLocationType === 1) //ProjectLocationTypeEnum.PointOnMap
+   
+    var infoContainerPointHtml = "<table class=\"summaryLayout\">";
+    if (projectLocationSummaryMapInitJson.HasSimpleLocation) //ProjectLocationTypeEnum.PointOnMap
     {
-        var latLng = new L.LatLng(projectLocationSummaryMapInitJson.ProjectLocationYCoord, projectLocationSummaryMapInitJson.ProjectLocationXCoord);
-        if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer))
-        {
-            var infoContainerPointHtml = "<table class=\"summaryLayout\">";
+        var latLng = new L.LatLng(projectLocationSummaryMapInitJson.ProjectLocationYCoord,
+            projectLocationSummaryMapInitJson.ProjectLocationXCoord);
+        if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer)) {
             infoContainerPointHtml += this.formatLayerProperty("Latitude", L.Util.formatNum(latLng.lat, 4));
             infoContainerPointHtml += this.formatLayerProperty("Longitude", L.Util.formatNum(latLng.lng, 4));
-            var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
-            for (var i = 0; i < vectorLayers.length; i++)
-            {
+            var vectorLayers = _.filter(this.vectorLayers,
+                function(layer) { return typeof layer.eachLayer !== "undefined"; });
+            for (var i = 0; i < vectorLayers.length; i++) {
                 var match = leafletPip.pointInLayer(
                     // the clicked point
                     latLng,
@@ -44,37 +42,25 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
                     true);
                 // if there's overlap, add some content to the popup: the layer name
                 // and a table of attributes
-                if (match.length)
-                {
+                if (match.length) {
                     var properties = match[0].feature.properties;
-                    for (var propertyName in properties)
-                    {
+                    for (var propertyName in properties) {
                         infoContainerPointHtml += this.formatLayerProperty(propertyName, properties[propertyName]);
                     }
                 }
             }
-            infoContainerPointHtml += "</table>";
-            projectLocationInformationContainer.html(infoContainerPointHtml);
         }
     }
-    else if (projectLocationType === 2) //ProjectLocationTypeEnum.NamedAreas
-    {
-        if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer))
-        {
-            projectLocationInformationContainer.html("<span>" + projectLocationSummaryMapInitJson.ProjectLocationAreaType + ": " + projectLocationSummaryMapInitJson.ProjectLocationAreaName + "</span><br />");
-        }
+
+    if (!projectLocationSummaryMapInitJson.HasDetailedLocation &&
+        !projectLocationSummaryMapInitJson.HasSimpleLocation &&
+        !projectLocationSummaryMapInitJson.HasWatersheds) {
+        this.blockMap();
     }
-    else if (projectLocationType === 3)
-    {
-        if (!projectLocationSummaryMapInitJson.HasDetailedLocation)
-        {
-            this.blockMap();
-        }
-    }
-    else
-    {
-        alert("Problem loading map.");
-    }
+
+    infoContainerPointHtml += "</table>";
+    projectLocationInformationContainer.html(infoContainerPointHtml);
 };
+
 
 ProjectFirmaMaps.ProjectLocationSummary.prototype = Sitka.Methods.clonePrototype(ProjectFirmaMaps.Map.prototype);

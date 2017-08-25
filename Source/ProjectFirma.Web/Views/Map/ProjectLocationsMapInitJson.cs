@@ -29,14 +29,12 @@ namespace ProjectFirma.Web.Views.Map
         private const int DefaultZoomLevel = 10;
         public readonly ProjectMapCustomization ProjectMapCustomization;
         public readonly LayerGeoJson ProjectLocationsLayerGeoJson;
-        public readonly LayerGeoJson NamedAreasAsPointsLayerGeoJson;
 
-        public ProjectLocationsMapInitJson(LayerGeoJson projectLocationsLayerGeoJson, LayerGeoJson namedAreasAsPointsLayerGeoJson, ProjectMapCustomization customization, string mapDivID)
+        public ProjectLocationsMapInitJson(LayerGeoJson projectLocationsLayerGeoJson, ProjectMapCustomization customization, string mapDivID)
             : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
         {
             ProjectMapCustomization = customization;
             ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
-            NamedAreasAsPointsLayerGeoJson = namedAreasAsPointsLayerGeoJson;
         }
     }
 }

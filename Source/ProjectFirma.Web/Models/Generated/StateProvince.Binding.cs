@@ -24,8 +24,6 @@ namespace ProjectFirma.Web.Models
         protected StateProvince()
         {
             this.Counties = new HashSet<County>();
-            this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
-            this.ProjectLocationAreaStateProvinces = new HashSet<ProjectLocationAreaStateProvince>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -69,13 +67,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Counties.Any() || ProjectLocationAreas.Any() || ProjectLocationAreaStateProvinces.Any();
+            return Counties.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(StateProvince).Name, typeof(County).Name, typeof(ProjectLocationArea).Name, typeof(ProjectLocationAreaStateProvince).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(StateProvince).Name, typeof(County).Name};
 
         [Key]
         public int StateProvinceID { get; set; }
@@ -87,8 +85,6 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return StateProvinceID; } set { StateProvinceID = value; } }
 
         public virtual ICollection<County> Counties { get; set; }
-        public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
-        public virtual ICollection<ProjectLocationAreaStateProvince> ProjectLocationAreaStateProvinces { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
