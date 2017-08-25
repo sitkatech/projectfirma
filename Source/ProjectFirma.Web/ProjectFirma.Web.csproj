@@ -366,6 +366,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Security\FundingSourceEditFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
     <Compile Include="Views\Watershed\MapTooltipViewData.cs" />
     <Compile Include="Views\Watershed\MapTooltip.cs" />
@@ -684,7 +685,7 @@
     <Compile Include="Security\PerformanceMeasureExpectedFromProjectViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureExpectedProposedFeature.cs" />
     <Compile Include="Security\FieldDefinitionViewFeature.cs" />
-    <Compile Include="Security\FundingSourceManageFeature.cs" />
+    <Compile Include="Security\FundingSourceCreateFeature.cs" />
     <Compile Include="Security\FundingSourceViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureNoteViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureViewFeature.cs" />
