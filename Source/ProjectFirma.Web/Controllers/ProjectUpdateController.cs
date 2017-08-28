@@ -788,7 +788,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
             var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) {AllowFullScreen = false};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.ProjectID));
@@ -1001,7 +1001,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
             var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectWatershedMap", 0, layers, boundingBox) { AllowFullScreen = false };
            
             var watershedValidationResult = projectUpdateBatch.ValidateProjectWatershed();
