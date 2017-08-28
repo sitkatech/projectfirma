@@ -72,6 +72,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
         public string ProjectLocationTypeDisplay => ViewUtilities.NaString;
@@ -338,7 +339,7 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
             }
             return feature;
-        }
+        }        
 
         public string Duration => $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
 

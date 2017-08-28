@@ -57,6 +57,7 @@ namespace ProjectFirma.Web.Models
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
         public string ProjectLocationTypeDisplay => ViewUtilities.NaString;
