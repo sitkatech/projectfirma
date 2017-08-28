@@ -58,9 +58,9 @@ namespace ProjectFirma.Web.Models
             return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)};
         }
 
-        public static List<LayerGeoJson> GetWatershedAndProjectLocationSimpleMapLayers(IProject project)
+        public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project)
         {
-            var layerGeoJsons = GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            var layerGeoJsons = new List<LayerGeoJson>();
             if (project.ProjectLocationPoint != null)
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
@@ -73,22 +73,17 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetAllWatershedsAndProjectLocationSimpleAndDetailedMapLayers(IProject project)
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(IProject project)
         {
-            var layerGeoJsons = GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            var layerGeoJsons = new List<LayerGeoJson>();
             if (project.ProjectLocationPoint != null)
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
-                    new FeatureCollection(new List<Feature>
-                    {
-                        DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
-                    }),
-                    "#838383", 1, LayerInitialVisibility.Show));
+                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(project));                
             }
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;
         }
