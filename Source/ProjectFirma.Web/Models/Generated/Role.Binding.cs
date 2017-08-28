@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly RoleNormal Normal = RoleNormal.Instance;
         public static readonly RoleUnassigned Unassigned = RoleUnassigned.Instance;
         public static readonly RoleSitkaAdmin SitkaAdmin = RoleSitkaAdmin.Instance;
-        public static readonly RoleProjectOwner ProjectOwner = RoleProjectOwner.Instance;
+        public static readonly RoleProjectSteward ProjectSteward = RoleProjectSteward.Instance;
 
         public static readonly List<Role> All;
         public static readonly ReadOnlyDictionary<int, Role> AllLookupDictionary;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Role()
         {
-            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin, ProjectOwner };
+            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin, ProjectSteward };
             AllLookupDictionary = new ReadOnlyDictionary<int, Role>(All.ToDictionary(x => x.RoleID));
         }
 
@@ -107,8 +107,8 @@ namespace ProjectFirma.Web.Models
                     return Admin;
                 case RoleEnum.Normal:
                     return Normal;
-                case RoleEnum.ProjectOwner:
-                    return ProjectOwner;
+                case RoleEnum.ProjectSteward:
+                    return ProjectSteward;
                 case RoleEnum.SitkaAdmin:
                     return SitkaAdmin;
                 case RoleEnum.Unassigned:
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
         Normal = 2,
         Unassigned = 7,
         SitkaAdmin = 8,
-        ProjectOwner = 9
+        ProjectSteward = 9
     }
 
     public partial class RoleAdmin : Role
@@ -152,9 +152,9 @@ namespace ProjectFirma.Web.Models
         public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"");
     }
 
-    public partial class RoleProjectOwner : Role
+    public partial class RoleProjectSteward : Role
     {
-        private RoleProjectOwner(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleProjectOwner Instance = new RoleProjectOwner(9, @"ProjectOwner", @"Project Owner", @"Users with this role can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.");
+        private RoleProjectSteward(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleProjectSteward Instance = new RoleProjectSteward(9, @"ProjectSteward", @"Project Steward", @"Users with this role can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.");
     }
 }

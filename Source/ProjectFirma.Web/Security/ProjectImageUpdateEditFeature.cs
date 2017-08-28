@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectImageUpdate> _firmaFeatureWithContextImpl;
 
         public ProjectImageUpdateEditFeature()
-            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectOwner })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectImageUpdate>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

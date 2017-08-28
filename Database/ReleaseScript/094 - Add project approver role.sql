@@ -1,7 +1,11 @@
 alter table dbo.RelationshipType add CanApproveProjects bit null
 alter table dbo.RelationshipType add IsPrimaryContact bit null
 
-delete from dbo.FieldDefinitionDataImage where FieldDefinitionDataID = (select top 1 FieldDefinitionDataID from dbo.FieldDefinitionData where FieldDefinitionID = 12)
+delete fdi
+from dbo.FieldDefinitionDataImage fdi
+join dbo.FieldDefinitionData fdd on fdi.FieldDefinitionDataID = fdd.FieldDefinitionDataID
+where fdd.FieldDefinitionID = 12
+
 delete from dbo.FieldDefinitionData where FieldDefinitionID = 12
 
 create table dbo.ProposedProjectOrganization(

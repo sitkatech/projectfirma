@@ -772,12 +772,12 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         [ProjectsViewFullListFeature]
         public PartialViewResult DenyCreateProject()
         {
-            var projectOwnerLabel = FieldDefinition.ProjectOwner.GetFieldDefinitionLabel();
+            var projectOwnerLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
             var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
             var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
             var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
 
-            var confirmMessage = CurrentPerson.RoleID == Role.ProjectOwner.RoleID
+            var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectOwnerLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
                 : $"You don't have permission to edit {projectLabel}.";
 

@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Models
         {
             RelationshipType relationshipTypeThatCanApprove;
             // Want to ensure that person is a Project Approver and belongs to an Organization that allows a "Can Approve" relationship
-            if (Role.ProjectOwner.RoleID == RoleID &&
+            if (Role.ProjectSteward.RoleID == RoleID &&
                 (relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects)) != null &&
                 relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Models
             get
             {
                 RelationshipType relationshipTypeThatCanApprove;
-                return Role.ProjectOwner.RoleID == RoleID &&
+                return Role.ProjectSteward.RoleID == RoleID &&
                     (relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects)) != null &&
                     relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID);
             }

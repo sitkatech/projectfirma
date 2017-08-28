@@ -412,7 +412,7 @@ namespace ProjectFirma.Web.Models
         public IEnumerable<Person> GetProjectOwnersForProject()
         {
             return ProjectOrganizations.Where(x => x.RelationshipType.CanApproveProjects)
-                .SelectMany(x => x.Organization.People.Where(y => y.RoleID == Role.ProjectOwner.RoleID)).ToList();
+                .SelectMany(x => x.Organization.People.Where(y => y.RoleID == Role.ProjectSteward.RoleID)).ToList();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public PerformanceMeasureExpectedFromProjectManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Normal, Role.ProjectOwner })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Normal, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
