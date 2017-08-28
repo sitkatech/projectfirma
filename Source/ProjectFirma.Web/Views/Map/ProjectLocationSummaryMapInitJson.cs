@@ -37,16 +37,12 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasWatersheds;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
-            : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
+            : base(mapDivID, DefaultZoomLevel, GetAllWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
         {
-            Point point = null;
-           
             var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(true);
             HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
             {
-                point = new Point(project.ProjectLocationPoint.YCoordinate ?? 0,
-                    project.ProjectLocationPoint.XCoordinate ?? 0);
                 ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                 ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                 Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
@@ -68,16 +64,27 @@ namespace ProjectFirma.Web.Views.Map
                     new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1,
                     LayerInitialVisibility.Show))); 
             } 
-            
-            //Handle bounding box separately
-            var geometries = project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry).Union(project.GetProjectWatersheds().Select(x => x.WatershedFeature));
 
-            var pointList = geometries.SelectMany(BoundingBox.GetPointsFromDbGeometry).ToList();
-            if (point != null)
+            BoundingBox = GetProjectBoundingBox(project);         
+        }
+
+        public static BoundingBox GetProjectBoundingBox(IProject project)
+        {
+            Point simpleLocationPoint = null;
+            if (project.ProjectLocationPoint != null)
             {
-                pointList.Add(point);
+                simpleLocationPoint = new Point(project.ProjectLocationPoint.YCoordinate ?? 0,
+                    project.ProjectLocationPoint.XCoordinate ?? 0);
             }
-            BoundingBox = !pointList.Any() ? BoundingBox.MakeNewDefaultBoundingBox() : new BoundingBox(pointList);         
+
+            var detailAndWatershedGeometries = project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry).Union(project.GetProjectWatersheds().Select(x => x.WatershedFeature));
+
+            var pointList = detailAndWatershedGeometries.SelectMany(BoundingBox.GetPointsFromDbGeometry).ToList();
+            if (simpleLocationPoint != null)
+            {
+                pointList.Add(simpleLocationPoint);
+            }
+            return !pointList.Any() ? BoundingBox.MakeNewDefaultBoundingBox() : new BoundingBox(pointList);
         }
     }
 }

@@ -32,6 +32,7 @@ using LtInfo.Common.MvcResults;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Map;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -68,24 +69,18 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectWatersheds(EditProjectWatershedsViewModel viewModel, Project project)
         {
-            var boundingBox = project.ProjectWatersheds.Any()
-                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(project.ProjectWatersheds
-                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
-                : BoundingBox.MakeNewDefaultBoundingBox();
-
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, MapInitJson.GetAllWatershedsAndProjectLocationSimpleAndDetailedMapLayers(project), boundingBox) { AllowFullScreen = false };
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var editProjectWatershedsPostUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project, null));
             var editProjectWatershedsFormID = GetEditProjectWatershedsFormID();
 
-            var hasProjectLocationPoint = project.ProjectLocationPoint != null;
-
-            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID, hasProjectLocationPoint);
+            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
             return RazorPartialView<EditProjectWatersheds, EditProjectWatershedsViewData, EditProjectWatershedsViewModel>(viewData, viewModel);
         }
-        
+
         [AnonymousUnclassifiedFeature]
         public JsonResult FindWatershedByName(string term)
         {

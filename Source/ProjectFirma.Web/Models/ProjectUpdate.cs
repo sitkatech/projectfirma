@@ -90,6 +90,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;
 

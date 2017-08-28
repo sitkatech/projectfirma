@@ -77,5 +77,16 @@ namespace ProjectFirma.Web.Models
                 tenantAttribute.WatershedLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
                 layerInitialVisibility);
         }
+
+        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
+        {
+            var layerGeoJsons = new List<LayerGeoJson>
+            {
+                new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1, LayerInitialVisibility.Show),
+                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
+            };
+            return layerGeoJsons;
+        }
     }
 }
