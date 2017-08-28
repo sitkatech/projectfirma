@@ -88,5 +88,18 @@ namespace ProjectFirma.Web.Models
             };
             return layerGeoJsons;
         }
+
+        public FancyTreeNode ToFancyTreeNode()
+        {
+            var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false)
+            {
+                MapUrl = null,
+                Children = ProjectWatersheds.Select(x => x.Project)
+                    .OrderBy(x => x.DisplayName)
+                    .Select(x => x.ToFancyTreeNode())
+                    .ToList()
+            };
+            return fancyTreeNode;
+        }
     }
 }

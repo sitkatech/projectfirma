@@ -57,7 +57,6 @@ namespace ProjectFirma.Web.Models
             LayerType = LayerGeoJsonType.Vector;
             HasCustomPopups = geoJsonFeatureCollection.Features.Any(x => x.Properties.ContainsKey("PopupUrl"));
         }
-
         /// <summary>
         /// Constructor for LayerGeoJson with WMS Type
         /// </summary>

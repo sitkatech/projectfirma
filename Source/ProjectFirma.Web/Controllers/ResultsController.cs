@@ -254,12 +254,14 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
+            var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
+
             var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl);
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
@@ -300,6 +302,47 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult();
         }
+
+        [ProjectLocationsViewFeature]
+        [HttpPost]
+        public JsonNetJArrayResult FilteredProjectsWithLocationAreas(ProjectMapCustomization projectMapCustomization)
+        {
+            if (projectMapCustomization.FilterPropertyValues == null ||
+                !projectMapCustomization.FilterPropertyValues.Any())
+            {
+                return new JsonNetJArrayResult(new List<object>());
+            }
+            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
+                .ToList()
+                .Where(x => x.ProjectWatersheds.Any())
+                .Select(x => x.ToFancyTreeNode())
+                .ToList();
+
+            var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
+                .GetProjectLocationFilterTypeFromFilterPropertyName();
+            var filterFunction =
+                projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
+                    .FilterPropertyValues);
+            var filteredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile())
+                .ToList();
+
+            var projects = IsCurrentUserAnonymous()
+                ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+                : filteredProjects;
+            var filteredProjectsWithLocationAreas = projects
+                .Where(x => !x.HasProjectLocationPoint && x.ProjectWatersheds.Any())
+                .ToList();
+
+            projectLocationGroupsAsFancyTreeNodes.RemoveAll(                
+                        areaNameNode =>
+                            areaNameNode.Children.Count ==
+                            areaNameNode.Children.RemoveAll(projectNode => !filteredProjectsWithLocationAreas
+                                .Select(project => project.ProjectID.ToString())
+                                .Contains(projectNode.Key)));
+
+            return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
+        }
+
 
         [SpendingByOrganizationTypeByOrganizationViewFeature]
         public PartialViewResult SpendingByOrganizationTypeByOrganization(int organizationTypeID, int? calendarYear)

@@ -22,53 +22,55 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
+<div>
+    <div style="font-weight: bold">@ViewDataTyped.Project.DisplayName</div>
+    @if (ViewDataTyped.Project.KeyPhoto != null)
+    {
+        <div style="float: right; padding: 8px 4px 4px 4px">
+            <img src="@ViewDataTyped.Project.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.Project.KeyPhoto.CaptionOnGallery" />
+        </div>
+    }
+    <table class="summaryLayout">
+        <tbody>
+            <tr>
+                <th>Duration</th>
+                <td>@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</td>
+            </tr>
+            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            {
+                <tr>
+                    <th>@ViewDataTyped.TaxonomyTierThreeDisplayName</th>
+                    <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</td>
+                </tr>
+            }
+            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            {
+                <tr>
+                    <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
+                    <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</td>
+                </tr>
+            }
+            <tr>
+                <th>@ViewDataTyped.TaxonomyTierOneDisplayName</th>
+                <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
+            </tr>
+            <tr>
+                <th>@FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()</th>
+                <td>@ViewDataTyped.Project.LeadImplementerName</td>
+            </tr>
+            <tr>
+                <th>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</th>
+                <td>@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</td>
+            </tr>
+            <tr>
+                <th>@ViewDataTyped.ClassificationDisplayNamePluralized</th>
+                <td>@string.Join(", ", ViewDataTyped.Project.ProjectClassifications.Select(x => x.Classification.DisplayName))</td>
+            </tr>
+        </tbody>
+    </table>
+    <span class="alert">
+        For project expenditures & results, see
+        <a href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
+    </span>
 
-<div style="font-weight: bold">@ViewDataTyped.Project.DisplayName</div>
-@if (ViewDataTyped.Project.KeyPhoto != null)
-{
-    <div style="float: right; padding: 8px 4px 4px 4px">
-        <img src="@ViewDataTyped.Project.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.Project.KeyPhoto.CaptionOnGallery" />
-    </div>
-}
-<table class="summaryLayout">
-    <tbody>
-    <tr>
-        <th>Duration</th>
-        <td>@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</td>
-    </tr>
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
-        {
-            <tr>
-                <th>@ViewDataTyped.TaxonomyTierThreeDisplayName</th>
-                <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</td>
-            </tr>
-        }
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
-        {
-            <tr>
-                <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
-                <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</td>
-            </tr>
-        }
-        <tr>
-            <th>@ViewDataTyped.TaxonomyTierOneDisplayName</th>
-            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
-        </tr>
-        <tr>
-            <th>@FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()</th>
-            <td>@ViewDataTyped.Project.LeadImplementerName</td>
-        </tr>
-        <tr>
-            <th>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</th>
-            <td>@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</td>
-        </tr>
-        <tr>
-            <th>@ViewDataTyped.ClassificationDisplayNamePluralized</th>
-            <td>@string.Join(", ", ViewDataTyped.Project.ProjectClassifications.Select(x => x.Classification.DisplayName))</td>
-        </tr>
-    </tbody>
-</table>
-<span class="alert">
-    For project expenditures & results, see
-    <a href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
-</span>
+</div>
