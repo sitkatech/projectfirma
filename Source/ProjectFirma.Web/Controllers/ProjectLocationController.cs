@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Map;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide);
+            var layerGeoJsons = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Hide);
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
@@ -84,8 +85,13 @@ namespace ProjectFirma.Web.Controllers
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
-            var boundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox) {AllowFullScreen = false};
+            var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox)
+            {
+                AllowFullScreen = false,
+            };
 
             var mapFormID = GenerateEditProjectLocationFormID(project.EntityID);
             var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.EntityID));
