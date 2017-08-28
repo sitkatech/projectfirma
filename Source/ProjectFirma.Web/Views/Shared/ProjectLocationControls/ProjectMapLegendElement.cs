@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -37,7 +38,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             LegendText = legendText;
         }
 
-        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<Models.TaxonomyTierThree> taxonomyTierThrees)
+        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<ITaxonomyTier> topLevelTaxonomyTiers)
         {
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {
@@ -46,8 +47,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                     ProjectStage.All.Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
                 },
                 {
-                    ProjectColorByType.TaxonomyTierThree.ProjectColorByTypeNameWithIdentifier,
-                    taxonomyTierThrees.Select(x => new ProjectMapLegendElement(x.TaxonomyTierThreeID, x.ThemeColor, x.TaxonomyTierThreeName)).ToList()
+                    MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3 ? ProjectColorByType.TaxonomyTierThree.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyTierTwo.ProjectColorByTypeNameWithIdentifier,
+                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName)).ToList()
                 }
             };
 

@@ -19,8 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -30,17 +29,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string LegendTitle;
         public readonly Dictionary<string, List<ProjectMapLegendElement>> LegendFormats;
 
-        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<Models.TaxonomyTierThree> taxonomyTierThrees)
+        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<ITaxonomyTier> topLevelTaxonomyTiers)
         {
             MapDivID = mapDivID;
             LegendTitle = legendTitle;
-            LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(taxonomyTierThrees);
+            LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(topLevelTaxonomyTiers);
         }
 
-        public ProjectLocationsMapViewData(string mapDivID)
-            : this(mapDivID, "Legend", HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList())
-        {
-            
-        }
     }
 }

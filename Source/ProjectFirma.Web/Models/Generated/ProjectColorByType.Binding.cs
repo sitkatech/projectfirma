@@ -20,6 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectColorByTypeTaxonomyTierThree TaxonomyTierThree = ProjectColorByTypeTaxonomyTierThree.Instance;
         public static readonly ProjectColorByTypeProjectStage ProjectStage = ProjectColorByTypeProjectStage.Instance;
+        public static readonly ProjectColorByTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectColorByTypeTaxonomyTierTwo.Instance;
 
         public static readonly List<ProjectColorByType> All;
         public static readonly ReadOnlyDictionary<int, ProjectColorByType> AllLookupDictionary;
@@ -29,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectColorByType()
         {
-            All = new List<ProjectColorByType> { TaxonomyTierThree, ProjectStage };
+            All = new List<ProjectColorByType> { TaxonomyTierThree, ProjectStage, TaxonomyTierTwo };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectColorByType>(All.ToDictionary(x => x.ProjectColorByTypeID));
         }
 
@@ -106,6 +107,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectStage;
                 case ProjectColorByTypeEnum.TaxonomyTierThree:
                     return TaxonomyTierThree;
+                case ProjectColorByTypeEnum.TaxonomyTierTwo:
+                    return TaxonomyTierTwo;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -115,7 +118,8 @@ namespace ProjectFirma.Web.Models
     public enum ProjectColorByTypeEnum
     {
         TaxonomyTierThree = 1,
-        ProjectStage = 2
+        ProjectStage = 2,
+        TaxonomyTierTwo = 3
     }
 
     public partial class ProjectColorByTypeTaxonomyTierThree : ProjectColorByType
@@ -128,5 +132,11 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectColorByTypeProjectStage(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
         public static readonly ProjectColorByTypeProjectStage Instance = new ProjectColorByTypeProjectStage(2, @"ProjectStage", @"ProjectStageID", @"Stage", 20);
+    }
+
+    public partial class ProjectColorByTypeTaxonomyTierTwo : ProjectColorByType
+    {
+        private ProjectColorByTypeTaxonomyTierTwo(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
+        public static readonly ProjectColorByTypeTaxonomyTierTwo Instance = new ProjectColorByTypeTaxonomyTierTwo(3, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"Taxonomy Tier Two", 11);
     }
 }

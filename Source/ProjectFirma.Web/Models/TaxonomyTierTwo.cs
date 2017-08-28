@@ -28,7 +28,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyTierTwo : IAuditableEntity
+    public partial class TaxonomyTierTwo : IAuditableEntity, ITaxonomyTier
     {
         public string DeleteUrl
         {
@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Models
         {
             get { return TaxonomyTierOnes.SelectMany(x => x.Projects).ToList(); }
         }
+
+        public int TaxonomyTierID => TaxonomyTierTwoID;
 
         public string DisplayName
         {
