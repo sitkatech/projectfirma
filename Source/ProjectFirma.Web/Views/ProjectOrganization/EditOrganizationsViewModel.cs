@@ -75,10 +75,19 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             {
                 errors.Add(new ValidationResult($"Cannot have the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} listed multiple times."));
             }
+
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.RelationshipTypes.Count != x.RelationshipTypes.Select(y => y.RelationshipTypeID).Distinct().Count()))
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
             }
+
+            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            if (relationshipTypeThatCanApprove != null && ProjectOrganizationsViewModelJson.ProjectOrganizations
+                    .SelectMany(x => x.RelationshipTypes).Count(x => x.RelationshipTypeID == relationshipTypeThatCanApprove.RelationshipTypeID) > 1)
+            {
+                errors.Add(new ValidationResult($"Cannot have more than one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipTypeThatCanApprove.RelationshipTypeName}\"."));
+            }
+
             var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID.Value);
@@ -94,6 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 }
                 return false;
             });
+
             if (!allValidRelationshipTypes)
             {
                 errors.Add(new ValidationResult("One or more relationship types are invalid."));
