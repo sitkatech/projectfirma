@@ -944,6 +944,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProposedProjectOrganization">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectOrganization">
+        <MappingFragment StoreEntitySet="ProposedProjectOrganization">
+          <ScalarProperty Name="ProposedProjectOrganizationID" ColumnName="ProposedProjectOrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProposedProjectWatershed">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectWatershed">
         <MappingFragment StoreEntitySet="ProposedProjectWatershed">

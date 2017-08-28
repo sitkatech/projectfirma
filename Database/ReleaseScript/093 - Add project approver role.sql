@@ -4,6 +4,19 @@ alter table dbo.RelationshipType add IsPrimaryContact bit null
 delete from dbo.FieldDefinitionDataImage where FieldDefinitionDataID = (select top 1 FieldDefinitionDataID from dbo.FieldDefinitionData where FieldDefinitionID = 12)
 delete from dbo.FieldDefinitionData where FieldDefinitionID = 12
 
+create table dbo.ProposedProjectOrganization(
+	ProposedProjectOrganizationID int not null identity(1, 1) constraint PK_ProposedProjectOrganization_ProposedProjectOrganizationID primary key,
+	TenantID int not null constraint FK_ProposedProjectOrganization_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	ProposedProjectID int not null constraint FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID foreign key references dbo.ProposedProject(ProposedProjectID),
+	OrganizationID int not null constraint FK_ProposedProjectOrganization_Organization_OrganizationID foreign key references dbo.Organization(OrganizationID),
+	RelationshipTypeID int not null constraint FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID foreign key references dbo.RelationshipType(RelationshipTypeID),
+	-- Double keys for tenant
+	constraint AK_ProposedProjectOrganization_ProposedProjectOrganization_TenantID unique(ProposedProjectOrganizationID, TenantID),
+	constraint FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID_Tenant_TenantID foreign key (ProposedProjectID, TenantID) references dbo.ProposedProject(ProposedProjectID, TenantID),
+	constraint FK_ProposedProjectOrganization_Organization_OrganizationID_Tenant_TenantID foreign key (OrganizationID, TenantID) references dbo.Organization(OrganizationID, TenantID),
+	constraint FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID_Tenant_TenantID foreign key (RelationshipTypeID, TenantID) references dbo.RelationshipType(RelationshipTypeID, TenantID)
+)
+
 go
 
 update dbo.RelationshipType set CanApproveProjects = 0, IsPrimaryContact = 0
@@ -35,6 +48,15 @@ select
 	p.LeadImplementerOrganizationID,
 	(select top 1 RelationshipTypeID from dbo.RelationshipType where TenantID = p.TenantID and RelationshipTypeName = 'Lead Implementer') as RelationshipTypeID
 from dbo.Project p
+where p.LeadImplementerOrganizationID is not null
+
+insert into dbo.ProposedProjectOrganization(TenantID, ProposedProjectID, OrganizationID, RelationshipTypeID)
+select
+	p.TenantID,
+	p.ProposedProjectID,
+	p.LeadImplementerOrganizationID,
+	(select top 1 RelationshipTypeID from dbo.RelationshipType where TenantID = p.TenantID and RelationshipTypeName = 'Lead Implementer') as RelationshipTypeID
+from dbo.ProposedProject p
 where p.LeadImplementerOrganizationID is not null
 
 alter table dbo.Project drop constraint FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID

@@ -549,7 +549,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionProject : FieldDefinition
     {
         private FieldDefinitionProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project", @"<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measurs and Expenditures, that contribute to meeting program goals.-</p>", false);
+        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project", @"<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measures and Expenditures, that contribute to meeting program goals.</p>", false);
     }
 
     public partial class FieldDefinitionClassification : FieldDefinition
@@ -645,7 +645,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionProposedProject : FieldDefinition
     {
         private FieldDefinitionProposedProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project", @"<p>A project suggested by an progoram partner&nbsp;that will be reviewed for inclusion in the program. The system&nbsp;adminstrators are responsible for reviewing, and if appropriate, approving proposed projects.</p>", true);
+        public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project", @"<p>A project suggested by an program partner that will be reviewed for inclusion in the program. The system administrators are responsible for reviewing, and if appropriate, approving proposed projects.</p>", true);
     }
 
     public partial class FieldDefinitionSpendingAssociatedWithPM : FieldDefinition
