@@ -115,6 +115,12 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="mapContainer">
             <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
         </div>
+        @if (ViewDataTyped.HasProjectLocationPoint)
+        {
+            <div>
+                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple Location (for reference)
+            </div>
+        }
     </div>
 
 </div>

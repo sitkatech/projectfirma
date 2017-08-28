@@ -32,13 +32,18 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
         public readonly EditProjectWatershedsViewDataForAngular ViewDataForAngular;
         public readonly string EditProjectWatershedsFormID;
         public readonly string EditProjectWatershedsUrl;
+        public readonly bool HasProjectLocationPoint;
+        public readonly string SimplePointMarkerImg;
 
-        public EditProjectWatershedsViewData(Person currentPerson, MapInitJson mapInitJson,
-            List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute, string editProjectWatershedsUrl, string editProjectWatershedsFormID) : base(currentPerson)
+        public EditProjectWatershedsViewData(Person currentPerson, MapInitJson mapInitJson, List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute, string editProjectWatershedsUrl, string editProjectWatershedsFormID, 
+            bool hasProjectLocationPoint) : base(currentPerson)
         {
             ViewDataForAngular = new EditProjectWatershedsViewDataForAngular(mapInitJson, watershedsInViewModel, tenantAttribute);
             EditProjectWatershedsFormID = editProjectWatershedsFormID;
             EditProjectWatershedsUrl = editProjectWatershedsUrl;
+            HasProjectLocationPoint = hasProjectLocationPoint;
+
+            SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
         }
     }
 

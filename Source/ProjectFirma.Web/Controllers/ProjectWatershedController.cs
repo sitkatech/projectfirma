@@ -73,14 +73,16 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
                 : BoundingBox.MakeNewDefaultBoundingBox();
 
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m, LayerInitialVisibility.Show) }, boundingBox);
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox);
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var editProjectWatershedsPostUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project, null));
             var editProjectWatershedsFormID = GetEditProjectWatershedsFormID();
 
-            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID);
+            var hasProjectLocationPoint = project.ProjectLocationPoint != null;
+
+            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID, hasProjectLocationPoint);
             return RazorPartialView<EditProjectWatersheds, EditProjectWatershedsViewData, EditProjectWatershedsViewModel>(viewData, viewModel);
         }
         

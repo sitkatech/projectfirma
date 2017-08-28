@@ -1002,7 +1002,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
                 : BoundingBox.MakeNewDefaultBoundingBox();
 
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson> { Models.Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m, LayerInitialVisibility.Show) }, boundingBox);
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox);
            
             var watershedValidationResult = projectUpdateBatch.ValidateProjectWatershed();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
@@ -1013,7 +1013,9 @@ namespace ProjectFirma.Web.Controllers
             var editProjectWatershedsPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.Watershed(project, null));
             var editProjectWatershedsFormId = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId);
+            var hasProjectLocationPoint = project.ProjectLocationPoint != null;
+
+            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId, hasProjectLocationPoint);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);            
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new WatershedViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, watershedValidationResult, updateStatus);
