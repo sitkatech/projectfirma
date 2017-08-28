@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Map
                project.GetProjectWatersheds()
                 .ToList()
                 .ForEach(watershed => Layers.Add(new LayerGeoJson(watershed.DisplayName,
-                    new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1,
+                    new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                     LayerInitialVisibility.Show))); 
             } 
 
