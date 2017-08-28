@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectWatershedsViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="LocationSimpleViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,34 +20,29 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
-using LtInfo.Common;
-using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
-namespace ProjectFirma.Web.Views.ProjectWatershed
-{
-    public class EditProjectWatershedsViewModel : FormViewModel
+namespace ProjectFirma.Web.Views.ProposedProject
+{    
+    public class WatershedViewModel : EditProjectWatershedsViewModel
     {
-        [DisplayName("Project Watersheds")]
-        public IEnumerable<int> WatershedIDs { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditProjectWatershedsViewModel()
+        public WatershedViewModel()
         {
         }
 
-        public EditProjectWatershedsViewModel(Models.Project project)
+        public WatershedViewModel(Models.ProposedProject proposedProject) : base(proposedProject.ProposedProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes)
         {
-            WatershedIDs = project.ProjectWatersheds.Select(x => x.WatershedID).ToList();
         }
-
-        public void UpdateModel(Models.Project project, List<Models.ProjectWatershed> currentProjectWatersheds, IList<Models.ProjectWatershed> allProjectWatersheds)
+        
+        public void UpdateModel(Models.ProposedProject proposedProject, List<ProposedProjectWatershed> currentProposedProjectWatersheds, ObservableCollection<ProposedProjectWatershed> allProposedProjectWatersheds)
         {
-            var newProjectWatersheds = WatershedIDs?.Select(x => new Models.ProjectWatershed(project.ProjectID, x)).ToList() ?? new List<Models.ProjectWatershed>();
-            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectID == y.ProjectID && x.WatershedID == y.WatershedID);
+            base.UpdateModel(proposedProject, currentProposedProjectWatersheds, allProposedProjectWatersheds);
         }
-    }
+    }    
 }

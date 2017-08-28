@@ -57,19 +57,10 @@ namespace ProjectFirma.Web.Models
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
-        public string ProjectLocationTypeDisplay
-        {
-            get
-            {
-                if (ProjectLocationAreaID.HasValue && ProjectLocationArea.ProjectLocationAreaGroup.ProjectLocationAreaGroupType == ProjectLocationAreaGroupType.MappedRegion)
-                {
-                    return ProjectLocationArea.ProjectLocationAreaDisplayName;
-                }
-                return ViewUtilities.NaString;
-            }
-        }
+        public string ProjectLocationTypeDisplay => ViewUtilities.NaString;
 
         private string _projectLocationStateProvince;
         private bool _hasSetProjectLocationStateProvince;
@@ -98,10 +89,6 @@ namespace ProjectFirma.Web.Models
             {
                 var stateProvince = stateProvinces.FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(ProjectLocationPoint));
                 ProjectLocationStateProvince = stateProvince != null ? stateProvince.StateProvinceAbbreviation : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationStateProvince = string.Join(", ", ProjectLocationArea.ProjectLocationAreaStateProvinces.Select(x => x.StateProvince.StateProvinceAbbreviation));
             }
             else
             {
@@ -135,10 +122,6 @@ namespace ProjectFirma.Web.Models
             {
                 var watershed = watersheds.FirstOrDefault(x => x.WatershedFeature.Intersects(ProjectLocationPoint));
                 ProjectLocationWatershed = watershed != null ? watershed.WatershedName : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationWatershed = string.Join(", ", ProjectLocationArea.ProjectLocationAreaWatersheds.Select(x => x.Watershed.WatershedName));
             }
             else
             {
@@ -190,6 +173,11 @@ namespace ProjectFirma.Web.Models
             return ProposedProjectLocations.ToList();
         }
 
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProposedProjectWatersheds.Select(x => x.Watershed);
+        }
+
         public GeoJSON.Net.Feature.FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
         {
             return ProposedProjectLocations.ToGeoJsonFeatureCollection();
@@ -201,10 +189,6 @@ namespace ProjectFirma.Web.Models
             if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
             {
                 featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationPoint));
-            }
-            else if (ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas)
-            {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationArea.GetGeometry()));
             }
             return featureCollection;
         }
@@ -232,8 +216,8 @@ namespace ProjectFirma.Web.Models
                 EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost,
                 SecuredFunding= proposedProject.SecuredFunding,
                 ProjectLocationPoint = proposedProject.ProjectLocationPoint,
-                ProjectLocationAreaID = proposedProject.ProjectLocationAreaID,
                 ProjectLocationNotes = proposedProject.ProjectLocationNotes,
+                ProjectWatershedNotes = proposedProject.ProjectWatershedNotes
             };
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
             project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();
@@ -267,6 +251,12 @@ namespace ProjectFirma.Web.Models
             {
                 var projectLocation = new ProjectLocation(project, proposedProjectLocation.DbGeometry, proposedProjectLocation.Annotation);
                 project.ProjectLocations.Add(projectLocation);
+            }
+
+            foreach (var proposedProjectWatershed in proposedProject.ProposedProjectWatersheds)
+            {
+                var projectWatershed = new ProjectWatershed(project, proposedProjectWatershed.Watershed);
+                project.ProjectWatersheds.Add(projectWatershed);
             }
 
             foreach (var proposedProjectImage in proposedProject.ProposedProjectImages)

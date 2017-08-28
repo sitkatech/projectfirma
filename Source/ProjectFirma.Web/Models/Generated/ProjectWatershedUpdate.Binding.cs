@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectLocationAreaGroup]
+//  Source Table: [dbo].[ProjectWatershedUpdate]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,54 +15,61 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[ProjectLocationAreaGroup]")]
-    public partial class ProjectLocationAreaGroup : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[ProjectWatershedUpdate]")]
+    public partial class ProjectWatershedUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectLocationAreaGroup()
+        protected ProjectWatershedUpdate()
         {
-            this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
+
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectLocationAreaGroup(int projectLocationAreaGroupID, int projectLocationAreaGroupTypeID) : this()
+        public ProjectWatershedUpdate(int projectWatershedUpdateID, int projectUpdateBatchID, int watershedID) : this()
         {
-            this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;
-            this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
+            this.ProjectWatershedUpdateID = projectWatershedUpdateID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
+            this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectLocationAreaGroup(int projectLocationAreaGroupTypeID) : this()
+        public ProjectWatershedUpdate(int projectUpdateBatchID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectWatershedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
+            this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectLocationAreaGroup(ProjectLocationAreaGroupType projectLocationAreaGroupType) : this()
+        public ProjectWatershedUpdate(ProjectUpdateBatch projectUpdateBatch, Watershed watershed) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupType.ProjectLocationAreaGroupTypeID;
+            this.ProjectWatershedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            this.ProjectUpdateBatch = projectUpdateBatch;
+            projectUpdateBatch.ProjectWatershedUpdates.Add(this);
+            this.WatershedID = watershed.WatershedID;
+            this.Watershed = watershed;
+            watershed.ProjectWatershedUpdates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectLocationAreaGroup CreateNewBlank(ProjectLocationAreaGroupType projectLocationAreaGroupType)
+        public static ProjectWatershedUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, Watershed watershed)
         {
-            return new ProjectLocationAreaGroup(projectLocationAreaGroupType);
+            return new ProjectWatershedUpdate(projectUpdateBatch, watershed);
         }
 
         /// <summary>
@@ -71,23 +78,24 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectLocationAreas.Any();
+            return false;
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectLocationAreaGroup).Name, typeof(ProjectLocationArea).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectWatershedUpdate).Name};
 
         [Key]
-        public int ProjectLocationAreaGroupID { get; set; }
+        public int ProjectWatershedUpdateID { get; set; }
         public int TenantID { get; private set; }
-        public int ProjectLocationAreaGroupTypeID { get; set; }
-        public int PrimaryKey { get { return ProjectLocationAreaGroupID; } set { ProjectLocationAreaGroupID = value; } }
+        public int ProjectUpdateBatchID { get; set; }
+        public int WatershedID { get; set; }
+        public int PrimaryKey { get { return ProjectWatershedUpdateID; } set { ProjectWatershedUpdateID = value; } }
 
-        public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public ProjectLocationAreaGroupType ProjectLocationAreaGroupType { get { return ProjectLocationAreaGroupType.AllLookupDictionary[ProjectLocationAreaGroupTypeID]; } }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual Watershed Watershed { get; set; }
 
         public static class FieldLengths
         {

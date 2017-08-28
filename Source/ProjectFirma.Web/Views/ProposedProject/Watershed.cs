@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectLocationArea.DatabaseContextExtensions.cs" company="Tahoe Regional Planning Agency">
+<copyright file="LocationSimple.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,21 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-
-namespace ProjectFirma.Web.Models
+namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public static partial class DatabaseContextExtensions
+    public abstract class Watershed : LtInfo.Common.Mvc.TypedWebViewPage<WatershedViewData, WatershedViewModel>
     {
-        public static IEnumerable<SelectListItem> ToSelectList(this IQueryable<ProjectLocationArea> projectLocationAreas)
-        {
-            return projectLocationAreas.ToList()
-                    .OrderBy(x => x.ProjectLocationAreaGroup.ProjectLocationAreaGroupType.DisplayOrder)
-                    .ThenBy(x => x.ProjectLocationAreaDisplayName)
-                    .ToSelectListWithGroups(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName, x => x.ProjectLocationAreaGroup.ProjectLocationAreaGroupType.ProjectLocationAreaGroupTypeDisplayName);
-        }
     }
 }

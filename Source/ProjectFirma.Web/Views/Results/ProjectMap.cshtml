@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Results.ProjectMap
@@ -281,7 +280,7 @@ Source code is available upon request via <support@sitkatech.com>.
             tree.reload(
             {
                 type: "POST",
-                url: @Html.Raw(ViewDataTyped.FilteredProjectsWithLocationAreasUrl.ToJS()),
+                url: null, // todo removed url, need to resolve js usages
                 data: { projectMapCustomization: projectMapCustomization },
                 dataType: "json"
             });

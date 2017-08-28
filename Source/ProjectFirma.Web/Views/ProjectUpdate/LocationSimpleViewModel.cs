@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public LocationSimpleViewModel(DbGeometry projectLocationPoint, int? projectLocationAreaID, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes, string comments)
-            : base(projectLocationPoint, projectLocationAreaID, projectLocationSimpleType, projectLocationNotes)
+        public LocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes, string comments)
+            : base(projectLocationPoint, projectLocationSimpleType, projectLocationNotes)
         {
             Comments = comments;
         }
@@ -54,18 +54,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             switch (ProjectLocationSimpleType)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
-                    project.ProjectLocationAreaID = null;
 
                     project.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
                         ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId)
                         : null;
                     break;
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    project.ProjectLocationAreaID = ProjectLocationAreaID;
-                    project.ProjectLocationPoint = null;
-                    break;                
                 case ProjectLocationSimpleTypeEnum.None:
-                    project.ProjectLocationAreaID = null;
                     project.ProjectLocationPoint = null;
                     break;
                 default:

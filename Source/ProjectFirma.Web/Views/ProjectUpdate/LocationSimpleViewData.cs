@@ -32,28 +32,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
+        public readonly List<string> ValidationWarnings;
 
         public LocationSimpleViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
-            ProjectLocationSummaryViewData projectLocationSummaryViewData, ViewDataForAngularClass viewDataForAngularClass, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus)
+            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
-            ViewDataForAngular = viewDataForAngularClass;
-        }
-
-        public class ViewDataForAngularClass
-        {
-            public readonly List<string> ValidationWarnings;
-
-            public ViewDataForAngularClass(List<string> validationWarnings)
-            {
-                ValidationWarnings = validationWarnings;
-            }
-        }
+            ValidationWarnings = locationSimpleValidationResult.GetWarningMessages();
+        } 
     }
 }

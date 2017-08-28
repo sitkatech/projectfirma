@@ -26,10 +26,8 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -74,19 +72,10 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
-        public string ProjectLocationTypeDisplay
-        {
-            get
-            {
-                if (ProjectLocationAreaID.HasValue && ProjectLocationArea.ProjectLocationAreaGroup.ProjectLocationAreaGroupType == ProjectLocationAreaGroupType.MappedRegion)
-                {
-                    return ProjectLocationArea.ProjectLocationAreaDisplayName;
-                }
-                return ViewUtilities.NaString;
-            }
-        }
+        public string ProjectLocationTypeDisplay => ViewUtilities.NaString;
 
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;
@@ -181,7 +170,7 @@ namespace ProjectFirma.Web.Models
                 {
                     return _projectLocationStateProvince;
                 }
-                SetProjectLocationStateProvince(HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(), HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToDictionary(x => x.ProjectLocationAreaID));
+                SetProjectLocationStateProvince(HttpRequestStorage.DatabaseEntities.StateProvinces.ToList());
                 return _projectLocationStateProvince;
             }
             set
@@ -191,17 +180,13 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public void SetProjectLocationStateProvince(IEnumerable<StateProvince> stateProvinces, Dictionary<int, ProjectLocationArea> projectLocationAreas)
+        public void SetProjectLocationStateProvince(IEnumerable<StateProvince> stateProvinces)
         {
 
             if (HasProjectLocationPoint)
             {
                 var stateProvince = stateProvinces.FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(ProjectLocationPoint));
                 ProjectLocationStateProvince = stateProvince != null ? stateProvince.StateProvinceAbbreviation : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationStateProvince = String.Join(", ", projectLocationAreas[ProjectLocationAreaID.Value].ProjectLocationAreaStateProvinces.Select(x => x.StateProvince.StateProvinceAbbreviation));
             }
             else
             {
@@ -219,7 +204,7 @@ namespace ProjectFirma.Web.Models
                 {
                     return _projectLocationWatershed;
                 }
-                SetProjectLocationWatershed(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(), HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToDictionary(x => x.ProjectLocationAreaID));
+                SetProjectLocationWatershed(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures());
                 return _projectLocationWatershed;
             }
             set
@@ -229,16 +214,12 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public void SetProjectLocationWatershed(IEnumerable<Watershed> watersheds, Dictionary<int, ProjectLocationArea> projectLocationAreas)
+        public void SetProjectLocationWatershed(IEnumerable<Watershed> watersheds)
         {
             if (HasProjectLocationPoint)
             {
                 var watershed = watersheds.FirstOrDefault(x => x.WatershedFeature.Intersects(ProjectLocationPoint));
                 ProjectLocationWatershed = watershed != null ? watershed.WatershedName : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationWatershed = String.Join(", ", projectLocationAreas[ProjectLocationAreaID.Value].ProjectLocationAreaWatersheds.Select(x => x.Watershed.WatershedName));
             }
             else
             {
@@ -296,10 +277,6 @@ namespace ProjectFirma.Web.Models
             {
                 featureCollection.Features.Add(MakePointFeatureWithRelevantProperties(ProjectLocationPoint, addProjectProperties));
             }
-            else if (ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas)
-            {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationArea.GetGeometry()));
-            }
             return featureCollection;
         }
 
@@ -313,6 +290,11 @@ namespace ProjectFirma.Web.Models
         public IEnumerable<IProjectLocation> GetProjectLocationDetails()
         {
             return ProjectLocations.ToList();
+        }
+
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProjectWatersheds.Select(x => x.Watershed);
         }
 
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
@@ -352,69 +334,7 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
             }
             return feature;
-        }
-
-        public static FeatureCollection NamedAreasToPointGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties)
-        {
-            return NamedAreasToPointGeoJsonFeatureCollection(projects, addProjectProperties, x => x.ProjectStage.ShouldShowOnMap());
-        }
-
-        public static FeatureCollection NamedAreasToPointGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties, Func<Project, bool> filterFunction)
-        {
-            var featureCollection = new FeatureCollection();
-            var namedAreasProjects = projects.Where(x => x.ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas).Where(filterFunction).ToList();
-
-            if (!namedAreasProjects.Any())
-                return featureCollection;
-
-            foreach (var namedAreaGroup in namedAreasProjects.GroupBy(x => x.ProjectLocationArea.ProjectLocationAreaName))
-            {
-                var features = LocateNamedAreaPointsAroundCentroid(namedAreaGroup.ToList(), addProjectProperties);
-                featureCollection.Features.AddRange(features);
-            }
-            return featureCollection;
-        }
-
-        private static List<Feature> LocateNamedAreaPointsAroundCentroid(List<Project> projects, bool addProjectProperties)
-        {
-            var features = new List<Feature>();
-            const int pointsInFirstRing = 10;
-            const int radiusOfFirstRingInFeet = 5000;
-            var ringIndex = 0;
-            var pointsRemainingInRingCount = 1;
-            var remainingProjectCount = projects.Count;
-            var deltaTheta = 0d;
-            var theta = 0d;
-
-            foreach (var project in projects)
-            {
-                var spreadRadiusFeet = radiusOfFirstRingInFeet * ringIndex;
-                var namedAreaGeometry = project.ProjectLocationArea.GetGeometry();
-                var xSpreadLonDegree = DbSpatialHelper.FeetToLonDegree(namedAreaGeometry, spreadRadiusFeet);
-                var ySpreadLatDegree = DbSpatialHelper.FeetToLatDegree(namedAreaGeometry, spreadRadiusFeet);
-
-                theta += deltaTheta;
-
-                var x = namedAreaGeometry.Centroid.XCoordinate.Value + Math.Sin(theta) * xSpreadLonDegree;
-                var y = namedAreaGeometry.Centroid.YCoordinate.Value + Math.Cos(theta) * ySpreadLatDegree;
-
-                var geom = DbSpatialHelper.MakeDbGeometryFromCoordinates(x, y, namedAreaGeometry.CoordinateSystemId);
-                var feature = project.MakePointFeatureWithRelevantProperties(geom, addProjectProperties);
-                features.Add(feature);
-
-                pointsRemainingInRingCount--;
-                remainingProjectCount--;
-
-                if (pointsRemainingInRingCount == 0)
-                {
-                    ringIndex++;
-                    pointsRemainingInRingCount = Math.Min(remainingProjectCount, pointsInFirstRing * ringIndex);
-                    deltaTheta = 2 * Math.PI / pointsRemainingInRingCount;
-                    theta = 0d;
-                }
-            }
-            return features;
-        }
+        }        
 
         public string Duration => $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
 

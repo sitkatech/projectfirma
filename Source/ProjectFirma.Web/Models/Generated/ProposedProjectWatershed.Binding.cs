@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectLocationAreaWatershed]
+//  Source Table: [dbo].[ProposedProjectWatershed]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[ProjectLocationAreaWatershed]")]
-    public partial class ProjectLocationAreaWatershed : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[ProposedProjectWatershed]")]
+    public partial class ProposedProjectWatershed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectLocationAreaWatershed()
+        protected ProposedProjectWatershed()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,46 +30,46 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectLocationAreaWatershed(int projectLocationAreaWatershedID, int projectLocationAreaID, int watershedID) : this()
+        public ProposedProjectWatershed(int proposedProjectWatershedID, int proposedProjectID, int watershedID) : this()
         {
-            this.ProjectLocationAreaWatershedID = projectLocationAreaWatershedID;
-            this.ProjectLocationAreaID = projectLocationAreaID;
+            this.ProposedProjectWatershedID = proposedProjectWatershedID;
+            this.ProposedProjectID = proposedProjectID;
             this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectLocationAreaWatershed(int projectLocationAreaID, int watershedID) : this()
+        public ProposedProjectWatershed(int proposedProjectID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectLocationAreaID = projectLocationAreaID;
+            this.ProposedProjectID = proposedProjectID;
             this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectLocationAreaWatershed(ProjectLocationArea projectLocationArea, Watershed watershed) : this()
+        public ProposedProjectWatershed(ProposedProject proposedProject, Watershed watershed) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
-            this.ProjectLocationArea = projectLocationArea;
-            projectLocationArea.ProjectLocationAreaWatersheds.Add(this);
+            this.ProposedProjectWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectID = proposedProject.ProposedProjectID;
+            this.ProposedProject = proposedProject;
+            proposedProject.ProposedProjectWatersheds.Add(this);
             this.WatershedID = watershed.WatershedID;
             this.Watershed = watershed;
-            watershed.ProjectLocationAreaWatersheds.Add(this);
+            watershed.ProposedProjectWatersheds.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectLocationAreaWatershed CreateNewBlank(ProjectLocationArea projectLocationArea, Watershed watershed)
+        public static ProposedProjectWatershed CreateNewBlank(ProposedProject proposedProject, Watershed watershed)
         {
-            return new ProjectLocationAreaWatershed(projectLocationArea, watershed);
+            return new ProposedProjectWatershed(proposedProject, watershed);
         }
 
         /// <summary>
@@ -84,17 +84,17 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectLocationAreaWatershed).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProjectWatershed).Name};
 
         [Key]
-        public int ProjectLocationAreaWatershedID { get; set; }
+        public int ProposedProjectWatershedID { get; set; }
         public int TenantID { get; private set; }
-        public int ProjectLocationAreaID { get; set; }
+        public int ProposedProjectID { get; set; }
         public int WatershedID { get; set; }
-        public int PrimaryKey { get { return ProjectLocationAreaWatershedID; } set { ProjectLocationAreaWatershedID = value; } }
+        public int PrimaryKey { get { return ProposedProjectWatershedID; } set { ProposedProjectWatershedID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual ProjectLocationArea ProjectLocationArea { get; set; }
+        public virtual ProposedProject ProposedProject { get; set; }
         public virtual Watershed Watershed { get; set; }
 
         public static class FieldLengths

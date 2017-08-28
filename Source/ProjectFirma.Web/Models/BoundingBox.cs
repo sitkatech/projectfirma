@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Models
             var pattern = new Regex("^(?<north>[^~]+)~(?<south>[^~]+)~(?<east>[^~]+)~(?<west>[^~]+)$");
             var match = pattern.Match(urlParameter);
 
-            Check.Require(match.Success, string.Format("Value \"{0}\" does not parse as a {1}.", urlParameter, GetType().Name));
+            Check.Require(match.Success, $"Value \"{urlParameter}\" does not parse as a {GetType().Name}.");
 
             var north = Decimal.Parse(match.Groups["north"].Value);
             var south = Decimal.Parse(match.Groups["south"].Value);
@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Models
             return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
         }
 
-        private static List<Point> GetPointsFromDbGeometry(DbGeometry geometry)
+        public static List<Point> GetPointsFromDbGeometry(DbGeometry geometry)
         {
             var pointList = new List<Point>();
             if (!DbGeometryToGeoJsonHelper.CanParseGeometry(geometry))
@@ -216,7 +216,7 @@ namespace ProjectFirma.Web.Models
             if (!isValid)
             {
                 throw new ArgumentOutOfRangeException("southWestPoint",
-                    string.Format("SouthWest latitude {0} must be less than Northeast latitude {1}", southWestPoint.Latitude, northEastPoint.Latitude));
+                    $"SouthWest latitude {southWestPoint.Latitude} must be less than Northeast latitude {northEastPoint.Latitude}");
             }
         }
 
@@ -237,7 +237,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public override string ToString()
         {
-            return string.Format("{0}~{1}~{2}~{3}", Northeast.Latitude, Southwest.Latitude, Northeast.Longitude, Southwest.Longitude);
+            return $"{Northeast.Latitude}~{Southwest.Latitude}~{Northeast.Longitude}~{Southwest.Longitude}";
         }
 
         public class BoundingBoxModelBinder : SitkaModelBinder

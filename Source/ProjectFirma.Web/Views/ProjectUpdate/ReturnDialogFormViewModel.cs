@@ -50,6 +50,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case ProjectUpdate.ProjectUpdateSectionEnum.LocationDetailed:
                         projectUpdateBatch.LocationDetailedComment = SectionComments;
                         break;
+                    case ProjectUpdate.ProjectUpdateSectionEnum.Watershed:
+                        projectUpdateBatch.WatershedComment = SectionComments;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -35,11 +35,10 @@ namespace ProjectFirma.Web.Models
         int EntityID { get; }
         DbGeometry ProjectLocationPoint { get; set; }
         string DisplayName { get; }
-        int? ProjectLocationAreaID { get; set; }
         ProjectLocationSimpleType ProjectLocationSimpleType { get; }
         int ProjectLocationSimpleTypeID { get; set; }
-        ProjectLocationArea ProjectLocationArea { get; }
         string ProjectLocationNotes { get; set; }
+        string ProjectWatershedNotes { get; set; }
 
         int? PlanningDesignStartYear { get; }
         int? ImplementationStartYear { get; }
@@ -53,14 +52,14 @@ namespace ProjectFirma.Web.Models
 
         ProjectType ProjectType { get; }
 
-
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
+        IEnumerable<Watershed> GetProjectWatersheds();
 
         GeoJSON.Net.Feature.FeatureCollection DetailedLocationToGeoJsonFeatureCollection();
 
         GeoJSON.Net.Feature.FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties);
-
     }
+
 }

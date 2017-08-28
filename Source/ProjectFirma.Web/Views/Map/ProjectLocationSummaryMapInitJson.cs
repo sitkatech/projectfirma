@@ -19,7 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Linq;  
+using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Linq;
+using NUnit.Framework;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Map
@@ -27,50 +30,61 @@ namespace ProjectFirma.Web.Views.Map
     public class ProjectLocationSummaryMapInitJson : MapInitJson
     {
         private const int DefaultZoomLevel = 10;
-        public readonly int ProjectLocationSimpleTypeID;
         public readonly double? ProjectLocationXCoord;
         public readonly double? ProjectLocationYCoord;
-        public readonly string ProjectLocationAreaName;
-        public readonly string ProjectLocationAreaType;
+        public bool HasSimpleLocation;
         public bool HasDetailedLocation;
+        public bool HasWatersheds;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
-            : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(LayerInitialVisibility.Show), BoundingBox.MakeNewDefaultBoundingBox())
+            : base(mapDivID, DefaultZoomLevel, GetAllWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
         {
-            ProjectLocationSimpleTypeID = project.ProjectLocationSimpleType.ProjectLocationSimpleTypeID;            
-            switch (project.ProjectLocationSimpleType.ToEnum)
+            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(true);
+            HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
+            if (HasSimpleLocation)
             {
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    BoundingBox = new BoundingBox(project.ProjectLocationArea.GetGeometry());
-                    ProjectLocationAreaName = project.ProjectLocationArea.ProjectLocationAreaDisplayName;
-                    ProjectLocationAreaType = project.ProjectLocationArea.ProjectLocationAreaGroup.ProjectLocationAreaGroupType.ProjectLocationAreaGroupTypeDisplayName;
-                    break;
-                case ProjectLocationSimpleTypeEnum.PointOnMap:
-                    if (project.ProjectLocationPoint == null)
-                    {
-                        break;
-                    }
-                    BoundingBox = new BoundingBox(new Point(project.ProjectLocationPoint.YCoordinate.Value, project.ProjectLocationPoint.XCoordinate.Value), 0.25m);
-                    ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
-                    ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                    break;
-                case ProjectLocationSimpleTypeEnum.None:
-                    Layers = GetWatershedMapLayers(LayerInitialVisibility.Hide);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException($"Invalid ProjectLocationType \"{project.ProjectLocationSimpleType}\"");
+                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
+                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
+                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
             }
 
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
-
-            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
-            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
-
             if (HasDetailedLocation)
             {
-                BoundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
+                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));    
             }
+
+            HasWatersheds = project.GetProjectWatersheds().Any();
+            if (HasWatersheds)
+            {
+               project.GetProjectWatersheds()
+                .ToList()
+                .ForEach(watershed => Layers.Add(new LayerGeoJson(watershed.DisplayName,
+                    new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+                    LayerInitialVisibility.Show))); 
+            } 
+
+            BoundingBox = GetProjectBoundingBox(project);         
+        }
+
+        public static BoundingBox GetProjectBoundingBox(IProject project)
+        {
+            Point simpleLocationPoint = null;
+            if (project.ProjectLocationPoint != null)
+            {
+                simpleLocationPoint = new Point(project.ProjectLocationPoint.YCoordinate ?? 0,
+                    project.ProjectLocationPoint.XCoordinate ?? 0);
+            }
+
+            var detailAndWatershedGeometries = project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry).Union(project.GetProjectWatersheds().Select(x => x.WatershedFeature));
+
+            var pointList = detailAndWatershedGeometries.SelectMany(BoundingBox.GetPointsFromDbGeometry).ToList();
+            if (simpleLocationPoint != null)
+            {
+                pointList.Add(simpleLocationPoint);
+            }
+            return !pointList.Any() ? BoundingBox.MakeNewDefaultBoundingBox() : new BoundingBox(pointList);
         }
     }
 }

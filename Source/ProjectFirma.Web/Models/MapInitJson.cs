@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 
@@ -52,26 +53,14 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public static List<LayerGeoJson> GetWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
+        public static List<LayerGeoJson> GetAllWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
             return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)};
         }
 
-        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
+        public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project)
         {
-            var layerGeoJsons = new List<LayerGeoJson>
-            {
-                new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1, LayerInitialVisibility.Show),
-                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
-            };
-            return layerGeoJsons;
-        }
-
-        public static List<LayerGeoJson> GetWatershedAndProjectLocationSimpleMapLayers(IProject project)
-        {
-            var layerGeoJsons = GetWatershedMapLayers(LayerInitialVisibility.Show);
+            var layerGeoJsons = new List<LayerGeoJson>();
             if (project.ProjectLocationPoint != null)
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
@@ -80,6 +69,21 @@ namespace ProjectFirma.Web.Models
                         DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
                     }),
                     "#838383", 1, LayerInitialVisibility.Show));
+            }
+            return layerGeoJsons;
+        }
+
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(IProject project)
+        {
+            var layerGeoJsons = new List<LayerGeoJson>();
+            if (project.ProjectLocationPoint != null)
+            {
+                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(project));                
+            }
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
+            if (detailedLocationGeoJsonFeatureCollection.Features.Any())
+            {
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;
         }

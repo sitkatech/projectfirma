@@ -25,13 +25,14 @@ using System.Web.Mvc;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectWatershed;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Map;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditProjectWatershedsViewModel(project);
+            var viewModel = new EditProjectWatershedsViewModel(project.ProjectWatersheds.Select(x => x.WatershedID).ToList(), project.ProjectWatershedNotes);
             return ViewEditProjectWatersheds(viewModel, project);
         }
 
@@ -61,28 +62,27 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabel()} were successfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()} were successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEditProjectWatersheds(EditProjectWatershedsViewModel viewModel, Project project)
         {
-            var boundingBox = project.ProjectWatersheds.Any()
-                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(project.ProjectWatersheds
-                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
-                : BoundingBox.MakeNewDefaultBoundingBox();
-
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m, LayerInitialVisibility.Show) }, boundingBox);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, layers, boundingBox) { AllowFullScreen = false };
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var editProjectWatershedsPostUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project, null));
             var editProjectWatershedsFormID = GetEditProjectWatershedsFormID();
 
-            var viewData = new EditProjectWatershedsViewData(project, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsFormID);
+            var viewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormID, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
             return RazorPartialView<EditProjectWatersheds, EditProjectWatershedsViewData, EditProjectWatershedsViewModel>(viewData, viewModel);
         }
-        
+
         [AnonymousUnclassifiedFeature]
         public JsonResult FindWatershedByName(string term)
         {

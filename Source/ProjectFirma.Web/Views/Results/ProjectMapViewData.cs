@@ -33,22 +33,19 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues;
         public readonly string ProjectLocationsUrl;
-        public readonly string FilteredProjectsWithLocationAreasUrl;
 
         public ProjectMapViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData,
             Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues,
-            string projectLocationsUrl,
-            string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
+            string projectLocationsUrl) : base(currentPerson, firmaPage)
         {
             PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationFilterTypesAndValues = projectLocationFilterTypesAndValues;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsUrl = projectLocationsUrl;
-            FilteredProjectsWithLocationAreasUrl = filteredProjectsWithLocationAreasUrl;
         }
     }
 }
