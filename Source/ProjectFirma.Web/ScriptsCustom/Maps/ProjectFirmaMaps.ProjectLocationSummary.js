@@ -22,9 +22,9 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
     projectLocationInformationContainer) {
     ProjectFirmaMaps.Map.call(this, projectLocationSummaryMapInitJson);
    
-    var infoContainerPointHtml = "<table class=\"summaryLayout\">";
     if (projectLocationSummaryMapInitJson.HasSimpleLocation) //ProjectLocationTypeEnum.PointOnMap
     {
+        var infoContainerPointHtml = "<table class=\"summaryLayout\">";
         var latLng = new L.LatLng(projectLocationSummaryMapInitJson.ProjectLocationYCoord,
             projectLocationSummaryMapInitJson.ProjectLocationXCoord);
         if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer)) {
@@ -49,6 +49,8 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
                     }
                 }
             }
+            infoContainerPointHtml += "</table>";
+            projectLocationInformationContainer.html(infoContainerPointHtml);
         }
     }
 
@@ -57,9 +59,6 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
         !projectLocationSummaryMapInitJson.HasWatersheds) {
         this.blockMap();
     }
-
-    infoContainerPointHtml += "</table>";
-    projectLocationInformationContainer.html(infoContainerPointHtml);
 };
 
 
