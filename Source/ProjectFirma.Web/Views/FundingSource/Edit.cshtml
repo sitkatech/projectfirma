@@ -21,45 +21,63 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.FundingSource.Edit
+
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary()
+
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-3 control-label">
+            <div class="col-xs-12 col-sm-3 control-label">
                @Html.LabelWithSugarFor(m => m.FundingSourceName)
             </div>
-            <div class="col-sm-9">
+            <div class="col-xs-12 col-sm-9">
                 @Html.TextBoxFor(m => m.FundingSourceName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.FundingSourceName)
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-3 control-label">
-               @Html.LabelWithSugarFor(m => m.FundingSourceDescription)
+            <div class="col-xs-12 col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.FundingSourceDescription)
             </div>
-            <div class="col-sm-9">
+            <div class="col-xs-12 col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
                 @Html.ValidationMessageFor(m => m.FundingSourceDescription)
             </div>
         </div>
+        @if (ViewDataTyped.AllowPersonToSetOrganization)
+        {
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinition.Organization)
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
+                    @Html.ValidationMessageFor(m => m.OrganizationID)
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.OrganizationID)
+        }
         <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.Organization)
-            </div>
-            <div class="col-sm-9">
-                @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
-                @Html.ValidationMessageFor(m => m.OrganizationID)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.IsActive)
-            </div>
-            <div class="col-sm-9">
-                @Html.CheckBoxFor(m => m.IsActive)
+            <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsActive)</div>
+            <div class="col-xs-12 col-sm-9">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.IsActive, true) Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.IsActive, false) No
+                    </label>
+                </div>
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
+
     </div>
     @Html.HiddenFor(m => m.FundingSourceID)
 }

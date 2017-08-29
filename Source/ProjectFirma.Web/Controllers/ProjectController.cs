@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New()
         {
             var viewModel = new EditProjectViewModel();
-            return ViewNew(viewModel);
+            return ViewNew(viewModel, null);
         }
 
         [HttpPost]
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewNew(viewModel);
+                return ViewNew(viewModel, null);
             }
             var project = new Project(viewModel.TaxonomyTierOneID.Value,
                 viewModel.ProjectStageID,
@@ -74,8 +74,9 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID,
-                viewModel.LeadImplementerOrganizationID.Value);
+                FundingType.Capital.FundingTypeID);
+            CurrentPerson.SetProjectOrganizationWithRelationshipThatCanApprove(project);
+
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -91,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch, project.LeadImplementerOrganization);
+            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
         }
 
         [HttpPost]
@@ -102,30 +103,32 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch(), project.LeadImplementerOrganization);
+                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(EditProjectViewModel viewModel)
+        private PartialViewResult ViewNew(EditProjectViewModel viewModel, Project project)
         {
-            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null, null);
+            return ViewEdit(viewModel, project, EditProjectType.NewProject, string.Empty, null, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch, Organization leadImplementer)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
             var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
+            var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
                 ProjectStage.All, FundingType.All, organizations,
                 primaryContactPeople,
+                defaultPrimaryContact,
                 totalExpenditures, hasExistingProjectBudgetUpdates,
-                taxonomyTierOnes, leadImplementer
+                taxonomyTierOnes
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -265,7 +268,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ImageGalleryViewData BuildImageGalleryViewData(Project project, Person currentPerson)
         {
-            var userCanAddPhotosToThisProject = new ProjectImageNewFeature().HasPermissionByPerson(currentPerson);
+            var userCanAddPhotosToThisProject = new ProjectImageNewFeature().HasPermission(currentPerson, project).HasPermission;
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
             var selectKeyImageUrl = (new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(currentPerson))
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
@@ -608,7 +611,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ConfirmNonMandatoryUpdate(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -629,7 +632,7 @@ An update for this {FieldDefinition.Project.GetFieldDefinitionLabel()} was alrea
                 } {dateDisplayText}. If {FieldDefinition.Project.GetFieldDefinitionLabel()} information has changed, 
 any new information you'd like to provide will be added to the {
                     FieldDefinition.Project.GetFieldDefinitionLabel()
-                }. Thanks for being pro-active!
+                }. Thanks for being proactive!
 </div>
 <div>
 <hr />
@@ -639,7 +642,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult ConfirmNonMandatoryUpdate(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -756,11 +759,40 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
-                x => x.IsEditableToThisPerson(CurrentPerson) && x.DoesPersonBelongToProposedProjectLeadImplementingOranization(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects
+                .GetProposedProjectsWithGeoSpatialProperties(
+                    HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
+                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
+                    x => x.IsEditableToThisPerson(CurrentPerson))
+                .Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved &&
+                             x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+        
+        [HttpGet]
+        [ProjectsViewFullListFeature]
+        public PartialViewResult DenyCreateProject()
+        {
+            var projectOwnerLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+            var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
+
+            var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
+                ? $"Although you are a {projectOwnerLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
+                : $"You don't have permission to edit {projectLabel}.";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+            var viewModel = new ConfirmDialogFormViewModel();
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectsViewFullListFeature]
+        public ModalDialogFormJsonResult DenyCreateProject(ConfirmDialogFormViewModel viewModel)
+        {
+            return new ModalDialogFormJsonResult();
         }
     }
 }

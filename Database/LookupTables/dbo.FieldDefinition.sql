@@ -7,7 +7,6 @@ VALUES
 (4, N'ExpectedValue', N'Expected Value', N'<p>The estimated cumulative Performance Measure value that the project or program is projected to achieve after implementation.</p>', 1),
 (5, N'TaxonomyTierThree', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
 (8, N'FundingSource', N'Funding Source', N'<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>', 1),
-(12, N'LeadImplementer', N'Lead Implementer', N'<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. The lead implementer is not necessarily the same as a landowner.</p>', 1),
 (14, N'Organization', N'Organization', N'<p>A partner entity that is directly involved with implementation or funding a project.&nbsp;</p>', 1),
 (17, N'Password', N'Password', N'<p>Password required to log into the ProjectFirma tool in order to access and edit project and program information.</p>', 0),
 (18, N'PerformanceMeasure', N'Performance Measure', N'<p>A consistent and targeted method to track actions taken through completed projects to improve the environment. Also known as &quot;Indicators.&quot;&nbsp;</p>', 1),
@@ -31,7 +30,7 @@ VALUES
 (40, N'EstimatedTotalCost', N'Estimated Total Cost', N'<p>The total estimated cost to complete all stages of project implementation.</p>', 1),
 (41, N'UnfundedNeed', N'Unfunded Need', N'<p>The difference between the Total Cost and Secured Funding for a project or program.</p>', 1),
 (42, N'Username', N'User name', N'<p>Password required to log into the system&nbsp;order to access and edit project and program information that is not allowed by public users.</p>', 1),
-(44, N'Project', N'Project', N'<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measurs and Expenditures, that contribute to meeting program goals.-</p>', 0),
+(44, N'Project', N'Project', N'<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measures and Expenditures, that contribute to meeting program goals.</p>', 0),
 (46, N'Classification', N'Classification', N'<p>A logical system to group projects according to overarching program themes or goals.</p>', 1),
 (48, N'Watershed', N'Watershed', N'<p>The watershed where the project or program is located.</p>', 1),
 (49, N'PerformanceMeasureSubcategory', N'Performance Measure Subcategory', N'<p>The Performance Measure subcategory or subcategories that are relevant to the project. Subcategories are dimensions of a Performance Measure that are used to report performance measure accomplishments at a more granular level.</p>', 1),
@@ -47,7 +46,7 @@ VALUES
 (77, N'TagName', N'Tag Name', N'<p>A word or phrase for the tag. Keep it short, and if possible avoid spaces (use dashes or underscores) for cleaner URLs. Don&#39;t add tags for things already captured (e.g. the program under which the project lives).</p>', 1),
 (78, N'TagDescription', N'Tag Description', N'<p>A description of what this tag will be used for. Ideally the description should include the name of the user that created it, and an expected timeframe for use of this tag, if known.&nbsp;</p>', 1),
 (80, N'ReportedExpenditure', N'Reported Expenditure', N'<p>An expenditure, tied to a Funding Source, as reported by the project implementer.</p>', 1),
-(81, N'ProposedProject', N'Proposed Project', N'<p>A project suggested by an progoram partner&nbsp;that will be reviewed for inclusion in the program. The system&nbsp;adminstrators are responsible for reviewing, and if appropriate, approving proposed projects.</p>', 1),
+(81, N'ProposedProject', N'Proposed Project', N'<p>A project suggested by an program partner that will be reviewed for inclusion in the program. The system administrators are responsible for reviewing, and if appropriate, approving proposed projects.</p>', 1),
 (85, N'SpendingAssociatedWithPM', N'Spending Associated with PM', N'<p>The estimated spending allotted to the Performance Measure.</p>', 1),
 (86, N'PlanningDesignStartYear', N'Planning / Design Start Year', N'<p>The year during which project planning and design began. All projects should have a Planning / Design Start Year and it may not be a year in the future. Contrast with &quot;Implementation Start Year.&quot; For more detailed information, see the definition for &quot;Stage&quot;.</p>', 1),
 (87, N'AssociatedTaxonomyTierTwos', N'Associated Taxonomy Tier Twos', N'<p>External&nbsp;programs that are related to the content you are reviewing. You may wish to look up these programs to learn more.</p>', 1),
@@ -69,4 +68,5 @@ VALUES
 (242, N'ClassificationNarrative', N'Classification Narrative', N'<p>Descriptive text describing the criteria for including a project in this classification system..-</p>', 1),
 (243, N'TaxonomySystemName', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>', 1),
 (244, N'TaxonomyTierOneDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>', 1),
-(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1)
+(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1),
+(246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>', 1)

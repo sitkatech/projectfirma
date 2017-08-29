@@ -184,7 +184,12 @@ namespace ProjectFirma.Web.Controllers
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
         {
             var relatedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
-            var leadImplementerProjects = organization.ProjectsWhereYouAreTheLeadImplementerOrganization.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProjectStage.ShouldShowOnMap()).ToList();
+            
+            var leadImplementerProjects = organization.ProjectOrganizations
+                .Where(x => x.RelationshipType.IsPrimaryContact &&
+                            x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
+                            x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
+
             var relatedProjectsThatAreNotInLeadImplementerProjects = relatedProjects.Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
 
             var featureCollection = new FeatureCollection();

@@ -23,11 +23,18 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
+    /// <summary>
+    /// This class is meant to be used only in cases where Administrative 
+    /// action is taken on a group of projects.
+    /// In any case where administrative action is taken on a specific project,
+    /// such as Approval or Return, the ProjectUpdateAdminFeatureWithProjectContext
+    /// class should be used.
+    /// </summary>
     [SecurityFeatureDescription("_Admin for {0} Updates", FieldDefinitionEnum.Project)]
     public class ProjectUpdateAdminFeature : FirmaFeature
     {
         public ProjectUpdateAdminFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
         }
     }

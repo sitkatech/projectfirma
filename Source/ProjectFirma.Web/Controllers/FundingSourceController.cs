@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
@@ -57,25 +58,29 @@ namespace ProjectFirma.Web.Controllers
         [FundingSourceViewFeature]
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
-            var hasDeleteFundingSourcePermission = new FundingSourceManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new IndexGridSpec(hasDeleteFundingSourcePermission);
+            var gridSpec = new IndexGridSpec(CurrentPerson);
             var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.FundingSourceName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
         [HttpGet]
-        [FundingSourceManageFeature]
+        [FundingSourceCreateFeature]
         public PartialViewResult New()
         {
-            const int organizationID = 0;
-            var fundingSource = new FundingSource(organizationID, string.Empty, true);
-            var viewModel = new EditViewModel(fundingSource);
+            var viewModel = new EditViewModel
+            {
+                // If the person is not an admin, we want to default the Funding Source organization to their own Organization
+                OrganizationID = new List<Role> {Role.Admin, Role.SitkaAdmin}.Any(x => x.RoleID == CurrentPerson.RoleID)
+                    ? (int?) null
+                    : CurrentPerson.OrganizationID
+            };
+
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
-        [FundingSourceManageFeature]
+        [FundingSourceCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(EditViewModel viewModel)
         {
@@ -83,7 +88,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var fundingSource = new FundingSource(viewModel.OrganizationID, string.Empty, true);
+            var fundingSource = new FundingSource(
+                viewModel.OrganizationID ?? ModelObjectHelpers.NotYetAssignedID, // Should never be null due to View Model validation
+                string.Empty,
+                true);
+
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -93,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FundingSourceManageFeature]
+        [FundingSourceEditFeature]
         public PartialViewResult Edit(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
@@ -102,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FundingSourceManageFeature]
+        [FundingSourceEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(FundingSourcePrimaryKey fundingSourcePrimaryKey, EditViewModel viewModel)
         {
@@ -120,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationsAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations()
                     .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            var viewData = new EditViewData(organizationsAsSelectListItems);
+            var viewData = new EditViewData(organizationsAsSelectListItems, CurrentPerson);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -148,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FundingSourceManageFeature]
+        [FundingSourceEditFeature]
         public PartialViewResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
@@ -168,7 +177,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FundingSourceManageFeature]
+        [FundingSourceEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

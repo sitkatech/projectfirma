@@ -39,7 +39,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
             TaxonomyTierTwo = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName;
             TaxonomyTierOne = project.TaxonomyTierOne.TaxonomyTierOneName;
             ProjectDescription = project.ProjectDescription;
-            LeadImplementer = project.LeadImplementerName;
 
             PlanningStartDate = project.PlanningDesignStartYear;
             ImplementationStartDate = project.ImplementationStartYear;
@@ -65,7 +64,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string TaxonomyTierTwo { get; set; }
         [DataMember] public string TaxonomyTierOne { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
-        [DataMember] public string LeadImplementer { get; set; }
 
         [DataMember] public int? PlanningStartDate { get; set; }
         [DataMember] public int? ImplementationStartDate { get; set; }
@@ -124,7 +122,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Add("TaxonomyTierOne", x => x.TaxonomyTierOne, 0);
             Add("Stage", x => x.Stage, 0);
             Add("ProjectDescription", x => x.ProjectDescription, 0);
-            Add("LeadImplementer", x => x.LeadImplementer, 0);
             Add("PlanningStartDate", x => x.PlanningStartDate, 0);
             Add("ImplementationStartDate", x => x.ImplementationStartDate, 0);
             Add("EndDate", x => x.EndDate, 0);

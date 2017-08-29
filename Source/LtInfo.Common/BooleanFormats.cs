@@ -40,7 +40,7 @@ namespace LtInfo.Common
 
         public static string ToYesNo(this bool value)
         {
-            return (value) ? "Yes" : "No";
+            return value ? "Yes" : "No";
         }
 
         public static bool FromYesNoStringToBool(this string value)
@@ -156,6 +156,25 @@ namespace LtInfo.Common
         }
 
         public static HtmlString ToCheckboxImageOrEmpty(this bool? value)
+        {
+            return ToCheckboxImageOrEmpty(value ?? false);
+        }
+
+        public static HtmlString ToCheckboxImageOrEmptyForGrid(this bool value)
+        {
+            var spanForFilter = new TagBuilder("span") {InnerHtml = value.ToYesNo()};
+            spanForFilter.AddCssClass("sr-only");
+
+            var div = new TagBuilder("div")
+            {
+                InnerHtml = $"{spanForFilter}{value.ToCheckboxImageOrEmpty()}",
+                Attributes = { {"style", "height: 1em; width: 1em; display: block; margin: auto;" } }
+            };
+
+            return div.ToString().ToHTMLFormattedString();
+        }
+
+        public static HtmlString ToCheckboxImageOrEmptyForGrid(this bool? value)
         {
             return ToCheckboxImageOrEmpty(value ?? false);
         }

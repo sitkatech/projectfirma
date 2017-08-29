@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
             this.ProposedProjectLocations = new HashSet<ProposedProjectLocation>();
             this.ProposedProjectLocationStagings = new HashSet<ProposedProjectLocationStaging>();
             this.ProposedProjectNotes = new HashSet<ProposedProjectNote>();
+            this.ProposedProjectOrganizations = new HashSet<ProposedProjectOrganization>();
             this.ProposedProjectWatersheds = new HashSet<ProposedProjectWatershed>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
@@ -38,12 +39,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID, string projectWatershedNotes) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID, string projectWatershedNotes) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
-            this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
             this.ProposingPersonID = proposingPersonID;
             this.ProposingDate = proposingDate;
             this.ImplementationStartYear = implementationStartYear;
@@ -70,14 +70,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID) : this()
+        public ProposedProject(string projectName, string projectDescription, int proposingPersonID, DateTime proposingDate, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
-            this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
             this.ProposingPersonID = proposingPersonID;
             this.ProposingDate = proposingDate;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
@@ -88,15 +87,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProposedProject(string projectName, string projectDescription, Organization leadImplementerOrganization, Person proposingPerson, DateTime proposingDate, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState) : this()
+        public ProposedProject(string projectName, string projectDescription, Person proposingPerson, DateTime proposingDate, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
-            this.LeadImplementerOrganizationID = leadImplementerOrganization.OrganizationID;
-            this.LeadImplementerOrganization = leadImplementerOrganization;
-            leadImplementerOrganization.ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Add(this);
             this.ProposingPersonID = proposingPerson.PersonID;
             this.ProposingPerson = proposingPerson;
             proposingPerson.ProposedProjectsWhereYouAreTheProposingPerson.Add(this);
@@ -109,9 +105,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProposedProject CreateNewBlank(Organization leadImplementerOrganization, Person proposingPerson, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState)
+        public static ProposedProject CreateNewBlank(Person proposingPerson, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState)
         {
-            return new ProposedProject(default(string), default(string), leadImplementerOrganization, proposingPerson, default(DateTime), projectLocationSimpleType, fundingType, proposedProjectState);
+            return new ProposedProject(default(string), default(string), proposingPerson, default(DateTime), projectLocationSimpleType, fundingType, proposedProjectState);
         }
 
         /// <summary>
@@ -120,20 +116,19 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectClassifications.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectWatersheds.Any();
+            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectClassifications.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectOrganizations.Any() || ProposedProjectWatersheds.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectClassification).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectWatershed).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectClassification).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectOrganization).Name, typeof(ProposedProjectWatershed).Name};
 
         [Key]
         public int ProposedProjectID { get; set; }
         public int TenantID { get; private set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
-        public int LeadImplementerOrganizationID { get; set; }
         public int ProposingPersonID { get; set; }
         public DateTime ProposingDate { get; set; }
         public int? ImplementationStartYear { get; set; }
@@ -165,9 +160,9 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual ICollection<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
+        public virtual ICollection<ProposedProjectOrganization> ProposedProjectOrganizations { get; set; }
         public virtual ICollection<ProposedProjectWatershed> ProposedProjectWatersheds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual Organization LeadImplementerOrganization { get; set; }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }

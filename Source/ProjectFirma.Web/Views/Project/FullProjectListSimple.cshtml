@@ -31,7 +31,6 @@ Source code is available upon request via <support@sitkatech.com>.
 <table class="table table-striped table-hover table-condensed">
     <tr style="background-color: #999">     
         <th colspan="2">@Html.LabelWithSugarFor(FieldDefinition.ProjectName)</th>        
-        <th>@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
         <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectStage)</th>
         <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)</th>
         <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinition.CompletionYear)</th>
@@ -40,8 +39,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <tr>
             <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
-            <td><a href="@project.GetDetailUrl()">@project.ProjectName</a></td>            
-            <td style="width:250px">@project.LeadImplementerOrganization.GetDisplayNameAsUrl()</td>
+            <td><a href="@project.GetDetailUrl()">@project.ProjectName</a></td>
             <td style="white-space: nowrap">@project.ProjectStage.ProjectStageDisplayName</td>
             <td style="text-align: right">@project.ImplementationStartYear</td>
             <td style="text-align: right">@project.CompletionYear</td>

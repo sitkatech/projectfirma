@@ -172,6 +172,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get { return AllProposedProjectLocationStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectNote> AllProposedProjectNotes { get; set; }
         public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProposedProjectOrganization> AllProposedProjectOrganizations { get; set; }
+        public virtual IQueryable<ProposedProjectOrganization> ProposedProjectOrganizations { get { return AllProposedProjectOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectWatershed> AllProposedProjectWatersheds { get; set; }
@@ -512,6 +514,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProposedProjectNote":
                     return ProposedProjectNotes.GetProposedProjectNote(primaryKey);
+
+                case "ProposedProjectOrganization":
+                    return ProposedProjectOrganizations.GetProposedProjectOrganization(primaryKey);
 
                 case "ProposedProject":
                     return ProposedProjects.GetProposedProject(primaryKey);

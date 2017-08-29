@@ -59,7 +59,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 180, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.LeadImplementerOrganization?.GetDetailUrl(), x.LeadImplementerName), 130);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(),
                 x => x.GetPrimaryContact() == null ? new HtmlString($"({ViewUtilities.NoneString})") : x.GetPrimaryContact().GetFullNameFirstLastAndOrgAsUrl(),
                 95);

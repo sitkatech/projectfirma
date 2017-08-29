@@ -19,9 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Linq;
 using ApprovalTests.Reporters;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;
 
@@ -55,10 +53,8 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var projectOrganization1 = TestFramework.TestProjectOrganization.Create(_project, _organization1);
             var projectOrganization2 = TestFramework.TestProjectOrganization.Create(_project, _organization2);
             var projectOrganization3 = TestFramework.TestProjectOrganization.Create(_project, _organization3);
-            _project.LeadImplementerOrganization = _organization1;
             _projectOrganizations = new List<Models.ProjectOrganization> { projectOrganization1, projectOrganization2, projectOrganization3 };
             _allOrganizations = new List<Models.Organization> {_organization1, _organization2, _organization3};
-            
         }
 
         [Test]
@@ -66,7 +62,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         public void AllViewModelFieldsAreSetFromConstructorTest()
         {
             // Act
-            var viewModel = new EditOrganizationsViewModel(_projectOrganizations, _project);
+            var viewModel = new EditOrganizationsViewModel(_projectOrganizations);
 
             // Assert
             Assert.That(viewModel.ProjectOrganizationsViewModelJson, Is.Not.Null);

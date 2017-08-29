@@ -113,20 +113,6 @@ namespace ProjectFirma.Web.Views.Organization
         {
             var validationResults = new List<ValidationResult>();
 
-            // If we are updating an existing object, make sure we have a Primary Contact
-            var primaryContactNotSet = (PrimaryContactPersonID == null);
-            if (primaryContactNotSet && ModelObjectHelpers.IsRealPrimaryKeyValue(OrganizationID))
-            {
-                var organizationBeingUpdated = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(OrganizationID);
-                if (organizationBeingUpdated.IsLeadImplementerForOneOrMoreProjects)
-                {
-                    validationResults.Add(
-                        new SitkaValidationResult<EditViewModel, int?>(
-                            $"Organization {organizationBeingUpdated.OrganizationName} is {Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} for one or more projects, so you must specify a {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
-                            x => x.PrimaryContactPersonID));
-                }
-            }
-
             if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
             {
                 var errorMessage = $"Logo is too large - must be less than {FileUtility.FormatBytes(MaxLogoSizeInBytes)}. Your logo was {FileUtility.FormatBytes(LogoFileResourceData.ContentLength)}.";

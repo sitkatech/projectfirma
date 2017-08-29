@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public Person GetPrimaryContactPerson => PrimaryContactPerson ?? LeadImplementerOrganization.PrimaryContactPerson;
+        public Person GetPrimaryContactPerson => PrimaryContactPerson;
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProposedProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProposedProjectLeadImplementingOranization(person) || person.PersonID == ProposingPersonID;
+            return IsPersonThePrimaryContact(person) || person.PersonID == ProposingPersonID;
         }
 
         public bool IsEditableToThisPerson(Person person)
@@ -147,11 +147,6 @@ namespace ProjectFirma.Web.Models
         public bool IsPersonThePrimaryContact(Person person)
         {
             return PrimaryContactPerson != null && person != null && person.PersonID == PrimaryContactPerson.PersonID;
-        }
-
-        public bool DoesPersonBelongToProposedProjectLeadImplementingOranization(Person person)
-        {
-            return person != null && LeadImplementerOrganizationID == person.OrganizationID;
         }
 
         public PermissionCheckResult CanDelete()
@@ -206,8 +201,7 @@ namespace ProjectFirma.Web.Models
                 proposedProject.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
-                FundingType.FundingTypeID,
-                proposedProject.LeadImplementerOrganizationID)
+                FundingType.FundingTypeID)
             {
                 PlanningDesignStartYear =  proposedProject.PlanningDesignStartYear,
                 ImplementationStartYear =  proposedProject.ImplementationStartYear,
@@ -293,5 +287,12 @@ namespace ProjectFirma.Web.Models
         public bool AreExpendituresValid { get; set; }
         public bool AreBudgetsValid { get; set; }
         public bool IsProjectLocationSimpleValid { get; set; }
+
+
+        public Person GetPrimaryContact() => PrimaryContactPerson ??
+                                             ProposedProjectOrganizations
+                                                 .Where(x => x.RelationshipType.IsPrimaryContact)
+                                                 .Select(x => x.Organization.PrimaryContactPerson)
+                                                 .FirstOrDefault(); // TODO: Probably want to handle the case where there are multiple primary contact organizations 
     }
 }

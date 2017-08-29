@@ -23,7 +23,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Models
 @inherits MyProjects
 
 @{
@@ -51,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div style="margin-top: 10px">
     <div style="float: right">@ModalDialogFormHelper.ModalDialogFormLink("Submit All", ViewDataTyped.SubmitAllUrl, "Submit all projects for review", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)</div>
     <p>
-        <b>Why these projects?</b> Projects appear here if you are the @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel() for the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), or if you are a member of the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()'s organization.
+        <b>Why these projects?</b> Projects appear here if you are the@* TODO replace this with a description of the actual filter determining which projects appear*@.
     </p>
 </div>
 

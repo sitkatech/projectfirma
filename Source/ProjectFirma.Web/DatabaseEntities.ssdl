@@ -74,6 +74,7 @@
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProposedProjectOrganization" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectWatershed" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.Store.RelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
@@ -345,10 +346,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Organization" EntitySet="Organization" />
       <End Role="People" EntitySet="Person" />
     </AssociationSet>
-    <AssociationSet Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
-      <End Role="LeadImplementerOrganization" EntitySet="Organization" />
-      <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="Project" />
-    </AssociationSet>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
@@ -545,10 +542,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
-      <End Role="LeadImplementerOrganization" EntitySet="Organization" />
-      <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="ProposedProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" EntitySet="ProposedProject" />
@@ -616,6 +609,18 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
+      <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
@@ -990,9 +995,8 @@ warning 6035: The relationship 'FK_FundingSource_Organization_OrganizationID_Ten
 warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectOrganization_Organization_OrganizationID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
     <Key>
@@ -1021,6 +1025,7 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Organization_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
@@ -1332,7 +1337,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
-    <Property Name="LeadImplementerOrganizationID" Type="int" Nullable="false" />
     <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
@@ -1660,6 +1664,7 @@ warning 6035: The relationship 'FK_ProposedProjectImage_ProposedProject_Proposed
 warning 6035: The relationship 'FK_ProposedProjectLocation_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="ProposedProject">
@@ -1670,7 +1675,6 @@ warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_Prop
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
-    <Property Name="LeadImplementerOrganizationID" Type="int" Nullable="false" />
     <Property Name="ProposingPersonID" Type="int" Nullable="false" />
     <Property Name="ProposingDate" Type="datetime" Nullable="false" />
     <Property Name="ImplementationStartYear" Type="int" />
@@ -1760,6 +1764,16 @@ warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_Prop
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
   </EntityType>
+  <EntityType Name="ProposedProjectOrganization">
+    <Key>
+      <PropertyRef Name="ProposedProjectOrganizationID" />
+    </Key>
+    <Property Name="ProposedProjectOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
+    <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="ProposedProjectWatershed">
     <Key>
       <PropertyRef Name="ProposedProjectWatershedID" />
@@ -1772,6 +1786,7 @@ warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_Prop
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="RelationshipType">
     <Key>
@@ -1780,6 +1795,8 @@ warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_Relation
     <Property Name="RelationshipTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="RelationshipTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="CanApproveProjects" Type="bit" Nullable="false" />
+    <Property Name="IsPrimaryContact" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2724,18 +2741,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
-    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadImplementerOrganization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProjectsWhereYouAreTheLeadImplementerOrganization">
-        <PropertyRef Name="LeadImplementerOrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Project_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
     <End Role="ProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
@@ -3324,18 +3329,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
-    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadImplementerOrganization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization">
-        <PropertyRef Name="LeadImplementerOrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
     <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
@@ -3537,6 +3530,42 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProposedProjectNotes">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectOrganization_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
+    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="ProposedProjectOrganizations">
+        <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
+    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
+    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposedProject">
+        <PropertyRef Name="ProposedProjectID" />
+      </Principal>
+      <Dependent Role="ProposedProjectOrganizations">
+        <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.Store.RelationshipType" Multiplicity="1" />
+    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="ProposedProjectOrganizations">
+        <PropertyRef Name="RelationshipTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

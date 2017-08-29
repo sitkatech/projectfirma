@@ -64,14 +64,7 @@ namespace ProjectFirma.Web.Models
 
         public string PrimaryContactPersonAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLast : ViewUtilities.NoneString;
 
-        public bool IsLeadImplementerForOneOrMoreProjects
-        {
-            get
-            {
-                var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-                return allProjects.Any(p => p.LeadImplementerOrganizationID == OrganizationID);
-            }
-        }
+        public bool IsLeadImplementerForOneOrMoreProjects => ProjectOrganizations.Any(x => x.RelationshipType.IsPrimaryContact);
 
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
         {
@@ -98,15 +91,10 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
 
-        
         public List<Project> GetAllProjectsIncludingLeadImplementing()
         {
-            var projects = ProjectOrganizations.Select(x => x.Project).ToList();
-            projects.AddRange(ProjectsWhereYouAreTheLeadImplementerOrganization.ToList());
-            return projects.Distinct().ToList();
+            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList();
         }
-        
-
 
         public string AuditDescriptionString => OrganizationName;
 

@@ -54,6 +54,11 @@ REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID]
 GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID_TenantID] FOREIGN KEY([OrganizationTypeID], [TenantID])
+REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
