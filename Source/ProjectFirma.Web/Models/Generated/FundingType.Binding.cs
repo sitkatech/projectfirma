@@ -36,21 +36,17 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected FundingType(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder)
+        protected FundingType(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName)
         {
             FundingTypeID = fundingTypeID;
             FundingTypeName = fundingTypeName;
             FundingTypeDisplayName = fundingTypeDisplayName;
-            FundingTypeShortName = fundingTypeShortName;
-            SortOrder = sortOrder;
         }
 
         [Key]
         public int FundingTypeID { get; private set; }
         public string FundingTypeName { get; private set; }
         public string FundingTypeDisplayName { get; private set; }
-        public string FundingTypeShortName { get; private set; }
-        public int SortOrder { get; private set; }
         public int PrimaryKey { get { return FundingTypeID; } }
 
         /// <summary>
@@ -120,13 +116,13 @@ namespace ProjectFirma.Web.Models
 
     public partial class FundingTypeCapital : FundingType
     {
-        private FundingTypeCapital(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName, fundingTypeShortName, sortOrder) {}
-        public static readonly FundingTypeCapital Instance = new FundingTypeCapital(1, @"Capital", @"Capital", @"Capital", 10);
+        private FundingTypeCapital(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName) {}
+        public static readonly FundingTypeCapital Instance = new FundingTypeCapital(1, @"Capital", @"Capital");
     }
 
     public partial class FundingTypeOperationsAndMaintenance : FundingType
     {
-        private FundingTypeOperationsAndMaintenance(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName, fundingTypeShortName, sortOrder) {}
-        public static readonly FundingTypeOperationsAndMaintenance Instance = new FundingTypeOperationsAndMaintenance(2, @"OperationsAndMaintenance", @"Operations and Maintenance", @"O&M", 20);
+        private FundingTypeOperationsAndMaintenance(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName) {}
+        public static readonly FundingTypeOperationsAndMaintenance Instance = new FundingTypeOperationsAndMaintenance(2, @"OperationsAndMaintenance", @"Operations and Maintenance");
     }
 }
