@@ -115,7 +115,9 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
                 fillOpacity: feature.properties.FillOpacity == null ? 0.2 : feature.properties.FillOpacity
             };
         },
-        onEachFeature: function (feature, layer) { self.bindPopupToFeature(layer, feature); }
+        onEachFeature: function(feature, layer) {
+            self.bindPopupToFeature(layer, feature);
+        }
     }).addTo(layerGroup);
 
     if (currentLayer.LayerInitialVisibility === 1) {
@@ -237,9 +239,7 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
 ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
 {
     var latlng = e.latlng;
-    var html = "<table class=\"summaryLayout\"><tr><th colspan=\"2\">Location Information</th></tr>";
-    html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
-    html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
+    var html = "<div>";
 
     var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
     for (var j = 0; j < vectorLayers.length; ++j) {
@@ -260,7 +260,9 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
                 var properties = match[0].feature.properties;
                 for (var propertyName in properties)
                 {
-                    html += this.formatLayerProperty(propertyName, properties[propertyName]);
+                    if (propertyName !== "Short Name") {
+                        html += this.formatLayerProperty(propertyName, properties[propertyName]);
+                    }                    
                 }
             }
         }
@@ -269,6 +271,7 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
     if (e.layer.feature.geometry.type === "Point" || e.layer.feature.geometry.type === "LineString") {
         html += this.formatLayerProperty("Info", e.layer.feature.properties["Info"]);
     }
+    html += "</div>";
     this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));
 };
 
@@ -278,7 +281,7 @@ ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, pro
     {
         propertyValue = "&nbsp";
     }
-    return "<tr><td>" + propertyName + ":</td><td>" + propertyValue + "</td></tr>";
+    return "<div class=\"row\"><div class=\"col-xs-4\"><strong>" + propertyName + "</strong></div><div class=\"col-xs-8\">" + propertyValue + "</div></div>";
 };
 
 ProjectFirmaMaps.Map.prototype.removeLayerFromMap = function (layerToRemove) {

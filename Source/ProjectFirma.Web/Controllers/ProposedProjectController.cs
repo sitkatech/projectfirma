@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var mapDivID = $"proposedProject_{proposedProject.ProposedProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(proposedProject, mapDivID);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(proposedProject, mapDivID, true);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(proposedProject, projectLocationSummaryMapInitJson);
             var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
             var performanceMeasureExpectedsSummaryViewData =

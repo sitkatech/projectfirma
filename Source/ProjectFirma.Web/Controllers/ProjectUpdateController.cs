@@ -690,7 +690,7 @@ namespace ProjectFirma.Web.Controllers
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
 
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap");
+                $"project_{project.ProjectID}_EditMap", true);
 
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
@@ -1006,7 +1006,7 @@ namespace ProjectFirma.Web.Controllers
            
             var watershedValidationResult = projectUpdateBatch.ValidateProjectWatershed();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap");
+                $"project_{project.ProjectID}_EditMap", false);
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();

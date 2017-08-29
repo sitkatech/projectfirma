@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Controllers
             var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
 
             var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -309,7 +309,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
             var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }

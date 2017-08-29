@@ -36,16 +36,16 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasDetailedLocation;
         public bool HasWatersheds;
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties) 
             : base(mapDivID, DefaultZoomLevel, GetAllWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
         {
-            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(true);
+            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
             HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
             {
                 ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                 ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
             }
 
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
