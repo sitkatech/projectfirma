@@ -26,31 +26,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {   
     <style>
-        /*.bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
-            cursor: default !important;
-            font-size: 15px !important;
-        }
-
-        .bootstrap-select li:not(.disabled) > a {
-            padding-left: 42px !important;
-            font-size: 13px !important;
-        }
-
-        .bootstrap-select .dropdown-toggle {
-            font-size: 13px !important;
-            border-radius: 0 !important;
-            border: 1px solid black;
-        }
-
-        .bootstrap-select {
-            width: 100% !important;
-        }
-
-        .bootstrap-select .disabled a:hover, .bootstrap-select li.dropdown-header:hover {
-            background-color: lightgray !important;
-            color: gray !important;
-        }*/
-
         .row {
             margin-top: 5px;
         }
@@ -72,14 +47,14 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProjectName)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ProjectName, new { style = "width:100%" })
+            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.ProjectName)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProjectDescription)</div>
         <div class="col-md-8">
-            @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+            @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
             @Html.ValidationMessageFor(m => m.ProjectDescription)
         </div>
     </div>
@@ -87,26 +62,29 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
             @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
+            <p id="primaryContactPersonHelpBlock" class="help-block">
+                By default, the @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()) is set to @(ViewDataTyped.DefaultPrimaryContactPerson.FullNameFirstLastAndOrgShortName).
+            </p>
             @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
         <div class="col-md-8">
-            @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()" })
+            @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.FundingTypeID)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4 cap-label">@Html.LabelWithSugarFor(m => m.EstimatedTotalCost)</div>
         <div class="col-md-2">
-            @Html.EditorFor(m => m.EstimatedTotalCost)
+            @Html.TextBoxFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
         </div>
     </div><div class="row">
         <div class="col-md-4 col-lg-4 cap-label">@Html.LabelWithSugarFor(m => m.SecuredFunding)</div>
         <div class="col-md-4">
-            @Html.EditorFor(m => m.SecuredFunding)
+            @Html.TextBoxFor(m => m.SecuredFunding, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.SecuredFunding)
         </div>
     </div>
@@ -114,28 +92,28 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-4 col-lg-4 op-label">@Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)</div>
         <div class="col-md-2">
-            @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
+            @Html.TextBoxFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)</div>
         <div class="col-md-4">
-            @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange)
+            @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ImplementationStartYear)</div>
         <div class="col-md-4">
-            @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange)
+            @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.ImplementationStartYear)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.CompletionYear)</div>
         <div class="col-md-4">
-            @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange)
+            @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>    
@@ -173,6 +151,16 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         displaySelectedFundingTypeFields();
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+
+        var $primaryContactPersonField = jQuery("[name=\"@Html.NameFor(m => m.PrimaryContactPersonID)\"]");
+        $primaryContactPersonField.change(function(event) {
+            if (jQuery(event.target).val()) {
+                jQuery("#primaryContactPersonHelpBlock").hide();
+            } else {
+                jQuery("#primaryContactPersonHelpBlock").show();
+            }
+        });
+        $primaryContactPersonField.change();
     });
     // ]]>
 </script>

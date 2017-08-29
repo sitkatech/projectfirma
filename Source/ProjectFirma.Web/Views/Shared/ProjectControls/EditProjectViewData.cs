@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly IEnumerable<SelectListItem> FundingTypes;
         public readonly IEnumerable<SelectListItem> Organizations;
         public readonly IEnumerable<SelectListItem> PrimaryContactPeople;
+        public readonly Person DefaultPrimaryContactPerson;
         public readonly EditProjectType EditProjectType;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly decimal? TotalExpenditures;
@@ -49,6 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
+            Person defaultPrimaryContactPerson,
             decimal? totalExpenditures,
             bool hasExistingProjectBudgetUpdates,
             List<Models.TaxonomyTierOne> taxonomyTierOnes)
@@ -59,8 +61,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             FundingTypes = fundingTypes.OrderBy(x => x.SortOrder).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
-            PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.FullNameFirstLastAndOrg,
-                $"Use {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}");
+            PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.FullNameFirstLastAndOrgShortName,
+                $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
+            DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
             TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));

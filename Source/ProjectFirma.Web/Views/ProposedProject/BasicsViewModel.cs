@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
+        [StringLength(Models.ProposedProject.FieldLengths.ProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 
@@ -122,11 +123,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             proposedProject.ImplementationStartYear = ImplementationStartYear;
             proposedProject.CompletionYear = CompletionYear;
 
-            if (PrimaryContactPersonID != null)
-            {
-                proposedProject.PrimaryContactPersonID = PrimaryContactPersonID.Value;
-            }
-            
+            proposedProject.PrimaryContactPersonID = PrimaryContactPersonID;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

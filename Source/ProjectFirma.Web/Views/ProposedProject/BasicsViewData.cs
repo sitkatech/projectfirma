@@ -34,14 +34,21 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public IEnumerable<SelectListItem> TaxonomyTierOnes;
         public IEnumerable<SelectListItem> Organizations;
         public IEnumerable<SelectListItem> PrimaryContactPeople;
+        public Person DefaultPrimaryContactPerson;
         public IEnumerable<SelectListItem> FundingTypes;
         public IEnumerable<SelectListItem> StartYearRange;
         public IEnumerable<SelectListItem> CompletionYearRange;
 
-        public BasicsViewData(Person currentPerson, IEnumerable<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes, IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes)
+
+        public BasicsViewData(Person currentPerson,
+            IEnumerable<Models.Organization> organizations,
+            IEnumerable<Person> primaryContactPeople,
+            Person defaultPrimaryContactPerson,
+            IEnumerable<FundingType> fundingTypes,
+            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes)
             : base(currentPerson, ProposedProjectSectionEnum.Basics)
         {
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes);
+            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson);
         }
 
         public BasicsViewData(Person currentPerson,
@@ -50,17 +57,21 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes,
             IEnumerable<Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
+            Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes)
             : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, proposalSectionsStatus)
         {
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes);
+            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes)
+        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes, Person defaultPrimaryContactPerson)
         {
             TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
             Organizations = organizations.OrderBy(x => x.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, $"Use {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}");
+            PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(
+                x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg,
+                $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
+            DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
 
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             StartYearRange =

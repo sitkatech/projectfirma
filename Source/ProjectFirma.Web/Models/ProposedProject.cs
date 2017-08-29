@@ -287,5 +287,12 @@ namespace ProjectFirma.Web.Models
         public bool AreExpendituresValid { get; set; }
         public bool AreBudgetsValid { get; set; }
         public bool IsProjectLocationSimpleValid { get; set; }
+
+
+        public Person GetPrimaryContact() => PrimaryContactPerson ??
+                                             ProposedProjectOrganizations
+                                                 .Where(x => x.RelationshipType.IsPrimaryContact)
+                                                 .Select(x => x.Organization.PrimaryContactPerson)
+                                                 .FirstOrDefault(); // TODO: Probably want to handle the case where there are multiple primary contact organizations 
     }
 }
