@@ -139,43 +139,45 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
         layerGroup.addTo(this.map);
     }
 
-    if (!currentLayer.HasCustomPopups && currentLayer.TooltipUrlTemplate) {
-        this.map.on("click", this.handleWmsPopupClickEventWithCurrentLayer(currentLayer), this);
-    }
+    //if (!currentLayer.HasCustomPopups && currentLayer.TooltipUrlTemplate) {
+    //    this.map.on("click", this.handleWmsPopupClickEventWithCurrentLayer(currentLayer), this);
+    //}
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(wmsLayer);
 };
 
-ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function (currentLayer) {
-    var self = this;
-    return function(event) {
-        var parameters = L.Util.extend(
-            {
-                typeName: currentLayer.MapServerLayerName,
-                cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
-            },
-            this.wfsParams);
-        SitkaAjax.ajax({
-                url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
-                dataType: "json",
-                jsonpCallback: "getJson"
-            },
-            function (response) {
-                var feature = _.first(response.features);
-                if (feature) {
-                    var primaryKey = feature.properties.PrimaryKey,
-                        popupUrl =
-                            new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
-                    jQuery.get(popupUrl).done(function (data) {
-                        self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data)
-                            .openOn(self.map);
-                    });
-                }
-            }
-        );
-    };
-};
+//ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function (currentLayer) {
+//    var self = this;   
+
+//    return function(event) {
+//        var parameters = L.Util.extend(
+//            {
+//                typeName: currentLayer.MapServerLayerName,
+//                cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
+//            },
+//            this.wfsParams);
+//        SitkaAjax.ajax({
+//                url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
+//                dataType: "json",
+//                jsonpCallback: "getJson"
+//            },
+//            function (response) {
+//                var feature = _.first(response.features);
+
+//                if (feature) {
+//                    var primaryKey = feature.properties.PrimaryKey,
+//                        popupUrl =
+//                            new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
+//                    jQuery.get(popupUrl).done(function (data) {
+//                        self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data)
+//                            .openOn(self.map);
+//                    });
+//                }
+//            }
+//        );
+//    };
+//};
 
 ProjectFirmaMaps.Map.prototype.wmsParams = {
     service: "WMS",
@@ -240,6 +242,8 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
 {
     var latlng = e.latlng;
     var html = "<div>";
+    html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
+    html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
 
     var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
     for (var j = 0; j < vectorLayers.length; ++j) {
@@ -268,11 +272,8 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
         }
     }
 
-    if (e.layer.feature.geometry.type === "Point" || e.layer.feature.geometry.type === "LineString") {
-        html += this.formatLayerProperty("Info", e.layer.feature.properties["Info"]);
-    }
     html += "</div>";
-    this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));
+    this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));   
 };
 
 ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, propertyValue)
