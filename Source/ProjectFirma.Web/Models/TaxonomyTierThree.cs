@@ -28,12 +28,14 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyTierThree : IAuditableEntity
+    public partial class TaxonomyTierThree : IAuditableEntity, ITaxonomyTier
     {
         public string DeleteUrl
         {
             get { return SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.DeleteTaxonomyTierThree(TaxonomyTierThreeID)); }
         }
+
+        public int TaxonomyTierID => TaxonomyTierThreeID;
 
         public string DisplayName
         {

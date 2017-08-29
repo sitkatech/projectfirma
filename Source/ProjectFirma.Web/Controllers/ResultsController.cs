@@ -247,31 +247,29 @@ namespace ProjectFirma.Web.Controllers
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
 
-            var projectStages = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToList();
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary();
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
+
+            var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl);
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(List<TaxonomyTierThree> taxonomyTierThrees,
-            List<Project> projects,
-            List<ProjectStage> projectStages)
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary()
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                var taxonomyTierThreesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
                 projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);    
             }
 
@@ -288,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
             
 
-            var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var projectStagesAsSelectListItems = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
@@ -300,6 +298,47 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult();
         }
+
+        [ProjectLocationsViewFeature]
+        [HttpPost]
+        public JsonNetJArrayResult FilteredProjectsWithLocationAreas(ProjectMapCustomization projectMapCustomization)
+        {
+            if (projectMapCustomization.FilterPropertyValues == null ||
+                !projectMapCustomization.FilterPropertyValues.Any())
+            {
+                return new JsonNetJArrayResult(new List<object>());
+            }
+            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
+                .ToList()
+                .Where(x => x.ProjectWatersheds.Any())
+                .Select(x => x.ToFancyTreeNode())
+                .ToList();
+
+            var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
+                .GetProjectLocationFilterTypeFromFilterPropertyName();
+            var filterFunction =
+                projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
+                    .FilterPropertyValues);
+            var filteredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile())
+                .ToList();
+
+            var projects = IsCurrentUserAnonymous()
+                ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+                : filteredProjects;
+            var filteredProjectsWithLocationAreas = projects
+                .Where(x => !x.HasProjectLocationPoint && x.ProjectWatersheds.Any())
+                .ToList();
+
+            projectLocationGroupsAsFancyTreeNodes.RemoveAll(                
+                        areaNameNode =>
+                            areaNameNode.Children.Count ==
+                            areaNameNode.Children.RemoveAll(projectNode => !filteredProjectsWithLocationAreas
+                                .Select(project => project.ProjectID.ToString())
+                                .Contains(projectNode.Key)));
+
+            return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
+        }
+
 
         [SpendingByOrganizationTypeByOrganizationViewFeature]
         public PartialViewResult SpendingByOrganizationTypeByOrganization(int organizationTypeID, int? calendarYear)

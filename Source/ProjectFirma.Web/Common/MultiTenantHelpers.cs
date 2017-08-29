@@ -18,11 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
+using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Common
 {
@@ -109,6 +113,19 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantRecaptchaPublicKey()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().RecaptchaPublicKey;
+        }
+
+        public static List<ITaxonomyTier> GetTopLevelTaxonomyTiers()
+        {            
+            if (GetNumberOfTaxonomyTiers() == 3)
+            {
+                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
+            }
+            if (GetNumberOfTaxonomyTiers() == 2)
+            {
+                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList());
+            }
+            return new List<ITaxonomyTier>();
         }
     }
 }

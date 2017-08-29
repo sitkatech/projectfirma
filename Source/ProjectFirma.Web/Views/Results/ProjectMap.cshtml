@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
@@ -159,7 +160,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
         <span style="font-weight: bold">Color @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
-            @foreach (var colorByType in ProjectColorByType.All)
+            @foreach (var colorByType in ProjectColorByType.All.Where(x => x.IsRelevantToTenant))
             {
                 <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.DisplayName">@colorByType.DisplayName</option>
             }
@@ -199,7 +200,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div id="showBasinwideProjectsToast">
-        <a class="btn pull-right" title="Some projects operate over larger areas and are not represented on the map, but can be listed here.">
+        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinition.Project.GetFieldDefinitionLabelPluralized())">
             <span class="glyphicon glyphicon-chevron-left"></span>Show regional @FieldDefinition.Project.GetFieldDefinitionLabel() list
         </a>
     </div>
@@ -217,7 +218,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div id="projectsWithLocationAreaToast" style="display: none; padding: 0 8px 8px 8px">
                 <p>
-                    Some projects operate over larger areas and are not represented on the map, but are listed here:
+                    Some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() operate over @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() and are not represented by a point on the map, but are listed here.
                 </p>
                 <div style="clear: both; white-space: nowrap; overflow-x: hidden; overflow-y: auto; max-height: 750px">
                     <table id="projectLocationGroupTypeTree" class="table table-hover table-condensed" style="margin-bottom: 10px">
@@ -280,7 +281,7 @@ Source code is available upon request via <support@sitkatech.com>.
             tree.reload(
             {
                 type: "POST",
-                url: null, // todo removed url, need to resolve js usages
+                url: @Html.Raw(ViewDataTyped.FilteredProjectsWithLocationAreasUrl.ToJS()),
                 data: { projectMapCustomization: projectMapCustomization },
                 dataType: "json"
             });
@@ -383,8 +384,8 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery(document).ready(function()
         {
             ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
-                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.OrganizationName)) {
-                    layer.bindTooltip(feature.properties.OrganizationName, { direction: "auto", sticky: "true" });
+                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties["Organization Name"])) {
+                    layer.bindTooltip(feature.properties["Organization Name"], { direction: "auto", sticky: "true" });
 
                     var originalFillOpacity = layer.options.fillOpacity;
                     layer.on("mouseover",
@@ -396,6 +397,17 @@ Source code is available upon request via <support@sitkatech.com>.
                             layer.setStyle({ fillOpacity: originalFillOpacity });
                         });
                 };
+
+                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
+                    layer.bindPopup("Loading...", { maxWidth: 600 });
+                    layer.on("click",
+                        function() {
+                            //var popup = e.target.getPopup();
+                            jQuery.get(feature.properties.PopupUrl).done(function(data) {
+                                layer.bindPopup(data).openPopup();
+                            });
+                        });
+                }
 
                 return layer;
             };

@@ -325,10 +325,10 @@ namespace ProjectFirma.Web.Models
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
             feature.Properties.Add("TaxonomyTierThreeID", TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("ProjectStageID", ProjectStageID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("Info", DisplayName);
             if (addProjectProperties)
             {
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("ProjectName", DisplayName);
                 feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));

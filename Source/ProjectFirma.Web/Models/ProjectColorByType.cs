@@ -18,28 +18,36 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Common;
+
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectColorByType
     {
-        public abstract string DisplayName { get; }   
+        public abstract string DisplayName { get; }
+        public abstract bool IsRelevantToTenant { get; }
     }
 
     public partial class ProjectColorByTypeTaxonomyTierThree
     {
-        public override string DisplayName
-        {
-            get { return FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(); }
-        }
+        public override string DisplayName => FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+
+        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
     }
 
     public partial class ProjectColorByTypeProjectStage
     {
-        public override string DisplayName
-        {
-            get { return ProjectColorByTypeDisplayName; }
-        }
+        public override string DisplayName => ProjectColorByTypeDisplayName;
+
+        public override bool IsRelevantToTenant => true;
     }
 
+    public partial class ProjectColorByTypeTaxonomyTierTwo
+    {
+        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+
+        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2;
+    }
 
 }
