@@ -16,6 +16,7 @@
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.Store.FirmaPage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.Store.FundingTypeData" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" store:Type="Tables" Schema="dbo" />
@@ -912,6 +913,17 @@ warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_Funding
     <Property Name="FundingSourceName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="FundingTypeData">
+    <Key>
+      <PropertyRef Name="FundingTypeDataID" />
+    </Key>
+    <Property Name="FundingTypeDataID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="FundingTypeID" Type="int" Nullable="false" />
+    <Property Name="FundingTypeDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="FundingTypeShortName" Type="varchar" Nullable="false" MaxLength="20" />
+    <Property Name="SortOrder" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MappedRegion">
     <Key>

@@ -58,6 +58,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<FundingTypeData> AllFundingTypeDatas { get; set; }
+        public virtual IQueryable<FundingTypeData> FundingTypeDatas { get { return AllFundingTypeDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MappedRegion> AllMappedRegions { get; set; }
         public virtual IQueryable<MappedRegion> MappedRegions { get { return AllMappedRegions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MonitoringProgramDocument> AllMonitoringProgramDocuments { get; set; }
@@ -283,6 +285,9 @@ namespace ProjectFirma.Web.Models
 
                 case "FundingSource":
                     return FundingSources.GetFundingSource(primaryKey);
+
+                case "FundingTypeData":
+                    return FundingTypeDatas.GetFundingTypeData(primaryKey);
 
                 case "FundingType":
                     var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

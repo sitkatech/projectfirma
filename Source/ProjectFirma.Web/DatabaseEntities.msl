@@ -181,6 +181,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FundingTypeData">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FundingTypeData">
+        <MappingFragment StoreEntitySet="FundingTypeData">
+          <ScalarProperty Name="FundingTypeDataID" ColumnName="FundingTypeDataID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
+          <ScalarProperty Name="FundingTypeDisplayName" ColumnName="FundingTypeDisplayName" />
+          <ScalarProperty Name="FundingTypeShortName" ColumnName="FundingTypeShortName" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="MappedRegion">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.MappedRegion">
         <MappingFragment StoreEntitySet="MappedRegion">
