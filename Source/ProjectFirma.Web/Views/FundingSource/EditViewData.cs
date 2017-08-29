@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Views;
 
@@ -27,10 +28,14 @@ namespace ProjectFirma.Web.Views.FundingSource
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> Organizations;
+        public readonly Models.Person CurrentPerson;
+        public readonly bool AllowPersonToSetOrganization;
 
-        public EditViewData(IEnumerable<SelectListItem> organizations)
+        public EditViewData(IEnumerable<SelectListItem> organizations, Models.Person currentPerson)
         {
             Organizations = organizations;
+            CurrentPerson = currentPerson;
+            AllowPersonToSetOrganization = new List<Models.Role> { Models.Role.Admin, Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
         }
     }
 }

@@ -30,28 +30,28 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class OrganizationTypeGridSpec : GridSpec<Models.OrganizationType>
+    public class OrganizationTypeGridSpec : GridSpec<OrganizationType>
     {
         public OrganizationTypeGridSpec(bool hasManagePermissions)
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
                         $"Edit {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
-                    30);
+                    30, DhtmlxGridColumnFilterType.None);
             }
 
             Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
-            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
+            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 100);
             Add("Legend Color", a => ToLegendColor(a), 50, DhtmlxGridColumnFilterType.None);
         }
 
         private static HtmlString ToLegendColor(OrganizationType organizationType)
         {
             var div = new TagBuilder("div");
-            div.Attributes["style"] = $"background-color: {organizationType.LegendColor}; height: 1em; width: 1em; display: inline-block;";
+            div.Attributes["style"] = $"background-color: {organizationType.LegendColor}; height: 1em; width: 1em; display: block; margin: auto;";
             return div.ToString().ToHTMLFormattedString();
         }
     }

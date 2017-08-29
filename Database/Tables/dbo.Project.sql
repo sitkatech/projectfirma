@@ -22,7 +22,6 @@ CREATE TABLE [dbo].[Project](
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
-	[LeadImplementerOrganizationID] [int] NOT NULL,
 	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
@@ -45,16 +44,6 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_FundingType_
 REFERENCES [dbo].[FundingType] ([FundingTypeID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_FundingType_FundingTypeID]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID] FOREIGN KEY([LeadImplementerOrganizationID])
-REFERENCES [dbo].[Organization] ([OrganizationID])
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID] FOREIGN KEY([LeadImplementerOrganizationID], [TenantID])
-REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])

@@ -25,7 +25,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -74,9 +73,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.SecuredFunding)]
         public Money? SecuredFunding { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
-        public int? LeadImplementerOrganizationID { get; set; }
-
         public bool HasExistingProjectUpdate { get; set; }
         public int? OldProjectStageID { get; set; }
 
@@ -105,7 +101,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             SecuredFunding = project.SecuredFunding;
-            LeadImplementerOrganizationID = project.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
         }
@@ -124,7 +119,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedTotalCost = proposedProject.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;
             SecuredFunding = proposedProject.SecuredFunding;
-            LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = false;
             PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
         }
@@ -139,11 +133,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
-
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
-            {
-                project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
-            }
 
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
@@ -181,11 +170,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             if (CompletionYear < ImplementationStartYear)
             {
                 errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
-            }
-
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectID) && !LeadImplementerOrganizationID.HasValue)
-            {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified", m => m.LeadImplementerOrganizationID));
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;

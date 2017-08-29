@@ -25,27 +25,32 @@ namespace ProjectFirma.Web.Models
         {
             this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
+            this.ProposedProjectOrganizations = new HashSet<ProposedProjectOrganization>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName) : this()
+        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact) : this()
         {
             this.RelationshipTypeID = relationshipTypeID;
             this.RelationshipTypeName = relationshipTypeName;
+            this.CanApproveProjects = canApproveProjects;
+            this.IsPrimaryContact = isPrimaryContact;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(string relationshipTypeName) : this()
+        public RelationshipType(string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.RelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.RelationshipTypeName = relationshipTypeName;
+            this.CanApproveProjects = canApproveProjects;
+            this.IsPrimaryContact = isPrimaryContact;
         }
 
 
@@ -54,7 +59,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static RelationshipType CreateNewBlank()
         {
-            return new RelationshipType(default(string));
+            return new RelationshipType(default(string), default(bool), default(bool));
         }
 
         /// <summary>
@@ -63,22 +68,25 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return OrganizationTypeRelationshipTypes.Any() || ProjectOrganizations.Any();
+            return OrganizationTypeRelationshipTypes.Any() || ProjectOrganizations.Any() || ProposedProjectOrganizations.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(RelationshipType).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(ProjectOrganization).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(RelationshipType).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(ProjectOrganization).Name, typeof(ProposedProjectOrganization).Name};
 
         [Key]
         public int RelationshipTypeID { get; set; }
         public int TenantID { get; private set; }
         public string RelationshipTypeName { get; set; }
+        public bool CanApproveProjects { get; set; }
+        public bool IsPrimaryContact { get; set; }
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
 
         public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
+        public virtual ICollection<ProposedProjectOrganization> ProposedProjectOrganizations { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

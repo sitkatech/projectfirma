@@ -36,15 +36,14 @@ namespace ProjectFirma.Web.Views.FundingSource
         {
             PageTitle = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
 
-            var hasFundingSourceManagePermissions = new FundingSourceManageFeature().HasPermissionByPerson(currentPerson);
-            GridSpec = new IndexGridSpec(hasFundingSourceManagePermissions)
+            GridSpec = new IndexGridSpec(currentPerson)
             {
                 ObjectNameSingular = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
-            if (hasFundingSourceManagePermissions)
+            if (new FundingSourceCreateFeature().HasPermissionByPerson(currentPerson))
             {
                 GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), $"Create a new {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}");
             }

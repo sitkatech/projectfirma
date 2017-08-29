@@ -31,8 +31,6 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectExcelSpec()
         {
             AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
-            AddColumn(Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), x => x.LeadImplementerName);
-            AddColumn(Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(), x => x.LeadImplementerOrganization != null ? x.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsString : string.Empty);
             AddColumn($"Non-Lead Implementing {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);

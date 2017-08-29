@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -298,6 +298,9 @@
     <Compile Include="Models\Generated\ProposedProjectNote.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProposedProjectNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectOrganization.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectOrganization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProposedProjectOrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectState.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
@@ -360,6 +363,8 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
     <Compile Include="Models\ProposedProjectWatershed.cs" />
+    <Compile Include="Security\FundingSourceEditFeature.cs" />
+    <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
     <Compile Include="Views\ProjectUpdate\Watershed.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedViewData.cs" />
@@ -688,7 +693,7 @@
     <Compile Include="Security\PerformanceMeasureExpectedFromProjectViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureExpectedProposedFeature.cs" />
     <Compile Include="Security\FieldDefinitionViewFeature.cs" />
-    <Compile Include="Security\FundingSourceManageFeature.cs" />
+    <Compile Include="Security\FundingSourceCreateFeature.cs" />
     <Compile Include="Security\FundingSourceViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureNoteViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureViewFeature.cs" />
@@ -722,7 +727,7 @@
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
     <Compile Include="Security\ProjectClassificationManageFromClassificationFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeature.cs" />
-    <Compile Include="Security\ProjectUpdateManageFeature.cs" />
+    <Compile Include="Security\ProjectUpdateCreateEditSubmitFeature.cs" />
     <Compile Include="Security\ProjectUpdateViewFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
     <Compile Include="Security\ProjectWatershedManageFromProjectFeature.cs" />
@@ -1333,9 +1338,9 @@
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Content Include="Views\Shared\ViewPageContent.cshtml" />
     <Content Include="Views\Watershed\MapTooltip.cshtml" />
+    <Content Include="Views\ProjectUpdate\Watershed.cshtml" />
     <Content Include="Views\ProposedProject\Watershed.cshtml" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cshtml" />
-    <Content Include="Views\ProjectUpdate\Watershed.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3260,6 +3265,7 @@
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Views\Help\" />
+    <Folder Include="Views\ProjectWatershed\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

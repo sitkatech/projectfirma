@@ -27,11 +27,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly Models.Project Project;
         public readonly ProjectUpdateState LatestUpdateState;
 
-        protected ProjectViewData(Person currentPerson, Models.Project project) : this(currentPerson, project, false)
-        {
-        }        
-
-        protected ProjectViewData(Person currentPerson, Models.Project project, bool useFluidContainer) : base(currentPerson, null)
+        protected ProjectViewData(Person currentPerson, Models.Project project) : base(currentPerson, null)
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;

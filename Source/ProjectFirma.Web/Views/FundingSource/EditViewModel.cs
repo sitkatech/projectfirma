@@ -40,11 +40,11 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string FundingSourceName { get; set; }
 
         [Required]
-        public int OrganizationID { get; set; }
+        public int? OrganizationID { get; set; }
 
         [Required]
         [DisplayName("Active?")]
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
         [DisplayName("Description")]
@@ -70,8 +70,8 @@ namespace ProjectFirma.Web.Views.FundingSource
         {
             fundingSource.FundingSourceName = FundingSourceName;
             fundingSource.FundingSourceDescription = FundingSourceDescription;
-            fundingSource.OrganizationID = OrganizationID;
-            fundingSource.IsActive = IsActive;
+            fundingSource.OrganizationID = OrganizationID ?? ModelObjectHelpers.NotYetAssignedID; // should never be null due to Required Validation Attribute
+            fundingSource.IsActive = IsActive ?? false; // should never be null due to Required Validation Attribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -83,6 +83,15 @@ namespace ProjectFirma.Web.Views.FundingSource
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.FundingSourceNameUnique, x => x.FundingSourceName));
             }
+
+            var currentPerson = HttpRequestStorage.Person;
+            if (new List<Models.Role> {Models.Role.Admin, Models.Role.SitkaAdmin}.All(
+                x => x.RoleID != currentPerson.RoleID) && currentPerson.OrganizationID != OrganizationID)
+            {
+                var errorMessage = $"You cannnot create a {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} for an {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} other than your own.";
+                errors.Add(new SitkaValidationResult<EditViewModel, int?>(errorMessage, x => x.OrganizationID));
+            }
+
             return errors;
         }
     }

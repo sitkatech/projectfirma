@@ -25,7 +25,6 @@ using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
-using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -38,13 +37,10 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
-using Watershed = ProjectFirma.Web.Models.Watershed;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -128,15 +124,16 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectCreateNewFeature]
         public ViewResult CreateAndEditBasics()
         {
-            return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.OrganizationID));
+            return ViewCreateAndEditBasics(new BasicsViewModel(), null);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, ProposedProject proposedProject)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, FundingType.All, taxonomyTierOnes);
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -160,8 +157,9 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContacts = HttpRequestStorage.DatabaseEntities.People;
-            
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, FundingType.All);
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+
+            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -173,7 +171,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = new ProposedProject(viewModel.ProjectName,
                 viewModel.ProjectDescription,
-                ModelObjectHelpers.NotYetAssignedID,
                 CurrentPerson.PersonID,
                 DateTime.Now,
                 (int) ProjectLocationSimpleType.None.ToEnum,
@@ -197,7 +194,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey) ? ViewEditBasics(proposedProject, viewModel) : ViewCreateAndEditBasics(viewModel);
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey) ? ViewEditBasics(proposedProject, viewModel) : ViewCreateAndEditBasics(viewModel, proposedProject);
             }
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey))
@@ -926,7 +923,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\" to Submitter?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" to Submitter?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -947,7 +944,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\"?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\"?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

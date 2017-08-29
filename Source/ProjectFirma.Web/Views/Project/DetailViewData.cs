@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
-            UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
+            UserHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;
             AssessmentTreeViewData = assessmentTreeViewData;
 
@@ -142,11 +142,11 @@ namespace ProjectFirma.Web.Views.Project
             MapFormID = mapFormID;
             EditSimpleProjectLocationUrl = editSimpleProjectLocationUrl;
             EditDetailedProjectLocationUrl = editDetailedProjectLocationUrl;
-            UserHasMapManagePermissions = new ProjectMapManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasMapManagePermissions = new ProjectMapManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             AllProjectOrganizations = project.ProjectOrganizations.ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
-            UserHasProjectOrganizationManagePermissions = new ProjectOrganizationManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectOrganizationManagePermissions = new ProjectOrganizationManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
             EditPerformanceMeasureExpectedsUrl = editPerformanceMeasureExpectedsUrl;
@@ -162,16 +162,16 @@ namespace ProjectFirma.Web.Views.Project
             UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             EditClassificationsUrl = editClassificationsUrl;
-            UserHasProjectClassificationManagePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectClassificationManagePermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
 
             EditAssessmentUrl = editAssessmentUrl;
 
             EditWatershedsUrl = editWatershedsUrl;
-            UserHasProjectWatershedManagePermissions = new ProjectWatershedManageFromProjectFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectWatershedManagePermissions = new ProjectWatershedManageFromProjectFeature().HasPermission(currentPerson, project).HasPermission;
 
             EditExternalLinksUrl = editExternalLinksUrl;
             EntityExternalLinksViewData = entityExternalLinksViewData;
-            UserHasProjectExternalLinkManagePermissions = new ProjectExternalLinkManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectExternalLinkManagePermissions = new ProjectExternalLinkManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             ImageGalleryViewData = imageGalleryViewData;
 

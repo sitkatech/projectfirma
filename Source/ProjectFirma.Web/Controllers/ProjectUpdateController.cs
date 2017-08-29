@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Basics(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Basics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
         {
@@ -218,7 +218,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshBasics(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -228,7 +228,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshBasics(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -252,7 +252,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -281,7 +281,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
         {
@@ -343,7 +343,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -366,7 +366,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -392,7 +392,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -410,7 +410,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
         {
@@ -458,7 +458,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshExpenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -468,7 +468,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshExpenditures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -490,7 +490,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Budgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -508,7 +508,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Budgets(ProjectPrimaryKey projectPrimaryKey, BudgetsViewModel viewModel)
         {
@@ -557,7 +557,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -567,7 +567,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -588,7 +588,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -603,7 +603,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshPhotos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -613,7 +613,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshPhotos(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -636,7 +636,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult LocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -654,7 +654,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult LocationSimple(ProjectPrimaryKey projectPrimaryKey, LocationSimpleViewModel viewModel)
         {
@@ -704,7 +704,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -714,7 +714,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -739,7 +739,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult LocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -753,7 +753,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult LocationDetailed(ProjectPrimaryKey projectPrimaryKey, LocationDetailedViewModel viewModel)
         {
@@ -810,7 +810,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshProjectLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -820,7 +820,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshProjectLocationDetailed(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -844,7 +844,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ImportGdbFile(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -863,7 +863,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ImportGdbFile(ProjectPrimaryKey projectPrimaryKey, ImportGdbFileViewModel viewModel)
         {
@@ -892,7 +892,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -924,7 +924,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey, ProjectLocationDetailViewModel viewModel)
         {
@@ -954,7 +954,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Watershed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -969,7 +969,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Watershed(ProjectPrimaryKey projectPrimaryKey, WatershedViewModel viewModel)
         {
@@ -1021,7 +1021,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshProjectWatershed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1031,7 +1031,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshProjectWatershed(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1059,7 +1059,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }       
 
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1075,7 +1075,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1085,7 +1085,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1107,7 +1107,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1124,7 +1124,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
         {
@@ -1164,7 +1164,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1174,7 +1174,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshExternalLinks(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1196,7 +1196,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateAdminFeatureWithProjectContext]
         public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1207,7 +1207,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateAdminFeatureWithProjectContext]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Approve(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1249,9 +1249,9 @@ namespace ProjectFirma.Web.Controllers
                 allProjectImages,
                 allProjectLocations,
                 allProjectWatersheds);
+            
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
 
-
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved!");
@@ -1311,7 +1311,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult Submit(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1321,14 +1321,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.DisplayName}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
@@ -1363,7 +1363,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatches.ForEach(pub =>
             {
                 pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
-                Notification.SendSubmittedMessage(peopleToCc, pub);
+                var peopleToNotify = peopleToCc.Union(pub.Project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+                Notification.SendSubmittedMessage(peopleToNotify, pub);
             });
             SetMessageForDisplay($"The update(s) for {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} {string.Join(", ", projectUpdateBatches.Select(x => x.Project.DisplayName))} have been submitted.");
             return new ModalDialogFormJsonResult();
@@ -1377,7 +1378,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateAdminFeatureWithProjectContext]
         public PartialViewResult Return(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1388,7 +1389,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateAdminFeatureWithProjectContext]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Return(ProjectPrimaryKey projectPrimaryKey, ReturnDialogFormViewModel viewModel)
         {
@@ -1397,7 +1398,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Require(projectUpdateBatch.IsSubmitted, $"You cannot return a {FieldDefinition.Project.GetFieldDefinitionLabel()} Update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
             Notification.SendReturnedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} has been returned.");
             return new ModalDialogFormJsonResult();
@@ -1410,7 +1411,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1420,7 +1421,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1436,7 +1437,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult History(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1603,7 +1604,7 @@ namespace ProjectFirma.Web.Controllers
         }
         
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffBasics(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffBasicsImpl(projectPrimaryKey);
@@ -1632,7 +1633,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffPerformanceMeasuresImpl(projectPrimaryKey);
@@ -1753,7 +1754,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffExpenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffExpendituresImpl(projectPrimaryKey);
@@ -1858,7 +1859,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffBudgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
@@ -1968,7 +1969,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffPhotos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1988,8 +1989,7 @@ namespace ProjectFirma.Web.Controllers
             var dummyProject = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
-                FundingType.Capital,
-                Organization.CreateNewBlank());
+                FundingType.Capital);
 
             var dummyProjectUpdateBatch = ProjectUpdateBatch.CreateNewBlank(dummyProject, CurrentPerson, ProjectUpdateState.Created);
 
@@ -2114,7 +2114,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffExternalLinksImpl(projectPrimaryKey);
@@ -2178,7 +2178,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateManageFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffNotesImpl(projectPrimaryKey);

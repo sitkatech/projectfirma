@@ -43,7 +43,14 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         public List<int> OrganizationTypeIDs { get; set; }
-                
+
+        [Required]
+        [DisplayName("Can Approve Projects?")]
+        public bool? CanApproveProjects { get; set; }
+
+        [Required]
+        [DisplayName("Is Primary Contact?")]
+        public bool? IsPrimaryContact { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -59,6 +66,8 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeIDs = relationshipType.OrganizationTypeRelationshipTypes
                 .Select(x => x.OrganizationTypeID)
                 .ToList();
+            CanApproveProjects = relationshipType.CanApproveProjects;
+            IsPrimaryContact = relationshipType.IsPrimaryContact;
         }
 
         public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
@@ -70,6 +79,9 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             relationshipType.OrganizationTypeRelationshipTypes.Merge(organizationTypesUpdated,
                 allOrganizationTypeRelationshipTypes,
                 (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
+
+            relationshipType.CanApproveProjects = CanApproveProjects ?? false; // Should never be null due to required validation attribute
+            relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -78,7 +90,19 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
             if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists", x => x.RelationshipTypeName));
+                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.", x => x.RelationshipTypeName));
+            }
+
+            if (CanApproveProjects == true &&
+                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanApproveProjects))
+            {
+                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Approve Projects?\" is set to \"Yes\"."));
+            }
+
+            if (IsPrimaryContact == true &&
+                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
+            {
+                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\"."));
             }
            
             return errors;

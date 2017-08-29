@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 return {
                     AngularModel: { ShowValidationWarnings: true},
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
-                    };
+                };
             });
             jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
             // ]]>
@@ -244,18 +244,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     @ViewDataTyped.ProjectUpdate.CompletionYear
                 }
             </div>
-        </div>
-        <div class="row form-group-condensed">
-            <div class="col-md-3">
-                @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
-            </div>
-            <div class="col-md-9">
-                @if (ViewDataTyped.Project.LeadImplementerOrganization != null)
-                {
-                    <a href="@ViewDataTyped.Project.LeadImplementerOrganization.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.LeadImplementerOrganization.DisplayName</a>
-                }
-            </div>
-
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3">

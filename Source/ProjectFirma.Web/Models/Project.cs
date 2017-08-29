@@ -45,8 +45,6 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
-        public string LeadImplementerName => LeadImplementerOrganization != null ? LeadImplementerOrganization.OrganizationName : String.Empty;
-
         public List<ProjectOrganization> GetAllProjectOrganizations()
         {
             return ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList();
@@ -62,7 +60,9 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public Person GetPrimaryContact() => PrimaryContactPerson ?? LeadImplementerOrganization?.PrimaryContactPerson;
+        public Person GetPrimaryContact() => PrimaryContactPerson ??
+                                             ProjectOrganizations.Where(x => x.RelationshipType.IsPrimaryContact)
+                                                 .Select(x => x.Organization.PrimaryContactPerson).FirstOrDefault(); // TODO: Probably want to handle the case where there are multiple primary contact organizations
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
@@ -254,7 +254,12 @@ namespace ProjectFirma.Web.Models
 
         public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)
         {
-            return person != null && LeadImplementerOrganization != null && LeadImplementerOrganization.OrganizationID == person.OrganizationID;
+            if (person == null)
+            {
+                return false;
+            }
+            var primaryContactProjectOrganizations = ProjectOrganizations.Where(x => x.RelationshipType.IsPrimaryContact);
+            return primaryContactProjectOrganizations.Any(x => x.OrganizationID == person.OrganizationID);
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
@@ -346,10 +351,6 @@ namespace ProjectFirma.Web.Models
         public string AssocatedOrganizationNames(Organization organization)
         {
             var projectOrganizationAssocationNames = new List<string>();
-            if (LeadImplementerOrganization == organization)
-            {
-                projectOrganizationAssocationNames.Add("Lead Implementer");
-            }
             ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
             return string.Join(",", projectOrganizationAssocationNames);
         }
@@ -407,6 +408,12 @@ namespace ProjectFirma.Web.Models
             return ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
                 .GroupBy(x => x.FundingSource.FixedLengthDisplayName)
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+        }
+
+        public IEnumerable<Person> GetProjectOwnersForProject()
+        {
+            return ProjectOrganizations.Where(x => x.RelationshipType.CanApproveProjects)
+                .SelectMany(x => x.Organization.People.Where(y => y.RoleID == Role.ProjectSteward.RoleID)).ToList();
         }
     }
 }
