@@ -77,7 +77,6 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategory performanceMeasureSubcategory,
             Dictionary<PerformanceMeasureSubcategoryOption, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
         {
-
             var googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
             var googleChartDataTable = GetGoogleChartDataTableForPerformanceMeasure(yearRange,
                 performanceMeasure.MeasurementUnitType,
