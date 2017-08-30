@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} and Relationship Types", FieldDefinitionEnum.OrganizationType)]
-    public class OrganizationAndRelationshipTypeManageFeature : FirmaAdminFeature
+    public class OrganizationAndRelationshipTypeManageFeature : SitkaAdminFeature
     {
     }
 }
