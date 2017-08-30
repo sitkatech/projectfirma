@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetDisplayNameAsUrl(this Organization organization)
         {          
-            return UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayName);
+            return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayName) : new HtmlString(null);
         }
 
         public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));

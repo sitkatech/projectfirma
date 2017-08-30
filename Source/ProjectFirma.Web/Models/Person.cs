@@ -124,18 +124,21 @@ namespace ProjectFirma.Web.Models
 
         public bool CanApproveProjectByOrganizationRelationship(Project project)
         {
-            return project.ProjectOrganizations.Any(x => x.OrganizationID == OrganizationID && x.RelationshipType.CanApproveProjects);
+            var canApproveProjectsOrganization = project.GetCanApproveProjectsOrganization();
+            return canApproveProjectsOrganization != null && canApproveProjectsOrganization.OrganizationID == OrganizationID;
         }
 
         public void SetProjectOrganizationWithRelationshipThatCanApprove(Project project)
         {
-            RelationshipType relationshipTypeThatCanApprove;
+            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
             // Want to ensure that person is a Project Approver and belongs to an Organization that allows a "Can Approve" relationship
             if (Role.ProjectSteward.RoleID == RoleID &&
-                (relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects)) != null &&
-                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+                relationshipTypeThatCanApprove != null &&
+                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(
+                    x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
+                project.ProjectOrganizations.Add(
+                    new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
             }
         }
 
@@ -143,10 +146,11 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                RelationshipType relationshipTypeThatCanApprove;
+                var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
                 return Role.ProjectSteward.RoleID == RoleID &&
-                    (relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects)) != null &&
-                    relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+                       relationshipTypeThatCanApprove != null &&
+                       relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(
+                           x => x.OrganizationTypeID == Organization.OrganizationTypeID);
             }
         }
     }

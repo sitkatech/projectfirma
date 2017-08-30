@@ -65,8 +65,6 @@ namespace ProjectFirma.Web.Models
 
         public string PrimaryContactPersonAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLast : ViewUtilities.NoneString;
 
-        public bool IsLeadImplementerForOneOrMoreProjects => ProjectOrganizations.Any(x => x.RelationshipType.IsPrimaryContact);
-
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
         {
             var organization =

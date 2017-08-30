@@ -288,11 +288,16 @@ namespace ProjectFirma.Web.Models
         public bool AreBudgetsValid { get; set; }
         public bool IsProjectLocationSimpleValid { get; set; }
 
+        public Organization GetPrimaryContactOrganization()
+        {
+            return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+        }
 
-        public Person GetPrimaryContact() => PrimaryContactPerson ??
-                                             ProposedProjectOrganizations
-                                                 .Where(x => x.RelationshipType.IsPrimaryContact)
-                                                 .Select(x => x.Organization.PrimaryContactPerson)
-                                                 .FirstOrDefault(); // TODO: Probably want to handle the case where there are multiple primary contact organizations 
+        public Organization GetCanApproveProjectsOrganization()
+        {
+            return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
+        }
+
+        public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
     }
 }

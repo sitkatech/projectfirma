@@ -60,9 +60,18 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
+        public Organization GetPrimaryContactOrganization()
+        {
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+        }
+
+        public Organization GetCanApproveProjectsOrganization()
+        {
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
+        }
+
         public Person GetPrimaryContact() => PrimaryContactPerson ??
-                                             ProjectOrganizations.Where(x => x.RelationshipType.IsPrimaryContact)
-                                                 .Select(x => x.Organization.PrimaryContactPerson).FirstOrDefault(); // TODO: Probably want to handle the case where there are multiple primary contact organizations
+                                             GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
@@ -258,8 +267,9 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
-            var primaryContactProjectOrganizations = ProjectOrganizations.Where(x => x.RelationshipType.IsPrimaryContact);
-            return primaryContactProjectOrganizations.Any(x => x.OrganizationID == person.OrganizationID);
+            var primaryContactOrganization = GetPrimaryContactOrganization();
+            return primaryContactOrganization != null &&
+                   primaryContactOrganization.OrganizationID == person.OrganizationID;
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
@@ -412,8 +422,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Person> GetProjectOwnersForProject()
         {
-            return ProjectOrganizations.Where(x => x.RelationshipType.CanApproveProjects)
-                .SelectMany(x => x.Organization.People.Where(y => y.RoleID == Role.ProjectSteward.RoleID)).ToList();
+            return GetCanApproveProjectsOrganization().People.Where(y => y.RoleID == Role.ProjectSteward.RoleID).ToList();
         }
     }
 }
