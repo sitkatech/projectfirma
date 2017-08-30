@@ -19,11 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -45,11 +48,15 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson MapInitJson;
         public readonly bool HasSpatialData;
 
+        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
+
+
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
             CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData,
             MapInitJson mapInitJson,
-            bool hasSpatialData) : base(currentPerson)
+            bool hasSpatialData,
+            List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
         {
             Organization = organization;
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
@@ -81,6 +88,8 @@ namespace ProjectFirma.Web.Views.Organization
 
             MapInitJson = mapInitJson;
             HasSpatialData = hasSpatialData;
+
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(organization.GetPerformanceMeasureChartViewData).ToList();
         }
     }
 }
