@@ -133,10 +133,7 @@ namespace ProjectFirma.Web.Models
 
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
         {
-            var relationshipTypeThatCanApproveProjects = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
-            var projectIDs = ProjectOrganizations.Where(x => x.RelationshipTypeID == relationshipTypeThatCanApproveProjects?.RelationshipTypeID)
-                .Select(x => x.ProjectID)
-                .ToList();
+            var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Small, projectIDs);
         }
     }
