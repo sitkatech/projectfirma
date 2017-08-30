@@ -117,8 +117,6 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var hasExistingProjectUpdate = projectUpdateBatch != null;
-            var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
@@ -127,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectStage.All, FundingType.All, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
-                totalExpenditures, hasExistingProjectBudgetUpdates,
+                totalExpenditures,
                 taxonomyTierOnes
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
@@ -150,10 +148,14 @@ namespace ProjectFirma.Web.Controllers
             var activeProjectStages = GetActiveProjectStages(project);
             var projectTaxonomyViewData = new ProjectTaxonomyViewData(project);
 
-            var projectBudgetAmounts =
-                ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(project.ProjectBudgets.ToList()));
-            var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
-            var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //var projectBudgetAmounts =
+            //    ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(project.ProjectBudgets.ToList()));
+            //var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
+            //var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
+            //var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
+            //var userHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson);
+            var userHasProjectBudgetManagePermissions = false;
 
             var mapDivID = $"project_{project.ProjectID}_Map";
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
@@ -195,14 +197,14 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
 
-            var projectBasicsViewData = new ProjectBasicsViewData(project, new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson), new TagManageFeature().HasPermissionByPerson(CurrentPerson), projectBasicsTagsViewData);
+            var userHasTaggingPermissions = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
+            var projectBasicsViewData = new ProjectBasicsViewData(project, userHasProjectBudgetManagePermissions, userHasTaggingPermissions, projectBasicsTagsViewData);
 
             var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
             var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();
@@ -213,7 +215,8 @@ namespace ProjectFirma.Web.Controllers
                 confirmNonMandatoryUpdateUrl,
                 activeProjectStages,
                 projectTaxonomyViewData,
-                projectBudgetSummaryViewData,
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+                //projectBudgetSummaryViewData,
                 projectLocationSummaryViewData,
                 mapFormID,
                 editSimpleProjectLocationUrl,
@@ -232,7 +235,8 @@ namespace ProjectFirma.Web.Controllers
                 entityNotesViewData,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
-                editProjectBudgetUrl,
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+//                editProjectBudgetUrl,
                 editExternalLinksUrl,
                 entityExternalLinksViewData,
                 projectNotificationGridSpec,

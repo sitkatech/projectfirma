@@ -97,7 +97,8 @@ namespace ProjectFirma.Web.Models
                             DateTime.Now.AddDays(4),
                             new List<ProjectExemptReportingYear>(),
                             new List<ProjectFundingSourceExpenditure>(),
-                            new List<ProjectBudget>(),
+                            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+                            //new List<ProjectBudget>(),
                             new List<PerformanceMeasureActual>(),
                             new List<PerformanceMeasureActualSubcategoryOption>(),
                             new List<ProjectExternalLink>(),
@@ -120,7 +121,8 @@ namespace ProjectFirma.Web.Models
                 DateTime.Now.AddDays(4),
                 new List<ProjectExemptReportingYear>(),
                 new List<ProjectFundingSourceExpenditure>(),
-                new List<ProjectBudget>(),
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+                //new List<ProjectBudget>(),
                 new List<PerformanceMeasureActual>(),
                 new List<PerformanceMeasureActualSubcategoryOption>(),
                 new List<ProjectExternalLink>(),
