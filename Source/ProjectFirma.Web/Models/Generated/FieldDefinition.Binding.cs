@@ -22,6 +22,8 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionExpectedValue ExpectedValue = FieldDefinitionExpectedValue.Instance;
         public static readonly FieldDefinitionTaxonomyTierThree TaxonomyTierThree = FieldDefinitionTaxonomyTierThree.Instance;
         public static readonly FieldDefinitionFundingSource FundingSource = FieldDefinitionFundingSource.Instance;
+        public static readonly FieldDefinitionIsPrimaryContactOrganization IsPrimaryContactOrganization = FieldDefinitionIsPrimaryContactOrganization.Instance;
+        public static readonly FieldDefinitionCanApproveProjectsOrganization CanApproveProjectsOrganization = FieldDefinitionCanApproveProjectsOrganization.Instance;
         public static readonly FieldDefinitionOrganization Organization = FieldDefinitionOrganization.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
         public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
@@ -94,7 +96,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, CanApproveProjectsOrganization, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -177,6 +179,8 @@ namespace ProjectFirma.Web.Models
                     return AssociatedTaxonomyTierTwos;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
+                case FieldDefinitionEnum.CanApproveProjectsOrganization:
+                    return CanApproveProjectsOrganization;
                 case FieldDefinitionEnum.Classification:
                     return Classification;
                 case FieldDefinitionEnum.ClassificationDescription:
@@ -211,6 +215,8 @@ namespace ProjectFirma.Web.Models
                     return GlobalInflationRate;
                 case FieldDefinitionEnum.ImplementationStartYear:
                     return ImplementationStartYear;
+                case FieldDefinitionEnum.IsPrimaryContactOrganization:
+                    return IsPrimaryContactOrganization;
                 case FieldDefinitionEnum.IsPrimaryTaxonomyTierTwo:
                     return IsPrimaryTaxonomyTierTwo;
                 case FieldDefinitionEnum.LifecycleOperatingCost:
@@ -319,6 +325,8 @@ namespace ProjectFirma.Web.Models
         ExpectedValue = 4,
         TaxonomyTierThree = 5,
         FundingSource = 8,
+        IsPrimaryContactOrganization = 12,
+        CanApproveProjectsOrganization = 13,
         Organization = 14,
         Password = 17,
         PerformanceMeasure = 18,
@@ -406,6 +414,18 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
         public static readonly FieldDefinitionFundingSource Instance = new FieldDefinitionFundingSource(8, @"FundingSource", @"Funding Source", @"<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>", true);
+    }
+
+    public partial class FieldDefinitionIsPrimaryContactOrganization : FieldDefinition
+    {
+        private FieldDefinitionIsPrimaryContactOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionIsPrimaryContactOrganization Instance = new FieldDefinitionIsPrimaryContactOrganization(12, @"IsPrimaryContactOrganization", @"Is Primary Contact Organization", @"<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. This is usually the lead implementer.</p>", true);
+    }
+
+    public partial class FieldDefinitionCanApproveProjectsOrganization : FieldDefinition
+    {
+        private FieldDefinitionCanApproveProjectsOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionCanApproveProjectsOrganization Instance = new FieldDefinitionCanApproveProjectsOrganization(13, @"CanApproveProjectsOrganization", @"Can Approve Projects Organization", @"<p>The entity with primary responsibility for approving a project.</p>", true);
     }
 
     public partial class FieldDefinitionOrganization : FieldDefinition

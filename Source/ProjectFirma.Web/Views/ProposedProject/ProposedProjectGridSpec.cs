@@ -24,6 +24,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
@@ -46,8 +47,12 @@ namespace ProjectFirma.Web.Views.ProposedProject
             }
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-            Add("Associated RCD", x => x.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Lead Implementer", x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+            if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
+            {
+                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150,
+                    DhtmlxGridColumnFilterType.Html);
+            }
+            Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), x => x.TaxonomyTierOne == null ? string.Empty : x.TaxonomyTierOne.DisplayName, 300, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);

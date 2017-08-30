@@ -24,6 +24,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -35,8 +36,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName),
                 350,
                 DhtmlxGridColumnFilterType.Html);
-            Add("Associated RCD", x => x.Project.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+            if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
+            {
+                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.Project.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150,
+                    DhtmlxGridColumnFilterType.Html);
+            }
+            Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {

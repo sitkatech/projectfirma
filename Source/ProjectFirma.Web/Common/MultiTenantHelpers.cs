@@ -127,5 +127,10 @@ namespace ProjectFirma.Web.Common
             }
             return new List<ITaxonomyTier>();
         }
+
+        public static bool HasCanApproveProjectsOrganizationRelationship()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.Any(x => x.CanApproveProjects);
+        }
     }
 }

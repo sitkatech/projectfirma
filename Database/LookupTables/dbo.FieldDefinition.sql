@@ -7,6 +7,8 @@ VALUES
 (4, N'ExpectedValue', N'Expected Value', N'<p>The estimated cumulative Performance Measure value that the project or program is projected to achieve after implementation.</p>', 1),
 (5, N'TaxonomyTierThree', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
 (8, N'FundingSource', N'Funding Source', N'<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>', 1),
+(12, N'IsPrimaryContactOrganization', N'Is Primary Contact Organization', N'<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. This is usually the lead implementer.</p>', 1),
+(13, N'CanApproveProjectsOrganization', N'Can Approve Projects Organization', N'<p>The entity with primary responsibility for approving a project.</p>', 1),
 (14, N'Organization', N'Organization', N'<p>A partner entity that is directly involved with implementation or funding a project.&nbsp;</p>', 1),
 (17, N'Password', N'Password', N'<p>Password required to log into the ProjectFirma tool in order to access and edit project and program information.</p>', 0),
 (18, N'PerformanceMeasure', N'Performance Measure', N'<p>A consistent and targeted method to track actions taken through completed projects to improve the environment. Also known as &quot;Indicators.&quot;&nbsp;</p>', 1),
