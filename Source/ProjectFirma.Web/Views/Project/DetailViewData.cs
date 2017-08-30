@@ -102,6 +102,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ClassificationDisplayNamePluralized;
         public readonly bool HasAssessment;
         public readonly string EditProjectWatershedFormID;
+        public readonly string ProjectStewardCannotEditUrl;
+
         //TODO: Inline all url parameters
 
         public DetailViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
@@ -201,6 +203,8 @@ namespace ProjectFirma.Web.Views.Project
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
 
             EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
+
+            ProjectStewardCannotEditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
         }
     }
 }

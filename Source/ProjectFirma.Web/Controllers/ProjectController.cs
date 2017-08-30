@@ -774,29 +774,37 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return gridJsonNetJObjectResult;
         }
         
-        [HttpGet]
         [ProjectsViewFullListFeature]
         public PartialViewResult DenyCreateProject()
         {
-            var projectOwnerLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
+            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
             var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
             var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
             var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
-                ? $"Although you are a {projectOwnerLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
+                ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
                 : $"You don't have permission to edit {projectLabel}.";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
-
-        [HttpPost]
-        [ProjectsViewFullListFeature]
-        public ModalDialogFormJsonResult DenyCreateProject(ConfirmDialogFormViewModel viewModel)
+        
+        [ProjectCreateNewFeature]
+        public PartialViewResult ProjectStewardCannotEdit()
         {
-            return new ModalDialogFormJsonResult();
+            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+
+            var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
+                ? $"Although you are a {projectStewardLabel}, you do not have the edit this {projectLabel} because it does not belong to your {organizationLabel}."
+                : $"You don't have permission to edit this {projectLabel}.";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+            var viewModel = new ConfirmDialogFormViewModel();
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
     }
 }
