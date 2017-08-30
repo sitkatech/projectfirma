@@ -60,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-md-3">@Html.LabelWithSugarFor(m => m.ProjectDescription)</div>
             <div class="col-md-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
         </div>
