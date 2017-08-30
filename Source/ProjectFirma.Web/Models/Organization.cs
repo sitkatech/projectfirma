@@ -26,6 +26,7 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
 {
@@ -129,5 +130,11 @@ namespace ProjectFirma.Web.Models
         {
             DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
         });
+
+        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
+        {
+            var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Small, projectIDs);
+        }
     }
 }
