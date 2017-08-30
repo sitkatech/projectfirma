@@ -36,19 +36,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
         jQuery("form").submit(function() { jQuery("#@Html.IdFor(x => x.ProjectOrganizationsViewModelJson)").val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
 
-        $scope.lookupLeadPersonForOrganization = function(organizationID) {
-            if (organizationID == null) {
-                return "";
-            }
-            var leadOrg = _.find($scope.AngularViewData.AllOrganizations, function (o) { return o.OrganizationID == organizationID; });
-            var primaryContactForLeadImplementerOrg = _.find($scope.AngularViewData.AllPeople, function(x) { return x.PersonID == leadOrg.PrimaryContactPersonID; });
-            if (primaryContactForLeadImplementerOrg != null)
-            {
-                return primaryContactForLeadImplementerOrg.DisplayName;
-            }
-            return "None";
-        };
-
         $scope.getAvailableOrganizations = function (primarySimple) {
             var usedOrganizationIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
                 function(f) {
@@ -140,14 +127,6 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
     <div class="row">
         <div class="col-xs-12">
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-xs-3">
-                    @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
-                </div>
-                <div class="col-xs-9">
-                    {{lookupLeadPersonForOrganization(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)}}
-                </div>
-            </div>
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-xs-12">
                     <p>
