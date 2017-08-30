@@ -67,10 +67,10 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-12">
             @Html.LabelWithSugarFor(FieldDefinition.ProjectDescription)
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-12" style="padding-left: 20px">
             @Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())
         </div>
     </div>
@@ -81,16 +81,16 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         case FundingTypeEnum.Capital:
             <div class="row">
-                <div class="col-xs-5">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</div>
-                <div class="col-xs-7">
+                <div class="col-xs-6">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</div>
+                <div class="col-xs-6">
                     @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
                 </div>
-                <div class="col-xs-7">
+                <div class="col-xs-6">
                     @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
                     {
                         <span>@ViewDataTyped.ProjectBasicsCalculatedCosts.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
@@ -106,37 +106,37 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                 </div>
-                <div class="col-xs-7">
+                <div class="col-xs-6">
                     @ViewDataTyped.Project.SecuredFunding.ToStringCurrency()
                 </div><div class="row">
                 </div>
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     @Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)
                 </div>
-                <div class="col-xs-7">
+                <div class="col-xs-6">
                     @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
                 </div>
             </div>
                     break;
         case FundingTypeEnum.OperationsAndMaintenance:
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-6">
                 @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-6">
                 @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-6">
                 @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
             </div>
             @if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.Project))
             {
-                <div class="col-xs-7">
+                <div class="col-xs-6">
                     <span>@ViewDataTyped.ProjectBasicsCalculatedCosts.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
                     @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                     {
@@ -155,37 +155,37 @@ Source code is available upon request via <support@sitkatech.com>.
     <hr />
 
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-6">
             @ViewDataTyped.Project.PlanningDesignStartYear
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-6">
             @ViewDataTyped.Project.ImplementationStartYear
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             @Html.LabelWithSugarFor(FieldDefinition.CompletionYear)
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-6">
             @ViewDataTyped.Project.CompletionYear
         </div>
     </div>
 
     <hr />
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
         </div>
 
-        <div class="col-xs-7">
+        <div class="col-xs-6">
             @if (ViewDataTyped.PrimaryContactPerson != null)
             {
                 <span>
@@ -199,10 +199,10 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             <label>Attributes</label>
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-6">
             <ul>                
                 @if (ViewDataTyped.Project.IsFeatured)
                 {

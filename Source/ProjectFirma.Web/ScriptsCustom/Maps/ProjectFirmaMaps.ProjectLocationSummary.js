@@ -30,25 +30,7 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
         if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer)) {
             infoContainerPointHtml += this.formatLayerProperty("Latitude", L.Util.formatNum(latLng.lat, 4));
             infoContainerPointHtml += this.formatLayerProperty("Longitude", L.Util.formatNum(latLng.lng, 4));
-            var vectorLayers = _.filter(this.vectorLayers,
-                function(layer) { return typeof layer.eachLayer !== "undefined"; });
-            for (var i = 0; i < vectorLayers.length; i++) {
-                var match = leafletPip.pointInLayer(
-                    // the clicked point
-                    latLng,
-                    // this layer
-                    vectorLayers[i],
-                    // whether to stop at first match
-                    true);
-                // if there's overlap, add some content to the popup: the layer name
-                // and a table of attributes
-                if (match.length) {
-                    var properties = match[0].feature.properties;
-                    for (var propertyName in properties) {
-                        infoContainerPointHtml += this.formatLayerProperty(propertyName, properties[propertyName]);
-                    }
-                }
-            }
+            
             infoContainerPointHtml += "</table>";
             projectLocationInformationContainer.html(infoContainerPointHtml);
         }

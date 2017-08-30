@@ -41,23 +41,23 @@ Source code is available upon request via <support@sitkatech.com>.
             <label>
                 Location Notes
             </label>
-            <div style="padding-left: 6px">
+            <div style="padding-left: 20px">
                 @ViewDataTyped.ProjectLocationNotes
             </div>
         </div>
     }
     @if (ViewDataTyped.HasLocationInformation)
     {
-        <div>
+        <div style="margin-bottom: 5px"> 
             <label>
                 Location Information
             </label>
-            <div id="projectLocationInformationContainer" style="min-width: 200px"></div>
+            <div id="projectLocationInformationContainer" style="padding-left: 20px"></div>
         </div>
     } 
     @if (ViewDataTyped.HasWatersheds)
     {
-        <div>
+        <div style="margin-bottom: 5px">
             <label>
                 Watershed Information
             </label>
@@ -73,11 +73,11 @@ Source code is available upon request via <support@sitkatech.com>.
     }
     @if(ViewDataTyped.HasWatershedNotes)
     {
-        <div>
+        <div style="margin-bottom: 5px">
             <label>
                 Watershed Notes
             </label>
-            <div style="padding-left: 6px">
+            <div style="padding-left: 20px">
                 @ViewDataTyped.ProjectWatershedNotes
             </div>
         </div>             
