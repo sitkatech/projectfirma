@@ -63,7 +63,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-8">
             @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
             <p id="primaryContactPersonHelpBlock" class="help-block">
-                By default, the @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()) is set to @(ViewDataTyped.DefaultPrimaryContactPerson.FullNameFirstLastAndOrgShortName).
+                Currently, this makes @(ViewDataTyped.DefaultPrimaryContactPerson.FullNameFirstLastAndOrgShortName) the @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()).
             </p>
             @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
         </div>

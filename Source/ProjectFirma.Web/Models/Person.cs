@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Models
                 return $"{FirstName} {LastName} - {orgName}";
             }
         }
-        public string FullNameFirstLastAndOrgShortName => $"{FirstName} {LastName} - {Organization.OrganizationShortNameIfAvailable}";
+        public string FullNameFirstLastAndOrgShortName => $"{FirstName} {LastName} ({Organization.OrganizationShortNameIfAvailable})";
 
         public string FullNameLastFirst => $"{LastName}, {FirstName}";
 
