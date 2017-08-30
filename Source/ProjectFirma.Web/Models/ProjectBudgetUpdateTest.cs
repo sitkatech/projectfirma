@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Models
             var fundingSource1 = TestFramework.TestFundingSource.Create();
 
             // Arrange: test cloning a PerformanceMeasureActual
-            var ProjectBudget1 = TestFramework.TestProjectBudget.Create(project, fundingSource1, 2011, 555);
+            var projectBudget1 = TestFramework.TestProjectBudget.Create(project, fundingSource1, 2011, 555);
 
             const int newCalendarYear = 2017;
 
             // Act && Assert
-            var newProjectBudgetUpdate = ProjectBudgetUpdate.CloneProjectBudget(projectUpdateBatch, ProjectBudget1, newCalendarYear, ProjectBudget1.MonetaryAmount);
-            AssertCloneProjectBudgetSuccessful(newProjectBudgetUpdate, projectUpdateBatch, ProjectBudget1, newCalendarYear, ProjectBudget1.MonetaryAmount);
+            var newProjectBudgetUpdate = ProjectBudgetUpdate.CloneProjectBudget(projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.MonetaryAmount);
+            AssertCloneProjectBudgetSuccessful(newProjectBudgetUpdate, projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.MonetaryAmount);
         }
 
         [Test]
@@ -79,12 +79,12 @@ namespace ProjectFirma.Web.Models
             // Assert - all existing rows from the project record should be there
             foreach (var ProjectBudget in project.ProjectBudgets)
             {
-                var ProjectBudgetUpdate =
+                var projectBudgetUpdate =
                     projectUpdateBatch.ProjectBudgetUpdates.SingleOrDefault(
                         x =>
                             x.ProjectCostTypeID == ProjectBudget.ProjectCostTypeID && x.CalendarYear == ProjectBudget.CalendarYear &&
                             x.FundingSourceID == ProjectBudget.FundingSourceID && x.MonetaryAmount == ProjectBudget.MonetaryAmount);
-                AssertCloneProjectBudgetSuccessful(ProjectBudgetUpdate, projectUpdateBatch, ProjectBudget);
+                AssertCloneProjectBudgetSuccessful(projectBudgetUpdate, projectUpdateBatch, ProjectBudget);
             }
         }
 

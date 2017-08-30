@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly EditProjectType EditProjectType;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly decimal? TotalExpenditures;
-        public readonly bool HasExistingProjectBudgetUpdates;
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyTierOneDisplayName,
@@ -51,7 +50,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             decimal? totalExpenditures,
-            bool hasExistingProjectBudgetUpdates,
             List<Models.TaxonomyTierOne> taxonomyTierOnes)
         {
             EditProjectType = editProjectType;
@@ -66,7 +64,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            HasExistingProjectBudgetUpdates = hasExistingProjectBudgetUpdates;
         }
     }
 }

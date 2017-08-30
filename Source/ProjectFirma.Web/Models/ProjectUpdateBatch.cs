@@ -82,8 +82,14 @@ namespace ProjectFirma.Web.Models
 
         private bool IsPassingAllValidationRules
         {
-            //Budget section used to be required for Transportation projects. Now that we have no notion of transportation project, make budget never required until we decide on rules.
-            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && IsProjectLocationSimpleValid(); }
+            // TODO: Neutered per #1136; Budget section used to be required for Transportation projects. Now that we have no notion of transportation project, make budget never required until we decide on rules.  BOR project will bring it back
+            get
+            {
+                return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
+                       IsProjectLocationSimpleValid() 
+                       //&& AreBudgetsValid()
+                       ;
+            }
         }
 
         public bool InEditableState
@@ -117,8 +123,9 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
 
-            //  project budgets
-            ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            // project budgets
+            // ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
 
             // performance measures
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
@@ -226,8 +233,9 @@ namespace ProjectFirma.Web.Models
 
         public void DeleteProjectBudgetUpdates()
         {
-            ProjectBudgetUpdates.DeleteProjectBudgetUpdate();
-            RefreshFromDatabase(ProjectBudgetUpdates);
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //ProjectBudgetUpdates.DeleteProjectBudgetUpdate();
+            //RefreshFromDatabase(ProjectBudgetUpdates);
         }
 
         public void DeletePerformanceMeasureActualUpdates()
@@ -262,7 +270,8 @@ namespace ProjectFirma.Web.Models
             DeletePerformanceMeasureActualUpdates();
             DeleteProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
-            DeleteProjectBudgetUpdates();
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+//            DeleteProjectBudgetUpdates();
             DeleteProjectImageUpdates();
             DeleteProjectExternalLinkUpdates();
             DeleteProjectNoteUpdates();
@@ -562,12 +571,22 @@ namespace ProjectFirma.Web.Models
             CreateNewTransitionRecord(this, ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
-        public void Approve(Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<ProjectBudget> projectBudgets, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds)
+        public void Approve(Person currentPerson, DateTime transitionDate,
+            IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //IList<ProjectBudget> projectBudgets, 
+            IList<PerformanceMeasureActual> performanceMeasureActuals,
+            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
+            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
+            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
+            IList<ProjectWatershed> projectWatersheds)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
                 projectFundingSourceExpenditures,
-                projectBudgets,
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+//                projectBudgets,
                 performanceMeasureActuals,
                 performanceMeasureActualSubcategoryOptions,
                 projectExternalLinks,
@@ -594,7 +613,8 @@ namespace ProjectFirma.Web.Models
 
         private void CommitChangesToProject(IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<ProjectBudget> projectBudgets,
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+//            IList<ProjectBudget> projectBudgets,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks,
@@ -609,8 +629,9 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CommitChangesToProject(this, projectFundingSourceExpenditures);
 
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //  project budgets
-            ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
+            //ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
 
             // performance measures
             PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals, performanceMeasureActualSubcategoryOptions);

@@ -105,7 +105,8 @@ namespace ProjectFirma.Web.Views.Project
         //TODO: Inline all url parameters
 
         public DetailViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
-            ProjectBudgetDetailViewData projectBudgetDetailViewData, 
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //ProjectBudgetDetailViewData projectBudgetDetailViewData, 
             ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl,
@@ -113,7 +114,9 @@ namespace ProjectFirma.Web.Views.Project
             string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
             EntityNotesViewData entityNotesViewData, 
             AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
-            string editProjectBudgetUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData) 
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //string editProjectBudgetUrl, 
+            string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData) 
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -135,8 +138,10 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectTaxonomyViewData = projectTaxonomyViewData;
 
-            ProjectBudgetDetailViewData = projectBudgetDetailViewData;
-            UserHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //ProjectBudgetDetailViewData = projectBudgetDetailViewData;
+            //UserHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
+            //EditProjectBudgetUrl = editProjectBudgetUrl;
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             MapFormID = mapFormID;
@@ -185,13 +190,12 @@ namespace ProjectFirma.Web.Views.Project
             AuditLogsGridName = "projectAuditLogsGrid";
             AuditLogsGridDataUrl = auditLogsGridDataUrl;
 
-            EditProjectBudgetUrl = editProjectBudgetUrl;
 
             ProjectNotificationGridSpec = projectNotificationGridSpec;
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
 
-            HasAssessment = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
+            HasAssessment = false;
 
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();

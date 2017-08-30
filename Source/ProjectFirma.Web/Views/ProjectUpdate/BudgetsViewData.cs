@@ -45,8 +45,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Budgets, updateStatus)
         {
             ViewDataForAngular = viewDataForAngularEditor;
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBudgets(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBudgets(projectUpdateBatch.Project));
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBudgets(projectUpdateBatch.Project));
+            //DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBudgets(projectUpdateBatch.Project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ProjectBudgetDetailViewData = projectBudgetDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.BudgetsComment, projectUpdateBatch.IsReturned);
