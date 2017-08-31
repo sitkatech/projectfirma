@@ -52,6 +52,11 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Is Primary Contact?")]
         public bool? IsPrimaryContact { get; set; }
 
+        [Required]
+        [DisplayName("Can only be related to a project once?")]
+        public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
+
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -68,6 +73,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 .ToList();
             CanApproveProjects = relationshipType.CanApproveProjects;
             IsPrimaryContact = relationshipType.IsPrimaryContact;
+            CanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
         }
 
         public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
@@ -82,6 +88,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             relationshipType.CanApproveProjects = CanApproveProjects ?? false; // Should never be null due to required validation attribute
             relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
+            relationshipType.CanOnlyBeRelatedOnceToAProject = relationshipType.CanApproveProjects || relationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can approve projects and isprimarycontact can only related once to a project
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

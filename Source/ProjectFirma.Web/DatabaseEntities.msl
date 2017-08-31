@@ -985,6 +985,7 @@
           <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
           <ScalarProperty Name="CanApproveProjects" ColumnName="CanApproveProjects" />
           <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
+          <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
