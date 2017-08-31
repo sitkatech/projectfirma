@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.Models
         public string Duration =>
             $"{(ImplementationStartYear.HasValue ? ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture) : "?")} - {(CompletionYear.HasValue ? CompletionYear.Value.ToString(CultureInfo.InvariantCulture) : "?")}";
 
-        public Project PromoteToProject(ProposedProject proposedProject)
+        public Project PromoteToProject(ProposedProject proposedProject, Person approverPerson)
         {
             var projectName = proposedProject.ProjectName;
 
@@ -260,6 +260,7 @@ namespace ProjectFirma.Web.Models
                 project.ProjectImages.Add(newProjectImage);
             }
 
+            approverPerson.SetCanApproveProjectsProjectOrganization(proposedProject);
             foreach (var proposedProjectOrganization in proposedProject.ProposedProjectOrganizations)
             {
                 project.ProjectOrganizations.Add(new ProjectOrganization(project, proposedProjectOrganization.Organization, proposedProjectOrganization.RelationshipType));

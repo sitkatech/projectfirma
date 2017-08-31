@@ -24,6 +24,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Models
 {
@@ -136,7 +137,7 @@ namespace ProjectFirma.Web.Models
 
         public void SetDefaultProjectOrganizations(Project project)
         {
-            if (Role.ProjectSteward.RoleID != RoleID)
+            if (!new ProposedProjectApproveFeature().HasPermissionByPerson(this))
             {
                 return;
             }
@@ -153,6 +154,37 @@ namespace ProjectFirma.Web.Models
                 relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
                 project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatIsPrimaryContact));
+            }
+        }
+
+        public void SetDefaultProposedProjectOrganizations(ProposedProject proposedProject)
+        {
+            if(!new ProposedProjectApproveFeature().HasPermissionByPerson(this))
+            {
+                return;
+            }
+
+            SetCanApproveProjectsProjectOrganization(proposedProject);
+
+            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            if (relationshipTypeThatIsPrimaryContact != null &&
+                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            {
+                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, Organization, relationshipTypeThatIsPrimaryContact));
+            }
+        }
+
+        public void SetCanApproveProjectsProjectOrganization(ProposedProject proposedProject)
+        {
+            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            if (relationshipTypeThatCanApprove != null &&
+                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            {
+                var canApproveProposedProjectsOrganization = proposedProject.GetCanApproveProposedProjectsOrganization();
+                if (canApproveProposedProjectsOrganization == null)
+                {
+                    proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, Organization, relationshipTypeThatCanApprove));
+                }
             }
         }
 

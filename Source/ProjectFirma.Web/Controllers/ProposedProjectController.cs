@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProposedProjectController : FirmaBaseController
     {
-        [ProposedProjectsViewListFeature]
+        [ProposedProjectViewFeature]
         public ViewResult Detail(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
@@ -182,20 +182,7 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.FundingTypeID,
                 (int) ProposedProjectState.Draft.ToEnum);
 
-            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
-            if (relationshipTypeThatCanApprove != null &&
-                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == CurrentPerson.Organization.OrganizationTypeID))
-            {
-                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, CurrentPerson.Organization, relationshipTypeThatCanApprove));
-            }
-
-            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
-            if (relationshipTypeThatIsPrimaryContact != null &&
-                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == CurrentPerson.Organization.OrganizationTypeID))
-            {
-                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, CurrentPerson.Organization, relationshipTypeThatIsPrimaryContact));
-            }
-
+            CurrentPerson.SetDefaultProposedProjectOrganizations(proposedProject);
             return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
         }
 
@@ -882,7 +869,7 @@ namespace ProjectFirma.Web.Controllers
 
             Check.Assert(new ProposalSectionsStatus(proposedProject).AreAllSectionsValid, "Proposal is not ready for submittal.");
 
-            var project = proposedProject.PromoteToProject(proposedProject);
+            var project = proposedProject.PromoteToProject(proposedProject, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Approved;
