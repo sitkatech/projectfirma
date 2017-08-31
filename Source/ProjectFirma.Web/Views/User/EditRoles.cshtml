@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.User.EditRoles
 
 <style type="text/css">
-    td, th { 
+    td, th {
         padding-left: 8px;
         padding-right: 8px;
         padding-bottom: 3px;
@@ -30,23 +30,30 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <th style="padding-bottom: 10px;">Role</th>
-            <th style="padding-bottom: 10px;">Receive Support Emails</th>
-        </tr>
-        <tr>
-            <td>
-                @Html.DropDownListFor(m => m.RoleID, ViewDataTyped.Roles, new { style = "width:100%" })
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoleID, new {@class = "col-xs-12 col-sm-3 control-label"})
+            <div class="col-xs-12 col-sm-9">
+                @Html.DropDownListFor(m => m.RoleID, ViewDataTyped.Roles, new {@class = "form-control"})
                 @Html.ValidationMessageFor(m => m.RoleID)
-            </td>
-            <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveSupportEmails)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ShouldReceiveSupportEmails, new {@class = "col-xs-12 col-sm-3 control-label"})
+            <div class="col-xs-12 col-sm-9">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShouldReceiveSupportEmails, true) Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShouldReceiveSupportEmails, false) No
+                    </label>
+                </div>
                 @Html.ValidationMessageFor(m => m.ShouldReceiveSupportEmails)
-            </td>
-        </tr>
-    </table>
-
-
+            </div>
+        </div>
+    </div>
     @Html.HiddenFor(m => m.PersonID)
 }

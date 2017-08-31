@@ -19,20 +19,24 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Common;
+using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class EditRolesViewModel : FormViewModel
+    public class EditRolesViewModel : FormViewModel, IValidatableObject
     {
         [Required]
         public int PersonID { get; set; }
 
-        [Required]        
+        [Required]
+        [DisplayName("Role")]
         public int? RoleID { get; set; }
 
         [Required]
@@ -69,6 +73,23 @@ namespace ProjectFirma.Web.Views.User
                 // New person
                 person.CreateDate = DateTime.Now;
             }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            var person = HttpRequestStorage.DatabaseEntities.People.GetPerson(PersonID);
+            if (RoleID == Models.Role.ProjectSteward.RoleID && !person.Organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipType.CanApproveProjects))
+            {
+                var projectStewardLabel = Models.Role.ProjectSteward.RoleDisplayName;
+                var organizationLabel = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
+                var projectLabelPlural = Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
+
+                errors.Add(new SitkaValidationResult<EditRolesViewModel, int?>($"Cannot assign role {projectStewardLabel} to a person whose {organizationLabel} cannot approve {projectLabelPlural}.", m => m.RoleID));
+            }
+
+            return errors;
         }
     }
 }
