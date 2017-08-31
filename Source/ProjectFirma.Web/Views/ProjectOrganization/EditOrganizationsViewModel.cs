@@ -82,13 +82,20 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
             }
 
-            var relationshipTypeThatCanOnlyRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
-            errors.AddRange(relationshipTypeThatCanOnlyRelatedOnceToAProject
+            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationJsons.SelectMany(x => x.RelationshipTypes)
                                  .Count(x => x.RelationshipTypeID ==
                                              rt.RelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
                     $"Cannot have more than one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
+
+            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+                .Where(rt => projectOrganizationJsons.SelectMany(x => x.RelationshipTypes)
+                                 .Count(x => x.RelationshipTypeID ==
+                                             rt.RelationshipTypeID) == 0)
+                .Select(relationshipType => new ValidationResult(
+                    $"Must have one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
             var allValidRelationshipTypes = projectOrganizationJsons.All(x =>
             {
