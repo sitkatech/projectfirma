@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.User
                 var organizationLabel = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
                 var projectLabelPlural = Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
 
-                errors.Add(new SitkaValidationResult<EditRolesViewModel, int?>($"Cannot assign role {projectStewardLabel} to a person whose {organizationLabel} cannot approve {projectLabelPlural}.", m => m.RoleID));
+                errors.Add(new SitkaValidationResult<EditRolesViewModel, int?>($"Cannot assign role {projectStewardLabel} to a person whose {organizationLabel} cannot steward {projectLabelPlural}.", m => m.RoleID));
             }
 
             return errors;

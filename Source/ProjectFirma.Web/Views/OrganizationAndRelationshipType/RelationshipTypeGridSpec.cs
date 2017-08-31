@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
@@ -48,7 +47,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
             Add($"Can Approve {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanApproveProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add("Can only be related to a project once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add("Must be related to a project once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)
             {
