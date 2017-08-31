@@ -118,6 +118,9 @@ Source code is available upon request via <support@sitkatech.com>.
         border-top: none;
         padding-top: 0;
     }
+    .col-xs-5.organizationIdSelectGroup div.bootstrap-select.btn-group {
+        width: 100%;
+    }
 </style>
 
 <div class="validationError">
@@ -130,8 +133,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-xs-12">
                     <p>
-                        Enter any other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().
-                        @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() may have more than one relationship to a @FieldDefinition.Project.GetFieldDefinitionLabel().
+                        Add @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(), and specify the nature of their association to it.
+                        A single @FieldDefinition.Organization.GetFieldDefinitionLabel() can have more than one association.
                     </p>
                 </div>
             </div>
@@ -162,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <i class="glyphicon glyphicon-trash" title="Remove Organization" alt="Remove Organization"></i>
                                     </a>
                                 </td>
-                                <td class="col-xs-5">
+                                <td class="col-xs-5 organizationIdSelectGroup">
                                     <input type="hidden" value="{{primarySimple.OrganizationID}}"
                                            name="ProjectOrganizations[{{$index}}].OrganizationID" />
                                     <select style="width: 100%" ng-model="primarySimple.OrganizationID"

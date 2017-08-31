@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
+            PageTitle = Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized();
 
             HasProposeProjectPermissions = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));

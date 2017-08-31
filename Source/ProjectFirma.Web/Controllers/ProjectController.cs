@@ -803,7 +803,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
-                ? $"Although you are a {projectStewardLabel}, you do not have the edit this {projectLabel} because it does not belong to your {organizationLabel}."
+                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {projectLabel} because it does not belong to your {organizationLabel}."
                 : $"You don't have permission to edit this {projectLabel}.";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
