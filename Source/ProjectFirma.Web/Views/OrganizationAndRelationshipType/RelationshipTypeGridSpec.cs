@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
     {
         public RelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
         {
-            var basicsColumnGroupCount = 3;
+            var basicsColumnGroupCount = 4;
 
             if (hasManagePermissions)
             {
@@ -47,7 +47,8 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
             Add($"Can Approve {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanApproveProjects.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add("Is Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add("Can only be related to a project once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)
             {

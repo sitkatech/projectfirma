@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public bool? CanApproveProjects { get; set; }
 
         [Required]
-        [DisplayName("Is Primary Contact?")]
+        [DisplayName("Serves as Primary Contact?")]
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
