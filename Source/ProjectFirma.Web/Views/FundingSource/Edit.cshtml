@@ -45,22 +45,26 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.FundingSourceDescription)
             </div>
         </div>
-        @if (ViewDataTyped.AllowPersonToSetOrganization)
-        {
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinition.Organization)
-                </div>
-                <div class="col-xs-12 col-sm-9">
-                    @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
-                    @Html.ValidationMessageFor(m => m.OrganizationID)
-                </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.Organization)
             </div>
-        }
-        else
-        {
-            @Html.HiddenFor(m => m.OrganizationID)
-        }
+            <div class="col-xs-12 col-sm-9">
+                @if (ViewDataTyped.AllowPersonToSetOrganization)
+                {
+                    @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
+                }
+                else
+                {
+                    <select disabled class="form-control">
+                        <option>@ViewDataTyped.CurrentPerson.Organization.DisplayName</option>
+                    </select>
+                    @Html.HiddenFor(m => m.OrganizationID)
+                }
+                @Html.ValidationMessageFor(m => m.OrganizationID)
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsActive)</div>
             <div class="col-xs-12 col-sm-9">
