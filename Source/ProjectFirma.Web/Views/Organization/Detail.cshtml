@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Security
 @using ProjectFirma.Web.Views.Results
@@ -40,19 +41,26 @@ Source code is available upon request via <support@sitkatech.com>.
     <script src="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.js")" type="text/javascript"></script>
     <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
-        jQuery(function () {
-            var runOnce = false;
-            jQuery("#resultsTab").on("shown.bs.tab",
-                function() {
-                    if (!runOnce) {
-                        _.forOwn(GoogleCharts.chartWrappers,
-                            function(chartWrapper) {
-                                chartWrapper.getChart().clearChart();
-                                chartWrapper.getChart().draw(chartWrapper.getDataTable());
-                            });
-                    }
-                    runOnce = true;
-                });
+        jQuery(function() {
+            var runOnceResults = false,
+                runOnceFundingAndProjects = false;
+            jQuery("#resultsTab").on("shown.bs.tab", function() {
+                if (!runOnceResults) {
+                    _.forOwn(GoogleCharts.chartWrappers,
+                        function(chartWrapper) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.getChart().draw(chartWrapper.getDataTable());
+                        });
+                }
+                runOnceResults = true;
+            });
+            jQuery("#fundingAndProjectsTab").on("shown.bs.tab", function() {
+                if (!runOnceFundingAndProjects) {
+                    var gridName = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+                    Sitka[gridName].resizeGridWidths();
+                }
+                runOnceFundingAndProjects = true;
+            });
         });
     </script>
 }
@@ -68,7 +76,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a>
             </li>
             <li>
-                <a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab">Funding &amp; @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
+                <a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="fundingAndProjectsTab">Funding &amp; @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
             </li>
             <li>
                 <a href="#results" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Results</a>
