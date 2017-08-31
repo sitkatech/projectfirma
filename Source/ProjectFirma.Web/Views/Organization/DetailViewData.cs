@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.Organization
                     c => c.DeleteOrganizationBoundary(organization));
 
             ProjectsIncludingLeadImplementingGridSpec =
-                new ProjectsIncludingLeadImplementingGridSpec(organization)
+                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
