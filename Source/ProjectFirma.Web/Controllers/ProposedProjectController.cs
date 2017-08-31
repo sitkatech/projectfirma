@@ -73,7 +73,12 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new DetailViewData(CurrentPerson,
                 proposedProject,
                 projectLocationSummaryViewData,
-                performanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, assessmentTreeViewData);
+                performanceMeasureExpectedsSummaryViewData,
+                imageGalleryViewData,
+                entityNotesViewData,
+                mapFormID,
+                assessmentTreeViewData,
+                HttpRequestStorage.Tenant);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -91,10 +96,10 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
                 stateProvinces,
                 x => x.IsEditableToThisPerson(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

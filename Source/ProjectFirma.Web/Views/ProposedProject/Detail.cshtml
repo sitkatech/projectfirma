@@ -90,7 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
             break;
         case ProposedProjectStateEnum.Rejected:
         <span>
-            This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
+            This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
         </span>
             break;
         default:

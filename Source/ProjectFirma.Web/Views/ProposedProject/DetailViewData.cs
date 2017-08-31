@@ -53,6 +53,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public AssessmentTreeViewData AssessmentTreeViewData;
 
+        public readonly Models.Tenant Tenant;
+
+
         public DetailViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
             ProjectLocationSummaryViewData projectLocationSummaryViewData,
@@ -60,7 +63,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ImageGalleryViewData imageGalleryViewData,
             EntityNotesViewData entityNotesViewData,
             string mapFormID,
-            AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
+            AssessmentTreeViewData assessmentTreeViewData,
+            Models.Tenant tenant) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
             BreadCrumbTitle = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detail";
@@ -85,6 +89,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             AuditLogsGridDataUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(proposedProject));
 
             AssessmentTreeViewData = assessmentTreeViewData;
+
+            Tenant = tenant;
         }
     }
 }

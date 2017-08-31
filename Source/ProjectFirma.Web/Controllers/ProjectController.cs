@@ -763,8 +763,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
-
-            var adminRoles = new List<Role> {Role.Admin, Role.SitkaAdmin};
+            
             var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects
                 .GetProposedProjectsWithGeoSpatialProperties(
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
@@ -772,7 +771,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                     x => x.IsEditableToThisPerson(CurrentPerson))
                 .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
                              x.ProposedProjectState != ProposedProjectState.Rejected &&
-                             (adminRoles.Contains(CurrentPerson.Role) || x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID))
+                             x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);

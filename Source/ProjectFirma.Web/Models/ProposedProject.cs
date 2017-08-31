@@ -136,12 +136,12 @@ namespace ProjectFirma.Web.Models
 
         public bool IsEditableToThisPerson(Person person)
         {
-            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermissionByPerson(person);
+            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission;
         }
 
         public bool IsVisibleToThisPerson(Person person)
         {
-            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermissionByPerson(person) || new FirmaAdminFeature().HasPermissionByPerson(person);
+            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission || new FirmaAdminFeature().HasPermissionByPerson(person);
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -298,7 +298,7 @@ namespace ProjectFirma.Web.Models
             return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public Organization GetCanApproveProjectsOrganization()
+        public Organization GetCanApproveProposedProjectsOrganization()
         {
             return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
         }

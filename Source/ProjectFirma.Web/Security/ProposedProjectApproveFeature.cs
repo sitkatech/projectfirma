@@ -24,11 +24,38 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Approve {0}", FieldDefinitionEnum.ProposedProject)]
-    public class ProposedProjectApproveFeature : FirmaFeature
+    public class ProposedProjectApproveFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProject>
     {
+        private readonly FirmaFeatureWithContextImpl<ProposedProject> _firmaFeatureWithContextImpl;
+
         public ProposedProjectApproveFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
-        {            
-        }        
+        {
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProposedProject>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
+        }
+
+        public PermissionCheckResult HasPermission(Person person, ProposedProject contextModelObject)
+        {
+            var proposedProjectLabel = FieldDefinition.ProposedProject.GetFieldDefinitionLabel();
+            if (!HasPermissionByPerson(person))
+            {
+                return new PermissionCheckResult($"You do not have permission to approve this {proposedProjectLabel}.");
+            }
+
+            if (person.Role.RoleID == Role.ProjectSteward.RoleID &&
+                !person.CanApproveProposedProjectByOrganizationRelationship(contextModelObject))
+            {
+                var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+                return new PermissionCheckResult($"You do not have permission to approve this {proposedProjectLabel} based on your relationship to the {proposedProjectLabel}'s {organizationLabel}.");
+            }
+
+            return new PermissionCheckResult();
+        }
+
+        public void DemandPermission(Person person, ProposedProject contextModelObject)
+        {
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+        }
     }
 }

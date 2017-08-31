@@ -128,6 +128,12 @@ namespace ProjectFirma.Web.Models
             return canApproveProjectsOrganization != null && canApproveProjectsOrganization.OrganizationID == OrganizationID;
         }
 
+        public bool CanApproveProposedProjectByOrganizationRelationship(ProposedProject proposedProject)
+        {
+            var canApproveProposedProjectsOrganization = proposedProject.GetCanApproveProposedProjectsOrganization();
+            return canApproveProposedProjectsOrganization != null && canApproveProposedProjectsOrganization.OrganizationID == OrganizationID;
+        }
+
         public void SetDefaultProjectOrganizations(Project project)
         {
             if (Role.ProjectSteward.RoleID != RoleID)

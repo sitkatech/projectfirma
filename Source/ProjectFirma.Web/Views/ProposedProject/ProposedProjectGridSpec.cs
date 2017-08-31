@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
             {
-                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150,
+                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.GetCanApproveProposedProjectsOrganization().GetDisplayNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
