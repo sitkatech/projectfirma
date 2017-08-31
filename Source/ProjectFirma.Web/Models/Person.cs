@@ -128,17 +128,25 @@ namespace ProjectFirma.Web.Models
             return canApproveProjectsOrganization != null && canApproveProjectsOrganization.OrganizationID == OrganizationID;
         }
 
-        public void SetProjectOrganizationWithRelationshipThatCanApprove(Project project)
+        public void SetDefaultProjectOrganizations(Project project)
         {
-            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
-            // Want to ensure that person is a Project Approver and belongs to an Organization that allows a "Can Approve" relationship
-            if (Role.ProjectSteward.RoleID == RoleID &&
-                relationshipTypeThatCanApprove != null &&
-                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(
-                    x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            if (Role.ProjectSteward.RoleID != RoleID)
             {
-                project.ProjectOrganizations.Add(
-                    new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
+                return;
+            }
+
+            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            if (relationshipTypeThatCanApprove != null &&
+                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            {
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
+            }
+
+            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            if (relationshipTypeThatIsPrimaryContact != null &&
+                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            {
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
             }
         }
 

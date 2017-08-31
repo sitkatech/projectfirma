@@ -260,6 +260,11 @@ namespace ProjectFirma.Web.Models
                 project.ProjectImages.Add(newProjectImage);
             }
 
+            foreach (var proposedProjectOrganization in proposedProject.ProposedProjectOrganizations)
+            {
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, proposedProjectOrganization.Organization, proposedProjectOrganization.RelationshipType));
+            }
+
             return project;
         }
 

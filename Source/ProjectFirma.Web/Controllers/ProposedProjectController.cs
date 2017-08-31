@@ -177,6 +177,20 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.FundingTypeID,
                 (int) ProposedProjectState.Draft.ToEnum);
 
+            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            if (relationshipTypeThatCanApprove != null &&
+                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == CurrentPerson.Organization.OrganizationTypeID))
+            {
+                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, CurrentPerson.Organization, relationshipTypeThatCanApprove));
+            }
+
+            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            if (relationshipTypeThatIsPrimaryContact != null &&
+                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == CurrentPerson.Organization.OrganizationTypeID))
+            {
+                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, CurrentPerson.Organization, relationshipTypeThatIsPrimaryContact));
+            }
+
             return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
         }
 

@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 FundingType.Capital.FundingTypeID);
-            CurrentPerson.SetProjectOrganizationWithRelationshipThatCanApprove(project);
+            CurrentPerson.SetDefaultProjectOrganizations(project);
 
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
@@ -763,14 +763,19 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects
+
+            var adminRoles = new List<Role> {Role.Admin, Role.SitkaAdmin};
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects
                 .GetProposedProjectsWithGeoSpatialProperties(
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
                     HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
                     x => x.IsEditableToThisPerson(CurrentPerson))
-                .Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved &&
-                             x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
+                .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
+                             x.ProposedProjectState != ProposedProjectState.Rejected &&
+                             (adminRoles.Contains(CurrentPerson.Role) || x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID))
+                .ToList();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
         
