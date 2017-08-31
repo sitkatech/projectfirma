@@ -45,10 +45,9 @@ Source code is available upon request via <support@sitkatech.com>.
             jQuery("#resultsTab").on("shown.bs.tab",
                 function() {
                     if (!runOnce) {
-                        _.forOwn(GoogleCharts.chartWrappers,
-                            function(chartWrapper) {
+                        _.forOwn(GoogleCharts.chartWrappers, function(chartWrapper) {
                                 chartWrapper.getChart().clearChart();
-                                chartWrapper.getChart().draw(chartWrapper.getDataTable());
+                                chartWrapper.draw();
                             });
                     }
                     runOnce = true;
