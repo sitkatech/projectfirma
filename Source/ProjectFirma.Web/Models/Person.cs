@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Models
             if (relationshipTypeThatIsPrimaryContact != null &&
                 relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatIsPrimaryContact));
             }
         }
 
