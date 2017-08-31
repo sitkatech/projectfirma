@@ -79,11 +79,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         @switch (ViewDataTyped.ChartViewMode)
                         {
                             case ChartViewMode.Small:
-                                <a class="expandBox" href="@googleChartJson.ChartPopupUrl">
+                                @*<a class="expandBox" href="@googleChartJson.ChartPopupUrl">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
-                                </a>
-                                break;
-                            case ChartViewMode.Large:
+                                </a> <!-- TODO Enlarge is broken because it doesn't apply the same filtration as the chart displayed, this will be fixed when we merge our chart improvements from Corral -->*@
+                            break;
+                        case ChartViewMode.Large:
                             <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartName')" href="#" style="margin-right: 10px">
                                 <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Customize
                             </a>
@@ -92,10 +92,12 @@ Source code is available upon request via <support@sitkatech.com>.
                             </a>
                                 break;
                             case ChartViewMode.ManagementMode:
-                            <a class="expandBox" href="@googleChartJson.ChartPopupUrl" style="margin-right: 10px"><span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge</a>
-                            <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartName', '@googleChartJson.SaveConfigurationUrl')" href="#" style="margin-right: 10px">
-                                <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
-                            </a>
+                                @*<a class="expandBox" href="@googleChartJson.ChartPopupUrl" style="margin-right: 10px">
+                                    <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
+                                </a> <!-- TODO Enlarge is broken because it doesn't apply the same filtration as the chart displayed, this will be fixed when we merge our chart improvements from Corral -->*@
+                                <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartName', '@googleChartJson.SaveConfigurationUrl')" href="#" style="margin-right: 10px">
+                                    <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
+                                </a>
                                 break;
                             case ChartViewMode.NoPopup:
                                 break;

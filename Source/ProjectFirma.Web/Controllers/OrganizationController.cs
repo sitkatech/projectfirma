@@ -142,7 +142,12 @@ namespace ProjectFirma.Web.Controllers
             bool hasSpatialData;
             var mapInitJson = GetMapInitJson(organization, out hasSpatialData);
 
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
+                .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct()
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
 
             var viewData = new DetailViewData(CurrentPerson, organization, calendarYearExpendituresLineChartViewData, mapInitJson, hasSpatialData, performanceMeasures);
             return RazorView<Detail, DetailViewData>(viewData);

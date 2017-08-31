@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Views.Organization
             HasSpatialData = hasSpatialData;
 
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(organization.GetPerformanceMeasureChartViewData).ToList();
+
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) && CurrentPerson.OrganizationID == organization.OrganizationID;
         }

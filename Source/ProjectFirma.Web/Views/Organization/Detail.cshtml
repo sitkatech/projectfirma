@@ -49,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     _.forOwn(GoogleCharts.chartWrappers,
                         function(chartWrapper) {
                             chartWrapper.getChart().clearChart();
-                            chartWrapper.getChart().draw(chartWrapper.getDataTable());
+                            chartWrapper.draw();
                         });
                 }
                 runOnceResults = true;
