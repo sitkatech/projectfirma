@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 180, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(),
-                x => x.GetPrimaryContact() == null ? new HtmlString($"({ViewUtilities.NoneString})") : x.GetPrimaryContact().GetFullNameFirstLastAndOrgAsUrl(),
+                x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(),
                 95);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);

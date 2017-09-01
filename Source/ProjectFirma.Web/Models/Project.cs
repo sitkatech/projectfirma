@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderBy(x => x.RelationshipType.RelationshipTypeName).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanApproveProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
         }
 
         public string AssocatedOrganizationNames(Organization organization)

@@ -39,10 +39,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 DhtmlxGridColumnFilterType.Html);
             if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
             {
-                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.Project.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150,
+                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.Project.GetCanApproveProjectsOrganization().GetShortNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
             }
-            Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {

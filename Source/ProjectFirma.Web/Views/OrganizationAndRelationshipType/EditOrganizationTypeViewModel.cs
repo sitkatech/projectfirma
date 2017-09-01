@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public string LegendColor { get; set; }
 
         [Required]
-        [DisplayName("Show On Project Map")]
+        [DisplayName("Show On Project Map?")]
         public bool? ShowOnProjectMaps { get; set; }
 
         /// <summary>

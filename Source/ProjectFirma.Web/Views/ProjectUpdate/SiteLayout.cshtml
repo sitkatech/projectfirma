@@ -199,7 +199,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div>
             @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
             {
-                <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
+                <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
             }
             else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
             {

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public List<int> OrganizationTypeIDs { get; set; }
 
         [Required]
-        [DisplayName("Can Approve Projects?")]
+        [DisplayName("Can Steward Projects?")]
         public bool? CanApproveProjects { get; set; }
 
         [Required]
