@@ -18,8 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Linq;
+
 using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -32,8 +31,6 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        
-
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
             return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.FullNameFirstLast);
@@ -43,14 +40,21 @@ namespace ProjectFirma.Web.Models
         {
             var userUrl = person.GetFullNameFirstLastAsUrl();
             var orgUrl = person.Organization.GetDisplayNameAsUrl();
-            return new HtmlString(String.Format("{0} - {1}", userUrl, orgUrl));
+            return new HtmlString($"{userUrl} - {orgUrl}");
+        }
+
+        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person)
+        {
+            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var orgUrl = person.Organization.GetShortNameAsUrl();
+            return new HtmlString($"{userUrl} ({orgUrl})");
         }
 
         public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
         {
             var userString = person.FullNameFirstLast;
-            var orgUrl = person.Organization.GetDisplayNameAsUrl();
-            return new HtmlString(String.Format("{0} - {1}", userString, orgUrl));
+            var orgUrl = person.Organization.GetShortNameAsUrl();
+            return new HtmlString($"{userString} - {orgUrl}");
         }
 
         public static string GetEditUrl(this Person person)
@@ -92,7 +96,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetKeystoneEditLink(this Person person)
         {
-            return string.Format("{0}{1}", FirmaWebConfiguration.KeystoneUserProfileUrl, person.PersonGuid);
+            return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
         }
     }
 }

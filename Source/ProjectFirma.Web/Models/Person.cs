@@ -50,14 +50,8 @@ namespace ProjectFirma.Web.Models
 
         public string FullNameFirstLast => $"{FirstName} {LastName}";
 
-        public string FullNameFirstLastAndOrg
-        {
-            get
-            {
-                string orgName = Organization.DisplayName;
-                return $"{FirstName} {LastName} - {orgName}";
-            }
-        }
+        public string FullNameFirstLastAndOrg => $"{FirstName} {LastName} - {Organization.DisplayName}";
+
         public string FullNameFirstLastAndOrgShortName => $"{FirstName} {LastName} ({Organization.OrganizationShortNameIfAvailable})";
 
         public string FullNameLastFirst => $"{LastName}, {FirstName}";

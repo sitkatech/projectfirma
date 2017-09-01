@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.User
             Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 100, DhtmlxGridColumnFilterType.Html);
             Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 100, DhtmlxGridColumnFilterType.Html);
             Add("Email", a => a.Email, 200);
-            Add($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", a => a.Organization.GetDisplayNameAsUrl(), 200);
+            Add($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", a => a.Organization.GetShortNameAsUrl(), 200);
             Add("Phone", a => a.Phone.ToPhoneNumberString(), 100);
             Add("Username", a => a.LoginName.ToString(), 200);
             Add("Last Activity", a => a.LastActivityDate, 120);

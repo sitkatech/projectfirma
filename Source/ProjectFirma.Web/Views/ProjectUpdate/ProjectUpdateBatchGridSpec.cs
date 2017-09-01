@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             Add("Date", x => x.LastUpdateDate, 120);
             Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Updated By", x => x.LastUpdatePerson.FullNameFirstLastAndOrg, 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Updated By", x => x.LastUpdatePerson.FullNameFirstLastAndOrgShortName, 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Details",
                 pub =>
                 {
