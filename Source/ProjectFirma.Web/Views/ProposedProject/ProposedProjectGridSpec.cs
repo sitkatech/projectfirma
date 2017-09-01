@@ -65,7 +65,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             Add("Proposed Date", a => a.ProposingDate, 120);
             Add("Submitted Date", a => a.SubmissionDate, 120);                     
             Add("Last Updated", a => a.LastUpdateDate, 120);
-            Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 300);
         }
     }
