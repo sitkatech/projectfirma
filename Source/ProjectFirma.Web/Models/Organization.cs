@@ -115,8 +115,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<int> GetCalendarYearsForProjectExpenditures()
         {
-            var projectFundingSourceExpenditures = FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
-            return projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(this);
+            return ProjectOrganizations.SelectMany(x => x.Project.ProjectFundingSourceExpenditures).CalculateCalendarYearRangeForExpenditures(this);
         }
 
         public List<RelationshipType> GetProjectRelationshipTypes(Project project)

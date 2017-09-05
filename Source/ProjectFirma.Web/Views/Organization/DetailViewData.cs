@@ -93,7 +93,10 @@ namespace ProjectFirma.Web.Views.Organization
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(organization.GetPerformanceMeasureChartViewData).ToList();
 
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
-            CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) && CurrentPerson.OrganizationID == organization.OrganizationID;
+            CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
+                                        (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
+                                         CurrentPerson.OrganizationID == organization.OrganizationID);
+
         }
     }
 }
