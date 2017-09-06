@@ -25,7 +25,6 @@ using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
@@ -100,28 +99,6 @@ namespace ProjectFirma.Web.Models
         public bool IsInKeystone => OrganizationGuid.HasValue;
 
         public bool IsUnknown => !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
-
-        public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
-        {
-            return ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures));
-        }
-
-        public IEnumerable<CalendarYearReportedValue> GetReportableCalendarYearExpenditures()
-        {
-            return
-                ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(
-                    FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(exp => exp.Project.ProjectStage.AreExpendituresReportable())));
-        }
-
-        public IEnumerable<int> GetCalendarYearsForProjectExpenditures()
-        {
-            return ProjectOrganizations.SelectMany(x => x.Project.ProjectFundingSourceExpenditures).CalculateCalendarYearRangeForExpenditures(this);
-        }
-
-        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
-        {
-            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
-        }
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
         {
