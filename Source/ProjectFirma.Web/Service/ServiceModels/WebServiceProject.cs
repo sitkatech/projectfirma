@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
             Datum = "WGS84";
             
-            ProjectRegion = project.ProjectLocationTypeDisplay;
             ProjectState = project.ProjectLocationStateProvince;
             ProjectWatershed = project.ProjectLocationWatershed;
 

@@ -252,17 +252,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-9">
                 @if (ViewDataTyped.PrimaryContactPerson != null)
                 {
-                    <a href="@ViewDataTyped.PrimaryContactPerson.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.FullNameFirstLast</a>
-                    if (ViewDataTyped.PrimaryContactPerson.Organization != null)
-                    {
-                        <span>-</span>
-                        <a href="@ViewDataTyped.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.Organization.DisplayName</a>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                        <p> No Primary Contact set. </p>
-                    }
+                    @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgShortNameAsUrl()
 
                     <div>
                         <i>To update the @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel() for this project please 

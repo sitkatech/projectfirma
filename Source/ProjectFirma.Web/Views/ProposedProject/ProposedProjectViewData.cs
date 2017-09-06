@@ -33,18 +33,19 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly ProposedProjectSectionEnum SelectedProposedProjectSection;
         public readonly Models.ProposedProject ProposedProject;
         public readonly string ProposedProjectListUrl;
+        public readonly string ProposedProjectDetailUrl;
         public readonly string ProvideFeedbackUrl;
 
-        public readonly string ProjectUpdateInstructionsUrl;
-        public readonly string ProjectUpdateBasicsUrl;
-        public readonly string ProjectUpdatePerformanceMeasuresUrl;
-        public readonly string ProjectUpdateLocationSimpleUrl;
-        public readonly string ProjectUpdateLocationDetailedUrl;
-        public readonly string ProjectUpdateWatershedUrl;
-        public readonly string ProjectUpdateClassificationsUrl;
-        public readonly string ProjectUpdateAssessmentUrl;
-        public readonly string ProjectUpdateNotesUrl;
-        public readonly string ProjectUpdatePhotosUrl;
+        public readonly string ProposedProjectInstructionsUrl;
+        public readonly string ProposedProjectBasicsUrl;
+        public readonly string ProposedProjectPerformanceMeasuresUrl;
+        public readonly string ProposedProjectLocationSimpleUrl;
+        public readonly string ProposedProjectLocationDetailedUrl;
+        public readonly string ProposedProjectWatershedUrl;
+        public readonly string ProposedProjectClassificationsUrl;
+        public readonly string ProposedProjectAssessmentUrl;
+        public readonly string ProposedProjectNotesUrl;
+        public readonly string ProposedProjectPhotosUrl;
         public readonly string SubmitUrl;
         public readonly string ApproveUrl;
         public readonly string ReturnUrl;
@@ -80,16 +81,17 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             PageTitle = proposedProject.DisplayName;
 
-            ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
-            ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditBasics(proposedProject.ProposedProjectID));
-            ProjectUpdatePerformanceMeasuresUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
-            ProjectUpdateLocationSimpleUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
-            ProjectUpdateLocationDetailedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject));
-            ProjectUpdateWatershedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditWatershed(proposedProject));
-            ProjectUpdateClassificationsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditClassifications(proposedProject));
-            ProjectUpdateAssessmentUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditAssessment(proposedProject));
-            ProjectUpdateNotesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Notes(proposedProject.ProposedProjectID));
-            ProjectUpdatePhotosUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Photos(proposedProject.ProposedProjectID));
+            ProposedProjectDetailUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Detail(proposedProject));
+            ProposedProjectInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
+            ProposedProjectBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditBasics(proposedProject.ProposedProjectID));
+            ProposedProjectPerformanceMeasuresUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
+            ProposedProjectLocationSimpleUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
+            ProposedProjectLocationDetailedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject));
+            ProposedProjectWatershedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditWatershed(proposedProject));
+            ProposedProjectClassificationsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditClassifications(proposedProject));
+            ProposedProjectAssessmentUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditAssessment(proposedProject));
+            ProposedProjectNotesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Notes(proposedProject.ProposedProjectID));
+            ProposedProjectPhotosUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Photos(proposedProject.ProposedProjectID));
             
             SubmitUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Submit(proposedProject));
             ApproveUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));
@@ -99,6 +101,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         }
 
         //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.
+
         protected ProposedProjectViewData(Person currentPerson,
             ProposedProjectSectionEnum selectedProposedProjectSection) : this(currentPerson)
         {
@@ -109,12 +112,12 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProposalSectionsStatus = new ProposalSectionsStatus();
             PageTitle = $"New {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
 
-            ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
-            ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
-            ProjectUpdatePerformanceMeasuresUrl = string.Empty;
-            ProjectUpdateLocationSimpleUrl = string.Empty;
-            ProjectUpdateLocationDetailedUrl = string.Empty;
-            ProjectUpdateNotesUrl = string.Empty;
+            ProposedProjectInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
+            ProposedProjectBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
+            ProposedProjectPerformanceMeasuresUrl = string.Empty;
+            ProposedProjectLocationSimpleUrl = string.Empty;
+            ProposedProjectLocationDetailedUrl = string.Empty;
+            ProposedProjectNotesUrl = string.Empty;
 
             SubmitUrl = string.Empty;
             ApproveUrl = string.Empty;
