@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DesignByContract
 @using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Models
 @using ProjectFirma.Web.Common
 @inherits SiteLayout
 
@@ -234,14 +235,14 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         
         <div class="pull-left">
-            @if (ViewDataTyped.ProposedProject.ProposedProjectState.ToEnum == ProposedProjectStateEnum.Submitted)
+            @if (ViewDataTyped.ProposedProject != null && ViewDataTyped.ProposedProject.ProposedProjectID != ModelObjectHelpers.NotYetAssignedID)
             {
                 <p>
-                    Submitted by THIS_PERSON on @ViewDataTyped.ProposedProject.SubmissionDate
+                    Created by @ViewDataTyped.ProposedProject.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProposedProject.ProposingDate
                 </p>
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
             }
             <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
-            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
             @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
         </div>
         </div>
