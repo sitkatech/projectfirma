@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
         {
             var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
+            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Small, projectIDs);
         }
     }
 }
