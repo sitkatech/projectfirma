@@ -51,17 +51,6 @@ namespace ProjectFirma.Web.Models
                 null);
         }
 
-        public static List<int> CalculateCalendarYearRangeForExpenditures(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, Organization organization)
-        {
-            var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
-                organization.FundingSources.Min(x => x.ProjectsWhereYouAreTheFundingSourceMinCalendarYear),
-                organization.FundingSources.Max(x => x.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear),
-                DateTime.Today.Year,
-                FirmaDateUtilities.MinimumYear,
-                null);
-        }
-
         public static GoogleChartJson ToGoogleChart(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             Func<ProjectFundingSourceExpenditure, string> filterFunction,
             List<string> filterValues,

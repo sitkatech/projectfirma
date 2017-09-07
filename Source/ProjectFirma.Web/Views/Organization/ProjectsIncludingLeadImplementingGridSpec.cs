@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Globalization;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Models;
@@ -36,15 +35,12 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public ProjectsIncludingLeadImplementingGridSpec(Models.Organization organization, Person currentPerson)
         {
-            var basicsColumnGroupCount = 16;
-
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
 
             if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
             {
                 Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.GetCanApproveProjectsOrganization().GetDisplayNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
-                basicsColumnGroupCount += 1;
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
 
@@ -66,28 +62,8 @@ namespace ProjectFirma.Web.Views.Organization
             if (new TagViewFeature().HasPermissionByPerson(currentPerson))
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
-                basicsColumnGroupCount += 1;
             }
-
             Add("# of Photos", x => x.ProjectImages.Count, 60);
-            
-            var calendarYearsForProjectExpenditures = organization.GetCalendarYearsForProjectExpenditures().ToList();
-            foreach (var year in calendarYearsForProjectExpenditures)
-            {
-                var calendarYear = year;
-                Add(calendarYear.ToString(CultureInfo.InvariantCulture),
-                    a => a.ProjectFundingSourceExpenditures.Where(pfse => pfse.CalendarYear == calendarYear).Sum(pfse => pfse.ExpenditureAmount),
-                    100,
-                    DhtmlxGridColumnFormatType.Currency,
-                    DhtmlxGridColumnAggregationType.Total);
-            }
-            
-            GroupingHeader =
-                BuildGroupingHeader(new ColumnHeaderGroupingList
-                {
-                    {"", basicsColumnGroupCount},
-                    {"Reported Expenditures", calendarYearsForProjectExpenditures.Count}
-                });
         }
     }
 }
