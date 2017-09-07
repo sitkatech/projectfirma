@@ -25,6 +25,7 @@ using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
@@ -100,6 +101,11 @@ namespace ProjectFirma.Web.Models
 
         public bool IsUnknown => !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
+        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
+        {
+            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
+        }
+
         public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
         {
             DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
@@ -108,7 +114,7 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
         {
             var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Small, projectIDs);
+            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
         }
     }
 }
