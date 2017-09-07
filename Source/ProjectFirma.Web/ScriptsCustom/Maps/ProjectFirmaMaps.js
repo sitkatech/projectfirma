@@ -139,45 +139,9 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
         layerGroup.addTo(this.map);
     }
 
-    //if (!currentLayer.HasCustomPopups && currentLayer.TooltipUrlTemplate) {
-    //    this.map.on("click", this.handleWmsPopupClickEventWithCurrentLayer(currentLayer), this);
-    //}
-
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(wmsLayer);
 };
-
-//ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function (currentLayer) {
-//    var self = this;   
-
-//    return function(event) {
-//        var parameters = L.Util.extend(
-//            {
-//                typeName: currentLayer.MapServerLayerName,
-//                cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
-//            },
-//            this.wfsParams);
-//        SitkaAjax.ajax({
-//                url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
-//                dataType: "json",
-//                jsonpCallback: "getJson"
-//            },
-//            function (response) {
-//                var feature = _.first(response.features);
-
-//                if (feature) {
-//                    var primaryKey = feature.properties.PrimaryKey,
-//                        popupUrl =
-//                            new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
-//                    jQuery.get(popupUrl).done(function (data) {
-//                        self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data)
-//                            .openOn(self.map);
-//                    });
-//                }
-//            }
-//        );
-//    };
-//};
 
 ProjectFirmaMaps.Map.prototype.wmsParams = {
     service: "WMS",
@@ -240,40 +204,58 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
 
 ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
 {
-    var latlng = e.latlng;
-    var html = "<div>";
+    var self = this,
+        latlng = e.latlng,
+        html = "<div>";
+
     html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
     html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
 
-    var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
-    for (var j = 0; j < vectorLayers.length; ++j) {
-        var currentLayer = vectorLayers[j];
+    var match = _(this.vectorLayers)
+        .filter(function (layer) {
+            return typeof layer.eachLayer !== "undefined" && self.map.hasLayer(layer);
+        })
+        .map(function (currentLayer) {
+            return leafletPip.pointInLayer(latlng, currentLayer, true);
+        })
+        .flatten()
+        .value();
 
-        if (this.map.hasLayer(currentLayer)) {
-            var match = leafletPip.pointInLayer(
-                // the clicked point
-                latlng,
-                // this layer
-                currentLayer,
-                // whether to stop at first match
-                true);
+    var propertiesGroupedByKey = _(match)
+        .map(function (x) {
+            return _.keys(x.feature.properties);
+        })
+        .flatten()
+        .uniq()
+        .map(function (x) {
+            return {
+                key: x,
+                values: _(match)
+                    .map(function (y) {
+                        return y.feature.properties[x];
+                    })
+                    .filter()
+                    .value()
+            };
+        })
+        .value();
 
-            // if there's overlap, add some content to the popup: the layer name
-            // and a table of attributes
-            for (var k = 0; k < match.length; ++k) {
-                var properties = match[0].feature.properties;
-                for (var propertyName in properties)
-                {
-                    if (propertyName !== "Short Name") {
-                        html += this.formatLayerProperty(propertyName, properties[propertyName]);
-                    }                    
-                }
-            }
+    // if there's overlap, add some content to the popup: the layer name
+    // and a table of attributes
+    for (var i = 0; i < propertiesGroupedByKey.length; i++) {
+        var group = propertiesGroupedByKey[i];
+        if (group.key !== "Short Name") {
+            var key = group.values.length > 1
+                    ? group.key + "s" // pluralized
+                    : group.key,
+                value = group.values.join(", ");
+            html += this.formatLayerProperty(key, value);
         }
     }
 
     html += "</div>";
-    this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));   
+
+    this.map.openPopup(L.popup({minWidth: 200, maxWidth: 350}).setLatLng(latlng).setContent(html).openOn(this.map));   
 };
 
 ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, propertyValue)

@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DesignByContract
 @using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Models
 @using ProjectFirma.Web.Common
 @inherits SiteLayout
 
@@ -50,13 +51,13 @@ Source code is available upon request via <support@sitkatech.com>.
     <div id="tab-container" class="col-sm-4 col-md-3">
         <ol>
             <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Instructions, ViewDataTyped.SelectedProposedProjectSection)">
-                <a href="@ViewDataTyped.ProjectUpdateInstructionsUrl">Instructions</a>
+                <a href="@ViewDataTyped.ProposedProjectInstructionsUrl">Instructions</a>
             </li>
             <li style="list-style-type: none">
                 <hr class="navMenu" />
             </li>
             <li value="1" class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Basics, ViewDataTyped.SelectedProposedProjectSection)">
-                <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">Basics</a>
+                <a href="@ViewDataTyped.ProposedProjectBasicsUrl">Basics</a>
                 <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
@@ -64,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.LocationSimple, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateLocationSimpleUrl">Location - Simple</a>
+                    <a href="@ViewDataTyped.ProposedProjectLocationSimpleUrl">Location - Simple</a>
                 }
                 else
                 {
@@ -77,7 +78,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateLocationDetailedUrl">Location - Detailed</a>
+                    <a href="@ViewDataTyped.ProposedProjectLocationDetailedUrl">Location - Detailed</a>
                 }
                 else
                 {
@@ -87,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Watershed, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
+                    <a href="@ViewDataTyped.ProposedProjectWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
                 }
                 else
                 {
@@ -100,7 +101,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+                    <a href="@ViewDataTyped.ProposedProjectPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
                 }
                 else
                 {
@@ -113,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Classifications, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
+                    <a href="@ViewDataTyped.ProposedProjectClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
                 }
                 else
                 {
@@ -129,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Assessment, ViewDataTyped.SelectedProposedProjectSection)">
                     @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                     {
-                        <a href="@ViewDataTyped.ProjectUpdateAssessmentUrl">Assessment</a>
+                        <a href="@ViewDataTyped.ProposedProjectAssessmentUrl">Assessment</a>
                     }
                     else
                     {
@@ -144,7 +145,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Photos, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdatePhotosUrl">Photos</a>
+                    <a href="@ViewDataTyped.ProposedProjectPhotosUrl">Photos</a>
                 }
                 else
                 {
@@ -154,7 +155,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Notes, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateNotesUrl">Notes</a>
+                    <a href="@ViewDataTyped.ProposedProjectNotesUrl">Notes</a>
                 }
                 else
                 {
@@ -232,8 +233,17 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
         </div>
-
-        <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
-        @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
-    </div>
+        
+        <div class="pull-left">
+            @if (ViewDataTyped.ProposedProject != null && ViewDataTyped.ProposedProject.ProposedProjectID != ModelObjectHelpers.NotYetAssignedID)
+            {
+                <p>
+                    Created by @ViewDataTyped.ProposedProject.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProposedProject.ProposingDate
+                </p>
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+            }
+            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
+            @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
+        </div>
+        </div>
 </div>

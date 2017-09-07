@@ -82,10 +82,7 @@ namespace ProjectFirma.Web.Models
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
-
-        //TODO: This could be moved to ProjectLocationSimpleType and made smarter
-        public string ProjectLocationTypeDisplay => ViewUtilities.NaString;
-
+        
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;
         public List<ProjectUpdateHistory> ProjectUpdateHistories

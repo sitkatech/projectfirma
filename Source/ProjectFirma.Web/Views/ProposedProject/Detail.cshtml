@@ -53,6 +53,25 @@ Source code is available upon request via <support@sitkatech.com>.
         footer {
             height: 600px;
         }
+        @@media (min-width: 768px) { /* Bootstrap small and greater screen widths */
+            .projectDescription {
+                padding-left: 20px;
+            }
+        }
+        .basicsLayout .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .basicsLayout .row div {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+
+        .basicsLayout hr {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
     </style>
 }
 
@@ -66,7 +85,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
                 @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
                 {
-                    <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">finalize the Project Proposal</a> at any time.</span>
+                    <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">finalize the Project Proposal</a> at any time.</span>
                 }
             </span>
                 break;
@@ -75,11 +94,11 @@ Source code is available upon request via <support@sitkatech.com>.
             This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() is awaiting review.
             @if (ViewDataTyped.CurrentPersonIsApprover)
             {
-                <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
+                <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
             }
             else if (ViewDataTyped.CurrentPersonIsSubmitter)
             {
-                <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">make changes or withdraw your proposal</a> at any time.</span>
+                <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">make changes or withdraw your proposal</a> at any time.</span>
             }
         </span>
             break;
@@ -116,91 +135,102 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <h2>Basics</h2>
                             </div>
                             <div class="panel-body">
-                                <table class="summaryLayout" style="width: 100%">
-                                    <colgroup>
-                                        <col style="width: 250px" />
-                                        <col style="width: auto" />
-                                    </colgroup>
-                                    <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectDescription)</th>
-                                        <td>
-                                            @Html.Raw(ViewDataTyped.ProposedProject.ProjectDescription.HtmlEncodeWithBreaks())
-                                        </td>
-                                    </tr>
+                                <div class="basicsLayout">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            @Html.LabelWithSugarFor(FieldDefinition.ProjectDescription)
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p class="projectDescription">
+                                                @Html.Raw(ViewDataTyped.ProposedProject.ProjectDescription.HtmlEncodeWithBreaks())
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr />
                                     @switch (ViewDataTyped.ProposedProject.FundingType.ToEnum)
                                     {
                                         case FundingTypeEnum.Capital:
-                                    <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</th>
-                                        <td>
-                                            @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
-                                        <td>
-                                            @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</th>
-                                        <td>
-                                            @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
-                                        </td>
-                                    </tr>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
+                                                </div>
+                                            </div>
                                             break;
                                         case FundingTypeEnum.OperationsAndMaintenance:
-                                    <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
-                                        <td>
-                                            @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
-                                        </td>
-                                    </tr>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)</div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
+                                                </div>
+                                            </div>
                                             break;
                                     }
-                                    <tr>
-                                        <th>@Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)</th>
-                                        <td>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)</div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.PlanningDesignStartYear
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>@Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)</div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.ImplementationStartYear
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>@Html.LabelWithSugarFor(FieldDefinition.CompletionYear)</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">@Html.LabelWithSugarFor(FieldDefinition.CompletionYear)</div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.CompletionYear
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Proposed by</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label>Proposed by</label>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.ProposingPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Proposed on</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label>Proposed on</label>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.ProposingDate.ToStringDate()
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Submitted on</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label>Submitted on</label>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.SubmissionDate.ToStringDate()
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Approved on</th>
-                                        <td>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label>Approved on</label>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
                                             @ViewDataTyped.ProposedProject.ApprovalDate.ToStringDate()
-                                        </td>
-                                    </tr>
-                                </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

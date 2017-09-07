@@ -35,67 +35,28 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectUpdateBatch
     {
-        public bool IsApproved
-        {
-            get { return ProjectUpdateState == ProjectUpdateState.Approved; }
-        }
+        public bool IsApproved => ProjectUpdateState == ProjectUpdateState.Approved;
 
-        public bool IsReturned
-        {
-            get { return ProjectUpdateState == ProjectUpdateState.Returned; }
-        }
+        public bool IsReturned => ProjectUpdateState == ProjectUpdateState.Returned;
 
-        public bool IsSubmitted
-        {
-            get { return ProjectUpdateState == ProjectUpdateState.Submitted; }
-        }
+        public bool IsSubmitted => ProjectUpdateState == ProjectUpdateState.Submitted;
 
-        public bool IsCreated
-        {
-            get { return ProjectUpdateState == ProjectUpdateState.Created; }
-        }
+        public bool IsCreated => ProjectUpdateState == ProjectUpdateState.Created;
 
-        public ProjectUpdateHistory LatestProjectUpdateHistorySubmitted
-        {
-            get { return ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Submitted); }
-        }
+        public ProjectUpdateHistory LatestProjectUpdateHistorySubmitted => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Submitted);
 
-        public DateTime? LatestSubmittalDate
-        {
-            get { return LatestProjectUpdateHistorySubmitted == null ? null : (DateTime?) LatestProjectUpdateHistorySubmitted.TransitionDate; }
-        }
+        public DateTime? LatestSubmittalDate => LatestProjectUpdateHistorySubmitted == null ? null : (DateTime?) LatestProjectUpdateHistorySubmitted.TransitionDate;
 
-        public ProjectUpdateHistory LatestProjectUpdateHistoryReturned
-        {
-            get { return ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Returned); }
-        }
+        public ProjectUpdateHistory LatestProjectUpdateHistoryReturned => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Returned);
 
-        public bool IsReadyToSubmit
-        {
-            get { return InEditableState && IsPassingAllValidationRules; }
-        }
+        public bool IsReadyToSubmit => InEditableState && IsPassingAllValidationRules;
 
-        public bool IsReadyToApprove
-        {
-            get { return IsPassingAllValidationRules; }
-        }
+        public bool IsReadyToApprove => IsPassingAllValidationRules;
 
-        private bool IsPassingAllValidationRules
-        {
-            // TODO: Neutered per #1136; Budget section used to be required for Transportation projects. Now that we have no notion of transportation project, make budget never required until we decide on rules.  BOR project will bring it back
-            get
-            {
-                return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
-                       IsProjectLocationSimpleValid() 
-                       //&& AreBudgetsValid()
-                       ;
-            }
-        }
+        private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
+                                                    IsProjectLocationSimpleValid();
 
-        public bool InEditableState
-        {
-            get { return IsCreated || IsReturned; }
-        }
+        public bool InEditableState => IsCreated || IsReturned;
 
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {
@@ -350,10 +311,7 @@ namespace ProjectFirma.Web.Models
                 }
                 return _areProjectBasicsValid.Value;
             }
-            private set
-            {
-                _areProjectBasicsValid = value;
-            }
+            private set => _areProjectBasicsValid = value;
         }
 
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()

@@ -197,21 +197,18 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-xs-6">
-            <label>Attributes</label>
+            <label style="margin-left: 14px;">Is Featured?</label>
         </div>
         <div class="col-xs-6">
-            <ul>                
-                @if (ViewDataTyped.Project.IsFeatured)
-                {
-                    <li>This project is a featured project</li>
-                }
-                @if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
-                {
-                    <li>
-                        This @FieldDefinition.Project.GetFieldDefinitionLabel() is @FundingType.OperationsAndMaintenance.GetFundingTypeDisplayName() with recurring annual costs.
-                    </li>
-                }
-            </ul>
+            @ViewDataTyped.Project.IsFeatured.ToYesNo()
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinition.FundingType)
+        </div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.FundingType.GetFundingTypeDisplayName()
         </div>
     </div>
 </div>
