@@ -28,7 +28,7 @@
     <add key="ApplicationDomain" value="${application-domain}"/>
     <add key="Ogr2OgrExecutable" value="C:\Program Files\GDAL\ogr2ogr.exe"/>
     <add key="OgrInfoExecutable" value="C:\Program Files\GDAL\ogrinfo.exe"/>
-    <add key="ReportingPeriodStartMonth" value="11"/>
+    <add key="ReportingPeriodStartMonth" value="1"/>
     <add key="ReportingPeriodStartDay" value="1"/>
     <add key="AnnualReportingContactPersonID" value="18"/>
     <add key="DefaultSupportPersonID" value="2"/>
