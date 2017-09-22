@@ -130,7 +130,19 @@ namespace ProjectFirma.Web.Common
 
         public static bool HasCanApproveProjectsOrganizationRelationship()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.Any(x => x.CanApproveProjects);
+            return GetCanApproveProjectsOrganizationRelationship() != null;
+        }
+        public static bool HasIsPrimaryContactOrganizationRelationship()
+        {
+            return GetIsPrimaryContactOrganizationRelationship() != null;
+        }
+        public static RelationshipType GetCanApproveProjectsOrganizationRelationship()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+        }
+        public static RelationshipType GetIsPrimaryContactOrganizationRelationship()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
         }
     }
 }

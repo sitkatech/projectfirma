@@ -31,43 +31,56 @@ namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class BasicsViewData : ProposedProjectViewData
     {
-        public IEnumerable<SelectListItem> TaxonomyTierOnes;
-        public IEnumerable<SelectListItem> Organizations;
-        public IEnumerable<SelectListItem> PrimaryContactPeople;
-        public Person DefaultPrimaryContactPerson;
-        public IEnumerable<SelectListItem> FundingTypes;
-        public IEnumerable<SelectListItem> StartYearRange;
-        public IEnumerable<SelectListItem> CompletionYearRange;
+        public IEnumerable<SelectListItem> TaxonomyTierOnes { get; private set; }
+        public IEnumerable<SelectListItem> Organizations { get; private set; }
+        public IEnumerable<SelectListItem> ApproverOrganizations { get; private set; }
+        public IEnumerable<SelectListItem> PrimaryContactOrganizations { get; private set; }
+        public IEnumerable<SelectListItem> PrimaryContactPeople { get; private set; }
+        public Person DefaultPrimaryContactPerson { get; private set; }
+        public IEnumerable<SelectListItem> FundingTypes { get; private set; }
+        public IEnumerable<SelectListItem> StartYearRange { get; private set; }
+        public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
+        public bool HasCanApproveProjectsOrganizationRelationship { get; private set; }
 
 
         public BasicsViewData(Person currentPerson,
-            IEnumerable<Models.Organization> organizations,
+            List<Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes)
+            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
             : base(currentPerson, ProposedProjectSectionEnum.Basics)
         {
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson);
+            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 
         public BasicsViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes,
-            IEnumerable<Models.Organization> organizations,
+            List<Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
-            IEnumerable<FundingType> fundingTypes)
+            IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
             : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, proposalSectionsStatus)
         {
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson);
+            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes, Person defaultPrimaryContactPerson)
+        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, List<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes, Person defaultPrimaryContactPerson, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
         {
             TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
             Organizations = organizations.OrderBy(x => x.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
+            ApproverOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any(
+                    y =>
+                        y.RelationshipTypeID == approverRelationshipType
+                            ?.RelationshipTypeID))
+                .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            PrimaryContactOrganizations = organizations.Where(x =>
+                    x.OrganizationType.OrganizationTypeRelationshipTypes.Any(y =>
+                        y.RelationshipTypeID == primaryContactRelationshipType
+                            ?.RelationshipTypeID))
+                .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
             PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(
                 x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrgShortName,
                 $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
@@ -79,6 +92,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
+            HasCanApproveProjectsOrganizationRelationship = MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship();
         }
     }
 }

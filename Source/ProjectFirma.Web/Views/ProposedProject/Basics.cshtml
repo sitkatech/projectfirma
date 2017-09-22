@@ -68,6 +68,23 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
         </div>
     </div>
+    if (ViewDataTyped.HasCanApproveProjectsOrganizationRelationship)
+    {
+        <div class="row">
+            <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ApprovingProjectsOrganizationID)</div>
+            <div class="col-md-8">
+                @Html.SearchableDropDownListFor(m => m.ApprovingProjectsOrganizationID, ViewDataTyped.ApproverOrganizations)
+                @Html.ValidationMessageFor(m => m.ApprovingProjectsOrganizationID)
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactOrganizationID)</div>
+        <div class="col-md-8">
+            @Html.SearchableDropDownListFor(m => m.PrimaryContactOrganizationID, ViewDataTyped.PrimaryContactOrganizations)
+            @Html.ValidationMessageFor(m => m.PrimaryContactOrganizationID)
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
         <div class="col-md-8">

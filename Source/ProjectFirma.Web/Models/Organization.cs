@@ -116,5 +116,15 @@ namespace ProjectFirma.Web.Models
             var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
         }
+
+        public bool CanBeAnApprovingOrganization()
+        {
+            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public bool CanBeAPrimaryContactOrganization()
+        {
+            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
+        }
     }
 }

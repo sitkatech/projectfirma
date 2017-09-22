@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
@@ -25,6 +27,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
@@ -54,6 +57,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public AssessmentTreeViewData AssessmentTreeViewData;
 
         public readonly Models.Tenant Tenant;
+        public HtmlString ApproverOrganization { get; }
+        public bool HasCanApproveProjectsOrganizationRelationship { get; }
 
 
         public DetailViewData(Person currentPerson,
@@ -91,6 +96,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
             AssessmentTreeViewData = assessmentTreeViewData;
 
             Tenant = tenant;
+
+            ApproverOrganization = proposedProject.GetCanApproveProposedProjectsOrganization()?.GetDisplayNameAsUrl();
+            HasCanApproveProjectsOrganizationRelationship =
+                MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship();
         }
     }
 }

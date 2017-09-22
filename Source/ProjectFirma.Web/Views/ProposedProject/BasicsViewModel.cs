@@ -73,7 +73,14 @@ namespace ProjectFirma.Web.Views.ProposedProject
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         [Required]
         public int FundingTypeID { get; set; }
-        
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CanApproveProjectsOrganization)]
+        public int? ApprovingProjectsOrganizationID { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsPrimaryContactOrganization)]
+        [Required]
+        public int? PrimaryContactOrganizationID { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -95,6 +102,24 @@ namespace ProjectFirma.Web.Views.ProposedProject
             PlanningDesignStartYear = proposedProject.PlanningDesignStartYear;
             ImplementationStartYear = proposedProject.ImplementationStartYear;
             CompletionYear = proposedProject.CompletionYear;
+            ApprovingProjectsOrganizationID = proposedProject.GetCanApproveProposedProjectsOrganization()?.OrganizationID;
+            PrimaryContactOrganizationID = proposedProject.GetPrimaryContactOrganization()?.OrganizationID;
+        }
+
+        /// <summary>
+        /// Used by a brand new proposal for setting the default ApprovingProjectsOrganizationID or PrimaryContactOrganizationID
+        /// </summary>
+        /// <param name="organization"></param>
+        public BasicsViewModel(Models.Organization organization)
+        {
+            if (organization.CanBeAnApprovingOrganization())
+            {
+                ApprovingProjectsOrganizationID = organization.OrganizationID;
+            }
+            if (organization.CanBeAPrimaryContactOrganization())
+            {
+                PrimaryContactOrganizationID = organization.OrganizationID;
+            }
         }
 
         public void UpdateModel(Models.ProposedProject proposedProject, Person person)
@@ -122,7 +147,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             proposedProject.PlanningDesignStartYear = PlanningDesignStartYear;
             proposedProject.ImplementationStartYear = ImplementationStartYear;
             proposedProject.CompletionYear = CompletionYear;
-
             proposedProject.PrimaryContactPersonID = PrimaryContactPersonID;
         }
 
@@ -139,17 +163,22 @@ namespace ProjectFirma.Web.Views.ProposedProject
             var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.ToList();
             if (!Models.ProposedProject.IsProjectNameUnique(proposedProjects, ProjectName, ProposedProjectID) || !Models.Project.IsProjectNameUnique(projects, ProjectName, ModelObjectHelpers.NotYetAssignedID))
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
+                errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
             }
 
             if (ImplementationStartYear < PlanningDesignStartYear)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
             }
 
             if (CompletionYear < ImplementationStartYear)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+            }
+
+            if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.ApprovingProjectsOrganizationID));
             }
 
             return errors;

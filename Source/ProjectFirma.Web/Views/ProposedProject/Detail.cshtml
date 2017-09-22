@@ -146,6 +146,29 @@ Source code is available upon request via <support@sitkatech.com>.
                                             </p>
                                         </div>
                                     </div>
+                                    @if (ViewDataTyped.HasCanApproveProjectsOrganizationRelationship)
+                                    {
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            @Html.LabelWithSugarFor(FieldDefinition.CanApproveProjectsOrganization)
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p class="projectDescription">
+                                                @ViewDataTyped.ApproverOrganization
+                                            </p>
+                                        </div>
+                                    </div>
+                                    }
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            @Html.LabelWithSugarFor(FieldDefinition.IsPrimaryContactOrganization)
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p class="projectDescription">
+                                                @ViewDataTyped.ProposedProject.GetPrimaryContactOrganization().GetDisplayNameAsUrl()
+                                            </p>
+                                        </div>
+                                    </div>
                                     <hr />
                                     @switch (ViewDataTyped.ProposedProject.FundingType.ToEnum)
                                     {
@@ -315,15 +338,18 @@ Source code is available upon request via <support@sitkatech.com>.
                         @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
                     </div>
                 </div>
-
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>Audit Log</h2>
+                
+                @if (ViewDataTyped.CurrentPersonIsApprover)
+                {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>Audit Log</h2>
+                        </div>
+                        <div class="panel-body">
+                            @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

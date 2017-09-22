@@ -129,16 +129,16 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectCreateNewFeature]
         public ViewResult CreateAndEditBasics()
         {
-            return ViewCreateAndEditBasics(new BasicsViewModel(), null);
+            return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.Organization), null);
         }
 
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, ProposedProject proposedProject)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People;
+            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes);
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -161,10 +161,9 @@ namespace ProjectFirma.Web.Controllers
             
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var primaryContacts = HttpRequestStorage.DatabaseEntities.People;
+            var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
-
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All);
+            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -182,7 +181,6 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.FundingTypeID,
                 (int) ProposedProjectState.Draft.ToEnum);
 
-            CurrentPerson.SetDefaultProposedProjectOrganizations(proposedProject);
             return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
         }
 
@@ -209,6 +207,10 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(proposedProject, CurrentPerson);
+
+            SetProposedProjectOrganizationForRelationshipType(proposedProject, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            SetProposedProjectOrganizationForRelationshipType(proposedProject, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship());
+
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var auditLog = new AuditLog(CurrentPerson,
@@ -226,6 +228,37 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully saved.");
 
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
+        }
+
+        private static void SetProposedProjectOrganizationForRelationshipType(ProposedProject proposedProject, int? organizationID, RelationshipType relationshipType)
+        {
+            var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID.Value);
+
+            if (relationshipType != null)
+            {
+                var proposedProjectPrimaryContactOrganization =
+                    proposedProject.ProposedProjectOrganizations.SingleOrDefault(x =>
+                        x.RelationshipTypeID == relationshipType.RelationshipTypeID);
+                if (relationshipType.OrganizationTypeRelationshipTypes.Any(x =>
+                    x.OrganizationTypeID == organization.OrganizationTypeID))
+                {
+                    if (proposedProjectPrimaryContactOrganization == null)
+                    {
+                        proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(
+                            proposedProject,
+                            organization, relationshipType));
+                    }
+                    else
+                    {
+                        proposedProjectPrimaryContactOrganization.OrganizationID =
+                            organizationID.Value;
+                    }
+                }
+                else
+                {
+                    proposedProjectPrimaryContactOrganization?.DeleteProposedProjectOrganization();
+                }
+            }
         }
 
         [HttpGet]

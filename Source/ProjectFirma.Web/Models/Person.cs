@@ -136,14 +136,14 @@ namespace ProjectFirma.Web.Models
                 return;
             }
 
-            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            var relationshipTypeThatCanApprove = MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship();
             if (relationshipTypeThatCanApprove != null &&
                 relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
                 project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
             }
 
-            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            var relationshipTypeThatIsPrimaryContact = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
             if (relationshipTypeThatIsPrimaryContact != null &&
                 relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
@@ -151,42 +151,11 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public void SetDefaultProposedProjectOrganizations(ProposedProject proposedProject)
-        {
-            if(!new ProposedProjectApproveFeature().HasPermissionByPerson(this))
-            {
-                return;
-            }
-
-            SetCanApproveProjectsProjectOrganization(proposedProject);
-
-            var relationshipTypeThatIsPrimaryContact = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
-            if (relationshipTypeThatIsPrimaryContact != null &&
-                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, Organization, relationshipTypeThatIsPrimaryContact));
-            }
-        }
-
-        public void SetCanApproveProjectsProjectOrganization(ProposedProject proposedProject)
-        {
-            var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
-            if (relationshipTypeThatCanApprove != null &&
-                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                var canApproveProposedProjectsOrganization = proposedProject.GetCanApproveProposedProjectsOrganization();
-                if (canApproveProposedProjectsOrganization == null)
-                {
-                    proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(proposedProject, Organization, relationshipTypeThatCanApprove));
-                }
-            }
-        }
-
         public bool PersonIsProjectOwnerWhoCanApproveProjects
         {
             get
             {
-                var relationshipTypeThatCanApprove = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+                var relationshipTypeThatCanApprove = MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship();
                 return Role.ProjectSteward.RoleID == RoleID &&
                        relationshipTypeThatCanApprove != null &&
                        relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(

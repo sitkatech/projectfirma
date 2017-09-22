@@ -251,12 +251,22 @@ Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} i
         {
             var submitterPerson = proposedProject.ProposingPerson;
             var submitterEmails = new List<string> { submitterPerson.Email };
-            var emailsToSendTo = peopleToNotify.Select(x => x.Email).ToList();
+            AddProjectStewardToPeopleToNotify(peopleToNotify, proposedProject);
+            var emailsToSendTo = peopleToNotify.Select(x => x.Email).Distinct().ToList();
             var mailMessage = GenerateProposedProjectSubmittedMessage(proposedProject, submitterPerson);
             var notificationProposedProject = new List<ProposedProject> {proposedProject};
 
             SendMessageAndLogProposedProjectNotifications(mailMessage, emailsToSendTo, submitterEmails, new List<string>(), peopleToNotify, DateTime.Now, notificationProposedProject, NotificationType.ProposedProjectSubmitted);
                 
+        }
+
+        private static void AddProjectStewardToPeopleToNotify(List<Person> peopleToNotify, ProposedProject proposedProject)
+        {
+            var approveProposedProjectsOrganization = proposedProject.GetCanApproveProposedProjectsOrganization();
+            if (approveProposedProjectsOrganization != null)
+            {
+                peopleToNotify.AddRange(proposedProject.GetProjectStewardsForProposedProject());
+            }
         }
 
         private static MailMessage GenerateProposedProjectSubmittedMessage(ProposedProject proposedProject, Person submitterPerson)

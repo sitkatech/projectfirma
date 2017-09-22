@@ -260,7 +260,6 @@ namespace ProjectFirma.Web.Models
                 project.ProjectImages.Add(newProjectImage);
             }
 
-            approverPerson.SetCanApproveProjectsProjectOrganization(proposedProject);
             foreach (var proposedProjectOrganization in proposedProject.ProposedProjectOrganizations)
             {
                 project.ProjectOrganizations.Add(new ProjectOrganization(project, proposedProjectOrganization.Organization, proposedProjectOrganization.RelationshipType));
@@ -305,5 +304,10 @@ namespace ProjectFirma.Web.Models
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
+
+        public IEnumerable<Person> GetProjectStewardsForProposedProject()
+        {
+            return GetCanApproveProposedProjectsOrganization().People.Where(y => y.RoleID == Role.ProjectSteward.RoleID).ToList();
+        }
     }
 }

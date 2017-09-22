@@ -321,7 +321,7 @@ namespace ProjectFirma.Web.Models
         {
             theProject.ProjectOrganizations.Clear();
 
-            var leadImplementingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            var leadImplementingRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
             if (leadImplementingRelationshipType != null)
             {
                 theProject.ProjectOrganizations.Add(new ProjectOrganization(theProject, leadOrganization, leadImplementingRelationshipType));
