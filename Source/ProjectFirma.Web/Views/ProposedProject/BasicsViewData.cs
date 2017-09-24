@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public IEnumerable<SelectListItem> StartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
         public bool HasCanApproveProjectsOrganizationRelationship { get; private set; }
+        public bool HasThreeTierTaxonomy { get; private set; }
 
 
         public BasicsViewData(Person currentPerson,
@@ -93,6 +94,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasCanApproveProjectsOrganizationRelationship = MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship();
+
+            HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
         }
     }
 }

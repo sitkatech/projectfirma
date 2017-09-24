@@ -37,9 +37,16 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProposedTaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div>
-                @Html.SearchableDropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()))
+                @if (ViewDataTyped.HasThreeTierTaxonomy)
+                {
+                    @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { @class = "form-control", style = "width: 100%;" })
+                }
+                else
+                {
+                    @Html.SearchableDropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()))                
+                }
                 @Html.ValidationMessageFor(m => m.ProposedTaxonomyTierOneID)
             </div>
         </div>

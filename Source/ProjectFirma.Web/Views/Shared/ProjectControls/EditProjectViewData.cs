@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly EditProjectType EditProjectType;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly decimal? TotalExpenditures;
+        public bool HasThreeTierTaxonomy { get; private set; }
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyTierOneDisplayName,
@@ -64,6 +65,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
+            HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
         }
     }
 }
