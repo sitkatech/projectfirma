@@ -178,7 +178,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.ApprovingProjectsOrganizationID));
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
+                    $"{Models.FieldDefinition.CanApproveProjectsOrganization.GetFieldDefinitionLabel()} is required", m => m.ApprovingProjectsOrganizationID));
             }
 
             return errors;

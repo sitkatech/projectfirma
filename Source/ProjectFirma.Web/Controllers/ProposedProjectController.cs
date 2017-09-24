@@ -232,10 +232,10 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SetProposedProjectOrganizationForRelationshipType(ProposedProject proposedProject, int? organizationID, RelationshipType relationshipType)
         {
-            var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID.Value);
-
-            if (relationshipType != null)
+            if (relationshipType != null && organizationID.HasValue)
             {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID.Value);
+
                 var proposedProjectPrimaryContactOrganization =
                     proposedProject.ProposedProjectOrganizations.SingleOrDefault(x =>
                         x.RelationshipTypeID == relationshipType.RelationshipTypeID);
