@@ -298,16 +298,18 @@ namespace ProjectFirma.Web.Models
             return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public Organization GetCanApproveProposedProjectsOrganization()
+        public Organization GetCanApproveProjectsOrganization()
         {
             return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public IEnumerable<Person> GetProjectStewardsForProposedProject()
+        public IEnumerable<Person> GetProjectStewards()
         {
-            return GetCanApproveProposedProjectsOrganization().People.Where(y => y.RoleID == Role.ProjectSteward.RoleID).ToList();
+            return GetCanApproveProjectsOrganization()?.People
+                       .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
+                       .ToList() ?? new List<Person>();
         }
     }
 }

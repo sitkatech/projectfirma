@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             PlanningDesignStartYear = proposedProject.PlanningDesignStartYear;
             ImplementationStartYear = proposedProject.ImplementationStartYear;
             CompletionYear = proposedProject.CompletionYear;
-            ApprovingProjectsOrganizationID = proposedProject.GetCanApproveProposedProjectsOrganization()?.OrganizationID;
+            ApprovingProjectsOrganizationID = proposedProject.GetCanApproveProjectsOrganization()?.OrganizationID;
             PrimaryContactOrganizationID = proposedProject.GetPrimaryContactOrganization()?.OrganizationID;
         }
 

@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
 
         public bool CanApproveProposedProjectByOrganizationRelationship(ProposedProject proposedProject)
         {
-            var canApproveProposedProjectsOrganization = proposedProject.GetCanApproveProposedProjectsOrganization();
+            var canApproveProposedProjectsOrganization = proposedProject.GetCanApproveProjectsOrganization();
             return canApproveProposedProjectsOrganization != null && canApproveProposedProjectsOrganization.OrganizationID == OrganizationID;
         }
 

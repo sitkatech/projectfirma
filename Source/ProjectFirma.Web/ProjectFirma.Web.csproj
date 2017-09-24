@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -368,6 +368,8 @@
     <Compile Include="Models\FundingType.cs" />
     <Compile Include="Models\FundingTypeData.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ITaxonomyTier.cs" />
+    <Compile Include="Models\NotificationProject.cs" />
+    <Compile Include="Models\NotificationProposedProject.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
     <Compile Include="Models\ProposedProjectWatershed.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />

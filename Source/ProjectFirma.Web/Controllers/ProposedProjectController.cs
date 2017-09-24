@@ -871,9 +871,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
             proposedProject.SubmissionDate = DateTime.Now;
-            var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
-            Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject);
-            //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
+            NotificationProposedProject.SendSubmittedMessage(proposedProject);
             SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully submitted for review.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
@@ -908,8 +906,11 @@ namespace ProjectFirma.Web.Controllers
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Approved;
             proposedProject.ProjectID = project.ProjectID;
             proposedProject.ApprovalDate = DateTime.Now;
+            proposedProject.ReviewedByPerson = CurrentPerson;
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             GenerateApprovalAuditLogEntries(project, proposedProject);
+
+            NotificationProposedProject.SendApprovalMessage(proposedProject);
 
             SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
 
@@ -973,6 +974,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
+            proposedProject.ReviewedByPerson = CurrentPerson;
+            NotificationProposedProject.SendReturnedMessage(proposedProject);
             SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }

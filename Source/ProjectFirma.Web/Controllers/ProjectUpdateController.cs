@@ -1253,9 +1253,9 @@ namespace ProjectFirma.Web.Controllers
                 allProjectLocations,
                 allProjectWatersheds);
             
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
 
-            Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
+            NotificationProject.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved!");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
@@ -1332,8 +1332,8 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
-            Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            NotificationProject.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.DisplayName}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
 
@@ -1367,8 +1367,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatches.ForEach(pub =>
             {
                 pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
-                var peopleToNotify = peopleToCc.Union(pub.Project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
-                Notification.SendSubmittedMessage(peopleToNotify, pub);
+                var peopleToNotify = peopleToCc.Union(pub.Project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+                NotificationProject.SendSubmittedMessage(peopleToNotify, pub);
             });
             SetMessageForDisplay($"The update(s) for {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} {string.Join(", ", projectUpdateBatches.Select(x => x.Project.DisplayName))} have been submitted.");
             return new ModalDialogFormJsonResult();
@@ -1402,8 +1402,8 @@ namespace ProjectFirma.Web.Controllers
             Check.Require(projectUpdateBatch.IsSubmitted, $"You cannot return a {FieldDefinition.Project.GetFieldDefinitionLabel()} Update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectOwnersForProject()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
-            Notification.SendReturnedMessage(peopleToCc, projectUpdateBatch);
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            NotificationProject.SendReturnedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} has been returned.");
             return new ModalDialogFormJsonResult();
         }

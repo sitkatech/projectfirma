@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             Tenant = tenant;
 
-            ApproverOrganization = proposedProject.GetCanApproveProposedProjectsOrganization()?.GetDisplayNameAsUrl();
+            ApproverOrganization = proposedProject.GetCanApproveProjectsOrganization()?.GetDisplayNameAsUrl();
             HasCanApproveProjectsOrganizationRelationship =
                 MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship();
         }

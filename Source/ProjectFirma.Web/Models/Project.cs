@@ -417,9 +417,11 @@ namespace ProjectFirma.Web.Models
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
         }
 
-        public IEnumerable<Person> GetProjectOwnersForProject()
+        public IEnumerable<Person> GetProjectStewards()
         {
-            return GetCanApproveProjectsOrganization().People.Where(y => y.RoleID == Role.ProjectSteward.RoleID).ToList();
+            return GetCanApproveProjectsOrganization()?.People
+                       .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
+                       .ToList() ?? new List<Person>();
         }
     }
 }
