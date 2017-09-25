@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
 <p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {proposedProject.SubmissionDate.ToStringDate()} was approved by <approverPerson.FullNameFirstLastAndOrg>.</p>
 <p>This project is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} Project List</a> and is visible to the public via the project detail page.</p>
 <p><a href=""{detailUrl}"">View this project</a></p>
-<p>Thank you for using {MultiTenantHelpers.GetToolDisplayName()}!</p>
+<p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
 <p>{Notification.FirmaSignature}</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
 <p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {proposedProject.SubmissionDate.ToStringDate()} has been returned for further review.</p>
 <p>The proposal was returned by {proposedProject.ReviewedByPerson.FullNameFirstLastAndOrg}. {proposedProject.ReviewedByPerson.FirstName} will contact you for additional information before this proposal can move forward.</p>
 <a href=""{instructionsUrl}"">View this project</a></p>
-<p>Thank you for using {MultiTenantHelpers.GetToolDisplayName()}</p>
+<p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{Notification.FirmaSignature}</p>
 ";
 
