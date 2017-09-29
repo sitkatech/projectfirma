@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLastAndOrg},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {proposedProject.SubmissionDate.ToStringDate()} was approved by <approverPerson.FullNameFirstLastAndOrg>.</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {proposedProject.SubmissionDate.ToStringDate()} was approved by {proposedProject.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
 <p>This project is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} Project List</a> and is visible to the public via the project detail page.</p>
 <p><a href=""{detailUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
