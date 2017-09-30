@@ -72,11 +72,20 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
             TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
             Organizations = organizations.OrderBy(x => x.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            ApproverOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any(
-                    y =>
-                        y.RelationshipTypeID == approverRelationshipType
-                            ?.RelationshipTypeID))
-                .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            IEnumerable<SelectListItem> approverOrganizations;
+            if (approverRelationshipType != null)
+            {
+                approverOrganizations = organizations.Where(x =>
+                        x.OrganizationType.OrganizationTypeRelationshipTypes.Any(
+                            y =>
+                                y.RelationshipTypeID == approverRelationshipType.RelationshipTypeID))
+                    .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            }
+            else
+            {
+                approverOrganizations = new List<SelectListItem>();
+            }
+            ApproverOrganizations = approverOrganizations;
             PrimaryContactOrganizations = organizations.Where(x =>
                     x.OrganizationType.OrganizationTypeRelationshipTypes.Any(y =>
                         y.RelationshipTypeID == primaryContactRelationshipType
