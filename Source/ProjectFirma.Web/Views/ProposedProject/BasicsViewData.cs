@@ -76,9 +76,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             if (approverRelationshipType != null)
             {
                 approverOrganizations = organizations.Where(x =>
-                        x.OrganizationType.OrganizationTypeRelationshipTypes.Any(
+                        x.OrganizationType?.OrganizationTypeRelationshipTypes.Any(
                             y =>
-                                y.RelationshipTypeID == approverRelationshipType.RelationshipTypeID))
+                                y.RelationshipTypeID == approverRelationshipType.RelationshipTypeID) == true)
                     .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
             }
             else
@@ -86,10 +86,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
                 approverOrganizations = new List<SelectListItem>();
             }
             ApproverOrganizations = approverOrganizations;
-            PrimaryContactOrganizations = organizations.Where(x =>
-                    x.OrganizationType.OrganizationTypeRelationshipTypes.Any(y =>
-                        y.RelationshipTypeID == primaryContactRelationshipType
-                            ?.RelationshipTypeID))
+            PrimaryContactOrganizations = organizations.Where(x => x.OrganizationType?.OrganizationTypeRelationshipTypes.Any(y =>
+                                                                       y.RelationshipTypeID == primaryContactRelationshipType
+                                                                           ?.RelationshipTypeID) == true)
                 .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
             PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(
                 x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrgShortName,
