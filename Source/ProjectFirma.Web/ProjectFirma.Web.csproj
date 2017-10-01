@@ -371,6 +371,7 @@
     <Compile Include="Models\NotificationProject.cs" />
     <Compile Include="Models\NotificationProposedProject.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
+    <Compile Include="Models\ProposedProjectOrganization.cs" />
     <Compile Include="Models\ProposedProjectWatershed.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
