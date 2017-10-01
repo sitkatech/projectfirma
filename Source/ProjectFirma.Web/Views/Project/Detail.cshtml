@@ -81,7 +81,14 @@
 {
     <div class="alert alert-warning" style="margin-bottom: 10px">
         <span>
-            Updates to this project have been submitted but not yet approved. Check back later for more current information on this project.
+            @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned && ViewDataTyped.UserHasProjectUpdatePermissions)
+            {
+                @:Updates to this project have been returned. Please fix any issues with the update and re-submit.
+            }
+            else
+            {
+                @:Updates to this project have been submitted but not yet approved. Check back later for more current information on this project.
+            }
             @if (ViewDataTyped.UserHasProjectUpdatePermissions)
             {
                 <span>View its <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()"> project update </a></span>
