@@ -29,8 +29,6 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Notification
     {
-        public static string FirmaSignature = $"- {MultiTenantHelpers.GetToolDisplayName()} team";
-
         public static List<Notification> SendMessageAndLogNotification(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, List<Person> notificationPeople, DateTime notificationDate, List<Project> notificationProjects, NotificationType notificationType)
         {
             SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc);

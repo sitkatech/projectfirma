@@ -26,7 +26,6 @@ using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Common
 {

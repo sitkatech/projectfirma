@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Models
 <p>This project is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} Project List</a> and is visible to the public via the project detail page.</p>
 <p><a href=""{detailUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
-<p>{Notification.FirmaSignature}</p>
+<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
             var emailsToSendTo = new List<string> { submitterPerson.Email };
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
 <p>The proposal was returned by {proposedProject.ReviewedByPerson.FullNameFirstLastAndOrg}. {proposedProject.ReviewedByPerson.FirstName} will contact you for additional information before this proposal can move forward.</p>
 <a href=""{instructionsUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
-<p>{Notification.FirmaSignature}</p>
+<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
 ";
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };

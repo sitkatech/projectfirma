@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
@@ -106,7 +107,7 @@ Dear {personNames},
     <a href=""{detailUrl}"">View this {FieldDefinition.Project.GetFieldDefinitionLabel()}</a>
 </p>
 Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} information and accomplishments up to date!<br />
-{Notification.FirmaSignature}
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}
 ";
 
             var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved";
@@ -155,7 +156,7 @@ Dear {personNames},
                 } left for you. If you have questions, please email: {returnerPerson.Email}
 </p>
 Thank you,<br />
-{Notification.FirmaSignature}
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}
 ";
 
             var subject =
