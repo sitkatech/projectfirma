@@ -1,5 +1,11 @@
 /* For the DHTMLX grid stuff */
 
+div.gridbox {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
 div.gridbox_mm {
   position:relative; /* keeps the overflow on short grids (<=150px) from interfering with elements below the grid in IE7 (see #325) */
     border: 1px solid #71675e;
