@@ -81,7 +81,9 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
 
             var taxonomyTierOneProjects = taxonomyTierOne.Projects.ToList();
-            var projects = IsCurrentUserAnonymous() ? taxonomyTierOneProjects.Where(p => p.IsVisibleToEveryone()).ToList() : taxonomyTierOneProjects;
+            var projects = new List<IProject>(IsCurrentUserAnonymous()
+                ? taxonomyTierOneProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+                : taxonomyTierOneProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierOne, new List<int> {taxonomyTierOne.TaxonomyTierOneID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);

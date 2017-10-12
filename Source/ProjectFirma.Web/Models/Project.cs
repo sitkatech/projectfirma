@@ -314,7 +314,7 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties, Func<Project, bool> filterFunction)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IProject> projects, bool addProjectProperties, Func<IProject, bool> filterFunction)
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x => x.HasProjectLocationPoint).Where(filterFunction).ToList();
@@ -322,7 +322,7 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IProject> projects, bool addProjectProperties)
         {
             return MappedPointsToGeoJsonFeatureCollection(projects, addProjectProperties, x => x.ProjectStage.ShouldShowOnMap());
         }

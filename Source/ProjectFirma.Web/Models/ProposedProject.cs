@@ -20,14 +20,17 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -57,6 +60,35 @@ namespace ProjectFirma.Web.Models
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
+        {
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
+            feature.Properties.Add("TaxonomyTierThreeID", TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("ProjectStageID", ProjectStage.ProjectStageID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("Info", DisplayName);
+            if (addProjectProperties)
+            {
+                feature.Properties.Add("ProjectID", ProjectID?.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID?.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("ClassificationID", string.Join(",", ProposedProjectClassifications.Select(x => x.ClassificationID)));
+                foreach (var type in ProposedProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                {
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProposedProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                }
+                // TODO - We probably need this, but ProjectMapPopup isn't implemented for ProposedProject yet.
+                //feature.Properties.Add("PopupUrl", GetProjectMapPopupUrl());
+            }
+            return feature;
+        }
+
+        // TODO: Remove or uncomment. (Must switch to ProposedProjectController and implement ProjectMapPopup for ProposedProject)
+        //private string GetProjectMapPopupUrl()
+        //{
+        //    var ProjectMapPopuUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.ProjectMapPopup(UrlTemplate.Parameter1Int)));
+        //    return ProjectMapPopuUrlTemplate.ParameterReplace(ProposedProjectID);
+        //}
+
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
@@ -142,6 +174,11 @@ namespace ProjectFirma.Web.Models
         public bool IsVisibleToThisPerson(Person person)
         {
             return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission || new FirmaAdminFeature().HasPermissionByPerson(person);
+        }
+
+        public bool IsVisibleToEveryone()
+        {
+            return true;
         }
 
         public bool IsPersonThePrimaryContact(Person person)
