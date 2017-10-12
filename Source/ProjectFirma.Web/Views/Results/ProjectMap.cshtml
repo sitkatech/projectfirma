@@ -413,6 +413,7 @@ Source code is available upon request via <support@sitkatech.com>.
             };
             var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
                 projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+            console.log(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
 
             projectFirmaMap.map.scrollWheelZoom.enable();

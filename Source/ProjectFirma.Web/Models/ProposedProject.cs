@@ -68,26 +68,19 @@ namespace ProjectFirma.Web.Models
             feature.Properties.Add("Info", DisplayName);
             if (addProjectProperties)
             {
-                feature.Properties.Add("ProjectID", ProjectID?.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("ProjectID", (ProjectID != null ? ProjectID.Value : -ProposedProjectID).ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID?.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierOneID", (TaxonomyTierOneID?? -1).ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProposedProjectClassifications.Select(x => x.ClassificationID)));
                 foreach (var type in ProposedProjectOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
                     feature.Properties.Add($"{type.RelationshipTypeName}ID", ProposedProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
                 }
                 // TODO - We probably need this, but ProjectMapPopup isn't implemented for ProposedProject yet.
-                //feature.Properties.Add("PopupUrl", GetProjectMapPopupUrl());
+                feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
             }
             return feature;
         }
-
-        // TODO: Remove or uncomment. (Must switch to ProposedProjectController and implement ProjectMapPopup for ProposedProject)
-        //private string GetProjectMapPopupUrl()
-        //{
-        //    var ProjectMapPopuUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.ProjectMapPopup(UrlTemplate.Parameter1Int)));
-        //    return ProjectMapPopuUrlTemplate.ParameterReplace(ProposedProjectID);
-        //}
 
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 

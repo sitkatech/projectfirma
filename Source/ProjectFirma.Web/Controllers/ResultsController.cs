@@ -225,7 +225,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.DefaultLocationFilterValues;
+                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues();
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -239,12 +239,17 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
+            var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects);
+            if (includeProposedProjectsOnMap)
+            {
+                allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
+            }
 
             var projectsToShow = allProjectsForMap.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
 
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
+            var mappedPointsToGeoJsonFeatureCollection = Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", mappedPointsToGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
             {
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
@@ -289,8 +294,7 @@ namespace ProjectFirma.Web.Controllers
             var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
 
-            var exceptProposedProjects = includeProposedProjectsOnMap ? new List<ProjectStage>() : new List<ProjectStage>{ProjectStage.Proposed};
-            var projectStagesAsSelectListItems = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap())).Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap().ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;

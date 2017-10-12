@@ -25,6 +25,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string ColorByQueryStringParameter = "ColorBy";
 
         public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.ProjectStage;
-        public static readonly List<int> DefaultLocationFilterValues = ProjectStage.All.Select(x => x.ProjectStageID).ToList();
+        public static List<int> GetDefaultLocationFilterValues() => GetProjectStagesForMap().Select(x => x.ProjectStageID).ToList();
         public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.ProjectStage;
 
         public List<int> FilterPropertyValues { get; set; }
@@ -73,9 +74,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectLocationFilterType = projectLocationFilterType;
             ProjectColorByType = projectColorByType;
             
-            FilterPropertyName = projectLocationFilterType != null ? projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier : string.Empty;
+            FilterPropertyName = projectLocationFilterType != null ? projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier : String.Empty;
             FilterPropertyValues = projectLocationFilterValues;
-            ColorByPropertyName = projectColorByType != null ? projectColorByType.ProjectColorByTypeNameWithIdentifier : string.Empty;
+            ColorByPropertyName = projectColorByType != null ? projectColorByType.ProjectColorByTypeNameWithIdentifier : String.Empty;
         }
 
         public static string BuildCustomizedUrl(ProjectLocationFilterType filterType, string filterValues)
@@ -96,12 +97,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static ProjectMapCustomization CreateDefaultCustomization(List<IProject> projects )
         {
 
-            return new ProjectMapCustomization(DefaultLocationFilterType, DefaultLocationFilterValues);
+            return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues());
         }
 
         public string GetCustomizedUrl()
         {
             return BuildCustomizedUrl(ProjectLocationFilterType, FilterPropertyValues.JoinCsv(p => p.ToString(), ","), ProjectColorByType);
+        }
+
+        public static List<ProjectStage> GetProjectStagesForMap()
+        {
+            var includeProposedProjectsOnMap = MultiTenantHelpers.IncludeProposedProjectsOnMap();
+            var exceptProposedProjects = includeProposedProjectsOnMap
+                ? new List<ProjectStage>()
+                : new List<ProjectStage> {ProjectStage.Proposed};
+            var projectStagesForMap = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap()))
+                .Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToList();
+            return projectStagesForMap;
         }
     }
 }
