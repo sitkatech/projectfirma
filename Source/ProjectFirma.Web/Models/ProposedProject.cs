@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Models
             return new PermissionCheckResult();
         }
 
-        public ProjectStage ProjectStage => ProjectStage.PlanningDesign;
+        public ProjectStage ProjectStage => ProjectStage.Proposed;
 
         public ProjectType ProjectType => ProjectType.ProposedProject;
 

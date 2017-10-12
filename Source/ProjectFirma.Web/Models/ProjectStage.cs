@@ -18,12 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
     {
         public static readonly ProjectStageProposed Proposed = ProjectStageProposed.Instance;
 
+        public static readonly List<ProjectStage> AllPlusProposed = new List<ProjectStage> { Proposed, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
 
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
