@@ -207,6 +207,8 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
+            var includeProposedProjectsOnMap = CurrentTenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
+
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter].ParseAsEnum<ProjectLocationFilterTypeEnum>());
@@ -249,7 +251,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary();
+            
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(includeProposedProjectsOnMap);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
@@ -263,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary()
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool includeProposedProjectsOnMap)
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
@@ -284,9 +287,9 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
-            
 
-            var projectStagesAsSelectListItems = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var exceptProposedProjects = includeProposedProjectsOnMap ? new List<ProjectStage>() : new List<ProjectStage>{ProjectStage.Proposed};
+            var projectStagesAsSelectListItems = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap())).Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
