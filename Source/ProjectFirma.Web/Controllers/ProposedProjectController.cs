@@ -1021,5 +1021,10 @@ namespace ProjectFirma.Web.Controllers
             }
             SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
+
+        public void ProjectMapPopup(int parameter1Int)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

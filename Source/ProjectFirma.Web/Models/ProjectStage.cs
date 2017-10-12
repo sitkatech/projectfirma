@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static readonly ProjectStageProposed Instance =
-            new ProjectStageProposed(1, @"Proposed", @"Proposed", 10, @"#1ffff4");
+            new ProjectStageProposed(1, @"Proposed", @"Proposed", 10, @"#dbbdff");
         public override bool IsOnCompletedList()
         {
             return false;
