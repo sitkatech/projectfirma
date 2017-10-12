@@ -21,7 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
-    {        
+    {
+        public static readonly ProjectStageProposed Proposed = ProjectStageProposed.Instance;
+
+
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
 
@@ -37,6 +40,58 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsStagedIncludedInTransporationCostCalculations();
         public abstract bool ShouldShowOnMap();
     }
+
+    public class ProjectStageProposed : ProjectStage
+    {
+        private ProjectStageProposed(int projectStageID, string projectStageName, string projectStageDisplayName,
+            int sortOrder, string projectStageColor) : base(projectStageID, projectStageName, projectStageDisplayName,
+            sortOrder, projectStageColor)
+        {
+        }
+
+        public static readonly ProjectStageProposed Instance =
+            new ProjectStageProposed(1, @"Proposed", @"Proposed", 10, @"#1ffff4");
+        public override bool IsOnCompletedList()
+        {
+            return false;
+        }
+
+        public override bool IsDeletable()
+        {
+            return false;
+        }
+
+        public override bool AreExpendituresReportable()
+        {
+            return true;
+        }
+
+        public override bool ArePerformanceMeasuresReportable()
+        {
+            return false;
+        }
+
+        public override bool RequiresReportedExpenditures()
+        {
+            return true;
+        }
+
+        public override bool RequiresPerformanceMeasureActuals()
+        {
+            return false;
+        }
+
+        public override bool IsStagedIncludedInTransporationCostCalculations()
+        {
+            return true;
+        }
+
+        public override bool ShouldShowOnMap()
+        {
+            return true;
+        }
+    }
+
 
     public partial class ProjectStagePlanningDesign
     {
