@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
 
             var taxonomyTierOneProjects = taxonomyTierOne.Projects.ToList();
-            var projects = new List<IProject>(IsCurrentUserAnonymous()
+            var projects = new List<IMappableProject>(IsCurrentUserAnonymous()
                 ? taxonomyTierOneProjects.Where(p => p.IsVisibleToEveryone()).ToList()
                 : taxonomyTierOneProjects);
 

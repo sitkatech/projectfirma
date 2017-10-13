@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return String.Format("{0}&{1}={2}", BuildCustomizedUrl(filterType, filterValues), ColorByQueryStringParameter, colorBy.ProjectColorByTypeName);
         }
 
-        public static ProjectMapCustomization CreateDefaultCustomization(List<IProject> projects )
+        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects )
         {
 
             return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues());

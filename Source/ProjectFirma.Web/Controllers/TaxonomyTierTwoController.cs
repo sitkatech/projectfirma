@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var taxonomyTierTwoProjects = taxonomyTierTwo.Projects.ToList();
-            var visibleProjectsForUser = new List<IProject>(IsCurrentUserAnonymous()
+            var visibleProjectsForUser = new List<IMappableProject>(IsCurrentUserAnonymous()
                 ? taxonomyTierTwoProjects.Where(p => p.IsVisibleToEveryone()).ToList()
                 : taxonomyTierTwoProjects);
 

@@ -34,7 +34,7 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class ProposedProject : IAuditableEntity, IProject
+    public partial class ProposedProject : IAuditableEntity, IProject, IMappableProject
     {
         public int EntityID => ProposedProjectID;
 
@@ -185,6 +185,12 @@ namespace ProjectFirma.Web.Models
         }
 
         public ProjectStage ProjectStage => ProjectStage.Proposed;
+
+        public ICollection<IEntityClassification> ProjectClassificationsForMap => new List<IEntityClassification>(ProposedProjectClassifications);
+        public bool HasProjectWatersheds => ProposedProjectWatersheds.Any();
+
+        // Use the negation of the ProposedProjectID to avoid collisions with ProjectIDs in lists of FancyTreeNodes
+        public int FancyTreeNodeKey => -ProposedProjectID;
 
         public ProjectType ProjectType => ProjectType.ProposedProject;
 
@@ -340,6 +346,16 @@ namespace ProjectFirma.Web.Models
             return GetCanApproveProjectsOrganization()?.People
                        .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
                        .ToList() ?? new List<Person>();
+        }
+
+        public FancyTreeNode ToFancyTreeNode()
+        {
+            
+            var fancyTreeNode = new FancyTreeNode(
+                
+                    $"{UrlTemplate.MakeHrefString(this.GetDetailUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false)
+                { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
+            return fancyTreeNode;
         }
     }
 }

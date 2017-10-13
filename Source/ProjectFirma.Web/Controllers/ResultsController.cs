@@ -319,22 +319,26 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var filteredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile())
+            var allProjectsForMap = ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
+            var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
             var projects = IsCurrentUserAnonymous()
                 ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList()
                 : filteredProjects;
             var filteredProjectsWithLocationAreas = projects
-                .Where(x => !x.HasProjectLocationPoint && x.ProjectWatersheds.Any())
+                .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)
                 .ToList();
 
             projectLocationGroupsAsFancyTreeNodes.RemoveAll(                
                         areaNameNode =>
                             areaNameNode.Children.Count ==
-                            areaNameNode.Children.RemoveAll(projectNode => !filteredProjectsWithLocationAreas
-                                .Select(project => project.ProjectID.ToString())
-                                .Contains(projectNode.Key)));
+                            areaNameNode.Children.RemoveAll(projectNode =>
+                            {
+                                return !filteredProjectsWithLocationAreas
+                                    .Select(project => project.FancyTreeNodeKey.ToString())
+                                    .Contains(projectNode.Key);
+                            }));
 
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }
