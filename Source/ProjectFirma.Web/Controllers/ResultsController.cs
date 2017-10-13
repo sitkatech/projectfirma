@@ -207,7 +207,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
-            var includeProposedProjectsOnMap = CurrentTenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
+            
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
@@ -239,13 +239,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects);
-            if (includeProposedProjectsOnMap)
-            {
-                allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
-            }
-            var projectsToShow = allProjectsForMap.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
-
+            var projectsToShow = ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
@@ -256,7 +250,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
             
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(includeProposedProjectsOnMap);
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(MultiTenantHelpers.IncludeProposedProjectsOnMap());
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));

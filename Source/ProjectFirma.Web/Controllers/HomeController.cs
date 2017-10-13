@@ -60,12 +60,14 @@ namespace ProjectFirma.Web.Controllers
             var includeProposedProjectsOnMap = CurrentTenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
 
 
-            var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
-            if (includeProposedProjectsOnMap)
-            {
-                allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
-            }
-            var projectsToShow = (IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()) : allProjectsForMap).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+            //var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
+            //if (includeProposedProjectsOnMap)
+            //{
+            //    allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
+            //}
+            //var projectsToShow = (IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()) : allProjectsForMap).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+
+            var projectsToShow = ProjectsForMap(p => !IsCurrentUserAnonymous() || p.IsVisibleToEveryone());
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);

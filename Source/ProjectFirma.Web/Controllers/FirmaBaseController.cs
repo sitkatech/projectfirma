@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -72,5 +74,17 @@ namespace ProjectFirma.Web.Controllers
         protected Person CurrentPerson => HttpRequestStorage.Person;
 
         protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
+
+        protected List<IProject> ProjectsForMap(Func<IProject, bool> visibleProjectFilter)
+        {
+            var allProjects = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects);
+            if (MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            {
+                allProjects.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
+            }
+            var projectsToShow = allProjects.Where(visibleProjectFilter)
+                .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+            return projectsToShow;
+        }
     }
 }
