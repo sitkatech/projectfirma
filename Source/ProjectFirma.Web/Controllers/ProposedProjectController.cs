@@ -1023,7 +1023,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CrossAreaRoute]
-        [ProjectViewFeature]
+        [ProposedProjectViewFeature]
         public PartialViewResult ProposedProjectMapPopup(ProposedProjectPrimaryKey primaryKeyProposedProject)
         {
             var proposedProject = primaryKeyProposedProject.EntityObject;
