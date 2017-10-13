@@ -1022,9 +1022,12 @@ namespace ProjectFirma.Web.Controllers
             SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
 
-        public void ProjectMapPopup(int parameter1Int)
+        [CrossAreaRoute]
+        [ProjectViewFeature]
+        public PartialViewResult ProposedProjectMapPopup(ProposedProjectPrimaryKey primaryKeyProposedProject)
         {
-            throw new NotImplementedException();
+            var proposedProject = primaryKeyProposedProject.EntityObject;
+            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(proposedProject));
         }
     }
 }

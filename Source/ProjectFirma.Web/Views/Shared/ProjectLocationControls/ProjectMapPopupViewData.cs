@@ -36,5 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }
+
+        public ProjectMapPopupViewData(Models.ProposedProject proposedProject) { }
     }
 }
