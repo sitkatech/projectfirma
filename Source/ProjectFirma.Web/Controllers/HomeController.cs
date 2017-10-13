@@ -61,11 +61,11 @@ namespace ProjectFirma.Web.Controllers
 
 
             var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
-            var projectsToShow = IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()).ToList() : allProjectsForMap;
             if (includeProposedProjectsOnMap)
             {
                 allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
             }
+            var projectsToShow = (IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()) : allProjectsForMap).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);

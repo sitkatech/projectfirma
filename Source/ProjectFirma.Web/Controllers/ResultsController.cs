@@ -244,8 +244,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
             }
-
-            var projectsToShow = allProjectsForMap.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
+            var projectsToShow = allProjectsForMap.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
 
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
