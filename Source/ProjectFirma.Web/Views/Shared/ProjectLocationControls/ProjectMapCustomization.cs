@@ -115,5 +115,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 .Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;
         }
+
+        public static List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter)
+        {
+            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects);
+            if (MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            {
+                allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects.Where(x=>x.ProjectID == null)));
+            }
+            var projectsToShow = allProjects.Where(visibleProjectFilter)
+                .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+            return projectsToShow;
+        }
     }
 }

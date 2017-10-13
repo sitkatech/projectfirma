@@ -75,16 +75,6 @@ namespace ProjectFirma.Web.Controllers
 
         protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
 
-        protected List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter)
-        {
-            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects);
-            if (MultiTenantHelpers.IncludeProposedProjectsOnMap())
-            {
-                allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
-            }
-            var projectsToShow = allProjects.Where(visibleProjectFilter)
-                .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
-            return projectsToShow;
-        }
+        
     }
 }

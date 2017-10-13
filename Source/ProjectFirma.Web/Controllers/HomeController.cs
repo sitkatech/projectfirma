@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
             //}
             //var projectsToShow = (IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()) : allProjectsForMap).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
 
-            var projectsToShow = ProjectsForMap(p => !IsCurrentUserAnonymous() || p.IsVisibleToEveryone());
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => !IsCurrentUserAnonymous() || p.IsVisibleToEveryone());
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);
