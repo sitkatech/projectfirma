@@ -248,8 +248,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsToShow = allProjectsForMap.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
 
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
-            var mappedPointsToGeoJsonFeatureCollection = Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", mappedPointsToGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
             {
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()

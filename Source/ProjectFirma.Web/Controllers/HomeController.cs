@@ -57,10 +57,18 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
-            var allProjects = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
-            var projects = IsCurrentUserAnonymous() ? allProjects.Where(p => p.IsVisibleToEveryone()).ToList() : allProjects;
-            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projects);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, false), "red", 1, LayerInitialVisibility.Show);
+            var includeProposedProjectsOnMap = CurrentTenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
+
+
+            var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
+            var projectsToShow = IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()).ToList() : allProjectsForMap;
+            if (includeProposedProjectsOnMap)
+            {
+                allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
+            }
+
+            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "ProjectLocationsMap")
                 {
