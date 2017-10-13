@@ -100,7 +100,6 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
     var self = this;
 
     var layerGroup = new L.LayerGroup();
-    console.log(currentLayer);
     var layerGeoJson = L.geoJson(currentLayer.GeoJsonFeatureCollection, {
         pointToLayer: function (feature, latlng) {
             var featureColor = feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor;
