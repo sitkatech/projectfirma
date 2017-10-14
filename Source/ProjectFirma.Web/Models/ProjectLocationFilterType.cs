@@ -27,13 +27,13 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectLocationFilterType
     {
-        public abstract Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues);
+        public abstract Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues);
         public abstract string DisplayName { get; }
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierThree
     {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
+        public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID);
         }
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectLocationFilterTypeTaxonomyTierTwo
     {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
+        public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwoID);
         }
@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectLocationFilterTypeTaxonomyTierOne
     {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
+        public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyTierOneID);
+            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierOneID);
         }
 
         public override string DisplayName => FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
@@ -63,9 +63,9 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectLocationFilterTypeClassification
     {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
+        public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Intersect(project.ProjectClassifications.Select(x => x.ClassificationID)).Any();
+            return project => filterValues.Intersect(project.ProjectClassificationsForMap.Select(x => x.ClassificationID)).Any();
         }
 
         public override string DisplayName => FieldDefinition.Classification.GetFieldDefinitionLabel();
@@ -73,9 +73,9 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectLocationFilterTypeProjectStage
     {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
+        public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.ProjectStageID);
+            return project => filterValues.Contains(project.ProjectStage.ProjectStageID);
         }
 
         public override string DisplayName => FieldDefinition.ProjectStage.GetFieldDefinitionLabel();

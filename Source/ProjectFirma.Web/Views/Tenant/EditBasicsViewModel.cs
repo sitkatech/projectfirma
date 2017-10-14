@@ -77,6 +77,11 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Watershed Layer Name")]
         public string WatershedLayerName { get; set; }
 
+        [DisplayName("Include Proposed Projects On Map?")]
+        public bool IncludeProposedProjectsOnMap { get; set; }
+
+
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -94,6 +99,7 @@ namespace ProjectFirma.Web.Views.Tenant
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             WatershedLayerName = tenantAttribute.WatershedLayerName;
+            IncludeProposedProjectsOnMap = tenantAttribute.IncludeProposedProjectsOnMap;
         }
 
         public void UpdateModel(Person currentPerson)
@@ -102,6 +108,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
             tenantAttribute.TenantDisplayName = TenantDisplayName;
             tenantAttribute.ToolDisplayName = ToolDisplayName;
+            tenantAttribute.IncludeProposedProjectsOnMap = IncludeProposedProjectsOnMap;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

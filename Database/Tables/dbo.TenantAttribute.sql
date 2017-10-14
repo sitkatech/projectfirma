@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[RecaptchaPrivateKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MapServiceUrl] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[WatershedLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[IncludeProposedProjectsOnMap] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

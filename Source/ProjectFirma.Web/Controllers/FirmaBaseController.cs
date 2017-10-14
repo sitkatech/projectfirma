@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -72,5 +74,7 @@ namespace ProjectFirma.Web.Controllers
         protected Person CurrentPerson => HttpRequestStorage.Person;
 
         protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
+
+        
     }
 }

@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
@@ -92,6 +93,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Minimum Year</div>
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Include Proposed Projects On Map?</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.IncludeProposedProjectsOnMap.ToYesNo()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Map Service Url</div>

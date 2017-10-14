@@ -84,21 +84,24 @@ namespace ProjectFirma.Web.Models
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Show),
                 Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "#ffff00", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show),
             };
             return layerGeoJsons;
         }
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false)
-            {
-                MapUrl = null,
-                Children = ProjectWatersheds.Select(x => x.Project)
-                    .OrderBy(x => x.DisplayName)
-                    .Select(x => x.ToFancyTreeNode())
-                    .ToList()
-            };
+            var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false) {MapUrl = null};
+
+
+            var projectChildren = ProjectWatersheds.Select(x => x.Project).OrderBy(x => x.DisplayName)
+                .Select(x => x.ToFancyTreeNode()).ToList();
+            var proposedProjectChildren = ProposedProjectWatersheds.Select(x => x.ProposedProject)
+                .OrderBy(x => x.DisplayName)
+                .Select(x => x.ToFancyTreeNode());
+            projectChildren.AddRange(proposedProjectChildren);
+            fancyTreeNode.Children = projectChildren.OrderBy(x => x.Title).ToList();
+
             return fancyTreeNode;
         }
     }

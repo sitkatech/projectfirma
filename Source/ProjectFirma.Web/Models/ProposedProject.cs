@@ -20,18 +20,21 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class ProposedProject : IAuditableEntity, IProject
+    public partial class ProposedProject : IAuditableEntity, IProject, IMappableProject
     {
         public int EntityID => ProposedProjectID;
 
@@ -57,6 +60,28 @@ namespace ProjectFirma.Web.Models
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
+        {
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
+            feature.Properties.Add("TaxonomyTierThreeID", TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("ProjectStageID", ProjectStage.ProjectStageID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("Info", DisplayName);
+            if (addProjectProperties)
+            {
+                feature.Properties.Add("ProjectID", (ProjectID != null ? ProjectID.Value : -ProposedProjectID).ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierOneID", (TaxonomyTierOneID?? -1).ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("ClassificationID", string.Join(",", ProposedProjectClassifications.Select(x => x.ClassificationID)));
+                foreach (var type in ProposedProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                {
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProposedProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                }
+                // TODO - We probably need this, but ProjectMapPopup isn't implemented for ProposedProject yet.
+                feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
+            }
+            return feature;
+        }
+
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
@@ -144,6 +169,11 @@ namespace ProjectFirma.Web.Models
             return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission || new FirmaAdminFeature().HasPermissionByPerson(person);
         }
 
+        public bool IsVisibleToEveryone()
+        {
+            return true;
+        }
+
         public bool IsPersonThePrimaryContact(Person person)
         {
             return PrimaryContactPerson != null && person != null && person.PersonID == PrimaryContactPerson.PersonID;
@@ -154,7 +184,13 @@ namespace ProjectFirma.Web.Models
             return new PermissionCheckResult();
         }
 
-        public ProjectStage ProjectStage => ProjectStage.PlanningDesign;
+        public ProjectStage ProjectStage => ProjectStage.Proposed;
+
+        public ICollection<IEntityClassification> ProjectClassificationsForMap => new List<IEntityClassification>(ProposedProjectClassifications);
+        public bool HasProjectWatersheds => ProposedProjectWatersheds.Any();
+
+        // Use the negation of the ProposedProjectID to avoid collisions with ProjectIDs in lists of FancyTreeNodes
+        public int FancyTreeNodeKey => -ProposedProjectID;
 
         public ProjectType ProjectType => ProjectType.ProposedProject;
 
@@ -310,6 +346,16 @@ namespace ProjectFirma.Web.Models
             return GetCanApproveProjectsOrganization()?.People
                        .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
                        .ToList() ?? new List<Person>();
+        }
+
+        public FancyTreeNode ToFancyTreeNode()
+        {
+            
+            var fancyTreeNode = new FancyTreeNode(
+                
+                    $"{UrlTemplate.MakeHrefString(this.GetDetailUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false)
+                { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
+            return fancyTreeNode;
         }
     }
 }

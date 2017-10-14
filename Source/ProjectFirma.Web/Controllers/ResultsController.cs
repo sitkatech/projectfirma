@@ -207,6 +207,8 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
+            
+
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter].ParseAsEnum<ProjectLocationFilterTypeEnum>());
@@ -223,7 +225,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.DefaultLocationFilterValues;
+                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues();
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -237,11 +239,9 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var projects = allProjects.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
-
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
             {
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
@@ -249,7 +249,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary();
+            
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(MultiTenantHelpers.IncludeProposedProjectsOnMap());
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
@@ -263,7 +264,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary()
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool includeProposedProjectsOnMap)
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
@@ -284,9 +285,8 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
-            
 
-            var projectStagesAsSelectListItems = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap().ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
@@ -319,22 +319,26 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var filteredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile())
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
+            var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
             var projects = IsCurrentUserAnonymous()
                 ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList()
                 : filteredProjects;
             var filteredProjectsWithLocationAreas = projects
-                .Where(x => !x.HasProjectLocationPoint && x.ProjectWatersheds.Any())
+                .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)
                 .ToList();
 
             projectLocationGroupsAsFancyTreeNodes.RemoveAll(                
                         areaNameNode =>
                             areaNameNode.Children.Count ==
-                            areaNameNode.Children.RemoveAll(projectNode => !filteredProjectsWithLocationAreas
-                                .Select(project => project.ProjectID.ToString())
-                                .Contains(projectNode.Key)));
+                            areaNameNode.Children.RemoveAll(projectNode =>
+                            {
+                                return !filteredProjectsWithLocationAreas
+                                    .Select(project => project.FancyTreeNodeKey.ToString())
+                                    .Contains(projectNode.Key);
+                            }));
 
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }

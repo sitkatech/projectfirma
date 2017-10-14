@@ -35,7 +35,7 @@ using MoreLinq;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class Project : IAuditableEntity, IProject
+    public partial class Project : IAuditableEntity, IProject, IMappableProject
     {
         public int EntityID => ProjectID;
 
@@ -314,7 +314,7 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties, Func<Project, bool> filterFunction)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties, Func<IMappableProject, bool> filterFunction)
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x => x.HasProjectLocationPoint).Where(filterFunction).ToList();
@@ -322,7 +322,7 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties)
         {
             return MappedPointsToGeoJsonFeatureCollection(projects, addProjectProperties, x => x.ProjectStage.ShouldShowOnMap());
         }
@@ -393,7 +393,7 @@ namespace ProjectFirma.Web.Models
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(
-                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
+                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 
@@ -423,5 +423,11 @@ namespace ProjectFirma.Web.Models
                        .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
                        .ToList() ?? new List<Person>();
         }
+
+        public ICollection<IEntityClassification> ProjectClassificationsForMap =>
+            new List<IEntityClassification>(ProjectClassifications);
+
+        public bool HasProjectWatersheds => ProjectWatersheds.Any();
+        public int FancyTreeNodeKey => ProjectID;
     }
 }

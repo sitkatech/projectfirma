@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -56,10 +57,20 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var projects = IsCurrentUserAnonymous() ? allProjects.Where(p => p.IsVisibleToEveryone()).ToList() : allProjects;
-            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projects);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, false), "red", 1, LayerInitialVisibility.Show);
+            var includeProposedProjectsOnMap = CurrentTenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
+
+
+            //var allProjectsForMap = new List<IProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList());
+            //if (includeProposedProjectsOnMap)
+            //{
+            //    allProjectsForMap.AddRange(new List<IProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects));
+            //}
+            //var projectsToShow = (IsCurrentUserAnonymous() ? allProjectsForMap.Where(p => p.IsVisibleToEveryone()) : allProjectsForMap).OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => !IsCurrentUserAnonymous() || p.IsVisibleToEveryone());
+
+            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "ProjectLocationsMap")
                 {

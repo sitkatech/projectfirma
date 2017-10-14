@@ -29,49 +29,49 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 </style>
 <div>
-    <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.Project.DisplayName</div>
+    <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
 
-    @if (ViewDataTyped.Project.KeyPhoto != null)
+    @if (ViewDataTyped.KeyPhoto != null)
     {
         <div style="float: right; padding: 8px 4px 4px 4px">
-            <img src="@ViewDataTyped.Project.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.Project.KeyPhoto.CaptionOnGallery" />
+            <img src="@ViewDataTyped.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
         </div>
     }
     <div>
         <div class="row">
             <div class="col-xs-5"><strong>Duration</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</div>
+            <div class="col-xs-7">@ViewDataTyped.Duration @ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
         </div>
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierThreeDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</div>
             </div>                
         }
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierTwoDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</div>
             </div>
         }
         <div class="row">
             <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierOneDisplayName</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</div>
+            <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneName</div>
         </div>
         <div class="row">
             <div class="col-xs-5"><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
+            <div class="col-xs-7">@ViewDataTyped.EstimatedTotalCost.ToStringCurrency()</div>
         </div>
         <div class="row">
             <div class="col-xs-5"><strong>@ViewDataTyped.ClassificationDisplayNamePluralized</strong></div>
-            <div class="col-xs-7">@string.Join(", ", ViewDataTyped.Project.ProjectClassifications.Select(x => x.Classification.DisplayName))</div>
+            <div class="col-xs-7">@ViewDataTyped.ProjectClassifications</div>
         </div>           
     </div>
 
     <span class="alert">
         For project expenditures & results, see
-        <a href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
+        <a href="@ViewDataTyped.DetailUrl">@FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
     </span>
 </div>
