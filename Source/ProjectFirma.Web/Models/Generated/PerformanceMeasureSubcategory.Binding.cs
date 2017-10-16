@@ -35,14 +35,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, string chartType, bool? swapChartAxes) : this()
+        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, int? googleChartTypeID) : this()
         {
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
             this.ChartConfigurationJson = chartConfigurationJson;
-            this.ChartType = chartType;
-            this.SwapChartAxes = swapChartAxes;
+            this.GoogleChartTypeID = googleChartTypeID;
         }
 
         /// <summary>
@@ -98,8 +97,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }
-        public string ChartType { get; set; }
-        public bool? SwapChartAxes { get; set; }
+        public int? GoogleChartTypeID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -110,11 +108,11 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public GoogleChartType GoogleChartType { get { return GoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[GoogleChartTypeID.Value] : null; } }
 
         public static class FieldLengths
         {
             public const int PerformanceMeasureSubcategoryDisplayName = 200;
-            public const int ChartType = 100;
         }
     }
 }

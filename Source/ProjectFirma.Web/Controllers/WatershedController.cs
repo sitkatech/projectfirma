@@ -135,17 +135,17 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
-            var chartPopupUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.GoogleChartPopup(watershedPrimaryKey));
-            var googleChartJson = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+            const string chartTitle = "Reported Expenditures By Funding Source Sector";
+            var chartContainerID = chartTitle.Replace(" ", "");
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                "ReportedExpendituresChart",
-                watershed.DisplayName, chartPopupUrl);
+                chartContainerID,
+                chartTitle);
 
-            var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChartJson,
-                FirmaHelpers.DefaultColorRange);
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 
-            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData);
+            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, viewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -191,25 +191,7 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectWatersheds, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult GoogleChartPopup(WatershedPrimaryKey watershedPrimaryKey)
-        {
-            var watershed = watershedPrimaryKey.EntityObject;
-            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
-            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-
-            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
-                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                "ReportedExpendituresChart",
-                watershed.DisplayName, string.Empty);
-
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
-        }
-
+        
         [AnonymousUnclassifiedFeature]
         public PartialViewResult MapTooltip(WatershedPrimaryKey watershedPrimaryKey)
         {

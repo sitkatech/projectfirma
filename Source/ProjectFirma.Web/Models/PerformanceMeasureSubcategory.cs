@@ -24,6 +24,9 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using MoreLinq;
 using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Models
@@ -34,123 +37,175 @@ namespace ProjectFirma.Web.Models
         {
             get { return PerformanceMeasureSubcategoryDisplayName; }
         }
+        public bool ShowOnChart => !String.IsNullOrWhiteSpace(ChartConfigurationJson);
 
-        public bool ShowOnChart
+        public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
         {
-            get { return true; }
-        }
-
-        public static List<GoogleChartJson> MakeGoogleChartJsonsForSubcategories(PerformanceMeasure performanceMeasure,
-            IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues,
-            IEnumerable<int> yearRange)
-        {
-            return
-                performanceMeasure.PerformanceMeasureSubcategories.Where(x => x.ShowOnChart)
-                    .Select(x => MakeGoogleChartJson(performanceMeasure, x, performanceMeasureReportedValues, yearRange))
-                    .ToList();
-        }
-
-        private static GoogleChartJson MakeGoogleChartJson(PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory, IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues, IEnumerable<int> yearRange)
-        {
-            var performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ToDictionary(x => x, x =>
+            var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
+            var performanceMeasureReportingPeriods = projectPerformanceMeasureReportingPeriodValues.Select(x => x.PerformanceMeasureReportingPeriod).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureReportingPeriod>()).ToList();
+            var googleChartJsons = new List<GoogleChartJson>();
+            foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart))
             {
-                var calendarYearReportedValuesDict =
-                    performanceMeasureReportedValues.SelectMany(pmav => pmav.PerformanceMeasureActualSubcategoryOptions)
-                        .Where(pmavsco => performanceMeasureSubcategory.PerformanceMeasureSubcategoryID == pmavsco.PerformanceMeasureSubcategoryID && pmavsco.PerformanceMeasureSubcategoryOptionID == x.PerformanceMeasureSubcategoryOptionID)
-                        .GroupBy(pmavsco => pmavsco.PerformanceMeasureActual.CalendarYear)
-                        .ToDictionary(cy => cy.Key, cy => cy.Sum(exp => exp.PerformanceMeasureActual.ActualValue));
-
-                var calendarYearReportedValues =
-                    yearRange.OrderBy(year => year).Select(year => new CalendarYearReportedValue(year, calendarYearReportedValuesDict.ContainsKey(year) ? calendarYearReportedValuesDict[year] : 0));
-                return calendarYearReportedValues;
-            });
-
-            var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasure,
-                yearRange,
-                performanceMeasureSubcategory,
-                performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues);
-            return googleChartJson;
+                var performanceMeasureSubcategory = groupedBySubcategory.Key;
+                Check.RequireNotNull(performanceMeasureSubcategory.ChartConfigurationJson, "All PerformanceMeasure Subcategories need to have a Google Chart Configuration Json");
+                var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
+                var subcategoryOptions = groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList();
+                var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
+                var googleChartDataTable = performanceMeasure.SwapChartAxes
+                    ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
+                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, subcategoryOptions, performanceMeasure.CanCalculateTotal);
+                var chartColumns = performanceMeasure.HasRealSubcategories ? subcategoryOptions : new List<string> { performanceMeasure.ChartTitle };
+                var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.ChartTitle;
+                var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
+                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
+                var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                if (performanceMeasureSubcategory.PerformanceMeasure.CanCalculateTotal && !performanceMeasure.SwapChartAxes)
+                {
+                    chartConfiguration.Tooltip = new GoogleChartTooltip(true);
+                }
+                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, performanceMeasureSubcategory.GoogleChartType, googleChartDataTable, saveConfigurationUrl, chartColumns);
+                googleChartJsons.Add(googleChartJson);
+            }
+            return googleChartJsons;
         }
 
-        private static GoogleChartJson MakeGoogleChartJsonForPerformanceMeasureSubcategory(PerformanceMeasure performanceMeasure,
-            IEnumerable<int> yearRange,
-            PerformanceMeasureSubcategory performanceMeasureSubcategory,
-            Dictionary<PerformanceMeasureSubcategoryOption, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
+        public static GoogleChartDataTable GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(PerformanceMeasure performanceMeasure,
+            ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
+            bool hasTargets,
+            IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption,
+            IEnumerable<string> subcategoryOptions,
+            bool hasToolTipWithTotal)
         {
-            var googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
-            var googleChartDataTable = GetGoogleChartDataTableForPerformanceMeasure(yearRange,
-                performanceMeasure.MeasurementUnitType,
-                googleChartType,
-                performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues);
-            var legendTitle = performanceMeasure.HasRealSubcategories
-                ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName
-                : performanceMeasure.PerformanceMeasureDisplayName;
-            var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasureSubcategory,
-                googleChartDataTable,
-                legendTitle);
-            return googleChartJson;
-        }
-
-        public static GoogleChartJson MakeGoogleChartJsonForPerformanceMeasureSubcategory(PerformanceMeasureSubcategory performanceMeasureSubcategory, GoogleChartDataTable googleChartDataTable, string legendTitle)
-        {
-            var performanceMeasure = performanceMeasureSubcategory.PerformanceMeasure;
-
-            var chartConfiguration = performanceMeasureSubcategory.ChartConfigurationJson != null
-                ? JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson)
-                : new GoogleChartConfiguration(performanceMeasure.PerformanceMeasureDisplayName, performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName.ToProperCase(), performanceMeasure.MeasurementUnitType);
-
-            var performanceMeasureID = performanceMeasure.PerformanceMeasureID;
-            var performanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
-            var chartName = string.Format("PerformanceMeasure{0}PerformanceMeasureSubcategory{1}", performanceMeasureID, performanceMeasureSubcategoryID);
-            var chartPopupUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.PerformanceMeasureChartPopup(performanceMeasureID));
-            var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasureID, performanceMeasureSubcategoryID));
-            var chartGroupID = performanceMeasureID.ToString();
-            var googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
-            var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, googleChartType, googleChartDataTable, chartPopupUrl, chartGroupID, saveConfigurationUrl);
-            return googleChartJson;
-        }
-
-        private static GoogleChartDataTable GetGoogleChartDataTableForPerformanceMeasure(IEnumerable<int> yearRange, MeasurementUnitType measurementUnitType, GoogleChartType googleChartType, Dictionary<PerformanceMeasureSubcategoryOption, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
-        {
-            var seriesChartType = googleChartType == GoogleChartType.ComboChart ? GoogleChartType.LineChart : googleChartType;
-
             var googleChartRowCs = new List<GoogleChartRowC>();
-
-            foreach (var year in yearRange.OrderBy(x => x))
+            foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate))
             {
-                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(year, year.ToString()) };
-                googleChartRowVs.AddRange(
-                    performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key.SortOrder)
-                        .Select(x =>
-                        {
-                            //calendarYearReportedValue used to never be null, but commit 124877 changed flow so it can be null now, so catch null and return 0.
-                            var calendarYearReportedValue = x.Value.SingleOrDefault(y => y.CalendarYear == year);
-                            var reportedValue = calendarYearReportedValue == null ? 0 : calendarYearReportedValue.ReportedValue;
-                            return new GoogleChartRowV(reportedValue, GoogleChartJson.GetFormattedValue(reportedValue, measurementUnitType));
-                        }));
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
+                if (hasTargets)
+                {
+                    googleChartRowVs.Add(new GoogleChartRowV(performanceMeasureReportingPeriod.TargetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
+                }
+                if (hasToolTipWithTotal)
+                {
+                    googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType)));
+                }
+                googleChartRowVs.AddRange(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x =>
+                {
+                    var calendarYearReportedValue = x.Where(isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
+                                                        .Sum(isorv => isorv.ReportedValue) ?? 0;
+                    return new GoogleChartRowV(calendarYearReportedValue, GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType));
+                }));
 
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Year", GoogleChartColumnDataType.String, seriesChartType) };
-            googleChartColumns.AddRange(performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key.SortOrder).Select(x => new GoogleChartColumn(x.Key.PerformanceMeasureSubcategory.PerformanceMeasure.HasRealSubcategories ? x.Key.ChartName : x.Key.PerformanceMeasureSubcategory.PerformanceMeasure.PerformanceMeasureDisplayName, GoogleChartColumnDataType.Number, seriesChartType)));
+            // reporting period is going to be the first column and it will be our horizontal axis
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Reporting Period", GoogleChartColumnDataType.String) };
+            if (hasTargets)
+            {
+                // GoogleChartType for targets is always LINE; we also always render the target line first to stay consistent
+                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(performanceMeasureReportingPeriods), GoogleChartColumnDataType.Number));
+            }
 
-            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            // add column with row tooltip
+            if (hasToolTipWithTotal)
+            {
+                googleChartColumns.Add(new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()));
+            }
+
+            // all the subcategory option values are individual columns and series and they will be on the vertical axis
+            googleChartColumns.AddRange(subcategoryOptions.Select(x => new GoogleChartColumn(x, GoogleChartColumnDataType.Number)));
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
         }
 
-        public static PerformanceMeasureTargetValueType GetTargetValueType(IPerformanceMeasureWithOnlyOneSubcategory performanceMeasureWithOnlyOneSubcategory)
+        private static GoogleChartDataTable GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(PerformanceMeasure performanceMeasure,
+            bool hasTargets,
+            ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
+            IEnumerable<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption)
         {
-            var performanceMeasureReportingPeriods = performanceMeasureWithOnlyOneSubcategory.GetPerformanceMeasureReportingPeriods();
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            var targetRowVs = new List<GoogleChartRowV>();
+            if (hasTargets)
+            {
+                targetRowVs.Add(new GoogleChartRowV(GetTargetColumnLabel(performanceMeasureReportingPeriods)));
+                targetRowVs.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate)
+                    .Select(x => new GoogleChartRowV(x.TargetValue, GetFormattedTargetValue(x, performanceMeasure))));
+                googleChartRowCs.Add(new GoogleChartRowC(targetRowVs));
+            }
+
+            foreach (var performanceMeasureSubcategoryOption in groupedBySubcategoryOption.OrderBy(x => x.Key.Item2))
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureSubcategoryOption.Key.Item1) };
+                googleChartRowVs.AddRange(performanceMeasureSubcategoryOption.OrderBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodBeginDate).Select(irviso =>
+                    new GoogleChartRowV(irviso.ReportedValue, GoogleChartJson.GetFormattedValue(irviso.ReportedValue, performanceMeasure.MeasurementUnitType))));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.ChartTitle, GoogleChartColumnDataType.String) };
+            googleChartColumns.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate).Select(x =>
+                new GoogleChartColumn(x.PerformanceMeasureReportingPeriodID.ToString(), x.PerformanceMeasureReportingPeriodLabel, GoogleChartColumnDataType.Number.ColumnDataType)));
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        private static string GetTargetColumnLabel(ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
+        {
+            return GetTargetValueType(performanceMeasurePerformanceMeasureReportingPeriods) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasurePerformanceMeasureReportingPeriods.First().TargetValueDescription : "Target";
+        }
+
+        private static string GetFormattedTargetValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
+        {
+            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueDescription})";
+        }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
+        {
+            var performanceMeasureReportingPeriods = performanceMeasurePerformanceMeasureReportingPeriods;
             if (!performanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
             {
                 return PerformanceMeasureTargetValueType.NoTarget;
             }
 
-            if (performanceMeasureReportingPeriods.Select(x => String.Format("{0}{1}", x.TargetValue, x.TargetValueDescription)).Distinct().Count() == 1)
+            if (performanceMeasureReportingPeriods.Select(x => $"{x.TargetValue}{x.TargetValueDescription}").Distinct().Count() == 1)
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
             return PerformanceMeasureTargetValueType.TargetPerReportingPeriod;
         }
+
+        public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, MeasurementUnitType performanceMeasureMeasurementUnitType)
+        {
+            // shape data
+            var calendarReportedYearValuesDictionary = new Dictionary<string, double>();
+            groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).ForEach(x =>
+            {
+                var calendarYearReportedValue = x.Where(isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
+                                                    .Sum(isorv => isorv.ReportedValue) ?? 0;
+                calendarReportedYearValuesDictionary.Add(x.Key.Item1, calendarYearReportedValue);
+            });
+            var stringPrecision = new String('0', performanceMeasureMeasurementUnitType.NumberOfSignificantDigits);
+            var prefix = performanceMeasureMeasurementUnitType == MeasurementUnitType.Dollars ? "$" : null;
+
+            // build html for tooltip
+            var html = "<div class='googleTooltipDiv'>";
+            html += $"<p><b>{performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel}</b></p>";
+            html += "<table class='table table-striped googleTooltipTable'>";
+            foreach (KeyValuePair<string, double> calendarReportedYearValue in calendarReportedYearValuesDictionary)
+            {
+                var formattedValue = calendarReportedYearValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
+
+
+                html += $"<tr><td>{calendarReportedYearValue.Key}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedValue} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            }
+
+            var formattedTotal = calendarReportedYearValuesDictionary.Sum(x => x.Value).ToString($"#,###,###,##0.{stringPrecision}");
+            html += $"<tr class='googleTooltipTableTotalRow'><td>Total</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTotal} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            html += "</table></div>";
+
+            return html;
+        }
+
     }
 }

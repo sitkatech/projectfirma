@@ -46,13 +46,19 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult InvestmentByOrganizationType(int? calendarYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(null, null);
-            var fundingOrganizationTypeExpenditures = GetOrganizationTypeExpendituresForInvestmentByOrganizationTypeReport(calendarYear, projectFundingSourceExpenditures);
-            var calendarYears = GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
+            var fundingOrganizationTypeExpenditures =
+                GetOrganizationTypeExpendituresForInvestmentByOrganizationTypeReport(calendarYear,
+                    projectFundingSourceExpenditures);
+            var calendarYears =
+                GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(
+                    projectFundingSourceExpenditures);
             var reportingYearRangeTitle = YearDisplayName(calendarYear);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.InvestmentByOrganizationType);
-            var viewData = new InvestmentByOrganizationTypeViewData(CurrentPerson, firmaPage, fundingOrganizationTypeExpenditures, calendarYear, calendarYears, reportingYearRangeTitle);
+            var viewData = new InvestmentByOrganizationTypeViewData(CurrentPerson, firmaPage,
+                fundingOrganizationTypeExpenditures, calendarYear, calendarYears, reportingYearRangeTitle);
             var viewModel = new InvestmentByOrganizationTypeViewModel(calendarYear);
-            return RazorView<InvestmentByOrganizationType, InvestmentByOrganizationTypeViewData, InvestmentByOrganizationTypeViewModel>(viewData, viewModel);
+            return RazorView<InvestmentByOrganizationType, InvestmentByOrganizationTypeViewData,
+                InvestmentByOrganizationTypeViewModel>(viewData, viewModel);
         }
 
         private static string YearDisplayName(int? year)
@@ -70,37 +76,50 @@ namespace ProjectFirma.Web.Controllers
             return year.Value.ToString(CultureInfo.InvariantCulture);
         }
 
-        private static IEnumerable<SelectListItem> GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(
-            IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        private static IEnumerable<SelectListItem>
+            GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(
+                IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             var allYearsWithValues = projectFundingSourceExpenditures.Select(x => x.CalendarYear).Distinct().ToList();
             var calendarYears =
-                allYearsWithValues.OrderByDescending(x => x).ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture), x => YearDisplayName(x), YearDisplayName(null)).ToList();
+                allYearsWithValues.OrderByDescending(x => x).ToSelectListWithEmptyFirstRow(
+                        x => x.ToString(CultureInfo.InvariantCulture), x => YearDisplayName(x), YearDisplayName(null))
+                    .ToList();
             return calendarYears;
         }
 
-        private static List<OrganizationTypeExpenditure> GetOrganizationTypeExpendituresForInvestmentByOrganizationTypeReport(int? calendarYear,
-            IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        private static List<OrganizationTypeExpenditure>
+            GetOrganizationTypeExpendituresForInvestmentByOrganizationTypeReport(int? calendarYear,
+                IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures;
             if (!calendarYear.HasValue)
             {
-                fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType => new OrganizationTypeExpenditure(organizationType, projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).ToList(), null))
-                        .ToList();
+                fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()
+                    .Select(organizationType => new OrganizationTypeExpenditure(organizationType,
+                        projectFundingSourceExpenditures.Where(y =>
+                                y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
+                            .ToList(), null))
+                    .ToList();
             }
             else
             {
                 if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
-                    fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType =>
-                    {
-                        var fundingSourceExpendituresForThisOrganizationType = projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).ToList();
-                        return new OrganizationTypeExpenditure(organizationType,
-                            fundingSourceExpendituresForThisOrganizationType.Sum(y => y.ExpenditureAmount),
-                            fundingSourceExpendituresForThisOrganizationType.Select(y => y.FundingSourceID).Distinct().Count(),
-                            fundingSourceExpendituresForThisOrganizationType.Select(y => y.FundingSource.OrganizationID).Distinct().Count(),
-                            null);
-                    }).ToList();
+                    fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()
+                        .Select(organizationType =>
+                        {
+                            var fundingSourceExpendituresForThisOrganizationType = projectFundingSourceExpenditures
+                                .Where(y => y.FundingSource.Organization.OrganizationTypeID ==
+                                            organizationType.OrganizationTypeID).ToList();
+                            return new OrganizationTypeExpenditure(organizationType,
+                                fundingSourceExpendituresForThisOrganizationType.Sum(y => y.ExpenditureAmount),
+                                fundingSourceExpendituresForThisOrganizationType.Select(y => y.FundingSourceID)
+                                    .Distinct().Count(),
+                                fundingSourceExpendituresForThisOrganizationType
+                                    .Select(y => y.FundingSource.OrganizationID).Distinct().Count(),
+                                null);
+                        }).ToList();
                 }
                 else
                 {
@@ -108,7 +127,10 @@ namespace ProjectFirma.Web.Controllers
                         HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(
                             organizationType =>
                                 new OrganizationTypeExpenditure(organizationType,
-                                    projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID && y.CalendarYear == calendarYear.Value).ToList(),
+                                    projectFundingSourceExpenditures.Where(y =>
+                                            y.FundingSource.Organization.OrganizationTypeID ==
+                                            organizationType.OrganizationTypeID && y.CalendarYear == calendarYear.Value)
+                                        .ToList(),
                                     calendarYear)).ToList();
                 }
             }
@@ -116,32 +138,45 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [InvestmentByFundingSourceViewFeature]
-        public PartialViewResult ProjectFundingSourceExpendituresByOrganizationType(int? organizationTypeID, int? calendarYear)
+        public PartialViewResult ProjectFundingSourceExpendituresByOrganizationType(int? organizationTypeID,
+            int? calendarYear)
         {
-            var viewData = new ProjectFundingSourceExpendituresByOrganizationTypeViewData(organizationTypeID, calendarYear);
-            return RazorPartialView<ProjectFundingSourceExpendituresByOrganizationType, ProjectFundingSourceExpendituresByOrganizationTypeViewData>(viewData);
+            var viewData =
+                new ProjectFundingSourceExpendituresByOrganizationTypeViewData(organizationTypeID, calendarYear);
+            return RazorPartialView<ProjectFundingSourceExpendituresByOrganizationType,
+                ProjectFundingSourceExpendituresByOrganizationTypeViewData>(viewData);
         }
 
         [InvestmentByFundingSourceViewFeature]
-        public GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure> ProjectExpendituresByOrganizationTypeGridJsonData(int? organizationTypeID, int? calendarYear)
+        public GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure>
+            ProjectExpendituresByOrganizationTypeGridJsonData(int? organizationTypeID, int? calendarYear)
         {
             ProjectFundingSourceExpendituresByOrganizationTypeGridSpec gridSpec;
-            var projectFundingSourceOrganizationTypeExpenditures = GetProjectExpendituresByOrganizationTypeAndGridSpec(out gridSpec, organizationTypeID, calendarYear);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure>(projectFundingSourceOrganizationTypeExpenditures, gridSpec);
+            var projectFundingSourceOrganizationTypeExpenditures =
+                GetProjectExpendituresByOrganizationTypeAndGridSpec(out gridSpec, organizationTypeID, calendarYear);
+            var gridJsonNetJObjectResult =
+                new GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure>(
+                    projectFundingSourceOrganizationTypeExpenditures, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<ProjectFundingSourceOrganizationTypeExpenditure> GetProjectExpendituresByOrganizationTypeAndGridSpec(out ProjectFundingSourceExpendituresByOrganizationTypeGridSpec gridSpec,
-            int? organizationTypeID,
-            int? calendarYear)
+        private static List<ProjectFundingSourceOrganizationTypeExpenditure>
+            GetProjectExpendituresByOrganizationTypeAndGridSpec(
+                out ProjectFundingSourceExpendituresByOrganizationTypeGridSpec gridSpec,
+                int? organizationTypeID,
+                int? calendarYear)
         {
             gridSpec = new ProjectFundingSourceExpendituresByOrganizationTypeGridSpec(calendarYear);
-            var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationTypeID, calendarYear);
-            var projectFundingSourceOrganizationTypeExpenditures = ProjectFundingSourceOrganizationTypeExpenditure.MakeFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures =
+                GetProjectExpendituresByOrganizationType(organizationTypeID, calendarYear);
+            var projectFundingSourceOrganizationTypeExpenditures =
+                ProjectFundingSourceOrganizationTypeExpenditure.MakeFromProjectFundingSourceExpenditures(
+                    projectFundingSourceExpenditures);
             return projectFundingSourceOrganizationTypeExpenditures;
         }
 
-        private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int? organizationTypeID, int? calendarYear)
+        private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(
+            int? organizationTypeID, int? calendarYear)
         {
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             OrganizationType organizationType;
@@ -149,10 +184,13 @@ namespace ProjectFirma.Web.Controllers
             {
                 organizationType =
                     HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value);
-                return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward()
-                    .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) || x.CalendarYear == calendarYear)
+                return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                    .GetExpendituresFromMininumYearForReportingOnward()
+                    .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) ||
+                                x.CalendarYear == calendarYear)
                     .ToList()
-                    .Where(x => x.FundingSource.Organization.OrganizationTypeID.HasValue && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
+                    .Where(x => x.FundingSource.Organization.OrganizationTypeID.HasValue &&
+                                x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
                     .OrderBy(x => x.Project.DisplayName)
                     .ToList();
             }
@@ -169,31 +207,48 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(int? calendarYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(null, null);
-            var taxonomyTierTwoOrganizationTypeExpenditures = GetTaxonomyTierTwoOrganizationTypeExpenditures(calendarYear, projectFundingSourceExpenditures);
+            var taxonomyTierTwoOrganizationTypeExpenditures =
+                GetTaxonomyTierTwoOrganizationTypeExpenditures(calendarYear, projectFundingSourceExpenditures);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByOrganizationTypeByTaxonomyTier);
-            var calendarYears = GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
+            var calendarYears =
+                GetCalendarYearsDropdownForInvestmentByOrganizationTypeAndSpendingByOrganizationTypeAndTaxonomyTierThreeReports(
+                    projectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-            var viewData = new SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierTwoOrganizationTypeExpenditures, organizationTypes, calendarYear, calendarYears);
+            var viewData = new SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson,
+                firmaPage, taxonomyTierTwoOrganizationTypeExpenditures, organizationTypes, calendarYear, calendarYears);
             var viewModel = new SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel(calendarYear);
-            return RazorView<SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo, SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData, SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel>(viewData, viewModel);
+            return RazorView<SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo,
+                SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData,
+                SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel>(viewData, viewModel);
         }
 
-        private static List<TaxonomyTierTwoOrganizationTypeExpenditure> GetTaxonomyTierTwoOrganizationTypeExpenditures(int? calendarYear, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        private static List<TaxonomyTierTwoOrganizationTypeExpenditure> GetTaxonomyTierTwoOrganizationTypeExpenditures(
+            int? calendarYear, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             List<TaxonomyTierTwoOrganizationTypeExpenditure> taxonomyTierTwoOrganizationTypeExpenditures;
             if (!calendarYear.HasValue)
             {
                 taxonomyTierTwoOrganizationTypeExpenditures =
-                    projectFundingSourceExpenditures.GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.OrganizationType})
-                        .Select(x => new TaxonomyTierTwoOrganizationTypeExpenditure(x.Key.OrganizationType, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
+                    projectFundingSourceExpenditures.GroupBy(y => new
+                        {
+                            y.Project.TaxonomyTierOne.TaxonomyTierTwo,
+                            y.FundingSource.Organization.OrganizationType
+                        })
+                        .Select(x => new TaxonomyTierTwoOrganizationTypeExpenditure(x.Key.OrganizationType,
+                            x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
             }
             else
             {
                 taxonomyTierTwoOrganizationTypeExpenditures =
                     projectFundingSourceExpenditures.Where(x => x.CalendarYear == calendarYear.Value)
-                        .GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.OrganizationType})
-                        .Select(x => new TaxonomyTierTwoOrganizationTypeExpenditure(x.Key.OrganizationType, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
+                        .GroupBy(y => new
+                        {
+                            y.Project.TaxonomyTierOne.TaxonomyTierTwo,
+                            y.FundingSource.Organization.OrganizationType
+                        })
+                        .Select(x => new TaxonomyTierTwoOrganizationTypeExpenditure(x.Key.OrganizationType,
+                            x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
 
             }
@@ -207,11 +262,13 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
-            
+
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
-                projectLocationFilterType = ProjectLocationFilterType.ToType(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter].ParseAsEnum<ProjectLocationFilterTypeEnum>());
+                projectLocationFilterType = ProjectLocationFilterType.ToType(Request
+                    .QueryString[ProjectMapCustomization.FilterByQueryStringParameter]
+                    .ParseAsEnum<ProjectLocationFilterTypeEnum>());
             }
             else
             {
@@ -220,7 +277,8 @@ namespace ProjectFirma.Web.Controllers
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterValuesQueryStringParameter]))
             {
-                var filterValuesAsString = Request.QueryString[ProjectMapCustomization.FilterValuesQueryStringParameter].Split(',');
+                var filterValuesAsString = Request.QueryString[ProjectMapCustomization.FilterValuesQueryStringParameter]
+                    .Split(',');
                 filterValues = filterValuesAsString.Select(Int32.Parse).ToList();
             }
             else
@@ -230,7 +288,9 @@ namespace ProjectFirma.Web.Controllers
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
             {
-                colorByValue = ProjectColorByType.ToType(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter].ParseAsEnum<ProjectColorByTypeEnum>());
+                colorByValue = ProjectColorByType.ToType(Request
+                    .QueryString[ProjectMapCustomization.ColorByQueryStringParameter]
+                    .ParseAsEnum<ProjectColorByTypeEnum>());
             }
             else
             {
@@ -240,20 +300,29 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
-            var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
+            var initialCustomization =
+                new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
+            var projectLocationsLayerGeoJson =
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
+                    Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1,
+                    LayerInitialVisibility.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
+                initialCustomization, "ProjectLocationsMap")
             {
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
+                colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
-            
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(MultiTenantHelpers.IncludeProposedProjectsOnMap());
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
-            var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
+            var projectLocationFilterTypesAndValues =
+                CreateProjectLocationFilterTypesAndValuesDictionary(MultiTenantHelpers.IncludeProposedProjectsOnMap());
+            var projectLocationsUrl =
+                SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
+
+            var filteredProjectsWithLocationAreasUrl =
+                SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
@@ -264,30 +333,47 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool includeProposedProjectsOnMap)
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>
+            CreateProjectLocationFilterTypesAndValuesDictionary(bool includeProposedProjectsOnMap)
         {
-            var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
+            var projectLocationFilterTypesAndValues =
+                new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                var taxonomyTierThreesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);    
+                var taxonomyTierThreesAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToSelectList(
+                        x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree,
+                    taxonomyTierThreesAsSelectListItems);
             }
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
-                var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);    
-            }           
+                var taxonomyTierTwosAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(
+                        x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo,
+                    taxonomyTierTwosAsSelectListItems);
+            }
 
-            var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne, taxonomyTierOnesAsSelectListItems);
+            var taxonomyTierOnesAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(
+                    x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne,
+                taxonomyTierOnesAsSelectListItems);
 
-            var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
+            var classificationsAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(
+                    x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification,
+                classificationsAsSelectListItems);
 
-            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap().ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap()
+                .ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture),
+                    x => x.ProjectStageDisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage,
+                projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
         }
@@ -330,15 +416,15 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)
                 .ToList();
 
-            projectLocationGroupsAsFancyTreeNodes.RemoveAll(                
-                        areaNameNode =>
-                            areaNameNode.Children.Count ==
-                            areaNameNode.Children.RemoveAll(projectNode =>
-                            {
-                                return !filteredProjectsWithLocationAreas
-                                    .Select(project => project.FancyTreeNodeKey.ToString())
-                                    .Contains(projectNode.Key);
-                            }));
+            projectLocationGroupsAsFancyTreeNodes.RemoveAll(
+                areaNameNode =>
+                    areaNameNode.Children.Count ==
+                    areaNameNode.Children.RemoveAll(projectNode =>
+                    {
+                        return !filteredProjectsWithLocationAreas
+                            .Select(project => project.FancyTreeNodeKey.ToString())
+                            .Contains(projectNode.Key);
+                    }));
 
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }
@@ -348,10 +434,12 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult SpendingByOrganizationTypeByOrganization(int organizationTypeID, int? calendarYear)
         {
             var viewData = GetSpendingByOrganizationTypeByOrganizationViewData(organizationTypeID, calendarYear);
-            return RazorPartialView<SpendingByOrganizationTypeByOrganization, SpendingByOrganizationTypeByOrganizationViewData>(viewData);
+            return RazorPartialView<SpendingByOrganizationTypeByOrganization,
+                SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
 
-        private static SpendingByOrganizationTypeByOrganizationViewData GetSpendingByOrganizationTypeByOrganizationViewData(int organizationTypeID, int? calendarYear)
+        private static SpendingByOrganizationTypeByOrganizationViewData
+            GetSpendingByOrganizationTypeByOrganizationViewData(int organizationTypeID, int? calendarYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationTypeID, null);
             List<int> calendarYearRange;
@@ -360,33 +448,41 @@ namespace ProjectFirma.Web.Controllers
             {
                 calendarYearRange = FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures();
                 fundingSourceCalendarYearExpenditures =
-                    FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures), calendarYearRange);
+                    FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
+                        new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures), calendarYearRange);
             }
             else
             {
                 calendarYearRange = new List<int> {calendarYear.Value};
                 fundingSourceCalendarYearExpenditures =
                     FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
-                        new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures.Where(x => x.CalendarYear == calendarYear.Value)),
+                        new List<IFundingSourceExpenditure>(
+                            projectFundingSourceExpenditures.Where(x => x.CalendarYear == calendarYear.Value)),
                         calendarYearRange);
             }
             var calendarYears = calendarYearRange.ToDictionary(x => x,
                 year => year.ToString(CultureInfo.InvariantCulture));
-            var excelUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganizationExcelDownload(organizationTypeID, calendarYear));
-            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(fundingSourceCalendarYearExpenditures, calendarYears, excelUrl);
+            var excelUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x =>
+                x.SpendingByOrganizationTypeByOrganizationExcelDownload(organizationTypeID, calendarYear));
+            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(fundingSourceCalendarYearExpenditures,
+                calendarYears, excelUrl);
             return viewData;
         }
 
         [SpendingByOrganizationTypeByOrganizationViewFeature]
-        public ExcelResult SpendingByOrganizationTypeByOrganizationExcelDownload(int organizationTypeID, int? calendarYear)
+        public ExcelResult SpendingByOrganizationTypeByOrganizationExcelDownload(int organizationTypeID,
+            int? calendarYear)
         {
-            var organizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID);
+            var organizationType =
+                HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID);
             var viewData = GetSpendingByOrganizationTypeByOrganizationViewData(organizationTypeID, calendarYear);
 
             var excelSpec = new FundingSourceCalendarYearExpenditureExcelSpec(viewData.CalendarYears);
-            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
+            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
+                $"{FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
                 excelSpec,
-                viewData.FundingSourceCalendarYearExpenditures.OrderBy(x => x.OrganizationName).ThenBy(x => x.FundingSourceName).ToList());
+                viewData.FundingSourceCalendarYearExpenditures.OrderBy(x => x.OrganizationName)
+                    .ThenBy(x => x.FundingSourceName).ToList());
             var workSheets = new List<IExcelWorkbookSheetDescriptor> {wsFundingSources};
 
             var wbm = new ExcelWorkbookMaker(workSheets);
@@ -398,10 +494,21 @@ namespace ProjectFirma.Web.Controllers
         [ResultsByTaxonomyTierTwoViewFeature]
         public ViewResult ResultsByTaxonomyTierTwo(int? taxonomyTierTwoID)
         {
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
-            var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value) : taxonomyTierThrees.First().TaxonomyTierTwos.First();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees
+                .OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue
+                ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value)
+                : taxonomyTierThrees.First().TaxonomyTierTwos.First();
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyTierTwo);
-            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierThrees, selectedTaxonomyTierTwo);
+            var performanceMeasureChartViewDatas = selectedTaxonomyTierTwo.GetPerformanceMeasures().ToList()
+                .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
+                    new PerformanceMeasureChartViewData(x,
+                        true,
+                        new List<int>(),
+                        CurrentPerson,
+                        false)).ToList();
+            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierThrees,
+                selectedTaxonomyTierTwo, performanceMeasureChartViewDatas);
             return RazorView<ResultsByTaxonomyTierTwo, ResultsByTaxonomyTierTwoViewData>(viewData);
         }
 
@@ -410,80 +517,77 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByPerformanceMeasureByProject);
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            var selectedPerformanceMeasure = performanceMeasureID.HasValue ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID) : performanceMeasures.First();
-            var accomplishmentsChartViewData = new PerformanceMeasureChartViewData(selectedPerformanceMeasure, false, ChartViewMode.Small, null);
+            var selectedPerformanceMeasure = performanceMeasureID.HasValue
+                ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
+                : performanceMeasures.First();
+            var accomplishmentsChartViewData =
+                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, false, null, CurrentPerson, false);
 
-            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage, performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
+            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage,
+                performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
             var viewModel = new SpendingByPerformanceMeasureByProjectViewModel();
-            return RazorView<SpendingByPerformanceMeasureByProject, SpendingByPerformanceMeasureByProjectViewData, SpendingByPerformanceMeasureByProjectViewModel>(viewData, viewModel);
+            return RazorView<SpendingByPerformanceMeasureByProject, SpendingByPerformanceMeasureByProjectViewData,
+                SpendingByPerformanceMeasureByProjectViewModel>(viewData, viewModel);
         }
 
         [SpendingByPerformanceMeasureByProjectViewFeature]
-        public GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue> SpendingByPerformanceMeasureByProjectGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        public GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>
+            SpendingByPerformanceMeasureByProjectGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             SpendingByPerformanceMeasureByProjectGridSpec gridSpec;
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var performanceMeasureSubcategoriesTotalReportedValues = GetSpendingByPerformanceMeasureByProjectAndGridSpec(out gridSpec, performanceMeasure);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
+            var performanceMeasureSubcategoriesTotalReportedValues =
+                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out gridSpec, performanceMeasure);
+            var gridJsonNetJObjectResult =
+                new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(
+                    performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<PerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByPerformanceMeasureByProjectAndGridSpec(out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
-            PerformanceMeasure performanceMeasure)
+        private static List<PerformanceMeasureSubcategoriesTotalReportedValue>
+            GetSpendingByPerformanceMeasureByProjectAndGridSpec(
+                out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
+                PerformanceMeasure performanceMeasure)
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
             return performanceMeasure.SubcategoriesTotalReportedValues();
         }
 
-
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult InvestmentByOrganizationTypeGoogleChartPopup(int? selectedCalendarYear)
+        public static GoogleChartJson GetInvestmentByOrganizationTypeGoogleChart(
+            List<OrganizationTypeExpenditure> organizationTypeExpenditures, int? selectedCalendarYear)
         {
-            var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(null, null);
-            var fundingOrganizationTypeExpenditures = GetOrganizationTypeExpendituresForInvestmentByOrganizationTypeReport(selectedCalendarYear, projectFundingSourceExpenditures);
+            var chartName = $"InvestmentByFundingSector{selectedCalendarYear}PieChart";
+            var googleChartDataTable = GetInvestmentByFundingSectorGoogleChartDataTable(organizationTypeExpenditures);
+            var googlePieChartSlices = organizationTypeExpenditures.Select(x =>
+                new GooglePieChartSlice(x.OrganizationTypeName, Convert.ToDouble(x.CalendarYearExpenditureAmount), 0,
+                    x.LegendColor)).ToList();
+            var googleChartTitle = $"Investment by Funding Sector for: {YearDisplayName(selectedCalendarYear)}";
+            var googleChartType = GoogleChartType.PieChart;
+            var googleChartConfiguration =
+                new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars, googlePieChartSlices,
+                    googleChartType, googleChartDataTable) {BackgroundColor = {Fill = "transparent"}};
 
-            var googleChart = GetInvestmentByOrganizationTypeGoogleChart(fundingOrganizationTypeExpenditures, selectedCalendarYear);
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
-        }
-
-        public static GoogleChartJson GetInvestmentByOrganizationTypeGoogleChart(List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures, int? selectedCalendarYear)
-        {
-            const int chartSize = 350;
-            var chartName = $"InvestmentByOrganizationType{selectedCalendarYear}PieChart";
-
-            var googleChartDataTable = GetInvestmentByOrganizationTypeGoogleChartDataTable(fundingOrganizationTypeExpenditures);
-            var googleChartTitle = "Investment by Funding OrganizationType for: " + YearDisplayName(selectedCalendarYear);
-            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize) {Background = {Color = "transparent"}};
-
-            var enumerable = fundingOrganizationTypeExpenditures.Select(x => x.LegendColor).Select((value, index) => new {value, index});
-            var googlePieChartSlices = enumerable.ToDictionary(x => x.index, x => new GooglePieChartSlice(){Color = x.value});
-            googleChartConfiguration.Slices = googlePieChartSlices;
-            
-            var chartPopupUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByOrganizationTypeGoogleChartPopup(selectedCalendarYear));
-            var googleChart = new GoogleChartJson(string.Empty,
-                chartName,
-                googleChartConfiguration,
-                GoogleChartType.PieChart,
-                googleChartDataTable,
-                chartPopupUrl,
-                string.Empty,
-                string.Empty);
+            var googleChart = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType,
+                googleChartDataTable, string.Empty, null);
             return googleChart;
         }
 
-        public static GoogleChartDataTable GetInvestmentByOrganizationTypeGoogleChartDataTable(List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures)
+        public static GoogleChartDataTable GetInvestmentByFundingSectorGoogleChartDataTable(
+            List<OrganizationTypeExpenditure> organizationTypeExpenditures)
         {
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding OrganizationType", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
-
-            var googleChartRowCs = fundingOrganizationTypeExpenditures.Select(x =>
+            var googleChartColumns = new List<GoogleChartColumn>
             {
-                var organizationTypeRowV = new GoogleChartRowV(x.OrganizationTypeName);
-                var formattedValue = GoogleChartJson.GetFormattedValue((double) x.CalendarYearExpenditureAmount, MeasurementUnitType.Dollars);
+                new GoogleChartColumn("Funding Sector", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+            };
+
+            var googleChartRowCs = organizationTypeExpenditures.Select(x =>
+            {
+                var sectorRowV = new GoogleChartRowV(x.OrganizationTypeName);
+                var formattedValue = GoogleChartJson.GetFormattedValue((double) x.CalendarYearExpenditureAmount,
+                    MeasurementUnitType.Dollars);
                 var expenditureRowV = new GoogleChartRowV(x.CalendarYearExpenditureAmount, formattedValue);
-                return new GoogleChartRowC(new List<GoogleChartRowV> {organizationTypeRowV, expenditureRowV});
+                return new GoogleChartRowC(new List<GoogleChartRowV> {sectorRowV, expenditureRowV});
             }).ToList();
 
             var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);

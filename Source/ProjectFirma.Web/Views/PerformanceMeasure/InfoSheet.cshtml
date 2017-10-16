@@ -23,6 +23,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using MoreLinq
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.InfoSheet
 
@@ -252,8 +254,34 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="summarySection">
         <div class="sectionTitle">@MultiTenantHelpers.GetPerformanceMeasureName() Results</div>
-        @{PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData);}
-    </div>
+        <div class="panel-body contentWrapper">
+
+            <div class="chartBody">
+                @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsons.OrderByDescending(x => x.LegendTitle))
+                {
+                    <div style="margin-top: 20px; width: 500px">
+                        <strong>By: @googleChartJson.LegendTitle</strong>
+                        <div id="@googleChartJson.ChartContainerID" class="googleChart" style="height:400px">
+                            <!-- Actual chart goes here-->
+                        </div>
+                    </div>
+                }
+                @if (ViewDataTyped.GoogleChartJsons.Count == 0)
+                {
+                    <em>No charts available for this Performance Measure.</em>
+                }
+            </div>
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    var googleCharts = @Html.Raw(JArray.FromObject(ViewDataTyped.GoogleChartJsons).ToString(Formatting.None));
+                    window.GoogleCharts.drawCharts(googleCharts);
+                    jQuery(window).resize(function(){
+                        window.GoogleCharts.drawCharts(googleCharts);
+                    });
+                });
+            </script>
+        </div>    </div>
 
     <div class="summarySection">
         <span class="sectionTitle">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</span>

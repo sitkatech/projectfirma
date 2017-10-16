@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Shared
 {
-    public abstract class GoogleChartPopup : LtInfo.Common.Mvc.TypedWebPartialViewPage<GoogleChartPopupViewData>
+    public abstract class GoogleChartPopup : LtInfo.Common.Mvc.TypedWebPartialViewPage<GoogleChartPopupViewData, GoogleChartPopupViewModel>
     {
     }
 }

@@ -78,10 +78,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure,
-                false,
-                userHasPerformanceMeasureManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small,
-                null);
+            
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, null, CurrentPerson, false);
+
+
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
@@ -241,21 +241,12 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<DefinitionAndGuidance, DefinitionAndGuidanceViewData>(viewData);
         }
 
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult PerformanceMeasureChartPopup(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var accomplishmentsChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, 1080 + 20, 630 + 20, false, ChartViewMode.Large, null);
-            return RazorPartialView<PerformanceMeasureChartPopup, PerformanceMeasureChartViewData>(accomplishmentsChartViewData);
-        }
-
         [PerformanceMeasureViewFeature]
         public ViewResult InfoSheet(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, 500, 400, false, ChartViewMode.InfoSheet, null);
-            var viewData = new InfoSheetViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData);
+            var googleChartJsonDictionary = performanceMeasure.GetGoogleChartJsonDictionary(null);
+            var viewData = new InfoSheetViewData(CurrentPerson, performanceMeasure, googleChartJsonDictionary);
             return RazorView<InfoSheet, InfoSheetViewData>(viewData);
         }
 
@@ -306,7 +297,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty);
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty, false, false);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default");

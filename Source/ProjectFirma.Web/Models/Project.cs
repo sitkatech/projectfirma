@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -32,6 +33,7 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using MoreLinq;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
@@ -429,5 +431,27 @@ namespace ProjectFirma.Web.Models
 
         public bool HasProjectWatersheds => ProjectWatersheds.Any();
         public int FancyTreeNodeKey => ProjectID;
+
+        public List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices()
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            var expendituresDictionary = ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
+                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+
+            var groupingFundingSources = expendituresDictionary.Keys.GroupBy(x => x.Organization.OrganizationType, new HavePrimaryKeyComparer<OrganizationType>());
+            foreach (var groupingFundingSource in groupingFundingSources)
+            {
+                var sectorColor = ColorTranslator.FromHtml(groupingFundingSource.Key.LegendColor);
+                groupingFundingSource.OrderBy(x => x.FundingSourceName)
+                    .ForEach((fundingSource, index) =>
+                    {
+                        var color = ColorTranslator.ToHtml(Color.FromArgb(sectorColor.ChangeColorBrightness(index / 10f).ToArgb()));
+                        googlePieChartSlices.Add(new GooglePieChartSlice(fundingSource.FixedLengthDisplayName, Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color));
+                    });
+            }
+            return googlePieChartSlices;
+        }
     }
 }

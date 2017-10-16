@@ -56,7 +56,6 @@ namespace ProjectFirma.Web.Views.Results
             InvestmentByFundingOrganizationTypeUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByOrganizationType(UrlTemplate.Parameter1Int));
 
             GoogleChartJson = ResultsController.GetInvestmentByOrganizationTypeGoogleChart(OrganizationTypeExpenditures, selectedCalendarYear);
-            GoogleChartJson.GoogleChartConfiguration.SetSize(300, 350);
         }
     }
 }

@@ -62,10 +62,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
                 </div>
                 <div class="panel-body">
-                    @if (ViewDataTyped.CalendarYearExpendituresLineChartViewData.HasChartData)
+                    @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
                     {
                         <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
-                            @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
                         </div>
                         <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
                     }
