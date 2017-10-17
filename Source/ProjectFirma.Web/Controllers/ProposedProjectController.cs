@@ -836,6 +836,7 @@ namespace ProjectFirma.Web.Controllers
         private static void DeleteProposedProject(ProposedProject proposedProject)
         {
             proposedProject.ProposedProjectOrganizations.DeleteProposedProjectOrganization();
+            proposedProject.ProposedProjectWatersheds.DeleteProposedProjectWatershed();
             proposedProject.ProposedProjectImages.DeleteProposedProjectImage();
             proposedProject.ProposedProjectLocations.DeleteProposedProjectLocation();
             proposedProject.ProposedProjectLocationStagings.DeleteProposedProjectLocationStaging();
