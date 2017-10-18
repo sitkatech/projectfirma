@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, null, CurrentPerson, false);
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, null, CurrentPerson, false, true);
 
 
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),

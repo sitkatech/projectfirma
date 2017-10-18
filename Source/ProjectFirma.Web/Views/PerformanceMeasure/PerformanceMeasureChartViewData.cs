@@ -48,7 +48,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             bool hyperlinkPerformanceMeasureName,
             List<int> projectIDs,
             Person currentPerson,
-            bool showLastUpdatedDate)
+            bool showLastUpdatedDate,
+            bool showConfigureOption)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
@@ -57,29 +58,43 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             HasChartData = GoogleChartJsons.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
 
-            var canManagePerformanceMeasures = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            CanManagePerformanceMeasures = canManagePerformanceMeasures;
+            var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            CanManagePerformanceMeasures = currentPersonHasManagePermission && showConfigureOption;
 
             ShowLastUpdatedDate = showLastUpdatedDate;
             ChartTitle = performanceMeasure.PerformanceMeasureDisplayName;
             ViewGoogleChartViewData = new ViewGoogleChartViewData(GoogleChartJsons,
-                performanceMeasure.PerformanceMeasureDisplayName,
+                ChartTitle,
                 height,
                 null,
                 performanceMeasure.GetJavascriptSafeChartUniqueName(),
-                canManagePerformanceMeasures,
+                CanManagePerformanceMeasures,
                 SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadPerformanceMeasureChartData()),
                 true,
                 true);
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, bool hyperlinkPerformanceMeasureName, List<int> projectIDs, Person currentPerson, bool showLastUpdatedDate) : this(
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure,
+            bool hyperlinkPerformanceMeasureName, List<int> projectIDs, Person currentPerson,
+            bool showLastUpdatedDate) : this(
             performanceMeasure,
             DefaultHeight,
             hyperlinkPerformanceMeasureName,
             projectIDs,
             currentPerson,
-            showLastUpdatedDate)
+            showLastUpdatedDate,
+            false)
+        {
+        }
+
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, bool hyperlinkPerformanceMeasureName, List<int> projectIDs, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption) : this(
+            performanceMeasure,
+            DefaultHeight,
+            hyperlinkPerformanceMeasureName,
+            projectIDs,
+            currentPerson,
+            showLastUpdatedDate,
+            showConfigureOption)
         {
         }
     }
