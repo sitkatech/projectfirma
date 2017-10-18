@@ -58,7 +58,8 @@
                 By:
                 @if (ViewDataTyped.SortChartsByLegendTitle)
                 {
-                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle))
+                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-xs btn-default btn"}};
+                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
                 }
                 else
                 {
@@ -78,7 +79,7 @@
 
             <div id="@(googleChartJson.ChartContainerID)_container" class="chartGroup@(ViewDataTyped.ChartUniqueName)">
                 <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
-                <div class="ltinfoChartControls noPrint">
+                <div class="firmaChartControls noPrint">
                     <div class="dropdown">
                         <button id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                             Options
@@ -106,7 +107,7 @@
                         </ul>
                     </div>
                 </div>
-                <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: 0; height: @(ViewDataTyped.ChartHeight)px;">
+                <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
                     <!-- Actual chart goes here-->
                 </div>
 

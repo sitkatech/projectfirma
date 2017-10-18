@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -300,7 +301,12 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty, false, false);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
+            var googleChartType = GoogleChartType.ColumnChart;
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default");
+            var googleChartAxisHorizontal = new GoogleChartAxis("Date", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal, googleChartAxisVerticals);
+            defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
 
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);

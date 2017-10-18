@@ -1056,3 +1056,6 @@ td.stage {
   max-height: 200px;
   overflow: auto;
 }
+.googleChart {
+  width: 100%;
+}

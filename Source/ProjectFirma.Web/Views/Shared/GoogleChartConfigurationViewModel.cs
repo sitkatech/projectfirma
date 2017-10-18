@@ -55,11 +55,14 @@ namespace ProjectFirma.Web.Views.Shared
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            
+
             //Ensure our new values can be parsed without exceptions. No need to store the values.
             JsonConvert.DeserializeObject<GoogleChartConfiguration>(ChartConfigurationJson);
-            Enum.Parse(typeof(GoogleChartType), ChartType);
-            
+            var googleChartType = ConverChartTypeStringToGoogleChartType();
+            if (googleChartType == null)
+            {
+                validationResults.Add(new ValidationResult("Unknown chart type " + ChartType));
+            }
             return validationResults;
         }
 

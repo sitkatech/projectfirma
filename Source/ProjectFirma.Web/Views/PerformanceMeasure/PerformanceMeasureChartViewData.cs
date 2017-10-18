@@ -61,9 +61,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             CanManagePerformanceMeasures = canManagePerformanceMeasures;
 
             ShowLastUpdatedDate = showLastUpdatedDate;
-            ChartTitle = performanceMeasure.ChartTitle;
+            ChartTitle = performanceMeasure.PerformanceMeasureDisplayName;
             ViewGoogleChartViewData = new ViewGoogleChartViewData(GoogleChartJsons,
-                performanceMeasure.ChartTitle,
+                performanceMeasure.PerformanceMeasureDisplayName,
                 height,
                 null,
                 performanceMeasure.GetJavascriptSafeChartUniqueName(),

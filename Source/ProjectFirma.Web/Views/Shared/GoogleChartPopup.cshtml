@@ -23,8 +23,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.Shared.GoogleChartPopup
 
 <link href="@Url.Content("~/Content/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/Bootstrap/ltinfo/bootstrap.ltinfo.base.min.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/Bootstrap/ltinfo/bootstrap.ltinfo.theme.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Bootstrap/firma/bootstrap.firma.base.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Bootstrap/firma/bootstrap.firma.theme.min.css")" rel="stylesheet" type="text/css" />
 
 <link href='@Url.Content("~/Areas/Sustainability/Content/trpa-bootstrap-overrides.min.css")' rel='stylesheet' type='text/css' media='all' />
 <link href='@Url.Content("~/Content/css/google-chart-config-overrides.css")' rel='stylesheet' type='text/css' media='all' />
@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="ChartPopupContainer" style="height: 670px;">
     <div style="height: 30px">&nbsp;</div>
-    <div class="ltinfoChartControls">
+    <div class="firmaChartControls">
         <a onclick="GoogleCharts.configureChart('@ViewDataTyped.GoogleChartJson.ChartContainerID')" href="#">
             <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>
             Customize
