@@ -24,15 +24,15 @@ using GeoJSON.Net.Feature;
 
 namespace ProjectFirma.Web.Models
 {
-    
-
     public interface IMappableProject : IProject
     {
-        //ProjectStage ProjectStage { get; }
         TaxonomyTierOne TaxonomyTierOne { get; }
         ICollection<IEntityClassification> ProjectClassificationsForMap { get; }
         bool HasProjectWatersheds { get; }
         int FancyTreeNodeKey { get; }
+        bool HasProjectLocationPoint { get; }
+        Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties);
+        bool IsVisibleToThisPerson(Person currentPerson);
+        bool IsVisibleToEveryone();
     }
-
 }

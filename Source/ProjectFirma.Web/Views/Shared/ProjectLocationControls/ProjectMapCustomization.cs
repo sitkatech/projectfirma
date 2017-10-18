@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string ColorByQueryStringParameter = "ColorBy";
 
         public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.ProjectStage;
-        public static List<int> GetDefaultLocationFilterValues() => GetProjectStagesForMap().Select(x => x.ProjectStageID).ToList();
+        public static List<int> GetDefaultLocationFilterValues(bool isCurrentUserAnonymous) => GetProjectStagesForMap(isCurrentUserAnonymous).Select(x => x.ProjectStageID).ToList();
         public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.ProjectStage;
 
         public List<int> FilterPropertyValues { get; set; }
@@ -94,10 +94,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return String.Format("{0}&{1}={2}", BuildCustomizedUrl(filterType, filterValues), ColorByQueryStringParameter, colorBy.ProjectColorByTypeName);
         }
 
-        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects )
+        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects, bool isCurrentUserAnonymous )
         {
-
-            return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues());
+            return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues(isCurrentUserAnonymous));
         }
 
         public string GetCustomizedUrl()
@@ -107,7 +106,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<ProjectStage> GetProjectStagesForMap()
         {
-            var includeProposedProjectsOnMap = MultiTenantHelpers.IncludeProposedProjectsOnMap();
+            return GetProjectStagesForMap(false);
+        }
+
+        public static List<ProjectStage> GetProjectStagesForMap(bool isCurrentUserAnonymous)
+        {
+            var includeProposedProjectsOnMap = MultiTenantHelpers.IncludeProposedProjectsOnMap() && !isCurrentUserAnonymous;
             var exceptProposedProjects = includeProposedProjectsOnMap
                 ? new List<ProjectStage>()
                 : new List<ProjectStage> {ProjectStage.Proposed};

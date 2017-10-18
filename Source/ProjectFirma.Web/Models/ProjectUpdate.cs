@@ -18,10 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Globalization;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using GeoJSON.Net.Feature;
@@ -93,21 +91,6 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
-        public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
-        {
-            return ProjectUpdateBatch.Project.MakePointFeatureWithRelevantProperties(projectLocationPoint,
-                addProjectProperties);
-        }
-
-        public bool IsVisibleToThisPerson(Person currentPerson)
-        {
-            return true;
-        }
-
-        public bool IsVisibleToEveryone()
-        {
-            return true;
-        }
 
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
 
