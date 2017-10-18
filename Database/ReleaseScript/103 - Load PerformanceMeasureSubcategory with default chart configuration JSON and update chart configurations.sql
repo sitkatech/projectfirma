@@ -26,3 +26,7 @@
   Update dbo.PerformanceMeasureSubcategory
  set ChartConfigurationJson = replace(ChartConfigurationJson,'"suffix":"K",','')
  Where ChartConfigurationJson is not null
+
+   Update dbo.PerformanceMeasureSubcategory
+ set ChartConfigurationJson = replace(ChartConfigurationJson,'"legend":{"position":"none"}','"legend":{"position":"top"}')
+ Where ChartConfigurationJson is not null
