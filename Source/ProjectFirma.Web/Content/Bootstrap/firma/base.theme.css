@@ -1059,3 +1059,6 @@ td.stage {
 .googleChart {
   width: 100%;
 }
+.google-visualization-charteditor-dialog {
+  z-index: 1000;
+}
