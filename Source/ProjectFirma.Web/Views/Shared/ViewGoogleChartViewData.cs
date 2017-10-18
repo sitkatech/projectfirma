@@ -40,6 +40,8 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool HasData;
         public readonly bool ShowChartTitle;
         public readonly bool SortChartsByLegendTitle;
+        public readonly Models.PerformanceMeasure PerformanceMeasure;
+        public readonly bool HyperlinkPerformanceMeasureName;
 
         public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle) : this(new List<GoogleChartJson> {googleChartJson},
             chartTitle,
@@ -49,7 +51,23 @@ namespace ProjectFirma.Web.Views.Shared
             false,
             SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
             showChartTitle,
-            true)
+            true,
+            null,
+            false)
+        {
+        }
+
+        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle, Models.PerformanceMeasure performanceMeasure, bool hyperlinkPerformanceMeasureName) : this(new List<GoogleChartJson> {googleChartJson},
+            chartTitle,
+            chartHeight,
+            null,
+            chartTitle.Replace(" ", ""),
+            false,
+            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
+            showChartTitle,
+            true,
+            performanceMeasure,
+            hyperlinkPerformanceMeasureName)
         {
         }
 
@@ -61,7 +79,9 @@ namespace ProjectFirma.Web.Views.Shared
             bool canConfigureChart,
             string downloadChartDataUrl,
             bool showChartTitle,
-            bool sortChartsByLegendTitle)
+            bool sortChartsByLegendTitle,
+            Models.PerformanceMeasure performanceMeasure,
+            bool hyperlinkPerformanceMeasureName)
         {
             GoogleChartJsons = googleChartJsons;
             ChartTitle = chartTitle;
@@ -76,6 +96,8 @@ namespace ProjectFirma.Web.Views.Shared
             CanConfigureChart = canConfigureChart;
             ShowChartTitle = showChartTitle;
             SortChartsByLegendTitle = sortChartsByLegendTitle;
+            PerformanceMeasure = performanceMeasure;
+            HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
         }
     }
 }

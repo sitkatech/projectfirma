@@ -25,6 +25,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Converters
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ViewGoogleChart
 
     <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
@@ -40,7 +41,22 @@
         @if (ViewDataTyped.ShowChartTitle)
         {
             <div class="chartTitle">
-                <b>@ViewDataTyped.ChartTitle</b>
+                @if (ViewDataTyped.PerformanceMeasure != null)
+                {
+                    if (ViewDataTyped.HyperlinkPerformanceMeasureName)
+                    {
+                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.ChartTitle.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
+                        <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
+                    }
+                    else
+                    {
+                        <b>@ViewDataTyped.PerformanceMeasure.ChartTitle</b>
+                    }
+                }
+                else
+                {
+                    <b>@ViewDataTyped.ChartTitle</b>
+                }
             </div>
         }
         @if (ViewDataTyped.GoogleChartJsons.Count == 1)

@@ -91,7 +91,6 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
             var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x,
-                    true,
                     new List<int>(),
                     CurrentPerson,
                     false)).ToList();

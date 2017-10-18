@@ -503,7 +503,6 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureChartViewDatas = selectedTaxonomyTierTwo.GetPerformanceMeasures().ToList()
                 .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
                     new PerformanceMeasureChartViewData(x,
-                        true,
                         new List<int>(),
                         CurrentPerson,
                         false)).ToList();
@@ -521,7 +520,7 @@ namespace ProjectFirma.Web.Controllers
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
                 : performanceMeasures.First();
             var accomplishmentsChartViewData =
-                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, false, null, CurrentPerson, false);
+                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, null, CurrentPerson, false);
 
             var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage,
                 performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
