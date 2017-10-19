@@ -90,6 +90,11 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
 
+        public List<ProposedProjectOrganization> GetAllProposedProjectOrganizations()
+        {
+            return ProposedProjectOrganizations.OrderBy(x => x.ProposedProject.DisplayName).ToList();
+        }
+
         public List<Project> GetAllProjectsIncludingLeadImplementing()
         {
             return ProjectOrganizations.Select(x => x.Project).Distinct().ToList();
