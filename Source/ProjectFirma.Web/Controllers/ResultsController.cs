@@ -237,7 +237,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson), IsCurrentUserAnonymous());
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
@@ -316,7 +316,7 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson));
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson), IsCurrentUserAnonymous());
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 

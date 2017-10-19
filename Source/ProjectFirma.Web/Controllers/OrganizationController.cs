@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearExpendituresLineChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
 
             bool hasSpatialData;
-            var mapInitJson = GetMapInitJson(organization, out hasSpatialData);
+            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, IsCurrentUserAnonymous());
 
             var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
+        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, bool isCurrentUserAnonymous)
         {
             hasSpatialData = false;
             
@@ -181,18 +181,24 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
-            if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
+            if (!isCurrentUserAnonymous)
             {
-                hasSpatialData = true;
-                layers.Add(proposedProjectsLayerGeoJson);
-            }
+                var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
+                if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
+                {
+                    hasSpatialData = true;
+                    layers.Add(proposedProjectsLayerGeoJson);
+                }
 
-            var proposedProjectDetails = organization.ProposedProjectOrganizations.SelectMany(x => x.ProposedProject.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
-            if (proposedProjectDetails.Features.Any())
-            {
-                hasSpatialData = true;
-                layers.Add(new LayerGeoJson($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detailed Mapping", proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                var proposedProjectDetails = organization.ProposedProjectOrganizations
+                    .SelectMany(x => x.ProposedProject.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+                if (proposedProjectDetails.Features.Any())
+                {
+                    hasSpatialData = true;
+                    layers.Add(new LayerGeoJson(
+                        $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detailed Mapping",
+                        proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                }
             }
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
