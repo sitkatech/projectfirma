@@ -19,10 +19,9 @@ update dbo.MeasurementUnitType set NumberOfSignificantDigits = 2 where Measureme
 update dbo.MeasurementUnitType set NumberOfSignificantDigits = 1 where MeasurementUnitTypeID = 16
 update dbo.MeasurementUnitType set NumberOfSignificantDigits = 1 where MeasurementUnitTypeID = 17
 update dbo.MeasurementUnitType set NumberOfSignificantDigits = 0 where MeasurementUnitTypeID = 18
-update dbo.MeasurementUnitType set NumberOfSignificantDigits = 2 where MeasurementUnitTypeID = 19
-update dbo.MeasurementUnitType set NumberOfSignificantDigits = 2 where MeasurementUnitTypeID = 20
+update dbo.MeasurementUnitType set NumberOfSignificantDigits = 0 where MeasurementUnitTypeID = 19
+update dbo.MeasurementUnitType set NumberOfSignificantDigits = 0 where MeasurementUnitTypeID = 20
 update dbo.MeasurementUnitType set NumberOfSignificantDigits = 0 where MeasurementUnitTypeID = 21
-update dbo.MeasurementUnitType set NumberOfSignificantDigits = 0 where MeasurementUnitTypeID = 22
 
 go
 

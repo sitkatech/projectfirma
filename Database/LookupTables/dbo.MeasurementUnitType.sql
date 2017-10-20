@@ -19,7 +19,6 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (16, 'NephlometricTurbidityUnit', 'NTU', 'NTU', 'Nephlometric Turbidity Unit', 1),
 (17, 'Meters', 'meters', 'meters', 'Meter', 1),
 (18, 'PeriphytonBiomassIndex', 'PBI', 'PBI', 'Periphyton biomass index', 0),
-(19, 'Feet', 'feet', 'ft', 'Foot', 2),
-(20, 'InchesPerHour', 'in/hr', 'in/hr', 'Inches Per Hour', 2),
-(21, 'Seconds', 'seconds', 's', 'Second', 0),
-(22, 'YesNo', 'yes/no', '', '', 0)
+(19, 'AcreFeet', 'acre-feet', 'acre-ft', 'Acre-Foot', 0),
+(20, 'Gallon', 'gallons', 'gallons', 'Gallon', 0),
+(21, 'CubicYards', 'cubic yards', 'cubic yards', 'Cubic Yard', 0)

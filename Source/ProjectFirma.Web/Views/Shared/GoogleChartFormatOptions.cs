@@ -39,10 +39,9 @@ namespace ProjectFirma.Web.Views.Shared
                 case MeasurementUnitTypeEnum.NephlometricTurbidityUnit:
                 case MeasurementUnitTypeEnum.Meters:
                 case MeasurementUnitTypeEnum.PeriphytonBiomassIndex:
-                case MeasurementUnitTypeEnum.Feet:
-                case MeasurementUnitTypeEnum.InchesPerHour:
-                case MeasurementUnitTypeEnum.Seconds:
-                case MeasurementUnitTypeEnum.YesNo:
+                case MeasurementUnitTypeEnum.AcreFeet:
+                case MeasurementUnitTypeEnum.Gallon:
+                case MeasurementUnitTypeEnum.CubicYards:
                 case null:
                     Source = "inline";
                     break;

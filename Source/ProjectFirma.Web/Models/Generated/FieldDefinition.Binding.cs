@@ -393,7 +393,7 @@ namespace ProjectFirma.Web.Models
         TaxonomyTierOneDisplayNameForProject = 244,
         ProjectRelationshipType = 245,
         ProjectSteward = 246,
-        ChartLastUpdatedDate = 352
+        ChartLastUpdatedDate = 247
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -813,6 +813,6 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionChartLastUpdatedDate : FieldDefinition
     {
         private FieldDefinitionChartLastUpdatedDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionChartLastUpdatedDate Instance = new FieldDefinitionChartLastUpdatedDate(352, @"Chart Last Updated Date", @"ChartLastUpdatedDate", @"<p>The date this chart was last updated with current information.</p>", true);
+        public static readonly FieldDefinitionChartLastUpdatedDate Instance = new FieldDefinitionChartLastUpdatedDate(247, @"Chart Last Updated Date", @"ChartLastUpdatedDate", @"<p>The date this chart was last updated with current information.</p>", true);
     }
 }
