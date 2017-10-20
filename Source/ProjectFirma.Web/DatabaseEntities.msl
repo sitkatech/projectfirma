@@ -333,6 +333,8 @@
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
           <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
+          <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
+          <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -462,8 +464,7 @@
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryDisplayName" ColumnName="PerformanceMeasureSubcategoryDisplayName" />
           <ScalarProperty Name="ChartConfigurationJson" ColumnName="ChartConfigurationJson" />
-          <ScalarProperty Name="ChartType" ColumnName="ChartType" />
-          <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
+          <ScalarProperty Name="GoogleChartTypeID" ColumnName="GoogleChartTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

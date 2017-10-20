@@ -139,20 +139,17 @@ namespace ProjectFirma.Web.Controllers
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
 
-            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            var chartPopupUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.GoogleChartPopup(fundingSourcePrimaryKey));
+            const string chartTitle = "Reported Expenditures";
+            var chartContainerID = chartTitle.Replace(" ", "");
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
                 .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
                     x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
-                    yearRange,
-                    "ReportedExpendituresChart",
-                    fundingSource.DisplayName, chartPopupUrl);
+                    chartContainerID,
+                    fundingSource.DisplayName);
 
-            var chartColorRange = taxonomyTierThrees.Select(x => x.ThemeColor).ToList();
-            var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChart,
-                chartColorRange);
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, calendarYearExpendituresLineChartViewData);
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 400, false);
+            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -199,34 +196,16 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        private static List<ProjectCalendarYearExpenditure> GetProjectCalendarYearExpendituresAndGridSpec(out ProjectCalendarYearExpendituresGridSpec gridSpec,
+        private static List<ProjectCalendarYearExpenditure> GetProjectCalendarYearExpendituresAndGridSpec(
+            out ProjectCalendarYearExpendituresGridSpec gridSpec,
             FundingSource fundingSource)
         {
             var projectFundingSourceExpenditures = fundingSource.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
+            var calendarYearRangeForExpenditures =
+                projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
             gridSpec = new ProjectCalendarYearExpendituresGridSpec(calendarYearRangeForExpenditures);
-            return ProjectCalendarYearExpenditure.CreateFromProjectsAndCalendarYears(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+            return ProjectCalendarYearExpenditure.CreateFromProjectsAndCalendarYears(projectFundingSourceExpenditures,
+                calendarYearRangeForExpenditures);
         }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult GoogleChartPopup(FundingSourcePrimaryKey fundingSourcePrimaryKey)
-        {
-            var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
-
-            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
-                    taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
-                    yearRange,
-                    "ReportedExpendituresChart",
-                    fundingSource.DisplayName, string.Empty);
-
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
-        }
-
     }
 }

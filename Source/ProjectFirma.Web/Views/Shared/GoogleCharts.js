@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-var versionNumber = '43'; //Frozen at release v. 43 dated 10/2/2015. Use 'current' to updated to most recent version
+var versionNumber = '45'; //Frozen at release v. 43 dated 10/2/2015. Use 'current' to updated to most recent version
 google.charts.load(versionNumber, { packages: ['bar', 'corechart', 'charteditor'] });
 
 var GoogleCharts =
@@ -28,26 +28,44 @@ var GoogleCharts =
     drawCharts: function (chartJsons) {
         var self = this;
         google.charts.setOnLoadCallback(function () { self.drawChartsOnLoadCallback(chartJsons) });
-
-        jQuery(".expandBox").fancybox({
-            type: "iframe",
-            width: 1130, //TODO: Width (but not height) needs to be MANUALLY SYNCHED between Fancybox constructor and GoogleChartPopup.ChartJson
-            height: 770,
-            fitToView: false,
-            autoSize: false,
-            helpers: {
-                overlay: { closeClick: false } // prevents closing when clicking OUTSIDE fancybox 
-            }
-        });
     },
 
-    drawChartsOnLoadCallback: function (chartJsons) {
-        for (var chartName in chartJsons)
+    drawChartsOnLoadCallback: function (chartJsons)
+    {
+        for(var i = 0; i < chartJsons.length; i++)
         {
-            var modifiedJson = chartJsons[chartName];
-            this.chartWrappers[chartName] = new google.visualization.ChartWrapper(modifiedJson);
+            var chartJson = chartJsons[i];
+            var chartName = chartJson.containerId;
+            this.chartWrappers[chartName] = new google.visualization.ChartWrapper(chartJson);
             this.chartWrappers[chartName].draw();
         }
+    },
+
+    enlargeChart: function(formId)
+    {
+        var form = document.getElementById(formId);
+        jQuery.ajax({
+            url: form.action,
+            type: 'POST',
+            dataType: 'html',
+            data: jQuery(form).serialize(),
+            success: function (data) {
+                jQuery.fancybox.open({
+                    content:
+                        '<iframe id="fancyBoxIframe" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" src="about:blank"></iframe>',
+                    width: '1130px',
+                    height: '770px',
+                    autoSize: false,
+                    afterShow: function () {
+                        var oIframe = document.getElementById("fancyBoxIframe"),
+                            iFrameDoc = (oIframe.contentWindow.document || oIframe.contentDocument);
+                        iFrameDoc.open();
+                        iFrameDoc.write(data);
+                        iFrameDoc.close();
+                    }
+                });
+            }
+        });
     },
 
     downloadChartPNG: function (chartName) {

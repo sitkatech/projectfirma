@@ -315,9 +315,17 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
-            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, FirmaHelpers.DefaultColorRange);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+            var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
+            var expenditureGooglePieChartSlices = project.GetExpenditureGooglePieChartSlices();
+            var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
+            var googleChartTitle = $"Investment by Funding Sector for: {project.ProjectName}";
+            var googleChartType = GoogleChartType.PieChart;
+            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType, googleChartDataTable);
+            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType, googleChartDataTable, null, null);
+            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, expenditureGooglePieChartSlices);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }
 
@@ -680,15 +688,6 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return RazorPartialView<ProjectUpdateBatchDiffLog, ProjectUpdateBatchDiffLogViewData>(viewData);
         }
 
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult ProjectFactSheetGoogleChartPopup(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var googleChart = GetProjectFactSheetGoogleChart(projectPrimaryKey);
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
-        }
-
         public static Dictionary<int, GooglePieChartSlice> GetSlicesForGoogleChart(Dictionary<string, decimal> fundingSourceExpenditures)
         {
             var indexMapping = GetConsistentFundingSourceExpendituresIndexDictionary(fundingSourceExpenditures);
@@ -707,32 +706,13 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return results;
         }
 
-        public static GoogleChartJson GetProjectFactSheetGoogleChart(ProjectPrimaryKey projectPrimaryKey)
-        {
-            const int chartSize = 430;
-            var chartName = $"ProjectFactSheet{projectPrimaryKey.PrimaryKeyValue}PieChart";
-
-            var project = projectPrimaryKey.EntityObject;
-            var fundingSourceExpenditures = project.GetExpendituresDictionary();
-            var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(fundingSourceExpenditures);
-            var googleChartTitle = $"Investment by {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} for: {project.ProjectName}";
-            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize)
-            {
-                Slices = GetSlicesForGoogleChart(fundingSourceExpenditures)
-            };
-
-            var chartPopupUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ProjectFactSheetGoogleChartPopup(projectPrimaryKey));
-            var googleChart = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, GoogleChartType.PieChart, googleChartDataTable, chartPopupUrl, string.Empty, null);
-            return googleChart;
-        }
-
-        public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(Dictionary<string, decimal> fundingSourceExpenditures)
+        public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditures)
         {
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
             var chartRowCs = fundingSourceExpenditures.Select(x =>
             {
-                var organizationTypeRowV = new GoogleChartRowV(x.Key);
-                var formattedValue = GoogleChartJson.GetFormattedValue((double)x.Value, MeasurementUnitType.Dollars);
+                var organizationTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = GoogleChartJson.GetFormattedValue(x.Value, MeasurementUnitType.Dollars);
                 var expenditureRowV = new GoogleChartRowV(x.Value, formattedValue);
                 return new GoogleChartRowC(new List<GoogleChartRowV> { organizationTypeRowV, expenditureRowV });
             });

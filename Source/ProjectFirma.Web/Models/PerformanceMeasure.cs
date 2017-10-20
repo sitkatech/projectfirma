@@ -24,7 +24,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
@@ -135,14 +134,6 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString => PerformanceMeasureDisplayName;
 
-        public static List<GoogleChartJson> GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure performanceMeasure, List<int> projectIDs)
-        {
-            Check.Require(performanceMeasure.PerformanceMeasureSubcategories != null && performanceMeasure.PerformanceMeasureSubcategories.Any(), $"Every {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} must have at least one Subcategory!");            
-            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            var reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues(projectIDs).Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable()).ToList();
-            return PerformanceMeasureSubcategory.MakeGoogleChartJsonsForSubcategories(performanceMeasure, reportedValues, yearRange);
-        }
-
         public bool HasRealSubcategories
         {
             get
@@ -161,12 +152,26 @@ namespace ProjectFirma.Web.Models
             return HasRealSubcategories ? PerformanceMeasureSubcategories.Count : 0;
         }
 
-        public Dictionary<string, GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
+        public List<GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
         {
-            var googleChartJsons = GetSubcategoriesAsGoogleChartJsons(this, projectIDs);
-            return googleChartJsons.ToDictionary(x => x.ChartName);
+            var reportedValues = GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this, projectIDs);
+            var googleChartJsons = PerformanceMeasureSubcategory.MakeGoogleChartJsons(this, reportedValues);
+            return googleChartJsons;
         }
 
+        public List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(PerformanceMeasure performanceMeasure, List<int> projectIDs)
+        {
+            var performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
+            var performanceMeasureActualsFiltered =
+                projectIDs?.Any() == true ? performanceMeasureActuals.Where(pmav => projectIDs.Contains(pmav.ProjectID)).ToList() : performanceMeasureActuals;
+
+            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, pirv.PerformanceMeasureSubcategoriesAsString, pirv.CalendarYear }).ToList();
+
+            return groupByProjectAndSubcategory.OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).Select(reportedValuesGroup => new ProjectPerformanceMeasureReportingPeriodValue(reportedValuesGroup.Key.Project,
+                    reportedValuesGroup.First().PerformanceMeasureActualSubcategoryOptions.OrderBy(y => y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).Select((y, index) =>
+                        new PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption, reportedValuesGroup.Sum(x => x.ReportedValue ?? 0))).ToList()))
+                .OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.Project.ProjectName).ToList();
+        }
 
         public void DeletePerformanceMeasureAndAllRelatedData()
         {

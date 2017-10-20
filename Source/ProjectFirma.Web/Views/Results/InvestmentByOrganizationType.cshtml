@@ -136,11 +136,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     <td>
                         <div style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height + 30)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px overflow:hidden; margin-top: 10px">
                             <div style="font-weight: bold; max-width: 280px;">Investment by Funding @FieldDefinition.OrganizationType.GetFieldDefinitionLabel() for: @ViewDataTyped.ReportingYearRangeTitle</div>
-                            <div class="firmaChartControls">
-                                <a class="expandBox" style="font-size: small" href="@ViewDataTyped.GoogleChartJson.ChartPopupUrl">
-                                    <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
-                                </a>
-                            </div>
                             <div id="InvestmentByOrganizationType@(ViewDataTyped.SelectedCalendarYear)PieChart"
                                  class="ReportedValueChart"
                                  style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px"></div>

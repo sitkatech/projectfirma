@@ -18,55 +18,81 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
-    public enum ChartViewMode
-    {
-        Small,
-        Large,
-        InfoSheet,
-        ManagementMode,
-        NoPopup
-
-    }
-
     public class PerformanceMeasureChartViewData : FirmaUserControlViewData
     {
-        private const int DefaultWidth = 500;
         private const int DefaultHeight = 350;
         public readonly Models.PerformanceMeasure PerformanceMeasure;
-        public readonly int ChartWidth;
-        public readonly int ChartHeight;
         public readonly bool HyperlinkPerformanceMeasureName;
-        public readonly ChartViewMode ChartViewMode;
-        public readonly Dictionary<string, GoogleChartJson> GoogleChartJsonDictionary;
-
+        public readonly List<GoogleChartJson> GoogleChartJsons;
         public readonly bool HasChartData;
+        public readonly bool CanManagePerformanceMeasures;
+        public readonly bool ShowLastUpdatedDate;
+        public readonly string ChartTitle;
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, int width, int height, bool hyperlinkPerformanceMeasureName, ChartViewMode chartViewMode, List<int> projectIDs)
+        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
+
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure,
+            int height,
+            List<int> projectIDs,
+            Person currentPerson,
+            bool showLastUpdatedDate,
+            bool fromPerformanceMeasureDetailPage)
         {
-            ChartWidth = width;
-            ChartHeight = height;
-
             PerformanceMeasure = performanceMeasure;
-            HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
-            ChartViewMode = chartViewMode;
+            HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsonDictionary = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
-            foreach (var googleChartJson in GoogleChartJsonDictionary.Values)
-            {
-                googleChartJson.GoogleChartConfiguration.SetSize(ChartHeight, ChartWidth);
-            }
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
 
-            HasChartData = GoogleChartJsonDictionary.Values.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
+            HasChartData = GoogleChartJsons.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
+
+            var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
+
+            ShowLastUpdatedDate = showLastUpdatedDate;
+            ChartTitle = performanceMeasure.PerformanceMeasureDisplayName;
+            ViewGoogleChartViewData = new ViewGoogleChartViewData(GoogleChartJsons,
+                ChartTitle,
+                height,
+                null,
+                performanceMeasure.GetJavascriptSafeChartUniqueName(),
+                CanManagePerformanceMeasures,
+                SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadPerformanceMeasureChartData()),
+                true,
+                true,
+                performanceMeasure,
+                HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, bool hyperlinkPerformanceMeasureName, ChartViewMode chartViewMode, List<int> projectIDs)
-            : this(performanceMeasure, DefaultWidth, DefaultHeight, hyperlinkPerformanceMeasureName, chartViewMode, projectIDs)
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, List<int> projectIDs, Person currentPerson,
+            bool showLastUpdatedDate) : this(
+            performanceMeasure,
+            DefaultHeight,
+            projectIDs,
+            currentPerson,
+            showLastUpdatedDate,
+            false)
+        {
+        }
+
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, List<int> projectIDs, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption) : this(
+            performanceMeasure,
+            DefaultHeight,
+            projectIDs,
+            currentPerson,
+            showLastUpdatedDate,
+            showConfigureOption)
         {
         }
     }

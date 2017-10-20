@@ -36,7 +36,8 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues;
+        public readonly List<IGrouping<Models.PerformanceMeasure, ProjectPerformanceMeasureReportingPeriodValue>> PerformanceMeasureReportedValues;
+        public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly string ChartID;
         public readonly Dictionary<string, decimal> FundingSourceExpenditures;
         public readonly Models.ProjectImage KeyPhoto;
@@ -45,6 +46,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<string> ChartColorRange;
         public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
+        public readonly int CalculatedChartHeight;
 
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneName;
@@ -54,9 +56,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyTierOneDisplayName;
         public readonly Person PrimaryContactPerson;
 
-        public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, List<string> chartColorRange) : base(currentPerson, project)
+        public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson getProjectFactSheetGoogleChart,
+            List<GooglePieChartSlice> getExpenditureGooglePieChartSlices) : base(currentPerson, project)
         {
-            ChartColorRange = chartColorRange;
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
 
@@ -74,10 +76,15 @@ namespace ProjectFirma.Web.Views.Project
                 x => x.CaptionOnFullView,
                 "Photo");
 
-            PerformanceMeasureReportedValues =
-                Project.GetReportedPerformanceMeasures()
-                    .GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-                    .ToList();
+            PerformanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
+                .Distinct(new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
+                .SelectMany(x =>
+                    x.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(x, new List<int> {project.ProjectID}))
+                .OrderByDescending(pma => pma.CalendarYear)
+                .ThenBy(pma => pma.PerformanceMeasureReportingPeriod.PerformanceMeasure.PerformanceMeasureID)
+                .GroupBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasure,
+                    new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
+                .OrderBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
@@ -91,11 +98,11 @@ namespace ProjectFirma.Web.Views.Project
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
             Classifications = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
 
-            GoogleChartJson = ProjectController.GetProjectFactSheetGoogleChart(project.PrimaryKey);
+            GoogleChartJson = getProjectFactSheetGoogleChart;
 
+            ExpenditureGooglePieChartSlices = getExpenditureGooglePieChartSlices;
             //Dynamically resize chart based on how much space the legend requires
-            var chartHeight = 435 - (FundingSourceExpenditures.Count*19);
-            GoogleChartJson.GoogleChartConfiguration.SetSize(chartHeight, 450);
+            CalculatedChartHeight = 435 - ExpenditureGooglePieChartSlices.Count * 19;
 
             if (project.TaxonomyTierOne == null)
             {

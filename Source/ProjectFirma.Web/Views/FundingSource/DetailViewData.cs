@@ -25,6 +25,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Results;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -42,11 +43,11 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly ProjectCalendarYearExpendituresGridSpec ProjectCalendarYearExpendituresGridSpec;
         public readonly string ProjectCalendarYearExpendituresGridName;
         public readonly string ProjectCalendarYearExpendituresGridDataUrl;
-        public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
+        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
-        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
         {
-            CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
+            ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
             PageTitle = fundingSource.DisplayName;
             EntityName = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
