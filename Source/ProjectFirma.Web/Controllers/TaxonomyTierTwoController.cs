@@ -90,7 +90,10 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
 
-            var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, null)).ToList();
+            var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x,
+                    new List<int>(),
+                    CurrentPerson,
+                    false)).ToList();
 
             var viewData = new DetailViewData(CurrentPerson, taxonomyTierTwo, projectLocationsMapInitJson, projectLocationsMapViewData, performanceMeasureChartViewDatas);
             return RazorView<Summary, DetailViewData>(viewData);

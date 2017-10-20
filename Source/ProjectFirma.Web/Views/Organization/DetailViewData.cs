@@ -23,10 +23,10 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
-        public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
+        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
         public readonly string ManageFundingSourcesUrl;
         public readonly string IndexUrl;
@@ -54,13 +54,11 @@ namespace ProjectFirma.Web.Views.Organization
 
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
-            CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData,
             MapInitJson mapInitJson,
             bool hasSpatialData,
-            List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
+            List<Models.PerformanceMeasure> performanceMeasures, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
         {
             Organization = organization;
-            CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             PageTitle = organization.DisplayName;
             EntityName = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
@@ -89,8 +87,9 @@ namespace ProjectFirma.Web.Views.Organization
 
             MapInitJson = mapInitJson;
             HasSpatialData = hasSpatialData;
+            ViewGoogleChartViewData = viewGoogleChartViewData;
 
-            PerformanceMeasureChartViewDatas = performanceMeasures.Select(organization.GetPerformanceMeasureChartViewData).ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => organization.GetPerformanceMeasureChartViewData(x, currentPerson)).ToList();
 
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&

@@ -116,10 +116,10 @@ namespace ProjectFirma.Web.Models
             DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
         });
 
-        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
+        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
+            return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
         }
 
         public bool CanBeAnApprovingOrganization()

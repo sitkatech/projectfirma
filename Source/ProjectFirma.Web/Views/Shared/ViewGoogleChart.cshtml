@@ -1,0 +1,171 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="GoogleChartPopup.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Mvc
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Converters
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Shared.ViewGoogleChart
+
+    <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
+        @foreach (var googleChartJsonAgain in ViewDataTyped.GoogleChartJsons)
+        {
+            @Html.Hidden("GoogleChartJsons[]", JObject.FromObject(googleChartJsonAgain).ToString(Formatting.None))
+        }
+        @Html.Hidden("ExcelFilename", ViewDataTyped.ChartTitle)
+        @Html.Hidden("MainColumnLabel", ViewDataTyped.MainColumnLabel)
+    </form>
+    <div class="chartHeader" style="overflow-y: hidden; vertical-align: top; min-height: 30px;">
+        @* ReSharper disable once UnknownCssClass *@
+        @if (ViewDataTyped.ShowChartTitle)
+        {
+            <div class="chartTitle">
+                @if (ViewDataTyped.PerformanceMeasure != null)
+                {
+                    if (ViewDataTyped.HyperlinkPerformanceMeasureName)
+                    {
+                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.ChartTitle.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
+                        <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
+                    }
+                    else
+                    {
+                        <b>@ViewDataTyped.PerformanceMeasure.ChartTitle</b>
+                    }
+                }
+                else
+                {
+                    <b>@ViewDataTyped.ChartTitle</b>
+                }
+            </div>
+        }
+        @if (ViewDataTyped.GoogleChartJsons.Count == 1)
+        {
+            if (!ViewDataTyped.ChartTitle.Equals(ViewDataTyped.GoogleChartJsons.Single().LegendTitle, StringComparison.InvariantCultureIgnoreCase))
+            {
+                <div>
+                    By: @ViewDataTyped.GoogleChartJsons.Single().LegendTitle
+                </div>
+            }
+        }
+        else
+        {
+            <div class="subcategorySelector" id="subcategorySelectorFor@(ViewDataTyped.ChartUniqueName)">
+                By:
+                @if (ViewDataTyped.SortChartsByLegendTitle)
+                {
+                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-xs btn-default btn"}};
+                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
+                }
+                else
+                {
+                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.ToSelectList(x => x.ChartContainerID, x => x.LegendTitle))
+                }
+            </div>
+        }
+    </div>
+<div class="chartBody" style="@("height: " + ViewDataTyped.ChartHeight + "px;")">
+    @if (ViewDataTyped.HasData)
+    {
+        foreach (var googleChartJson in ViewDataTyped.GoogleChartJsons.OrderByDescending(x => x.LegendTitle))
+        {
+            <form id="@(googleChartJson.ChartContainerID)_enlargeChartDataForm" action="@ViewDataTyped.ChartPopupUrl" method="post">
+                @Html.Hidden("GoogleChartJson", JObject.FromObject(googleChartJson).ToString(Formatting.None))
+            </form>
+
+            <div id="@(googleChartJson.ChartContainerID)_container" class="chartGroup@(ViewDataTyped.ChartUniqueName)">
+                <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
+                <div class="firmaChartControls noPrint">
+                    <div class="dropdown">
+                        <button id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                            Options
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
+                            <li>
+                                <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" href="#">
+                                    <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="document.getElementById('@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm').submit();">
+                                    <span class="glyphicon glyphicon-download" style="margin-right: 5px;"></span>Download Chart Data
+                                </a>
+                            </li>
+                            @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
+                            {
+                                <li>
+                                    <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl')" style="margin-right: 10px">
+                                        <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
+                    <!-- Actual chart goes here-->
+                </div>
+
+                @if (ViewDataTyped.LastUpdatedDate.HasValue)
+                {
+                    <small style="font-weight: normal;" class="pull-right">
+                        @Html.LabelWithSugarFor(FieldDefinition.ChartLastUpdatedDate, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, "Last Updated"):
+                        @ViewDataTyped.LastUpdatedDate.ToStringDate()
+                    </small>
+                }
+
+            </div>
+        }
+    }
+    else
+    {
+        <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data for this Indicator</p>
+    }
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+
+        var chartName = "@ViewDataTyped.ChartUniqueName";
+        var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+        var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
+        if (itemCount > 1)
+        {
+            templateDropdown.change(function()
+            {
+                jQuery(".chartGroup" + chartName).css("display", "none");
+                jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
+                GoogleCharts.drawCharts(googleCharts);
+            });
+            templateDropdown.trigger("change");
+        }
+        else
+        {
+            jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
+        }
+        GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
+        jQuery(window).resize(function() { GoogleCharts.drawCharts(googleCharts); });
+    });
+</script>
