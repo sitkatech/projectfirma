@@ -145,7 +145,14 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChartJson,
                 FirmaHelpers.DefaultColorRange);
 
-            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData);
+            var performanceMeasures = watershed.ProjectWatersheds.Select(x => x.Project).Distinct().ToList()
+                .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct()
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
+
+            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData, performanceMeasures);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Controllers;
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
-        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData, List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
         {
             Watershed = watershed;
             MapInitJson = mapInitJson;
@@ -63,7 +64,7 @@ namespace ProjectFirma.Web.Views.Watershed
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
 
             // TODO: Crawl up the call chain for Organization.DetailViewData and port the implementation from there to here.
-            PerformanceMeasureChartViewDatas = new List<PerformanceMeasureChartViewData>();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(watershed.GetPerformanceMeasureChartViewData).ToList();
         }
 
         

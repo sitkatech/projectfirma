@@ -28,6 +28,7 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
 {
@@ -102,6 +103,12 @@ namespace ProjectFirma.Web.Models
             fancyTreeNode.Children = projectChildren.ToList();
 
             return fancyTreeNode;
+        }
+
+        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
+        {
+            var projectIDs = ProjectWatersheds.Select(x => x.ProjectID).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
         }
     }
 }
