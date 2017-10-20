@@ -32,8 +32,9 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
         public readonly List<ProjectSimple> AllProjects;
         public readonly int? ProjectID;
+        public readonly bool UsePanelLayout;
 
-        private EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, int projectID)
+        private EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
         {
             ProjectID = projectID;
             AllPerformanceMeasures = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
@@ -42,15 +43,16 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
             AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             AllProjects = allProjects;
+            UsePanelLayout = usePanelLayout;
         }
 
         public EditPerformanceMeasureExpectedViewData(Models.Project project, List<Models.PerformanceMeasure> allPerformanceMeasures)
-            : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID)
+            : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true)
         {
         }
 
         public EditPerformanceMeasureExpectedViewData(Models.ProposedProject proposedProject, List<Models.PerformanceMeasure> allPerformanceMeasures)
-            : this(new List<ProjectSimple> { new ProjectSimple(proposedProject) }, allPerformanceMeasures, proposedProject.ProposedProjectID)
+            : this(new List<ProjectSimple> { new ProjectSimple(proposedProject) }, allPerformanceMeasures, proposedProject.ProposedProjectID, false)
         {
         }
     }

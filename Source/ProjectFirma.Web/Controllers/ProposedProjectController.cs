@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
