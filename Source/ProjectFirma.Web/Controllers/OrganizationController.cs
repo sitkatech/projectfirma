@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            if (!isCurrentUserAnonymous)
+            if (!isCurrentUserAnonymous && MultiTenantHelpers.IncludeProposedProjectsOnMap())
             {
                 var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
                 if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
