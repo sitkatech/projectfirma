@@ -156,7 +156,14 @@ namespace ProjectFirma.Web.Controllers
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 
-            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, viewGoogleChartViewData);
+            var performanceMeasures = watershed.ProjectWatersheds.Select(x => x.Project).Distinct().ToList()
+                .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct()
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
+
+            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, viewGoogleChartViewData, performanceMeasures);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
