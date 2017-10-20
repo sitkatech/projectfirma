@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
@@ -56,8 +57,6 @@ Source code is available upon request via <support@sitkatech.com>.
         overflow: scroll;
     }
 </style>
-
-
 
 <div class="validationError">
     @Html.ValidationSummary()
@@ -113,7 +112,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="panel panelFirma" style="margin: 10px 10px 0;">
                     <div class="panel-heading panelTitle">
                         <span class="panel-heading-left">
-                            <span class="helpicon glyphicon glyphicon-question-sign white" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureGroup)}}"></span>
+                            @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
                         </span>
                         <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
                             <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
