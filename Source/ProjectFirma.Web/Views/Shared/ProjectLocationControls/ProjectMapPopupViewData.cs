@@ -19,8 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
 
@@ -28,6 +26,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectMapPopupViewData : FirmaUserControlViewData
     {
+        public readonly string DetailLinkDescriptor;
+        public readonly Models.FieldDefinition DetailLinkFieldDefinition;
+
         public string TaxonomyTierThreeDisplayName { get; private set; }
         public string TaxonomyTierTwoDisplayName { get; private set; }
         public string TaxonomyTierOneDisplayName { get; private set; }
@@ -54,6 +55,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectClassifications =
                 string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName));
             DetailUrl = project.GetDetailUrl();
+            DetailLinkDescriptor = "For project expenditures & results, see";
+            DetailLinkFieldDefinition = Models.FieldDefinition.Project;
 
             InitializeDisplayNames();
         }
@@ -78,6 +81,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectClassifications = string.Join(", ",
                 proposedProject.ProposedProjectClassifications.Select(x => x.Classification.DisplayName));
             DetailUrl = proposedProject.GetDetailUrl();
+            DetailLinkDescriptor = "For description and expected results, see";
+            DetailLinkFieldDefinition = Models.FieldDefinition.ProposedProject;
 
             InitializeDisplayNames();
         }

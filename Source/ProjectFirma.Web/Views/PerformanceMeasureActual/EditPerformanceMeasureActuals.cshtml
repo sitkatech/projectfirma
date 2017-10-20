@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
@@ -40,6 +41,22 @@ Source code is available upon request via <support@sitkatech.com>.
         });
     // ]]>
 </script>
+
+<style>
+    .panel-heading a.collapsePanel:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+    }
+
+    .panel-heading a.collapsePanel.collapsed:after {
+        content: "\e080";
+    }
+
+    .modal {
+        overflow: scroll;
+    }
+</style>
 
 <div class="validationError">
     @Html.ValidationSummary()
@@ -89,64 +106,79 @@ Source code is available upon request via <support@sitkatech.com>.
             </span>
         </div>
     </div>            
-    <table class="table" ng-show="AngularModel.PerformanceMeasureActuals.length > 0" ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
-        <thead>
-        <tr>
-            <th colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}">
-                <span class="helpicon glyphicon glyphicon-question-sign" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureGroup)}}" ></span>
-                <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)" style="font-weight: bold"></span>
-            </th>
-        </tr>
-        <tr>
-            <th></th>
-            <th>Year</th>
-            <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOption in performanceMeasureGroup.PerformanceMeasureActualSubcategoryOptions | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureActualSubcategoryOption)}}</th>
-            <th>Value</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="performanceMeasureActual in getGroupPerformanceMeasures(performanceMeasureGroup)">
-            <td style="width: 50px">
-                <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureActual)" style="cursor: pointer"></span>
-            </td>
-            <td style="width: 100px">
-                <select class="form-control"
-                        ng-model="performanceMeasureActual.CalendarYear">
-                    <option ng-repeat="calendarYear in AngularViewData.CalendarYears"
-                            value="{{calendarYear}}"
-                            ng-selected="calendarYear == performanceMeasureActual.CalendarYear">
-                        {{calendarYear}}
-                    </option>
-                </select>
-            </td>
-            <td ng-show="getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOption in performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions | orderBy:[getSubcategoryName]">
-                <select class="form-control"
-                        ng-model="performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID">
-                    <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)"
-                            value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}"
-                            ng-selected="performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">
-                        {{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}
-                    </option>
-                </select>
-            </td>
-            <td style="width: 100px">
-                <input class="form-control" style="text-align: right"
-                       ng-model="performanceMeasureActual.ActualValue" />
-            </td>
-            <td style="vertical-align: middle; padding-left: 0">
-                {{getMeasurementUnitTypeDisplayName(performanceMeasureActual)}}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}" class="text-right">
-                <button class="btn btn-xs btn-firma" type="button" ng-click="addPerformanceMeasureToGroup(performanceMeasureGroup)">
-                    <span class="glyphicon glyphicon-plus"></span> Add Reported Value
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div style="max-height: 400px; overflow-y: scroll">
+        <div class="panel-group" id="accordion">
+            <div ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
+                <div class="panel panelFirma" style="margin: 10px 10px 0;">
+                    <div class="panel-heading panelTitle">
+                        <span class="panel-heading-left">
+                            @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        </span>
+                        <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
+                            <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
+                        </a>
+                    </div>
+                    <div id="collapse{{$index}}" class="panel-collapse collapse">
+                        <div class="panel-body" style="padding: 0 30px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Year</th>
+                                        <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOption in performanceMeasureGroup.PerformanceMeasureActualSubcategoryOptions | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureActualSubcategoryOption)}}</th>
+                                        <th>Value</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="performanceMeasureActual in getGroupPerformanceMeasures(performanceMeasureGroup)">
+                                        <td style="width: 50px">
+                                            <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureActual)" style="cursor: pointer"></span>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <select class="form-control"
+                                                    ng-model="performanceMeasureActual.CalendarYear">
+                                                <option ng-repeat="calendarYear in AngularViewData.CalendarYears"
+                                                        value="{{calendarYear}}"
+                                                        ng-selected="calendarYear == performanceMeasureActual.CalendarYear">
+                                                    {{calendarYear}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td ng-show="getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOption in performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions | orderBy:[getSubcategoryName]">
+                                            <select class="form-control"
+                                                    ng-model="performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID">
+                                                <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)"
+                                                        value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}"
+                                                        ng-selected="performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">
+                                                    {{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <input class="form-control" style="text-align: right"
+                                                   ng-model="performanceMeasureActual.ActualValue" />
+                                        </td>
+                                        <td style="vertical-align: middle; padding-left: 0">
+                                            {{getMeasurementUnitTypeDisplayName(performanceMeasureActual)}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}" class="text-right">
+                                            <button class="btn btn-xs btn-firma" type="button" ng-click="addPerformanceMeasureToGroup(performanceMeasureGroup)">
+                                                <span class="glyphicon glyphicon-plus"></span> Add Reported Value
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @using (Html.BeginForm())
     {        

@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
-using GeoJSON.Net.Feature;
 
 namespace ProjectFirma.Web.Models
 {
@@ -62,10 +61,7 @@ namespace ProjectFirma.Web.Models
 
         GeoJSON.Net.Feature.FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties);
 
-        bool HasProjectLocationPoint { get; }
-        Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties);
-        bool IsVisibleToThisPerson(Person currentPerson);
-        bool IsVisibleToEveryone();
+        
     }
 
 }

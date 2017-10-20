@@ -93,14 +93,13 @@ namespace ProjectFirma.Web.Models
         {
             var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false) {MapUrl = null};
 
-
             var projectChildren = ProjectWatersheds.Select(x => x.Project).OrderBy(x => x.DisplayName)
                 .Select(x => x.ToFancyTreeNode()).ToList();
             var proposedProjectChildren = ProposedProjectWatersheds.Select(x => x.ProposedProject)
                 .OrderBy(x => x.DisplayName)
                 .Select(x => x.ToFancyTreeNode());
             projectChildren.AddRange(proposedProjectChildren);
-            fancyTreeNode.Children = projectChildren.OrderBy(x => x.Title).ToList();
+            fancyTreeNode.Children = projectChildren.ToList();
 
             return fancyTreeNode;
         }

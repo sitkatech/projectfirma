@@ -19,12 +19,37 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit/Delete {0} Image", FieldDefinitionEnum.Project)]
-    public class ProjectImageEditOrDeleteFeature : FirmaAdminFeature
+    public class ProjectImageEditOrDeleteFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectImage>
     {
+        private readonly FirmaFeatureWithContextImpl<ProjectImage> _firmaFeatureWithContextImpl;
+
+        public ProjectImageEditOrDeleteFeature()
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        {
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectImage>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
+        }
+
+        public void DemandPermission(Person person, ProjectImage contextModelObject)
+        {
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+        }
+
+        public PermissionCheckResult HasPermission(Person person, ProjectImage contextModelObject)
+        {
+            var forbidAdmin = !HasPermissionByPerson(person) ||
+                              person.Role.RoleID == Role.ProjectSteward.RoleID &&
+                              !person.CanApproveProjectByOrganizationRelationship(contextModelObject.Project);
+            return forbidAdmin
+                ? new PermissionCheckResult(
+                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.Project.DisplayName}")
+                : new PermissionCheckResult();
+        }
     }
 }

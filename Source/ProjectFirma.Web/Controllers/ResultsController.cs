@@ -262,8 +262,6 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
-
-
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request
@@ -283,7 +281,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues();
+                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(IsCurrentUserAnonymous());
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -312,14 +310,11 @@ namespace ProjectFirma.Web.Controllers
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), IsCurrentUserAnonymous());
 
-
-            var projectLocationFilterTypesAndValues =
-                CreateProjectLocationFilterTypesAndValuesDictionary(MultiTenantHelpers.IncludeProposedProjectsOnMap());
-            var projectLocationsUrl =
-                SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
+            
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(IsCurrentUserAnonymous());
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl =
                 SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
@@ -333,8 +328,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>
-            CreateProjectLocationFilterTypesAndValuesDictionary(bool includeProposedProjectsOnMap)
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool isCurrentUserAnonymous)
         {
             var projectLocationFilterTypesAndValues =
                 new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
@@ -369,11 +363,9 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification,
                 classificationsAsSelectListItems);
 
-            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap()
-                .ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture),
-                    x => x.ProjectStageDisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage,
-                projectStagesAsSelectListItems);
+
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(isCurrentUserAnonymous).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
         }
