@@ -36,6 +36,25 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 }
 
+<script type="text/javascript">
+
+    jQuery(function() {
+        var runOnceResults = false,
+        jQuery("#resultsTab").on("shown.bs.tab", function() {
+            if (!runOnceResults) {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            }
+            runOnceResults = true;
+        });
+    });
+</script>
+
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
 </div>
@@ -63,6 +82,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <h2>Map</h2>
                             </div>
                             <div class="panel-body">
+                                <p>
+                                    This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Watershed.GetFieldDefinitionLabel().
+                                </p>
                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
@@ -105,7 +127,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane active" id="performanceMeasures">
+            <div role="tabpanel" class="tab-pane" id="performanceMeasures">
                 
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
