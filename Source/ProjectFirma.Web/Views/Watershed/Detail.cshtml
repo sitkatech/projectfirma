@@ -23,9 +23,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
+@using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Watershed.Detail
 
 @section JavascriptAndStylesContent
@@ -46,7 +48,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <a href="#watershedOverview" aria-controls="watershedOverview" role="tab" data-toggle="tab">Overview</a>
             </li>
             <li>
-                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Results</a>
+                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Performance Measures</a>
             </li>
         </ul>
     </div>
@@ -105,6 +107,38 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane active" id="performanceMeasures">
+                
+                    @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+                    {
+                        foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                        {
+                            <div class="row">
+                                @foreach (var performanceMeasureChartViewData in batch)
+                                {
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                        <div class="panel panelFirma">
+                                            <div class="panel-body">
+                                                <div style="width: 500px; margin: auto;">
+                                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="text-center">
+                                    There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().
+                                </p>
+                            </div>
+                        </div>
+                    }
+                
             </div>
         </div>
     </div>

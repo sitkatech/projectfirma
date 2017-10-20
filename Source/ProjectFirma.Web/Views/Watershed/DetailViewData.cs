@@ -18,12 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
@@ -37,6 +40,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly string BasicProjectInfoGridDataUrl;
         public readonly MapInitJson MapInitJson;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
+        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
         public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
         {
@@ -57,7 +61,11 @@ namespace ProjectFirma.Web.Views.Watershed
             };
           
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
+
+            // TODO: Crawl up the call chain for Organization.DetailViewData and port the implementation from there to here.
+            PerformanceMeasureChartViewDatas = new List<PerformanceMeasureChartViewData>();
         }
 
+        
     }
 }
