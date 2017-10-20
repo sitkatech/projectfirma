@@ -27,7 +27,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
-using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
@@ -40,14 +40,14 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
         public readonly MapInitJson MapInitJson;
-        public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
+        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
-        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData, List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
         {
             Watershed = watershed;
             MapInitJson = mapInitJson;
-            CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
+            ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = watershed.WatershedName;
             EntityName = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}";
             UserHasWatershedManagePermissions = new WatershedManageFeature().HasPermissionByPerson(currentPerson);

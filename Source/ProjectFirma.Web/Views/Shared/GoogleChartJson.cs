@@ -19,10 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ProjectFirma.Web.Models;
 using Newtonsoft.Json;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -30,25 +31,23 @@ namespace ProjectFirma.Web.Views.Shared
     {
         [JsonProperty(PropertyName = "legendTitle")]
         public string LegendTitle { get; set; }
-        public string ChartName { get; set; }
         [JsonProperty(PropertyName = "containerId")]
-        private string _containerID { get; set; } //Must be the same as ChartName
+        // ReSharper disable once InconsistentNaming
+        public string ChartContainerID { get; set; }
         [JsonProperty(PropertyName = "options")]
         public GoogleChartConfiguration GoogleChartConfiguration { get; set; }
         [JsonProperty(PropertyName = "chartType")]
         public string ChartType { get; set; }
         [JsonProperty(PropertyName = "dataTable")]
         public GoogleChartDataTable GoogleChartDataTable { get; set; }
-        [JsonProperty(PropertyName = "groupId")]
-        public string ChartGroupID;
 
-        public string ChartPopupUrl { get; set; }
         public string SaveConfigurationUrl { get; set; }
+
+        public List<string> ChartColumns { get; set; }
 
         public bool HasData()
         {
-            return GoogleChartDataTable != null && GoogleChartDataTable.GoogleChartColumns != null && GoogleChartDataTable.GoogleChartColumns.Count > 1 && GoogleChartDataTable.GoogleChartRowCs != null &&
-                   GoogleChartDataTable.GoogleChartRowCs.Count > 0;
+            return GoogleChartDataTable?.GoogleChartColumns != null && GoogleChartDataTable.GoogleChartColumns.Count > 1 && GoogleChartDataTable.GoogleChartRowCs != null && GoogleChartDataTable.GoogleChartRowCs.Any();
         }
 
         public GoogleChartJson()
@@ -57,58 +56,21 @@ namespace ProjectFirma.Web.Views.Shared
 
         //Used where chartConfiguration comes as a GoogleChartConfiguration object
         public GoogleChartJson(string legendTitle,
-            string chartName,
+            string chartContainerID,
             GoogleChartConfiguration googleChartConfiguration,
             GoogleChartType googleChartType,
             GoogleChartDataTable googleChartDataTable,
-            string chartPopupUrl,
-            string chartGroupID,
-            string optionalSaveConfigurationUrl)
+            string optionalSaveConfigurationUrl,
+            List<string> chartColumns)
         {
             LegendTitle = legendTitle;
-            ChartName = chartName;
-            _containerID = chartName;
+            ChartContainerID = chartContainerID;
             GoogleChartConfiguration = googleChartConfiguration;
-            GoogleChartConfiguration.LoadDataAndFormat(googleChartType, googleChartDataTable);
-            switch (googleChartType)
-            {
-                case GoogleChartType.ColumnChart:
-                    ChartType = googleChartDataTable.GoogleChartColumns.Any(x => x.ColumnDisplayType != GoogleChartType.ColumnChart) ? "ComboChart" : "ColumnChart";
-                    break;
-                case GoogleChartType.LineChart:
-                    ChartType = googleChartDataTable.GoogleChartColumns.Any(x => x.ColumnDisplayType != GoogleChartType.LineChart) ? "ComboChart" : "LineChart";
-                    break;
-                case GoogleChartType.AreaChart:
-                    ChartType = "AreaChart";
-                    break;
-                case GoogleChartType.ComboChart:
-                    ChartType = "ComboChart";
-                    break;
-                case GoogleChartType.PieChart:
-                    ChartType = "PieChart";
-                    break;
-                case GoogleChartType.ImageChart:
-                    ChartType = "ImageChart";
-                    break;
-                case GoogleChartType.BarChart:
-                    ChartType = "BarChart";
-                    break;
-                case GoogleChartType.Histogram:
-                    ChartType = "Histogram";
-                    break;
-                case GoogleChartType.BubbleChart:
-                    ChartType = "BubbleChart";
-                    break;
-                //case GoogleChartType.ScatterChart:
-                //    ChartType = "ScatterChart";
-                //    break;
-                default:
-                    throw new ArgumentOutOfRangeException("googleChartType", googleChartType, null);
-            }
+            ChartColumns = chartColumns;
+
+            ChartType = googleChartType.GoogleChartTypeDisplayName;
             GoogleChartDataTable = googleChartDataTable;
-            ChartPopupUrl = chartPopupUrl;
             SaveConfigurationUrl = optionalSaveConfigurationUrl;
-            ChartGroupID = chartGroupID;
         }
 
         public static string GetFormattedValue(double? value, MeasurementUnitType measurementUnitType)
@@ -121,14 +83,14 @@ namespace ProjectFirma.Web.Views.Shared
             var actualValue = value.Value;
             if (measurementUnitType == MeasurementUnitType.Percent)
             {
-                return string.Format("{0}%", actualValue.ToString("F2"));
+                return $"{actualValue:F2}%";
             }
             if (measurementUnitType == MeasurementUnitType.Dollars)
             {
                 return actualValue.ToString("C0");
             }
-            var unitLabel = measurementUnitType.LegendDisplayName == null ? String.Empty : String.Format(" {0}", measurementUnitType.LegendDisplayName);
-            return string.Format("{0}{1}", actualValue.ToString(CultureInfo.InvariantCulture), unitLabel);
+            var unitLabel = measurementUnitType.LegendDisplayName == null ? String.Empty : $" {measurementUnitType.LegendDisplayName}";
+            return $"{actualValue.ToString(CultureInfo.InvariantCulture)}{unitLabel}";
         }
     }
 }

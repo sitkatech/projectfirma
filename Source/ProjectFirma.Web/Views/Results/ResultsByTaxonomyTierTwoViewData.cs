@@ -37,19 +37,14 @@ namespace ProjectFirma.Web.Views.Results
         public ResultsByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             List<Models.TaxonomyTierThree> taxonomyTierThrees,
-            Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage)
+            Models.TaxonomyTierTwo selectedTaxonomyTierTwo, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson, firmaPage)
         {
             TaxonomyTierThrees = taxonomyTierThrees;
             PageTitle = string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
             SelectedTaxonomyTierTwo = selectedTaxonomyTierTwo;
+            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
             ResultsByTaxonomyTierTwoUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyTierTwo(UrlTemplate.Parameter1Int));
 
-            var projectIDs = selectedTaxonomyTierTwo.Projects.Select(y => y.ProjectID).ToList();
-            PerformanceMeasureChartViewDatas =
-                selectedTaxonomyTierTwo.GetPerformanceMeasures()
-                    .ToList()
-                    .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
-                    .ToList();
         }
     }
 }

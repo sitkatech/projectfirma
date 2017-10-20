@@ -90,6 +90,11 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
 
+        public List<ProposedProjectOrganization> GetAllProposedProjectOrganizations()
+        {
+            return ProposedProjectOrganizations.OrderBy(x => x.ProposedProject.DisplayName).ToList();
+        }
+
         public List<Project> GetAllProjectsIncludingLeadImplementing()
         {
             return ProjectOrganizations.Select(x => x.Project).Distinct().ToList();
@@ -111,10 +116,10 @@ namespace ProjectFirma.Web.Models
             DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
         });
 
-        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure)
+        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, true, ChartViewMode.Large, projectIDs);
+            return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
         }
 
         public bool CanBeAnApprovingOrganization()

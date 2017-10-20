@@ -84,5 +84,10 @@ namespace ProjectFirma.Web.Models
         {
             return DeleteUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
         }
+
+        public static string GetJavascriptSafeChartUniqueName(this PerformanceMeasure performanceMeasure)
+        {
+            return $"PerformanceMeasure{performanceMeasure.PerformanceMeasureID}";
+        }
     }
 }

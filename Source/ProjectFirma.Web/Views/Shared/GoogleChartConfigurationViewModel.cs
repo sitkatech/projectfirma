@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -39,7 +40,8 @@ namespace ProjectFirma.Web.Views.Shared
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
             var perfomanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
-            perfomanceMeasureSubcategory.ChartType = ChartType;
+            var googleChartType = ConverChartTypeStringToGoogleChartType();
+            perfomanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : (int?)null;
             perfomanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
         }
 
@@ -53,12 +55,20 @@ namespace ProjectFirma.Web.Views.Shared
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            
+
             //Ensure our new values can be parsed without exceptions. No need to store the values.
             JsonConvert.DeserializeObject<GoogleChartConfiguration>(ChartConfigurationJson);
-            Enum.Parse(typeof(GoogleChartType), ChartType);
-            
+            var googleChartType = ConverChartTypeStringToGoogleChartType();
+            if (googleChartType == null)
+            {
+                validationResults.Add(new ValidationResult("Unknown chart type " + ChartType));
+            }
             return validationResults;
-        }       
+        }
+
+        private GoogleChartType ConverChartTypeStringToGoogleChartType()
+        {
+            return GoogleChartType.All.SingleOrDefault(x => x.GoogleChartTypeDisplayName == ChartType);
+        }
     }
 }

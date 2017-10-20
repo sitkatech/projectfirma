@@ -294,6 +294,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
 
+                case "GoogleChartType":
+                    var googleChartType = GoogleChartType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(googleChartType, "GoogleChartType", primaryKey);
+                    return googleChartType;
+
                 case "MappedRegion":
                     return MappedRegions.GetMappedRegion(primaryKey);
 

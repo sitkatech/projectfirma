@@ -23,7 +23,7 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -32,26 +32,32 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HasReportedValues;
         public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> PerformanceMeasureTaxonomyTierTwos;
-        public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         public readonly string IndexUrl;
         public readonly string TaxonomyTierTwoDisplayName;
         public readonly string TaxonomyTierTwoDisplayNamePluralized;
-        
-        public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, PerformanceMeasureChartViewData performanceMeasureChartViewData)
+        public List<GoogleChartJson> GoogleChartJsons { get; set; }
+
+        public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, List<GoogleChartJson> googleChartJsons)
             : base(currentPerson)
         {
             PerformanceMeasure = performanceMeasure;
-            HtmlPageTitle = string.Format("{0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName);
-            EntityName = MultiTenantHelpers.GetPerformanceMeasureName();
+            HtmlPageTitle = $"PM {performanceMeasure.PerformanceMeasureID}";
+            EntityName = "Performance Measure";
             BreadCrumbTitle = "Info Sheet";
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
             PerformanceMeasureTaxonomyTierTwos = performanceMeasure.GetTaxonomyTierTwos().OrderBy(x => x.Key.DisplayName).ToList();
-            PerformanceMeasureChartViewData = performanceMeasureChartViewData;
+
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
             TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
             TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+
+            HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
+            GoogleChartJsons = googleChartJsons;
+
+            IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
         }
+
     }
 }

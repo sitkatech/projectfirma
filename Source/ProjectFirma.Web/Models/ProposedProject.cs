@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Models
             return ProposedProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
         }
 
-        public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
+        public Person GetPrimaryContact(Person currentPerson) => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson ?? currentPerson;
 
         public IEnumerable<Person> GetProjectStewards()
         {

@@ -26,16 +26,13 @@ using System.Linq;
 using System.Web.Mvc;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
@@ -137,10 +134,10 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var calendarYearExpendituresLineChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
+            var viewGoogleChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
 
             bool hasSpatialData;
-            var mapInitJson = GetMapInitJson(organization, out hasSpatialData);
+            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, IsCurrentUserAnonymous());
 
             var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
@@ -149,11 +146,11 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, organization, calendarYearExpendituresLineChartViewData, mapInitJson, hasSpatialData, performanceMeasures);
+            var viewData = new DetailViewData(CurrentPerson, organization, mapInitJson, hasSpatialData, performanceMeasures, viewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
+        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, bool isCurrentUserAnonymous)
         {
             hasSpatialData = false;
             
@@ -181,11 +178,49 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
+            if (!isCurrentUserAnonymous && MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            {
+                var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
+                if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
+                {
+                    hasSpatialData = true;
+                    layers.Add(proposedProjectsLayerGeoJson);
+                }
+
+                var proposedProjectDetails = organization.ProposedProjectOrganizations
+                    .SelectMany(x => x.ProposedProject.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+                if (proposedProjectDetails.Features.Any())
+                {
+                    hasSpatialData = true;
+                    layers.Add(new LayerGeoJson(
+                        $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detailed Mapping",
+                        proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                }
+            }
+
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
             layers.AddRange(MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show));
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
+        }
+
+        private static LayerGeoJson GetProposedProjectsLayerGeoJson(Organization organization)
+        {
+            var relatedProposedProjects = organization.GetAllProposedProjectOrganizations().Where(x => x.ProposedProject.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProposedProject.ProjectStage.ShouldShowOnMap()).Select(x => x.ProposedProject).ToList();
+
+            var leadImplementerProposedProjects = organization.ProposedProjectOrganizations
+                .Where(x => x.RelationshipType.IsPrimaryContact &&
+                            x.ProposedProject.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
+                            x.ProposedProject.ProjectStage.ShouldShowOnMap()).Select(x => x.ProposedProject).ToList();
+
+            var relatedProposedProjectsThatAreNotInLeadImplementerProposedProjects = relatedProposedProjects.Where(x => leadImplementerProposedProjects.All(y => y.ProposedProjectID != x.ProposedProjectID));
+
+            var featureCollection = new FeatureCollection();
+            AddToProjectsFeatureCollection(featureCollection, relatedProposedProjectsThatAreNotInLeadImplementerProposedProjects, "#dbbdff");
+            AddToProjectsFeatureCollection(featureCollection, leadImplementerProposedProjects, "#ae6bff");
+
+            return new LayerGeoJson("ProposedProjects", featureCollection, "purple", 1, LayerInitialVisibility.Show);
         }
 
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
@@ -206,7 +241,7 @@ namespace ProjectFirma.Web.Controllers
             return new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
         }
 
-        private static void AddToProjectsFeatureCollection(FeatureCollection featureCollection, IEnumerable<Project> projectsToAdd, string featureColor)
+        private static void AddToProjectsFeatureCollection(FeatureCollection featureCollection, IEnumerable<IMappableProject> projectsToAdd, string featureColor)
         {
             featureCollection.Features.AddRange(projectsToAdd.Select(x =>
             {
@@ -218,21 +253,24 @@ namespace ProjectFirma.Web.Controllers
             }).ToList());
         }
 
-        private static CalendarYearExpendituresLineChartViewData GetCalendarYearExpendituresLineChartViewData(Organization organization)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresLineChartViewData(Organization organization)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            var projectFundingSourceExpenditures = organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures =
+                organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
 
-            var chartPopupUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.GoogleChartPopup(organization.OrganizationID));
+            const string chartTitle = "Reported Expenditures By Funding Source";
+            var chartContainerID = chartTitle.Replace(" ", "");
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.FundingSourceName,
                 organization.FundingSources.Select(x => x.FundingSourceName).ToList(),
                 x => x.FundingSource.FundingSourceName,
                 yearRange,
-                "ReportedExpendituresChart",
-                organization.DisplayName,
-                chartPopupUrl);
+                chartContainerID,
+                chartTitle,
+                GoogleChartType.AreaChart,
+                true);
 
-            return new CalendarYearExpendituresLineChartViewData(googleChart, FirmaHelpers.DefaultColorRange);
+            return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
 
         [HttpGet]
@@ -272,31 +310,10 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsIncludingLeadImplementingGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            ProjectsIncludingLeadImplementingGridSpec gridSpec;
             var organization = organizationPrimaryKey.EntityObject;
-            gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson);
-            
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson);            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllProjectsIncludingLeadImplementing(), gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult GoogleChartPopup(OrganizationPrimaryKey organizationPrimaryKey)
-        {
-            var organization = organizationPrimaryKey.EntityObject;
-            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            var projectFundingSourceExpenditures = organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
-
-            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.FundingSourceName,
-                organization.FundingSources.Select(x => x.FundingSourceName).ToList(),
-                x => x.FundingSource.FundingSourceName,
-                yearRange,
-                "ReportedExpendituresChart",
-                organization.DisplayName, String.Empty);
-
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
         }
 
         [HttpGet]

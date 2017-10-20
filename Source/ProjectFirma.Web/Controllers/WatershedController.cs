@@ -129,21 +129,32 @@ namespace ProjectFirma.Web.Controllers
             var watershed = watershedPrimaryKey.EntityObject;
 
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
-            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects);
+
+            List<ProposedProject> watershedAssociatedProposedProjectsToShow;
+            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            {
+                watershedAssociatedProposedProjectsToShow = watershed.AssociatedProposedProjects;
+            }
+            else
+            {
+                watershedAssociatedProposedProjectsToShow = new List<ProposedProject>();
+            }
+
+            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposedProjectsToShow);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
-            var chartPopupUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.GoogleChartPopup(watershedPrimaryKey));
-            var googleChartJson = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+            const string chartTitle = "Reported Expenditures By Funding Source Sector";
+            var chartContainerID = chartTitle.Replace(" ", "");
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                "ReportedExpendituresChart",
-                watershed.DisplayName, chartPopupUrl);
+                chartContainerID,
+                chartTitle);
 
-            var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChartJson,
-                FirmaHelpers.DefaultColorRange);
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 
             var performanceMeasures = watershed.ProjectWatersheds.Select(x => x.Project).Distinct().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
@@ -152,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData, performanceMeasures);
+            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, viewGoogleChartViewData, performanceMeasures);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -198,25 +209,7 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectWatersheds, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public PartialViewResult GoogleChartPopup(WatershedPrimaryKey watershedPrimaryKey)
-        {
-            var watershed = watershedPrimaryKey.EntityObject;
-            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
-            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-
-            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
-                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
-                "ReportedExpendituresChart",
-                watershed.DisplayName, string.Empty);
-
-            var viewData = new GoogleChartPopupViewData(googleChart);
-            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
-        }
-
+        
         [AnonymousUnclassifiedFeature]
         public PartialViewResult MapTooltip(WatershedPrimaryKey watershedPrimaryKey)
         {

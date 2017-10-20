@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => !IsCurrentUserAnonymous() || p.IsVisibleToEveryone());
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson), IsCurrentUserAnonymous());
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow, IsCurrentUserAnonymous());
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, false), "red", 1, LayerInitialVisibility.Show);

@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
             var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
                 stateProvinces,
-                x => x.IsEditableToThisPerson(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+                x => true).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);

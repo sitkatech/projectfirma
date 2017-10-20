@@ -1,156 +1,66 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureChart.cshtml" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="PerformanceMeasureChart.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.PerformanceMeasure
-@using LtInfo.Common
-@using LtInfo.Common.Mvc
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
 @inherits PerformanceMeasureChart
 
-@if (ViewDataTyped.HasChartData)
-{
-    <div class="chartWrapper" style="display: inline-block">
+<style>
+    .subcategorySelector {
+        font-size: 13px;
+        margin-top: 5px;
+    }
 
-        <div class="chartHeader" style="overflow-y: hidden; vertical-align: top; min-height: 30px; max-width: @(ViewDataTyped.ChartWidth - 150)px">
-            <div class="chartTitle">
-                @if (ViewDataTyped.HyperlinkPerformanceMeasureName)
-                {
-                    <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.ChartTitle.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
-                    <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
-                }
-                else
-                {
-                    <b>@ViewDataTyped.PerformanceMeasure.ChartTitle</b>
-                }
+    .google-visualization-tooltip {
+        z-index: 10000;
+    }
 
-            </div>
-            @{ var subcategoriesForPerformanceMeasureChart = ViewDataTyped.PerformanceMeasure.GetSubcategoriesForPerformanceMeasureChart();}
-            @if (!subcategoriesForPerformanceMeasureChart.Any())
-            {
-                <!-- MB: This is to ensure that all three logical branches give us the same overall height; otherwise the firmaChartControls DIV sometimes gets offset wrong -->
-                <br />
-            }
-            else
-            {
-                if (subcategoriesForPerformanceMeasureChart.Count == 1)
-                {
-                    if (!ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName.Equals(subcategoriesForPerformanceMeasureChart.Single().PerformanceMeasureSubcategoryDisplayName, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        <div>
-                            By: @subcategoriesForPerformanceMeasureChart.Single().PerformanceMeasureSubcategoryDisplayName
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="subcategorySelector" id="subcategorySelectorForPM@(ViewDataTyped.PerformanceMeasure.PerformanceMeasureID)"> By: @Html.DropDownList("subcategoryDropdownForPM" + ViewDataTyped.PerformanceMeasure.PerformanceMeasureID, ViewDataTyped.GoogleChartJsonDictionary.OrderBy(x => x.Value.LegendTitle).ToSelectList(x => x.Value.ChartName, x => x.Value.LegendTitle)) </div>
-                }
-            }
-        </div>
+    .googleTooltipDiv {
+        padding-top: 5px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+    }
 
-        <div class="chartBody" style="width: @(ViewDataTyped.ChartWidth)px; height: @(ViewDataTyped.ChartHeight)px;">
+        .googleTooltipDiv p {
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
 
-            @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsonDictionary.Values.OrderByDescending(x => x.LegendTitle))
-            {
-                <div id="@(googleChartJson.ChartName)_container" class="chartGroup@(ViewDataTyped.PerformanceMeasure.PerformanceMeasureID)" style="position: absolute; width: @(ViewDataTyped.ChartWidth)px; height: @(ViewDataTyped.ChartHeight)px">
 
-                    <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
-                    <div class="firmaChartControls noPrint">
-                        @switch (ViewDataTyped.ChartViewMode)
-                        {
-                            case ChartViewMode.Small:
-                                @*<a class="expandBox" href="@googleChartJson.ChartPopupUrl">
-                                    <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
-                                </a> <!-- TODO Enlarge is broken because it doesn't apply the same filtration as the chart displayed, this will be fixed when we merge our chart improvements from Corral -->*@
-                            break;
-                        case ChartViewMode.Large:
-                            <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartName')" href="#" style="margin-right: 10px">
-                                <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Customize
-                            </a>
-                            <a onclick="GoogleCharts.downloadChartPNG('@googleChartJson.ChartName');" href="#">
-                                <span class="glyphicon glyphicon-save" style="margin-right: 5px"></span>Download
-                            </a>
-                                break;
-                            case ChartViewMode.ManagementMode:
-                                @*<a class="expandBox" href="@googleChartJson.ChartPopupUrl" style="margin-right: 10px">
-                                    <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
-                                </a> <!-- TODO Enlarge is broken because it doesn't apply the same filtration as the chart displayed, this will be fixed when we merge our chart improvements from Corral -->*@
-                                <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartName', '@googleChartJson.SaveConfigurationUrl')" href="#" style="margin-right: 10px">
-                                    <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
-                                </a>
-                                break;
-                            case ChartViewMode.NoPopup:
-                                break;
-                        }
-                    </div>
+    table.googleTooltipTable {
+        margin-bottom: 5px;
+    }
 
-                    <div id="@googleChartJson.ChartName" style="margin-top: 0; width: @(ViewDataTyped.ChartWidth)px; height: @(ViewDataTyped.ChartHeight)px">
-                        <!-- Actual chart goes here-->
-                    </div>
-                </div>
-            }
-        </div>
+        table.googleTooltipTable tr td {
+            margin: 0;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
 
-        <script type="text/javascript">
-            jQuery(document).ready(function()
-            {
-                var googleCharts = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJsonDictionary).ToString(Formatting.None));
-                for (var chartName in googleCharts)
-                {
-                    var googleChart = googleCharts[chartName];
-                    wireDropdown(chartName, googleChart.groupId);
-                }
-                if (@((ViewDataTyped.ChartViewMode != ChartViewMode.Large).ToString().ToLower()) == true)
-                {
-                    GoogleCharts.drawCharts(googleCharts);
-                }
-                else
-                {
-                    GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
-                }
-            });
+    .googleTooltipTableTotalRow {
+        border-top: solid 2px #666;
+    }
+</style>
 
-            function wireDropdown(chartName, groupId)
-            {
-                var templateDropdown = jQuery("#subcategoryDropdownForPM" + groupId);
-                var itemCount = jQuery("#subcategoryDropdownForPM" + groupId + " option").length;
-                if (itemCount > 1)
-                {
-                    templateDropdown.change(function()
-                    {
-                        jQuery(".chartGroup" + groupId).css("display", "none");
-                        jQuery("#" + templateDropdown.val() + "_container").css("display", "");
-                    });
-                }
-                else
-                {
-                    jQuery("#subcategorySelectorForPM" + chartName).css("display", "none");
-                }
-            }
-        </script>
+<div id="@(ViewDataTyped.ViewGoogleChartViewData.ChartUniqueName)" class="panel">
+    <div class="panel-body">
+        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
     </div>
-}
-else
-{
-    <p class="alert">No reported data for this @MultiTenantHelpers.GetPerformanceMeasureName()</p>
-}
+</div>

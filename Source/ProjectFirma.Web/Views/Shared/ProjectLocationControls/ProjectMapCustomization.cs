@@ -120,14 +120,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return projectStagesForMap;
         }
 
-        public static List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter)
+        public static List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter, bool isCurrentUserAnonymous)
         {
-            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects);
-            if (MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Where(visibleProjectFilter));
+            if (MultiTenantHelpers.IncludeProposedProjectsOnMap() && !isCurrentUserAnonymous)
             {
                 allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects.Where(x=>x.ProjectID == null)));
             }
-            var projectsToShow = allProjects.Where(visibleProjectFilter)
+            var projectsToShow = allProjects
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
             return projectsToShow;
         }
