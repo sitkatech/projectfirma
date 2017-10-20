@@ -27,6 +27,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Watershed
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
-        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
         {
             Watershed = watershed;
             MapInitJson = mapInitJson;
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.Views.Watershed
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
 
             // TODO: Crawl up the call chain for Organization.DetailViewData and port the implementation from there to here.
-            PerformanceMeasureChartViewDatas = performanceMeasures.Select(watershed.GetPerformanceMeasureChartViewData).ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>watershed.GetPerformanceMeasureChartViewData(x, CurrentPerson)).ToList();
         }
 
         
