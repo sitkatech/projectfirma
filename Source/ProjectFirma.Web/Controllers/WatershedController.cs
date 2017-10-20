@@ -129,7 +129,18 @@ namespace ProjectFirma.Web.Controllers
             var watershed = watershedPrimaryKey.EntityObject;
 
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
-            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects);
+
+            List<ProposedProject> watershedAssociatedProposedProjectsToShow;
+            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            {
+                watershedAssociatedProposedProjectsToShow = watershed.AssociatedProposedProjects;
+            }
+            else
+            {
+                watershedAssociatedProposedProjectsToShow = new List<ProposedProject>();
+            }
+
+            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposedProjectsToShow);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
