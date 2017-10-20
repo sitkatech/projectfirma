@@ -39,57 +39,75 @@ Source code is available upon request via <support@sitkatech.com>.
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
 </div>
 
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-5">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>Map</h2>
-                </div>
-                <div class="panel-body">
-                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
-                    </div>
-                    <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
+        <ul class="nav nav-tabs" id="watershedDetailsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#watershedOverview" aria-controls="watershedOverview" role="tab" data-toggle="tab">Overview</a>
+            </li>
+            <li>
+                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Results</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body tabPaneBody">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="watershedOverview">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Map</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
+                                </div>
+                                <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
 
-                    <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @FieldDefinition.Watershed.GetFieldDefinitionLabel() boundary.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-7">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
-                </div>
-                <div class="panel-body">
-                    @if (ViewDataTyped.CalendarYearExpendituresLineChartViewData.HasChartData)
-                    {
-                        <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
-                            @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+                                <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @FieldDefinition.Watershed.GetFieldDefinitionLabel() boundary.</p>
+                            </div>
                         </div>
-                        <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
-                    }
-                    else
-                    {
-                        <p class="alert">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</p>
-                    }
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.CalendarYearExpendituresLineChartViewData.HasChartData)
+                                {
+                                    <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
+                                        @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+                                    </div>
+                                    <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
+                                }
+                                else
+                                {
+                                    <p class="alert">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane active" id="performanceMeasures">
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script type="text/javascript">
