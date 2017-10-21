@@ -39,18 +39,23 @@ Source code is available upon request via <support@sitkatech.com>.
 <script type="text/javascript">
 
     jQuery(function() {
-        var runOnceResults = false,
         jQuery("#resultsTab").on("shown.bs.tab", function() {
-            if (!runOnceResults) {
-                _.forOwn(window.GoogleCharts.chartWrappers,
-                    function (chartWrapper) {
-                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                            chartWrapper.getChart().clearChart();
-                            chartWrapper.draw();
-                        }
-                    });
-            }
-            runOnceResults = true;
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+        jQuery("#overviewTab").on("shown.bs.tab", function () {
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
         });
     });
 </script>
@@ -63,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <ul class="nav nav-tabs" id="watershedDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#watershedOverview" aria-controls="watershedOverview" role="tab" data-toggle="tab">Overview</a>
+                <a href="#watershedOverview" aria-controls="watershedOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
             <li>
                 <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Performance Measures</a>
@@ -131,6 +136,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
+                        <p>
+                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.Watershed.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Watershed.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                        </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
                             <div class="row">

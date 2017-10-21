@@ -43,33 +43,25 @@ Source code is available upon request via <support@sitkatech.com>.
 <script type="text/javascript">
     
     jQuery(function() {
-        var runOnceResults = false,
-            runOnceFundingAndProjects = false;
         jQuery("#resultsTab").on("shown.bs.tab", function() {
-            if (!runOnceResults) {
-                _.forOwn(window.GoogleCharts.chartWrappers,
-                    function (chartWrapper) {
-                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                            chartWrapper.getChart().clearChart();
-                            chartWrapper.draw();
-                        }
-                    });
-            }
-            runOnceResults = true;
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
         });
         jQuery("#fundingAndProjectsTab").on("shown.bs.tab", function() {
-            if (!runOnceFundingAndProjects) {
-                var gridName = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName].resizeGridWidths();
-                _.forOwn(window.GoogleCharts.chartWrappers,
-                    function (chartWrapper) {
-                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                            chartWrapper.getChart().clearChart();
-                            chartWrapper.draw();
-                        }
-                    });
-            }
-            runOnceFundingAndProjects = true;
+            var gridName = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName].resizeGridWidths();
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
         });
     });
 </script>
@@ -318,6 +310,9 @@ Source code is available upon request via <support@sitkatech.com>.
             <div role="tabpanel" class="tab-pane" id="results">
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
+                    <p>
+                        The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                    </p>
                     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                     {
                         <div class="row">

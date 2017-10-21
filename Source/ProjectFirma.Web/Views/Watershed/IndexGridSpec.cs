@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public IndexGridSpec()
         {
             Add(Models.FieldDefinition.Watershed.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 300, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", a => a.AssociatedProjects.Count, 65);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.AssociatedProjects.Count, 65);
         }
     }
 }
