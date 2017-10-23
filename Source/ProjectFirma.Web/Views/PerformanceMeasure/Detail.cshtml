@@ -145,45 +145,6 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
-
-                <div style="padding-top: 15px">
-                    <div class="panel-heading panelTitle">
-                        <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Chart Metadata</h2>
-                    </div>
-                    <table class="summaryLayout" style="margin: 10px 0">
-                        <tr>
-                            <th>Data Source</th>
-                            <td>
-                                @if (!string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl))
-                                {
-                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@(ViewDataTyped.PerformanceMeasure.DataSourceText ?? ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl)</a>
-                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
-                                }
-                                else
-                                {
-                                    @ViewDataTyped.PerformanceMeasure.DataSourceText
-                                }
-                            </td>
-                        </tr>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                        {
-                            <tr>
-                                <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartTitle, "Chart Title")</th>
-                                <td>
-                                    @ViewDataTyped.PerformanceMeasure.ChartTitle
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartCaption, "Chart Caption")</th>
-                                <td>
-                                    @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-
             </div>
         </div>
     </div>
