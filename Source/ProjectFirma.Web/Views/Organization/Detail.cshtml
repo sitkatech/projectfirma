@@ -74,7 +74,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <ul class="nav nav-tabs" id="organizationDetailsTabs"style="border-bottom: none;">
             <li class="active">
-                <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a>
+                <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
             <li>
                 <a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="fundingAndProjectsTab">Funding &amp; @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
@@ -191,6 +191,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                                         controlButton: {
                                                             title: "Legend"
                                                         }
+                                                    });
+
+                                                    jQuery("#overviewTab").on("shown.bs.tab", function() {
+                                                        map.map.invalidateSize();
                                                     });
 
                                                     map.map.addControl(legend);

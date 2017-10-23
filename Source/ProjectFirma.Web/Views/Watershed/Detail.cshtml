@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -49,6 +50,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
         });
         jQuery("#overviewTab").on("shown.bs.tab", function () {
+            var gridName = @(ViewDataTyped.BasicProjectInfoGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
                     if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -178,5 +181,9 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(mapInitJson);
+
+        jQuery("#overviewTab").on("shown.bs.tab", function() {
+            map.map.invalidateSize();
+        });
     });
 </script>
