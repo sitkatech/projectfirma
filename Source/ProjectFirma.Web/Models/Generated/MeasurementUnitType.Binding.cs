@@ -241,7 +241,7 @@ namespace ProjectFirma.Web.Models
     public partial class MeasurementUnitTypeTons : MeasurementUnitType
     {
         private MeasurementUnitTypeTons(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeTons Instance = new MeasurementUnitTypeTons(8, @"Tons", @"tons", @"tons", @"Ton", 0);
+        public static readonly MeasurementUnitTypeTons Instance = new MeasurementUnitTypeTons(8, @"Tons", @"tons", @"tons", @"Ton", 2);
     }
 
     public partial class MeasurementUnitTypeDollars : MeasurementUnitType

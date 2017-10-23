@@ -8,7 +8,7 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (5, 'Kilogram', 'kg', 'kg', 'Kilogram', 2),
 (6, 'Number', 'number', null, 'Each Unit', 0),
 (7, 'Pounds', 'pounds', 'lbs', 'Pound', 2),
-(8, 'Tons', 'tons', 'tons', 'Ton', 0),
+(8, 'Tons', 'tons', 'tons', 'Ton', 2),
 (9, 'Dollars', 'dollars', null, 'Dollar', 0),
 (10, 'Parcels', 'parcels', null, 'Parcel', 0),
 (11, 'Percent', '%', '%', '%', 0),
