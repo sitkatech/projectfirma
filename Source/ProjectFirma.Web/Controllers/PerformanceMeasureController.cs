@@ -82,6 +82,14 @@ namespace ProjectFirma.Web.Controllers
             
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, null, CurrentPerson, false, true);
 
+            // Avoid scrolling the legend if it can be displayed on two lines
+            performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
+            {
+                if (x.GoogleChartConfiguration.Legend.MaxLines == null)
+                {
+                    x.GoogleChartConfiguration.Legend.MaxLines = 2;
+                }
+            });
 
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),

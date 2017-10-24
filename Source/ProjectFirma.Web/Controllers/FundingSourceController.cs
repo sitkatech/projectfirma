@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Controllers
 
             googleChart.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
-            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 400, false);
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
             var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
