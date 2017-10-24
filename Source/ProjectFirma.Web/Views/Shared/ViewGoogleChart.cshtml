@@ -74,7 +74,7 @@
                 By:
                 @if (ViewDataTyped.SortChartsByLegendTitle)
                 {
-                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-xs btn-default btn"}};
+                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-xs btn-default btn"}, {"style", "text-align: left;"}};
                     @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
                 }
                 else
@@ -140,7 +140,7 @@
     }
     else
     {
-        <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data for this Indicator</p>
+        <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data for this @MultiTenantHelpers.GetPerformanceMeasureName()</p>
     }
 </div>
 <script type="text/javascript">

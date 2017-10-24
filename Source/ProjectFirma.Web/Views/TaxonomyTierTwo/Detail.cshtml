@@ -162,7 +162,11 @@
                     @foreach (var performanceMeasureChartViewData in batch)
                     {
                         <div class="col-md-4" style="width: 500px">
-                            @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                            <div class="panel panelFirma">
+                                <div class="panel-body">
+                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                </div>
+                            </div>
                         </div>
                     }
                 </div>

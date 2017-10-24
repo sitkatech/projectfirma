@@ -268,7 +268,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 @if (ViewDataTyped.GoogleChartJsons.Count == 0)
                 {
-                    <em>No charts available for this Performance Measure.</em>
+                    <em>No charts available for this @MultiTenantHelpers.GetPerformanceMeasureName().</em>
                 }
             </div>
             <script type="text/javascript">
