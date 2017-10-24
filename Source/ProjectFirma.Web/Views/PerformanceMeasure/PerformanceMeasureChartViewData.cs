@@ -36,7 +36,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HyperlinkPerformanceMeasureName;
         public readonly List<GoogleChartJson> GoogleChartJsons;
-        public readonly bool HasChartData;
         public readonly bool CanManagePerformanceMeasures;
         public readonly bool ShowLastUpdatedDate;
         public readonly string ChartTitle;
@@ -55,7 +54,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
 
-            HasChartData = GoogleChartJsons.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
+            GoogleChartJsons.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
 
             var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;

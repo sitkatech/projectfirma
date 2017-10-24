@@ -29,9 +29,9 @@
 @inherits ProjectFirma.Web.Views.Shared.ViewGoogleChart
 
     <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
-        @foreach (var googleChartJsonAgain in ViewDataTyped.GoogleChartJsons)
+        @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsons)
         {
-            @Html.Hidden("GoogleChartJsons[]", JObject.FromObject(googleChartJsonAgain).ToString(Formatting.None))
+            @Html.Hidden("GoogleChartJsons[]", JObject.FromObject(googleChartJson).ToString(Formatting.None))
         }
         @Html.Hidden("ExcelFilename", ViewDataTyped.ChartTitle)
         @Html.Hidden("MainColumnLabel", ViewDataTyped.MainColumnLabel)
@@ -140,7 +140,7 @@
     }
     else
     {
-        <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data for this @MultiTenantHelpers.GetPerformanceMeasureName()</p>
+        <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data available</p>
     }
 </div>
 <script type="text/javascript">
