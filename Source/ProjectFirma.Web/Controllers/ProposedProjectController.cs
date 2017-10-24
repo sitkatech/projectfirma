@@ -91,15 +91,15 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProposedProjectsViewListFeature]
-        public GridJsonNetJObjectResult<ProposedProject> IndexGridJsonData()
+        public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
-                stateProvinces,
-                x => true).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
+                x => x.ProjectStage == ProjectStage.Proposal && x.ProposedProjectState != ProposedProjectState.Approved,
+                stateProvinces).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

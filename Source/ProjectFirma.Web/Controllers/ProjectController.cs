@@ -744,21 +744,21 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         }
 
         [ProposedProjectsViewListFeature]
-        public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
+        public GridJsonNetJObjectResult<Project> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects
-                .GetProposedProjectsWithGeoSpatialProperties(
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects
+                .GetProjectsWithGeoSpatialProperties(
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
-                    x => x.IsEditableToThisPerson(CurrentPerson))
+                    x => x.IsEditableToThisPerson(CurrentPerson),
+                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
                 .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
                              x.ProposedProjectState != ProposedProjectState.Rejected &&
                              x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
         

@@ -195,6 +195,7 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
+        public virtual Person ProposingPerson { get; set; }
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
 
         public static class FieldLengths

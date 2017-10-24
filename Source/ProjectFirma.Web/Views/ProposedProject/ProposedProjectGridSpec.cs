@@ -28,7 +28,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public class ProposedProjectGridSpec : GridSpec<Models.ProposedProject>
+    public class ProposedProjectGridSpec : GridSpec<Models.Project>
     {
         public ProposedProjectGridSpec(Person currentPerson)
         {

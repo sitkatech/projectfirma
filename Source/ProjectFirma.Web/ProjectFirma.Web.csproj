@@ -381,6 +381,7 @@
     <Compile Include="Models\ProposedProjectOrganization.cs" />
     <Compile Include="Models\ProposedProjectWatershed.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />
+    <Compile Include="Security\ProjectApproveFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />

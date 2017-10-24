@@ -351,6 +351,10 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
     </AssociationSet>
+    <AssociationSet Name="FK_Project_Person_ProposingPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_ProposingPersonID_PersonID">
+      <End Role="ProposingPerson" EntitySet="Person" />
+      <End Role="ProjectsWhereYouAreTheProposingPerson" EntitySet="Project" />
+    </AssociationSet>
     <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="Projects" EntitySet="Project" />
@@ -2774,6 +2778,18 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectsWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Project_Person_ProposingPersonID_PersonID">
+    <End Role="ProposingPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreTheProposingPerson" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposingPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectsWhereYouAreTheProposingPerson">
+        <PropertyRef Name="ProposingPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

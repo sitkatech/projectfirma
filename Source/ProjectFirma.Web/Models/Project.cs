@@ -260,6 +260,22 @@ namespace ProjectFirma.Web.Models
             return person.PersonID == primaryContactPerson?.PersonID;
         }
 
+        // TODO: These methods were copied from ProposedProject.cs, but probably need to be updated in the new world.
+        public bool IsMyProposedProject(Person person)
+        {
+            return IsPersonThePrimaryContact(person) || person.PersonID == ProposingPersonID;
+        }
+
+        public bool IsEditableToThisPerson(Person person)
+        {
+            return IsMyProposedProject(person) || new ProjectApproveFeature().HasPermission(person, this).HasPermission;
+        }
+
+        public PermissionCheckResult CanDelete()
+        {
+            return new PermissionCheckResult();
+        }
+
         public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)
         {
             if (person == null)
