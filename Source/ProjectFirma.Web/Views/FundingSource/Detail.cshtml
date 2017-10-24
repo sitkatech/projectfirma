@@ -72,9 +72,16 @@ Source code is available upon request via <support@sitkatech.com>.
                     Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
                 </div>
                 <div class="panel-body">
-                    <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
-                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
-                    </div>
+                    @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                    {
+                        <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+                        </div>
+                    }
+                    else
+                    {
+                        <p>No expenditures to report for this Funding Source</p>
+                    }
                 </div>
             </div>            
         </div>

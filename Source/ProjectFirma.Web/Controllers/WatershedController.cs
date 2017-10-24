@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
-            const string chartTitle = "Reported Expenditures By Funding Source Sector";
+            const string chartTitle = "Reported Expenditures By Organization Type";
             var chartContainerID = chartTitle.Replace(" ", "");
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),

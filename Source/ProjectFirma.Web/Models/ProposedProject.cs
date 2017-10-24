@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsVisibleToThisPerson(Person person)
         {
-            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission || new FirmaAdminFeature().HasPermissionByPerson(person);
+            return !person.IsAnonymousUser && person.Role != Role.Unassigned;
         }
 
         public bool IsVisibleToEveryone()

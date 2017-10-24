@@ -64,7 +64,6 @@ namespace ProjectFirma.Web.Views.Watershed
           
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
 
-            // TODO: Crawl up the call chain for Organization.DetailViewData and port the implementation from there to here.
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>watershed.GetPerformanceMeasureChartViewData(x, CurrentPerson)).ToList();
         }
 

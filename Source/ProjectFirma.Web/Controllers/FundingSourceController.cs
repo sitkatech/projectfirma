@@ -141,6 +141,8 @@ namespace ProjectFirma.Web.Controllers
 
             const string chartTitle = "Reported Expenditures";
             var chartContainerID = chartTitle.Replace(" ", "");
+
+            // If ProjectFundingSourceExpenditures is empty, ToGoogleChart returns null...
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
                 .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
@@ -148,7 +150,8 @@ namespace ProjectFirma.Web.Controllers
                     chartContainerID,
                     fundingSource.DisplayName);
 
-            googleChart.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            // Which makes this guy bork (bork bork bork)
+            googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
             var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData);

@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HyperlinkPerformanceMeasureName;
 
-        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle) : this(new List<GoogleChartJson> {googleChartJson},
+        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> {googleChartJson},
             chartTitle,
             chartHeight,
             null,
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.Shared
         {
             GoogleChartJsons = googleChartJsons;
             ChartTitle = chartTitle;
-            var hasData = googleChartJsons.Any(x => x != null && x.HasData());
+            var hasData = googleChartJsons.Count != 0 ? googleChartJsons.Any(x => x != null && x.HasData()) : false;
             HasData = hasData;
             MainColumnLabel = hasData ? googleChartJsons.Where(x => x != null).Select(x => x.GoogleChartDataTable.GoogleChartColumns.FirstOrDefault()?.ColumnLabel).Distinct().SingleOrDefault() : null;
             ChartHeight = hasData ? chartHeight : 65;
