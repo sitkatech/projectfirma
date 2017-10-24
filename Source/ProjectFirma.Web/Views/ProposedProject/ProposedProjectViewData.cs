@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         private ProposedProjectViewData(Person currentPerson) : base(currentPerson)
         {
             EntityName = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
-            ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
+            ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposedProjectFeedback());
             CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);

@@ -83,15 +83,15 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProposedProjectsViewListFeature]
-        public ViewResult Index()
+        public ViewResult Proposed()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProposedProjects);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
-            return RazorView<Index, IndexViewData>(viewData);
+            var viewData = new ProposedViewData(CurrentPerson, firmaPage);
+            return RazorView<Proposed, ProposedViewData>(viewData);
         }
 
         [ProposedProjectsViewListFeature]
-        public GridJsonNetJObjectResult<Project> IndexGridJsonData()
+        public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
