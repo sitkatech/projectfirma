@@ -148,6 +148,8 @@ namespace ProjectFirma.Web.Controllers
                     chartContainerID,
                     fundingSource.DisplayName);
 
+            googleChart.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 400, false);
             var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
