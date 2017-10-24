@@ -93,6 +93,9 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "connectSteps")]
         public bool ConnectSteps { get; set; }
 
+        [JsonProperty(PropertyName = "theme")]
+        public string Theme { get; set; }
+
         [JsonProperty(PropertyName = "areaOpacity", NullValueHandling = NullValueHandling.Ignore)]
         public double? AreaOpacity { get; set; }
 
