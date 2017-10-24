@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
     {
-        public static readonly ProjectStageProposal Proposal = ProjectStageProposal.Instance;
+        
 
         public static readonly List<ProjectStage> AllPlusProposed = new List<ProjectStage> { Proposal, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
 
@@ -45,16 +45,8 @@ namespace ProjectFirma.Web.Models
         public abstract bool ShouldShowOnMap();
     }
 
-    public class ProjectStageProposal : ProjectStage
+    public partial class ProjectStageProposal : ProjectStage
     {
-        private ProjectStageProposal(int projectStageID, string projectStageName, string projectStageDisplayName,
-            int sortOrder, string projectStageColor) : base(projectStageID, projectStageName, projectStageDisplayName,
-            sortOrder, projectStageColor)
-        {
-        }
-
-        public static readonly ProjectStageProposal Instance =
-            new ProjectStageProposal(1, @"Proposed", @"Proposed", 10, @"#dbbdff");
         public override bool IsOnCompletedList()
         {
             return false;

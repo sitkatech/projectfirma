@@ -1,4 +1,3 @@
-begin tran
 -- Add "Proposal" stage to ProjectStage
 Insert Into dbo.ProjectStage (ProjectStageID, ProjectStageName, ProjectStageDisplayName, SortOrder, ProjectStageColor)
 VALUES (1, 'Proposal', 'Proposal', 10, '#dbbdff')
@@ -284,4 +283,209 @@ begin
 	raiserror('ProposedProjectLocation table did not migrate correctly!', 16, 1)
 end
 
-rollback tran
+if exists(
+	select
+		pls.[TenantID], pls.[PersonID], pls.[FeatureClassName], pls.[GeoJson], pls.[SelectedProperty], pls.[ShouldImport]
+	from dbo.ProjectLocationStaging pls
+	join dbo.Project p on p.ProjectID = pls.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		pls.[TenantID], pls.[PersonID], pls.[FeatureClassName], pls.[GeoJson], pls.[SelectedProperty], pls.[ShouldImport]
+	from dbo.ProposedProjectLocationStaging pls
+	join dbo.ProposedProject p on p.ProposedProjectID = pls.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		pls.[TenantID], pls.[PersonID], pls.[FeatureClassName], pls.[GeoJson], pls.[SelectedProperty], pls.[ShouldImport]
+	from dbo.ProposedProjectLocationStaging pls
+	join dbo.ProposedProject p on p.ProposedProjectID = pls.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		pls.[TenantID], pls.[PersonID], pls.[FeatureClassName], pls.[GeoJson], pls.[SelectedProperty], pls.[ShouldImport]
+	from dbo.ProjectLocationStaging pls
+	join dbo.Project p on p.ProjectID = pls.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('ProposedProjectLocationStaging table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		pn.[TenantID], pn.[Note], pn.[CreatePersonID], pn.[CreateDate], pn.[UpdatePersonID], pn.[UpdateDate]
+	from dbo.ProjectNote pn
+	join dbo.Project p on p.ProjectID = pn.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		pn.[TenantID], pn.[Note], pn.[CreatePersonID], pn.[CreateDate], pn.[UpdatePersonID], pn.[UpdateDate]
+	from dbo.ProposedProjectNote pn
+	join dbo.ProposedProject p on p.ProposedProjectID = pn.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		pn.[TenantID], pn.[Note], pn.[CreatePersonID], pn.[CreateDate], pn.[UpdatePersonID], pn.[UpdateDate]
+	from dbo.ProposedProjectNote pn
+	join dbo.ProposedProject p on p.ProposedProjectID = pn.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		pn.[TenantID], pn.[Note], pn.[CreatePersonID], pn.[CreateDate], pn.[UpdatePersonID], pn.[UpdateDate]
+	from dbo.ProjectNote pn
+	join dbo.Project p on p.ProjectID = pn.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('ProposedProjectNote table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		po.[TenantID], po.[OrganizationID], po.[RelationshipTypeID]
+	from dbo.ProjectOrganization po
+	join dbo.Project p on p.ProjectID = po.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		po.[TenantID], po.[OrganizationID], po.[RelationshipTypeID]
+	from dbo.ProposedProjectOrganization po
+	join dbo.ProposedProject p on p.ProposedProjectID = po.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		po.[TenantID], po.[OrganizationID], po.[RelationshipTypeID]
+	from dbo.ProposedProjectOrganization po
+	join dbo.ProposedProject p on p.ProposedProjectID = po.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		po.[TenantID], po.[OrganizationID], po.[RelationshipTypeID]
+	from dbo.ProjectOrganization po
+	join dbo.Project p on p.ProjectID = po.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('ProposedProjectOrganization table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		pw.[TenantID], pw.[WatershedID]
+	from dbo.ProjectWatershed pw
+	join dbo.Project p on p.ProjectID = pw.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		pw.[TenantID], pw.[WatershedID]
+	from dbo.ProposedProjectWatershed pw
+	join dbo.ProposedProject p on p.ProposedProjectID = pw.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		pw.[TenantID], pw.[WatershedID]
+	from dbo.ProposedProjectWatershed pw
+	join dbo.ProposedProject p on p.ProposedProjectID = pw.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		pw.[TenantID], pw.[WatershedID]
+	from dbo.ProjectWatershed pw
+	join dbo.Project p on p.ProjectID = pw.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('ProposedProjectWatershed table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		np.[TenantID], np.[NotificationID]
+	from dbo.NotificationProject np
+	join dbo.Project p on p.ProjectID = np.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		np.[TenantID], np.[NotificationID]
+	from dbo.NotificationProposedProject np
+	join dbo.ProposedProject p on p.ProposedProjectID = np.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		np.[TenantID], np.[NotificationID]
+	from dbo.NotificationProposedProject np
+	join dbo.ProposedProject p on p.ProposedProjectID = np.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		np.[TenantID], np.[NotificationID]
+	from dbo.NotificationProject np
+	join dbo.Project p on p.ProjectID = np.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('NotificationProposedProject table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		pme.[TenantID], pme.[PerformanceMeasureID], pme.[ExpectedValue]
+	from dbo.PerformanceMeasureExpected pme
+	join dbo.Project p on p.ProjectID = pme.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		pme.[TenantID], pme.[PerformanceMeasureID], pme.[ExpectedValue]
+	from dbo.PerformanceMeasureExpectedProposed pme
+	join dbo.ProposedProject p on p.ProposedProjectID = pme.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		pme.[TenantID], pme.[PerformanceMeasureID], pme.[ExpectedValue]
+	from dbo.PerformanceMeasureExpectedProposed pme
+	join dbo.ProposedProject p on p.ProposedProjectID = pme.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		pme.[TenantID], pme.[PerformanceMeasureID], pme.[ExpectedValue]
+	from dbo.PerformanceMeasureExpected pme
+	join dbo.Project p on p.ProjectID = pme.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('PerformanceMeasureExpectedProposed table did not migrate correctly!', 16, 1)
+end
+
+if exists(
+	select
+		pmeso.[TenantID], pmeso.[PerformanceMeasureSubcategoryOptionID], pmeso.[PerformanceMeasureID], pmeso.[PerformanceMeasureSubcategoryID]
+	from dbo.PerformanceMeasureExpectedSubcategoryOption pmeso 
+	join dbo.PerformanceMeasureExpected pme on pme.PerformanceMeasureExpectedID = pmeso.PerformanceMeasureExpectedID
+	join dbo.Project p on p.ProjectID = pme.ProjectID
+	where p.ProjectStageID = 1
+	except
+	select
+		pmeso.[TenantID], pmeso.[PerformanceMeasureSubcategoryOptionID], pmeso.[PerformanceMeasureID], pmeso.[PerformanceMeasureSubcategoryID]
+	from dbo.PerformanceMeasureExpectedSubcategoryOptionProposed pmeso 
+	join dbo.PerformanceMeasureExpectedProposed pme on pme.PerformanceMeasureExpectedProposedID = pmeso.PerformanceMeasureExpectedProposedID
+	join dbo.ProposedProject p on p.ProposedProjectID = pme.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	union
+	select
+		pmeso.[TenantID], pmeso.[PerformanceMeasureSubcategoryOptionID], pmeso.[PerformanceMeasureID], pmeso.[PerformanceMeasureSubcategoryID]
+	from dbo.PerformanceMeasureExpectedSubcategoryOptionProposed pmeso 
+	join dbo.PerformanceMeasureExpectedProposed pme on pme.PerformanceMeasureExpectedProposedID = pmeso.PerformanceMeasureExpectedProposedID
+	join dbo.ProposedProject p on p.ProposedProjectID = pme.ProposedProjectID
+	where p.ProposedProjectStateID != 3
+	except
+	select
+		pmeso.[TenantID], pmeso.[PerformanceMeasureSubcategoryOptionID], pmeso.[PerformanceMeasureID], pmeso.[PerformanceMeasureSubcategoryID]
+	from dbo.PerformanceMeasureExpectedSubcategoryOption pmeso 
+	join dbo.PerformanceMeasureExpected pme on pme.PerformanceMeasureExpectedID = pmeso.PerformanceMeasureExpectedID
+	join dbo.Project p on p.ProjectID = pme.ProjectID
+	where p.ProjectStageID = 1
+)
+begin
+	raiserror('PerformanceMeasureExpectedSubcategoryOptionProposed table did not migrate correctly!', 16, 1)
+end

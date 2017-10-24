@@ -30,12 +30,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureExpected(int performanceMeasureExpectedID, int projectID, int performanceMeasureID, double? expectedValue) : this()
+        public PerformanceMeasureExpected(int performanceMeasureExpectedID, int projectID, int performanceMeasureID, double? expectedValue, int? performanceMeasureExpectedProposedID) : this()
         {
             this.PerformanceMeasureExpectedID = performanceMeasureExpectedID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.ExpectedValue = expectedValue;
+            this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposedID;
         }
 
         /// <summary>
@@ -93,6 +94,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? ExpectedValue { get; set; }
+        public int? PerformanceMeasureExpectedProposedID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureExpectedID; } set { PerformanceMeasureExpectedID = value; } }
 
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }

@@ -1162,6 +1162,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
+    <Property Name="PerformanceMeasureExpectedProposedID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID_T' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1351,6 +1352,14 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
+    <Property Name="ProposedProjectStateID" Type="int" Nullable="false" />
+    <Property Name="ProposingPersonID" Type="int" />
+    <Property Name="ProposingDate" Type="datetime" />
+    <Property Name="PerformanceMeasureNotes" Type="varchar" MaxLength="500" />
+    <Property Name="SubmissionDate" Type="datetime" />
+    <Property Name="ApprovalDate" Type="datetime" />
+    <Property Name="ReviewedByPersonID" Type="int" />
+    <Property Name="ProposedProjectID" Type="int" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>

@@ -31,10 +31,13 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void TestProjectLocationFilterTypesAddedAsProjectProperties()
         {
-            var project = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
+            var project = Project.CreateNewBlank(
+                TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
-                FundingType.Capital);
+                FundingType.Capital,
+                // TODO: Verify that "Approved" is the correct project state or use the correct value
+                ProposedProjectState.Approved);
 
             project.ProjectLocationPoint = DbGeometry.PointFromText("POINT(29.11 40.11)", 4326);
 

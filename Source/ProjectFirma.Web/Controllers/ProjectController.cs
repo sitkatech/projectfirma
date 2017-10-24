@@ -74,7 +74,9 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID);
+                FundingType.Capital.FundingTypeID,
+                // TODO: Verify that this is correct or use the correct value
+                ProposedProjectState.Approved.ProposedProjectStateID);
             CurrentPerson.SetDefaultProjectOrganizations(project);
 
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);

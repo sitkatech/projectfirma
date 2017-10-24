@@ -23,6 +23,14 @@ CREATE TABLE [dbo].[Project](
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProposedProjectStateID] [int] NOT NULL,
+	[ProposingPersonID] [int] NULL,
+	[ProposingDate] [datetime] NULL,
+	[PerformanceMeasureNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SubmissionDate] [datetime] NULL,
+	[ApprovalDate] [datetime] NULL,
+	[ReviewedByPersonID] [int] NULL,
+	[ProposedProjectID] [int] NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -64,6 +72,11 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectStage
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProposedProjectState_ProposedProjectStateID] FOREIGN KEY([ProposedProjectStateID])
+REFERENCES [dbo].[ProposedProjectState] ([ProposedProjectStateID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProposedProjectState_ProposedProjectStateID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyTierOne_TaxonomyTierOneID] FOREIGN KEY([TaxonomyTierOneID])
 REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID])

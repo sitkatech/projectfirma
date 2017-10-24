@@ -394,6 +394,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
+          <ScalarProperty Name="PerformanceMeasureExpectedProposedID" ColumnName="PerformanceMeasureExpectedProposedID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -526,6 +527,14 @@
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
+          <ScalarProperty Name="ProposedProjectStateID" ColumnName="ProposedProjectStateID" />
+          <ScalarProperty Name="ProposingPersonID" ColumnName="ProposingPersonID" />
+          <ScalarProperty Name="ProposingDate" ColumnName="ProposingDate" />
+          <ScalarProperty Name="PerformanceMeasureNotes" ColumnName="PerformanceMeasureNotes" />
+          <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
+          <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
+          <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

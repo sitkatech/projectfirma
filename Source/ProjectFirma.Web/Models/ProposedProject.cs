@@ -237,7 +237,8 @@ namespace ProjectFirma.Web.Models
                 proposedProject.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
-                FundingType.FundingTypeID)
+                FundingType.FundingTypeID,
+                ProposedProjectStateID)
             {
                 PlanningDesignStartYear =  proposedProject.PlanningDesignStartYear,
                 ImplementationStartYear =  proposedProject.ImplementationStartYear,
