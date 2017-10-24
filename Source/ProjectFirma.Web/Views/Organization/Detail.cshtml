@@ -31,6 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Organization.Detail
 
@@ -315,7 +316,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
                     <p>
-                        The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                     </p>
                     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                     {
