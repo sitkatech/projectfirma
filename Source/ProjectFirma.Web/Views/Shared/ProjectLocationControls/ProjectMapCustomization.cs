@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             var includeProposedProjectsOnMap = MultiTenantHelpers.IncludeProposedProjectsOnMap() && !isCurrentUserAnonymous;
             var exceptProposedProjects = includeProposedProjectsOnMap
                 ? new List<ProjectStage>()
-                : new List<ProjectStage> {ProjectStage.Proposed};
+                : new List<ProjectStage> {ProjectStage.Proposal};
             var projectStagesForMap = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap()))
                 .Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;

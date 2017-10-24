@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Models
             return new PermissionCheckResult();
         }
 
-        public ProjectStage ProjectStage => ProjectStage.Proposed;
+        public ProjectStage ProjectStage => ProjectStage.Proposal;
 
         public ICollection<IEntityClassification> ProjectClassificationsForMap => new List<IEntityClassification>(ProposedProjectClassifications);
         public bool HasProjectWatersheds => ProposedProjectWatersheds.Any();
