@@ -26,6 +26,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Watershed.Detail
@@ -73,7 +74,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <a href="#watershedOverview" aria-controls="watershedOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
             <li>
-                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Performance Measures</a>
+                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
             </li>
         </ul>
     </div>

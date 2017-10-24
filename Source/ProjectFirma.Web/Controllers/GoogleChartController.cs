@@ -91,9 +91,11 @@ namespace ProjectFirma.Web.Controllers
             const int fontSizeIncrease = 8;
 
             googleChartConfiguration.TitlePosition = "top";
+            
+            // Use default TitleTextStyle for consistency across enlarged charts.
+            googleChartConfiguration.TitleTextStyle = null;
 
             IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.LegendTextStyle, fontSizeIncrease / 2, false);
-            IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.TitleTextStyle, fontSizeIncrease, false);
             IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.HorizontalAxis.TextStyle, fontSizeIncrease, true);
 
             if (googleChartConfiguration.VerticalAxes != null)
