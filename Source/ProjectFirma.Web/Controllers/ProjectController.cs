@@ -351,7 +351,8 @@ namespace ProjectFirma.Web.Controllers
         private static List<Project> GetIndexGridSpec(Person currentPerson, out IndexGridSpec gridSpec)
         {            
             gridSpec = new IndexGridSpec(currentPerson);
-            return GetProjectsForGrid(null);
+            return GetProjectsForGrid(x =>
+                x.ProjectStage != ProjectStage.Proposal && x.ProposedProjectState == ProposedProjectState.Approved);
         }
 
         public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
@@ -365,7 +366,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var projects = GetProjectsForGrid(null);
+            var projects = GetProjectsForGrid(x =>
+                x.ProjectStage != ProjectStage.Proposal && x.ProposedProjectState == ProposedProjectState.Approved);
 
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
