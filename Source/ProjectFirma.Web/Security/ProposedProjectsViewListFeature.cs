@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
@@ -27,7 +29,7 @@ namespace ProjectFirma.Web.Security
     public class ProposedProjectsViewListFeature : FirmaFeature
     {
         public ProposedProjectsViewListFeature()
-            : base(FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
+            : base(MultiTenantHelpers.ShowProposalsToThePublic() ? new List<Role>() : FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
         {
         }
     }
