@@ -781,7 +781,8 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                     HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
                 .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
                              x.ProposedProjectState != ProposedProjectState.Rejected &&
-                             x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
+                             x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID && 
+                             x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                 .ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
