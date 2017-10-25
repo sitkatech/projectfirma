@@ -41,8 +41,6 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ResultsController : FirmaBaseController
     {
-        public bool HideProposals => !MultiTenantHelpers.ShowProposalsToThePublic() && CurrentPerson.IsAnonymousOrUnassigned;
-
         [InvestmentByFundingSourceViewFeature]
         public ViewResult InvestmentByOrganizationType(int? calendarYear)
         {

@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Controllers
 
         protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
 
+        public bool HideProposals => !MultiTenantHelpers.ShowProposalsToThePublic() && CurrentPerson.IsAnonymousOrUnassigned;
+
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (!IsCurrentUserAnonymous())
