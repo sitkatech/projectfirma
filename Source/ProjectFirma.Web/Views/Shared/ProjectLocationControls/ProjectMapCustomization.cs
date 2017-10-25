@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static List<IMappableProject> ProjectsForMap(bool hideProposals)
         {
             var exceptProposals = hideProposals
-                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectStage == ProjectStage.Proposal)
+                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                     .ToList()
                 : new List<Models.Project>();
             var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Except(exceptProposals));
