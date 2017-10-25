@@ -120,11 +120,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<IMappableProject> ProjectsForMap(bool hideProposals)
         {
-            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable());
-            if (!hideProposals)
-            {
-                allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects.Where(x=>x.ProjectID == null)));
-            }
+            var exceptProposals = hideProposals
+                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectStage == ProjectStage.Proposal)
+                    .ToList()
+                : new List<Models.Project>();
+            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Except(exceptProposals));
             var projectsToShow = allProjects
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
             return projectsToShow;
