@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<ProjectStage> GetProjectStagesForMap(bool isCurrentUserAnonymous)
         {
-            var includeProposedProjectsOnMap = MultiTenantHelpers.IncludeProposedProjectsOnMap() && !isCurrentUserAnonymous;
+            var includeProposedProjectsOnMap = MultiTenantHelpers.ShowProposalsToThePublic() && !isCurrentUserAnonymous;
             var exceptProposedProjects = includeProposedProjectsOnMap
                 ? new List<ProjectStage>()
                 : new List<ProjectStage> {ProjectStage.Proposal};
@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter, bool isCurrentUserAnonymous)
         {
             var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Where(visibleProjectFilter));
-            if (MultiTenantHelpers.IncludeProposedProjectsOnMap() && !isCurrentUserAnonymous)
+            if (MultiTenantHelpers.ShowProposalsToThePublic() && !isCurrentUserAnonymous)
             {
                 allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects.Where(x=>x.ProjectID == null)));
             }

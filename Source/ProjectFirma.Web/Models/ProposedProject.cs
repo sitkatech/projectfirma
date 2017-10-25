@@ -30,7 +30,6 @@ using ProjectFirma.Web.Common;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {

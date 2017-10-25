@@ -46,7 +46,6 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> ProjectMapPopuUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(t => t.ProposedProjectMapPopup(UrlTemplate.Parameter1Int)));
         public static string GetProjectMapPopupUrl(this ProposedProject project)
         {
-            //return string.Empty;
             return ProjectMapPopuUrlTemplate.ParameterReplace(project.ProposedProjectID);
         }
     }

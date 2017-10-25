@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project));
         }
 
-        [ProjectsViewFullListFeature]
+        [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

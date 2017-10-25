@@ -1161,7 +1161,7 @@
           <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />
           <ScalarProperty Name="MapServiceUrl" ColumnName="MapServiceUrl" />
           <ScalarProperty Name="WatershedLayerName" ColumnName="WatershedLayerName" />
-          <ScalarProperty Name="IncludeProposedProjectsOnMap" ColumnName="IncludeProposedProjectsOnMap" />
+          <ScalarProperty Name="ShowProposalsToThePublic" ColumnName="ShowProposalsToThePublic" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

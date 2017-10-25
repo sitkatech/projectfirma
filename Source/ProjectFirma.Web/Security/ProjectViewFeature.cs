@@ -18,8 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
@@ -48,6 +49,11 @@ namespace ProjectFirma.Web.Security
             }
 
             if (!contextModelObject.IsVisibleToThisPerson(person))
+            {
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+            }
+
+            if (contextModelObject.ProjectStage == ProjectStage.Proposal && !MultiTenantHelpers.ShowProposalsToThePublic() && ( person.IsAnonymousUser || person.Role == Role.Unassigned))
             {
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
             }

@@ -143,9 +143,9 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
         }
-        public static bool IncludeProposedProjectsOnMap()
+        public static bool ShowProposalsToThePublic()
         {
-            return HttpRequestStorage.Tenant.GetTenantAttribute().IncludeProposedProjectsOnMap;
+            return HttpRequestStorage.Tenant.GetTenantAttribute().ShowProposalsToThePublic;
         }
     }
 }

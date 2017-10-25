@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -131,7 +130,7 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
 
             List<ProposedProject> watershedAssociatedProposedProjectsToShow;
-            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.ShowProposalsToThePublic())
             {
                 watershedAssociatedProposedProjectsToShow = watershed.AssociatedProposedProjects;
             }
