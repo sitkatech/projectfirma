@@ -265,7 +265,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
                                     }
@@ -277,7 +277,14 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData); }
+                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                {
+                                    PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                                }
+                                else
+                                {
+                                    <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
+                                }
                             </div>
                         </div>
 
@@ -285,7 +292,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>
-                                    @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
+                                    @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions && ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
                                     }
@@ -297,7 +304,14 @@
                                 </h2>
                             </div>
                             <div class="panel-body">
-                                @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }
+                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                {
+                                    ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                                }
+                                else
+                                {
+                                    <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
+                                }
                             </div>
                         </div>
 
