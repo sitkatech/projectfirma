@@ -36,17 +36,5 @@ namespace ProjectFirma.Web.Models
         {
             return EditUrlTemplate.ParameterReplace(project.ProposedProjectID);
         }
-
-        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(t => t.DeleteProposedProject(UrlTemplate.Parameter1Int)));
-        public static string GetDeleteUrl(this ProposedProject project)
-        {
-            return DeleteUrlTemplate.ParameterReplace(project.ProposedProjectID);
-        }
-
-        public static readonly UrlTemplate<int> ProjectMapPopuUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(t => t.ProposedProjectMapPopup(UrlTemplate.Parameter1Int)));
-        public static string GetProjectMapPopupUrl(this ProposedProject project)
-        {
-            return ProjectMapPopuUrlTemplate.ParameterReplace(project.ProposedProjectID);
-        }
     }
 }

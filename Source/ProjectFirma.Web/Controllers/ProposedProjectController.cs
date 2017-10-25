@@ -1003,13 +1003,5 @@ namespace ProjectFirma.Web.Controllers
             }
             SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
-
-        [CrossAreaRoute]
-        [ProposedProjectViewFeature]
-        public PartialViewResult ProposedProjectMapPopup(ProposedProjectPrimaryKey primaryKeyProposedProject)
-        {
-            var proposedProject = primaryKeyProposedProject.EntityObject;
-            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(proposedProject));
-        }
     }
 }

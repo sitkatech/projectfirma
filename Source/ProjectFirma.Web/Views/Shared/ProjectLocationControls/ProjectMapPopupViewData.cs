@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     public class ProjectMapPopupViewData : FirmaUserControlViewData
     {
         public readonly string DetailLinkDescriptor;
-        public readonly Models.FieldDefinition DetailLinkFieldDefinition;
 
         public string TaxonomyTierThreeDisplayName { get; private set; }
         public string TaxonomyTierTwoDisplayName { get; private set; }
@@ -55,8 +54,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectClassifications =
                 string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName));
             DetailUrl = project.GetDetailUrl();
-            DetailLinkDescriptor = "For project expenditures & results, see";
-            DetailLinkFieldDefinition = Models.FieldDefinition.Project;
+            if (project.ProjectStage != ProjectStage.Proposal)
+            {
+                DetailLinkDescriptor = "For project expenditures & results, see";
+            }
+            else
+            {
+                DetailLinkDescriptor = "This project is a proposal. For description and expected results, see";
+            }
 
             InitializeDisplayNames();
         }
@@ -68,24 +73,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }
-
-        public ProjectMapPopupViewData(Models.ProposedProject proposedProject)
-        {
-            // Project = project;
-            DisplayName = proposedProject.DisplayName;
-            KeyPhoto = null;
-            Duration = proposedProject.Duration;
-            ProjectStage = proposedProject.ProjectStage;
-            TaxonomyTierOne = proposedProject.TaxonomyTierOne;
-            EstimatedTotalCost = proposedProject.EstimatedTotalCost;
-            ProjectClassifications = string.Join(", ",
-                proposedProject.ProposedProjectClassifications.Select(x => x.Classification.DisplayName));
-            DetailUrl = proposedProject.GetDetailUrl();
-            DetailLinkDescriptor = "For description and expected results, see";
-            DetailLinkFieldDefinition = Models.FieldDefinition.ProposedProject;
-
-            InitializeDisplayNames();
-        }
-       
     }
 }
