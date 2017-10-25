@@ -51,14 +51,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(ProjectStage.All.Where(x => x.ArePerformanceMeasuresReportable()),
                 Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.Implementation, ProjectStage.PostImplementation}));
         }
-
-        [Test]
-        public void IsVisibleToEveryoneTest()
-        {
-            Assert.That(ProjectStage.All.Where(x => x.IsVisibleToEveryone()),
-                Is.EquivalentTo(ProjectStage.All));
-        }
-
+        
         [Test]
         public void RequiresReportedExpendituresTest()
         {

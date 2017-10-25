@@ -235,19 +235,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool IsVisibleToEveryone()
-        {
-            return ProjectStage.IsVisibleToEveryone();
-        }
-
         public bool IsMyProject(Person person)
         {
             return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
-        }
-
-        public bool IsVisibleToThisPerson(Person person)
-        {
-            return IsVisibleToEveryone() || IsMyProject(person) || new FirmaAdminFeature().HasPermissionByPerson(person);
         }
 
         public bool IsPersonThePrimaryContact(Person person)

@@ -162,5 +162,7 @@ namespace ProjectFirma.Web.Models
                            x => x.OrganizationTypeID == Organization.OrganizationTypeID);
             }
         }
+
+        public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;
     }
 }

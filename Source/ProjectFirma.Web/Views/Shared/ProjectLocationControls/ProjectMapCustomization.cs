@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string ColorByQueryStringParameter = "ColorBy";
 
         public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.ProjectStage;
-        public static List<int> GetDefaultLocationFilterValues(bool isCurrentUserAnonymous) => GetProjectStagesForMap(isCurrentUserAnonymous).Select(x => x.ProjectStageID).ToList();
+        public static List<int> GetDefaultLocationFilterValues(bool hideProposals) => GetProjectStagesForMap(hideProposals).Select(x => x.ProjectStageID).ToList();
         public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.ProjectStage;
 
         public List<int> FilterPropertyValues { get; set; }
@@ -109,21 +109,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return GetProjectStagesForMap(false);
         }
 
-        public static List<ProjectStage> GetProjectStagesForMap(bool isCurrentUserAnonymous)
+        public static List<ProjectStage> GetProjectStagesForMap(bool hideProposals)
         {
-            var includeProposedProjectsOnMap = MultiTenantHelpers.ShowProposalsToThePublic() && !isCurrentUserAnonymous;
-            var exceptProposedProjects = includeProposedProjectsOnMap
-                ? new List<ProjectStage>()
-                : new List<ProjectStage> {ProjectStage.Proposal};
+            var exceptProposedProjects = !hideProposals ? new List<ProjectStage>()
+                : new List<ProjectStage> { ProjectStage.Proposal};
             var projectStagesForMap = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap()))
                 .Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;
         }
 
-        public static List<IMappableProject> ProjectsForMap(Func<IMappableProject, bool> visibleProjectFilter, bool isCurrentUserAnonymous)
+        public static List<IMappableProject> ProjectsForMap(bool hideProposals)
         {
-            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Where(visibleProjectFilter));
-            if (MultiTenantHelpers.ShowProposalsToThePublic() && !isCurrentUserAnonymous)
+            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable());
+            if (!hideProposals)
             {
                 allProjects.AddRange(new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.ProposedProjects.Where(x=>x.ProjectID == null)));
             }

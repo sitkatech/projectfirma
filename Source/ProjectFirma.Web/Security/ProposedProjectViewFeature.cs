@@ -46,11 +46,6 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult(string.Format("You don't have permission to view {0}", contextModelObject.DisplayName));
             }
 
-            if (!contextModelObject.IsVisibleToThisPerson(person))
-            {
-                return new PermissionCheckResult(string.Format("ProposedProject {0} is not visible to you.", contextModelObject.ProposedProjectID));
-            }
-
             // Allowed
             return new PermissionCheckResult();
         }

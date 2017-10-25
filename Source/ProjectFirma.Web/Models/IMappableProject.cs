@@ -32,7 +32,5 @@ namespace ProjectFirma.Web.Models
         int FancyTreeNodeKey { get; }
         bool HasProjectLocationPoint { get; }
         Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties);
-        bool IsVisibleToThisPerson(Person currentPerson);
-        bool IsVisibleToEveryone();
     }
 }

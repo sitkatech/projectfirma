@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var taxonomyTierTwoProjects = taxonomyTierTwo.Projects.ToList();
             var visibleProjectsForUser = new List<IMappableProject>(IsCurrentUserAnonymous()
-                ? taxonomyTierTwoProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+                ? taxonomyTierTwoProjects.Where(p => true).ToList()
                 : taxonomyTierTwoProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierTwo, new List<int> {taxonomyTierTwo.TaxonomyTierTwoID}, ProjectColorByType.ProjectStage);

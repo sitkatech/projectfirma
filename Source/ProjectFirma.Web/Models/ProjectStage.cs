@@ -32,11 +32,6 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
 
-        public bool IsVisibleToEveryone()
-        {
-            return true;
-        }
-
         public abstract bool AreExpendituresReportable();
         public abstract bool ArePerformanceMeasuresReportable();
         public abstract bool RequiresReportedExpenditures();

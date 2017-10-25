@@ -541,7 +541,11 @@ namespace ProjectFirma.Web.Controllers
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
                     .ToList()
-                    .Where(x => x.IsVisibleToThisPerson(CurrentPerson))
+                    .Where(x =>
+                    {
+                        Person person = CurrentPerson;
+                        return true;
+                    })
                     .OrderBy(x => x.DisplayName)
                     .ToList();
             return projectsFound;
