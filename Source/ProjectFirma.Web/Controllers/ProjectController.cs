@@ -244,7 +244,8 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridName,
                 projectNotificationGridDataUrl,
                 projectBasicsViewData,
-                assessmentTreeViewData);
+                assessmentTreeViewData,
+                CurrentTenant);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

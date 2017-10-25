@@ -77,6 +77,51 @@
     <a class="btn backButton" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Projects</a>
 </div>
 
+@if (ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
+{
+    <div class="alert alert-info" style="margin-bottom: 10px">
+        <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.ProposedProject.GetFieldDefinitionLabel()"></span>
+        @switch (ViewDataTyped.Project.ProposedProjectState.ToEnum)
+        {
+            case ProposedProjectStateEnum.Draft:
+                <span>
+                    This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
+                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">finalize the Project Proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
+            case ProposedProjectStateEnum.Submitted:
+                <span>
+                    This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() is awaiting review.
+                    @if (ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
+                    }
+                    else if (ViewDataTyped.CurrentPersonIsSubmitter)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">make changes or withdraw your proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
+            case ProposedProjectStateEnum.Approved:
+                @*Should never get here*@
+                <span>
+                    This proposal was accepted by the review and is now an <a href="@ViewDataTyped.Project.GetDetailUrl()">approved Project</a>.
+                </span>
+                break;
+            case ProposedProjectStateEnum.Rejected:
+                <span>
+                    This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
+                </span>
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    </div>
+}
+
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
 {
     <div class="alert alert-warning" style="margin-bottom: 10px">
