@@ -264,7 +264,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Proposed());
+            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
         }
     }
 

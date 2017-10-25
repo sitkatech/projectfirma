@@ -29,7 +29,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.ProposedProject;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -345,6 +344,29 @@ namespace ProjectFirma.Web.Controllers
             IndexGridSpec gridSpec;
             var projects = GetIndexGridSpec(CurrentPerson, out gridSpec);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+
+        //Moving this over from ProposedProjectController
+        [ProposedProjectsViewListFeature]
+        public ViewResult Proposed()
+        {
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProposedProjects);
+            var viewData = new ProposedViewData(CurrentPerson, firmaPage);
+            return RazorView<Proposed, ProposedViewData>(viewData);
+        }
+
+        [ProposedProjectsViewListFeature]
+        public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
+        {
+            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
+            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
+            var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
+                x => x.ProjectStage == ProjectStage.Proposal && x.ProposedProjectState != ProposedProjectState.Approved,
+                stateProvinces).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

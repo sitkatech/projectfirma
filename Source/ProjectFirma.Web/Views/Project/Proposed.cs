@@ -18,7 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.ProposedProject
+
+namespace ProjectFirma.Web.Views.Project
 {
     public abstract class Proposed : LtInfo.Common.Mvc.TypedWebViewPage<ProposedViewData>
     {

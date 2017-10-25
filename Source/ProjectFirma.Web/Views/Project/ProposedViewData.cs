@@ -18,12 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
-using LtInfo.Common;
 
-namespace ProjectFirma.Web.Views.ProposedProject
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+
+namespace ProjectFirma.Web.Views.Project
 {
     public class ProposedViewData : FirmaViewData
     {
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                 GridSpec.CreateEntityModalDialogForm = null;
             }
             GridName = "proposedProjectsGrid";
-            GridDataUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.ProposedGridJsonData());
+            GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProposedGridJsonData());
         }
     }
 }

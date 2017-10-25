@@ -41,6 +41,8 @@ using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using Detail = ProjectFirma.Web.Views.ProposedProject.Detail;
+using DetailViewData = ProjectFirma.Web.Views.ProposedProject.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -80,27 +82,6 @@ namespace ProjectFirma.Web.Controllers
                 assessmentTreeViewData,
                 HttpRequestStorage.Tenant);
             return RazorView<Detail, DetailViewData>(viewData);
-        }
-
-        [ProposedProjectsViewListFeature]
-        public ViewResult Proposed()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProposedProjects);
-            var viewData = new ProposedViewData(CurrentPerson, firmaPage);
-            return RazorView<Proposed, ProposedViewData>(viewData);
-        }
-
-        [ProposedProjectsViewListFeature]
-        public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
-        {
-            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
-            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
-                x => x.ProjectStage == ProjectStage.Proposal && x.ProposedProjectState != ProposedProjectState.Approved,
-                stateProvinces).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
         [ProposedProjectCreateNewFeature]
