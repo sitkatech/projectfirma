@@ -129,15 +129,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
 
-            List<ProposedProject> watershedAssociatedProposedProjectsToShow;
-            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.ShowProposalsToThePublic())
-            {
-                watershedAssociatedProposedProjectsToShow = watershed.AssociatedProposedProjects;
-            }
-            else
-            {
-                watershedAssociatedProposedProjectsToShow = new List<ProposedProject>();
-            }
+            var watershedAssociatedProposedProjectsToShow = !HideProposals ? watershed.AssociatedProposedProjects : new List<Project>();
 
             var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposedProjectsToShow);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));

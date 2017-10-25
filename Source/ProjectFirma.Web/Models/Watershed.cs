@@ -40,17 +40,17 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ProjectWatersheds.Select(ptc => ptc.Project).Distinct(new HavePrimaryKeyComparer<Project>())
+                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x=>x.ProjectStageID != ProjectStage.Proposal.ProjectStageID).Distinct(new HavePrimaryKeyComparer<Project>())
                     .OrderBy(x => x.DisplayName).ToList();
             }
         }
 
-        public List<ProposedProject> AssociatedProposedProjects
+        public List<Project> AssociatedProposedProjects
         {
             get
             {
-                return ProposedProjectWatersheds.Select(ptc => ptc.ProposedProject).Where(x => x.ProjectID == null)
-                    .Distinct(new HavePrimaryKeyComparer<ProposedProject>()).OrderBy(x => x.DisplayName).ToList();
+                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+                    .Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList();
             }
         }
 
@@ -92,18 +92,20 @@ namespace ProjectFirma.Web.Models
                 layerInitialVisibility);
         }
 
-        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects, List<ProposedProject> proposedProjects)
+        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects, List<Project> proposedProjects)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Show),
-                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
+                GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(proposedProjects), true), "#dbbdff", 1, LayerInitialVisibility.Show),
             };
             return layerGeoJsons;
         }
 
+
+        // TODO: Clean up now that ProposedProject doesn't technically exist anymore.
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false) {MapUrl = null};
