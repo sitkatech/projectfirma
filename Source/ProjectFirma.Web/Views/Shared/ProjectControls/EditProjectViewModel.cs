@@ -105,24 +105,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             PrimaryContactPersonID = project.PrimaryContactPersonID;
         }
 
-        public EditProjectViewModel(Models.ProposedProject proposedProject)
-        {
-            TaxonomyTierOneID = proposedProject.TaxonomyTierOneID.Value;
-            ProjectName = proposedProject.ProjectName;
-            ProjectDescription = proposedProject.ProjectDescription;
-            ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
-            OldProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
-            FundingTypeID = proposedProject.FundingTypeID;
-            ImplementationStartYear = proposedProject.ImplementationStartYear;
-            PlanningDesignStartYear = proposedProject.PlanningDesignStartYear;
-            CompletionYear = proposedProject.CompletionYear;
-            EstimatedTotalCost = proposedProject.EstimatedTotalCost;
-            EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;
-            SecuredFunding = proposedProject.SecuredFunding;
-            HasExistingProjectUpdate = false;
-            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
-        }
-
         public void UpdateModel(Models.Project project)
         {
             project.ProjectName = ProjectName;
