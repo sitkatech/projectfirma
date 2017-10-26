@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class ExpectedPerformanceMeasureValuesViewModel : EditPerformanceMeasureExpectedViewModel, IValidatableObject
     {
-        [StringLength(Models.ProposedProject.FieldLengths.PerformanceMeasureNotes)]
+        [StringLength(Models.Project.FieldLengths.PerformanceMeasureNotes)]
         public string PerformanceMeasureNotes { get; set; }
 
         /// <summary>

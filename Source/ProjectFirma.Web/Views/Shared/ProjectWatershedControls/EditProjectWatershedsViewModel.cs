@@ -58,13 +58,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
             project.ProjectWatershedNotes = ProjectWatershedNotes;
         }
 
-        public void UpdateModel(Models.ProposedProject project, List<ProposedProjectWatershed> currentProjectWatersheds, IList<ProposedProjectWatershed> allProjectWatersheds)
-        {
-            var newProjectWatersheds = WatershedIDs?.Select(x => new ProposedProjectWatershed(project.ProposedProjectID, x)).ToList() ?? new List<ProposedProjectWatershed>();
-            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProposedProjectID == y.ProposedProjectID && x.WatershedID == y.WatershedID);
-            project.ProjectWatershedNotes = ProjectWatershedNotes;
-        }
-
         public void UpdateModel(Models.ProjectUpdateBatch project, List<ProjectWatershedUpdate> currentProjectWatersheds, IList<ProjectWatershedUpdate> allProjectWatersheds)
         {
             var newProjectWatersheds = WatershedIDs?.Select(x => new ProjectWatershedUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectWatershedUpdate>();

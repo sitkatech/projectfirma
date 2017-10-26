@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             // Arrange
             var project = TestFramework.TestProject.Create();
             var viewModel = new BasicsViewModel(project);
-            viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.ProposedProject.FieldLengths.ProjectName);
-            viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.ProposedProject.FieldLengths.ProjectDescription);
+            viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.Project.FieldLengths.ProjectName);
+            viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.Project.FieldLengths.ProjectDescription);
 
             // Act
             viewModel.UpdateModel(project, TestFramework.TestPerson.Create());

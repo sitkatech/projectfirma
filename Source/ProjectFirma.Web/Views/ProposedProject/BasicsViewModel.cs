@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.ProposedProject.FieldLengths.ProjectDescription)]
+        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 

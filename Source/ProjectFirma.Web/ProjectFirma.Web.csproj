@@ -786,7 +786,6 @@
     <Compile Include="Security\ProposedProjectNoteCreateFeature.cs" />
     <Compile Include="Security\ProposedProjectNoteManageFeature.cs" />
     <Compile Include="Security\ProposedProjectsViewListFeature.cs" />
-    <Compile Include="Security\ProposedProjectViewFeature.cs" />
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
     <Compile Include="Security\SpendingByOrganizationTypeByOrganizationViewFeature.cs" />
