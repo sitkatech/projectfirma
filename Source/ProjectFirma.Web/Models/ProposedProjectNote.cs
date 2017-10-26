@@ -51,12 +51,12 @@ namespace ProjectFirma.Web.Models
 
         public string DeleteUrl
         {
-            get { return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.DeleteNote(ProposedProjectNoteID)); }
+            get { return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.DeleteNote(ProposedProjectNoteID)); }
         }
 
         public string EditUrl
         {
-            get { return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditNote(ProposedProjectNoteID)); }
+            get { return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditNote(ProposedProjectNoteID)); }
         }
 
         public string CreatePersonName

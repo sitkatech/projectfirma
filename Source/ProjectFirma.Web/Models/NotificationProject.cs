@@ -178,7 +178,7 @@ Thank you,<br />
         {
             var submitterPerson = project.ProposingPerson;
             var subject = $"A Project Proposal was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
-            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(project.ProjectID));
+            var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(project.ProjectID));
             var message = $@"
 <p>A proposal was submitted for a new Project, “{project.DisplayName}”.</p>
 <p>The proposal was submitted on {project.ProposingDate.ToStringDate()} by {
@@ -236,7 +236,7 @@ Thank you,<br />
         {
             var submitterPerson = project.ProposingPerson;
             var subject = $@"Your Project Proposal ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
-            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(project.ProjectID));
+            var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLast},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>

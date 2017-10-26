@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
             PageTitle = Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized();
 
             HasProposeProjectPermissions = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
-            ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
+            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
 
             GridSpec = new ProposedProjectGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             if (new ProjectEditFeature().HasPermissionByPerson(CurrentPerson))

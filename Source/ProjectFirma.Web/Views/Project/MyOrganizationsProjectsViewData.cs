@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.ProposedProject;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.Project
             };
             ProposedProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProposedProjectsGridJsonData());
 
-            ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.Instructions(null));
+            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(tc => tc.Instructions(null));
         }
     }
 }

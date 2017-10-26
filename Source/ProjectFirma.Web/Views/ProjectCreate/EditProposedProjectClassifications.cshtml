@@ -1,0 +1,145 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditProposedProjectClassifications.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using MoreLinq
+@inherits ProjectFirma.Web.Views.ProjectCreate.EditProposedProjectClassifications
+              
+<style>
+    .charactersRemainingText {
+        font-size: 10px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div>
+        Click the checkboxes below to associate this @FieldDefinition.Project.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
+    </div>
+    <div>
+        @{var i = 0;}
+        @{var j = 0;}
+        @foreach (var classificationsBatch in ViewDataTyped.Classifications.OrderBy(x => x.DisplayName).Batch(3).ToList())
+        {
+            <div class="row" style="padding-top: 10px">
+                @{
+                    var classifications = classificationsBatch.OrderBy(x => x.DisplayName).ToList();
+                }
+                @foreach (var classification in classifications)
+                {
+                    <div class="col-xs-4">
+                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[i].Selected)
+                        <span style="font-weight: bold">@classification.DisplayName</span>
+                        <div style="font-size: 11px;  font-style: italic">
+                            @classification.ClassificationDescription
+                        </div>
+                        @{ i = i + 1; }
+                    </div>
+                }
+            </div>
+            <div class="row" style="padding-top: 5px">
+                @foreach (var classification in classifications)
+                {
+                    <div class="col-xs-4">
+                        <div>
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[j].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), string.Format("Describe how this applies to the {0}.", FieldDefinition.Project.GetFieldDefinitionLabel()))
+                        </div>
+                        @Html.HiddenFor(x => x.ProjectClassificationSimples[j].ClassificationID)
+                        @{ j = j + 1; }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div id="bottomOfForm"></div>
+    <div id="bottomOfForm" style="margin: 5px 0;">
+    </div>
+    <hr/>
+    <div class="pull-right">
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue</button>
+    </div>
+    
+}
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {
+        @for (var i = 0; i < ViewDataTyped.Classifications.Count; i++)
+        {
+            <text>
+        var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+        //Set default display
+        if (checkBox.prop("checked")) {
+            notesTextArea.css("background-color", "");
+            notesTextArea.attr("disabled", false);
+            notesTextArea.attr("disabled", false);
+            charactersRemaining.css("display", "");
+        }
+        else {
+            notesTextArea.css("background-color", "#EEEEEE");
+            notesTextArea.attr("disabled", "disabled");
+            charactersRemaining.css("display", "none");
+        }
+
+        //Create on-change event
+        jQuery(checkBox).change(function () {
+            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+            var charactersRemainingFunction =
+                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+            if (this.checked) {
+                notesTextAreaForCheckboxFunction.css("background-color", "");
+                notesTextAreaForCheckboxFunction.attr("disabled", false);
+                charactersRemainingFunction.css("display", "");
+            }
+            else {
+                notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                charactersRemainingFunction.css("display", "none");
+            }
+        });
+        </text>
+        }
+
+        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+    });
+
+    function saveForm(autoAdvance) {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
+        form.submit();
+    }
+
+    // ]]>
+</script>

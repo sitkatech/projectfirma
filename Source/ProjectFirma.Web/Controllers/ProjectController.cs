@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
                 project.DisplayName,
-                new ProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson));
+                new ProjectNoteManageAsAdminFeature().HasPermissionByPerson(CurrentPerson));
 
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
 
@@ -350,7 +350,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         //Moving this over from ProposedProjectController
-        [ProposedProjectsViewListFeature]
+        [ProjectsInProposalStageViewListFeature]
         public ViewResult Proposed()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProposedProjects);
@@ -358,7 +358,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Proposed, ProposedViewData>(viewData);
         }
 
-        [ProposedProjectsViewListFeature]
+        [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
@@ -770,7 +770,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return gridJsonNetJObjectResult;
         }
 
-        [ProposedProjectsViewListFeature]
+        [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> MyOrganizationsProposedProjectsGridJsonData()
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);

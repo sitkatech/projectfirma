@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 
@@ -30,7 +29,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectImage> _firmaFeatureWithContextImpl;
 
         public ProjectImageEditOrDeleteFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectImage>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -43,13 +42,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectImage contextModelObject)
         {
-            var forbidAdmin = !HasPermissionByPerson(person) ||
-                              person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                              !person.CanApproveProjectByOrganizationRelationship(contextModelObject.Project);
-            return forbidAdmin
-                ? new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.Project.DisplayName}")
-                : new PermissionCheckResult();
+            return new ProjectEditFeature().HasPermission(person, contextModelObject.Project);
         }
     }
 }

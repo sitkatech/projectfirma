@@ -135,11 +135,6 @@ namespace ProjectFirma.Web.Models
             return IsPersonThePrimaryContact(person) || person.PersonID == ProposingPersonID;
         }
 
-        public bool IsEditableToThisPerson(Person person)
-        {
-            return IsMyProposedProject(person) || new ProposedProjectApproveFeature().HasPermission(person, this).HasPermission;
-        }
-
         public bool IsVisibleToThisPerson(Person person)
         {
             return !person.IsAnonymousUser && person.Role != Role.Unassigned;

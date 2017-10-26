@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Models
 
         public void SetDefaultProjectOrganizations(Project project)
         {
-            if (!new ProposedProjectApproveFeature().HasPermissionByPerson(this))
+            if (!new ProjectApproveFeature().HasPermissionByPerson(this))
             {
                 return;
             }

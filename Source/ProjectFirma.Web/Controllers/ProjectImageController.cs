@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectImageEditOrDeleteFeature]
+        [ProjectImageEditOrDeleteAsAdminFeature]
         public PartialViewResult Edit(ProjectImagePrimaryKey projectImagePrimaryKey)
         {
             var projectImage = projectImagePrimaryKey.EntityObject;
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageEditOrDeleteFeature]
+        [ProjectImageEditOrDeleteAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectImagePrimaryKey projectImagePrimaryKey, EditViewModel viewModel)
         {
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectImageEditOrDeleteFeature]
+        [ProjectImageEditOrDeleteAsAdminFeature]
         public PartialViewResult DeleteProjectImage(ProjectImagePrimaryKey projectImagePrimaryKey)
         {
             var projectImage = projectImagePrimaryKey.EntityObject;
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageEditOrDeleteFeature]
+        [ProjectImageEditOrDeleteAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteProjectImage(ProjectImagePrimaryKey projectImagePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

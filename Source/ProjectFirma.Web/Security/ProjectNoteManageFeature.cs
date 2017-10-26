@@ -23,13 +23,13 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage {0}", FieldDefinitionEnum.ProjectNote)]
+    [SecurityFeatureDescription("Edit Proposed {0}", FieldDefinitionEnum.ProjectNote)]
     public class ProjectNoteManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectNote>
     {
         private readonly FirmaFeatureWithContextImpl<ProjectNote> _firmaFeatureWithContextImpl;
 
         public ProjectNoteManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectNote>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -40,14 +40,15 @@ namespace ProjectFirma.Web.Security
             _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
+        /// <summary>
+        /// TODO: This may well be simplified to be non-context sensitive
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="contextModelObject"></param>
+        /// <returns></returns>
         public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
         {
-            if (!HasPermissionByPerson(person))
-            {
-                return new PermissionCheckResult("You don't have permission to edit this note.");
-            }
-
-            return new PermissionCheckResult();
+            return new ProjectEditFeature().HasPermission(person, contextModelObject.Project);
         }
     }
 }

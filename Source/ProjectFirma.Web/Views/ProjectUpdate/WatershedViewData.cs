@@ -23,7 +23,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using ProjectFirma.Web.Views.ProposedProject;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
