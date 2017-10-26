@@ -159,8 +159,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             var errors = new List<ValidationResult>();
 
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.ToList();
-            if (!Models.ProposedProject.IsProjectNameUnique(proposedProjects, ProjectName, ProjectID) || !Models.Project.IsProjectNameUnique(projects, ProjectName, ModelObjectHelpers.NotYetAssignedID))
+            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
             }

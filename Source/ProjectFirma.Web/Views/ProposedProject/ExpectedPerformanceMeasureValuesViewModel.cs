@@ -52,41 +52,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions,
             Models.Project project)
         {
-            //Save our note
             project.PerformanceMeasureNotes = PerformanceMeasureNotes;
+
             base.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds,
                 allPerformanceMeasureExpectedSubcategoryOptions, project);
-
-            //TODO : Remove commented code.
-            // Remove all existing associations
-            currentPerformanceMeasureExpecteds.ForEach(pmav =>
-            {
-                pmav.PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureExpectedSubcategoryOptions.Remove(pmavso));
-                allPerformanceMeasureExpecteds.Remove(pmav);
-            });
-            currentPerformanceMeasureExpecteds.Clear();
-
-            if (PerformanceMeasureExpecteds != null)
-            {
-                // Completely rebuild the list
-                PerformanceMeasureExpecteds.ForEach(x =>
-                {
-                    var projectPerformanceMeasureExpected = new PerformanceMeasureExpected(project.ProjectID, x.PerformanceMeasureID) { ExpectedValue = x.ExpectedValue };
-                    allPerformanceMeasureExpecteds.Add(projectPerformanceMeasureExpected);
-                    if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
-                    {
-                        x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.PerformanceMeasureSubcategoryOptionID))
-                            .ToList()
-                            .ForEach(
-                                y =>
-                                    allPerformanceMeasureExpectedSubcategoryOptions.Add(
-                                        new PerformanceMeasureExpectedSubcategoryOption(projectPerformanceMeasureExpected.PerformanceMeasureExpectedID,
-                                            y.PerformanceMeasureSubcategoryOptionID,
-                                            y.PerformanceMeasureID,
-                                            y.PerformanceMeasureSubcategoryID)));
-                    }
-                });
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

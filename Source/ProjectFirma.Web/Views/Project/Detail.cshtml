@@ -286,7 +286,7 @@
                         </div>*@
 
                         <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions)
+                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
