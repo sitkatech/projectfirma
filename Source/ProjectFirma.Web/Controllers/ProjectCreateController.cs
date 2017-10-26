@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 viewModel.FundingTypeID,
-                ProposedProjectState.Draft.ProposedProjectStateID)
+                ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
             {
                 ProposingPerson = CurrentPerson,
                 ProposingDate = DateTime.Now
@@ -821,7 +821,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.PendingApproval;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
             NotificationProject.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully submitted for review.");
@@ -848,13 +848,13 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApprove(viewModel);
             }
             var project = projectPrimaryKey.EntityObject;
-            Check.Assert(project.ProposedProjectState == ProposedProjectState.PendingApproval,
-                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProposedProjectState.ProposedProjectStateDisplayName);
+            Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval,
+                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
             Check.Assert(new ProposalSectionsStatus(project).AreAllSectionsValid, "Proposal is not ready for submittal.");
             
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            project.ProposedProjectStateID = ProposedProjectState.Approved.ProposedProjectStateID;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
             project.ApprovalDate = DateTime.Now;
             project.ReviewedByPerson = CurrentPerson;
             project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
@@ -900,7 +900,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Withdraw(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Draft.ProjectApprovalStatusID;
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} withdrawn from review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
@@ -922,7 +922,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Return(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Draft.ProjectApprovalStatusID;
             project.ReviewedByPerson = CurrentPerson;
             NotificationProject.SendReturnedMessage(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
@@ -945,7 +945,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Reject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Rejected;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Rejected.ProjectApprovalStatusID;
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

@@ -81,9 +81,9 @@
 {
     <div class="alert alert-info" style="margin-bottom: 10px">
         <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.ProposedProject.GetFieldDefinitionLabel()"></span>
-        @switch (ViewDataTyped.Project.ProposedProjectState.ToEnum)
+        @switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
         {
-            case ProposedProjectStateEnum.Draft:
+            case ProjectApprovalStatusEnum.Draft:
                 <span>
                     This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
                     @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
@@ -92,7 +92,7 @@
                     }
                 </span>
                 break;
-            case ProposedProjectStateEnum.PendingApproval:
+            case ProjectApprovalStatusEnum.PendingApproval:
                 <span>
                     This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() is awaiting review.
                     @if (ViewDataTyped.CurrentPersonIsApprover)
@@ -105,13 +105,13 @@
                     }
                 </span>
                 break;
-            case ProposedProjectStateEnum.Approved:
+            case ProjectApprovalStatusEnum.Approved:
                 @*Should never get here*@
                 <span>
                     This proposal was accepted by the review and is now an <a href="@ViewDataTyped.Project.GetDetailUrl()">approved Project</a>.
                 </span>
                 break;
-            case ProposedProjectStateEnum.Rejected:
+            case ProjectApprovalStatusEnum.Rejected:
                 <span>
                     This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
                 </span>

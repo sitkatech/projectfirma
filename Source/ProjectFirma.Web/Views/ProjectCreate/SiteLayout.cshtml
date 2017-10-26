@@ -179,11 +179,11 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="pull-right">
             @if (ViewDataTyped.Project != null)
             {
-                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProposedProjectState.ProposedProjectStateDisplayName</span></span>
+                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
 
-                switch (ViewDataTyped.Project.ProposedProjectState.ToEnum)
+                switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
                 {
-                    case ProposedProjectStateEnum.Draft:
+                    case ProjectApprovalStatusEnum.Draft:
                         if (ViewDataTyped.CanAdvanceStage)
                         {
                             @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)
@@ -193,7 +193,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             <button class="btn btn-xs btn-firma" disabled>Submit</button>
                         }
                         break;
-                    case ProposedProjectStateEnum.PendingApproval:
+                    case ProjectApprovalStatusEnum.PendingApproval:
                         if (ViewDataTyped.CurrentPersonIsApprover)
                         {
                             if (ViewDataTyped.CanAdvanceStage)
@@ -222,10 +222,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         break;
 
-                    case ProposedProjectStateEnum.Approved:
+                    case ProjectApprovalStatusEnum.Approved:
                         Check.Assert(ViewDataTyped.ProjectStateIsValidInWizard, "This proposal has already been approved.");
                         break;
-                    case ProposedProjectStateEnum.Rejected:
+                    case ProjectApprovalStatusEnum.Rejected:
                         Check.Assert(ViewDataTyped.ProjectStateIsValidInWizard, "This proposal has already been rejected.");
                         break;
                     default:

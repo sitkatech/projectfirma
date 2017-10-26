@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                 var projectStage = ProjectStage.PlanningDesign;
                 // TODO: Verify that "Approved" is the correct project state or use the correct value
                 var project = Project.CreateNewBlank(taxonomyTierOne, projectStage, ProjectLocationSimpleType.None,
-                    FundingType.Capital, ProposedProjectState.Approved);
+                    FundingType.Capital, ProjectApprovalStatus.Approved);
                 return project;
             }
 
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                     ProjectLocationSimpleType.None,
                     FundingType.Capital,
                     // TODO: Verify that this is correct or use the correct value
-                    ProposedProjectState.Approved);
+                    ProjectApprovalStatus.Approved);
 
                 dbContext.AllProjects.Add(project);
                 return project;
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                 var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.Implementation;
                 // TODO: Verify that "Approved" is the correct project state or use the correct value
-                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital, ProposedProjectState.Approved)
+                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital, ProjectApprovalStatus.Approved)
                 {
                     ProjectID = projectID
                 };

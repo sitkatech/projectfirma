@@ -74,8 +74,7 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 FundingType.Capital.FundingTypeID,
-                // TODO: Verify that this is correct or use the correct value
-                ProposedProjectState.Approved.ProposedProjectStateID);
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
             CurrentPerson.SetDefaultProjectOrganizations(project);
 
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
@@ -365,8 +364,8 @@ namespace ProjectFirma.Web.Controllers
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
             var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
-                x => x.ProjectStage == ProjectStage.Proposal && x.ProposedProjectState != ProposedProjectState.Approved,
-                stateProvinces).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+                x => x.ProjectStage == ProjectStage.Proposal && x.ProjectApprovalStatus != ProjectApprovalStatus.Approved,
+                stateProvinces).Where(x1 => x1.ProjectApprovalStatus != ProjectApprovalStatus.Approved && x1.ProjectApprovalStatus != ProjectApprovalStatus.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -375,7 +374,7 @@ namespace ProjectFirma.Web.Controllers
         {            
             gridSpec = new IndexGridSpec(currentPerson);
             return GetProjectsForGrid(x =>
-                x.ProjectStage != ProjectStage.Proposal && x.ProposedProjectState == ProposedProjectState.Approved);
+                x.ProjectStage != ProjectStage.Proposal && x.ProjectApprovalStatus == ProjectApprovalStatus.Approved);
         }
 
         public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
@@ -390,7 +389,7 @@ namespace ProjectFirma.Web.Controllers
         public ExcelResult IndexExcelDownload()
         {
             var projects = GetProjectsForGrid(x =>
-                x.ProjectStage != ProjectStage.Proposal && x.ProposedProjectState == ProposedProjectState.Approved);
+                x.ProjectStage != ProjectStage.Proposal && x.ProjectApprovalStatus == ProjectApprovalStatus.Approved);
 
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
@@ -774,8 +773,8 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
                     x => x.IsEditableToThisPerson(CurrentPerson),
                     HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
-                .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
-                             x.ProposedProjectState != ProposedProjectState.Rejected &&
+                .Where(x => x.ProjectApprovalStatus != ProjectApprovalStatus.Approved &&
+                             x.ProjectApprovalStatus != ProjectApprovalStatus.Rejected &&
                              x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID && 
                              x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                 .ToList();

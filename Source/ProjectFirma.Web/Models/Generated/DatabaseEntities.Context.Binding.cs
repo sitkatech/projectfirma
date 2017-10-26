@@ -361,6 +361,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
 
+                case "ProjectApprovalStatus":
+                    var projectApprovalStatus = ProjectApprovalStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectApprovalStatus, "ProjectApprovalStatus", primaryKey);
+                    return projectApprovalStatus;
+
                 case "ProjectAssessmentQuestion":
                     return ProjectAssessmentQuestions.GetProjectAssessmentQuestion(primaryKey);
 
@@ -473,11 +478,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectWatershedUpdate":
                     return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
-
-                case "ProposedProjectState":
-                    var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
-                    return proposedProjectState;
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);

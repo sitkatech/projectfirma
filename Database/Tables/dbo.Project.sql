@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[Project](
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ProposedProjectStateID] [int] NOT NULL,
+	[ProjectApprovalStatusID] [int] NOT NULL,
 	[ProposingPersonID] [int] NULL,
 	[ProposingDate] [datetime] NULL,
 	[PerformanceMeasureNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -72,6 +72,11 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Person_ReviewedByPersonID_PersonID]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectApprovalStatus_ProjectApprovalStatusID] FOREIGN KEY([ProjectApprovalStatusID])
+REFERENCES [dbo].[ProjectApprovalStatus] ([ProjectApprovalStatusID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectApprovalStatus_ProjectApprovalStatusID]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectLocationSimpleType_ProjectLocationSimpleTypeID] FOREIGN KEY([ProjectLocationSimpleTypeID])
 REFERENCES [dbo].[ProjectLocationSimpleType] ([ProjectLocationSimpleTypeID])
 GO
@@ -81,11 +86,6 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectStage
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProposedProjectState_ProposedProjectStateID] FOREIGN KEY([ProposedProjectStateID])
-REFERENCES [dbo].[ProposedProjectState] ([ProposedProjectStateID])
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProposedProjectState_ProposedProjectStateID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyTierOne_TaxonomyTierOneID] FOREIGN KEY([TaxonomyTierOneID])
 REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID])

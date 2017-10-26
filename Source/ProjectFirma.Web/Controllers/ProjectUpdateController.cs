@@ -1995,7 +1995,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectLocationSimpleType.None,
                 FundingType.Capital,
                 // TODO: Verify that this is correct or use the correct value
-                ProposedProjectState.Approved);
+                ProjectApprovalStatus.Approved);
 
             var dummyProjectUpdateBatch = ProjectUpdateBatch.CreateNewBlank(dummyProject, CurrentPerson, ProjectUpdateState.Created);
 

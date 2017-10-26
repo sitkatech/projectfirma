@@ -1160,7 +1160,7 @@
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="ProposedProjectStateID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectApprovalStatusID" Type="Int32" Nullable="false" />
     <Property Name="ProposingPersonID" Type="Int32" />
     <Property Name="ProposingDate" Type="DateTime" />
     <Property Name="PerformanceMeasureNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />

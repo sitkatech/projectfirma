@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-            Add("Submittal Status", a => a.ProposedProjectState.ToEnum.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Submittal Status", a => a.ProjectApprovalStatus.ToEnum.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
             {
                 Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.GetCanApproveProjectsOrganization().GetShortNameAsUrl(), 150,

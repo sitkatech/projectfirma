@@ -493,7 +493,7 @@
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
-          <ScalarProperty Name="ProposedProjectStateID" ColumnName="ProposedProjectStateID" />
+          <ScalarProperty Name="ProjectApprovalStatusID" ColumnName="ProjectApprovalStatusID" />
           <ScalarProperty Name="ProposingPersonID" ColumnName="ProposingPersonID" />
           <ScalarProperty Name="ProposingDate" ColumnName="ProposingDate" />
           <ScalarProperty Name="PerformanceMeasureNotes" ColumnName="PerformanceMeasureNotes" />

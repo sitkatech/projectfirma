@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
                 ProjectLocationSimpleType.None,
                 FundingType.Capital,
                 // TODO: Verify that "Approved" is the correct project state or use the correct value
-                ProposedProjectState.Approved);
+                ProjectApprovalStatus.Approved);
 
             project.ProjectLocationPoint = DbGeometry.PointFromText("POINT(29.11 40.11)", 4326);
 

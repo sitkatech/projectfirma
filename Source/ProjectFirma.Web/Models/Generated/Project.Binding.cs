@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, string projectWatershedNotes, int proposedProjectStateID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, string projectWatershedNotes, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             this.FundingTypeID = fundingTypeID;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.ProjectWatershedNotes = projectWatershedNotes;
-            this.ProposedProjectStateID = proposedProjectStateID;
+            this.ProjectApprovalStatusID = projectApprovalStatusID;
             this.ProposingPersonID = proposingPersonID;
             this.ProposingDate = proposingDate;
             this.PerformanceMeasureNotes = performanceMeasureNotes;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID) : this()
+        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID, int projectApprovalStatusID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -92,13 +92,13 @@ namespace ProjectFirma.Web.Models
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.FundingTypeID = fundingTypeID;
-            this.ProposedProjectStateID = proposedProjectStateID;
+            this.ProjectApprovalStatusID = projectApprovalStatusID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState) : this()
+        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -111,15 +111,15 @@ namespace ProjectFirma.Web.Models
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
             this.FundingTypeID = fundingType.FundingTypeID;
-            this.ProposedProjectStateID = proposedProjectState.ProposedProjectStateID;
+            this.ProjectApprovalStatusID = projectApprovalStatus.ProjectApprovalStatusID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState)
+        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus)
         {
-            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType, proposedProjectState);
+            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType, projectApprovalStatus);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Models
         public int FundingTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public string ProjectWatershedNotes { get; set; }
-        public int ProposedProjectStateID { get; set; }
+        public int ProjectApprovalStatusID { get; set; }
         public int? ProposingPersonID { get; set; }
         public DateTime? ProposingDate { get; set; }
         public string PerformanceMeasureNotes { get; set; }
@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Models
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
-        public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
+        public ProjectApprovalStatus ProjectApprovalStatus { get { return ProjectApprovalStatus.AllLookupDictionary[ProjectApprovalStatusID]; } }
 
         public static class FieldLengths
         {

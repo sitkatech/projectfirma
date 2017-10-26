@@ -202,7 +202,7 @@ Thank you,<br />
 
         public static void SendApprovalMessage(Project project)
         {
-            Check.Require(project.ProposedProjectState == ProposedProjectState.Approved, "Need to be in Approved state to send the Approved email!");
+            Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
             var submitterPerson = project.ProposingPerson;
             var subject = $"Your Project Proposal \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
