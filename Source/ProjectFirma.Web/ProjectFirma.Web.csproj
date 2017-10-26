@@ -695,7 +695,6 @@
     <Compile Include="Controllers\ProjectUpdateControllerControllerTest.cs" />
     <Compile Include="Controllers\ProjectWatershedController.cs" />
     <Compile Include="Controllers\ProposedProjectController.cs" />
-    <Compile Include="Controllers\ProposedProjectImageController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\SnapshotController.cs" />
     <Compile Include="Controllers\TagController.cs" />
@@ -904,7 +903,6 @@
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
     <Compile Include="Models\ProjectClassificationSimple.cs" />
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
-    <Compile Include="Models\ProposedProjectImage.cs" />
     <Compile Include="Models\OrganizationTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
@@ -1158,12 +1156,6 @@
     <Compile Include="Views\Project\SearchResultsViewData.cs" />
     <Compile Include="Views\Project\Detail.cs" />
     <Compile Include="Views\Project\DetailViewData.cs" />
-    <Compile Include="Views\ProposedProjectImage\Edit.cs" />
-    <Compile Include="Views\ProposedProjectImage\EditViewData.cs" />
-    <Compile Include="Views\ProposedProjectImage\EditViewModel.cs" />
-    <Compile Include="Views\ProposedProjectImage\New.cs" />
-    <Compile Include="Views\ProposedProjectImage\NewViewData.cs" />
-    <Compile Include="Views\ProposedProjectImage\NewViewModel.cs" />
     <Compile Include="Views\ProposedProject\Basics.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewData.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewModel.cs" />
@@ -1675,7 +1667,6 @@
     <Compile Include="Security\PermissionCheckResult.cs" />
     <Compile Include="Security\UserViewFeature.cs" />
     <Compile Include="Models\AuditLogTest.cs" />
-    <Compile Include="UnitTestCommon\TestProposedProject.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureExpectedSubcategoryOption.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureActualSubcategoryOption.cs" />
     <Compile Include="UnitTestCommon\TestProjectFundingSourceExpenditureUpdate.cs" />
@@ -3240,8 +3231,6 @@
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectUpdate\Budgets.cshtml" />
     <Content Include="Views\ProjectUpdate\_ViewStart.cshtml" />
-    <Content Include="Views\ProposedProjectImage\Edit.cshtml" />
-    <Content Include="Views\ProposedProjectImage\New.cshtml" />
     <Content Include="Views\ProposedProject\Basics.cshtml" />
     <Content Include="Views\ProposedProject\EditProposedProjectClassifications.cshtml" />
     <Content Include="Views\ProposedProject\ExpectedPerformanceMeasureValues.cshtml" />
