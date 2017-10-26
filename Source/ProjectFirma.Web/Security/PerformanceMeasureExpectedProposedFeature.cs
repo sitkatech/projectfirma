@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit {0}'s {1} {2}s", FieldDefinitionEnum.ProposedProject,  FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue)]
-    public class PerformanceMeasureExpectedProposedFeature : ProposedProjectEditFeature
+    public class PerformanceMeasureExpectedProposedFeature : ProjectEditFeature
     {
     }
 }

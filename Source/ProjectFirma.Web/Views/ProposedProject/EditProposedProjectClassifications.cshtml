@@ -46,7 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var classification in classifications)
                 {
                     <div class="col-xs-4">
-                        @Html.CheckBoxFor(x => x.ProposedProjectClassificationSimples[i].Selected)
+                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[i].Selected)
                         <span style="font-weight: bold">@classification.DisplayName</span>
                         <div style="font-size: 11px;  font-style: italic">
                             @classification.ClassificationDescription
@@ -60,9 +60,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <div class="col-xs-4">
                         <div>
-                            @Html.TextAreaWithMaxLengthFor(x => x.ProposedProjectClassificationSimples[j].ProposedProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), string.Format("Describe how this applies to the {0}.", FieldDefinition.Project.GetFieldDefinitionLabel()))
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[j].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), string.Format("Describe how this applies to the {0}.", FieldDefinition.Project.GetFieldDefinitionLabel()))
                         </div>
-                        @Html.HiddenFor(x => x.ProposedProjectClassificationSimples[j].ClassificationID)
+                        @Html.HiddenFor(x => x.ProjectClassificationSimples[j].ClassificationID)
                         @{ j = j + 1; }
                     </div>
                 }
@@ -88,9 +88,9 @@ Source code is available upon request via <support@sitkatech.com>.
         @for (var i = 0; i < ViewDataTyped.Classifications.Count; i++)
         {
             <text>
-        var checkBox = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].Selected)");
-        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
-        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
+        var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
 
         //Set default display
         if (checkBox.prop("checked")) {
@@ -107,9 +107,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
         //Create on-change event
         jQuery(checkBox).change(function () {
-            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
+            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
             var charactersRemainingFunction =
-                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
+                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
 
             if (this.checked) {
                 notesTextAreaForCheckboxFunction.css("background-color", "");

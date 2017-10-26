@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureNotesWhereYouAreTheUpdatePerson = new HashSet<PerformanceMeasureNote>();
             this.ProjectsWhereYouAreThePrimaryContactPerson = new HashSet<Project>();
             this.ProjectsWhereYouAreTheProposingPerson = new HashSet<Project>();
+            this.ProjectsWhereYouAreTheReviewedByPerson = new HashSet<Project>();
             this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
             this.ProjectLocationStagingUpdates = new HashSet<ProjectLocationStagingUpdate>();
             this.ProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProjectNote>();
@@ -128,7 +129,7 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreThePrimaryContactPerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
+            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreThePrimaryContactPerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
         }
 
         /// <summary>
@@ -164,6 +165,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureNote> PerformanceMeasureNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<Project> ProjectsWhereYouAreThePrimaryContactPerson { get; set; }
         public virtual ICollection<Project> ProjectsWhereYouAreTheProposingPerson { get; set; }
+        public virtual ICollection<Project> ProjectsWhereYouAreTheReviewedByPerson { get; set; }
         public virtual ICollection<ProjectLocationStaging> ProjectLocationStagings { get; set; }
         public virtual ICollection<ProjectLocationStagingUpdate> ProjectLocationStagingUpdates { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotesWhereYouAreTheCreatePerson { get; set; }

@@ -6,6 +6,7 @@ VALUES (1, 'Proposal', 'Proposal', 10, '#dbbdff')
 Alter Table dbo.Project Add ProposedProjectStateID int null, ProposingPersonID int null, ProposingDate datetime null, PerformanceMeasureNotes varchar(500) null, SubmissionDate datetime null, ApprovalDate datetime null, ReviewedByPersonID int null
 Alter Table dbo.Project Add Constraint FK_Project_ProposedProjectState_ProposedProjectStateID Foreign Key (ProposedProjectStateID) References dbo.ProposedProjectState (ProposedProjectStateID)
 Alter Table dbo.Project Add Constraint FK_Project_Person_ProposingPersonID_PersonID Foreign Key (ProposingPersonID) References dbo.Person (PersonID)
+Alter Table dbo.Project Add Constraint FK_Project_Person_ReviewedByPersonID_PersonID Foreign Key (ReviewedByPersonID) References dbo.Person (PersonID)
 go
 
 Update dbo.Project

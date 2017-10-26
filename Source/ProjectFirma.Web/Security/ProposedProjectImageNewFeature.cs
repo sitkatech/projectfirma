@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("New {0} Image", FieldDefinitionEnum.ProposedProject)]
-    public class ProposedProjectImageNewFeature : ProposedProjectEditFeature
+    public class ProposedProjectImageNewFeature : ProjectEditFeature
     {
     }
 }

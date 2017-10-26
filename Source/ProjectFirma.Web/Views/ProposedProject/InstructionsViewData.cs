@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }
 
-        public InstructionsViewData(Person currentPerson, Models.ProposedProject proposedProject, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Instructions, proposalSectionsStatus)
+        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage) : base(currentPerson, project, ProposedProjectSectionEnum.Instructions, proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }

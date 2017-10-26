@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             PerformanceMeasureExpecteds = performanceMeasureExpecteds;
         }
 
-        public void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, Models.Project project)
+        public virtual void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, Models.Project project)
         {
             // Remove all existing associations
             currentPerformanceMeasureExpecteds.ForEach(pmav =>

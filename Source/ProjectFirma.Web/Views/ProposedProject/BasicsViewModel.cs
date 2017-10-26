@@ -26,17 +26,16 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
-        public int ProposedProjectID { get; set; }
+        public int ProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
         [Required]
-        public int? ProposedTaxonomyTierOneID { get; set; }
+        public int TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
         [Required]
@@ -88,22 +87,22 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public BasicsViewModel(Models.ProposedProject proposedProject)
+        public BasicsViewModel(Models.Project project)
         {
-            ProposedTaxonomyTierOneID = proposedProject.TaxonomyTierOneID;
-            ProposedProjectID = proposedProject.ProposedProjectID;
-            ProjectName = proposedProject.ProjectName;
-            ProjectDescription = proposedProject.ProjectDescription;
-            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
-            FundingTypeID = proposedProject.FundingTypeID;
-            EstimatedTotalCost = proposedProject.EstimatedTotalCost;
-            EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;
-            SecuredFunding = proposedProject.SecuredFunding;
-            PlanningDesignStartYear = proposedProject.PlanningDesignStartYear;
-            ImplementationStartYear = proposedProject.ImplementationStartYear;
-            CompletionYear = proposedProject.CompletionYear;
-            ApprovingProjectsOrganizationID = proposedProject.GetCanApproveProjectsOrganization()?.OrganizationID;
-            PrimaryContactOrganizationID = proposedProject.GetPrimaryContactOrganization()?.OrganizationID;
+            TaxonomyTierOneID = project.TaxonomyTierOneID;
+            ProjectID = project.ProjectID;
+            ProjectName = project.ProjectName;
+            ProjectDescription = project.ProjectDescription;
+            PrimaryContactPersonID = project.PrimaryContactPersonID;
+            FundingTypeID = project.FundingTypeID;
+            EstimatedTotalCost = project.EstimatedTotalCost;
+            EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            SecuredFunding = project.SecuredFunding;
+            PlanningDesignStartYear = project.PlanningDesignStartYear;
+            ImplementationStartYear = project.ImplementationStartYear;
+            CompletionYear = project.CompletionYear;
+            ApprovingProjectsOrganizationID = project.GetCanApproveProjectsOrganization()?.OrganizationID;
+            PrimaryContactOrganizationID = project.GetPrimaryContactOrganization()?.OrganizationID;
         }
 
         /// <summary>
@@ -122,32 +121,32 @@ namespace ProjectFirma.Web.Views.ProposedProject
             }
         }
 
-        public void UpdateModel(Models.ProposedProject proposedProject, Person person)
+        public void UpdateModel(Models.Project project, Person person)
         {
-            proposedProject.ProposingPersonID = person.PersonID;
-            proposedProject.TaxonomyTierOneID = ProposedTaxonomyTierOneID;
-            proposedProject.ProposedProjectID = ProposedProjectID;
-            proposedProject.ProjectName = ProjectName;
-            proposedProject.ProjectDescription = ProjectDescription;
-            proposedProject.FundingTypeID = FundingTypeID;
+            project.ProposingPersonID = person.PersonID;
+            project.TaxonomyTierOneID = TaxonomyTierOneID;
+            project.ProposedProjectID = ProjectID;
+            project.ProjectName = ProjectName;
+            project.ProjectDescription = ProjectDescription;
+            project.FundingTypeID = FundingTypeID;
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
-                proposedProject.EstimatedTotalCost = EstimatedTotalCost;
-                proposedProject.SecuredFunding = SecuredFunding;
-                proposedProject.EstimatedAnnualOperatingCost = null;
+                project.EstimatedTotalCost = EstimatedTotalCost;
+                project.SecuredFunding = SecuredFunding;
+                project.EstimatedAnnualOperatingCost = null;
                 
             }
             else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
             {
-                proposedProject.EstimatedTotalCost = null;
-                proposedProject.SecuredFunding = null;
-                proposedProject.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+                project.EstimatedTotalCost = null;
+                project.SecuredFunding = null;
+                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             }
             
-            proposedProject.PlanningDesignStartYear = PlanningDesignStartYear;
-            proposedProject.ImplementationStartYear = ImplementationStartYear;
-            proposedProject.CompletionYear = CompletionYear;
-            proposedProject.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.PlanningDesignStartYear = PlanningDesignStartYear;
+            project.ImplementationStartYear = ImplementationStartYear;
+            project.CompletionYear = CompletionYear;
+            project.PrimaryContactPersonID = PrimaryContactPersonID;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -161,7 +160,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.ToList();
-            if (!Models.ProposedProject.IsProjectNameUnique(proposedProjects, ProjectName, ProposedProjectID) || !Models.Project.IsProjectNameUnique(projects, ProjectName, ModelObjectHelpers.NotYetAssignedID))
+            if (!Models.ProposedProject.IsProjectNameUnique(proposedProjects, ProjectName, ProjectID) || !Models.Project.IsProjectNameUnique(projects, ProjectName, ModelObjectHelpers.NotYetAssignedID))
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
             }

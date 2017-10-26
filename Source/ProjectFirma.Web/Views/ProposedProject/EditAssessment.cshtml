@@ -52,14 +52,14 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @assessmentQuestion.AssessmentQuestionText
                             </div>
                             <div class="col-md-3">
-                                <select style="width: 175px" name="@Html.NameFor(x => x.ProposedProjectAssessmentQuestionSimples[i].Answer)">
+                                <select style="width: 175px" name="@Html.NameFor(x => x.ProjectAssessmentQuestionSimples[i].Answer)">
                                     @foreach (var answer in BooleanFormats.GetYesNoSelectList())
                                     {
-                                        <option value="@answer.Value" @Model.ProposedProjectAssessmentQuestionSimples[i].Answer.ToString().Equals(answer.Value, StringComparison.InvariantCultureIgnoreCase).ToSelectedOrEmpty()>@answer.Text</option>
+                                        <option value="@answer.Value" @Model.ProjectAssessmentQuestionSimples[i].Answer.ToString().Equals(answer.Value, StringComparison.InvariantCultureIgnoreCase).ToSelectedOrEmpty()>@answer.Text</option>
                                     }
                                 </select>
-                                @Html.HiddenFor(viewModel => viewModel.ProposedProjectAssessmentQuestionSimples[i].AssessmentQuestionID)
-                                @Html.HiddenFor(viewModel => viewModel.ProposedProjectAssessmentQuestionSimples[i].ProposedProjectID)
+                                @Html.HiddenFor(viewModel => viewModel.ProjectAssessmentQuestionSimples[i].AssessmentQuestionID)
+                                @Html.HiddenFor(viewModel => viewModel.ProjectAssessmentQuestionSimples[i].ProjectID)
                                 @{ i++;}
                             </div>
                         </div>

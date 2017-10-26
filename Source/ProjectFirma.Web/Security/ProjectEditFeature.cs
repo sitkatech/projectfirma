@@ -23,13 +23,13 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit Project")]
+    [SecurityFeatureDescription("Edit {0}", FieldDefinitionEnum.Project)]
     public class ProjectEditFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public ProjectEditFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -42,13 +42,18 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            var forbidAdmin = !HasPermissionByPerson(person) ||
-                              person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                              !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
-            return forbidAdmin
-                ? new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
-                : new PermissionCheckResult();
+            if (!HasPermissionByPerson(person))
+            {
+                return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.DisplayName}");
+            }
+
+            var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);
+            if (!projectIsEditableByUser)
+            {
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
+            }
+
+            return new PermissionCheckResult();
         }
     }
 }

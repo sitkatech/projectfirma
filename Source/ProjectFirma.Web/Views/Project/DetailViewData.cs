@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Project
 
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
+            UserHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
             UserHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;
             AssessmentTreeViewData = assessmentTreeViewData;
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Views.Project
             UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             EditClassificationsUrl = editClassificationsUrl;
-            UserHasProjectClassificationManagePermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
+            UserHasProjectClassificationManagePermissions = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
 
             EditAssessmentUrl = editAssessmentUrl;
 

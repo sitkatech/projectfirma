@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly EntityNotesViewData EntityNotesViewData;
 
         public NotesViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            EntityNotesViewData entityNotesViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Notes, proposalSectionsStatus)
+            EntityNotesViewData entityNotesViewData) : base(currentPerson, project, ProposedProjectSectionEnum.Notes, proposalSectionsStatus)
         {
             EntityNotesViewData = entityNotesViewData;            
         }

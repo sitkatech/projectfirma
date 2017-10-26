@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit {0} Actual Value From Project", FieldDefinitionEnum.PerformanceMeasure)]
-    public class PerformanceMeasureActualFromProjectManageFeature : ProjectEditFeature
+    public class PerformanceMeasureActualFromProjectManageFeature : ProjectEditAsAdminFeature
     {
     }
 }

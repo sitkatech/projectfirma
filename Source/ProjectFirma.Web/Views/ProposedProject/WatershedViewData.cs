@@ -29,9 +29,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly EditProjectWatershedsViewData EditProjectWatershedsViewData;
 
         public WatershedViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            EditProjectWatershedsViewData editProjectWatershedsViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Watershed, proposalSectionsStatus)
+            EditProjectWatershedsViewData editProjectWatershedsViewData) : base(currentPerson, project, ProposedProjectSectionEnum.Watershed, proposalSectionsStatus)
         {
             EditProjectWatershedsViewData = editProjectWatershedsViewData;
         }

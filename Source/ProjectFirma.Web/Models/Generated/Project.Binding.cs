@@ -196,6 +196,7 @@ namespace ProjectFirma.Web.Models
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
+        public virtual Person ReviewedByPerson { get; set; }
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
 
         public static class FieldLengths

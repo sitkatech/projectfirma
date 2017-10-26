@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Create {0}", FieldDefinitionEnum.ProjectNote)]
-    public class ProjectNoteCreateFeature : ProjectEditFeature
+    public class ProjectNoteCreateFeature : ProjectEditAsAdminFeature
     {
     }
 }

@@ -28,10 +28,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly ProjectLocationDetailViewData ProjectLocationDetailViewData;
 
         public LocationDetailedViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ProjectLocationDetailViewData projectLocationDetailViewData)
-            : base(currentPerson, proposedProject, ProposedProjectSectionEnum.LocationDetailed, proposalSectionsStatus)
+            : base(currentPerson, project, ProposedProjectSectionEnum.LocationDetailed, proposalSectionsStatus)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
         }

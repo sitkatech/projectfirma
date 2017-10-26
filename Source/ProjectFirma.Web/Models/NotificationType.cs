@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class NotificationTypeProposedProjectSubmitted
+    public partial class NotificationTypeProjectSubmitted
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {
@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class NotificationTypeProposedProjectApproved
+    public partial class NotificationTypeProjectApproved
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {
@@ -239,7 +239,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class NotificationTypeProposedProjectReturned
+    public partial class NotificationTypeProjectReturned
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {

@@ -28,10 +28,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData;
 
         public ExpectedPerformanceMeasureValuesViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EditPerformanceMeasureExpectedViewData editPerformanceMeasureExpectedViewData)
-            : base(currentPerson, proposedProject, ProposedProjectSectionEnum.PerformanceMeasures, proposalSectionsStatus)
+            : base(currentPerson, project, ProposedProjectSectionEnum.PerformanceMeasures, proposalSectionsStatus)
         {
             EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;            
         }

@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit {0}", FieldDefinitionEnum.ProjectLocation)]
-    public class ProjectLocationEditFeature : ProjectEditFeature
+    public class ProjectLocationEditFeature : ProjectEditAsAdminFeature
     {
     }
 }

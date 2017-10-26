@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} Organization", FieldDefinitionEnum.Project)]
-    public class ProjectOrganizationManageFeature : ProjectEditFeature
+    public class ProjectOrganizationManageFeature : ProjectEditAsAdminFeature
     {
     }
 }

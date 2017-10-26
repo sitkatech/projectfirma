@@ -750,7 +750,7 @@
     <Compile Include="Security\TaxonomyTierTwoManageFeature.cs" />
     <Compile Include="Security\ProjectCreateNewFeature.cs" />
     <Compile Include="Security\ProjectDeleteFeature.cs" />
-    <Compile Include="Security\ProjectEditFeature.cs" />
+    <Compile Include="Security\ProjectEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectExternalLinkManageFeature.cs" />
     <Compile Include="Security\ProjectFundingSourceExpenditureFromFundingSourceManageFeature.cs" />
     <Compile Include="Security\ProjectFundingSourceExpenditureFromProjectManageFeature.cs" />
@@ -781,13 +781,12 @@
     <Compile Include="Security\ProjectWatershedManageFromProjectFeature.cs" />
     <Compile Include="Security\ProposedProjectApproveFeature.cs" />
     <Compile Include="Security\ProposedProjectCreateNewFeature.cs" />
-    <Compile Include="Security\ProposedProjectEditFeature.cs" />
+    <Compile Include="Security\ProjectEditFeature.cs" />
     <Compile Include="Security\ProposedProjectImageEditOrDeleteFeature.cs" />
     <Compile Include="Security\ProposedProjectImageNewFeature.cs" />
     <Compile Include="Security\ProposedProjectNoteCreateFeature.cs" />
     <Compile Include="Security\ProposedProjectNoteManageFeature.cs" />
     <Compile Include="Security\ProposedProjectsViewListFeature.cs" />
-    <Compile Include="Security\ProposedProjectClassificationEditFeature.cs" />
     <Compile Include="Security\ProposedProjectViewFeature.cs" />
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
@@ -1196,8 +1195,6 @@
     <Compile Include="Views\Project\ProposedProjectGridSpec.cs" />
     <Compile Include="Views\ProposedProject\ProposedProjectViewData.cs" />
     <Compile Include="Views\ProposedProject\SiteLayout.cs" />
-    <Compile Include="Views\ProposedProject\Detail.cs" />
-    <Compile Include="Views\ProposedProject\DetailViewData.cs" />
     <Compile Include="Views\Results\ProjectMap.cs" />
     <Compile Include="Views\Results\ProjectMapViewData.cs" />
     <Compile Include="Views\Results\ProjectMapViewDataTest.cs" />
@@ -3255,7 +3252,6 @@
     <Content Include="Views\ProposedProject\Notes.cshtml" />
     <Content Include="Views\ProposedProject\Photos.cshtml" />
     <Content Include="Views\ProposedProject\SiteLayout.cshtml" />
-    <Content Include="Views\ProposedProject\Detail.cshtml" />
     <Content Include="Views\ProposedProject\_ViewStart.cshtml" />
     <Content Include="Views\Results\ProjectMap.cshtml" />
     <Content Include="Views\Results\InvestmentByOrganizationType.cshtml" />

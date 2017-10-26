@@ -177,11 +177,11 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
         <div class="pull-right">
-            @if (ViewDataTyped.ProposedProject != null)
+            @if (ViewDataTyped.Project != null)
             {
-                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.ProposedProject.ProposedProjectState.ProposedProjectStateDisplayName</span></span>
+                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProposedProjectState.ProposedProjectStateDisplayName</span></span>
 
-                switch (ViewDataTyped.ProposedProject.ProposedProjectState.ToEnum)
+                switch (ViewDataTyped.Project.ProposedProjectState.ToEnum)
                 {
                     case ProposedProjectStateEnum.Draft:
                         if (ViewDataTyped.CanAdvanceStage)
@@ -235,10 +235,10 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         
         <div class="pull-left">
-            @if (ViewDataTyped.ProposedProject != null && ViewDataTyped.ProposedProject.ProposedProjectID != ModelObjectHelpers.NotYetAssignedID)
+            @if (ViewDataTyped.Project != null && ViewDataTyped.Project.ProposedProjectID != ModelObjectHelpers.NotYetAssignedID)
             {
                 <p>
-                    Created by @ViewDataTyped.ProposedProject.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProposedProject.ProposingDate
+                    Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate
                 </p>
                 <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
             }

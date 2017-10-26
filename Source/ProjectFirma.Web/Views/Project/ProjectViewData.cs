@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
             HtmlPageTitle = project.ProjectName;
             EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             LatestUpdateState = project.GetLatestUpdateState();
-            CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
+            CurrentPersonIsSubmitter = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
 
             ProposedProjectBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));

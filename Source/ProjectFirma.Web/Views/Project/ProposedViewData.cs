@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized();
 
-            HasProposeProjectPermissions = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
+            HasProposeProjectPermissions = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
 
             GridSpec = new ProposedProjectGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
-            if (new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson))
+            if (new ProjectEditFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CreateEntityActionPhrase = "Propose a New Project";
                 GridSpec.CreateEntityModalDialogForm = null;

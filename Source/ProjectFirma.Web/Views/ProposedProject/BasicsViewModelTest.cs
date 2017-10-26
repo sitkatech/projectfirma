@@ -31,32 +31,32 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public void AllViewModelFieldsAreSetFromConstructorTest()
         {
             // Arrange
-            var proposedProject = TestFramework.TestProposedProject.Create();
+            var project = TestFramework.TestProject.Create();
 
             // Act
-            var viewModel = new BasicsViewModel(proposedProject);
+            var viewModel = new BasicsViewModel(project);
 
             // Assert
-            Assert.That(viewModel.ProposedProjectID, Is.EqualTo(proposedProject.ProposedProjectID));
-            Assert.That(viewModel.ProjectName, Is.EqualTo(proposedProject.ProjectName));
-            Assert.That(viewModel.ProjectDescription, Is.EqualTo(proposedProject.ProjectDescription));
+            Assert.That(viewModel.ProjectID, Is.EqualTo(project.ProposedProjectID));
+            Assert.That(viewModel.ProjectName, Is.EqualTo(project.ProjectName));
+            Assert.That(viewModel.ProjectDescription, Is.EqualTo(project.ProjectDescription));
         }
 
         [Test]
         public void UpdateModelTest()
         {
             // Arrange
-            var proposedProject = TestFramework.TestProposedProject.Create();
-            var viewModel = new BasicsViewModel(proposedProject);
+            var project = TestFramework.TestProject.Create();
+            var viewModel = new BasicsViewModel(project);
             viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.ProposedProject.FieldLengths.ProjectName);
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.ProposedProject.FieldLengths.ProjectDescription);
 
             // Act
-            viewModel.UpdateModel(proposedProject, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(project, TestFramework.TestPerson.Create());
 
             // Assert
-            Assert.That(proposedProject.ProjectName, Is.EqualTo(viewModel.ProjectName));
-            Assert.That(proposedProject.ProjectDescription, Is.EqualTo(viewModel.ProjectDescription));
+            Assert.That(project.ProjectName, Is.EqualTo(viewModel.ProjectName));
+            Assert.That(project.ProjectDescription, Is.EqualTo(viewModel.ProjectDescription));
         }
     }
 }

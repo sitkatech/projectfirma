@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} {1}", FieldDefinitionEnum.Project, FieldDefinitionEnum.ExternalLinks)]
-    public class ProjectExternalLinkManageFeature : ProjectEditFeature
+    public class ProjectExternalLinkManageFeature : ProjectEditAsAdminFeature
     {
     }
 }

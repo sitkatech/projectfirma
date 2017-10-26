@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class EditProposedProjectClassificationsViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProposedProjectClassificationSimple> ProposedProjectClassificationSimples { get; set; }
+        public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -39,37 +38,37 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public EditProposedProjectClassificationsViewModel(List<ProposedProjectClassificationSimple> proposedProjectClassificationSimples)
+        public EditProposedProjectClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
         {
-            ProposedProjectClassificationSimples = proposedProjectClassificationSimples;
+            ProjectClassificationSimples = projectClassificationSimples;
         }
 
-        public void UpdateModel(Models.ProposedProject proposedProject, List<ProposedProjectClassificationSimple> proposedProjectClassificationSimples)
+        public void UpdateModel(Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
         {
-            foreach (var proposedProjectClassificationSimple in proposedProjectClassificationSimples)
+            foreach (var projectClassificationSimple in projectClassificationSimples)
             {
-                var alreadySelected = proposedProject.ProposedProjectClassifications
-                    .SingleOrDefault(x => x.ClassificationID == proposedProjectClassificationSimple.ClassificationID) != null;
+                var alreadySelected = project.ProjectClassifications
+                    .SingleOrDefault(x => x.ClassificationID == projectClassificationSimple.ClassificationID) != null;
 
-                if (proposedProjectClassificationSimple.Selected && !alreadySelected)
+                if (projectClassificationSimple.Selected && !alreadySelected)
                 {
-                    var proposedProjectClassification = new ProposedProjectClassification(proposedProject.ProposedProjectID,
-                        proposedProjectClassificationSimple.ClassificationID)
+                    var projectClassification = new ProjectClassification(project.ProjectID,
+                        projectClassificationSimple.ClassificationID)
                     {
-                        ProposedProjectClassificationNotes = proposedProjectClassificationSimple.ProposedProjectClassificationNotes
+                        ProjectClassificationNotes = projectClassificationSimple.ProjectClassificationNotes
                     };
 
-                    proposedProject.ProposedProjectClassifications.Add(proposedProjectClassification);
+                    project.ProjectClassifications.Add(projectClassification);
                 }
-                else if (proposedProjectClassificationSimple.Selected && alreadySelected)
+                else if (projectClassificationSimple.Selected && alreadySelected)
                 {
-                    var existingProposedProjectClassification = proposedProject.ProposedProjectClassifications.First(x => x.ClassificationID == proposedProjectClassificationSimple.ClassificationID);
-                    existingProposedProjectClassification.ProposedProjectClassificationNotes = proposedProjectClassificationSimple.ProposedProjectClassificationNotes;
+                    var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
+                    existingProjectClassification.ProjectClassificationNotes = projectClassificationSimple.ProjectClassificationNotes;
                 }
-                else if (!proposedProjectClassificationSimple.Selected && alreadySelected)
+                else if (!projectClassificationSimple.Selected && alreadySelected)
                 {
-                    var existingProposedProjectClassification = proposedProject.ProposedProjectClassifications.First(x => x.ClassificationID == proposedProjectClassificationSimple.ClassificationID);
-                    existingProposedProjectClassification.DeleteProposedProjectClassification();
+                    var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
+                    existingProjectClassification.DeleteProjectClassification();
                 }
             }
         }
@@ -83,18 +82,19 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!ProposedProjectClassificationSimples.Any(x => x.Selected))
+            if (!ProjectClassificationSimples.Any(x => x.Selected))
             {
-                validationResults.Add(new ValidationResult(string.Format("You must select at least one {0}.", Models.FieldDefinition.Classification.GetFieldDefinitionLabel())));
+                validationResults.Add(new ValidationResult(
+                    $"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()}."));
             }
 
             var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
-            foreach (var proposedProjectClassificationSimple in ProposedProjectClassificationSimples)
+            foreach (var projectClassificationSimple in ProjectClassificationSimples)
             {
-                if (proposedProjectClassificationSimple.Selected && string.IsNullOrWhiteSpace(proposedProjectClassificationSimple.ProposedProjectClassificationNotes))
+                if (projectClassificationSimple.Selected && string.IsNullOrWhiteSpace(projectClassificationSimple.ProjectClassificationNotes))
                 {
-                    var classificationName = classifications.Single(x => x.ClassificationID == proposedProjectClassificationSimple.ClassificationID).DisplayName;
-                    validationResults.Add(new ValidationResult(String.Format("You must include notes for {0}", classificationName)));
+                    var classificationName = classifications.Single(x => x.ClassificationID == projectClassificationSimple.ClassificationID).DisplayName;
+                    validationResults.Add(new ValidationResult($"You must include notes for {classificationName}"));
                 }
             }
             return validationResults;

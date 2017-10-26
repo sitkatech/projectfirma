@@ -41,43 +41,46 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public ExpectedPerformanceMeasureValuesViewModel(Models.ProposedProject proposedProject)
-            : base(proposedProject.PerformanceMeasureExpectedProposeds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
+        public ExpectedPerformanceMeasureValuesViewModel(Models.Project proposedProject)
+            : base(proposedProject.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
             PerformanceMeasureNotes = proposedProject.PerformanceMeasureNotes;
         }
 
-        public void UpdateModel(List<PerformanceMeasureExpectedProposed> currentPerformanceMeasureExpectedProposeds,
-            IList<PerformanceMeasureExpectedProposed> allPerformanceMeasureExpectedProposeds,
-            IList<PerformanceMeasureExpectedSubcategoryOptionProposed> allPerformanceMeasureExpectedSubcategoryOptionProposeds,
-            Models.ProposedProject proposedProject)
+        public override void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds,
+            IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds,
+            IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions,
+            Models.Project project)
         {
             //Save our note
-            proposedProject.PerformanceMeasureNotes = PerformanceMeasureNotes;
+            project.PerformanceMeasureNotes = PerformanceMeasureNotes;
+            base.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds,
+                allPerformanceMeasureExpectedSubcategoryOptions, project);
 
+            //TODO : Remove commented code.
             // Remove all existing associations
-            currentPerformanceMeasureExpectedProposeds.ForEach(pmav =>
+            currentPerformanceMeasureExpecteds.ForEach(pmav =>
             {
-                pmav.PerformanceMeasureExpectedSubcategoryOptionProposeds.ToList().ForEach(pmavso => allPerformanceMeasureExpectedSubcategoryOptionProposeds.Remove(pmavso));
-                allPerformanceMeasureExpectedProposeds.Remove(pmav);
+                pmav.PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureExpectedSubcategoryOptions.Remove(pmavso));
+                allPerformanceMeasureExpecteds.Remove(pmav);
             });
-            currentPerformanceMeasureExpectedProposeds.Clear();
+            currentPerformanceMeasureExpecteds.Clear();
 
             if (PerformanceMeasureExpecteds != null)
             {
                 // Completely rebuild the list
                 PerformanceMeasureExpecteds.ForEach(x =>
                 {
-                    var proposedProjectPerformanceMeasureExpected = new PerformanceMeasureExpectedProposed(proposedProject.ProposedProjectID, x.PerformanceMeasureID) { ExpectedValue = x.ExpectedValue };
-                    allPerformanceMeasureExpectedProposeds.Add(proposedProjectPerformanceMeasureExpected);
+                    var projectPerformanceMeasureExpected = new PerformanceMeasureExpected(project.ProjectID, x.PerformanceMeasureID) { ExpectedValue = x.ExpectedValue };
+                    allPerformanceMeasureExpecteds.Add(projectPerformanceMeasureExpected);
                     if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
                     {
                         x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.PerformanceMeasureSubcategoryOptionID))
                             .ToList()
                             .ForEach(
                                 y =>
-                                    allPerformanceMeasureExpectedSubcategoryOptionProposeds.Add(
-                                        new PerformanceMeasureExpectedSubcategoryOptionProposed(proposedProjectPerformanceMeasureExpected.PerformanceMeasureExpectedProposedID,
+                                    allPerformanceMeasureExpectedSubcategoryOptions.Add(
+                                        new PerformanceMeasureExpectedSubcategoryOption(projectPerformanceMeasureExpected.PerformanceMeasureExpectedID,
                                             y.PerformanceMeasureSubcategoryOptionID,
                                             y.PerformanceMeasureID,
                                             y.PerformanceMeasureSubcategoryID)));

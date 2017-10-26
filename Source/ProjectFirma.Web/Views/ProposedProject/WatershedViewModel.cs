@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public WatershedViewModel(Models.ProposedProject proposedProject) : base(proposedProject.ProposedProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes)
+        public WatershedViewModel(Models.Project project) : base(project.ProjectWatersheds.Select(x => x.WatershedID).ToList(), project.ProjectWatershedNotes)
         {
         }
         
-        public void UpdateModel(Models.ProposedProject proposedProject, List<ProposedProjectWatershed> currentProposedProjectWatersheds, ObservableCollection<ProposedProjectWatershed> allProposedProjectWatersheds)
+        public void UpdateModel(Models.Project project, List<ProjectWatershed> currentProjectWatersheds, ObservableCollection<ProjectWatershed> allProjectWatersheds)
         {
-            base.UpdateModel(proposedProject, currentProposedProjectWatersheds, allProposedProjectWatersheds);
+            base.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
         }
     }    
 }

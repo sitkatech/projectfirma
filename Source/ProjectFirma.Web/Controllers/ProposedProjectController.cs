@@ -41,61 +41,25 @@ using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
-using Detail = ProjectFirma.Web.Views.ProposedProject.Detail;
-using DetailViewData = ProjectFirma.Web.Views.ProposedProject.DetailViewData;
+
+
 
 namespace ProjectFirma.Web.Controllers
 {
     public class ProposedProjectController : FirmaBaseController
     {
-        [ProposedProjectViewFeature]
-        public ViewResult Detail(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
-        {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var mapDivID = $"proposedProject_{proposedProject.ProposedProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(proposedProject, mapDivID, true);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(proposedProject, projectLocationSummaryMapInitJson);
-            var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
-            var performanceMeasureExpectedsSummaryViewData =
-                new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(proposedProject.PerformanceMeasureExpectedProposeds));
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(proposedProject.ProposedProjectNotes)),
-                SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.NewNote(proposedProject)),
-                proposedProject.DisplayName,
-                true);
-
-            var galleryName = $"ProjectImage{proposedProject.ProposedProjectID}";
-            var galleryImages = proposedProject.ProposedProjectImages.ToList();
-            var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson, galleryName, galleryImages, false, string.Empty, string.Empty, true, x => x.CaptionOnFullView, "Photo");
-
-            var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var goalsAsFancyTreeNodes = assessmentGoals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(proposedProject.ProposedProjectAssessmentQuestions.ToList()))).ToList();
-            var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
-
-
-            var viewData = new DetailViewData(CurrentPerson,
-                proposedProject,
-                projectLocationSummaryViewData,
-                performanceMeasureExpectedsSummaryViewData,
-                imageGalleryViewData,
-                entityNotesViewData,
-                mapFormID,
-                assessmentTreeViewData,
-                HttpRequestStorage.Tenant);
-            return RazorView<Detail, DetailViewData>(viewData);
-        }
-
-        [ProposedProjectCreateNewFeature]
-        public ViewResult Instructions(int? proposedProjectID)
+        [ProjectCreateNewFeature]
+        public ViewResult Instructions(int? projectID)
         {
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.ProposeProjectInstructions);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
 
-            if (proposedProjectID.HasValue)
+            if (projectID.HasValue)
             {
-                var proposedProject = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProject(proposedProjectID.Value);
+                var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
 
-                var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-                var viewData = new InstructionsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, firmaPage);
+                var proposalSectionsStatus = new ProposalSectionsStatus(project);
+                var viewData = new InstructionsViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage);
 
                 return RazorView<Instructions, InstructionsViewData>(viewData);
             }
@@ -107,262 +71,267 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProposedProjectCreateNewFeature]
+        [ProjectCreateNewFeature]
         public ViewResult CreateAndEditBasics()
         {
             return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.Organization), null);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, ProposedProject proposedProject)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
+            var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public ViewResult EditBasics(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new BasicsViewModel(proposedProject);
-            return ViewEditBasics(proposedProjectPrimaryKey, viewModel);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new BasicsViewModel(project);
+            return ViewEditBasics(projectPrimaryKey, viewModel);
         }
 
-        private ViewResult ViewEditBasics(ProposedProjectPrimaryKey proposedProjectPrimaryKey, BasicsViewModel viewModel)
+        private ViewResult ViewEditBasics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
         {
             
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var project = projectPrimaryKey.EntityObject;
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = proposedProject?.GetPrimaryContact(CurrentPerson) ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectCreateNewFeature]
+        [ProjectCreateNewFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult CreateAndEditBasics(BasicsViewModel viewModel)
         {
-            var proposedProject = new ProposedProject(viewModel.ProjectName,
+            var project = new Project(viewModel.TaxonomyTierOneID,
+                ProjectStage.Proposal.ProjectStageID,
+                viewModel.ProjectName,
                 viewModel.ProjectDescription,
-                CurrentPerson.PersonID,
-                DateTime.Now,
-                (int) ProjectLocationSimpleType.None.ToEnum,
+                false,
+                ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 viewModel.FundingTypeID,
-                (int) ProposedProjectState.Draft.ToEnum);
+                ProposedProjectState.Draft.ProposedProjectStateID)
+            {
+                ProposingPerson = CurrentPerson,
+                ProposingDate = DateTime.Now
+            };
 
-            return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
+            return SaveProjectAndCreateAuditEntry(project, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditBasics(ProposedProjectPrimaryKey proposedProjectPrimaryKey, BasicsViewModel viewModel)
+        public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
+            var project = projectPrimaryKey.EntityObject;
+            return SaveProjectAndCreateAuditEntry(project, viewModel);
         }
 
-        private ActionResult SaveProposedProjectAndCreateAuditEntry(ProposedProject proposedProject, BasicsViewModel viewModel)
+        private ActionResult SaveProjectAndCreateAuditEntry(Project project, BasicsViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey) ? ViewEditBasics(proposedProject, viewModel) : ViewCreateAndEditBasics(viewModel, proposedProject);
+                SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project);
             }
 
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey))
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey))
             {
-                HttpRequestStorage.DatabaseEntities.AllProposedProjects.Add(proposedProject);
+                HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             }
 
-            viewModel.UpdateModel(proposedProject, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentPerson);
 
-            SetProposedProjectOrganizationForRelationshipType(proposedProject, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
-            SetProposedProjectOrganizationForRelationshipType(proposedProject, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship());
+            SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship());
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var auditLog = new AuditLog(CurrentPerson,
                 DateTime.Now,
                 AuditLogEventType.Added,
-                "ProposedProject",
-                proposedProject.ProposedProjectID,
-                "ProposedProjectID",
-                proposedProject.ProposedProjectID.ToString())
+                "Project",
+                project.ProjectID,
+                "ProjectID",
+                project.ProjectID.ToString())
             {
-                ProposedProjectID = proposedProject.ProposedProjectID,
-                AuditDescription = $"ProposedProject: created {proposedProject.DisplayName}"
+                ProjectID = project.ProjectID,
+                AuditDescription = $"Project: created {project.DisplayName}"
             };
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully saved.");
 
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditBasics(project.PrimaryKey)));
         }
 
-        private static void SetProposedProjectOrganizationForRelationshipType(ProposedProject proposedProject, int? organizationID, RelationshipType relationshipType)
+        private static void SetProjectOrganizationForRelationshipType(Project project, int? organizationID, RelationshipType relationshipType)
         {
             if (relationshipType != null && organizationID.HasValue)
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID.Value);
 
-                var proposedProjectPrimaryContactOrganization =
-                    proposedProject.ProposedProjectOrganizations.SingleOrDefault(x =>
+                var projectPrimaryContactOrganization =
+                    project.ProjectOrganizations.SingleOrDefault(x =>
                         x.RelationshipTypeID == relationshipType.RelationshipTypeID);
                 if (relationshipType.OrganizationTypeRelationshipTypes.Any(x =>
                     x.OrganizationTypeID == organization.OrganizationTypeID))
                 {
-                    if (proposedProjectPrimaryContactOrganization == null)
+                    if (projectPrimaryContactOrganization == null)
                     {
-                        proposedProject.ProposedProjectOrganizations.Add(new ProposedProjectOrganization(
-                            proposedProject,
+                        project.ProjectOrganizations.Add(new ProjectOrganization(
+                            project,
                             organization, relationshipType));
                     }
                     else
                     {
-                        proposedProjectPrimaryContactOrganization.OrganizationID =
+                        projectPrimaryContactOrganization.OrganizationID =
                             organizationID.Value;
                     }
                 }
                 else
                 {
-                    proposedProjectPrimaryContactOrganization?.DeleteProposedProjectOrganization();
+                    projectPrimaryContactOrganization?.DeleteProjectOrganization();
                 }
             }
         }
 
         [HttpGet]
         [PerformanceMeasureExpectedProposedFeature]
-        public ViewResult EditExpectedPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = projectPrimaryKey.EntityObject;
-            var viewModel = new ExpectedPerformanceMeasureValuesViewModel(proposedProject);
-            return ViewEditExpectedPerformanceMeasureValues(proposedProject, viewModel);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ExpectedPerformanceMeasureValuesViewModel(project);
+            return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
         }
 
-        private ViewResult ViewEditExpectedPerformanceMeasureValues(ProposedProject proposedProject, ExpectedPerformanceMeasureValuesViewModel viewModel)
+        private ViewResult ViewEditExpectedPerformanceMeasureValues(Project project, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(proposedProject, performanceMeasures);
-            var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
+            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(project, performanceMeasures);
+            var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [PerformanceMeasureExpectedProposedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditExpectedPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasureValuesViewModel viewModel)
+        public ActionResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
-            var proposedProject = projectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditExpectedPerformanceMeasureValues(proposedProject, viewModel);
+                return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
             }
-            var currentPerformanceMeasureExpectedProposeds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
+            var performanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
 
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Load();
-            var allPerformanceMeasureExpectedProposeds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedProposeds.Local;
+            var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
 
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Load();
-            var allPerformanceMeasureExpectedSubcategoryOptionProposeds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptionProposeds.Local;
+            var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
 
-            viewModel.UpdateModel(currentPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
+            viewModel.UpdateModel(performanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions, project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)));
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)));
         }
 
         [HttpGet]
-        [ProposedProjectClassificationEditFeature]
-        public ViewResult EditClassifications(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditFeature]
+        public ViewResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposedProjectClassificationSimples = GetProposedProjectClassificationSimples(proposedProject);
+            var project = projectPrimaryKey.EntityObject;
+            var projectClassificationSimples = GetProjectClassificationSimples(project);
 
-            var viewModel = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples);
-            return ViewEditClassifications(proposedProject, viewModel);
+            var viewModel = new EditProposedProjectClassificationsViewModel(projectClassificationSimples);
+            return ViewEditClassifications(project, viewModel);
         }
 
-        public static List<ProposedProjectClassificationSimple> GetProposedProjectClassificationSimples(ProposedProject proposedProject)
+        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(Project project)
         {
-            var selectedProposedProjectClassifications = proposedProject.ProposedProjectClassifications;
+            var selectedProjectClassifications = project.ProjectClassifications;
 
             //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
-            var proposedProjectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProposedProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
+            var projectClassificationSimples =
+                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
  
-            foreach (var selectedClassification in selectedProposedProjectClassifications)
+            foreach (var selectedClassification in selectedProjectClassifications)
             {
-                var selectedSimple = proposedProjectClassificationSimples.Single(x => x.ClassificationID == selectedClassification.ClassificationID);
+                var selectedSimple = projectClassificationSimples.Single(x => x.ClassificationID == selectedClassification.ClassificationID);
                 selectedSimple.Selected = true;
-                selectedSimple.ProposedProjectClassificationNotes = selectedClassification.ProposedProjectClassificationNotes;
+                selectedSimple.ProjectClassificationNotes = selectedClassification.ProjectClassificationNotes;
             }
 
-            return proposedProjectClassificationSimples;
+            return projectClassificationSimples;
         }
 
-        private ViewResult ViewEditClassifications(ProposedProject proposedProject, EditProposedProjectClassificationsViewModel viewModel)
+        private ViewResult ViewEditClassifications(Project project, EditProposedProjectClassificationsViewModel viewModel)
         {
             var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposedProjectClassificationsViewData(CurrentPerson, proposedProject, allClassifications, ProposedProjectSectionEnum.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposedProjectClassificationsViewData(CurrentPerson, project, allClassifications, ProposedProjectSectionEnum.Classifications, proposalSectionsStatus);
             return RazorView<EditProposedProjectClassifications, EditProposedProjectClassificationsViewData, EditProposedProjectClassificationsViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectClassificationEditFeature]
+        [ProjectEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditClassifications(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditProposedProjectClassificationsViewModel viewModel)
+        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, EditProposedProjectClassificationsViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditClassifications(proposedProject, viewModel);
+                return ViewEditClassifications(project, viewModel);
             }
-            var currentProposedProjectClassifications = viewModel.ProposedProjectClassificationSimples;
-            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.Load();
-            viewModel.UpdateModel(proposedProject, currentProposedProjectClassifications);
+            var currentProjectClassifications = viewModel.ProjectClassificationSimples;
+            HttpRequestStorage.DatabaseEntities.ProjectClassifications.Load();
+            viewModel.UpdateModel(project, currentProjectClassifications);
 
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)));
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(project.PrimaryKey)));
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public ViewResult EditAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposedProjectAssessmentQuestionSimples = GetProposedProjectAssessmentQuestionSimples(proposedProject);
+            var project = projectPrimaryKey.EntityObject;
+            var projectAssessmentQuestionSimples = GetProjectAssessmentQuestionSimples(project);
 
-            var viewModel = new EditAssessmentViewModel(proposedProjectAssessmentQuestionSimples);
-            return ViewEditAssessment(proposedProject, viewModel);
+            var viewModel = new EditAssessmentViewModel(projectAssessmentQuestionSimples);
+            return ViewEditAssessment(project, viewModel);
         }
 
-        public static List<ProposedProjectAssessmentQuestionSimple> GetProposedProjectAssessmentQuestionSimples(ProposedProject proposedProject)
+        public static List<ProjectAssessmentQuestionSimple> GetProjectAssessmentQuestionSimples(Project project)
         {           
             var allQuestionsAsSimples =
-                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x => !x.ArchiveDate.HasValue).ToList().Select(x => new ProposedProjectAssessmentQuestionSimple(x, proposedProject)).ToList();
+                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x => !x.ArchiveDate.HasValue).ToList().Select(x => new ProjectAssessmentQuestionSimple(x, project)).ToList();
 
-            var answeredQuestions = proposedProject.ProposedProjectAssessmentQuestions.ToList();
+            var answeredQuestions = project.ProjectAssessmentQuestions.ToList();
 
             foreach (var question in allQuestionsAsSimples)
             {
@@ -375,153 +344,153 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ProposedProjectEditFeature]
-        public ActionResult EditAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditAssessmentViewModel viewModel)
+        [ProjectEditAsAdminFeature]
+        public ActionResult EditAssessment(ProjectPrimaryKey projectPrimaryKey, EditAssessmentViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditAssessment(proposedProject, viewModel);
+                return ViewEditAssessment(project, viewModel);
             }
 
-            viewModel.UpdateModel(proposedProject);
+            viewModel.UpdateModel(project);
             SetMessageForDisplay("Assessment succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditAssessment(proposedProject.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditAssessment(project.PrimaryKey)));
         }
 
-        private ViewResult ViewEditAssessment(ProposedProject proposedProject, EditAssessmentViewModel viewModel)
+        private ViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
         {
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, proposedProject, assessmentGoals, ProposedProjectSectionEnum.Assessment, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProposedProjectSectionEnum.Assessment, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public ViewResult EditLocationSimple(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new LocationSimpleViewModel(proposedProject);
-            return ViewEditLocationSimple(proposedProject, viewModel);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new LocationSimpleViewModel(project);
+            return ViewEditLocationSimple(project, viewModel);
         }
 
-        private ViewResult ViewEditLocationSimple(ProposedProject proposedProject, LocationSimpleViewModel viewModel)
+        private ViewResult ViewEditLocationSimple(Project project, LocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Hide);
-            var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditLocationSimple(proposedProject, null));
-            var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
+            var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
+            var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
 
             var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, null, mapPostUrl, mapFormID);
 
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
-            var viewData = new LocationSimpleViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editProjectLocationViewData);
+            var viewData = new LocationSimpleViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
 
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditLocationSimple(ProposedProjectPrimaryKey proposedProjectPrimaryKey, LocationSimpleViewModel viewModel)
+        public ActionResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey, LocationSimpleViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditLocationSimple(proposedProject, viewModel);
+                return ViewEditLocationSimple(project, viewModel);
             }
 
-            viewModel.UpdateModel(proposedProject);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Location succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)));
+            viewModel.UpdateModel(project);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location succesfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(project.PrimaryKey)));
         }
 
 
-        private static string GenerateEditProjectLocationSimpleFormID(ProposedProject proposedProject)
+        private static string GenerateEditProjectLocationSimpleFormID(Project project)
         {
-            return $"editMapForProposedProject{proposedProject.ProposedProjectID}";
+            return $"editMapForProject{project.ProjectID}";
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public ViewResult EditLocationDetailed(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             var viewModel = new LocationDetailedViewModel();
-            return ViewEditLocationDetailed(proposedProject, viewModel);
+            return ViewEditLocationDetailed(project, viewModel);
         }
 
-        private ViewResult ViewEditLocationDetailed(ProposedProject proposedProject, LocationDetailedViewModel viewModel)
+        private ViewResult ViewEditLocationDetailed(Project project, LocationDetailedViewModel viewModel)
         {
-            var mapDivID = $"proposedProject_{proposedProject.EntityID}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = proposedProject.DetailedLocationToGeoJsonFeatureCollection();
+            var mapDivID = $"project_{project.EntityID}_EditDetailedMap";
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}- Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(proposedProject);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(proposedProject));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) { AllowFullScreen = false };
 
-            var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProject.ProposedProjectID);
-            var uploadGisFileUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.ImportGdbFile(proposedProject.EntityID));
-            var saveFeatureCollectionUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject, null));
+            var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
+            var uploadGisFileUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.EntityID));
+            var saveFeatureCollectionUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project, null));
 
-            var hasSimpleLocationPoint = proposedProject.ProjectLocationPoint != null;
+            var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
 
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            var projectLocationDetailViewData = new ProjectLocationDetailViewData(proposedProject.ProposedProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
-            var viewData = new LocationDetailedViewData(CurrentPerson, proposedProject, proposalSectionsStatus, projectLocationDetailViewData);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
+            var viewData = new LocationDetailedViewData(CurrentPerson, project, proposalSectionsStatus, projectLocationDetailViewData);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditLocationDetailed(ProposedProjectPrimaryKey proposedProjectPrimaryKey, LocationDetailedViewModel viewModel)
+        public ActionResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey, LocationDetailedViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditLocationDetailed(proposedProject, viewModel);
+                return ViewEditLocationDetailed(project, viewModel);
             }
-            SaveDetailedLocations(viewModel, proposedProject);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)));
+            SaveDetailedLocations(viewModel, project);
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(project.PrimaryKey)));
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public PartialViewResult ImportGdbFile(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult ImportGdbFile(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             var viewModel = new ImportGdbFileViewModel();
-            return ViewImportGdbFile(viewModel, proposedProject.ProposedProjectID);
+            return ViewImportGdbFile(viewModel, project.ProjectID);
         }
 
-        private PartialViewResult ViewImportGdbFile(ImportGdbFileViewModel viewModel, int proposedProjectID)
+        private PartialViewResult ViewImportGdbFile(ImportGdbFileViewModel viewModel, int projectID)
         {
-            var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProjectID);
-            var newGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ImportGdbFile(proposedProjectID, null));
-            var approveGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ApproveGisUpload(proposedProjectID, null));
+            var mapFormID = GenerateEditProjectLocationFormID(projectID);
+            var newGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ImportGdbFile(projectID, null));
+            var approveGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ApproveGisUpload(projectID, null));
             var viewData = new ImportGdbFileViewData(mapFormID, newGisUploadUrl, approveGisUploadUrl);
             return RazorPartialView<ImportGdbFile, ImportGdbFileViewData, ImportGdbFileViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ImportGdbFile(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ImportGdbFileViewModel viewModel)
+        public ActionResult ImportGdbFile(ProjectPrimaryKey projectPrimaryKey, ImportGdbFileViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewImportGdbFile(viewModel, proposedProject.ProposedProjectID);
+                return ViewImportGdbFile(viewModel, project.ProjectID);
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
@@ -530,25 +499,25 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                proposedProject.ProposedProjectLocationStagings.ToList().DeleteProposedProjectLocationStaging();
-                proposedProject.ProposedProjectLocationStagings.Clear();
-                ProposedProjectLocationStaging.CreateProposedProjectLocationStagingListFromGdb(gdbFile, proposedProject, CurrentPerson);
+                project.ProjectLocationStagings.ToList().DeleteProjectLocationStaging();
+                project.ProjectLocationStagings.Clear();
+                ProjectLocationStaging.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
             }
-            return ApproveGisUpload(proposedProject);
+            return ApproveGisUpload(project);
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public PartialViewResult ApproveGisUpload(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             var viewModel = new ProjectLocationDetailViewModel();
-            return ViewApproveGisUpload(proposedProject, viewModel);
+            return ViewApproveGisUpload(project, viewModel);
         }
 
-        private PartialViewResult ViewApproveGisUpload(ProposedProject proposedProject, ProjectLocationDetailViewModel viewModel)
+        private PartialViewResult ViewApproveGisUpload(Project project, ProjectLocationDetailViewModel viewModel)
         {
-            var projectLocationStagings = proposedProject.ProposedProjectLocationStagings.ToList();
+            var projectLocationStagings = project.ProjectLocationStagings.ToList();
             var layerGeoJsons =
                 projectLocationStagings.Select(
                     (projectLocationStaging, i) =>
@@ -560,159 +529,159 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false};
-            var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProject.ProposedProjectID);
-            var approveGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ApproveGisUpload(proposedProject, null));
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false};
+            var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
+            var approveGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
             var viewData = new ApproveGisUploadViewData(new List<IProjectLocationStaging>(projectLocationStagings), mapInitJson, mapFormID, approveGisUploadUrl);
             return RazorPartialView<ApproveGisUpload, ApproveGisUploadViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ApproveGisUpload(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ProjectLocationDetailViewModel viewModel)
+        public ActionResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey, ProjectLocationDetailViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewApproveGisUpload(proposedProject, viewModel);
+                return ViewApproveGisUpload(project, viewModel);
             }
-            SaveDetailedLocations(viewModel, proposedProject);
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(proposedProject.ProposedProjectLocations.ToList()));
+            SaveDetailedLocations(viewModel, project);
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
-        private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, ProposedProject proposedProject)
+        private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
         {
-            var proposedProjectLocations = proposedProject.ProposedProjectLocations.ToList();
-            proposedProjectLocations.DeleteProposedProjectLocation();
-            proposedProject.ProposedProjectLocations.Clear();
+            var projectLocations = project.ProjectLocations.ToList();
+            projectLocations.DeleteProjectLocation();
+            project.ProjectLocations.Clear();
             if (viewModel.WktAndAnnotations != null)
             {
                 foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
                 {
-                    proposedProject.ProposedProjectLocations.Add(new ProposedProjectLocation(proposedProject, DbGeometry.FromText(wktAndAnnotation.Wkt), wktAndAnnotation.Annotation));
+                    project.ProjectLocations.Add(new ProjectLocation(project, DbGeometry.FromText(wktAndAnnotation.Wkt), wktAndAnnotation.Annotation));
                 }
             }
         }
 
-        public static string GenerateEditProposedProjectLocationFormID(int proposedProjectID)
+        public static string GenerateEditProjectLocationFormID(int projectID)
         {
-            return $"editMapForProposedProject{proposedProjectID}";
+            return $"editMapForProject{projectID}";
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public ViewResult EditWatershed(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;            
-            var viewModel = new WatershedViewModel(proposedProject);
-            return ViewEditWatershed(proposedProject, viewModel);
+            var project = projectPrimaryKey.EntityObject;            
+            var viewModel = new WatershedViewModel(project);
+            return ViewEditWatershed(project, viewModel);
         }
 
-        private ViewResult ViewEditWatershed(ProposedProject proposedProject, WatershedViewModel viewModel)
+        private ViewResult ViewEditWatershed(Project project, WatershedViewModel viewModel)
         {
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(proposedProject);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(proposedProject));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectWatershedMap", 0, layers, boundingBox) { AllowFullScreen = false };
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var editProjectWatershedsPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditWatershed(proposedProject, null));
-            var editProjectWatershedsFormId = GenerateEditProjectWatershedFormID(proposedProject);
+            var editProjectWatershedsPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditWatershed(project, null));
+            var editProjectWatershedsFormId = GenerateEditProjectWatershedFormID(project);
 
-            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId, proposedProject.HasProjectLocationPoint, proposedProject.HasProjectLocationDetail);
+            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
 
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsWatershedSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsWatershedSectionComplete;
-            var viewData = new WatershedViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editProjectLocationViewData);
+            var viewData = new WatershedViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
 
             return RazorView<Views.ProposedProject.Watershed, WatershedViewData, WatershedViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditWatershed(ProposedProjectPrimaryKey proposedProjectPrimaryKey, WatershedViewModel viewModel)
+        public ActionResult EditWatershed(ProjectPrimaryKey projectPrimaryKey, WatershedViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditWatershed(proposedProject, viewModel);
+                return ViewEditWatershed(project, viewModel);
             }
-            var currentProposedProjectWatersheds = proposedProject.ProposedProjectWatersheds.ToList();
-            var allProposedProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProposedProjectWatersheds.Local;
-            viewModel.UpdateModel(proposedProject, currentProposedProjectWatersheds, allProposedProjectWatersheds);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(proposedProject.PrimaryKey)));
+            var currentProjectWatersheds = project.ProjectWatersheds.ToList();
+            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
+            viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(project.PrimaryKey)));
         }
 
-        private static string GenerateEditProjectWatershedFormID(ProposedProject proposedProject)
+        private static string GenerateEditProjectWatershedFormID(Project project)
         {
-            return $"editMapForProposedProject{proposedProject.ProposedProjectID}";
+            return $"editMapForProject{project.ProjectID}";
         }
 
-        [ProposedProjectEditFeature]
-        public ViewResult Notes(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var entityNotes = new List<IEntityNote>(proposedProject.ProposedProjectNotes);
-            var addNoteUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.NewNote(proposedProject));
-            var canEditNotes = new ProposedProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson);
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", canEditNotes);
+            var project = projectPrimaryKey.EntityObject;
+            var entityNotes = new List<IEntityNote>(project.ProjectNotes);
+            var addNoteUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.NewNote(project));
+            var canEditNotes = new ProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson);
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", canEditNotes);
 
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            var viewData = new NotesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, entityNotesViewData);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            var viewData = new NotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData);
             return RazorView<Notes, NotesViewData>(viewData);
         }
 
         [HttpGet]
-        [ProposedProjectNoteCreateFeature]
-        public PartialViewResult NewNote(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectNoteCreateFeature]
+        public PartialViewResult NewNote(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditNoteViewModel();
             return ViewEditNote(viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectNoteCreateFeature]
+        [ProjectNoteCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewNote(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditNoteViewModel viewModel)
+        public ActionResult NewNote(ProjectPrimaryKey projectPrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewEditNote(viewModel);
             }
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposedProjectNote = ProposedProjectNote.CreateNewBlank(proposedProject);
-            viewModel.UpdateModel(proposedProjectNote, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.AllProposedProjectNotes.Add(proposedProjectNote);
+            var project = projectPrimaryKey.EntityObject;
+            var projectNote = ProjectNote.CreateNewBlank(project);
+            viewModel.UpdateModel(projectNote, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.AllProjectNotes.Add(projectNote);
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [ProposedProjectNoteManageFeature]
-        public PartialViewResult EditNote(ProposedProjectNotePrimaryKey proposedProjectNotePrimaryKey)
+        [ProjectNoteManageFeature]
+        public PartialViewResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
-            var proposedProjectNote = proposedProjectNotePrimaryKey.EntityObject;
-            var viewModel = new EditNoteViewModel(proposedProjectNote.Note);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            var viewModel = new EditNoteViewModel(projectNote.Note);
             return ViewEditNote(viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectNoteManageFeature]
+        [ProjectNoteManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditNote(ProposedProjectNotePrimaryKey proposedProjectNotePrimaryKey, EditNoteViewModel viewModel)
+        public ActionResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewEditNote(viewModel);
             }
-            var proposedProjectNote = proposedProjectNotePrimaryKey.EntityObject;
-            viewModel.UpdateModel(proposedProjectNote, CurrentPerson);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            viewModel.UpdateModel(projectNote, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
@@ -723,19 +692,19 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProposedProjectNoteManageFeature]
-        public PartialViewResult DeleteNote(ProposedProjectNotePrimaryKey proposedProjectNotePrimaryKey)
+        [ProjectNoteManageFeature]
+        public PartialViewResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
-            var proposedProjectNote = proposedProjectNotePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProjectNote.ProposedProjectNoteID);
-            return ViewDeleteNote(proposedProjectNote, viewModel);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectNote.ProjectNoteID);
+            return ViewDeleteNote(projectNote, viewModel);
         }
 
-        private PartialViewResult ViewDeleteNote(ProposedProjectNote proposedProjectNote, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteNote(ProjectNote projectNote, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !proposedProjectNote.HasDependentObjects();
+            var canDelete = !projectNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for proposedProject '{proposedProjectNote.ProposedProject.DisplayName}'?"
+                ? $"Are you sure you want to delete this note for project '{projectNote.Project.DisplayName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -744,169 +713,166 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProposedProjectNoteManageFeature]
+        [ProjectNoteManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteNote(ProposedProjectNotePrimaryKey proposedProjectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProjectNote = proposedProjectNotePrimaryKey.EntityObject;
+            var projectNote = projectNotePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteNote(proposedProjectNote, viewModel);
+                return ViewDeleteNote(projectNote, viewModel);
             }
-            proposedProjectNote.DeleteProposedProjectNote();
+            projectNote.DeleteProjectNote();
             return new ModalDialogFormJsonResult();
         }
 
-        [ProposedProjectEditFeature]
-        public ViewResult Photos(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewData = BuildImageGalleryViewData(proposedProject, CurrentPerson);
+            var project = projectPrimaryKey.EntityObject;
+            var viewData = BuildImageGalleryViewData(project, CurrentPerson);
             return RazorView<Photos, PhotoViewData>(viewData);
         }
 
-        private static PhotoViewData BuildImageGalleryViewData(ProposedProject proposedProject, Person currentPerson)
+        private static PhotoViewData BuildImageGalleryViewData(Project project, Person currentPerson)
         {
-            var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            var newPhotoForProjectUrl = SitkaRoute<ProposedProjectImageController>.BuildUrlFromExpression(x => x.New(proposedProject));
-            var galleryName = $"ProjectImage{proposedProject.ProposedProjectID}";
-            var projectImages = proposedProject.ProposedProjectImages.ToList();
-            var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages, newPhotoForProjectUrl, x => x.CaptionOnFullView, proposedProject, proposalSectionsStatus);
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
+            var galleryName = $"ProjectImage{project.ProjectID}";
+            var projectImages = project.ProjectImages.ToList();
+            var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages, newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
             return imageGalleryViewData;
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public PartialViewResult DeleteProposedProject(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult DeleteProject(ProjectPrimaryKey projectPrimaryKey)
         {
-            var viewModel = new ConfirmDialogFormViewModel(proposedProjectPrimaryKey.PrimaryKeyValue);
-            return ViewDeleteProposedProject(proposedProjectPrimaryKey.EntityObject, viewModel);
+            var viewModel = new ConfirmDialogFormViewModel(projectPrimaryKey.PrimaryKeyValue);
+            return ViewDeleteProject(projectPrimaryKey.EntityObject, viewModel);
         }
 
-        private PartialViewResult ViewDeleteProposedProject(ProposedProject proposedProject, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = proposedProject.CanDelete().HasPermission;
+            var canDelete = project.CanDelete().HasPermission;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\"?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("ProposedProject", SitkaRoute<ProposedProjectController>.BuildLinkFromExpression(x => x.Detail(proposedProject), "here"));
+                ? $"Are you sure you want to delete {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteProposedProject(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteProject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var permissionCheckResult = proposedProject.CanDelete();
+            var project = projectPrimaryKey.EntityObject;
+            var permissionCheckResult = project.CanDelete();
             if (!permissionCheckResult.HasPermission)
             {
                 throw new SitkaRecordNotAuthorizedException(permissionCheckResult.PermissionDeniedMessage);
             }
             if (!ModelState.IsValid)
             {
-                return ViewDeleteProposedProject(proposedProject, viewModel);
+                return ViewDeleteProject(project, viewModel);
             }
-            DeleteProposedProject(proposedProject);
-            SetMessageForDisplay($"Proposed Project {proposedProject.DisplayName} successfully deleted.");
+            DeleteProject(project);
+            SetMessageForDisplay($"Proposed Project {project.DisplayName} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
 
-        private static void DeleteProposedProject(ProposedProject proposedProject)
+        private static void DeleteProject(Project project)
         {
-            proposedProject.ProposedProjectOrganizations.DeleteProposedProjectOrganization();
-            proposedProject.ProposedProjectWatersheds.DeleteProposedProjectWatershed();
-            proposedProject.ProposedProjectImages.DeleteProposedProjectImage();
-            proposedProject.ProposedProjectLocations.DeleteProposedProjectLocation();
-            proposedProject.ProposedProjectLocationStagings.DeleteProposedProjectLocationStaging();
+            project.ProjectOrganizations.DeleteProjectOrganization();
+            project.ProjectWatersheds.DeleteProjectWatershed();
+            project.ProjectImages.DeleteProjectImage();
+            project.ProjectLocations.DeleteProjectLocation();
+            project.ProjectLocationStagings.DeleteProjectLocationStaging();
 
-            proposedProject.ProposedProjectNotes.DeleteProposedProjectNote();
-            proposedProject.ProposedProjectClassifications.DeleteProposedProjectClassification();
+            project.ProjectNotes.DeleteProjectNote();
+            project.ProjectClassifications.DeleteProjectClassification();
 
-            var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
-            proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds).ToList().DeletePerformanceMeasureExpectedSubcategoryOptionProposed();
-            proposedProjectPerformanceMeasureExpecteds.DeletePerformanceMeasureExpectedProposed();
+            var projectPerformanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
+            projectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList().DeletePerformanceMeasureExpectedSubcategoryOption();
+            projectPerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
 
-            var notifications = proposedProject.NotificationProposedProjects.Select(x => x.Notification).ToList();
-            proposedProject.NotificationProposedProjects.DeleteNotificationProposedProject();
+            var notifications = project.NotificationProjects.Select(x => x.Notification).ToList();
+            project.NotificationProjects.DeleteNotificationProject();
             notifications.DeleteNotification();
-            proposedProject.DeleteProposedProject();
+            project.DeleteProject();
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public PartialViewResult Submit(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult Submit(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(project.ProjectID);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" to the reviewer?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" to the reviewer?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Submit(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
-            proposedProject.SubmissionDate = DateTime.Now;
-            NotificationProposedProject.SendSubmittedMessage(proposedProject);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully submitted for review.");
-            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
+            var project = projectPrimaryKey.EntityObject;
+            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
+            project.SubmissionDate = DateTime.Now;
+            NotificationProject.SendSubmittedMessage(project);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully submitted for review.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
         [HttpGet]
-        [ProposedProjectApproveFeature]
-        public PartialViewResult Approve(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectApproveFeature]
+        public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(project.ProjectID);
             return ViewApprove(viewModel);
         }
 
+
         [HttpPost]
-        [ProposedProjectApproveFeature]
+        [ProjectApproveFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Approve(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Approve(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewApprove(viewModel);
             }
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            Check.Assert(proposedProject.ProposedProjectState == ProposedProjectState.Submitted,
-                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + proposedProject.ProposedProjectState.ProposedProjectStateDisplayName);
+            var project = projectPrimaryKey.EntityObject;
+            Check.Assert(project.ProposedProjectState == ProposedProjectState.Submitted,
+                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProposedProjectState.ProposedProjectStateDisplayName);
 
-            Check.Assert(new ProposalSectionsStatus(proposedProject).AreAllSectionsValid, "Proposal is not ready for submittal.");
-
-            var project = proposedProject.PromoteToProject(proposedProject, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
+            Check.Assert(new ProposalSectionsStatus(project).AreAllSectionsValid, "Proposal is not ready for submittal.");
+            
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Approved;
-            proposedProject.ProjectID = project.ProjectID;
-            proposedProject.ApprovalDate = DateTime.Now;
-            proposedProject.ReviewedByPerson = CurrentPerson;
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-            GenerateApprovalAuditLogEntries(project, proposedProject);
+            project.ProposedProjectStateID = ProposedProjectState.Approved.ProposedProjectStateID;
+            project.ApprovalDate = DateTime.Now;
+            project.ReviewedByPerson = CurrentPerson;
+            project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
+            GenerateApprovalAuditLogEntries(project);
 
-            NotificationProposedProject.SendApprovalMessage(proposedProject);
+            NotificationProject.SendApprovalMessage(project);
 
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
-        private void GenerateApprovalAuditLogEntries(Project project, ProposedProject proposedProject)
+        private void GenerateApprovalAuditLogEntries(Project project)
         {
             var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString())
             {
-                ProposedProjectID = proposedProject.ProposedProjectID,
                 ProjectID = project.ProjectID,
-                AuditDescription = $"Project: created via approval of Proposed Project {proposedProject.DisplayName}"
+                AuditDescription = $"Proposal {project.DisplayName} approved."
             };
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
         }
@@ -918,77 +884,77 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProposedProjectEditFeature]
-        public PartialViewResult Withdraw(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult Withdraw(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(project.ProjectID);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to withdraw {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" from review?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to withdraw {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" from review?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Withdraw(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Withdraw(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
+            var project = projectPrimaryKey.EntityObject;
+            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} withdrawn from review.");
-            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} withdrawn from review.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
         [HttpGet]
-        [ProposedProjectApproveFeature]
-        public PartialViewResult Return(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectApproveFeature]
+        public PartialViewResult Return(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" to Submitter?");
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(project.ProjectID);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to return {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" to Submitter?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectApproveFeature]
+        [ProjectApproveFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Return(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Return(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
-            proposedProject.ReviewedByPerson = CurrentPerson;
-            NotificationProposedProject.SendReturnedMessage(proposedProject);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
-            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
+            var project = projectPrimaryKey.EntityObject;
+            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
+            project.ReviewedByPerson = CurrentPerson;
+            NotificationProject.SendReturnedMessage(project);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
         [HttpGet]
-        [ProposedProjectApproveFeature]
-        public PartialViewResult Reject(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectApproveFeature]
+        public PartialViewResult Reject(ProjectPrimaryKey projectPrimaryKey)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\"?");
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(project.ProjectID);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to reject {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectApproveFeature]
+        [ProjectApproveFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Reject(ProposedProjectPrimaryKey proposedProjectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Reject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Rejected;
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} was rejected.");
-            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
+            var project = projectPrimaryKey.EntityObject;
+            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Rejected;
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
-        [ProposedProjectViewFeature]
-        public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProjectViewFeature]
+        public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var gridSpec = new AuditLogsGridSpec();
-            var auditLogs1 = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProposedProject(proposedProjectPrimaryKey.EntityObject);
+            var auditLogs1 = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject);
             var auditLogs = auditLogs1;
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -1001,7 +967,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 validationErrorMessages =$" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
-            SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+            SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
     }
 }

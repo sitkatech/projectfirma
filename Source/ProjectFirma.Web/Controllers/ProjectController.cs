@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, EditProjectViewModel viewModel)
         {

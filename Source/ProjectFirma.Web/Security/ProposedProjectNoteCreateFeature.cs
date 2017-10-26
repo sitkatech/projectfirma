@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Create Proposed {0}", FieldDefinitionEnum.ProjectNote)]
-    public class ProposedProjectNoteCreateFeature : ProposedProjectEditFeature
+    public class ProposedProjectNoteCreateFeature : ProjectEditFeature
     {
     }
 }

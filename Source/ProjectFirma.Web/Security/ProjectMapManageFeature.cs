@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} Map", FieldDefinitionEnum.Project)]
-    public class ProjectMapManageFeature : ProjectEditFeature
+    public class ProjectMapManageFeature : ProjectEditAsAdminFeature
     {
     }
 }

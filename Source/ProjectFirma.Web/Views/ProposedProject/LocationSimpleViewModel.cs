@@ -31,13 +31,13 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public LocationSimpleViewModel(Models.ProposedProject proposedProject) : base(proposedProject.ProjectLocationPoint, proposedProject.ProjectLocationSimpleType.ToEnum, proposedProject.ProjectLocationNotes)
+        public LocationSimpleViewModel(Models.Project project) : base(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes)
         {
         }
         
-        public void UpdateModel(Models.ProposedProject proposedProject)
+        public void UpdateModel(Models.Project project)
         {
-            base.UpdateModel(proposedProject);
+            base.UpdateModel(project);
         }
     }    
 }

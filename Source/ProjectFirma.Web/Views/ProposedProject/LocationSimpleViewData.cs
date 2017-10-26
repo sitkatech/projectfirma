@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
 
         public LocationSimpleViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.LocationSimple, proposalSectionsStatus)
+            ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentPerson, project, ProposedProjectSectionEnum.LocationSimple, proposalSectionsStatus)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
         }

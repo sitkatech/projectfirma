@@ -56,14 +56,14 @@ namespace ProjectFirma.Web.Views.ProposedProject
         }
 
         public BasicsViewData(Person currentPerson,
-            Models.ProposedProject proposedProject,
+            Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes,
             List<Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
-            : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, proposalSectionsStatus)
+            : base(currentPerson, project, ProposedProjectSectionEnum.Basics, proposalSectionsStatus)
         {
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }

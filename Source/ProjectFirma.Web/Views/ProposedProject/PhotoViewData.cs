@@ -29,8 +29,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
-        public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.ProposedProject proposedProject, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Photos, proposalSectionsStatus)
+        public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentPerson, project, ProposedProjectSectionEnum.Photos, proposalSectionsStatus)
         {
             var selectKeyImageUrl = string.Empty;
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        

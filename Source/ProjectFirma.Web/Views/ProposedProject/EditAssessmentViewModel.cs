@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class EditAssessmentViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProposedProjectAssessmentQuestionSimple> ProposedProjectAssessmentQuestionSimples { get; set; }
+        public List<ProjectAssessmentQuestionSimple> ProjectAssessmentQuestionSimples { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -37,18 +37,18 @@ namespace ProjectFirma.Web.Views.ProposedProject
             
         }
 
-       public EditAssessmentViewModel(List<ProposedProjectAssessmentQuestionSimple> proposedProjectAssessmentQuestionSimples)
+       public EditAssessmentViewModel(List<ProjectAssessmentQuestionSimple> projectAssessmentQuestionSimples)
         {
-            ProposedProjectAssessmentQuestionSimples = proposedProjectAssessmentQuestionSimples;
+            ProjectAssessmentQuestionSimples = projectAssessmentQuestionSimples;
         }   
  
 
-        public void UpdateModel(Models.ProposedProject proposedProject)
+        public void UpdateModel(Models.Project project)
         {
-            proposedProject.ProposedProjectAssessmentQuestions.DeleteProposedProjectAssessmentQuestion();
-            foreach (var simple in ProposedProjectAssessmentQuestionSimples)
+            project.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
+            foreach (var simple in ProjectAssessmentQuestionSimples)
             {
-                proposedProject.ProposedProjectAssessmentQuestions.Add(new ProposedProjectAssessmentQuestion(simple));
+                project.ProjectAssessmentQuestions.Add(new Models.ProjectAssessmentQuestion(simple));
             }                       
         }
 

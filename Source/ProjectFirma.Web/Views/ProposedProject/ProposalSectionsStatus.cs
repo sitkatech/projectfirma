@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete;
 
-        public ProposalSectionsStatus(Models.ProposedProject proposedProject)
+        public ProposalSectionsStatus(Models.Project proposedProject)
         {
             var basicsResults = new BasicsViewModel(proposedProject).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();
@@ -61,17 +61,17 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposedProject.ProposedProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes).GetValidationResults();
+            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposedProject.ProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes).GetValidationResults();
             IsWatershedSectionComplete = !editWatershedValidationResults.Any();
 
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
 
-            var proposedProjectClassificationSimples = ProposedProjectController.GetProposedProjectClassificationSimples(proposedProject);
+            var proposedProjectClassificationSimples = ProposedProjectController.GetProjectClassificationSimples(proposedProject);
             var classificationValidationResults = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples).GetValidationResults();
             IsClassificationsComplete = !classificationValidationResults.Any();
 
-            IsAssessmentComplete = ProposedProjectController.GetProposedProjectAssessmentQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
+            IsAssessmentComplete = ProposedProjectController.GetProjectAssessmentQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
 
             IsNotesSectionComplete = IsBasicsSectionComplete; //there is no validation required on Notes
         }

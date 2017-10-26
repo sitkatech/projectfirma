@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} {1} Expenditure From {2}", FieldDefinitionEnum.Project, FieldDefinitionEnum.FundingSource, FieldDefinitionEnum.Project)]
-    public class ProjectFundingSourceExpenditureFromProjectManageFeature : ProjectEditFeature
+    public class ProjectFundingSourceExpenditureFromProjectManageFeature : ProjectEditAsAdminFeature
     {
     }
 }

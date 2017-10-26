@@ -7,6 +7,6 @@ values
 (3, 'ProjectUpdateReturned', 'Project Update Returned'),
 (4, 'ProjectUpdateApproved', 'Project Update Approved'),
 (5, 'Custom', 'Custom Notification'),
-(6, 'ProposedProjectSubmitted', 'Proposed Project Submitted'),
-(7, 'ProposedProjectApproved', 'Proposed Project Approved'),
-(8, 'ProposedProjectReturned', 'Proposed Project Returned')
+(6, 'ProjectSubmitted', 'Project Submitted'),
+(7, 'ProjectApproved', 'Project Approved'),
+(8, 'ProjectReturned', 'Project Returned')
