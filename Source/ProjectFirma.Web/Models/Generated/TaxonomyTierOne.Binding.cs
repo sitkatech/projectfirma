@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTierOne()
         {
             this.Projects = new HashSet<Project>();
-            this.ProposedProjects = new HashSet<ProposedProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -79,13 +78,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || ProposedProjects.Any();
+            return Projects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierOne).Name, typeof(Project).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierOne).Name, typeof(Project).Name};
 
         [Key]
         public int TaxonomyTierOneID { get; set; }
@@ -97,7 +96,6 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
 

@@ -25,7 +25,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class PhotoViewData : ProposedProjectViewData
+    public class PhotoViewData : ProjectCreateViewData
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
 

@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class LocationSimpleViewData : ProposedProjectViewData
+    public class LocationSimpleViewData : ProjectCreateViewData
     {
         public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
 

@@ -70,8 +70,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<MonitoringProgram> MonitoringPrograms { get { return AllMonitoringPrograms.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<NotificationProposedProject> AllNotificationProposedProjects { get; set; }
-        public virtual IQueryable<NotificationProposedProject> NotificationProposedProjects { get { return AllNotificationProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
@@ -92,12 +90,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get { return AllPerformanceMeasureActualSubcategoryOptionUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureActualUpdate> AllPerformanceMeasureActualUpdates { get; set; }
         public virtual IQueryable<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get { return AllPerformanceMeasureActualUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<PerformanceMeasureExpectedProposed> AllPerformanceMeasureExpectedProposeds { get; set; }
-        public virtual IQueryable<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get { return AllPerformanceMeasureExpectedProposeds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureExpected> AllPerformanceMeasureExpecteds { get; set; }
         public virtual IQueryable<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get { return AllPerformanceMeasureExpecteds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<PerformanceMeasureExpectedSubcategoryOptionProposed> AllPerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
-        public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get { return AllPerformanceMeasureExpectedSubcategoryOptionProposeds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> AllPerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get { return AllPerformanceMeasureExpectedSubcategoryOptions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureMonitoringProgram> AllPerformanceMeasureMonitoringPrograms { get; set; }
@@ -162,24 +156,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectWatershed> ProjectWatersheds { get { return AllProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectWatershedUpdate> AllProjectWatershedUpdates { get; set; }
         public virtual IQueryable<ProjectWatershedUpdate> ProjectWatershedUpdates { get { return AllProjectWatershedUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectAssessmentQuestion> AllProposedProjectAssessmentQuestions { get; set; }
-        public virtual IQueryable<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get { return AllProposedProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectClassification> AllProposedProjectClassifications { get; set; }
-        public virtual IQueryable<ProposedProjectClassification> ProposedProjectClassifications { get { return AllProposedProjectClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectImage> AllProposedProjectImages { get; set; }
-        public virtual IQueryable<ProposedProjectImage> ProposedProjectImages { get { return AllProposedProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectLocation> AllProposedProjectLocations { get; set; }
-        public virtual IQueryable<ProposedProjectLocation> ProposedProjectLocations { get { return AllProposedProjectLocations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectLocationStaging> AllProposedProjectLocationStagings { get; set; }
-        public virtual IQueryable<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get { return AllProposedProjectLocationStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectNote> AllProposedProjectNotes { get; set; }
-        public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectOrganization> AllProposedProjectOrganizations { get; set; }
-        public virtual IQueryable<ProposedProjectOrganization> ProposedProjectOrganizations { get { return AllProposedProjectOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
-        public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProposedProjectWatershed> AllProposedProjectWatersheds { get; set; }
-        public virtual IQueryable<ProposedProjectWatershed> ProposedProjectWatersheds { get { return AllProposedProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
@@ -319,9 +295,6 @@ namespace ProjectFirma.Web.Models
                 case "NotificationProject":
                     return NotificationProjects.GetNotificationProject(primaryKey);
 
-                case "NotificationProposedProject":
-                    return NotificationProposedProjects.GetNotificationProposedProject(primaryKey);
-
                 case "Notification":
                     return Notifications.GetNotification(primaryKey);
 
@@ -357,14 +330,8 @@ namespace ProjectFirma.Web.Models
                 case "PerformanceMeasureActualUpdate":
                     return PerformanceMeasureActualUpdates.GetPerformanceMeasureActualUpdate(primaryKey);
 
-                case "PerformanceMeasureExpectedProposed":
-                    return PerformanceMeasureExpectedProposeds.GetPerformanceMeasureExpectedProposed(primaryKey);
-
                 case "PerformanceMeasureExpected":
                     return PerformanceMeasureExpecteds.GetPerformanceMeasureExpected(primaryKey);
-
-                case "PerformanceMeasureExpectedSubcategoryOptionProposed":
-                    return PerformanceMeasureExpectedSubcategoryOptionProposeds.GetPerformanceMeasureExpectedSubcategoryOptionProposed(primaryKey);
 
                 case "PerformanceMeasureExpectedSubcategoryOption":
                     return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
@@ -507,37 +474,10 @@ namespace ProjectFirma.Web.Models
                 case "ProjectWatershedUpdate":
                     return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
 
-                case "ProposedProjectAssessmentQuestion":
-                    return ProposedProjectAssessmentQuestions.GetProposedProjectAssessmentQuestion(primaryKey);
-
-                case "ProposedProjectClassification":
-                    return ProposedProjectClassifications.GetProposedProjectClassification(primaryKey);
-
-                case "ProposedProjectImage":
-                    return ProposedProjectImages.GetProposedProjectImage(primaryKey);
-
-                case "ProposedProjectLocation":
-                    return ProposedProjectLocations.GetProposedProjectLocation(primaryKey);
-
-                case "ProposedProjectLocationStaging":
-                    return ProposedProjectLocationStagings.GetProposedProjectLocationStaging(primaryKey);
-
-                case "ProposedProjectNote":
-                    return ProposedProjectNotes.GetProposedProjectNote(primaryKey);
-
-                case "ProposedProjectOrganization":
-                    return ProposedProjectOrganizations.GetProposedProjectOrganization(primaryKey);
-
-                case "ProposedProject":
-                    return ProposedProjects.GetProposedProject(primaryKey);
-
                 case "ProposedProjectState":
                     var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
-
-                case "ProposedProjectWatershed":
-                    return ProposedProjectWatersheds.GetProposedProjectWatershed(primaryKey);
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);

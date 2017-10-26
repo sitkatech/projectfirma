@@ -35,11 +35,6 @@ namespace ProjectFirma.Web.Models
         {
             return new HtmlString(string.Join(", ", notification.NotificationProjects.OrderBy(x => x.Project.ProjectName).Select(x => x.Project.DisplayNameAsUrl)));
         }
-
-        protected static HtmlString GetNotificationProposedProjectDisplayNameAsHrefs(Notification notification)
-        {
-            return new HtmlString(string.Join(", ", notification.NotificationProposedProjects.OrderBy(x => x.ProposedProject.ProjectName).Select(x => x.ProposedProject.DisplayNameAsUrl)));
-        }
     }
 
     public partial class NotificationTypeProjectUpdateReminder
@@ -186,12 +181,12 @@ namespace ProjectFirma.Web.Models
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {
-            return GetNotificationProposedProjectDisplayNameAsHrefs(notification);
+            return GetNotificationProjectDisplayNameAsHrefs(notification);
         }
 
         public override int GetEntityCount(Notification notification)
         {
-            return notification.NotificationProposedProjects.Count;
+            return notification.NotificationProjects.Count;
         }
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
@@ -214,12 +209,12 @@ namespace ProjectFirma.Web.Models
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {
-            return GetNotificationProposedProjectDisplayNameAsHrefs(notification);
+            return GetNotificationProjectDisplayNameAsHrefs(notification);
         }
 
         public override int GetEntityCount(Notification notification)
         {
-            return notification.NotificationProposedProjects.Count;
+            return notification.NotificationProjects.Count;
         }
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
@@ -243,12 +238,12 @@ namespace ProjectFirma.Web.Models
     {
         public override HtmlString GetEntityDetailsAsHref(Notification notification)
         {
-            return GetNotificationProposedProjectDisplayNameAsHrefs(notification);
+            return GetNotificationProjectDisplayNameAsHrefs(notification);
         }
 
         public override int GetEntityCount(Notification notification)
         {
-            return notification.NotificationProposedProjects.Count;
+            return notification.NotificationProjects.Count;
         }
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)

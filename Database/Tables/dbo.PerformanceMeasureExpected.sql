@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[PerformanceMeasureExpected](
 	[ProjectID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[ExpectedValue] [float] NULL,
-	[PerformanceMeasureExpectedProposedID] [int] NULL,
  CONSTRAINT [PK_PerformanceMeasureExpected_PerformanceMeasureExpectedID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureExpectedID] ASC

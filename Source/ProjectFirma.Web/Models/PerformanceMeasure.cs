@@ -181,8 +181,6 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureActualUpdates.ToList().ForEach(x => x.DeletePerformanceMeasureActualUpdate());
             PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedSubcategoryOption());
             PerformanceMeasureExpecteds.ToList().ForEach(x => x.DeletePerformanceMeasureExpected());
-            PerformanceMeasureExpectedSubcategoryOptionProposeds.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedSubcategoryOptionProposed());
-            PerformanceMeasureExpectedProposeds.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedProposed());
             PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().ForEach(x => x.DeletePerformanceMeasureSubcategoryOption());
             PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
             PerformanceMeasureMonitoringPrograms.ToList().ForEach(x => x.DeletePerformanceMeasureMonitoringProgram());

@@ -208,15 +208,6 @@ namespace ProjectFirma.Web.Models
                     auditLog.ProjectID = projectID;    
                 }                
             }
-
-            if (ProposedProject.DependentEntityTypeNames.Contains(tableName))
-            {
-                var proposedProjectID = (int?) entry.Property(PropertyNameProposedProjectID).CurrentValue;
-                if (proposedProjectID.HasValue)
-                {
-                    auditLog.ProposedProjectID = proposedProjectID;
-                }
-            }
         }
 
         private static AuditLog CreateAuditLogEntryImpl(DbEntityEntry dbEntry,

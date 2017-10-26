@@ -23,7 +23,6 @@
     <EntitySet Name="MonitoringProgramPartner" EntityType="ProjectFirma.Web.Models.MonitoringProgramPartner" />
     <EntitySet Name="Notification" EntityType="ProjectFirma.Web.Models.Notification" />
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.NotificationProject" />
-    <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.NotificationProposedProject" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Organization" />
     <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.OrganizationBoundaryStaging" />
     <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.OrganizationType" />
@@ -34,9 +33,7 @@
     <EntitySet Name="PerformanceMeasureActualSubcategoryOptionUpdate" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" />
     <EntitySet Name="PerformanceMeasureActualUpdate" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActualUpdate" />
     <EntitySet Name="PerformanceMeasureExpected" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpected" />
-    <EntitySet Name="PerformanceMeasureExpectedProposed" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" />
-    <EntitySet Name="PerformanceMeasureExpectedSubcategoryOptionProposed" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" />
     <EntitySet Name="PerformanceMeasureMonitoringProgram" EntityType="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" />
     <EntitySet Name="PerformanceMeasureNote" EntityType="ProjectFirma.Web.Models.PerformanceMeasureNote" />
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
@@ -68,15 +65,6 @@
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
     <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.ProjectWatershedUpdate" />
-    <EntitySet Name="ProposedProject" EntityType="ProjectFirma.Web.Models.ProposedProject" />
-    <EntitySet Name="ProposedProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" />
-    <EntitySet Name="ProposedProjectClassification" EntityType="ProjectFirma.Web.Models.ProposedProjectClassification" />
-    <EntitySet Name="ProposedProjectImage" EntityType="ProjectFirma.Web.Models.ProposedProjectImage" />
-    <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.ProposedProjectLocation" />
-    <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProposedProjectLocationStaging" />
-    <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
-    <EntitySet Name="ProposedProjectOrganization" EntityType="ProjectFirma.Web.Models.ProposedProjectOrganization" />
-    <EntitySet Name="ProposedProjectWatershed" EntityType="ProjectFirma.Web.Models.ProposedProjectWatershed" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
     <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
@@ -105,10 +93,6 @@
       <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
       <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
-      <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
-      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
-    </AssociationSet>
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
@@ -124,10 +108,6 @@
     <AssociationSet Name="FK_ProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
       <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID">
-      <End Role="Classification" EntitySet="Classification" />
-      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
     </AssociationSet>
     <AssociationSet Name="FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -172,10 +152,6 @@
     <AssociationSet Name="FK_ProjectImageUpdate_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
     </AssociationSet>
     <AssociationSet Name="FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID">
       <End Role="TenantBannerLogoFileResource" EntitySet="FileResource" />
@@ -237,17 +213,9 @@
       <End Role="Notification" EntitySet="Notification" />
       <End Role="NotificationProjects" EntitySet="NotificationProject" />
     </AssociationSet>
-    <AssociationSet Name="FK_NotificationProposedProject_Notification_NotificationID" Association="ProjectFirma.Web.Models.FK_NotificationProposedProject_Notification_NotificationID">
-      <End Role="Notification" EntitySet="Notification" />
-      <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_NotificationProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="NotificationProjects" EntitySet="NotificationProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_NotificationProposedProject_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
     </AssociationSet>
     <AssociationSet Name="FK_Organization_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
@@ -268,10 +236,6 @@
     <AssociationSet Name="FK_ProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
@@ -305,17 +269,9 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpecteds" EntitySet="PerformanceMeasureExpected" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -381,14 +337,6 @@
       <End Role="PerformanceMeasureExpected" EntitySet="PerformanceMeasureExpected" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
-      <End Role="PerformanceMeasureExpectedProposed" EntitySet="PerformanceMeasureExpectedProposed" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
       <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
@@ -396,14 +344,6 @@
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -468,30 +408,6 @@
     <AssociationSet Name="FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID">
       <End Role="UpdatePerson" EntitySet="Person" />
       <End Role="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" EntitySet="ProjectUpdateHistory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
-      <End Role="PrimaryContactPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_ProposingPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID">
-      <End Role="ProposingPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreTheProposingPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_ReviewedByPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID">
-      <End Role="ReviewedByPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreTheReviewedByPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
-      <End Role="CreatePerson" EntitySet="Person" />
-      <End Role="ProposedProjectNotesWhereYouAreTheCreatePerson" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="ProposedProjectNotesWhereYouAreTheUpdatePerson" EntitySet="ProposedProjectNote" />
     </AssociationSet>
     <AssociationSet Name="FK_SupportRequestLog_Person_RequestPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID">
       <End Role="RequestPerson" EntitySet="Person" />
@@ -561,10 +477,6 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
@@ -633,50 +545,6 @@
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectLocations" EntitySet="ProposedProjectLocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
-      <End Role="RelationshipType" EntitySet="RelationshipType" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
@@ -728,7 +596,6 @@
     <Property Name="ArchiveDate" Type="DateTime" />
     <NavigationProperty Name="AssessmentSubGoal" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" FromRole="AssessmentQuestions" ToRole="AssessmentSubGoal" />
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="AssessmentQuestion" ToRole="ProjectAssessmentQuestions" />
-    <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="AssessmentQuestion" ToRole="ProposedProjectAssessmentQuestions" />
   </EntityType>
   <EntityType Name="AssessmentSubGoal">
     <Key>
@@ -777,7 +644,6 @@
     <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProjectClassifications" />
-    <NavigationProperty Name="ProposedProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProposedProjectClassifications" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -857,7 +723,6 @@
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
-    <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantBannerLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantSquareLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantStyleSheetFileResource" ToRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" />
@@ -979,7 +844,6 @@
     <Property Name="NotificationDate" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_Notification_Person_PersonID" FromRole="Notifications" ToRole="Person" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Notification_NotificationID" FromRole="Notification" ToRole="NotificationProjects" />
-    <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_Notification_NotificationID" FromRole="Notification" ToRole="NotificationProposedProjects" />
   </EntityType>
   <EntityType Name="NotificationProject">
     <Key>
@@ -991,17 +855,6 @@
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Notification" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Notification_NotificationID" FromRole="NotificationProjects" ToRole="Notification" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="NotificationProjects" ToRole="Project" />
-  </EntityType>
-  <EntityType Name="NotificationProposedProject">
-    <Key>
-      <PropertyRef Name="NotificationProposedProjectID" />
-    </Key>
-    <Property Name="NotificationProposedProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="NotificationID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Notification" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_Notification_NotificationID" FromRole="NotificationProposedProjects" ToRole="Notification" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="NotificationProposedProjects" ToRole="ProposedProject" />
   </EntityType>
   <EntityType Name="Organization">
     <Key>
@@ -1026,7 +879,6 @@
     <NavigationProperty Name="OrganizationBoundaryStagings" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="Organization" ToRole="OrganizationBoundaryStagings" />
     <NavigationProperty Name="People" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="Organization" ToRole="People" />
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectOrganizations" />
-    <NavigationProperty Name="ProposedProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProposedProjectOrganizations" />
   </EntityType>
   <EntityType Name="OrganizationBoundaryStaging">
     <Key>
@@ -1088,9 +940,7 @@
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureActualUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpecteds" />
-    <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedProposeds" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
     <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureMonitoringPrograms" />
     <NavigationProperty Name="PerformanceMeasureNotes" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureNotes" />
     <NavigationProperty Name="PerformanceMeasureSubcategories" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureSubcategories" />
@@ -1165,23 +1015,9 @@
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="ExpectedValue" Type="Double" />
-    <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpecteds" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="PerformanceMeasureExpecteds" ToRole="Project" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID" FromRole="PerformanceMeasureExpected" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-  </EntityType>
-  <EntityType Name="PerformanceMeasureExpectedProposed">
-    <Key>
-      <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-    </Key>
-    <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="ExpectedValue" Type="Double" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedProposeds" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="PerformanceMeasureExpectedProposeds" ToRole="ProposedProject" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" FromRole="PerformanceMeasureExpectedProposed" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOption">
     <Key>
@@ -1197,21 +1033,6 @@
     <NavigationProperty Name="PerformanceMeasureExpected" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureExpected" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
     <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
-  </EntityType>
-  <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
-    <Key>
-      <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
-    </Key>
-    <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="PerformanceMeasureExpectedProposed" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureExpectedProposed" />
-    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureSubcategory" />
-    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureSubcategoryOption" />
   </EntityType>
   <EntityType Name="PerformanceMeasureMonitoringProgram">
     <Key>
@@ -1254,7 +1075,6 @@
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
     <NavigationProperty Name="PerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureSubcategoryOptions" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
   </EntityType>
@@ -1271,7 +1091,6 @@
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
   </EntityType>
@@ -1314,12 +1133,6 @@
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="LastUpdatePerson" ToRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" />
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
-    <NavigationProperty Name="ProposedProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProposedProjectsWhereYouAreThePrimaryContactPerson" />
-    <NavigationProperty Name="ProposedProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProposedProjectsWhereYouAreTheProposingPerson" />
-    <NavigationProperty Name="ProposedProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProposedProjectsWhereYouAreTheReviewedByPerson" />
-    <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProposedProjectLocationStagings" />
-    <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProposedProjectNotesWhereYouAreTheCreatePerson" />
-    <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
     <NavigationProperty Name="TenantAttributesWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="TenantAttributesWhereYouAreThePrimaryContactPerson" />
   </EntityType>
@@ -1354,7 +1167,6 @@
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />
-    <Property Name="ProposedProjectID" Type="Int32" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureExpecteds" />
@@ -1376,7 +1188,6 @@
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
-    <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="Project" ToRole="ProposedProjects" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="Project" ToRole="SnapshotProjects" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
@@ -1738,154 +1549,6 @@
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectWatershedUpdates" ToRole="ProjectUpdateBatch" />
     <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="ProjectWatershedUpdates" ToRole="Watershed" />
   </EntityType>
-  <EntityType Name="ProposedProject">
-    <Key>
-      <PropertyRef Name="ProposedProjectID" />
-    </Key>
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="140" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="ProposingPersonID" Type="Int32" Nullable="false" />
-    <Property Name="ProposingDate" Type="DateTime" Nullable="false" />
-    <Property Name="ImplementationStartYear" Type="Int32" />
-    <Property Name="CompletionYear" Type="Int32" />
-    <Property Name="EstimatedTotalCost" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="SecuredFunding" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="ProjectLocationPoint" Type="Geometry" />
-    <Property Name="ProjectLocationNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="PlanningDesignStartYear" Type="Int32" />
-    <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
-    <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectStateID" Type="Int32" Nullable="false" />
-    <Property Name="TaxonomyTierOneID" Type="Int32" />
-    <Property Name="PerformanceMeasureNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectID" Type="Int32" />
-    <Property Name="SubmissionDate" Type="DateTime" />
-    <Property Name="ApprovalDate" Type="DateTime" />
-    <Property Name="ReviewedByPersonID" Type="Int32" />
-    <Property Name="PrimaryContactPersonID" Type="Int32" />
-    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="NotificationProposedProjects" />
-    <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="PerformanceMeasureExpectedProposeds" />
-    <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
-    <NavigationProperty Name="ProposingPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheProposingPerson" ToRole="ProposingPerson" />
-    <NavigationProperty Name="ReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheReviewedByPerson" ToRole="ReviewedByPerson" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="ProposedProjects" ToRole="Project" />
-    <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="ProposedProjects" ToRole="TaxonomyTierOne" />
-    <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectAssessmentQuestions" />
-    <NavigationProperty Name="ProposedProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectClassifications" />
-    <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectImages" />
-    <NavigationProperty Name="ProposedProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocations" />
-    <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocationStagings" />
-    <NavigationProperty Name="ProposedProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectNotes" />
-    <NavigationProperty Name="ProposedProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectOrganizations" />
-    <NavigationProperty Name="ProposedProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectWatersheds" />
-  </EntityType>
-  <EntityType Name="ProposedProjectAssessmentQuestion">
-    <Key>
-      <PropertyRef Name="ProposedProjectAssessmentQuestionID" />
-    </Key>
-    <Property Name="ProposedProjectAssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" />
-    <Property Name="Answer" Type="Boolean" />
-    <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProposedProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProjectAssessmentQuestions" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectClassification">
-    <Key>
-      <PropertyRef Name="ProposedProjectClassificationID" />
-    </Key>
-    <Property Name="ProposedProjectClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="ProposedProjectClassifications" ToRole="Classification" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" FromRole="ProposedProjectClassifications" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectImage">
-    <Key>
-      <PropertyRef Name="ProposedProjectImageID" />
-    </Key>
-    <Property Name="ProposedProjectImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="Caption" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="Credit" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="ProposedProjectImages" ToRole="FileResource" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProjectImages" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectLocation">
-    <Key>
-      <PropertyRef Name="ProposedProjectLocationID" />
-    </Key>
-    <Property Name="ProposedProjectLocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectLocationGeometry" Type="Geometry" Nullable="false" />
-    <Property Name="Annotation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProjectLocations" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectLocationStaging">
-    <Key>
-      <PropertyRef Name="ProposedProjectLocationStagingID" />
-    </Key>
-    <Property Name="ProposedProjectLocationStagingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="PersonID" Type="Int32" Nullable="false" />
-    <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="SelectedProperty" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="ShouldImport" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID" FromRole="ProposedProjectLocationStagings" ToRole="Person" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProjectLocationStagings" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectNote">
-    <Key>
-      <PropertyRef Name="ProposedProjectNoteID" />
-    </Key>
-    <Property Name="ProposedProjectNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
-    <Property Name="CreatePersonID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-    <Property Name="UpdatePersonID" Type="Int32" />
-    <Property Name="UpdateDate" Type="DateTime" />
-    <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
-    <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProjectNotes" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectOrganization">
-    <Key>
-      <PropertyRef Name="ProposedProjectOrganizationID" />
-    </Key>
-    <Property Name="ProposedProjectOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="RelationshipTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_Organization_OrganizationID" FromRole="ProposedProjectOrganizations" ToRole="Organization" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID" FromRole="ProposedProjectOrganizations" ToRole="ProposedProject" />
-    <NavigationProperty Name="RelationshipType" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="ProposedProjectOrganizations" ToRole="RelationshipType" />
-  </EntityType>
-  <EntityType Name="ProposedProjectWatershed">
-    <Key>
-      <PropertyRef Name="ProposedProjectWatershedID" />
-    </Key>
-    <Property Name="ProposedProjectWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" FromRole="ProposedProjectWatersheds" ToRole="ProposedProject" />
-    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID" FromRole="ProposedProjectWatersheds" ToRole="Watershed" />
-  </EntityType>
   <EntityType Name="RelationshipType">
     <Key>
       <PropertyRef Name="RelationshipTypeID" />
@@ -1898,7 +1561,6 @@
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="OrganizationTypeRelationshipTypes" />
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizations" />
-    <NavigationProperty Name="ProposedProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProposedProjectOrganizations" />
   </EntityType>
   <EntityType Name="Snapshot">
     <Key>
@@ -2016,7 +1678,6 @@
     <Property Name="TaxonomyTierOneDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierOneCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="Projects" />
-    <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="ProposedProjects" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierOnes" ToRole="TaxonomyTierTwo" />
   </EntityType>
   <EntityType Name="TaxonomyTierThree">
@@ -2093,7 +1754,6 @@
     <Property Name="WatershedFeature" Type="Geometry" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
     <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatershedUpdates" />
-    <NavigationProperty Name="ProposedProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProposedProjectWatersheds" />
   </EntityType>
   <EntityType Name="vGeoServerWatershed">
     <Key>
@@ -2147,18 +1807,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
-    <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.AssessmentQuestion" Multiplicity="1" />
-    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AssessmentQuestion">
-        <PropertyRef Name="AssessmentQuestionID" />
-      </Principal>
-      <Dependent Role="ProposedProjectAssessmentQuestions">
-        <PropertyRef Name="AssessmentQuestionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_AuditLog_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
     <End Role="AuditLogs" Type="ProjectFirma.Web.Models.AuditLog" Multiplicity="*" />
@@ -2203,18 +1851,6 @@
         <PropertyRef Name="ClassificationID" />
       </Principal>
       <Dependent Role="ProjectClassifications">
-        <PropertyRef Name="ClassificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectClassification_Classification_ClassificationID">
-    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
-    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.ProposedProjectClassification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Classification">
-        <PropertyRef Name="ClassificationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectClassifications">
         <PropertyRef Name="ClassificationID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2347,18 +1983,6 @@
         <PropertyRef Name="FileResourceID" />
       </Principal>
       <Dependent Role="ProjectImageUpdates">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.ProposedProjectImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProposedProjectImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2543,18 +2167,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_NotificationProposedProject_Notification_NotificationID">
-    <End Role="Notification" Type="ProjectFirma.Web.Models.Notification" Multiplicity="1" />
-    <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.NotificationProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Notification">
-        <PropertyRef Name="NotificationID" />
-      </Principal>
-      <Dependent Role="NotificationProposedProjects">
-        <PropertyRef Name="NotificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_NotificationProject_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="NotificationProjects" Type="ProjectFirma.Web.Models.NotificationProject" Multiplicity="*" />
@@ -2564,18 +2176,6 @@
       </Principal>
       <Dependent Role="NotificationProjects">
         <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_NotificationProposedProject_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.NotificationProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="NotificationProposedProjects">
-        <PropertyRef Name="ProposedProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2635,18 +2235,6 @@
         <PropertyRef Name="OrganizationID" />
       </Principal>
       <Dependent Role="ProjectOrganizations">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
         <PropertyRef Name="OrganizationID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2747,18 +2335,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedProposeds">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
@@ -2767,18 +2343,6 @@
         <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
         <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2975,30 +2539,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedProposeds">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
-    <End Role="PerformanceMeasureExpectedProposed" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureExpectedProposed">
-        <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
     <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
@@ -3019,30 +2559,6 @@
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategory">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategoryOption">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3235,78 +2751,6 @@
         <PropertyRef Name="PersonID" />
       </Principal>
       <Dependent Role="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
-    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PrimaryContactPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreThePrimaryContactPerson">
-        <PropertyRef Name="PrimaryContactPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_ProposingPersonID_PersonID">
-    <End Role="ProposingPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
-    <End Role="ProposedProjectsWhereYouAreTheProposingPerson" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposingPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheProposingPerson">
-        <PropertyRef Name="ProposingPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_ReviewedByPersonID_PersonID">
-    <End Role="ReviewedByPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectsWhereYouAreTheReviewedByPerson" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReviewedByPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheReviewedByPerson">
-        <PropertyRef Name="ReviewedByPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocationStaging_Person_PersonID">
-    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
-    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.ProposedProjectLocationStaging" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocationStagings">
-        <PropertyRef Name="PersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
-    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CreatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotesWhereYouAreTheCreatePerson">
-        <PropertyRef Name="CreatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotesWhereYouAreTheUpdatePerson">
         <PropertyRef Name="UpdatePersonID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3515,18 +2959,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProposedProject_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_SnapshotProject_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="SnapshotProjects" Type="ProjectFirma.Web.Models.SnapshotProject" Multiplicity="*" />
@@ -3727,138 +3159,6 @@
         <PropertyRef Name="WatershedID" />
       </Principal>
       <Dependent Role="ProjectWatershedUpdates">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectAssessmentQuestions">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.ProposedProjectClassification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectClassifications">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.ProposedProjectImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectImages">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectLocations" Type="ProjectFirma.Web.Models.ProposedProjectLocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocations">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.ProposedProjectLocationStaging" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocationStagings">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectNotes" Type="ProjectFirma.Web.Models.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotes">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.ProposedProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectWatersheds">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
-    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.RelationshipType" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RelationshipType">
-        <PropertyRef Name="RelationshipTypeID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
-        <PropertyRef Name="RelationshipTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectWatershed_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
-    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.ProposedProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProposedProjectWatersheds">
         <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>

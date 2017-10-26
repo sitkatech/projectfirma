@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
         protected Notification()
         {
             this.NotificationProjects = new HashSet<NotificationProject>();
-            this.NotificationProposedProjects = new HashSet<NotificationProposedProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -80,13 +79,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProjects.Any() || NotificationProposedProjects.Any();
+            return NotificationProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Notification).Name, typeof(NotificationProject).Name, typeof(NotificationProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Notification).Name, typeof(NotificationProject).Name};
 
         [Key]
         public int NotificationID { get; set; }
@@ -97,7 +96,6 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return NotificationID; } set { NotificationID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
-        public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public NotificationType NotificationType { get { return NotificationType.AllLookupDictionary[NotificationTypeID]; } }
         public virtual Person Person { get; set; }

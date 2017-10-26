@@ -45,12 +45,12 @@ namespace ProjectFirma.Web.Models
 
         public int GetCountOfYesAnswers()
         {
-            return ProjectAssessmentQuestions.Count(x => x.Answer ?? false) + ProposedProjectAssessmentQuestions.Count(x => x.Answer ?? false);
+            return ProjectAssessmentQuestions.Count(x => x.Answer ?? false) + ProjectAssessmentQuestions.Count(x => x.Answer ?? false);
         }
 
         public int GetCountOfNoAnswers()
         {
-            return ProjectAssessmentQuestions.Count(x => !x.Answer ?? false) + ProposedProjectAssessmentQuestions.Count(x => !x.Answer ?? false);
+            return ProjectAssessmentQuestions.Count(x => !x.Answer ?? false) + ProjectAssessmentQuestions.Count(x => !x.Answer ?? false);
         }
     }
 }

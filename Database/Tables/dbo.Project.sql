@@ -30,7 +30,6 @@ CREATE TABLE [dbo].[Project](
 	[SubmissionDate] [datetime] NULL,
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
-	[ProposedProjectID] [int] NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

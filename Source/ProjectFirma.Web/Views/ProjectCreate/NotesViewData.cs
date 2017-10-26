@@ -23,7 +23,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class NotesViewData : ProposedProjectViewData
+    public class NotesViewData : ProjectCreateViewData
     {
         public readonly EntityNotesViewData EntityNotesViewData;
 

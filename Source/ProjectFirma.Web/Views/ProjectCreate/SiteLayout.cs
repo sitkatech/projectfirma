@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class SiteLayout : LtInfo.Common.Mvc.TypedWebViewPage<ProposedProjectViewData>
+    public abstract class SiteLayout : LtInfo.Common.Mvc.TypedWebViewPage<ProjectCreateViewData>
     {
         protected string SetSelectedSectionStyle(ProposedProjectSectionEnum currentSection, ProposedProjectSectionEnum selectedProposedProjectSection)
         {

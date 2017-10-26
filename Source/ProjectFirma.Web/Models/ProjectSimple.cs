@@ -31,12 +31,6 @@ namespace ProjectFirma.Web.Models
             DisplayName = project.DisplayName;
         }
 
-        public ProjectSimple(ProposedProject proposedProject)
-        {
-            ProjectID = proposedProject.ProposedProjectID;
-            DisplayName = proposedProject.DisplayName;
-        }
-
         public ProjectSimple(int projectID, string displayName)
         {
             ProjectID = projectID;

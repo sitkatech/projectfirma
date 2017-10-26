@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditAssessmentViewData : ProposedProjectViewData
+    public class EditAssessmentViewData : ProjectCreateViewData
     {
         public readonly List<AssessmentGoal> AssessmentGoals;
         public readonly string ProjectName;

@@ -244,10 +244,10 @@ namespace ProjectFirma.Web.Controllers
             }
             var performanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
 
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Load();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
             var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
 
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Load();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptions.Load();
             var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
 
             viewModel.UpdateModel(performanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions, project);

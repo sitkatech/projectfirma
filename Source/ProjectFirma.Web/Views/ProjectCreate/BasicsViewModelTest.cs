@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var viewModel = new BasicsViewModel(project);
 
             // Assert
-            Assert.That(viewModel.ProjectID, Is.EqualTo(project.ProposedProjectID));
+            Assert.That(viewModel.ProjectID, Is.EqualTo(project.ProjectID));
             Assert.That(viewModel.ProjectName, Is.EqualTo(project.ProjectName));
             Assert.That(viewModel.ProjectDescription, Is.EqualTo(project.ProjectDescription));
         }

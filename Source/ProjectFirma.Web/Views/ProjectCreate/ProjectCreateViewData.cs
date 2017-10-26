@@ -28,7 +28,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class ProposedProjectViewData : FirmaViewData
+    public abstract class ProjectCreateViewData : FirmaViewData
     {
         public readonly ProposedProjectSectionEnum SelectedProposedProjectSection;
         public readonly Models.Project Project;
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly string ClassificationDisplayNamePluralized;
 
 
-        protected ProposedProjectViewData(Person currentPerson,
+        protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,
             ProposedProjectSectionEnum selectedProposedProjectSection,
             ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
@@ -86,16 +86,16 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             // TODO: Update controller usage
             ProposedProjectDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
-            ProposedProjectInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(project.ProposedProjectID));
-            ProposedProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProposedProjectID));
+            ProposedProjectInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(project.ProjectID));
+            ProposedProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
             ProposedProjectPerformanceMeasuresUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(project));
             ProposedProjectLocationSimpleUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
             ProposedProjectLocationDetailedUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project));
             ProposedProjectWatershedUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditWatershed(project));
             ProposedProjectClassificationsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project));
             ProposedProjectAssessmentUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAssessment(project));
-            ProposedProjectNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Notes(project.ProposedProjectID));
-            ProposedProjectPhotosUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProposedProjectID));
+            ProposedProjectNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Notes(project.ProjectID));
+            ProposedProjectPhotosUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID));
             
             SubmitUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Submit(project));
             ApproveUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Approve(project));
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.
 
-        protected ProposedProjectViewData(Person currentPerson,
+        protected ProjectCreateViewData(Person currentPerson,
             ProposedProjectSectionEnum selectedProposedProjectSection) : this(currentPerson)
         {
             Check.Assert(selectedProposedProjectSection == ProposedProjectSectionEnum.Instructions || selectedProposedProjectSection == ProposedProjectSectionEnum.Basics);
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         }
 
-        private ProposedProjectViewData(Person currentPerson) : base(currentPerson)
+        private ProjectCreateViewData(Person currentPerson) : base(currentPerson)
         {
             EntityName = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
             ProposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());

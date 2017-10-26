@@ -23,7 +23,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class InstructionsViewData : ProposedProjectViewData
+    public class InstructionsViewData : ProjectCreateViewData
     {
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
         public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, ProposedProjectSectionEnum.Instructions)

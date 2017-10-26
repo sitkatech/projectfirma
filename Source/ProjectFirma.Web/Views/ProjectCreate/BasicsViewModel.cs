@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             project.ProposingPersonID = person.PersonID;
             project.TaxonomyTierOneID = TaxonomyTierOneID;
-            project.ProposedProjectID = ProjectID;
+            project.ProjectID = ProjectID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
             project.FundingTypeID = FundingTypeID;

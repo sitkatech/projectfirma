@@ -29,7 +29,7 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class BasicsViewData : ProposedProjectViewData
+    public class BasicsViewData : ProjectCreateViewData
     {
         public IEnumerable<SelectListItem> TaxonomyTierOnes { get; private set; }
         public IEnumerable<SelectListItem> Organizations { get; private set; }

@@ -24,7 +24,7 @@ using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class WatershedViewData : ProposedProjectViewData
+    public class WatershedViewData : ProjectCreateViewData
     {
         public readonly EditProjectWatershedsViewData EditProjectWatershedsViewData;
 

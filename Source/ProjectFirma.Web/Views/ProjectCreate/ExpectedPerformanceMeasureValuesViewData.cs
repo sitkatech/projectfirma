@@ -23,7 +23,7 @@ using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ExpectedPerformanceMeasureValuesViewData : ProposedProjectViewData
+    public class ExpectedPerformanceMeasureValuesViewData : ProjectCreateViewData
     {
         public readonly EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData;
 

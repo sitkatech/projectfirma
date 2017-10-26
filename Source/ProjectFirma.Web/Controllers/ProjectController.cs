@@ -503,12 +503,6 @@ namespace ProjectFirma.Web.Controllers
 
             project.ProjectWatersheds.DeleteProjectWatershed();
 
-            if (project.ProposedProject != null)
-            {
-                project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
-                project.ProposedProject.Project = null;
-            }
-
             project.SnapshotProjects.DeleteSnapshotProject();
             var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
             project.DeleteProject();

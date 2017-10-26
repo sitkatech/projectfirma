@@ -235,7 +235,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         
         <div class="pull-left">
-            @if (ViewDataTyped.Project != null && ViewDataTyped.Project.ProposedProjectID != ModelObjectHelpers.NotYetAssignedID)
+            @if (ViewDataTyped.Project != null)
             {
                 <p>
                     Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate

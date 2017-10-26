@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditProposedProjectClassificationsViewData : ProposedProjectViewData
+    public class EditProposedProjectClassificationsViewData : ProjectCreateViewData
     {
         public readonly List<Models.Classification> Classifications;
         public readonly string ProjectName;

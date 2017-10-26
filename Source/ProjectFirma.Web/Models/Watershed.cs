@@ -104,18 +104,12 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-
-        // TODO: Clean up now that ProposedProject doesn't technically exist anymore.
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false) {MapUrl = null};
 
             var projectChildren = ProjectWatersheds.Select(x => x.Project).OrderBy(x => x.DisplayName)
                 .Select(x => x.ToFancyTreeNode()).ToList();
-            var proposedProjectChildren = ProposedProjectWatersheds.Select(x => x.ProposedProject)
-                .OrderBy(x => x.DisplayName)
-                .Select(x => x.ToFancyTreeNode());
-            projectChildren.AddRange(proposedProjectChildren);
             fancyTreeNode.Children = projectChildren.ToList();
 
             return fancyTreeNode;

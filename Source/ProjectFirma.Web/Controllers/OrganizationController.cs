@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(projectsLayerGeoJson);
             }
 
-            var projectDetails = organization.ProjectOrganizations.SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetails = organization.ProjectOrganizations.Where(x => x.Project.ProjectStageID != ProjectStage.Proposal.ProjectStageID).SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
@@ -187,8 +187,8 @@ namespace ProjectFirma.Web.Controllers
                     layers.Add(proposedProjectsLayerGeoJson);
                 }
 
-                var proposedProjectDetails = organization.ProposedProjectOrganizations
-                    .SelectMany(x => x.ProposedProject.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+                var proposedProjectDetails = organization.ProjectOrganizations.Where(x=>x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+                    .SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
                 if (proposedProjectDetails.Features.Any())
                 {
                     hasSpatialData = true;
