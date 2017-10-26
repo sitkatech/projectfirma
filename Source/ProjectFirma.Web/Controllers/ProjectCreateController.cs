@@ -821,7 +821,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
+            project.ProposedProjectStateID = (int)ProposedProjectStateEnum.PendingApproval;
             project.SubmissionDate = DateTime.Now;
             NotificationProject.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully submitted for review.");
@@ -848,7 +848,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApprove(viewModel);
             }
             var project = projectPrimaryKey.EntityObject;
-            Check.Assert(project.ProposedProjectState == ProposedProjectState.Submitted,
+            Check.Assert(project.ProposedProjectState == ProposedProjectState.PendingApproval,
                 $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProposedProjectState.ProposedProjectStateDisplayName);
 
             Check.Assert(new ProposalSectionsStatus(project).AreAllSectionsValid, "Proposal is not ready for submittal.");

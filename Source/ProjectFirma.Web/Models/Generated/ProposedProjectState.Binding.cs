@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
     public abstract partial class ProposedProjectState : IHavePrimaryKey
     {
         public static readonly ProposedProjectStateDraft Draft = ProposedProjectStateDraft.Instance;
-        public static readonly ProposedProjectStateSubmitted Submitted = ProposedProjectStateSubmitted.Instance;
+        public static readonly ProposedProjectStatePendingApproval PendingApproval = ProposedProjectStatePendingApproval.Instance;
         public static readonly ProposedProjectStateApproved Approved = ProposedProjectStateApproved.Instance;
         public static readonly ProposedProjectStateRejected Rejected = ProposedProjectStateRejected.Instance;
 
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProposedProjectState()
         {
-            All = new List<ProposedProjectState> { Draft, Submitted, Approved, Rejected };
+            All = new List<ProposedProjectState> { Draft, PendingApproval, Approved, Rejected };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProposedProjectState>(All.ToDictionary(x => x.ProposedProjectStateID));
         }
 
@@ -104,10 +104,10 @@ namespace ProjectFirma.Web.Models
                     return Approved;
                 case ProposedProjectStateEnum.Draft:
                     return Draft;
+                case ProposedProjectStateEnum.PendingApproval:
+                    return PendingApproval;
                 case ProposedProjectStateEnum.Rejected:
                     return Rejected;
-                case ProposedProjectStateEnum.Submitted:
-                    return Submitted;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Models
     public enum ProposedProjectStateEnum
     {
         Draft = 1,
-        Submitted = 2,
+        PendingApproval = 2,
         Approved = 3,
         Rejected = 4
     }
@@ -128,10 +128,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProposedProjectStateDraft Instance = new ProposedProjectStateDraft(1, @"Draft", @"Draft");
     }
 
-    public partial class ProposedProjectStateSubmitted : ProposedProjectState
+    public partial class ProposedProjectStatePendingApproval : ProposedProjectState
     {
-        private ProposedProjectStateSubmitted(int proposedProjectStateID, string proposedProjectStateName, string proposedProjectStateDisplayName) : base(proposedProjectStateID, proposedProjectStateName, proposedProjectStateDisplayName) {}
-        public static readonly ProposedProjectStateSubmitted Instance = new ProposedProjectStateSubmitted(2, @"Submitted", @"Submitted");
+        private ProposedProjectStatePendingApproval(int proposedProjectStateID, string proposedProjectStateName, string proposedProjectStateDisplayName) : base(proposedProjectStateID, proposedProjectStateName, proposedProjectStateDisplayName) {}
+        public static readonly ProposedProjectStatePendingApproval Instance = new ProposedProjectStatePendingApproval(2, @"PendingApproval", @"Pending Approval");
     }
 
     public partial class ProposedProjectStateApproved : ProposedProjectState
