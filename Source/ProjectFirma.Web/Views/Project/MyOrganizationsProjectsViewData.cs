@@ -56,8 +56,8 @@ namespace ProjectFirma.Web.Views.Project
             ProposedProjectsGridName = "myOrganizationsProposedProjectsGrid";
             ProposedProjectsGridSpec = new ProposedProjectGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true 
             
             };

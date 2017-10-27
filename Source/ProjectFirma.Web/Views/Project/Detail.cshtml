@@ -80,12 +80,12 @@
 @if (ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
 {
     <div class="alert alert-info" style="margin-bottom: 10px">
-        <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.ProposedProject.GetFieldDefinitionLabel()"></span>
+        <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.Proposal.GetFieldDefinitionLabel()"></span>
         @switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
         {
             case ProjectApprovalStatusEnum.Draft:
                 <span>
-                    This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
                     @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
                     {
                         <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">finalize the Project Proposal</a> at any time.</span>
@@ -94,7 +94,7 @@
                 break;
             case ProjectApprovalStatusEnum.PendingApproval:
                 <span>
-                    This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() is awaiting review.
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() is awaiting review.
                     @if (ViewDataTyped.CurrentPersonIsApprover)
                     {
                         <span>You may <a href="@ViewDataTyped.ProposedProjectBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
@@ -113,7 +113,7 @@
                 break;
             case ProjectApprovalStatusEnum.Rejected:
                 <span>
-                    This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
+                    This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.Proposal.GetFieldDefinitionLabel().
                 </span>
                 break;
             default:

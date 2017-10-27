@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     hasSpatialData = true;
                     layers.Add(new LayerGeoJson(
-                        $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detailed Mapping",
+                        $"{FieldDefinition.Proposal.GetFieldDefinitionLabel()} Detailed Mapping",
                         proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
                 }
             }

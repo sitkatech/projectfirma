@@ -25,7 +25,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View {0} List", FieldDefinitionEnum.ProposedProject)]
+    [SecurityFeatureDescription("View {0} List", FieldDefinitionEnum.Proposal)]
     public class ProjectsInProposalStageViewListFeature : FirmaFeature
     {
         public ProjectsInProposalStageViewListFeature()

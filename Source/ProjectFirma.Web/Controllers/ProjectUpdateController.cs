@@ -2317,7 +2317,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 validationErrorMessages = $" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
-            SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+            SetErrorForDisplay($"Could not save {FieldDefinition.Proposal.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
     }
 }

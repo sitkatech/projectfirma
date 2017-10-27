@@ -36,12 +36,12 @@ namespace ProjectFirma.Web.Views.Project
 
         public ProposedViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized();
+            PageTitle = Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized();
 
             HasProposeProjectPermissions = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
 
-            GridSpec = new ProposedProjectGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new ProposedProjectGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             if (new ProjectEditFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CreateEntityActionPhrase = "Propose a New Project";
