@@ -260,7 +260,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeProposedProjects
+    public partial class FirmaPageTypeProposals
     {
         public override string GetViewUrl()
         {
