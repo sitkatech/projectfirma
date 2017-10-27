@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
 
-            PageTitle = project.DisplayName;
+            PageTitle = $"Proposal: {project.DisplayName}";
 
             // TODO: Update controller usage
             ProposedProjectDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             RejectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Reject(project));
         }
 
-        //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.
+        //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
         protected ProjectCreateViewData(Person currentPerson,
             ProposedProjectSectionEnum selectedProposedProjectSection) : this(currentPerson)

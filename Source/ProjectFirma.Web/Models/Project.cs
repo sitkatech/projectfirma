@@ -141,6 +141,11 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
+                if (ProjectStage == ProjectStage.Proposal)
+                {
+                    return false;
+                }
+
                 if (!IsUpdatableViaProjectUpdateProcess)
                     return false;
 
