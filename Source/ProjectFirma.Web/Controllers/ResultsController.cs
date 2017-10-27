@@ -392,6 +392,16 @@ namespace ProjectFirma.Web.Controllers
                 .Select(x => x.ToFancyTreeNode())
                 .ToList();
 
+
+            // Get the Watershed that ONLY have proposed projects
+            var proposedProjectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
+                .ToList()
+                .Where(x => x.ProposedProjectWatersheds.Any() && !x.ProjectWatersheds.Any())
+                .Select(x => x.ToFancyTreeNode())
+                .ToList();
+
+            projectLocationGroupsAsFancyTreeNodes.AddRange(proposedProjectLocationGroupsAsFancyTreeNodes);
+
             var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
                 .GetProjectLocationFilterTypeFromFilterPropertyName();
             var filterFunction =
