@@ -234,7 +234,7 @@ Thank you,<br />
         public static void SendReturnedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $@"Your Project Proposal ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
+            var subject = $@"Your Proposal ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
             var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLast},</p>

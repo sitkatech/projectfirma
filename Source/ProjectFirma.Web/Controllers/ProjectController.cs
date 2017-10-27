@@ -385,9 +385,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectsViewFullListFeature]
-        public ExcelResult IndexExcelDownload()
+        public ExcelResult IndexExcelDownload(bool proposalsOnly)
         {
-            var projects = GetProjectsForGrid(x =>
+            var projects = proposalsOnly? GetProjectsForGrid(x => x.ProjectStage == ProjectStage.Proposal) : GetProjectsForGrid(x =>
                 x.ProjectStage != ProjectStage.Proposal && x.ProjectApprovalStatus == ProjectApprovalStatus.Approved);
 
             var projectsSpec = new ProjectExcelSpec();
@@ -445,7 +445,10 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, $"{FieldDefinition.Project.GetFieldDefinitionLabel()} as of {DateTime.Now.ToStringDateTime()}");
+            var workbookTitle = proposalsOnly
+                ? $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}"
+                : $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}";
+            return new ExcelResult(excelWorkbook, workbookTitle);
         }
 
         [HttpGet]

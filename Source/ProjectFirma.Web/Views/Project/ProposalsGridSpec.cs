@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProposalsGridSpec(Person currentPerson)
         {
             //TODO: Need distinct privs here - Admins can always delete and edit, but end user can only delete and edit at certain times. Need to work out rules.
-            var userHasDeletePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);
-            var userHasEditPermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson); 
+            var userHasDeletePermissions = new ProjectCreateFeature().HasPermissionByPerson(currentPerson);
+            var userHasEditPermissions = new ProjectCreateFeature().HasPermissionByPerson(currentPerson); 
 
             if (userHasDeletePermissions)
             {

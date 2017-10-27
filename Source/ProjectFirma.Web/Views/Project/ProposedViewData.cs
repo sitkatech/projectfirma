@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -38,11 +39,19 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized();
 
-            HasProposeProjectPermissions = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
+            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
 
+
             GridSpec = new ProposalsGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
-            if (new ProjectEditFeature().HasPermissionByPerson(CurrentPerson))
+
+            if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
+            {
+                var proposalsOnly = true;
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
+                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload(proposalsOnly));
+            }
+            if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CreateEntityActionPhrase = "Propose a New Project";
                 GridSpec.CreateEntityModalDialogForm = null;

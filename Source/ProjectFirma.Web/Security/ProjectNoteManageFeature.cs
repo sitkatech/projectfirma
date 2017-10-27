@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Security
         /// <returns></returns>
         public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
         {
-            return new ProjectEditFeature().HasPermission(person, contextModelObject.Project);
+            return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
         }
     }
 }

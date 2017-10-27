@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectImage contextModelObject)
         {
-            return new ProjectEditFeature().HasPermission(person, contextModelObject.Project);
+            return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
         }
     }
 }

@@ -737,7 +737,7 @@
     <Compile Include="Security\ProjectUpdateViewFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
     <Compile Include="Security\ProjectWatershedManageFromProjectFeature.cs" />
-    <Compile Include="Security\ProjectEditFeature.cs" />
+    <Compile Include="Security\ProjectCreateFeature.cs" />
     <Compile Include="Security\ProjectImageEditOrDeleteFeature.cs" />
     <Compile Include="Security\ProjectNoteManageFeature.cs" />
     <Compile Include="Security\ProjectsInProposalStageViewListFeature.cs" />
