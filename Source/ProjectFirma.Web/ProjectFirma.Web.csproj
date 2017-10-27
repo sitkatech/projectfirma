@@ -346,6 +346,7 @@
     <Compile Include="Security\LoggedInAndNotUnassignedRoleUnclassifiedFeature.cs" />
     <Compile Include="Security\ProjectApproveFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
+    <Compile Include="Security\ProjectUpdateFeature.cs" />
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />

@@ -23,8 +23,18 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage {0} {1} Expenditure From {2}", FieldDefinitionEnum.Project, FieldDefinitionEnum.FundingSource, FieldDefinitionEnum.Project)]
+    [SecurityFeatureDescription("Manage {0} {1} Expenditure From {2}", FieldDefinitionEnum.Project,
+        FieldDefinitionEnum.FundingSource, FieldDefinitionEnum.Project)]
     public class ProjectFundingSourceExpenditureFromProjectManageFeature : ProjectEditAsAdminFeature
     {
+        public new PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        {
+            if (contextModelObject.ProjectStage == ProjectStage.Proposal)
+            {
+                return new PermissionCheckResult(
+                    $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Proposal stage.");
+            }
+            return base.HasPermission(person, contextModelObject);
+        }
     }
 }

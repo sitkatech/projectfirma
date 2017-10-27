@@ -21,6 +21,13 @@ namespace ProjectFirma.Web.Security
             var forbidAdmin = !HasPermissionByPerson(person) ||
                                        person.Role.RoleID == Role.ProjectSteward.RoleID &&
                                        !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
+
+            var checkIfProjectIsProposal = new ProjectUpdateFeature().HasPermission(person, contextModelObject);
+            if (!checkIfProjectIsProposal.HasPermission)
+            {
+                return checkIfProjectIsProposal;
+            }
+
             return forbidAdmin
                 ? new PermissionCheckResult(
                     $"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")

@@ -310,7 +310,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
                                     }
@@ -337,7 +337,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>
-                                    @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions && ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                    @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
                                     }

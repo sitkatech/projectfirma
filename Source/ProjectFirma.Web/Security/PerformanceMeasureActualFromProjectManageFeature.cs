@@ -26,5 +26,14 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Edit {0} Actual Value From Project", FieldDefinitionEnum.PerformanceMeasure)]
     public class PerformanceMeasureActualFromProjectManageFeature : ProjectEditAsAdminFeature
     {
+        public new PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        {
+            if (contextModelObject.ProjectStage == ProjectStage.Proposal)
+            {
+                return new PermissionCheckResult(
+                    $"Reported {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Proposal stage.");
+            }
+            return base.HasPermission(person, contextModelObject);
+        }
     }
 }
