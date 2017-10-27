@@ -24,7 +24,7 @@ using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public enum ProposedProjectSectionEnum
+    public enum ProposalSectionEnum
     {
         Instructions,
         Basics,
@@ -51,27 +51,27 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete;
 
-        public ProposalSectionsStatus(Models.Project proposedProject)
+        public ProposalSectionsStatus(Models.Project proposal)
         {
-            var basicsResults = new BasicsViewModel(proposedProject).GetValidationResults();
+            var basicsResults = new BasicsViewModel(proposal).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();
 
-            var locationSimpleValidationResults = new LocationSimpleViewModel(proposedProject).GetValidationResults();
+            var locationSimpleValidationResults = new LocationSimpleViewModel(proposal).GetValidationResults();
             IsProjectLocationSimpleSectionComplete = !locationSimpleValidationResults.Any();
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposedProject.ProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes).GetValidationResults();
+            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposal.ProjectWatersheds.Select(x => x.WatershedID).ToList(), proposal.ProjectWatershedNotes).GetValidationResults();
             IsWatershedSectionComplete = !editWatershedValidationResults.Any();
 
-            var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
+            var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposal).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
 
-            var proposedProjectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(proposedProject);
-            var classificationValidationResults = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples).GetValidationResults();
+            var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(proposal);
+            var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();
             IsClassificationsComplete = !classificationValidationResults.Any();
 
-            IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
+            IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(proposal).All(simple => simple.Answer.HasValue);
 
             IsNotesSectionComplete = IsBasicsSectionComplete; //there is no validation required on Notes
         }

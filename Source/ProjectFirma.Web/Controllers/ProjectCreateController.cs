@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProposedProjectController.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectCreateController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -264,7 +264,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectClassificationSimples = GetProjectClassificationSimples(project);
 
-            var viewModel = new EditProposedProjectClassificationsViewModel(projectClassificationSimples);
+            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples);
             return ViewEditClassifications(project, viewModel);
         }
 
@@ -286,20 +286,20 @@ namespace ProjectFirma.Web.Controllers
             return projectClassificationSimples;
         }
 
-        private ViewResult ViewEditClassifications(Project project, EditProposedProjectClassificationsViewModel viewModel)
+        private ViewResult ViewEditClassifications(Project project, EditProposalClassificationsViewModel viewModel)
         {
             var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposedProjectClassificationsViewData(CurrentPerson, project, allClassifications, ProposedProjectSectionEnum.Classifications, proposalSectionsStatus);
-            return RazorView<EditProposedProjectClassifications, EditProposedProjectClassificationsViewData, EditProposedProjectClassificationsViewModel>(viewData, viewModel);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProposalSectionEnum.Classifications, proposalSectionsStatus);
+            return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [ProjectEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, EditProposedProjectClassificationsViewModel viewModel)
+        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, EditProposalClassificationsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -364,7 +364,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProposedProjectSectionEnum.Assessment, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProposalSectionEnum.Assessment, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProposedProjectsViewListFeature.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectsInProposalStageViewListFeature.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>

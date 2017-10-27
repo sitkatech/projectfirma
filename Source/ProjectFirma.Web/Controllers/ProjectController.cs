@@ -348,7 +348,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        //Moving this over from ProposedProjectController
         [ProjectsInProposalStageViewListFeature]
         public ViewResult Proposed()
         {
@@ -360,7 +359,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
-            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
@@ -764,11 +763,11 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         }
 
         [ProjectsInProposalStageViewListFeature]
-        public GridJsonNetJObjectResult<Project> MyOrganizationsProposedProjectsGridJsonData()
+        public GridJsonNetJObjectResult<Project> MyOrganizationsProposalsGridJsonData()
         {
-            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentPerson);
             
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.Projects
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects
                 .GetProjectsWithGeoSpatialProperties(
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
                     x => x.IsEditableToThisPerson(CurrentPerson),
@@ -779,7 +778,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                              x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                 .ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposedProjects, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
         

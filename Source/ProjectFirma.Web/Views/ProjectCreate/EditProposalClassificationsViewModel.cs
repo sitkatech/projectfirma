@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposedProjectClassificationsViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditProposalClassificationsViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -27,18 +27,18 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditProposedProjectClassificationsViewModel : FormViewModel, IValidatableObject
+    public class EditProposalClassificationsViewModel : FormViewModel, IValidatableObject
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditProposedProjectClassificationsViewModel()
+        public EditProposalClassificationsViewModel()
         {
         }
 
-        public EditProposedProjectClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
+        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
         {
             ProjectClassificationSimples = projectClassificationSimples;
         }

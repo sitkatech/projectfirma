@@ -129,9 +129,9 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
 
-            var watershedAssociatedProposedProjectsToShow = !HideProposals ? watershed.AssociatedProposedProjects : new List<Project>();
+            var watershedAssociatedProposalsToShow = !HideProposals ? watershed.AssociatedProposals : new List<Project>();
 
-            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposedProjectsToShow);
+            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposalsToShow);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));

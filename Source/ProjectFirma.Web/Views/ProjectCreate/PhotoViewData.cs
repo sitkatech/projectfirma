@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
         public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProposedProjectSectionEnum.Photos, proposalSectionsStatus)
+            : base(currentPerson, project, ProposalSectionEnum.Photos, proposalSectionsStatus)
         {
             var selectKeyImageUrl = string.Empty;
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        

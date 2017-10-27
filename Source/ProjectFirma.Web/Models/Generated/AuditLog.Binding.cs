@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AuditLog(int auditLogID, int personID, DateTime auditLogDate, int auditLogEventTypeID, string tableName, int recordID, string columnName, string originalValue, string newValue, string auditDescription, int? projectID, int? proposedProjectID) : this()
+        public AuditLog(int auditLogID, int personID, DateTime auditLogDate, int auditLogEventTypeID, string tableName, int recordID, string columnName, string originalValue, string newValue, string auditDescription, int? projectID) : this()
         {
             this.AuditLogID = auditLogID;
             this.PersonID = personID;
@@ -43,7 +43,6 @@ namespace ProjectFirma.Web.Models
             this.NewValue = newValue;
             this.AuditDescription = auditDescription;
             this.ProjectID = projectID;
-            this.ProposedProjectID = proposedProjectID;
         }
 
         /// <summary>
@@ -116,7 +115,6 @@ namespace ProjectFirma.Web.Models
         public string NewValue { get; set; }
         public string AuditDescription { get; set; }
         public int? ProjectID { get; set; }
-        public int? ProposedProjectID { get; set; }
         public int PrimaryKey { get { return AuditLogID; } set { AuditLogID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

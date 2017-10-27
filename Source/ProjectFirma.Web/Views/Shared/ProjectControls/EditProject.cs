@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public static readonly EditProjectTypeNewProject NewProject = EditProjectTypeNewProject.Instance;
         public static readonly EditProjectTypeExistingProject ExistingProject = EditProjectTypeExistingProject.Instance;
-        public static readonly EditProjectTypeProposedProject ProposedProject = EditProjectTypeProposedProject.Instance;
+        public static readonly EditProjectTypeProposal Proposal = EditProjectTypeProposal.Instance;
     }
 
     public class EditProjectTypeNewProject : EditProjectType
@@ -52,9 +52,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             public static readonly EditProjectTypeExistingProject Instance = new EditProjectTypeExistingProject("<p>Update this project's information.</p>");
         }
 
-    public class EditProjectTypeProposedProject : EditProjectType
+    public class EditProjectTypeProposal : EditProjectType
     {
-        private EditProjectTypeProposedProject(string introductoryText) : base(introductoryText) { }
-        public static readonly EditProjectTypeProposedProject Instance = new EditProjectTypeProposedProject("<p>Enter additional information to approve this as a full-fledged project.</p>");
+        private EditProjectTypeProposal(string introductoryText) : base(introductoryText) { }
+        public static readonly EditProjectTypeProposal Instance = new EditProjectTypeProposal("<p>Enter additional information to approve this as a full-fledged project.</p>");
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProposedProjectGridSpec.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProposalsGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -29,9 +29,9 @@ using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class ProposedProjectGridSpec : GridSpec<Models.Project>
+    public class ProposalsGridSpec : GridSpec<Models.Project>
     {
-        public ProposedProjectGridSpec(Person currentPerson)
+        public ProposalsGridSpec(Person currentPerson)
         {
             //TODO: Need distinct privs here - Admins can always delete and edit, but end user can only delete and edit at certain times. Need to work out rules.
             var userHasDeletePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);

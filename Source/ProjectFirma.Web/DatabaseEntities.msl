@@ -50,7 +50,6 @@
           <ScalarProperty Name="NewValue" ColumnName="NewValue" />
           <ScalarProperty Name="AuditDescription" ColumnName="AuditDescription" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

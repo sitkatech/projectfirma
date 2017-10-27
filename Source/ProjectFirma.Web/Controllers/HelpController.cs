@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
         [HttpGet]
-        public PartialViewResult ProposedProjectFeedback()
+        public PartialViewResult ProposalFeedback()
         {
             return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {FieldDefinition.Proposal.GetFieldDefinitionLabel()} wizard: " + Environment.NewLine);
         }
@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ProposedProjectFeedback(SupportFormViewModel viewModel)
+        public ActionResult ProposalFeedback(SupportFormViewModel viewModel)
         {
             return Support(viewModel);
         }

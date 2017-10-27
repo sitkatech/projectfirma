@@ -23,7 +23,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DesignByContract
 @using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Models
 @using ProjectFirma.Web.Common
 @inherits SiteLayout
 
@@ -37,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <style>
         #main-container
         {
-            @if (ViewDataTyped.SelectedProposedProjectSection != ProposedProjectSectionEnum.Instructions)
+            @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
             {
                 <text>border-top-left-radius: 6px;</text>
             }
@@ -50,22 +49,22 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="projectWizardContent" class="row">
     <div id="tab-container" class="col-sm-4 col-md-3">
         <ol>
-            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Instructions, ViewDataTyped.SelectedProposedProjectSection)">
-                <a href="@ViewDataTyped.ProposedProjectInstructionsUrl">Instructions</a>
+            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposalSectionEnum.Instructions, ViewDataTyped.SelectedProposalSection)">
+                <a href="@ViewDataTyped.ProposalInstructionsUrl">Instructions</a>
             </li>
             <li style="list-style-type: none">
                 <hr class="navMenu" />
             </li>
-            <li value="1" class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Basics, ViewDataTyped.SelectedProposedProjectSection)">
-                <a href="@ViewDataTyped.ProposedProjectBasicsUrl">Basics</a>
+            <li value="1" class="@SetSelectedSectionStyle(ProposalSectionEnum.Basics, ViewDataTyped.SelectedProposalSection)">
+                <a href="@ViewDataTyped.ProposalBasicsUrl">Basics</a>
                 <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.LocationSimple, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationSimple, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectLocationSimpleUrl">Location - Simple</a>
+                    <a href="@ViewDataTyped.ProposalLocationSimpleUrl">Location - Simple</a>
                 }
                 else
                 {
@@ -75,20 +74,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsProjectLocationSimpleSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectLocationDetailedUrl">Location - Detailed</a>
+                    <a href="@ViewDataTyped.ProposalLocationDetailedUrl">Location - Detailed</a>
                 }
                 else
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
                 }
             </li>            
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Watershed, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Watershed, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
+                    <a href="@ViewDataTyped.ProposalWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
                 }
                 else
                 {
@@ -98,10 +97,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsWatershedSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>            
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+                    <a href="@ViewDataTyped.ProposalPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
                 }
                 else
                 {
@@ -111,10 +110,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Classifications, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Classifications, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
+                    <a href="@ViewDataTyped.ProposalClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
                 }
                 else
                 {
@@ -127,10 +126,10 @@ Source code is available upon request via <support@sitkatech.com>.
             </li>
             @if (ViewDataTyped.HasAssessments)
             {
-                <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Assessment, ViewDataTyped.SelectedProposedProjectSection)">
+                <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Assessment, ViewDataTyped.SelectedProposalSection)">
                     @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                     {
-                        <a href="@ViewDataTyped.ProposedProjectAssessmentUrl">Assessment</a>
+                        <a href="@ViewDataTyped.ProposalAssessmentUrl">Assessment</a>
                     }
                     else
                     {
@@ -142,20 +141,20 @@ Source code is available upon request via <support@sitkatech.com>.
 
                 </li>
             }
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Photos, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Photos, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectPhotosUrl">Photos</a>
+                    <a href="@ViewDataTyped.ProposalPhotosUrl">Photos</a>
                 }
                 else
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Photos");
                 }
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Notes, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Notes, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProposedProjectNotesUrl">Notes</a>
+                    <a href="@ViewDataTyped.ProposalNotesUrl">Notes</a>
                 }
                 else
                 {
@@ -167,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div id="main-container" class="col-sm-8 col-md-9">
         @RenderBody()
-        @if (ViewDataTyped.SelectedProposedProjectSection != ProposedProjectSectionEnum.Instructions)
+        @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
         {
             <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
         }
@@ -240,9 +239,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 <p>
                     Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate
                 </p>
-                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
             }
-            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
+            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
             @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
         </div>
         </div>

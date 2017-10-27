@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ProjectLocationDetailViewData projectLocationDetailViewData)
-            : base(currentPerson, project, ProposedProjectSectionEnum.LocationDetailed, proposalSectionsStatus)
+            : base(currentPerson, project, ProposalSectionEnum.LocationDetailed, proposalSectionsStatus)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
         }

@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public NotesViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            EntityNotesViewData entityNotesViewData) : base(currentPerson, project, ProposedProjectSectionEnum.Notes, proposalSectionsStatus)
+            EntityNotesViewData entityNotesViewData) : base(currentPerson, project, ProposalSectionEnum.Notes, proposalSectionsStatus)
         {
             EntityNotesViewData = entityNotesViewData;            
         }

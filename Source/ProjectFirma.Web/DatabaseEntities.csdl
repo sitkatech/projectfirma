@@ -626,7 +626,6 @@
     <Property Name="NewValue" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="AuditDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
-    <Property Name="ProposedProjectID" Type="Int32" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="AuditLogs" ToRole="Person" />
   </EntityType>
   <EntityType Name="Classification">

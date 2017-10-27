@@ -640,7 +640,6 @@ warning 6035: The relationship 'FK_AssessmentQuestion_AssessmentSubGoal_Assessme
     <Property Name="NewValue" Type="varchar(max)" Nullable="false" />
     <Property Name="AuditDescription" Type="varchar(max)" />
     <Property Name="ProjectID" Type="int" />
-    <Property Name="ProposedProjectID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_Classification_ClassificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposedProjectClassificationsViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditProposalClassifications.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,21 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditProposedProjectClassificationsViewData : ProjectCreateViewData
+    public abstract class EditProposalClassifications :
+        LtInfo.Common.Mvc.TypedWebViewPage<EditProposalClassificationsViewData, EditProposalClassificationsViewModel>
     {
-        public readonly List<Models.Classification> Classifications;
-        public readonly string ProjectName;
-        
-        public EditProposedProjectClassificationsViewData(Person currentPerson, Models.Project project, List<Models.Classification> classifications, ProposedProjectSectionEnum proposedProjectSection, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, proposedProjectSection, proposalSectionsStatus)
-        {
-            ProjectName = project.DisplayName;
-            Classifications = classifications;
-        }
     }
 }

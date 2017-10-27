@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Views.Project
             CurrentPersonIsSubmitter = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
 
-            ProposedProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
         }
 
-        public string ProposedProjectBasicsUrl { get; set; }
+        public string ProposalBasicsUrl { get; set; }
     }
 }

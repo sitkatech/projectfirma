@@ -111,10 +111,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<ProjectStage> GetProjectStagesForMap(bool hideProposals)
         {
-            var exceptProposedProjects = !hideProposals ? new List<ProjectStage>()
+            var exceptProposals = !hideProposals ? new List<ProjectStage>()
                 : new List<ProjectStage> { ProjectStage.Proposal};
             var projectStagesForMap = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap()))
-                .Except(exceptProposedProjects).OrderBy(x => x.SortOrder).ToList();
+                .Except(exceptProposals).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;
         }
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -1113,9 +1113,9 @@
     <Compile Include="Views\ProjectCreate\BasicsViewData.cs" />
     <Compile Include="Views\ProjectCreate\BasicsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\BasicsViewModelTest.cs" />
-    <Compile Include="Views\ProjectCreate\EditProposedProjectClassifications.cs" />
-    <Compile Include="Views\ProjectCreate\EditProposedProjectClassificationsViewData.cs" />
-    <Compile Include="Views\ProjectCreate\EditProposedProjectClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\EditProposalClassifications.cs" />
+    <Compile Include="Views\ProjectCreate\EditProposalClassificationsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\EditProposalClassificationsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\EditAssessment.cs" />
     <Compile Include="Views\ProjectCreate\EditAssessmentViewData.cs" />
     <Compile Include="Views\ProjectCreate\EditAssessmentViewModel.cs" />
@@ -1137,7 +1137,7 @@
     <Compile Include="Views\ProjectCreate\Photos.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProposalSectionsStatus.cs" />
-    <Compile Include="Views\Project\ProposedProjectGridSpec.cs" />
+    <Compile Include="Views\Project\ProposalsGridSpec.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCreateViewData.cs" />
     <Compile Include="Views\ProjectCreate\SiteLayout.cs" />
     <Compile Include="Views\Results\ProjectMap.cs" />
@@ -3178,7 +3178,7 @@
     <Content Include="Views\ProjectUpdate\Budgets.cshtml" />
     <Content Include="Views\ProjectUpdate\_ViewStart.cshtml" />
     <Content Include="Views\ProjectCreate\Basics.cshtml" />
-    <Content Include="Views\ProjectCreate\EditProposedProjectClassifications.cshtml" />
+    <Content Include="Views\ProjectCreate\EditProposalClassifications.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedPerformanceMeasureValues.cshtml" />
     <Content Include="Views\Project\Proposed.cshtml" />
     <Content Include="Views\ProjectCreate\Instructions.cshtml" />

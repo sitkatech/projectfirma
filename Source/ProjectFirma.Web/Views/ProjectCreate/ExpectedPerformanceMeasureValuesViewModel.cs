@@ -41,10 +41,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpectedPerformanceMeasureValuesViewModel(Models.Project proposedProject)
-            : base(proposedProject.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
+        public ExpectedPerformanceMeasureValuesViewModel(Models.Project project)
+            : base(project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
-            PerformanceMeasureNotes = proposedProject.PerformanceMeasureNotes;
+            PerformanceMeasureNotes = project.PerformanceMeasureNotes;
         }
 
         public override void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds,

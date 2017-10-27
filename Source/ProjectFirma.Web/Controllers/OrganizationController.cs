@@ -180,21 +180,21 @@ namespace ProjectFirma.Web.Controllers
 
             if (!hideProposals)
             {
-                var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
-                if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
+                var proposalsLayerGeoJson = GetProposalsLayerGeoJson(organization);
+                if (proposalsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
                 {
                     hasSpatialData = true;
-                    layers.Add(proposedProjectsLayerGeoJson);
+                    layers.Add(proposalsLayerGeoJson);
                 }
 
-                var proposedProjectDetails = organization.ProjectOrganizations.Where(x=>x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+                var proposalDetails = organization.ProjectOrganizations.Where(x=>x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                     .SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
-                if (proposedProjectDetails.Features.Any())
+                if (proposalDetails.Features.Any())
                 {
                     hasSpatialData = true;
                     layers.Add(new LayerGeoJson(
                         $"{FieldDefinition.Proposal.GetFieldDefinitionLabel()} Detailed Mapping",
-                        proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                        proposalDetails, "blue", 1, LayerInitialVisibility.Hide));
                 }
             }
 
@@ -205,7 +205,7 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }
 
-        private static LayerGeoJson GetProposedProjectsLayerGeoJson(Organization organization)
+        private static LayerGeoJson GetProposalsLayerGeoJson(Organization organization)
         {
             var relatedProjects = organization.GetAllProjectOrganizations().Where(x =>
                 x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&

@@ -22,9 +22,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class SiteLayout : LtInfo.Common.Mvc.TypedWebViewPage<ProjectCreateViewData>
     {
-        protected string SetSelectedSectionStyle(ProposedProjectSectionEnum currentSection, ProposedProjectSectionEnum selectedProposedProjectSection)
+        protected string SetSelectedSectionStyle(ProposalSectionEnum currentSection, ProposalSectionEnum selectedProposalSection)
         {
-            return selectedProposedProjectSection == currentSection ? "selected" : "selectable";
+            return selectedProposalSection == currentSection ? "selected" : "selectable";
         }
     }
 }

@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 
@@ -31,16 +30,16 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ProjectsGridName;
         public readonly string ProjectsGridDataUrl;
 
-        public readonly ProposedProjectGridSpec ProposedProjectsGridSpec;
-        public readonly string ProposedProjectsGridName;
-        public readonly string ProposedProjectsGridDataUrl;
+        public readonly ProposalsGridSpec ProposalsesGridSpec;
+        public readonly string ProposalsGridName;
+        public readonly string ProposalsGridDataUrl;
         public readonly string ProposeNewProjectUrl;
 
 
         public MyOrganizationsProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
-            string organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
+            var organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
             PageTitle = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             ProjectsGridName = "myOrganizationsProjectListGrid";
@@ -53,15 +52,15 @@ namespace ProjectFirma.Web.Views.Project
             };
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
 
-            ProposedProjectsGridName = "myOrganizationsProposedProjectsGrid";
-            ProposedProjectsGridSpec = new ProposedProjectGridSpec(currentPerson)
+            ProposalsGridName = "myOrganizationsProposalsGrid";
+            ProposalsesGridSpec = new ProposalsGridSpec(currentPerson)
             {
                 ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true 
             
             };
-            ProposedProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProposedProjectsGridJsonData());
+            ProposalsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProposalsGridJsonData());
 
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(tc => tc.Instructions(null));
         }

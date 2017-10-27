@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly List<AssessmentGoal> AssessmentGoals;
         public readonly string ProjectName;
 
-        public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals, ProposedProjectSectionEnum proposedProjectSection, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, proposedProjectSection, proposalSectionsStatus)
+        public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals, ProposalSectionEnum proposalSection, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentPerson, project, proposalSection, proposalSectionsStatus)
         {
             ProjectName = project.DisplayName;
             AssessmentGoals = assessmentGoals;

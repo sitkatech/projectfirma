@@ -11,8 +11,8 @@ namespace ProjectFirma.Web.Models
             get
             {
                 var watershed = Watershed != null ? Watershed.DisplayName : ViewUtilities.NotFoundString;
-                var proposedProject = ProjectUpdateBatch != null ? ProjectUpdateBatch.ProjectUpdate.DisplayName : ViewUtilities.NotFoundString;
-                return $"Watershed: {watershed}, Project Update: {proposedProject}";
+                var projectUpdate = ProjectUpdateBatch != null ? ProjectUpdateBatch.ProjectUpdate.DisplayName : ViewUtilities.NotFoundString;
+                return $"Watershed: {watershed}, Project Update: {projectUpdate}";
             }
         }
 

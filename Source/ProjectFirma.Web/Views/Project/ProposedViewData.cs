@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProposedViewData : FirmaViewData
     {
-        public readonly ProposedProjectGridSpec GridSpec;
+        public readonly ProposalsGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
         public readonly bool HasProposeProjectPermissions;
@@ -41,13 +41,13 @@ namespace ProjectFirma.Web.Views.Project
             HasProposeProjectPermissions = new ProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
 
-            GridSpec = new ProposedProjectGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new ProposalsGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             if (new ProjectEditFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CreateEntityActionPhrase = "Propose a New Project";
                 GridSpec.CreateEntityModalDialogForm = null;
             }
-            GridName = "proposedProjectsGrid";
+            GridName = "proposalsGrid";
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProposedGridJsonData());
         }
     }

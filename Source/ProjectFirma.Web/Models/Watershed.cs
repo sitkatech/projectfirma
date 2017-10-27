@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public List<Project> AssociatedProposedProjects
+        public List<Project> AssociatedProposals
         {
             get
             {
@@ -92,14 +92,14 @@ namespace ProjectFirma.Web.Models
                 layerInitialVisibility);
         }
 
-        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects, List<Project> proposedProjects)
+        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects, List<Project> proposals)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Show),
                 GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(proposedProjects), true), "#dbbdff", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(proposals), true), "#dbbdff", 1, LayerInitialVisibility.Show),
             };
             return layerGeoJsons;
         }

@@ -173,7 +173,6 @@ Thank you,<br />
         }
 
 
-        // Methods for Projects, carried over from NotificationProposedProject
         public static void SendSubmittedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
