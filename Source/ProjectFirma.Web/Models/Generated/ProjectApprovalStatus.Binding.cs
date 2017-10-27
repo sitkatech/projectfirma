@@ -22,6 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectApprovalStatusPendingApproval PendingApproval = ProjectApprovalStatusPendingApproval.Instance;
         public static readonly ProjectApprovalStatusApproved Approved = ProjectApprovalStatusApproved.Instance;
         public static readonly ProjectApprovalStatusRejected Rejected = ProjectApprovalStatusRejected.Instance;
+        public static readonly ProjectApprovalStatusReturned Returned = ProjectApprovalStatusReturned.Instance;
 
         public static readonly List<ProjectApprovalStatus> All;
         public static readonly ReadOnlyDictionary<int, ProjectApprovalStatus> AllLookupDictionary;
@@ -31,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectApprovalStatus()
         {
-            All = new List<ProjectApprovalStatus> { Draft, PendingApproval, Approved, Rejected };
+            All = new List<ProjectApprovalStatus> { Draft, PendingApproval, Approved, Rejected, Returned };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectApprovalStatus>(All.ToDictionary(x => x.ProjectApprovalStatusID));
         }
 
@@ -108,6 +109,8 @@ namespace ProjectFirma.Web.Models
                     return PendingApproval;
                 case ProjectApprovalStatusEnum.Rejected:
                     return Rejected;
+                case ProjectApprovalStatusEnum.Returned:
+                    return Returned;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -119,7 +122,8 @@ namespace ProjectFirma.Web.Models
         Draft = 1,
         PendingApproval = 2,
         Approved = 3,
-        Rejected = 4
+        Rejected = 4,
+        Returned = 5
     }
 
     public partial class ProjectApprovalStatusDraft : ProjectApprovalStatus
@@ -144,5 +148,11 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectApprovalStatusRejected(int projectApprovalStatusID, string projectApprovalStatusName, string projectApprovalStatusDisplayName) : base(projectApprovalStatusID, projectApprovalStatusName, projectApprovalStatusDisplayName) {}
         public static readonly ProjectApprovalStatusRejected Instance = new ProjectApprovalStatusRejected(4, @"Rejected", @"Rejected");
+    }
+
+    public partial class ProjectApprovalStatusReturned : ProjectApprovalStatus
+    {
+        private ProjectApprovalStatusReturned(int projectApprovalStatusID, string projectApprovalStatusName, string projectApprovalStatusDisplayName) : base(projectApprovalStatusID, projectApprovalStatusName, projectApprovalStatusDisplayName) {}
+        public static readonly ProjectApprovalStatusReturned Instance = new ProjectApprovalStatusReturned(5, @"Returned", @"Returned");
     }
 }
