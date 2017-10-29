@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly Person PrimaryContactPerson;
 
         public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson getProjectFactSheetGoogleChart,
-            List<GooglePieChartSlice> getExpenditureGooglePieChartSlices) : base(currentPerson, project)
+            List<GooglePieChartSlice> getExpenditureGooglePieChartSlices, List<string> chartColorRange) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
@@ -101,6 +101,7 @@ namespace ProjectFirma.Web.Views.Project
             GoogleChartJson = getProjectFactSheetGoogleChart;
 
             ExpenditureGooglePieChartSlices = getExpenditureGooglePieChartSlices;
+            ChartColorRange = chartColorRange;
             //Dynamically resize chart based on how much space the legend requires
             CalculatedChartHeight = 435 - ExpenditureGooglePieChartSlices.Count * 19;
 
@@ -134,21 +135,21 @@ namespace ProjectFirma.Web.Views.Project
             PrimaryContactPerson = project.GetPrimaryContact();
         }
 
-        public HtmlString LegendHTML
+        public HtmlString GetLegendHTML()
         {
-            get
+            var legendHtml = "<div>";
+            foreach (var fund in FundingSourceExpenditures)
             {
-                var legendHtml = "<div>";
-                foreach (var fund in FundingSourceExpenditures)
-                {
-                    var index = ProjectController.GetConsistentFundingSourceExpendituresIndexDictionary(FundingSourceExpenditures)[fund.Key];
-                    legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " + ChartColorRange[index] + "'></div> ";
-                    legendHtml += "<div style='display:inline-block'>" + fund.Key + " = " + fund.Value.ToString("C0") + "</div>";
-                    legendHtml += "<br>";
-                }
-                legendHtml += "</div>";
-                return new HtmlString(legendHtml);
+                var index =
+                    ProjectController
+                        .GetConsistentFundingSourceExpendituresIndexDictionary(FundingSourceExpenditures)[fund.Key];
+                legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " +
+                              ChartColorRange[index] + "'></div> ";
+                legendHtml += "<div style='display:inline-block'>" + fund.Key + " = " + fund.Value.ToString("C0") + "</div>";
+                legendHtml += "<br>";
             }
+            legendHtml += "</div>";
+            return new HtmlString(legendHtml);
         }
     }
 }
