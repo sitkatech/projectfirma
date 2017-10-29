@@ -386,9 +386,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <span style="font-weight: bold">Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</span>
                                     <br />(Estimated Cost: @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency())
                                 </div>
-                                <div id="ProjectFactSheet@(ViewDataTyped.Project.ProjectID)PieChart"
-                                     class="ReportedValueChart"
-                                     style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px"></div>
+                                <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
                                 <div class="legendPanel">
                                     @Html.Raw(ViewDataTyped.GetLegendHTML())
                                 </div>
