@@ -61,10 +61,12 @@ angular.module("ProjectFirmaApp")
                 if (!watershedMapSericeLayerName || !mapServiceUrl)
                     return;
 
+                var latlng = event.latlng;
+                var latlngWrapped = latlng.wrap();
                 var parameters = L.Util.extend($scope.firmaMap.wfsParams,
                     {
                         typeName: watershedMapSericeLayerName,
-                        cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
+                        cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                     });
                 SitkaAjax.ajax({
                         url: mapServiceUrl + L.Util.getParamString(parameters),

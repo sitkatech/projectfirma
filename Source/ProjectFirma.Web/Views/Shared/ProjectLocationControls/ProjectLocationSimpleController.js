@@ -73,10 +73,12 @@
                 if (!watershedMapSericeLayerName || !mapServiceUrl)
                     return;
 
+                var latlng = event.latlng;
+                var latlngWrapped = latlng.wrap();
                 var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
                     {
                         typeName: watershedMapSericeLayerName,
-                        cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
+                        cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                     });
                 SitkaAjax.ajax({
                         url: mapServiceUrl + L.Util.getParamString(parameters),
@@ -85,21 +87,21 @@
                     },
                     function (response) {
 
-                        $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(event.latlng.lng);
-                        $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(event.latlng.lat);
+                        $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(latlng.lng);
+                        $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(latlng.lat);
 
                         if ($scope.projectLocationMap.currentSelectedPoint) {
                             $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
                         }
 
-                        $scope.projectLocationMap.currentSelectedPoint = L.marker(event.latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
+                        $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
                         
                         $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
-                        $scope.projectLocationMap.map.panTo(event.latlng);
+                        $scope.projectLocationMap.map.panTo(latlng);
 
                         var propertiesForDisplay = {
-                            Latitude: L.Util.formatNum(event.latlng.lat, 4),
-                            Longitude: L.Util.formatNum(event.latlng.lng, 4)
+                            Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
+                            Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                         };
 
                         if (response.features.length > 0) {
@@ -155,11 +157,12 @@
 
                 if ($scope.AngularModel.ProjectLocationPointX && $scope.AngularModel.ProjectLocationPointY) {
                     var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
+                    var latlngWrapped = latlng.wrap();
                     $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
 
                     $scope.propertiesForPointOnMap = {
-                        Latitude: L.Util.formatNum(latlng.lat, 4),
-                        Longitude: L.Util.formatNum(latlng.lng, 4)
+                        Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
+                        Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                     };
 
                     // Get the initial Location Information from the WMS service
@@ -169,7 +172,7 @@
                                     L.Util.getParamString(L.Util.extend($scope.projectLocationMap.wfsParams,
                                         {
                                             typeName: $scope.AngularViewData.WatershedMapSericeLayerName,
-                                            cql_filter: "intersects(Ogr_Geometry, POINT(" + latlng.lat + " " + latlng.lng + "))"
+                                            cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                                         })),
                                 dataType: "json",
                                 jsonpCallback: "getJson"
