@@ -326,7 +326,7 @@ namespace ProjectFirma.Web.Controllers
             var googleChartType = GoogleChartType.PieChart;
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType, googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType, googleChartDataTable, null, null);
-            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, expenditureGooglePieChartSlices);
+            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }
 
