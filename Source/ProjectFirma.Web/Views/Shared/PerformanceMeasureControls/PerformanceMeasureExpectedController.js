@@ -21,6 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedController", function ($scope, angularModelAndViewData)
 {
 
+    $scope.performanceMeasureTooltip = function (performanceMeasureExpected) {
+        var displayName = $scope.getPerformanceMeasureName(performanceMeasureExpected);
+        var definitionAndGuidanceUrl = $scope.getPerformanceMeasureDefinitionAndGuidanceUrl(performanceMeasureExpected);
+        ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(event.target), displayName, definitionAndGuidanceUrl, 430);
+    }
+
     $scope.groupedPerformanceMeasures = function () {        
         return _.uniq($scope.AngularModel.PerformanceMeasureExpecteds, "PerformanceMeasureID");
     }
@@ -57,6 +63,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     $scope.getPerformanceMeasureName = function (performanceMeasureExpected) {
         var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
         return performanceMeasureToFind.DisplayName;
+    };
+
+    $scope.getPerformanceMeasureDefinitionAndGuidanceUrl = function (performanceMeasureExpected) {
+        var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
+        return performanceMeasureToFind.DefinitionAndGuidanceUrl;
     };
 
     $scope.getPerformanceMeasure = function (performanceMeasureId) {

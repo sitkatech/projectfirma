@@ -110,7 +110,10 @@ Source code is available upon request via <support@sitkatech.com>.
                             <div class="panel panelFirma" style="margin: 10px 10px 0;">
                                 <div class="panel-heading panelTitle">
                                     <span class="panel-heading-left">
-                                        @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
+                                              ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">
+                                            
+                                        </span>
                                     </span>
                                     <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
                                         <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
