@@ -92,6 +92,15 @@
                     }
                 </span>
                 break;
+            case ProjectApprovalStatusEnum.Returned:
+                <span>
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() was submitted, but returned, and may need further attention.
+                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">finalize the Project Proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
             case ProjectApprovalStatusEnum.PendingApproval:
                 <span>
                     This @FieldDefinition.Proposal.GetFieldDefinitionLabel() is awaiting review.

@@ -339,7 +339,6 @@
     <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
     <Compile Include="Models\ITaxonomyTier.cs" />
     <Compile Include="Models\NotificationProject.cs" />
-    <Compile Include="Models\NotificationProposedProject.cs" />
     <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />
