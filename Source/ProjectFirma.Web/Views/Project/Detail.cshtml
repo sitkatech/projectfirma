@@ -73,8 +73,13 @@
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
 }
 
+
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Projects</a>
+    @{
+        var projectsUrl = ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
+        var backText = ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal ? "Back to all Proposals" : "Back to all Projects";
+        <a class="btn backButton" href="@projectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @backText</a>
+    }
 </div>
 
 @if (ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)

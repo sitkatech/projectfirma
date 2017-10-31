@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
 
         public override bool RequiresReportedExpenditures()
         {
-            return true;
+            return false;
         }
 
         public override bool RequiresPerformanceMeasureActuals()
