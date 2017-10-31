@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectImageSetKeyPhotoFeature.cs" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="ProjectImageSetKeyPhotoFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 

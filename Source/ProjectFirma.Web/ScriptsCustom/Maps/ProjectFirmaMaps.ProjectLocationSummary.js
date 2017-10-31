@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFirmaMaps.ProjectLocationSummary.js" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="ProjectFirmaMaps.ProjectLocationSummary.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -26,7 +26,7 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
     {
         var infoContainerPointHtml = "<table class=\"summaryLayout\">";
         var latLng = new L.LatLng(projectLocationSummaryMapInitJson.ProjectLocationYCoord,
-            projectLocationSummaryMapInitJson.ProjectLocationXCoord);
+            projectLocationSummaryMapInitJson.ProjectLocationXCoord).wrap();
         if (!Sitka.Methods.isUndefinedNullOrEmpty(projectLocationInformationContainer)) {
             infoContainerPointHtml += this.formatLayerProperty("Latitude", L.Util.formatNum(latLng.lat, 4));
             infoContainerPointHtml += this.formatLayerProperty("Longitude", L.Util.formatNum(latLng.lng, 4));

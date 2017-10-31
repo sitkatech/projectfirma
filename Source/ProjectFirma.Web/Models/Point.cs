@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Point.cs" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="Point.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
             get { return _latitude; }
             private set
             {
-                Check.Require(value <= MaximumLattitude && value >= -MaximumLattitude, new ArgumentOutOfRangeException(String.Format("Invalid latitude {0}: needs to be between -90 and 90", value)));
+                //Check.Require(value <= MaximumLattitude && value >= -MaximumLattitude, new ArgumentOutOfRangeException(String.Format("Invalid latitude {0}: needs to be between -90 and 90", value)));
                 _latitude = value;
             }
         }
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
             get { return _longitude; }
             private set
             {
-                Check.Require(value <= MaximumLongitude && value >= -MaximumLongitude, new ArgumentOutOfRangeException(String.Format("Invalid longitude {0}: needs to be between -180 and 180", value)));
+                //Check.Require(value <= MaximumLongitude && value >= -MaximumLongitude, new ArgumentOutOfRangeException(String.Format("Invalid longitude {0}: needs to be between -180 and 180", value)));
                 _longitude = value;
             }
         }

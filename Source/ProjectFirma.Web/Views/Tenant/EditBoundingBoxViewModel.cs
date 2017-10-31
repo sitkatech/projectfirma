@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditBoundingBoxViewModel.cs" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="EditBoundingBoxViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -34,19 +34,15 @@ namespace ProjectFirma.Web.Views.Tenant
         public int? TenantID { get; set; }
 
         [Required(ErrorMessage = "The North coordinate is required.")]
-        [Range(-90, 90, ErrorMessage = "The North coordinate must be between -90 and 90 degrees")]
         public decimal? North { get; set; }
 
         [Required(ErrorMessage = "The South coordinate is required.")]
-        [Range(-90, 90, ErrorMessage = "The South coordinate must be between -90 and 90 degrees")]
         public decimal? South { get; set; }
 
         [Required(ErrorMessage = "The East coordinate is required.")]
-        [Range(-180, 180, ErrorMessage = "The East coordinate must be between -180 and 180 degrees")]
         public decimal? East { get; set; }
 
         [Required(ErrorMessage = "The West coordinate is required.")]
-        [Range(-180, 180, ErrorMessage = "The West coordinate must be between -180 and 180 degrees")]
         public decimal? West { get; set; }
 
         /// <summary>

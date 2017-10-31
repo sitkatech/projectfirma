@@ -1,6 +1,6 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="EditBoundingBox.cshtml" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="EditBoundingBox.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -75,10 +75,13 @@ Source code is available upon request via <support@sitkatech.com>.
             jQuery("#@Html.IdFor(m => m.West)").val(west);
         }
 
-        function setBoundingBox(layer)
-        {
-            var b = layer.getBounds();
-            setBoundingBoxValues(b.getNorth(), b.getSouth(), b.getEast(), b.getWest());
+        function setBoundingBox(layer) {
+            var bounds = layer.getBounds();
+            //var northEast = bounds.getNorthEast().wrap();
+            //var southWest = bounds.getSouthWest().wrap();
+            var northEast = bounds.getNorthEast();
+            var southWest = bounds.getSouthWest();
+            setBoundingBoxValues(northEast.lat, southWest.lat, northEast.lng, southWest.lng);
         }
 
         function removePreviousRegion()
