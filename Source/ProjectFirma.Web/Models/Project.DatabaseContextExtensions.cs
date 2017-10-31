@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Models
             projectsList.ForEach(x =>
             {
                 x.SetProjectLocationStateProvince(stateProvinces);
-                x.SetProjectLocationWatershed(watersheds);
             });
             return projectsList.OrderBy(x => x.DisplayName).ToList();
         }

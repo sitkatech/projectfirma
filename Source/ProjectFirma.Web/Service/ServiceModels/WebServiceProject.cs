@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Datum = "WGS84";
             
             ProjectState = project.ProjectLocationStateProvince;
-            ProjectWatershed = project.ProjectLocationWatershed;
+            ProjectWatershed = project.GetProjectWatershedNamesAsString();
 
             ProjectDetailUrl = project.GetDetailUrl();
             ProjectFactSheetUrl = project.GetFactSheetUrl();

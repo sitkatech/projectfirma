@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
             Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.Project.GetProjectWatershedNamesAsHyperlinks(), 95, DhtmlxGridColumnFilterType.Html);
         }
     }
 }

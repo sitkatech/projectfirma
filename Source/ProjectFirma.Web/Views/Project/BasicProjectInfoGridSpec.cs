@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.SecuredFunding, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.UnfundedNeed.ToGridHeaderString(), x => x.UnfundedNeed, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.GetProjectWatershedNamesAsHyperlinks(), 95, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 300);
             if (userHasTagViewPermissions)
             {

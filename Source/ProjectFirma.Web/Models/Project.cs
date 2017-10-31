@@ -207,37 +207,18 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private string _projectLocationWatershed;
-        private bool _hasSetProjectLocationWatershed;
-        public string ProjectLocationWatershed
+        public HtmlString GetProjectWatershedNamesAsHyperlinks()
         {
-            get
-            {
-                if (_hasSetProjectLocationWatershed)
-                {
-                    return _projectLocationWatershed;
-                }
-                SetProjectLocationWatershed(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures());
-                return _projectLocationWatershed;
-            }
-            set
-            {
-                _projectLocationWatershed = value;
-                _hasSetProjectLocationWatershed = true;
-            }
+            return new HtmlString(ProjectWatersheds.Any()
+                ? string.Join(", ", ProjectWatersheds.OrderBy(x => x.Watershed.WatershedName).Select(x => x.Watershed.GetDisplayNameAsUrl()))
+                : ViewUtilities.NaString);
         }
 
-        public void SetProjectLocationWatershed(IEnumerable<Watershed> watersheds)
+        public string GetProjectWatershedNamesAsString()
         {
-            if (HasProjectLocationPoint)
-            {
-                var watershed = watersheds.FirstOrDefault(x => x.WatershedFeature.Intersects(ProjectLocationPoint));
-                ProjectLocationWatershed = watershed != null ? watershed.WatershedName : ViewUtilities.NaString;
-            }
-            else
-            {
-                ProjectLocationWatershed = ViewUtilities.NaString;
-            }
+            return ProjectWatersheds.Any()
+                ? string.Join(", ", ProjectWatersheds.OrderBy(x => x.Watershed.WatershedName).Select(x => x.Watershed.WatershedName))
+                : ViewUtilities.NaString;
         }
 
         public bool IsMyProject(Person person)
