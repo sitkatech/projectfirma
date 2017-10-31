@@ -23,7 +23,6 @@
     <EntitySet Name="MonitoringProgramPartner" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgramPartner" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Notification" EntityType="ProjectFirma.Web.Models.Store.Notification" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProject" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.Store.OrganizationBoundaryStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.Store.OrganizationType" store:Type="Tables" Schema="dbo" />
@@ -34,9 +33,7 @@
     <EntitySet Name="PerformanceMeasureActualSubcategoryOptionUpdate" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureActualUpdate" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActualUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureExpected" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpected" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PerformanceMeasureExpectedProposed" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PerformanceMeasureExpectedSubcategoryOptionProposed" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureMonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureNote" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" store:Type="Tables" Schema="dbo" />
@@ -68,15 +65,6 @@
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateHistory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.Store.ProjectWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectWatershedUpdate" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProject" EntityType="ProjectFirma.Web.Models.Store.ProposedProject" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectAssessmentQuestion" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectClassification" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectClassification" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectImage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectOrganization" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProposedProjectWatershed" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.Store.RelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" store:Type="Tables" Schema="dbo" />
@@ -187,14 +175,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Project" EntitySet="Project" />
       <End Role="NotificationProjects" EntitySet="NotificationProject" />
     </AssociationSet>
-    <AssociationSet Name="FK_NotificationProposedProject_Notification_NotificationID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProposedProject_Notification_NotificationID">
-      <End Role="Notification" EntitySet="Notification" />
-      <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_NotificationProposedProject_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProposedProject_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
       <End Role="LogoFileResource" EntitySet="FileResource" />
       <End Role="OrganizationsWhereYouAreTheLogoFileResource" EntitySet="Organization" />
@@ -275,14 +255,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Project" EntitySet="Project" />
       <End Role="PerformanceMeasureExpecteds" EntitySet="PerformanceMeasureExpected" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
@@ -298,22 +270,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
-      <End Role="PerformanceMeasureExpectedProposed" EntitySet="PerformanceMeasureExpectedProposed" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
       <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
@@ -350,6 +306,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Project_Person_ProposingPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_ProposingPersonID_PersonID">
+      <End Role="ProposingPerson" EntitySet="Person" />
+      <End Role="ProjectsWhereYouAreTheProposingPerson" EntitySet="Project" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Project_Person_ReviewedByPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_ReviewedByPersonID_PersonID">
+      <End Role="ReviewedByPerson" EntitySet="Person" />
+      <End Role="ProjectsWhereYouAreTheReviewedByPerson" EntitySet="Project" />
     </AssociationSet>
     <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
@@ -543,94 +507,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
-      <End Role="PrimaryContactPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_ProposingPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Person_ProposingPersonID_PersonID">
-      <End Role="ProposingPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreTheProposingPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Person_ReviewedByPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Person_ReviewedByPersonID_PersonID">
-      <End Role="ReviewedByPerson" EntitySet="Person" />
-      <End Role="ProposedProjectsWhereYouAreTheReviewedByPerson" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
-      <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
-      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectClassification_Classification_ClassificationID">
-      <End Role="Classification" EntitySet="Classification" />
-      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectLocations" EntitySet="ProposedProjectLocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_Person_PersonID">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
-      <End Role="CreatePerson" EntitySet="Person" />
-      <End Role="ProposedProjectNotesWhereYouAreTheCreatePerson" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="ProposedProjectNotesWhereYouAreTheUpdatePerson" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
-      <End Role="RelationshipType" EntitySet="RelationshipType" />
-      <End Role="ProposedProjectOrganizations" EntitySet="ProposedProjectOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectWatershed_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
       <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
@@ -723,7 +599,6 @@ warning 6035: The relationship 'FK_AssessmentSubGoal_AssessmentGoal_AssessmentGo
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="AssessmentQuestion">
     <Key>
@@ -765,12 +640,10 @@ warning 6035: The relationship 'FK_AssessmentQuestion_AssessmentSubGoal_Assessme
     <Property Name="NewValue" Type="varchar(max)" Nullable="false" />
     <Property Name="AuditDescription" Type="varchar(max)" />
     <Property Name="ProjectID" Type="int" />
-    <Property Name="ProposedProjectID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_Classification_ClassificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectClassification_Classification_ClassificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_ClassificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Classification">
     <Key>
@@ -847,7 +720,6 @@ warning 6035: The relationship 'FK_MonitoringProgramDocument_FileResource_FileRe
 warning 6035: The relationship 'FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -972,7 +844,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureMonitoringProgram_Monitorin
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_NotificationProject_Notification_NotificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_NotificationProposedProject_Notification_NotificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Notification">
     <Key>
@@ -993,22 +864,12 @@ warning 6035: The relationship 'FK_NotificationProposedProject_Notification_Noti
     <Property Name="NotificationID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="NotificationProposedProject">
-    <Key>
-      <PropertyRef Name="NotificationProposedProjectID" />
-    </Key>
-    <Property Name="NotificationProposedProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="NotificationID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-  </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_FundingSource_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectOrganization_Organization_OrganizationID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
     <Key>
@@ -1068,9 +929,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1163,19 +1022,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID_T' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="PerformanceMeasureExpectedProposed">
-    <Key>
-      <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-    </Key>
-    <Property Name="PerformanceMeasureExpectedProposedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="ExpectedValue" Type="float" />
-  </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOption">
     <Key>
       <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionID" />
@@ -1183,17 +1029,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureExpectedID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
-    <Key>
-      <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
-    </Key>
-    <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureExpectedProposedID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
@@ -1225,7 +1060,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
@@ -1245,7 +1079,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Ten' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PMSubcategoryOptionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureSubcategoryOption">
@@ -1275,12 +1108,6 @@ warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_CreatePersonID_Tenan
 warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateBatch_Person_LastUpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Person_ProposingPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Person_ReviewedByPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectLocationStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TenantAttribute_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
@@ -1324,7 +1151,6 @@ warning 6035: The relationship 'FK_ProjectOrganization_Project_ProjectID_TenantI
 warning 6035: The relationship 'FK_ProjectTag_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateBatch_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershed_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Project">
@@ -1351,6 +1177,13 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
+    <Property Name="ProjectApprovalStatusID" Type="int" Nullable="false" />
+    <Property Name="ProposingPersonID" Type="int" />
+    <Property Name="ProposingDate" Type="datetime" />
+    <Property Name="PerformanceMeasureNotes" Type="varchar" MaxLength="500" />
+    <Property Name="SubmissionDate" Type="datetime" />
+    <Property Name="ApprovalDate" Type="datetime" />
+    <Property Name="ReviewedByPersonID" Type="int" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -1669,137 +1502,8 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
     <Property Name="WatershedID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_NotificationProposedProject_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectClassification_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectImage_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectLocation_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="ProposedProject">
-    <Key>
-      <PropertyRef Name="ProposedProjectID" />
-    </Key>
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
-    <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
-    <Property Name="ProposingPersonID" Type="int" Nullable="false" />
-    <Property Name="ProposingDate" Type="datetime" Nullable="false" />
-    <Property Name="ImplementationStartYear" Type="int" />
-    <Property Name="CompletionYear" Type="int" />
-    <Property Name="EstimatedTotalCost" Type="money" />
-    <Property Name="SecuredFunding" Type="money" />
-    <Property Name="ProjectLocationPoint" Type="geometry" />
-    <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
-    <Property Name="PlanningDesignStartYear" Type="int" />
-    <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
-    <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
-    <Property Name="FundingTypeID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectStateID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierOneID" Type="int" />
-    <Property Name="PerformanceMeasureNotes" Type="varchar" MaxLength="500" />
-    <Property Name="ProjectID" Type="int" />
-    <Property Name="SubmissionDate" Type="datetime" />
-    <Property Name="ApprovalDate" Type="datetime" />
-    <Property Name="ReviewedByPersonID" Type="int" />
-    <Property Name="PrimaryContactPersonID" Type="int" />
-    <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
-  </EntityType>
-  <EntityType Name="ProposedProjectAssessmentQuestion">
-    <Key>
-      <PropertyRef Name="ProposedProjectAssessmentQuestionID" />
-    </Key>
-    <Property Name="ProposedProjectAssessmentQuestionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="AssessmentQuestionID" Type="int" Nullable="false" />
-    <Property Name="Answer" Type="bit" />
-  </EntityType>
-  <EntityType Name="ProposedProjectClassification">
-    <Key>
-      <PropertyRef Name="ProposedProjectClassificationID" />
-    </Key>
-    <Property Name="ProposedProjectClassificationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="ClassificationID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectClassificationNotes" Type="varchar" MaxLength="600" />
-  </EntityType>
-  <EntityType Name="ProposedProjectImage">
-    <Key>
-      <PropertyRef Name="ProposedProjectImageID" />
-    </Key>
-    <Property Name="ProposedProjectImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
-  </EntityType>
-  <EntityType Name="ProposedProjectLocation">
-    <Key>
-      <PropertyRef Name="ProposedProjectLocationID" />
-    </Key>
-    <Property Name="ProposedProjectLocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
-    <Property Name="Annotation" Type="varchar" MaxLength="255" />
-  </EntityType>
-  <EntityType Name="ProposedProjectLocationStaging">
-    <Key>
-      <PropertyRef Name="ProposedProjectLocationStagingID" />
-    </Key>
-    <Property Name="ProposedProjectLocationStagingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="PersonID" Type="int" Nullable="false" />
-    <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
-    <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
-    <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
-    <Property Name="ShouldImport" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProposedProjectNote">
-    <Key>
-      <PropertyRef Name="ProposedProjectNoteID" />
-    </Key>
-    <Property Name="ProposedProjectNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="Note" Type="varchar" Nullable="false" />
-    <Property Name="CreatePersonID" Type="int" />
-    <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="UpdatePersonID" Type="int" />
-    <Property Name="UpdateDate" Type="datetime" />
-  </EntityType>
-  <EntityType Name="ProposedProjectOrganization">
-    <Key>
-      <PropertyRef Name="ProposedProjectOrganizationID" />
-    </Key>
-    <Property Name="ProposedProjectOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProposedProjectWatershed">
-    <Key>
-      <PropertyRef Name="ProposedProjectWatershedID" />
-    </Key>
-    <Property Name="ProposedProjectWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
-    <Property Name="WatershedID" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID_Tenant_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="RelationshipType">
     <Key>
@@ -1917,7 +1621,6 @@ warning 6035: The relationship 'FK_ProjectTag_Tag_TagID_TenantID' has columns th
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyTierOne">
     <Key>
@@ -1989,12 +1692,11 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />
     <Property Name="MapServiceUrl" Type="varchar" MaxLength="255" />
     <Property Name="WatershedLayerName" Type="varchar" MaxLength="255" />
-    <Property Name="IncludeProposedProjectsOnMap" Type="bit" Nullable="false" />
+    <Property Name="ShowProposalsToThePublic" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershedUpdate_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Watershed">
     <Key>
@@ -2276,30 +1978,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_NotificationProposedProject_Notification_NotificationID">
-    <End Role="Notification" Type="ProjectFirma.Web.Models.Store.Notification" Multiplicity="1" />
-    <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.Store.NotificationProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Notification">
-        <PropertyRef Name="NotificationID" />
-      </Principal>
-      <Dependent Role="NotificationProposedProjects">
-        <PropertyRef Name="NotificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_NotificationProposedProject_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.Store.NotificationProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="NotificationProposedProjects">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
     <End Role="LogoFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
     <End Role="OrganizationsWhereYouAreTheLogoFileResource" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
@@ -2540,30 +2218,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedProposeds">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedProposeds">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
@@ -2608,54 +2262,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
-    <End Role="PerformanceMeasureExpectedProposed" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureExpectedProposed">
-        <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategory">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategoryOption">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2765,6 +2371,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectsWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Project_Person_ProposingPersonID_PersonID">
+    <End Role="ProposingPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreTheProposingPerson" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposingPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectsWhereYouAreTheProposingPerson">
+        <PropertyRef Name="ProposingPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Project_Person_ReviewedByPersonID_PersonID">
+    <End Role="ReviewedByPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreTheReviewedByPerson" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReviewedByPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectsWhereYouAreTheReviewedByPerson">
+        <PropertyRef Name="ReviewedByPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3340,270 +2970,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
         <PropertyRef Name="WatershedID" />
       </Principal>
       <Dependent Role="ProjectWatershedUpdates">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
-    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PrimaryContactPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreThePrimaryContactPerson">
-        <PropertyRef Name="PrimaryContactPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_ProposingPersonID_PersonID">
-    <End Role="ProposingPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="ProposedProjectsWhereYouAreTheProposingPerson" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposingPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheProposingPerson">
-        <PropertyRef Name="ProposingPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Person_ReviewedByPersonID_PersonID">
-    <End Role="ReviewedByPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectsWhereYouAreTheReviewedByPerson" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReviewedByPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectsWhereYouAreTheReviewedByPerson">
-        <PropertyRef Name="ReviewedByPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
-    <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.Store.AssessmentQuestion" Multiplicity="1" />
-    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProposedProjectAssessmentQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AssessmentQuestion">
-        <PropertyRef Name="AssessmentQuestionID" />
-      </Principal>
-      <Dependent Role="ProposedProjectAssessmentQuestions">
-        <PropertyRef Name="AssessmentQuestionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProposedProjectAssessmentQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectAssessmentQuestions">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectClassification_Classification_ClassificationID">
-    <End Role="Classification" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="1" />
-    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.Store.ProposedProjectClassification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Classification">
-        <PropertyRef Name="ClassificationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectClassifications">
-        <PropertyRef Name="ClassificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.Store.ProposedProjectClassification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectClassifications">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.Store.ProposedProjectImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProposedProjectImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.Store.ProposedProjectImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectImages">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectLocations" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocations">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocationStaging_Person_PersonID">
-    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocationStagings">
-        <PropertyRef Name="PersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectLocationStagings">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
-    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CreatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotesWhereYouAreTheCreatePerson">
-        <PropertyRef Name="CreatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="ProposedProjectNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotesWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectNotes" Type="ProjectFirma.Web.Models.Store.ProposedProjectNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectNotes">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectOrganization_RelationshipType_RelationshipTypeID">
-    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.Store.RelationshipType" Multiplicity="1" />
-    <End Role="ProposedProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProposedProjectOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RelationshipType">
-        <PropertyRef Name="RelationshipTypeID" />
-      </Principal>
-      <Dependent Role="ProposedProjectOrganizations">
-        <PropertyRef Name="RelationshipTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectWatersheds">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectWatershed_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="1" />
-    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProposedProjectWatersheds">
         <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>

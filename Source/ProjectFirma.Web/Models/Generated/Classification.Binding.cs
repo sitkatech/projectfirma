@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         {
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
-            this.ProposedProjectClassifications = new HashSet<ProposedProjectClassification>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -72,13 +71,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || ProjectClassifications.Any() || ProposedProjectClassifications.Any();
+            return ClassificationPerformanceMeasures.Any() || ProjectClassifications.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name, typeof(ProposedProjectClassification).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name};
 
         [Key]
         public int ClassificationID { get; set; }
@@ -93,7 +92,6 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
-        public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource KeyImageFileResource { get; set; }
 

@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         {
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
             this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
-            this.ProposedProjectWatersheds = new HashSet<ProposedProjectWatershed>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -65,13 +64,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectWatersheds.Any() || ProjectWatershedUpdates.Any() || ProposedProjectWatersheds.Any();
+            return ProjectWatersheds.Any() || ProjectWatershedUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(ProjectWatershed).Name, typeof(ProjectWatershedUpdate).Name, typeof(ProposedProjectWatershed).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(ProjectWatershed).Name, typeof(ProjectWatershedUpdate).Name};
 
         [Key]
         public int WatershedID { get; set; }
@@ -82,7 +81,6 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
         public virtual ICollection<ProjectWatershedUpdate> ProjectWatershedUpdates { get; set; }
-        public virtual ICollection<ProposedProjectWatershed> ProposedProjectWatersheds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Security
-@using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
@@ -166,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
                                             <p>
-                                                This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized(), @FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized(), and boundaries associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().
+                                                This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized(), @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized(), and boundaries associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().
                                             </p>
                                         }
                                         else

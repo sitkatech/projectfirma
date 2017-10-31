@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         public static readonly NotificationTypeProjectUpdateReturned ProjectUpdateReturned = NotificationTypeProjectUpdateReturned.Instance;
         public static readonly NotificationTypeProjectUpdateApproved ProjectUpdateApproved = NotificationTypeProjectUpdateApproved.Instance;
         public static readonly NotificationTypeCustom Custom = NotificationTypeCustom.Instance;
-        public static readonly NotificationTypeProposedProjectSubmitted ProposedProjectSubmitted = NotificationTypeProposedProjectSubmitted.Instance;
-        public static readonly NotificationTypeProposedProjectApproved ProposedProjectApproved = NotificationTypeProposedProjectApproved.Instance;
-        public static readonly NotificationTypeProposedProjectReturned ProposedProjectReturned = NotificationTypeProposedProjectReturned.Instance;
+        public static readonly NotificationTypeProjectSubmitted ProjectSubmitted = NotificationTypeProjectSubmitted.Instance;
+        public static readonly NotificationTypeProjectApproved ProjectApproved = NotificationTypeProjectApproved.Instance;
+        public static readonly NotificationTypeProjectReturned ProjectReturned = NotificationTypeProjectReturned.Instance;
 
         public static readonly List<NotificationType> All;
         public static readonly ReadOnlyDictionary<int, NotificationType> AllLookupDictionary;
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static NotificationType()
         {
-            All = new List<NotificationType> { ProjectUpdateReminder, ProjectUpdateSubmitted, ProjectUpdateReturned, ProjectUpdateApproved, Custom, ProposedProjectSubmitted, ProposedProjectApproved, ProposedProjectReturned };
+            All = new List<NotificationType> { ProjectUpdateReminder, ProjectUpdateSubmitted, ProjectUpdateReturned, ProjectUpdateApproved, Custom, ProjectSubmitted, ProjectApproved, ProjectReturned };
             AllLookupDictionary = new ReadOnlyDictionary<int, NotificationType>(All.ToDictionary(x => x.NotificationTypeID));
         }
 
@@ -106,6 +106,12 @@ namespace ProjectFirma.Web.Models
             {
                 case NotificationTypeEnum.Custom:
                     return Custom;
+                case NotificationTypeEnum.ProjectApproved:
+                    return ProjectApproved;
+                case NotificationTypeEnum.ProjectReturned:
+                    return ProjectReturned;
+                case NotificationTypeEnum.ProjectSubmitted:
+                    return ProjectSubmitted;
                 case NotificationTypeEnum.ProjectUpdateApproved:
                     return ProjectUpdateApproved;
                 case NotificationTypeEnum.ProjectUpdateReminder:
@@ -114,12 +120,6 @@ namespace ProjectFirma.Web.Models
                     return ProjectUpdateReturned;
                 case NotificationTypeEnum.ProjectUpdateSubmitted:
                     return ProjectUpdateSubmitted;
-                case NotificationTypeEnum.ProposedProjectApproved:
-                    return ProposedProjectApproved;
-                case NotificationTypeEnum.ProposedProjectReturned:
-                    return ProposedProjectReturned;
-                case NotificationTypeEnum.ProposedProjectSubmitted:
-                    return ProposedProjectSubmitted;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -133,9 +133,9 @@ namespace ProjectFirma.Web.Models
         ProjectUpdateReturned = 3,
         ProjectUpdateApproved = 4,
         Custom = 5,
-        ProposedProjectSubmitted = 6,
-        ProposedProjectApproved = 7,
-        ProposedProjectReturned = 8
+        ProjectSubmitted = 6,
+        ProjectApproved = 7,
+        ProjectReturned = 8
     }
 
     public partial class NotificationTypeProjectUpdateReminder : NotificationType
@@ -168,21 +168,21 @@ namespace ProjectFirma.Web.Models
         public static readonly NotificationTypeCustom Instance = new NotificationTypeCustom(5, @"Custom", @"Custom Notification");
     }
 
-    public partial class NotificationTypeProposedProjectSubmitted : NotificationType
+    public partial class NotificationTypeProjectSubmitted : NotificationType
     {
-        private NotificationTypeProposedProjectSubmitted(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
-        public static readonly NotificationTypeProposedProjectSubmitted Instance = new NotificationTypeProposedProjectSubmitted(6, @"ProposedProjectSubmitted", @"Proposed Project Submitted");
+        private NotificationTypeProjectSubmitted(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
+        public static readonly NotificationTypeProjectSubmitted Instance = new NotificationTypeProjectSubmitted(6, @"ProjectSubmitted", @"Project Submitted");
     }
 
-    public partial class NotificationTypeProposedProjectApproved : NotificationType
+    public partial class NotificationTypeProjectApproved : NotificationType
     {
-        private NotificationTypeProposedProjectApproved(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
-        public static readonly NotificationTypeProposedProjectApproved Instance = new NotificationTypeProposedProjectApproved(7, @"ProposedProjectApproved", @"Proposed Project Approved");
+        private NotificationTypeProjectApproved(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
+        public static readonly NotificationTypeProjectApproved Instance = new NotificationTypeProjectApproved(7, @"ProjectApproved", @"Project Approved");
     }
 
-    public partial class NotificationTypeProposedProjectReturned : NotificationType
+    public partial class NotificationTypeProjectReturned : NotificationType
     {
-        private NotificationTypeProposedProjectReturned(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
-        public static readonly NotificationTypeProposedProjectReturned Instance = new NotificationTypeProposedProjectReturned(8, @"ProposedProjectReturned", @"Proposed Project Returned");
+        private NotificationTypeProjectReturned(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
+        public static readonly NotificationTypeProjectReturned Instance = new NotificationTypeProjectReturned(8, @"ProjectReturned", @"Project Returned");
     }
 }

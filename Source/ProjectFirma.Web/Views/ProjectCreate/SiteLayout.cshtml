@@ -1,0 +1,242 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="SiteLayout.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectCreate
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DesignByContract
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@inherits SiteLayout
+
+@{
+    SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    
+    <style>
+        #main-container
+        {
+            @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
+            {
+                <text>border-top-left-radius: 6px;</text>
+            }
+        }
+    </style>
+
+    @RenderSection("JavascriptAndStylesContent", false)
+}
+
+<div id="projectWizardContent" class="row">
+    <div id="tab-container" class="col-sm-4 col-md-3">
+        <ol>
+            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposalSectionEnum.Instructions, ViewDataTyped.SelectedProposalSection)">
+                <a href="@ViewDataTyped.ProposalInstructionsUrl">Instructions</a>
+            </li>
+            <li style="list-style-type: none">
+                <hr class="navMenu" />
+            </li>
+            <li value="1" class="@SetSelectedSectionStyle(ProposalSectionEnum.Basics, ViewDataTyped.SelectedProposalSection)">
+                <a href="@ViewDataTyped.ProposalBasicsUrl">Basics</a>
+                <span class="pull-right statusIcon">
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationSimple, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalLocationSimpleUrl">Location - Simple</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Simple")
+                }
+                <span class="pull-right statusIcon">
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsProjectLocationSimpleSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalLocationDetailedUrl">Location - Detailed</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
+                }
+            </li>            
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Watershed, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized())
+                }
+                <span class="pull-right statusIcon">
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsWatershedSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>            
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())                    
+                }
+                <span class="pull-right statusIcon">
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Classifications, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink(ViewDataTyped.ClassificationDisplayNamePluralized)
+                }
+                <span class="pull-right statusIcon">
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsClassificationsComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+
+            </li>
+            @if (ViewDataTyped.HasAssessments)
+            {
+                <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Assessment, ViewDataTyped.SelectedProposalSection)">
+                    @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                    {
+                        <a href="@ViewDataTyped.ProposalAssessmentUrl">Assessment</a>
+                    }
+                    else
+                    {
+                        @ProjectWizardComponents.MakeDisabledSectionLink("Assessment")
+                    }
+                    <span class="pull-right statusIcon">
+                        @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsAssessmentComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    </span>
+
+                </li>
+            }
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Photos, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalPhotosUrl">Photos</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos");
+                }
+            </li>
+            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Notes, ViewDataTyped.SelectedProposalSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProposalNotesUrl">Notes</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes");
+                }
+            </li>
+        </ol>
+    </div>
+
+    <div id="main-container" class="col-sm-8 col-md-9">
+        @RenderBody()
+        @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
+        {
+            <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+        <div class="pull-right">
+            @if (ViewDataTyped.Project != null)
+            {
+                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
+
+                if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Draft || ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Returned)
+                {
+                    if (ViewDataTyped.CanAdvanceStage)
+                    {
+                        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-firma" disabled>Submit</button>
+                    }
+                }
+                else
+                {
+                    if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.PendingApproval)
+                    {
+                        if (ViewDataTyped.CurrentPersonIsApprover)
+                        {
+                            if (ViewDataTyped.CanAdvanceStage)
+                            {
+                                <span style="margin-right: 5px">
+                                    @{
+                                        var linkText = "<button class='btn btn-xs btn-firma'>" + string.Format("{0} Approve", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")) + "</button>";
+                                    }
+                                    @ModalDialogFormHelper.ModalDialogFormLink(linkText, ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
+
+                                </span>
+                            }
+                            else
+                            {
+                                <button class="btn btn-xs btn-firma" disabled style="margin-right: 10px">Approve</button>
+                            }
+                            <span style="margin-right: 5px">
+                                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                            </span>
+                            <span style="margin-right: 5px">
+                                @ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                            </span>
+                        }
+                        else if (ViewDataTyped.CurrentPersonIsSubmitter)
+                        {
+                            @ModalDialogFormHelper.ModalDialogFormLink("Withdraw", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                        }
+                    }
+                }
+            }
+        </div>
+        
+        <div class="pull-left">
+            @if (ViewDataTyped.Project != null)
+            {
+                <p>
+                    Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate
+                </p>
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+            }
+            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
+            @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
+        </div>
+        </div>
+</div>

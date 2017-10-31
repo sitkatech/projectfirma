@@ -40,7 +40,6 @@ namespace ProjectFirma.Web.Models
         private const string PropertyNameProjectImageTimingID = "ProjectImageTimingID";
         private const string PropertyNameProjectLocationAreaID = "ProjectLocationAreaID";
         private const string PropertyNameProjectID = "ProjectID";
-        private const string PropertyNameProposedProjectID = "ProposedProjectID";
 
         public static readonly List<string> IgnoredTables = new List<string>
         {
@@ -59,7 +58,6 @@ namespace ProjectFirma.Web.Models
             "ProjectNoteUpdate",
             "ProjectLocationStaging",
             "ProjectLocationStagingUpdate",
-            "ProposedProjectLocationStaging",
             "ProjectUpdate",
             "ProjectUpdateBatch",
             "ProjectUpdateHistory",
@@ -207,15 +205,6 @@ namespace ProjectFirma.Web.Models
                 {
                     auditLog.ProjectID = projectID;    
                 }                
-            }
-
-            if (ProposedProject.DependentEntityTypeNames.Contains(tableName))
-            {
-                var proposedProjectID = (int?) entry.Property(PropertyNameProposedProjectID).CurrentValue;
-                if (proposedProjectID.HasValue)
-                {
-                    auditLog.ProposedProjectID = proposedProjectID;
-                }
             }
         }
 

@@ -141,6 +141,11 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
+                if (ProjectStage == ProjectStage.Proposal)
+                {
+                    return false;
+                }
+
                 if (!IsUpdatableViaProjectUpdateProcess)
                     return false;
 
@@ -235,19 +240,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool IsVisibleToEveryone()
-        {
-            return ProjectStage.IsVisibleToEveryone();
-        }
-
         public bool IsMyProject(Person person)
         {
             return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
-        }
-
-        public bool IsVisibleToThisPerson(Person person)
-        {
-            return IsVisibleToEveryone() || IsMyProject(person) || new FirmaAdminFeature().HasPermissionByPerson(person);
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -258,6 +253,16 @@ namespace ProjectFirma.Web.Models
             }
             var primaryContactPerson = GetPrimaryContact();
             return person.PersonID == primaryContactPerson?.PersonID;
+        }
+
+        public bool IsEditableToThisPerson(Person person)
+        {
+            return IsMyProject(person) || new ProjectApproveFeature().HasPermission(person, this).HasPermission;
+        }
+
+        public PermissionCheckResult CanDelete()
+        {
+            return new PermissionCheckResult();
         }
 
         public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)

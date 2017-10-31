@@ -15,7 +15,6 @@ CREATE TABLE [dbo].[AuditLog](
 	[NewValue] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[AuditDescription] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
-	[ProposedProjectID] [int] NULL,
  CONSTRAINT [PK_AuditLog_AuditLogID] PRIMARY KEY CLUSTERED 
 (
 	[AuditLogID] ASC

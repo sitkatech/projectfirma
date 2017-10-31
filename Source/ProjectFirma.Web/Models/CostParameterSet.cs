@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Models
         public static int GetCurrentRTPYearForPVCalculations()
         {
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
-            return costParameterSet == null ? DateTime.Now.Year : costParameterSet.CurrentYearForPVCalculations;
+            return costParameterSet?.CurrentYearForPVCalculations ?? DateTime.Now.Year;
         }
 
         public static decimal GetLatestInflationRate()

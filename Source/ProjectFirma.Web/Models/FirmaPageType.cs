@@ -260,11 +260,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeProposedProjects
+    public partial class FirmaPageTypeProposals
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
         }
     }
 
@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
+            return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
         }
     }
 }

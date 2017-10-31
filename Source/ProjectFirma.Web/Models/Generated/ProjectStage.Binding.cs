@@ -18,6 +18,7 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectStage : IHavePrimaryKey
     {
+        public static readonly ProjectStageProposal Proposal = ProjectStageProposal.Instance;
         public static readonly ProjectStagePlanningDesign PlanningDesign = ProjectStagePlanningDesign.Instance;
         public static readonly ProjectStageImplementation Implementation = ProjectStageImplementation.Instance;
         public static readonly ProjectStageCompleted Completed = ProjectStageCompleted.Instance;
@@ -33,7 +34,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectStage()
         {
-            All = new List<ProjectStage> { PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
+            All = new List<ProjectStage> { Proposal, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectStage>(All.ToDictionary(x => x.ProjectStageID));
         }
 
@@ -116,6 +117,8 @@ namespace ProjectFirma.Web.Models
                     return PlanningDesign;
                 case ProjectStageEnum.PostImplementation:
                     return PostImplementation;
+                case ProjectStageEnum.Proposal:
+                    return Proposal;
                 case ProjectStageEnum.Terminated:
                     return Terminated;
                 default:
@@ -126,12 +129,19 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectStageEnum
     {
+        Proposal = 1,
         PlanningDesign = 2,
         Implementation = 3,
         Completed = 4,
         Terminated = 5,
         Deferred = 6,
         PostImplementation = 8
+    }
+
+    public partial class ProjectStageProposal : ProjectStage
+    {
+        private ProjectStageProposal(int projectStageID, string projectStageName, string projectStageDisplayName, int sortOrder, string projectStageColor) : base(projectStageID, projectStageName, projectStageDisplayName, sortOrder, projectStageColor) {}
+        public static readonly ProjectStageProposal Instance = new ProjectStageProposal(1, @"Proposal", @"Proposal", 5, @"#dbbdff");
     }
 
     public partial class ProjectStagePlanningDesign : ProjectStage

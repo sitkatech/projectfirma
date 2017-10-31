@@ -50,10 +50,5 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true)
         {
         }
-
-        public EditPerformanceMeasureExpectedViewData(Models.ProposedProject proposedProject, List<Models.PerformanceMeasure> allPerformanceMeasures)
-            : this(new List<ProjectSimple> { new ProjectSimple(proposedProject) }, allPerformanceMeasures, proposedProject.ProposedProjectID, false)
-        {
-        }
     }
 }

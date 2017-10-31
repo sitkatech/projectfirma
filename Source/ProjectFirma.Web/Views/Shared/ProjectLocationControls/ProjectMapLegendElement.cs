@@ -38,13 +38,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             LegendText = legendText;
         }
 
-        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<ITaxonomyTier> topLevelTaxonomyTiers, bool isCurrentUserAnonymous)
+        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<ITaxonomyTier> topLevelTaxonomyTiers, bool hideProposals)
         {
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {
                 {
                     ProjectColorByType.ProjectStage.ProjectColorByTypeNameWithIdentifier,
-                    ProjectMapCustomization.GetProjectStagesForMap(isCurrentUserAnonymous).Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
+                    ProjectMapCustomization.GetProjectStagesForMap(hideProposals).Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
                 },
                 {
                     MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3 ? ProjectColorByType.TaxonomyTierThree.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyTierTwo.ProjectColorByTypeNameWithIdentifier,

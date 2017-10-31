@@ -51,20 +51,13 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasureExpectedID = performanceMeasureExpected.PerformanceMeasureExpectedID;
             DisplayName = performanceMeasureExpected.PerformanceMeasure.PerformanceMeasureDisplayName;
+            DefinitionAndGuidanceUrl = performanceMeasureExpected.PerformanceMeasure.GetDefinitionAndGuidanceUrl();
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             ExpectedValue = performanceMeasureExpected.ExpectedValue;
             PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureExpected);
         }
 
-        public PerformanceMeasureExpectedSimple(PerformanceMeasureExpectedProposed performanceMeasureExpectedProposed)
-        {
-            PerformanceMeasureExpectedID = performanceMeasureExpectedProposed.PerformanceMeasureExpectedProposedID;
-            DisplayName = performanceMeasureExpectedProposed.PerformanceMeasure.PerformanceMeasureDisplayName;
-            PerformanceMeasureID = performanceMeasureExpectedProposed.PerformanceMeasureID;
-            ExpectedValue = performanceMeasureExpectedProposed.ExpectedValue;
-            PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureExpectedProposed);
-        }
-
+        public string DefinitionAndGuidanceUrl { get; set; }
         public int PerformanceMeasureExpectedID { get; set; }
         public string DisplayName { get; set; }
         public int PerformanceMeasureID { get; set; }

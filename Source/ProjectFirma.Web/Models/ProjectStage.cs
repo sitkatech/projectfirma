@@ -25,17 +25,12 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
     {
-        public static readonly ProjectStageProposed Proposed = ProjectStageProposed.Instance;
+        
 
-        public static readonly List<ProjectStage> AllPlusProposed = new List<ProjectStage> { Proposed, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
+        public static readonly List<ProjectStage> AllPlusProposed = new List<ProjectStage> { Proposal, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
 
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
-
-        public bool IsVisibleToEveryone()
-        {
-            return true;
-        }
 
         public abstract bool AreExpendituresReportable();
         public abstract bool ArePerformanceMeasuresReportable();
@@ -45,16 +40,8 @@ namespace ProjectFirma.Web.Models
         public abstract bool ShouldShowOnMap();
     }
 
-    public class ProjectStageProposed : ProjectStage
+    public partial class ProjectStageProposal : ProjectStage
     {
-        private ProjectStageProposed(int projectStageID, string projectStageName, string projectStageDisplayName,
-            int sortOrder, string projectStageColor) : base(projectStageID, projectStageName, projectStageDisplayName,
-            sortOrder, projectStageColor)
-        {
-        }
-
-        public static readonly ProjectStageProposed Instance =
-            new ProjectStageProposed(1, @"Proposed", @"Proposed", 10, @"#dbbdff");
         public override bool IsOnCompletedList()
         {
             return false;

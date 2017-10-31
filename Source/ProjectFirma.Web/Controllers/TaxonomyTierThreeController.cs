@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyTierThreeProjects = taxonomyTierThree.Projects.ToList();
             var projects = new List<IMappableProject>(IsCurrentUserAnonymous()
-                ? taxonomyTierThreeProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+                ? taxonomyTierThreeProjects.Where(p => true).ToList()
                 : taxonomyTierThreeProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierThree, new List<int> {taxonomyTierThree.TaxonomyTierThreeID}, ProjectColorByType.ProjectStage);

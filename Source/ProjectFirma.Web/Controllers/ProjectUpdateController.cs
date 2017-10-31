@@ -27,7 +27,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -42,11 +41,9 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
-using Newtonsoft.Json;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
@@ -1457,7 +1454,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static string GenerateEditProjectLocationFormID(Project project)
         {
-            return $"editMapForProposedProject{project.ProjectID}";
+            return $"editMapForProposal{project.ProjectID}";
         }
 
         [ProjectUpdateAdminFeature]
@@ -1993,7 +1990,9 @@ namespace ProjectFirma.Web.Controllers
             var dummyProject = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
-                FundingType.Capital);
+                FundingType.Capital,
+                // TODO: Verify that this is correct or use the correct value
+                ProjectApprovalStatus.Approved);
 
             var dummyProjectUpdateBatch = ProjectUpdateBatch.CreateNewBlank(dummyProject, CurrentPerson, ProjectUpdateState.Created);
 
@@ -2315,7 +2314,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 validationErrorMessages = $" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
-            SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+            SetErrorForDisplay($"Could not save {FieldDefinition.Proposal.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
     }
 }

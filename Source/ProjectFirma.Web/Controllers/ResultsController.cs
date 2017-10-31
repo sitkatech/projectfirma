@@ -30,7 +30,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
@@ -254,7 +253,7 @@ namespace ProjectFirma.Web.Controllers
             }
             return taxonomyTierTwoOrganizationTypeExpenditures;
         }
-
+        
         [ProjectLocationsViewFeature]
         public ViewResult ProjectMap()
         {
@@ -281,7 +280,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(IsCurrentUserAnonymous());
+                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(HideProposals);
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -297,7 +296,8 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson), IsCurrentUserAnonymous());
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(HideProposals);
+
             var initialCustomization =
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson =
@@ -310,10 +310,10 @@ namespace ProjectFirma.Web.Controllers
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), IsCurrentUserAnonymous());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), HideProposals);
 
             
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(IsCurrentUserAnonymous());
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(HideProposals);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl =
@@ -328,7 +328,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool isCurrentUserAnonymous)
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool hideProposals)
         {
             var projectLocationFilterTypesAndValues =
                 new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
@@ -336,7 +336,7 @@ namespace ProjectFirma.Web.Controllers
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 var taxonomyTierThreesAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToSelectList(
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.AsEnumerable().ToSelectList(
                         x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
                 projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree,
                     taxonomyTierThreesAsSelectListItems);
@@ -345,26 +345,26 @@ namespace ProjectFirma.Web.Controllers
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
                 var taxonomyTierTwosAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.AsEnumerable().ToSelectList(
                         x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
                 projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo,
                     taxonomyTierTwosAsSelectListItems);
             }
 
             var taxonomyTierOnesAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(
+                HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.AsEnumerable().ToSelectList(
                     x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne,
                 taxonomyTierOnesAsSelectListItems);
 
             var classificationsAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(
+                HttpRequestStorage.DatabaseEntities.Classifications.AsEnumerable().ToSelectList(
                     x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification,
                 classificationsAsSelectListItems);
 
 
-            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(isCurrentUserAnonymous).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(hideProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
@@ -392,27 +392,17 @@ namespace ProjectFirma.Web.Controllers
                 .Select(x => x.ToFancyTreeNode())
                 .ToList();
 
-
-            // Get the Watershed that ONLY have proposed projects
-            var proposedProjectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
-                .ToList()
-                .Where(x => x.ProposedProjectWatersheds.Any() && !x.ProjectWatersheds.Any())
-                .Select(x => x.ToFancyTreeNode())
-                .ToList();
-
-            projectLocationGroupsAsFancyTreeNodes.AddRange(proposedProjectLocationGroupsAsFancyTreeNodes);
-
             var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
                 .GetProjectLocationFilterTypeFromFilterPropertyName();
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(p => p.IsVisibleToThisPerson(CurrentPerson), IsCurrentUserAnonymous());
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(HideProposals);
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var projects = IsCurrentUserAnonymous()
-                ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList()
+            var projects = HideProposals
+                ? filteredProjects.Where(p => true).ToList()
                 : filteredProjects;
             var filteredProjectsWithLocationAreas = projects
                 .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)

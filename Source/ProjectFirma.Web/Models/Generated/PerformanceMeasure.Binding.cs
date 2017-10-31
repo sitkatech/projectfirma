@@ -29,9 +29,7 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
-            this.PerformanceMeasureExpectedProposeds = new HashSet<PerformanceMeasureExpectedProposed>();
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
-            this.PerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<PerformanceMeasureExpectedSubcategoryOptionProposed>();
             this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
             this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
             this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
@@ -106,13 +104,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedProposeds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || PerformanceMeasureMonitoringPrograms.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || SnapshotPerformanceMeasures.Any() || SnapshotPerformanceMeasureSubcategoryOptions.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
+            return ClassificationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureMonitoringPrograms.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || SnapshotPerformanceMeasures.Any() || SnapshotPerformanceMeasureSubcategoryOptions.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(PerformanceMeasureMonitoringProgram).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureMonitoringProgram).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
 
         [Key]
         public int PerformanceMeasureID { get; set; }
@@ -149,9 +147,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
-        public virtual ICollection<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
-        public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual ICollection<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
         public virtual ICollection<PerformanceMeasureNote> PerformanceMeasureNotes { get; set; }
         public virtual ICollection<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }

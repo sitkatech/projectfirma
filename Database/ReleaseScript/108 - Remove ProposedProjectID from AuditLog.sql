@@ -1,0 +1,1 @@
+Alter Table dbo.AuditLog Drop Column ProposedProjectID

@@ -29,7 +29,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.ProposedProject;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -74,7 +73,8 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID);
+                FundingType.Capital.FundingTypeID,
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
             CurrentPerson.SetDefaultProjectOrganizations(project);
 
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, EditProjectViewModel viewModel)
         {
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project));
         }
 
-        [ProjectsViewFullListFeature]
+        [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
                 project.DisplayName,
-                new ProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson));
+                new ProjectNoteManageAsAdminFeature().HasPermissionByPerson(CurrentPerson));
 
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
 
@@ -243,7 +243,8 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridName,
                 projectNotificationGridDataUrl,
                 projectBasicsViewData,
-                assessmentTreeViewData);
+                assessmentTreeViewData,
+                CurrentTenant);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -292,7 +293,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)
         {
-            var activeProjectStages = new List<ProjectStage> {ProjectStage.PlanningDesign, ProjectStage.Implementation, ProjectStage.Completed, ProjectStage.PostImplementation};
+            var activeProjectStages = new List<ProjectStage> {ProjectStage.Proposal, ProjectStage.PlanningDesign, ProjectStage.Implementation, ProjectStage.Completed, ProjectStage.PostImplementation};
 
             if (project.ProjectStage == ProjectStage.Terminated)
             {
@@ -346,10 +347,33 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+
+        [ProjectsInProposalStageViewListFeature]
+        public ViewResult Proposed()
+        {
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
+            var viewData = new ProposedViewData(CurrentPerson, firmaPage);
+            return RazorView<Proposed, ProposedViewData>(viewData);
+        }
+
+        [ProjectsInProposalStageViewListFeature]
+        public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
+        {
+            var gridSpec = new ProposalsGridSpec(CurrentPerson);
+            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
+            var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watersheds,
+                x => x.ProjectStage == ProjectStage.Proposal && x.ProjectApprovalStatus != ProjectApprovalStatus.Approved,
+                stateProvinces).Where(x1 => x1.ProjectApprovalStatus != ProjectApprovalStatus.Approved && x1.ProjectApprovalStatus != ProjectApprovalStatus.Rejected).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
         private static List<Project> GetIndexGridSpec(Person currentPerson, out IndexGridSpec gridSpec)
         {            
             gridSpec = new IndexGridSpec(currentPerson);
-            return GetProjectsForGrid(null);
+            return GetProjectsForGrid(x =>
+                x.ProjectStage != ProjectStage.Proposal && x.ProjectApprovalStatus == ProjectApprovalStatus.Approved);
         }
 
         public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
@@ -361,9 +385,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectsViewFullListFeature]
-        public ExcelResult IndexExcelDownload()
+        public ExcelResult IndexExcelDownload(bool proposalsOnly)
         {
-            var projects = GetProjectsForGrid(null);
+            var projects = proposalsOnly? GetProjectsForGrid(x => x.ProjectStage == ProjectStage.Proposal) : GetProjectsForGrid(x =>
+                x.ProjectStage != ProjectStage.Proposal && x.ProjectApprovalStatus == ProjectApprovalStatus.Approved);
 
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
@@ -420,7 +445,10 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, $"{FieldDefinition.Project.GetFieldDefinitionLabel()} as of {DateTime.Now.ToStringDateTime()}");
+            var workbookTitle = proposalsOnly
+                ? $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}"
+                : $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}";
+            return new ExcelResult(excelWorkbook, workbookTitle);
         }
 
         [HttpGet]
@@ -476,12 +504,6 @@ namespace ProjectFirma.Web.Controllers
 
             project.ProjectWatersheds.DeleteProjectWatershed();
 
-            if (project.ProposedProject != null)
-            {
-                project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
-                project.ProposedProject.Project = null;
-            }
-
             project.SnapshotProjects.DeleteSnapshotProject();
             var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
             project.DeleteProject();
@@ -515,7 +537,11 @@ namespace ProjectFirma.Web.Controllers
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
                     .ToList()
-                    .Where(x => x.IsVisibleToThisPerson(CurrentPerson))
+                    .Where(x =>
+                    {
+                        Person person = CurrentPerson;
+                        return true;
+                    })
                     .OrderBy(x => x.DisplayName)
                     .ToList();
             return projectsFound;
@@ -739,22 +765,23 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return gridJsonNetJObjectResult;
         }
 
-        [ProposedProjectsViewListFeature]
-        public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
+        [ProjectsInProposalStageViewListFeature]
+        public GridJsonNetJObjectResult<Project> MyOrganizationsProposalsGridJsonData()
         {
-            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentPerson);
             
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects
-                .GetProposedProjectsWithGeoSpatialProperties(
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects
+                .GetProjectsWithGeoSpatialProperties(
                     HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
-                    x => x.IsEditableToThisPerson(CurrentPerson))
-                .Where(x => x.ProposedProjectState != ProposedProjectState.Approved &&
-                             x.ProposedProjectState != ProposedProjectState.Rejected &&
-                             x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
+                    x => x.IsEditableToThisPerson(CurrentPerson),
+                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
+                .Where(x => x.ProjectApprovalStatus != ProjectApprovalStatus.Approved &&
+                             x.ProjectApprovalStatus != ProjectApprovalStatus.Rejected &&
+                             x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID && 
+                             x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                 .ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(proposedProjects, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
         

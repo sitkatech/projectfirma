@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
         protected AssessmentQuestion()
         {
             this.ProjectAssessmentQuestions = new HashSet<ProjectAssessmentQuestion>();
-            this.ProposedProjectAssessmentQuestions = new HashSet<ProposedProjectAssessmentQuestion>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -78,13 +77,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectAssessmentQuestions.Any() || ProposedProjectAssessmentQuestions.Any();
+            return ProjectAssessmentQuestions.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AssessmentQuestion).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProposedProjectAssessmentQuestion).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AssessmentQuestion).Name, typeof(ProjectAssessmentQuestion).Name};
 
         [Key]
         public int AssessmentQuestionID { get; set; }
@@ -95,7 +94,6 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return AssessmentQuestionID; } set { AssessmentQuestionID = value; } }
 
         public virtual ICollection<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
-        public virtual ICollection<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual AssessmentSubGoal AssessmentSubGoal { get; set; }
 

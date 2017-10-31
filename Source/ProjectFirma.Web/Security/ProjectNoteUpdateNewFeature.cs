@@ -56,6 +56,12 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {project.ProjectID} is not editable by you.");
             }
 
+            var checkIfProjectIsProposal = new ProjectUpdateFeature().HasPermission(person, contextModelObject.Project);
+            if (!checkIfProjectIsProposal.HasPermission)
+            {
+                return checkIfProjectIsProposal;
+            }
+
             return new PermissionCheckResult();
         }
     }

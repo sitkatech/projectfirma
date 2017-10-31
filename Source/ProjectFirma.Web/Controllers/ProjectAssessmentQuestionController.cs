@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectAssessmentQuestionController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         public ActionResult EditAssessment(ProjectPrimaryKey projectPrimaryKey, EditAssessmentViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;

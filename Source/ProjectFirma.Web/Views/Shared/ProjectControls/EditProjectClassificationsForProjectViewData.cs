@@ -33,11 +33,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectName = project.DisplayName;
             Classifications = classifications;
         }
-
-        public EditProjectClassificationsForProjectViewData(Models.ProposedProject proposedProject, List<Models.Classification> classifications)
-        {
-            ProjectName = proposedProject.DisplayName;
-            Classifications = classifications;
-        }
     }
 }

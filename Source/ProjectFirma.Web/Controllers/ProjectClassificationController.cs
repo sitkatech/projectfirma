@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectClassificationController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpPost]
-        [ProjectEditFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectClassificationsForProjectViewModel viewModel)
         {

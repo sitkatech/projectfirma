@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool includeProposedProjectsOnMap) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -46,13 +46,13 @@ namespace ProjectFirma.Web.Models
             this.RecaptchaPrivateKey = recaptchaPrivateKey;
             this.MapServiceUrl = mapServiceUrl;
             this.WatershedLayerName = watershedLayerName;
-            this.IncludeProposedProjectsOnMap = includeProposedProjectsOnMap;
+            this.ShowProposalsToThePublic = showProposalsToThePublic;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantDisplayName, string toolDisplayName, bool includeProposedProjectsOnMap) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
             this.MinimumYear = minimumYear;
             this.TenantDisplayName = tenantDisplayName;
             this.ToolDisplayName = toolDisplayName;
-            this.IncludeProposedProjectsOnMap = includeProposedProjectsOnMap;
+            this.ShowProposalsToThePublic = showProposalsToThePublic;
         }
 
 
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Models
         public string RecaptchaPrivateKey { get; set; }
         public string MapServiceUrl { get; set; }
         public string WatershedLayerName { get; set; }
-        public bool IncludeProposedProjectsOnMap { get; set; }
+        public bool ShowProposalsToThePublic { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

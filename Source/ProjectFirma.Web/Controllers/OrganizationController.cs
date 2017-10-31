@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var viewGoogleChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
 
             bool hasSpatialData;
-            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, IsCurrentUserAnonymous());
+            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, HideProposals);
 
             var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, bool isCurrentUserAnonymous)
+        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, bool hideProposals)
         {
             hasSpatialData = false;
             
@@ -171,30 +171,30 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(projectsLayerGeoJson);
             }
 
-            var projectDetails = organization.ProjectOrganizations.SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetails = organization.ProjectOrganizations.Where(x => x.Project.ProjectStageID != ProjectStage.Proposal.ProjectStageID).SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
                 layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            if (!isCurrentUserAnonymous && MultiTenantHelpers.IncludeProposedProjectsOnMap())
+            if (!hideProposals)
             {
-                var proposedProjectsLayerGeoJson = GetProposedProjectsLayerGeoJson(organization);
-                if (proposedProjectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
+                var proposalsLayerGeoJson = GetProposalsLayerGeoJson(organization);
+                if (proposalsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
                 {
                     hasSpatialData = true;
-                    layers.Add(proposedProjectsLayerGeoJson);
+                    layers.Add(proposalsLayerGeoJson);
                 }
 
-                var proposedProjectDetails = organization.ProposedProjectOrganizations
-                    .SelectMany(x => x.ProposedProject.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
-                if (proposedProjectDetails.Features.Any())
+                var proposalDetails = organization.ProjectOrganizations.Where(x=>x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+                    .SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+                if (proposalDetails.Features.Any())
                 {
                     hasSpatialData = true;
                     layers.Add(new LayerGeoJson(
-                        $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detailed Mapping",
-                        proposedProjectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                        $"{FieldDefinition.Proposal.GetFieldDefinitionLabel()} Detailed Mapping",
+                        proposalDetails, "blue", 1, LayerInitialVisibility.Hide));
                 }
             }
 
@@ -205,32 +205,42 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }
 
-        private static LayerGeoJson GetProposedProjectsLayerGeoJson(Organization organization)
+        private static LayerGeoJson GetProposalsLayerGeoJson(Organization organization)
         {
-            var relatedProposedProjects = organization.GetAllProposedProjectOrganizations().Where(x => x.ProposedProject.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProposedProject.ProjectStage.ShouldShowOnMap()).Select(x => x.ProposedProject).ToList();
+            var relatedProjects = organization.GetAllProjectOrganizations().Where(x =>
+                x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
+                x.Project.ProjectStage.ShouldShowOnMap() &&
+                x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID).Select(x => x.Project).ToList();
 
-            var leadImplementerProposedProjects = organization.ProposedProjectOrganizations
+            var leadImplementerProjects = organization.ProjectOrganizations
                 .Where(x => x.RelationshipType.IsPrimaryContact &&
-                            x.ProposedProject.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
-                            x.ProposedProject.ProjectStage.ShouldShowOnMap()).Select(x => x.ProposedProject).ToList();
+                            x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
+                            x.Project.ProjectStage.ShouldShowOnMap() &&
+                            x.Project.ProjectStageID == ProjectStage.Proposal.ProjectStageID).Select(x => x.Project)
+                .ToList();
 
-            var relatedProposedProjectsThatAreNotInLeadImplementerProposedProjects = relatedProposedProjects.Where(x => leadImplementerProposedProjects.All(y => y.ProposedProjectID != x.ProposedProjectID));
+            var relatedProjectsThatAreNotInLeadImplementerProjects = relatedProjects.Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
 
             var featureCollection = new FeatureCollection();
-            AddToProjectsFeatureCollection(featureCollection, relatedProposedProjectsThatAreNotInLeadImplementerProposedProjects, "#dbbdff");
-            AddToProjectsFeatureCollection(featureCollection, leadImplementerProposedProjects, "#ae6bff");
+            AddToProjectsFeatureCollection(featureCollection, relatedProjectsThatAreNotInLeadImplementerProjects, "#dbbdff");
+            AddToProjectsFeatureCollection(featureCollection, leadImplementerProjects, "#ae6bff");
 
-            return new LayerGeoJson("ProposedProjects", featureCollection, "purple", 1, LayerInitialVisibility.Show);
+            return new LayerGeoJson("Proposals", featureCollection, "purple", 1, LayerInitialVisibility.Show);
         }
 
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
         {
-            var relatedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
-            
+            var relatedProjects = organization.GetAllProjectOrganizations().Where(x =>
+                x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
+                x.Project.ProjectStage.ShouldShowOnMap() &&
+                x.Project.ProjectStageID != ProjectStage.Proposal.ProjectStageID).Select(x => x.Project).ToList();
+
             var leadImplementerProjects = organization.ProjectOrganizations
                 .Where(x => x.RelationshipType.IsPrimaryContact &&
                             x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None &&
-                            x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
+                            x.Project.ProjectStage.ShouldShowOnMap() &&
+                            x.Project.ProjectStageID != ProjectStage.Proposal.ProjectStageID).Select(x => x.Project)
+                .ToList();
 
             var relatedProjectsThatAreNotInLeadImplementerProjects = relatedProjects.Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
 

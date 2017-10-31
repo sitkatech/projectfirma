@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -130,17 +129,9 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
 
-            List<ProposedProject> watershedAssociatedProposedProjectsToShow;
-            if (!IsCurrentUserAnonymous() && MultiTenantHelpers.IncludeProposedProjectsOnMap())
-            {
-                watershedAssociatedProposedProjectsToShow = watershed.AssociatedProposedProjects;
-            }
-            else
-            {
-                watershedAssociatedProposedProjectsToShow = new List<ProposedProject>();
-            }
+            var watershedAssociatedProposalsToShow = !HideProposals ? watershed.AssociatedProposals : new List<Project>();
 
-            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposedProjectsToShow);
+            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposalsToShow);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));

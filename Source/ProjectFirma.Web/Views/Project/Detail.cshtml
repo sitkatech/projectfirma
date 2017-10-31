@@ -77,6 +77,60 @@
     <a class="btn backButton" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Projects</a>
 </div>
 
+@if (ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
+{
+    <div class="alert alert-info" style="margin-bottom: 10px">
+        <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.Proposal.GetFieldDefinitionLabel()"></span>
+        @switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
+        {
+            case ProjectApprovalStatusEnum.Draft:
+                <span>
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
+                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">finalize the Project Proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
+            case ProjectApprovalStatusEnum.Returned:
+                <span>
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() was submitted, but returned, and may need further attention.
+                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">finalize the Project Proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
+            case ProjectApprovalStatusEnum.PendingApproval:
+                <span>
+                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() is awaiting review.
+                    @if (ViewDataTyped.CurrentPersonIsApprover)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
+                    }
+                    else if (ViewDataTyped.CurrentPersonIsSubmitter)
+                    {
+                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">make changes or withdraw your proposal</a> at any time.</span>
+                    }
+                </span>
+                break;
+            case ProjectApprovalStatusEnum.Approved:
+                @*Should never get here*@
+                <span>
+                    This proposal was accepted by the review and is now an <a href="@ViewDataTyped.Project.GetDetailUrl()">approved Project</a>.
+                </span>
+                break;
+            case ProjectApprovalStatusEnum.Rejected:
+                <span>
+                    This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.Proposal.GetFieldDefinitionLabel().
+                </span>
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    </div>
+}
+
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
 {
     <div class="alert alert-warning" style="margin-bottom: 10px">
@@ -241,7 +295,7 @@
                         </div>*@
 
                         <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions)
+                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
@@ -277,7 +331,14 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData); }
+                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                {
+                                    PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                                }
+                                else
+                                {
+                                    <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
+                                }
                             </div>
                         </div>
 
@@ -297,7 +358,14 @@
                                 </h2>
                             </div>
                             <div class="panel-body">
-                                @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }
+                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                {
+                                    ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                                }
+                                else
+                                {
+                                    <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
+                                }
                             </div>
                         </div>
 

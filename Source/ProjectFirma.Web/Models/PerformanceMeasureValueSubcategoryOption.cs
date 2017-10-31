@@ -68,12 +68,6 @@ namespace ProjectFirma.Web.Models
             return allPossiblePerformanceMeasureActualUpdateSubcategoryOptions;
         }
 
-        public static List<PerformanceMeasureExpectedSubcategoryOptionSimple> GetAllPossibleSubcategoryOptions(PerformanceMeasureExpectedProposed performanceMeasureExpectedProposed)
-        {
-            var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureExpectedProposed);
-            return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureExpectedSubcategoryOptionSimple(x, performanceMeasureExpectedProposed)).ToList();
-        }
-
         public static List<PerformanceMeasureExpectedSubcategoryOptionSimple> GetAllPossibleSubcategoryOptions(PerformanceMeasureExpected performanceMeasureExpected)
         {
             var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureExpected);

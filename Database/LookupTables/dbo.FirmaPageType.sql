@@ -29,7 +29,7 @@ values
 (34, 'Taxonomy', 'Taxonomy', 1),
 (36, 'TagList', 'Tag List', 1),
 (37, 'SpendingByPerformanceMeasureByProject', 'Spending by Performance Measure by Project', 1),
-(38, 'ProposedProjects', 'Proposed Projects', 1),
+(38, 'Proposals', 'Proposals', 1),
 (39, 'MyOrganizationsProjects', 'My Organization''s Projects', 1),
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1),
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1),

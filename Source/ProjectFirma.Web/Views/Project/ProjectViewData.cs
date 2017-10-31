@@ -18,7 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -26,6 +30,8 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly Models.Project Project;
         public readonly ProjectUpdateState LatestUpdateState;
+        public readonly bool CurrentPersonIsApprover;
+        public readonly bool CurrentPersonIsSubmitter;
 
         protected ProjectViewData(Person currentPerson, Models.Project project) : base(currentPerson, null)
         {
@@ -33,6 +39,12 @@ namespace ProjectFirma.Web.Views.Project
             HtmlPageTitle = project.ProjectName;
             EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             LatestUpdateState = project.GetLatestUpdateState();
-        }        
+            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
+            CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
+
+            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+        }
+
+        public string ProposalBasicsUrl { get; set; }
     }
 }
