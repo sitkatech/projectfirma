@@ -40,7 +40,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x=>x.ProjectStageID != ProjectStage.Proposal.ProjectStageID).Distinct(new HavePrimaryKeyComparer<Project>())
+                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.IsActiveProject())
+                    .Distinct(new HavePrimaryKeyComparer<Project>())
                     .OrderBy(x => x.DisplayName).ToList();
             }
         }
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.IsActiveProposal())
                     .Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList();
             }
         }

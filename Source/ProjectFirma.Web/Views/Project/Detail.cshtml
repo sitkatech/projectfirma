@@ -76,13 +76,13 @@
 
 <div>
     @{
-        var projectsUrl = ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
-        var backText = ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal ? "Back to all Proposals" : "Back to all Projects";
+        var projectsUrl = ViewDataTyped.Project.IsActiveProposal() ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
+        var backText = ViewDataTyped.Project.IsActiveProposal() ? "Back to all Proposals" : "Back to all Projects";
         <a class="btn backButton" href="@projectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @backText</a>
     }
 </div>
 
-@if (ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
+@if (ViewDataTyped.Project.IsActiveProposal())
 {
     <div class="alert alert-info" style="margin-bottom: 10px">
         <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.Proposal.GetFieldDefinitionLabel()"></span>
@@ -300,7 +300,7 @@
                         </div>*@
 
                         <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.ProjectStage == ProjectStage.Proposal)
+                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.IsActiveProposal())
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
@@ -336,13 +336,13 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                @if (ViewDataTyped.Project.IsActiveProposal())
                                 {
-                                    PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                                    <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
                                 }
                                 else
                                 {
-                                    <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
+                                    PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
                                 }
                             </div>
                         </div>
@@ -363,13 +363,13 @@
                                 </h2>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.Project.ProjectStage != ProjectStage.Proposal)
+                                @if (ViewDataTyped.Project.IsActiveProposal())
                                 {
-                                    ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                                    <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
                                 }
                                 else
                                 {
-                                    <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
+                                    ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
                                 }
                             </div>
                         </div>

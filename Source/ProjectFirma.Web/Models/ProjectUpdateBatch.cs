@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
         private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
                                                     IsProjectLocationSimpleValid();
 
-        public bool InEditableState => Project.ProjectStage != ProjectStage.Proposal && (IsCreated || IsReturned);
+        public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {

@@ -29,7 +29,6 @@ namespace ProjectFirma.Web.Models
     public static partial class DatabaseContextExtensions
     {
         public static List<Project> GetProjectsWithGeoSpatialProperties(this IQueryable<Project> projects,
-            List<Watershed> watersheds,
             Func<Project, bool> filterFunction,
             List<StateProvince> stateProvinces)
         {

@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (ProjectStage == ProjectStage.Proposal)
+                if (IsProposal())
                 {
                     return false;
                 }
@@ -438,6 +438,22 @@ namespace ProjectFirma.Web.Models
                     });
             }
             return googlePieChartSlices;
+        }
+
+        public bool IsActiveProject()
+        {
+            return ProjectStage != ProjectStage.Proposal && ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+        }
+
+        public bool IsActiveProposal()
+        {
+            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Rejected;
+        }
+
+        private bool IsProposal()
+        {
+            return ProjectStage == ProjectStage.Proposal &&
+                   ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
     }
 }

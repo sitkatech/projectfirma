@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.DisplayName}");
             }
 
-            if (contextModelObject.ProjectStage == ProjectStage.Proposal && !MultiTenantHelpers.ShowProposalsToThePublic() && ( person.IsAnonymousUser || person.Role == Role.Unassigned))
+            if (contextModelObject.IsActiveProposal() && !MultiTenantHelpers.ShowProposalsToThePublic() && ( person.IsAnonymousUser || person.Role == Role.Unassigned))
             {
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
             }

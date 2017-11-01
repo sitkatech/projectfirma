@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Security
     {
         public new PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            if (contextModelObject.ProjectStage == ProjectStage.Proposal)
+            if (contextModelObject.IsActiveProposal())
             {
                 return new PermissionCheckResult(
                     $"Reported {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Proposal stage.");

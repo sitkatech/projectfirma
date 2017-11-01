@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
@@ -36,7 +35,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            if (contextModelObject.ProjectStage == ProjectStage.Proposal)
+            if (contextModelObject.IsActiveProposal())
             {
                 return new PermissionCheckResult(
                     $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
