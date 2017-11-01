@@ -19,16 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
     {
-        
-
-        public static readonly List<ProjectStage> AllPlusProposed = new List<ProjectStage> { Proposal, PlanningDesign, Implementation, Completed, Terminated, Deferred, PostImplementation };
-
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
 

@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             var exceptProposals = !hideProposals ? new List<ProjectStage>()
                 : new List<ProjectStage> { ProjectStage.Proposal};
-            var projectStagesForMap = (ProjectStage.AllPlusProposed.Where(x => x.ShouldShowOnMap()))
+            var projectStagesForMap = ProjectStage.All.Where(x => x.ShouldShowOnMap())
                 .Except(exceptProposals).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;
         }
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static List<IMappableProject> ProjectsForMap(bool hideProposals)
         {
             var exceptProposals = hideProposals
-                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsActiveProposal())
+                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
                     .ToList()
                 : new List<Models.Project>();
             var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Except(exceptProposals));
