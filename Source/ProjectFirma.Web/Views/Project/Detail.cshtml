@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
@@ -344,6 +345,40 @@
                                 {
                                     PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
                                 }
+                            </div>
+                        </div>
+                        
+                        <h2 class="sectionHeader">Expected Funding</h2>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default panelLTInfo">
+                                    <div class="panel-heading">
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                                        Expected Funding
+                                    </div>
+                                    <div class="panel-body">
+                                            <div class="row">
+                                                <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</label>
+                                                <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</label>
+                                                <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</label>
+                                                <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
+                                                @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
+                                                {
+                                                    <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))</div>
+                                                }
+                                            </div>
+                                            <hr />
+                                            {
+                                                ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
+                                            }
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

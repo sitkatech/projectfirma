@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            SecuredFunding = project.SecuredFunding;
+            SecuredFunding = project.GetSecuredFunding();
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
         }

@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             FundingTypeID = project.FundingTypeID;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
-            SecuredFunding = project.SecuredFunding;
+            SecuredFunding = project.GetSecuredFunding();
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;

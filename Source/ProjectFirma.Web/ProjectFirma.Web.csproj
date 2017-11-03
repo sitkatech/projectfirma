@@ -334,6 +334,7 @@
     <Compile Include="Controllers\GoogleChartController.cs" />
     <Compile Include="Models\FundingType.cs" />
     <Compile Include="Models\FundingTypeData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\IFundingSourceRequestAmount.cs" />
     <Compile Include="Models\IMappableProject.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
@@ -349,6 +350,8 @@
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
+    <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
+    <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectUpdate\Watershed.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedViewData.cs" />
@@ -1328,6 +1331,7 @@
     <Content Include="Views\ProjectCreate\Watershed.cshtml" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
+    <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

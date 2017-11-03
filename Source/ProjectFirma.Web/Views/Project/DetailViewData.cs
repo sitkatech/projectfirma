@@ -201,5 +201,7 @@ namespace ProjectFirma.Web.Views.Project
 
             Tenant = tenant;
         }
+
+        public string EditExpectedFundingUrl { get; set; }
     }
 }

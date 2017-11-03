@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             CompletionYear = project.CompletionYear;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
-            SecuredFunding = project.SecuredFunding;
+            SecuredFunding = project.GetSecuredFunding();
             HasExistingProjectUpdate = hasExistingProjectUpdate;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
         }
