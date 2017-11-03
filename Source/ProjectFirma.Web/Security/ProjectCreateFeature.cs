@@ -53,17 +53,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
             }
 
-            if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
-            {
-                return new PermissionCheckResult("This proposal has already been approved.");
-            }
-
-            if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
-            {
-                return new PermissionCheckResult("This proposal has already been Rejected.");
-            }
-
-                return new PermissionCheckResult();
+            return new PermissionCheckResult();
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectCreateController : FirmaBaseController
     {
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ViewResult Instructions(int? projectID)
+        public ActionResult Instructions(int? projectID)
         {
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.ProposeProjectInstructions);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ViewResult CreateAndEditBasics()
+        public ActionResult CreateAndEditBasics()
         {
             return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.Organization), null);
         }
@@ -90,8 +90,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new BasicsViewModel(project);
             return ViewEditBasics(projectPrimaryKey, viewModel);
@@ -213,8 +214,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [PerformanceMeasureExpectedProposedFeature]
-        public ViewResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new ExpectedPerformanceMeasureValuesViewModel(project);
             return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
@@ -259,8 +261,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var projectClassificationSimples = GetProjectClassificationSimples(project);
 
@@ -317,8 +320,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var projectAssessmentQuestionSimples = GetProjectAssessmentQuestionSimples(project);
 
@@ -370,8 +374,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new LocationSimpleViewModel(project);
             return ViewEditLocationSimple(project, viewModel);
@@ -420,8 +425,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new LocationDetailedViewModel();
             return ViewEditLocationDetailed(project, viewModel);
@@ -573,8 +579,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;            
             var viewModel = new WatershedViewModel(project);
             return ViewEditWatershed(project, viewModel);
@@ -625,8 +632,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
@@ -727,8 +735,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
+            if (projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved ||projectPrimaryKey.EntityObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected){return RedirectToAction(new SitkaRoute<ProjectCreateController>(t => t.Instructions(projectPrimaryKey.PrimaryKeyValue)));}
             var project = projectPrimaryKey.EntityObject;
             var viewData = BuildImageGalleryViewData(project, CurrentPerson);
             return RazorView<Photos, PhotoViewData>(viewData);

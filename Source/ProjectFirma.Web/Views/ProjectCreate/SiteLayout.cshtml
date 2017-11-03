@@ -46,6 +46,20 @@ Source code is available upon request via <support@sitkatech.com>.
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
+@if (!ViewDataTyped.ProjectStateIsValidInWizard)
+{
+    <div class="alert alert-info" style="margin-bottom: 10px">
+        @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
+        {
+            <span>This @FieldDefinition.Project.GetFieldDefinitionLabel() has been approved and can no longer be edited through this wizard.</span>
+        }
+        @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
+        {
+            <span>This @FieldDefinition.Project.GetFieldDefinitionLabel() has been rejected and can no longer be edited through this wizard.</span>
+        }
+    </div>
+}
+
 <div id="projectWizardContent" class="row">
     <div id="tab-container" class="col-sm-4 col-md-3">
         <ol>
@@ -56,15 +70,26 @@ Source code is available upon request via <support@sitkatech.com>.
                 <hr class="navMenu" />
             </li>
             <li value="1" class="@SetSelectedSectionStyle(ProposalSectionEnum.Basics, ViewDataTyped.SelectedProposalSection)">
-                <a href="@ViewDataTyped.ProposalBasicsUrl">Basics</a>
+                @if (ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    <a href="@ViewDataTyped.ProposalBasicsUrl">Basics</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Basics")
+                }
                 <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationSimple, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalLocationSimpleUrl">Location - Simple</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Location - Simple")
                 }
                 else
                 {
@@ -75,9 +100,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalLocationDetailedUrl">Location - Detailed</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Location - Detailed")
                 }
                 else
                 {
@@ -85,9 +114,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </li>            
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Watershed, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized())
                 }
                 else
                 {
@@ -98,9 +131,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
             </li>            
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())
                 }
                 else
                 {
@@ -111,9 +148,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Classifications, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(ViewDataTyped.ClassificationDisplayNamePluralized)
                 }
                 else
                 {
@@ -127,9 +168,13 @@ Source code is available upon request via <support@sitkatech.com>.
             @if (ViewDataTyped.HasAssessments)
             {
                 <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Assessment, ViewDataTyped.SelectedProposalSection)">
-                    @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                    @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                     {
                         <a href="@ViewDataTyped.ProposalAssessmentUrl">Assessment</a>
+                    }
+                    else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                    {
+                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Assessment")
                     }
                     else
                     {
@@ -142,9 +187,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 </li>
             }
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Photos, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalPhotosUrl">Photos</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Photos")
                 }
                 else
                 {
@@ -152,9 +201,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Notes, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
+                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
                     <a href="@ViewDataTyped.ProposalNotesUrl">Notes</a>
+                }
+                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Notes")
                 }
                 else
                 {
