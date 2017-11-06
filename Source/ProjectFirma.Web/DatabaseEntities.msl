@@ -616,6 +616,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFundingSourceRequest">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceRequest">
+        <MappingFragment StoreEntitySet="ProjectFundingSourceRequest">
+          <ScalarProperty Name="ProjectFundingSourceRequestID" ColumnName="ProjectFundingSourceRequestID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="SecuredAmount" ColumnName="SecuredAmount" />
+          <ScalarProperty Name="UnsecuredAmount" ColumnName="UnsecuredAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectImage">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImage">
         <MappingFragment StoreEntitySet="ProjectImage">

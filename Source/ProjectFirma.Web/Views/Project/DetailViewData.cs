@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Tag;
 
@@ -111,7 +112,7 @@ namespace ProjectFirma.Web.Views.Project
             //ProjectBudgetDetailViewData projectBudgetDetailViewData, 
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //string editProjectBudgetUrl, 
-            Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl, string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl, PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, string editReportedExpendituresUrl, string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData, Models.Tenant tenant)
+            Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl, string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl, PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, string editReportedExpendituresUrl, string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData, Models.Tenant tenant, ProjectFundingDetailViewData projectFundingDetailViewData)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -200,8 +201,10 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStewardCannotEditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
 
             Tenant = tenant;
+            ProjectFundingDetailViewData = projectFundingDetailViewData;
         }
 
-        public string EditExpectedFundingUrl { get; set; }
+        public readonly string EditExpectedFundingUrl;
+        public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
     }
 }
