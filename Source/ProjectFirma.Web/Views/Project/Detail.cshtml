@@ -43,6 +43,7 @@
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/ProjectFundingSourceRequest/ProjectFundingSourceRequestController.js")" type="text/javascript"></script>
     @*TODO: Neutered per #1136; most likely will bring back when BOR project starts
     <script src="@Url.Content("~/Views/ProjectBudget/ProjectBudgetController.js")" type="text/javascript"></script>*@
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
@@ -352,7 +353,7 @@
                         <h2 class="sectionHeader">Expected Funding</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions && false)
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions)
                                 Expected Funding
                             </div>
                             <div class="panel-body">

@@ -104,6 +104,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string EditProjectWatershedFormID;
         public readonly string ProjectStewardCannotEditUrl;
 
+        public readonly string EditExpectedFundingUrl;
+        public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
+
         public readonly Models.Tenant Tenant;
 
         //TODO: Inline all url parameters
@@ -157,6 +160,9 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
             UserHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
+            
+            ProjectFundingDetailViewData = projectFundingDetailViewData;
+            EditExpectedFundingUrl = SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceRequestsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
@@ -201,10 +207,6 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStewardCannotEditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
 
             Tenant = tenant;
-            ProjectFundingDetailViewData = projectFundingDetailViewData;
         }
-
-        public readonly string EditExpectedFundingUrl;
-        public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
     }
 }
