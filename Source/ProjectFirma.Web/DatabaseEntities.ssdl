@@ -1175,7 +1175,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="ImplementationStartYear" Type="int" />
     <Property Name="CompletionYear" Type="int" />
     <Property Name="EstimatedTotalCost" Type="money" />
-    <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="varchar" MaxLength="4000" />
     <Property Name="IsFeatured" Type="bit" Nullable="false" />

@@ -1158,7 +1158,6 @@
     <Property Name="ImplementationStartYear" Type="Int32" />
     <Property Name="CompletionYear" Type="Int32" />
     <Property Name="EstimatedTotalCost" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="SecuredFunding" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="ProjectLocationPoint" Type="Geometry" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="IsFeatured" Type="Boolean" Nullable="false" />

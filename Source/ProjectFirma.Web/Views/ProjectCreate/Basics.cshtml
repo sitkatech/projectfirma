@@ -105,12 +105,6 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.TextBoxFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
         </div>
-    </div><div class="row">
-        <div class="col-md-4 col-lg-4 cap-label">@Html.LabelWithSugarFor(m => m.SecuredFunding)</div>
-        <div class="col-md-4">
-            @Html.TextBoxFor(m => m.SecuredFunding, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.SecuredFunding)
-        </div>
     </div>
 
     <div class="row">
@@ -157,14 +151,12 @@ Source code is available upon request via <support@sitkatech.com>.
         var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
         if (fundingTypeDropdown.val() == 1) {
             jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
-            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', false);
             jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
             jQuery(".op-label").css("color", "#666");
             jQuery(".cap-label").css("color", "");
         }
         else if (fundingTypeDropdown.val() == 2) {
             jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
-            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', true);
             jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
             jQuery(".op-label").css("color", "");
             jQuery(".cap-label").css("color", "#666");

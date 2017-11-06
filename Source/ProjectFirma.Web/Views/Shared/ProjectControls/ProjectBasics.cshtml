@@ -107,7 +107,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                 </div>
                 <div class="col-xs-6">
-                    @ViewDataTyped.Project.SecuredFunding.ToStringCurrency()
+                    @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
                 </div><div class="row">
                 </div>
                 <div class="col-xs-6">
