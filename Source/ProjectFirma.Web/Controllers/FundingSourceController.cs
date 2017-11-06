@@ -153,8 +153,15 @@ namespace ProjectFirma.Web.Controllers
             // Which makes this guy bork (bork bork bork)
             googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
+            var projectFundingSourceRequestsGridSpec = new ProjectFundingSourceRequestsGridSpec()
+            {
+                ObjectNameSingular = "Project",
+                ObjectNamePlural = "Projects",
+                SaveFiltersInCookie = true
+            };
+
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData);
+            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceRequestsGridSpec);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -211,6 +218,16 @@ namespace ProjectFirma.Web.Controllers
             gridSpec = new ProjectCalendarYearExpendituresGridSpec(calendarYearRangeForExpenditures);
             return ProjectCalendarYearExpenditure.CreateFromProjectsAndCalendarYears(projectFundingSourceExpenditures,
                 calendarYearRangeForExpenditures);
+        }
+
+        [FundingSourceViewFeature]
+        public GridJsonNetJObjectResult<ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        {
+            var fundingSource = fundingSourcePrimaryKey.EntityObject;
+            var projectFundingSourceRequests = fundingSource.ProjectFundingSourceRequests.ToList();
+            var gridSpec = new ProjectFundingSourceRequestsGridSpec();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceRequest>(projectFundingSourceRequests, gridSpec);
+            return gridJsonNetJObjectResult;
         }
     }
 }
