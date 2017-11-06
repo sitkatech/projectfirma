@@ -627,6 +627,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFundingSourceRequestUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceRequestUpdate">
+        <MappingFragment StoreEntitySet="ProjectFundingSourceRequestUpdate">
+          <ScalarProperty Name="ProjectFundingSourceRequestUpdateID" ColumnName="ProjectFundingSourceRequestUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="SecuredAmount" ColumnName="SecuredAmount" />
+          <ScalarProperty Name="UnsecuredAmount" ColumnName="UnsecuredAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectImage">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImage">
         <MappingFragment StoreEntitySet="ProjectImage">
@@ -802,6 +814,8 @@
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
           <ScalarProperty Name="WatershedComment" ColumnName="WatershedComment" />
+          <ScalarProperty Name="ExpectedFundingComment" ColumnName="ExpectedFundingComment" />
+          <ScalarProperty Name="ExpectedFundingDiffLog" ColumnName="ExpectedFundingDiffLog" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

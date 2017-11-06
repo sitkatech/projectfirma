@@ -126,6 +126,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get { return AllProjectFundingSourceExpenditureUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceRequest> AllProjectFundingSourceRequests { get; set; }
         public virtual IQueryable<ProjectFundingSourceRequest> ProjectFundingSourceRequests { get { return AllProjectFundingSourceRequests.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectFundingSourceRequestUpdate> AllProjectFundingSourceRequestUpdates { get; set; }
+        public virtual IQueryable<ProjectFundingSourceRequestUpdate> ProjectFundingSourceRequestUpdates { get { return AllProjectFundingSourceRequestUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImage> AllProjectImages { get; set; }
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
@@ -410,6 +412,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectFundingSourceRequest":
                     return ProjectFundingSourceRequests.GetProjectFundingSourceRequest(primaryKey);
+
+                case "ProjectFundingSourceRequestUpdate":
+                    return ProjectFundingSourceRequestUpdates.GetProjectFundingSourceRequestUpdate(primaryKey);
 
                 case "ProjectImage":
                     return ProjectImages.GetProjectImage(primaryKey);

@@ -19,13 +19,13 @@
             SecuredAmount = projectFundingSourceRequest.SecuredAmount;
         }
 
-        //public ProjectFundingSourceRequestSimple(ProjectFundingSourceRequestUpdate projectFundingSourceRequestUpdate)
-        //{
-        //    ProjectID = projectFundingSourceRequestUpdate.ProjectUpdateBatchID;
-        //    FundingSourceID = projectFundingSourceRequestUpdate.FundingSourceID;
-        //    UnsecuredAmount = projectFundingSourceRequestUpdate.UnsecuredAmount;
-        //    SecuredAmount = projectFundingSourceRequestUpdate.SecuredAmount;
-        //}
+        public ProjectFundingSourceRequestSimple(ProjectFundingSourceRequestUpdate projectFundingSourceRequestUpdate)
+        {
+            ProjectID = projectFundingSourceRequestUpdate.ProjectUpdateBatchID;
+            FundingSourceID = projectFundingSourceRequestUpdate.FundingSourceID;
+            UnsecuredAmount = projectFundingSourceRequestUpdate.UnsecuredAmount;
+            SecuredAmount = projectFundingSourceRequestUpdate.SecuredAmount;
+        }
 
         public ProjectFundingSourceRequest ToProjectFundingSourceRequest()
         {
@@ -37,10 +37,10 @@
         public decimal? SecuredAmount { get; set; }
         public decimal? UnsecuredAmount { get; set; }
 
-        //public ProjectFundingSourceRequestUpdate ToProjectFundingSourceRequestUpdate()
-        //{
-        //    return new ProjectFundingSourceRequestUpdate(ProjectID, FundingSourceID, SecuredAmount ?? 0, UnsecuredAmount ?? 0);
-        //}
+        public ProjectFundingSourceRequestUpdate ToProjectFundingSourceRequestUpdate()
+        {
+            return new ProjectFundingSourceRequestUpdate(ProjectID, FundingSourceID, SecuredAmount ?? 0, UnsecuredAmount ?? 0);
+        }
 
         public bool AreBothValuesZeroOrEmpty()
         {

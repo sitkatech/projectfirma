@@ -51,6 +51,7 @@
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditureUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceRequest" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequest" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequestUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProjectLocation" store:Type="Tables" Schema="dbo" />
@@ -391,6 +392,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_ProjectFundingSourceRequest_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceRequest_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectFundingSourceRequests" EntitySet="ProjectFundingSourceRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID">
+      <End Role="FundingSource" EntitySet="FundingSource" />
+      <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -783,6 +792,8 @@ warning 6035: The relationship 'FK_ProjectBudget_FundingSource_FundingSourceID_T
 warning 6035: The relationship 'FK_ProjectBudgetUpdate_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingSourceRequest_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="FundingSource">
     <Key>
@@ -1152,6 +1163,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Project_ProjectID_Tenan
 warning 6035: The relationship 'FK_ProjectExemptReportingYear_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStaging_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1308,6 +1320,17 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="SecuredAmount" Type="money" Nullable="false" />
     <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
   </EntityType>
+  <EntityType Name="ProjectFundingSourceRequestUpdate">
+    <Key>
+      <PropertyRef Name="ProjectFundingSourceRequestUpdateID" />
+    </Key>
+    <Property Name="ProjectFundingSourceRequestUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
+    <Property Name="FundingSourceID" Type="int" Nullable="false" />
+    <Property Name="SecuredAmount" Type="money" Nullable="false" />
+    <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
+  </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
@@ -1457,6 +1480,7 @@ warning 6035: The relationship 'FK_ProjectBudgetUpdate_ProjectUpdateBatch_Projec
 warning 6035: The relationship 'FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1490,6 +1514,8 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
     <Property Name="ExternalLinksDiffLog" Type="varchar(max)" />
     <Property Name="NotesDiffLog" Type="varchar(max)" />
     <Property Name="WatershedComment" Type="varchar" MaxLength="1000" />
+    <Property Name="ExpectedFundingComment" Type="varchar" MaxLength="1000" />
+    <Property Name="ExpectedFundingDiffLog" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
@@ -2642,6 +2668,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectFundingSourceRequests">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID">
+    <End Role="FundingSource" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="1" />
+    <End Role="ProjectFundingSourceRequestUpdates" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequestUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FundingSource">
+        <PropertyRef Name="FundingSourceID" />
+      </Principal>
+      <Dependent Role="ProjectFundingSourceRequestUpdates">
+        <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectFundingSourceRequestUpdates" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequestUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectFundingSourceRequestUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

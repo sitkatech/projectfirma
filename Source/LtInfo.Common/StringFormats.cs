@@ -121,6 +121,11 @@ namespace LtInfo.Common
             return d.HasValue ? d.Value.ToString("0.00") : "";
         }
 
+        public static string ToIntString(this decimal d)
+        {
+            return d.ToString("0");
+        }
+
         public static string ToDecimalString(this decimal? d, bool isRounded)
         {
             return d.HasValue ?  (isRounded) ? d.Value.ToString("0.00") : d.Value.ToString(CultureInfo.InvariantCulture) : "";

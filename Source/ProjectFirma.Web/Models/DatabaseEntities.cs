@@ -71,7 +71,14 @@ namespace ProjectFirma.Web.Models
 
             var tenantID = tenant.TenantID;
 
-            foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
+            foreach (var entry in addedEntries.Where(entry => entry.Entity is IHaveATenantID))
+            {
+                var haveATenantID = entry.Entity as IHaveATenantID;
+                var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;   
+                Check.Assert(editingCurrentTenant, "Editing an entity that is not the same tenant: " + entry.Entity);
+            }       
+            
+            foreach (var entry in modifiedEntries.Where(entry => entry.Entity is IHaveATenantID))
             {
                 var haveATenantID = entry.Entity as IHaveATenantID;
                 var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;   

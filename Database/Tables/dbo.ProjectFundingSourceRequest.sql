@@ -26,10 +26,20 @@ REFERENCES [dbo].[FundingSource] ([FundingSourceID])
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [FK_ProjectFundingSourceRequest_FundingSource_FundingSourceID]
 GO
+ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceRequest_FundingSource_FundingSourceID_TenantID] FOREIGN KEY([FundingSourceID], [TenantID])
+REFERENCES [dbo].[FundingSource] ([FundingSourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [FK_ProjectFundingSourceRequest_FundingSource_FundingSourceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceRequest_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [FK_ProjectFundingSourceRequest_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceRequest_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

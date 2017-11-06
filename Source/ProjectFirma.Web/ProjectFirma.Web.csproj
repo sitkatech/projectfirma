@@ -224,6 +224,9 @@
     <Compile Include="Models\Generated\ProjectFundingSourceRequest.Binding.cs" />
     <Compile Include="Models\Generated\ProjectFundingSourceRequest.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectFundingSourceRequestPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectImage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectImagePrimaryKey.Binding.cs" />
@@ -346,6 +349,7 @@
     <Compile Include="Models\NotificationProject.cs" />
     <Compile Include="Models\ProjectFundingSourceRequest.cs" />
     <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
+    <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />
     <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />
@@ -362,6 +366,10 @@
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFunding.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\Watershed.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\WatershedViewData.cs" />
@@ -369,6 +377,7 @@
     <Compile Include="Views\ProjectCreate\Watershed.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewData.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewModel.cs" />
+    <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -394,6 +403,8 @@
     <Compile Include="Views\Shared\GooglePieChartConfiguration.cs" />
     <Compile Include="Views\Shared\GooglePieChartSlice.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureChartDataSimple.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
@@ -1326,6 +1337,7 @@
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
     <Content Include="Views\ProjectFundingSourceRequest\ProjectFundingSourceRequestController.js" />
+    <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
@@ -1344,6 +1356,8 @@
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

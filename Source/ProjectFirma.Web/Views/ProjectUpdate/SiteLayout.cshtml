@@ -110,6 +110,13 @@ Source code is available upon request via <support@sitkatech.com>.
                     </span>
                 }
             </li>
+
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateExpectedFundingUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
+                    Expected Funding
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsExpectedFundingUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+            </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Expenditures, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateExpendituresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     Expenditures

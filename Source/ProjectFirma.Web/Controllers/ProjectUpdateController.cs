@@ -44,8 +44,10 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Controllers
@@ -56,6 +58,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
+        public const string ProjectExpectedFundingPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectFundingRequestsDetail.cshtml";
         public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
@@ -483,6 +486,98 @@ namespace ProjectFirma.Web.Controllers
             var viewData =
                 new ConfirmDialogFormViewData(
                     $"Are you sure you want to refresh the expenditures for this {FieldDefinition.Project.GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and use the updated start and completion years from the Basics section. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateFeature]
+        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var projectFundingSourceRequestUpdates = projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList();
+            var viewModel = new ExpectedFundingViewModel(projectFundingSourceRequestUpdates,
+                projectUpdateBatch.ExpectedFundingComment);
+            return ViewExpectedFunding(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (!ModelState.IsValid)
+            {
+                return ViewExpectedFunding(projectUpdateBatch, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequestUpdates.Load();
+            var projectFundingSourceRequestUpdates = projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList();
+            var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequestUpdates.Local;
+            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceRequestUpdates, allProjectFundingSourceExpectedFunding);
+            if (projectUpdateBatch.IsSubmitted)
+            {
+                projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
+            }
+
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.ExpectedFunding(project)));
+        }
+
+        private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
+        {
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ProjectFundingSourceRequests);
+            var estimatedTotalCost = projectUpdateBatch.ProjectUpdate.EstimatedTotalCost ?? 0;
+
+            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
+                allFundingSources,
+                expectedFundingValidationResult,
+                estimatedTotalCost);
+            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(projectUpdateBatch.ProjectFundingSourceRequestUpdates));
+
+            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch));
+            return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateFeature]
+        public PartialViewResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshExpectedFunding(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectFundingSourceRequestUpdates();
+            // refresh data
+            ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshExpectedFunding(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the expected funding for this {FieldDefinition.Project.GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1218,6 +1313,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+            HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
+            var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
             //var allProjectBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Local;
@@ -1248,8 +1345,9 @@ namespace ProjectFirma.Web.Controllers
                 allProjectNotes,
                 allProjectImages,
                 allProjectLocations,
-                allProjectWatersheds);
-            
+                allProjectWatersheds,
+                allProjectFundingSourceRequests);
+
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
 
             NotificationProject.SendApprovalMessage(peopleToCc, projectUpdateBatch);
@@ -1556,11 +1654,10 @@ namespace ProjectFirma.Web.Controllers
             var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.Where(x => viewModel.PersonIDList.Contains(x.PersonID)).ToList();
             var emailsToSendTo = peopleToNotify.Select(x => x.Email).ToList();
             var emailsToReplyTo = new List<string> { FirmaWebConfiguration.DoNotReplyEmail };
-            var emailsToCc = new List<string>();
 
             var message = new MailMessage {Subject = viewModel.Subject, AlternateViews = {AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent ?? string.Empty, null, "text/html")}};
 
-            Notification.SendMessageAndLogNotification(message, emailsToSendTo, emailsToReplyTo, emailsToCc, peopleToNotify, DateTime.Now, new List<Project>(), NotificationType.Custom);
+            Notification.SendMessageAndLogNotification(message, emailsToSendTo, emailsToReplyTo, new List<string>(), peopleToNotify, DateTime.Now, new List<Project>(), NotificationType.Custom);
 
             SetMessageForDisplay($"Custom notification sent to: {string.Join("; ", emailsToSendTo)}");
 
@@ -1583,10 +1680,8 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult SendPreviewOfCustomNotification(CustomNotificationViewModel viewModel)
         {
             var emailsToSendTo = new List<string> {CurrentPerson.Email};
-            var emailsToReplyTo = new List<string>();
-            var emailsToCc = new List<string>();
             var message = new MailMessage { Subject = viewModel.Subject, AlternateViews = { AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent, null, "text/html") } };
-            Notification.SendMessage(message, emailsToSendTo, emailsToReplyTo, emailsToCc);
+            Notification.SendMessage(message, emailsToSendTo, new List<string>(), new List<string>());
             return CreateCustomNotification(viewModel);
         }
 
@@ -1856,6 +1951,59 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData = new Views.Shared.ProjectUpdateDiffControls.ProjectExpendituresSummaryViewData(fundingSourceCalendarYearExpenditures, calendarYearStrings);
             var partialViewAsString = RenderPartialViewToString(ProjectExpendituresPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+
+        [HttpGet]
+        [ProjectUpdateFeature]
+        public PartialViewResult DiffExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffExpectedFundingImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffExpectedFundingImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.DisplayName}");
+            var projectFundingSourceRequestsOriginal = new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests.ToList());
+            var projectFundingSourceRequestsUpdated = new List<IFundingSourceRequestAmount>(projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList());
+            var originalHtml = GeneratePartialViewForOriginalFundingRequests(projectFundingSourceRequestsOriginal, projectFundingSourceRequestsUpdated);
+            var updatedHtml = GeneratePartialViewForModifiedFundingRequests(projectFundingSourceRequestsOriginal, projectFundingSourceRequestsUpdated);
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForOriginalFundingRequests(List<IFundingSourceRequestAmount> projectFundingSourceRequestsOriginal,
+            List<IFundingSourceRequestAmount> projectFundingSourceRequestsUpdated)
+        {
+            var fundingSourcesInOriginal = projectFundingSourceRequestsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesInUpdated = projectFundingSourceRequestsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
+            var fundingSourceRequestAmounts = projectFundingSourceRequestsOriginal.Select(x => new FundingSourceRequestAmount(x)).ToList();
+            fundingSourceRequestAmounts.AddRange(projectFundingSourceRequestsUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
+                new FundingSourceRequestAmount(x.FundingSource, x.SecuredAmount, x.UnsecuredAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
+            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+            return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
+        }
+
+        private string GeneratePartialViewForModifiedFundingRequests(List<IFundingSourceRequestAmount> projectFundingSourceRequestsOriginal,
+            List<IFundingSourceRequestAmount> projectFundingSourceRequestsUpdated)
+        {
+            var fundingSourcesInOriginal = projectFundingSourceRequestsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesInUpdated = projectFundingSourceRequestsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
+            var fundingSourceRequestAmounts = projectFundingSourceRequestsUpdated.Select(x => new FundingSourceRequestAmount(x)).ToList();
+            fundingSourceRequestAmounts.AddRange(projectFundingSourceRequestsOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
+                new FundingSourceRequestAmount(x.FundingSource, x.SecuredAmount, x.UnsecuredAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
+        }
+
+        private string GeneratePartialViewForExpectedFundingAsString(List<FundingSourceRequestAmount> fundingSourceRequestAmounts)
+        {
+            var viewData = new ProjectFundingRequestsDetailViewData(fundingSourceRequestAmounts);
+            var partialViewAsString = RenderPartialViewToString(ProjectExpectedFundingPartialViewPath, viewData);
             return partialViewAsString;
         }
 
@@ -2259,6 +2407,7 @@ namespace ProjectFirma.Web.Controllers
             var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
 //            var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            // ReSharper disable once ConvertToConstant.Local
             var isBudgetsUpdated = false;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
@@ -2269,16 +2418,20 @@ namespace ProjectFirma.Web.Controllers
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            var isExpectedFundingUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
+
             return new UpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 isBudgetsUpdated,
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,
                 isLocationDetailUpdated,
                 isWatershedUpdated,
                 isExternalLinksUpdated,
-                isNotesUpdated);
+                isNotesUpdated,
+                isExpectedFundingUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
