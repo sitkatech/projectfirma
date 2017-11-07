@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         public readonly int? ProjectID;
         public readonly bool UsePanelLayout;
 
-        private EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
+        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
         {
             ProjectID = projectID;
             AllPerformanceMeasures = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
