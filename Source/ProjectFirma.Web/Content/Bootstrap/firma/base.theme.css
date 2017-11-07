@@ -841,6 +841,9 @@ a.disabled {
   margin: 0;
   padding-right: 0;
 }
+#tab-container ul li {
+  list-style-type: none;
+}
 #tab-container ol,
 #tab-container ul {
   list-style-position: inside;
@@ -874,6 +877,7 @@ a.disabled {
   color: #666;
   display: inline-block;
   padding: 5px 0 5px 0;
+  display: block;
 }
 #tab-container ol li.selected,
 #tab-container ul li.selected {

@@ -90,7 +90,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <td style="text-align: right; white-space: nowrap">
                 @using (Html.BeginForm())
                 {
-                    <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue</button>
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ProjectID}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkLabel).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkLabel}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkUrl).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkUrl}}">

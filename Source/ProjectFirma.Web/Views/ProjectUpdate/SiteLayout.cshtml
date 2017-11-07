@@ -49,34 +49,36 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="projectWizardContent" class="row">
     <div id="tab-container" class="col-sm-4 col-md-3">
-        <ol>
-            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Instructions, ViewDataTyped.SelectedProjectUpdateSection)">
+        <ul>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Instructions, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateInstructionsUrl">Instructions</a>
             </li>
             <li style="list-style-type: none">
-                <hr class="navMenu" />
+                <hr class="navMenu"/>
             </li>
             <li value="1" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Basics, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateBasicsUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     Basics
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsBasicsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+
+                    @if (ViewDataTyped.HasUpdateStarted)
+                    {
+                        <span class="pull-right statusIcon">@Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreProjectBasicsValid ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
+                    }
                 </a>
-                @if (ViewDataTyped.HasUpdateStarted)
-                {
-                    <span class="pull-right statusIcon">@Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreProjectBasicsValid ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
-                }
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.LocationSimple, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateLocationSimpleUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     Location - Simple
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationSimpleUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+
+                    @if (ViewDataTyped.HasUpdateStarted)
+                    {
+                        <span class="pull-right statusIcon">
+                            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectLocationSimpleValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                        </span>
+                    }
                 </a>
-                @if (ViewDataTyped.HasUpdateStarted)
-                {
-                    <span class="pull-right statusIcon">
-                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectLocationSimpleValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                }
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.LocationDetailed, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateLocationDetailedUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
@@ -84,31 +86,33 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationDetailUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>
-            
+
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Watershed, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateWatershedUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsWatershedUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+
+                    @if (ViewDataTyped.HasUpdateStarted)
+                    {
+                        <span class="pull-right statusIcon">
+                            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectWatershedValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                        </span>
+                    }
                 </a>
-                @if (ViewDataTyped.HasUpdateStarted)
-                {
-                    <span class="pull-right statusIcon">
-                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectWatershedValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                }
             </li>
 
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+
+                    @if (ViewDataTyped.HasUpdateStarted)
+                    {
+                        <span class="pull-right statusIcon">
+                            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                        </span>
+                    }
                 </a>
-                @if (ViewDataTyped.HasUpdateStarted)
-                {
-                    <span class="pull-right statusIcon">
-                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                }
             </li>
 
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProjectUpdateSection)">
@@ -121,13 +125,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 <a href="@ViewDataTyped.ProjectUpdateExpendituresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     Expenditures
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsExpendituresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+
+                    @if (ViewDataTyped.HasUpdateStarted)
+                    {
+                        <span class="pull-right" style="padding: 5px">
+                            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreExpendituresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                        </span>
+                    }
                 </a>
-                @if (ViewDataTyped.HasUpdateStarted)
-                {
-                    <span class="pull-right" style="padding: 5px">
-                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreExpendituresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                }
             </li>
             @*<li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Budgets, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateBudgetsUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
@@ -159,13 +164,13 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsNotesUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>
-            <li style="list-style-type: none">
-                <hr class="navMenu" />
+            <li>
+                <hr style="height: 1px;" class="navMenu"/>
             </li>
             <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.History, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateHistoryUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">History</a>
             </li>
-        </ol>
+        </ul>
 
     </div>
     <div id="main-container" class="col-sm-8 col-md-9">

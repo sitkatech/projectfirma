@@ -236,14 +236,8 @@ else
                     <hr />
                     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
                     <div class="row">
-                        <div class="col-xs-2">
-                            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
-                            @if (ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated)
-                            {
-                                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
-                            }
-                        </div>
-                        <div class="col-xs-9">
+                        
+                        <div class="col-xs-12">
                             
                             @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                             {
@@ -256,8 +250,18 @@ else
                                 </div>
                             }
                         </div>
-                        <div class="col-xs-1">
-                            <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                            @if (ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated)
+                            {
+                                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            }
+                        </div>
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-xs btn-firma" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
+                            <button type="submit" class="btn btn-xs btn-firma" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue</button>
                         </div>
                     </div>
                     

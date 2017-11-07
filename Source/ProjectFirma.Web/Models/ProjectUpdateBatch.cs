@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Models
         public bool IsReadyToApprove => IsPassingAllValidationRules;
 
         private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
-                                                    IsProjectLocationSimpleValid();
+                                                    IsProjectLocationSimpleValid() && IsProjectWatershedValid();
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
