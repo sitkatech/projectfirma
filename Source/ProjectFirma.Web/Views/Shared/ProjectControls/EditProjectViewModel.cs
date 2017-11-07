@@ -70,9 +70,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
         public Money? EstimatedAnnualOperatingCost { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.SecuredFunding)]
-        public Money? SecuredFunding { get; set; }
-
         public bool HasExistingProjectUpdate { get; set; }
         public int? OldProjectStageID { get; set; }
 
@@ -100,7 +97,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             CompletionYear = project.CompletionYear;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
-            SecuredFunding = project.SecuredFunding;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
         }
@@ -121,14 +117,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
-                project.SecuredFunding = SecuredFunding;
                 project.EstimatedAnnualOperatingCost = null;
 
             }
             else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
             {
                 project.EstimatedTotalCost = null;
-                project.SecuredFunding = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             }
 

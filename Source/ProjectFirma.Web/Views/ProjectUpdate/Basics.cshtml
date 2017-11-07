@@ -138,21 +138,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                     </div>
                     <div class="col-md-3">
-                        @if (ViewDataTyped.IsEditable)
-                        {
-                            @Html.EditorFor(m => m.SecuredFunding)
-                            @Html.ValidationMessageFor(m => m.SecuredFunding)
-                        }
-                        else
-                        {
-                            @ViewDataTyped.ProjectUpdate.SecuredFunding.ToStringCurrency()
-                        }
+                            @ViewDataTyped.ProjectUpdate.GetSecuredFunding().ToStringCurrency()
                     </div>
                     <div class="col-md-3">
                         @Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)
                     </div>
                     <div class="col-md-3">
-                        @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
+                        @ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()
                     </div>
                 </div>
                         break;

@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, string projectWatershedNotes) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, string projectWatershedNotes) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -39,7 +39,6 @@ namespace ProjectFirma.Web.Models
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
             this.EstimatedTotalCost = estimatedTotalCost;
-            this.SecuredFunding = securedFunding;
             this.ProjectLocationPoint = projectLocationPoint;
             this.ProjectLocationNotes = projectLocationNotes;
             this.PlanningDesignStartYear = planningDesignStartYear;
@@ -107,7 +106,6 @@ namespace ProjectFirma.Web.Models
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
-        public decimal? SecuredFunding { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
         public string ProjectLocationNotes { get; set; }
         public int? PlanningDesignStartYear { get; set; }

@@ -256,7 +256,47 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)));
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList());
+            return ViewExpectedFunding(project, viewModel);
+        }
+
+        private ViewResult ViewExpectedFunding(Project project, ExpectedFundingViewModel viewModel)
+        {
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var estimatedTotalCost = project.EstimatedTotalCost ?? 0;
+            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(project, allFundingSources, estimatedTotalCost);
+
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            proposalSectionsStatus.IsExpectedFundingSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
+
+            var viewData = new ExpectedFundingViewData(CurrentPerson, project, proposalSectionsStatus, viewDataForAngularEditor);
+            return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewExpectedFunding(project, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
+            var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
+            var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
+            viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
+            SetMessageForDisplay("Proposed Project Performance Measures successfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)));
         }
 
         [HttpGet]

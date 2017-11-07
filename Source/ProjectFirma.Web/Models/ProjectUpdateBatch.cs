@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Models
 
         public ProjectUpdateHistory LatestProjectUpdateHistorySubmitted => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Submitted);
 
-        public DateTime? LatestSubmittalDate => LatestProjectUpdateHistorySubmitted == null ? null : (DateTime?) LatestProjectUpdateHistorySubmitted.TransitionDate;
+        public DateTime? LatestSubmittalDate => LatestProjectUpdateHistorySubmitted?.TransitionDate;
 
         public ProjectUpdateHistory LatestProjectUpdateHistoryReturned => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Returned);
 
@@ -83,6 +84,9 @@ namespace ProjectFirma.Web.Models
 
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
+
+            // Expected Funding
+            ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
 
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             // project budgets
@@ -192,6 +196,12 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectFundingSourceExpenditureUpdates);
         }
 
+        public void DeleteProjectFundingSourceRequestUpdates()
+        {
+            ProjectFundingSourceRequestUpdates.DeleteProjectFundingSourceRequestUpdate();
+            RefreshFromDatabase(ProjectFundingSourceRequestUpdates);
+        }
+
         public void DeleteProjectBudgetUpdates()
         {
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
@@ -252,7 +262,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(ProjectUpdate projectUpdate)
         {
-            var startYear = projectUpdate == null ? null : projectUpdate.ImplementationStartYear;
+            var startYear = projectUpdate?.ImplementationStartYear;
             return GetYearRangesImpl(projectUpdate, startYear);
         }
 
@@ -261,7 +271,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<int> GetProjectUpdatePlanningDesignStartToCompletionYearRange(ProjectUpdate projectUpdate)
         {
-            var startYear = projectUpdate == null ? null : projectUpdate.PlanningDesignStartYear;
+            var startYear = projectUpdate?.PlanningDesignStartYear;
             return GetYearRangesImpl(projectUpdate, startYear);
         }
 
@@ -289,7 +299,7 @@ namespace ProjectFirma.Web.Models
             }
             return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
                 startYear,
-                projectUpdate == null ? null : projectUpdate.CompletionYear,
+                projectUpdate?.CompletionYear,
                 currentYearToUse,
                 FirmaDateUtilities.MinimumYear,
                 currentYearToUse);
@@ -396,6 +406,16 @@ namespace ProjectFirma.Web.Models
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
             return ValidateExpenditures();
+        }
+
+        public ExpectedFundingValidationResult ValidateExpectedFunding(List<ProjectFundingSourceRequestSimple> newProjectFundingSourceRequests)
+        {
+            // get distinct Funding Sources
+            if (newProjectFundingSourceRequests.Any(x => x.AreBothValuesZeroOrEmpty()))
+            {
+                return new ExpectedFundingValidationResult(FirmaValidationMessages.ExpectedFundingValuesCannotBothBeZeroOrEmpty);
+            }
+            return new ExpectedFundingValidationResult();
         }
 
         public ExpendituresValidationResult ValidateExpenditures()
@@ -529,16 +549,9 @@ namespace ProjectFirma.Web.Models
             CreateNewTransitionRecord(this, ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
-        public void Approve(Person currentPerson, DateTime transitionDate,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        public void Approve(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //IList<ProjectBudget> projectBudgets, 
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectWatershed> projectWatersheds)
+            Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
@@ -551,7 +564,8 @@ namespace ProjectFirma.Web.Models
                 projectNotes,
                 projectImages,
                 projectLocations,
-                projectWatersheds);
+                projectWatersheds,
+                projectFundingSourceRequests);
             CreateNewTransitionRecord(this, ProjectUpdateState.Approved, currentPerson, transitionDate);
             PushTransitionRecordsToAuditLog();
         }
@@ -560,6 +574,7 @@ namespace ProjectFirma.Web.Models
         {
             ProjectUpdateHistories.ForEach(
                 projectUpdateHistory =>
+                    // ReSharper disable once ObjectCreationAsStatement
                     new AuditLog(projectUpdateHistory.UpdatePerson,
                         projectUpdateHistory.TransitionDate,
                         AuditLogEventType.Added,
@@ -569,23 +584,18 @@ namespace ProjectFirma.Web.Models
                         projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID});
         }
 
-        private void CommitChangesToProject(IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        private void CommitChangesToProject(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            IList<ProjectBudget> projectBudgets,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks,
-            IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages,
-            IList<ProjectLocation> projectLocations,
-            IList<ProjectWatershed> projectWatersheds)
+            IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
             // basics
             ProjectUpdate.CommitChangesToProject(Project);
 
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CommitChangesToProject(this, projectFundingSourceExpenditures);
+
+            // expected funding
+            ProjectFundingSourceRequestUpdate.CommitChangesToProject(this, projectFundingSourceRequests);
 
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //  project budgets

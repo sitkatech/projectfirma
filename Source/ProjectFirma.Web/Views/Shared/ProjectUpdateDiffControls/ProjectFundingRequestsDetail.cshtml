@@ -1,0 +1,74 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="ProjectFundingRequestsDetail.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFundingRequestsDetail
+
+<table class="summaryLayout">
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <tr>
+        <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
+        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding)</th>
+        <th style="text-align: right">Total</th>
+    </tr>
+    @foreach (var fundingSourceRequestAmount in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.FundingSourceName))
+    {
+        <tr class="@fundingSourceRequestAmount.DisplayCssClass">
+            <td>@fundingSourceRequestAmount.FundingSource.DisplayNameAsUrl</td>
+            <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
+                <span class="normalDollars">@fundingSourceRequestAmount.SecuredAmount.ToIntString()</span>
+            </td>
+            <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
+                <span class="normalDollars">@fundingSourceRequestAmount.UnsecuredAmount.ToIntString()</span>
+            </td>
+            <th style="text-align: right">
+                <span class="normalDollars">@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.UnsecuredAmount).ToIntString())</span>
+            </th>
+        </tr>
+    }
+    @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
+    {
+        <tr>
+            <th>Total</th>
+            <td style="text-align: right">
+                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToIntString()</span>
+            </td>
+            <td style="text-align: right">
+                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToIntString()</span>
+            </td>
+            <th style="text-align: right">
+                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToIntString()</span>
+            </th>
+        </tr>
+    }
+</table>
+@if (!ViewDataTyped.FundingSourceRequestAmounts.Any())
+{
+    <p class="systemText">No expected funding has been reported for this project.</p>
+}

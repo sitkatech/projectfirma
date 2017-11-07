@@ -12,7 +12,6 @@ CREATE TABLE [dbo].[Project](
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
 	[EstimatedTotalCost] [money] NULL,
-	[SecuredFunding] [money] NULL,
 	[ProjectLocationPoint] [geometry] NULL,
 	[PerformanceMeasureActualYearsExemptionExplanation] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[IsFeatured] [bit] NOT NULL,
@@ -129,10 +128,6 @@ GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_ProjectLocationPoint_IsPointData] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint] IS NOT NULL AND [ProjectLocationPoint].[STGeometryType]()='Point'))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_ProjectLocationPoint_IsPointData]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_SecuredFundingForCapitalProjectsOnly] CHECK  (([FundingTypeID]=(1) OR [SecuredFunding] IS NULL))
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_SecuredFundingForCapitalProjectsOnly]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_TotalCostForCapitalProjectsOnly] CHECK  (([FundingTypeID]=(1) OR [EstimatedTotalCost] IS NULL))
 GO

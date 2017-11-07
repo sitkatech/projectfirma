@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly string ProposalAssessmentUrl;
         public readonly string ProposalNotesUrl;
         public readonly string ProposalPhotosUrl;
+        public readonly string ProposalExpectedFundingUrl;
         public readonly string SubmitUrl;
         public readonly string ApproveUrl;
         public readonly string ReturnUrl;
@@ -96,7 +97,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalAssessmentUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAssessment(project));
             ProposalNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Notes(project.ProjectID));
             ProposalPhotosUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID));
-            
+            ProposalExpectedFundingUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID));
+
             SubmitUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Submit(project));
             ApproveUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Approve(project));
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
@@ -142,5 +144,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
+
+        
     }
 }
