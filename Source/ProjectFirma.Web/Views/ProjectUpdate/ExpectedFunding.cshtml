@@ -184,35 +184,46 @@
                     <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].UnsecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.UnsecuredAmount}}"/>
                 </div>
 
-                <hr/>
-                @if (ViewDataTyped.ShowCommentsEditor)
+                @if (ViewDataTyped.ShowApproveAndReturnButton)
                 {
-                    <div class="form-horizontal">
-                        <div class="form-group form-group-condensed">
-                            <div class="col-sm-2 control-label">
-                                @Html.LabelWithSugarFor(x => x.Comments)
-                            </div>
-                            <div class="col-sm-10">
-                                @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object>() { { "style", "width: 100%" }, { "class", "form-control" } })
-                                @Html.Hidden("Section", ViewDataTyped.CurrentSection)
-                            </div>
+                    <hr />
+                    <div class="row form-group">
+                        <div class="col-md-3">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
+                            @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
                         </div>
                     </div>
                 }
+                <hr />
                 @{ SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData); }
-                <div class="row" style="margin-bottom: 10px">
-                    <div class="col-sm-5">
-                        @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Undo all changes made on this page", 500, "Continue", "Cancel", new List<string> { "btn btn-trpa" }, null, null)
-                        @if (ViewDataTyped.UpdateStatus.IsExpectedFundingUpdated)
-                        {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Expected Funding", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-trpa" }, null, null, null, null)
-                        }
-                    </div>
-                    <div class="col-sm-7 text-right">
-                        <button class="btn btn-trpa" type="submit" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
-                        <button class="btn btn-trpa" type="submit" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
-                    </div>
-                </div>
+                <table class="summaryLayout" style="width: 100%">
+                    <tr>
+                        <td>
+                            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                            @if (ViewDataTyped.UpdateStatus.IsExpectedFundingUpdated)
+                            {
+                                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            }
+                        </td>
+                        <td>
+                            @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
+                            {
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                                            <span data-ng-bind="warning"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        </td>
+                        <td style="text-align: right; white-space: nowrap">
+                            <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
+                        </td>
+                    </tr>
+                </table>
+
             </div>
         }
     }
