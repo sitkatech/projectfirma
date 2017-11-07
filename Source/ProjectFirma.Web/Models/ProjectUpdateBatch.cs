@@ -85,6 +85,9 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
 
+            // Expected Funding
+            ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
+
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             // project budgets
             // ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);

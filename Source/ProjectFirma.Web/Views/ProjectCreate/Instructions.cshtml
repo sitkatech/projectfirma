@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 <hr />
 <div class="pull-right">
-    @if (ViewDataTyped.ProjectStateIsValidInWizard)
+    @if (ViewDataTyped.ProjectStateIsValidInWizard || ViewDataTyped.Project == null)
             {
         <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Continue</a>
     }

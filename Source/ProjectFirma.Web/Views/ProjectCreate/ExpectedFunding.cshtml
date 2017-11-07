@@ -1,0 +1,200 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="ExpectedFunding.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding
+
+@section JavascriptAndStylesContent
+{
+    <script src="@Url.Content("~/Views/ProjectCreate/ExpectedFundingController.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        // <![CDATA[
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+        {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+            };
+        });
+        // ]]>
+    </script>
+
+}
+<p>Enter the expected funding for your project. You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured.</p>
+<p>The Unfunded Need is the difference between the project's Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
+        <div class="form-group">
+            <label class="control-label">Funding Source to Add:</label>
+            <div class="input-group">
+                <select ng-model="FundingSourceToAdd"
+                        data-live-search="true"
+                        data-container="body"
+                        data-title="Select a Funding Source to Add"
+                        data-width="100%" selectpicker
+                        data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
+                    <option value="null" disabled selected>Select a Funding Source to Add</option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-trpa" type="button" ng-click="addRow()">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </span>
+            </div>
+            <p style="font-size: 12px;">
+                Funding Source not listed?
+                @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+            </p>
+        </div>
+        <div style="overflow-x: auto" class="form-inline">
+            <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
+                <tr>
+                    <th></th>
+                    <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding)</th>
+                    <th style="text-align: right">Total</th>
+                </tr>
+                <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
+                    <td>
+                        <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceRequest)" style="cursor: pointer"></span>
+                    </td>
+                    <td ng-bind="getFundingSourceName(projectFundingSourceRequest)"></td>
+                    <td style="text-align: right">
+                        <input type="text" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
+                    </td>
+                    <td style="text-align: right">
+                        <input type="text" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
+                    </td>
+                    <th style="text-align: right" ng-bind="(projectFundingSourceRequest.SecuredAmount + projectFundingSourceRequest.UnsecuredAmount) | nfcurrency"></th>
+                </tr>
+                <tr>
+                    <th colspan="2">Total</th>
+                    <th style="text-align: right" ng-bind="getSecuredTotal() | nfcurrency">
+                    </th>
+                    <th style="text-align: right" ng-bind="getUnsecuredTotal() | nfcurrency">
+                    </th>
+                    <th style="text-align: right" ng-bind="(getSecuredTotal() + getUnsecuredTotal()) | nfcurrency">
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+
+        <div ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.ProjectID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.FundingSourceID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.SecuredAmount}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].UnsecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.UnsecuredAmount}}"/>
+        </div>
+        <hr/>
+
+        <div style="margin: 10px 0px; padding: 5px 10px;">
+            <p>
+                <label class="control-label">Summary of Total Project Costs and Funding:</label>
+            </p>
+            @if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
+                {
+                <table>
+                    <tr>
+                        <td style="width: 200px">
+                            Estimated Annual Operating Cost:
+                        </td>
+                        <td>
+                            <span>@ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Estimated Total Operating Cost:
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost):</div>
+                    <div class="col-sm-3 text-right">
+                        <span ng-bind="AngularViewData.EstimatedTotalCost | nfcurrency"></span>
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding):</div>
+                        <div class="col-sm-3 text-right">
+                            <span ng-bind="getSecuredTotal() | nfcurrency"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed):</div>
+                        <div class="col-sm-3 text-right">
+                            <span ng-bind="(AngularViewData.EstimatedTotalCost - getSecuredTotal()) | nfcurrency"></span>
+                        </div>
+                        <div class="col-sm-6" ng-show="getUnsecuredTotal() > 0">
+                            (<span ng-bind="(getUnsecuredTotal()) | nfcurrency"></span> identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+}
+
+<hr/>
+<div class="pull-right">
+    <button class="btn btn-trpa" type="submit" onclick="saveForm(false)">Save</button>
+    <button class="btn btn-trpa" type="submit" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+</div>
+
+@*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+    });
+
+    function saveForm(autoAdvance) {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+        form.append('<input type="hidden" name="@Html.NameFor(x => x.AutoAdvance)" value=' + autoAdvance + ' />');
+        var noMeasuresDiv = jQuery("#ExplanationForNoMeasuresDiv");
+        noMeasuresDiv.appendTo(form);
+
+        form.submit();
+    }
+
+    // ]]>
+</script>
+

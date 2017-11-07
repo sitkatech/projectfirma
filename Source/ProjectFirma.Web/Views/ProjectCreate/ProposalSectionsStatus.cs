@@ -36,7 +36,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         Assessment,
         Notes,
         History,
-        Photos
+        Photos,
+        ExpectedFunding
     }
 
     public class ProposalSectionsStatus
@@ -49,7 +50,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsClassificationsComplete { get; set; }
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
-        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete;
+        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
+        public bool IsExpectedFundingSectionComplete { get; set; }
 
         public ProposalSectionsStatus(Models.Project proposal)
         {
@@ -66,6 +68,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposal).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
+
+            var efValidationResults = new ExpectedFundingViewModel(proposal.ProjectFundingSourceRequests.ToList())
+                .GetValidationResults();
+            IsExpectedFundingSectionComplete = !efValidationResults.Any();
 
             var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(proposal);
             var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();
