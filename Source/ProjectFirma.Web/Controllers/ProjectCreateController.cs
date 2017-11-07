@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(project, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
             var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
