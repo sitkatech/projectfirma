@@ -60,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <option value="null" disabled selected>Select a Project to Add</option>
                 </select>
                 <span class="input-group-btn">
-                    <button class="btn btn-firma" type="button" ng-click="addRow()">
+                    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </button>
                 </span>
@@ -69,27 +69,24 @@ Source code is available upon request via <support@sitkatech.com>.
     }
     else
     {
-        <div class="form-group">
-            <label class="control-label">Funding Source to Add:</label>
-            <div class="input-group">
+        <div style="display: inline-block; margin-right: 5px;">
+            @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
+        </div>
+        <div style="display: inline-block; vertical-align: top">
+            
                 <select ng-model="FundingSourceToAdd"
-                        data-live-search="true"
-                        data-container="body"
-                        data-title="Select a Funding Source to Add"
-                        data-width="100%" selectpicker
-                        data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
+                        data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID"
+                        style="width: 600px;">
                     <option value="null" disabled selected>Select a Funding Source to Add</option>
                 </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-trpa" type="button" ng-click="addRow()">
+                    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </button>
-                </span>
-            </div>
+            
             <br />
         </div>
     }
-    <table class="dialogFormLayout" style="margin-top: 20px; overflow: scroll; table-layout:fixed" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
+    <table class="dialogFormLayout" style="overflow: hidden; margin-top: 20px; table-layout:fixed" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
         <colgroup>
             <col/>
             <col/>
