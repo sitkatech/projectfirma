@@ -32,7 +32,14 @@ namespace ProjectFirma.Web.Models
         public int EntityID => ProjectUpdateID;
         public string DisplayName => ProjectUpdateBatch.Project.DisplayName;
 
-        public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
+        public decimal? UnfundedNeed => EstimatedTotalCost - GetSecuredFunding();
+
+        public decimal GetSecuredFunding()
+        {
+            return ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Any()
+                ? ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Sum(x => x.SecuredAmount)
+                : 0;
+        }
 
         public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
         {
@@ -49,7 +56,6 @@ namespace ProjectFirma.Web.Models
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            SecuredFunding = project.GetSecuredFunding();
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
         }

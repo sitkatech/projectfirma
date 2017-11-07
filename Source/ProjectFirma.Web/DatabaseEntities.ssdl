@@ -1466,7 +1466,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="ImplementationStartYear" Type="int" />
     <Property Name="CompletionYear" Type="int" />
     <Property Name="EstimatedTotalCost" Type="money" />
-    <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
     <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
     <Property Name="PlanningDesignStartYear" Type="int" />

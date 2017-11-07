@@ -39,7 +39,6 @@ namespace ProjectFirma.Web.Models
                 HasPlanningDesignStartYearChanged() ||
                 HasImplementationStartYearChanged() ||
                 HasCompletionYearChanged() ||
-                HasSecuredFundingChanged() ||
                 HasEstimatedTotalCostChanged() ||
                 HasEstimatedAnnualOperatingCostChanged();
         }
@@ -52,11 +51,6 @@ namespace ProjectFirma.Web.Models
         private bool HasEstimatedTotalCostChanged()
         {
             return OriginalProjectUpdate.EstimatedTotalCost != ModifiedProjectUpdate.EstimatedTotalCost;
-        }
-
-        private bool HasSecuredFundingChanged()
-        {
-            return OriginalProjectUpdate.SecuredFunding != ModifiedProjectUpdate.SecuredFunding;
         }
 
         private bool HasCompletionYearChanged()

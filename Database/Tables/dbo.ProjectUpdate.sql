@@ -11,7 +11,6 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
 	[EstimatedTotalCost] [money] NULL,
-	[SecuredFunding] [money] NULL,
 	[ProjectLocationPoint] [geometry] NULL,
 	[ProjectLocationNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PlanningDesignStartYear] [int] NULL,
