@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,10 +30,11 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Web.Mvc;
 using DHTMLX.Export.Excel;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     public abstract partial class SitkaController : Controller
     {

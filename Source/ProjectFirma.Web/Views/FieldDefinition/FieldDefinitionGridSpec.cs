@@ -23,6 +23,7 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {

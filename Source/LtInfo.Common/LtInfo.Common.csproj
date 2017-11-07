@@ -317,7 +317,6 @@
     <Compile Include="NullableRangeTest.cs" />
     <Compile Include="AssemblyVersionInfo.cs" />
     <Compile Include="ProcessUtilityTest.cs" />
-    <Compile Include="RouteTableBuilderTest.cs" />
     <Compile Include="RouteTableBuilderTestFolder\Areas\MyTestArea1\Controllers\MyTest4Controller.cs" />
     <Compile Include="RouteTableBuilderTestFolder\Controllers\MyAbstractBaseController.cs" />
     <Compile Include="RouteTableBuilderTestFolder\Controllers\MyTest1Controller.cs" />
@@ -327,7 +326,6 @@
     <Compile Include="SitkaDisplayErrorException.cs" />
     <Compile Include="SitkaDisplayErrorExceptionWithHttpCode.cs" />
     <Compile Include="SitkaDuplicateRecordException.cs" />
-    <Compile Include="SitkaLinkBuilder.cs" />
     <Compile Include="SitkaRecordNotAuthorizedException.cs" />
     <Compile Include="SitkaRecordNotFoundException.cs" />
     <Compile Include="SitkaRegexLibrary.cs" />
@@ -379,15 +377,12 @@
     <Compile Include="RecaptchaValidator.cs" />
     <Compile Include="RemoteSyslogAppenderWithMessageSpanning.cs" />
     <Compile Include="RemoteSyslogAppenderWithMessageSpanningTest.cs" />
-    <Compile Include="RouteTableBuilder.cs" />
-    <Compile Include="SitkaController.cs" />
     <Compile Include="SitkaGlobalBase.cs" />
     <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpersTest.cs" />
     <Compile Include="SitkaHttpApplication.cs" />
     <Compile Include="SitkaHttpRequestStorage.cs" />
     <Compile Include="SitkaLogger.cs" />
     <Compile Include="SitkaRequestInfo.cs" />
-    <Compile Include="SitkaRouteTableEntry.cs" />
     <Compile Include="SitkaSetupFixture.cs" />
     <Compile Include="SitkaWcfException.cs" />
     <Compile Include="SmtpAppenderWithPathAndExceptionTypeInSubject.cs" />
@@ -398,8 +393,6 @@
     <Compile Include="SitkaValidationResult.cs" />
     <Compile Include="StreamHelper.cs" />
     <Compile Include="StringFormats.cs" />
-    <Compile Include="SitkaRoute.cs" />
-    <Compile Include="SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Tasks\SitkaTaskBaseTest.cs" />
     <Compile Include="TcpUtility.cs" />
     <Compile Include="TcpUtilityTest.cs" />

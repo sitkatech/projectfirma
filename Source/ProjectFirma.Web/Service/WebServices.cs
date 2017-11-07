@@ -26,6 +26,7 @@ using System.ServiceModel.Activation;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Service.ServiceModels;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Service
 {

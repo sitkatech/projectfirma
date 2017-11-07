@@ -3205,6 +3205,13 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
   <Function Name="LTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
   </Function>
+  <Function Name="pTenantCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TenantIDFrom" Type="int" Mode="In" />
+    <Parameter Name="TenantIDTo" Type="int" Mode="In" />
+    <Parameter Name="TenantName" Type="varchar" Mode="In" />
+    <Parameter Name="ToolDisplayName" Type="varchar" Mode="In" />
+    <Parameter Name="createDate" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="RTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
   </Function>

@@ -23,13 +23,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.LoggingFilters;
-using LtInfo.Common.Mvc;
-using log4net.Config;
 using LtInfo.Common.Views;
 
 namespace LtInfo.Common
@@ -65,32 +62,6 @@ namespace LtInfo.Common
 
         protected void ApplicationBeginRequest()
         {
-            UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
-            RedirectToCanonicalHostnameIfNeeded();
-            Response.TrySkipIisCustomErrors = true;
-        }
-
-        /// <summary>
-        /// If the URL doesn't match <see cref="SitkaWebConfiguration.CanonicalHostName"/> do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
-        /// </summary>
-        private void RedirectToCanonicalHostnameIfNeeded()
-        {
-            if (String.IsNullOrWhiteSpace(Request.Url.Host))
-            {
-                return;
-            }
-            var canonicalHostName = SitkaWebConfiguration.GetCanonicalHost(Request.Url.Host, true);
-
-            // Check for hostname match (deliberately case-insensitive, DNS is case-insensitive and so is SSL Cert for common name) against the canonical host name as specified in the configuration
-            if (!String.Equals(Request.Url.Host, canonicalHostName, StringComparison.InvariantCultureIgnoreCase))
-            {
-
-                var builder = new UriBuilder(Request.Url) { Host = canonicalHostName };
-                var newUri = builder.Uri;
-
-                // Signal this as a permanent redirect 301 HTTP status not 302 since we'd want to update bad URLs
-                Response.RedirectPermanent(newUri.AbsoluteUri);
-            }
         }
 
         /// <summary>
@@ -183,34 +154,6 @@ namespace LtInfo.Common
             response.Cache.SetExpires(DateTime.Parse("01 Jan 1990 00:00:00 GMT"));
         }
 
-        protected void ApplicationStart(string appName, Version applicationVersion, DateTime dateCompiled, ReadOnlyCollection<MethodInfo> allControllerActionMethods)
-        {
-            ApplicationStart(appName, applicationVersion, dateCompiled, allControllerActionMethods, new List<string>(), null, new Dictionary<string, string>());
-        }
-
-        protected void ApplicationStart(string appName, Version applicationVersion, DateTime dateCompiled, ReadOnlyCollection<MethodInfo> allControllerActionMethods, List<string> sharedPartialViewLocations, List<SitkaRouteTableEntry> defaultRoutes, Dictionary<string, string> areasDictionary)
-        {
-            var viewLocations = new ViewEngineLocations { PartialViewLocations = sharedPartialViewLocations };
-            ApplicationStart(appName, applicationVersion, dateCompiled, allControllerActionMethods, viewLocations, defaultRoutes, areasDictionary);
-        }
-
-        protected void ApplicationStart(string appName, Version applicationVersion, DateTime dateCompiled, ReadOnlyCollection<MethodInfo> allControllerActionMethods, ViewEngineLocations viewLocations, List<SitkaRouteTableEntry> defaultRoutes, Dictionary<string, string> areasDictionary)
-        {
-            // read the log4net configuration from the web.config file
-            XmlConfigurator.Configure();
-
-            Logger.InfoFormat("Application Start{0}{1} version: {2}{0}Compiled: {3:MM/dd/yyyy HH:mm:ss}{0}"
-                               , Environment.NewLine
-                               , appName
-                               , applicationVersion
-                               , dateCompiled
-                );
-
-            RouteTableBuilder.Build(allControllerActionMethods, defaultRoutes, areasDictionary);
-            SetupCustomViewLocationsForTemplates(viewLocations, areasDictionary);
-            ModelBinders.Binders.DefaultBinder = new SitkaDefaultModelBinder();
-        }
-
         protected virtual void SetupCustomViewLocationsForTemplates(ViewEngineLocations viewEngineLocations, Dictionary<string, string> areasDictionary)
         {
             ViewEngines.Engines.Clear();
@@ -258,10 +201,7 @@ namespace LtInfo.Common
         }
 
         private ReadOnlyCollection<ISitkaLoggingFilter> _loggingFilters;
-        private IEnumerable<ISitkaLoggingFilter> LoggingFilters
-        {
-            get { return _loggingFilters ?? (_loggingFilters = new ReadOnlyCollection<ISitkaLoggingFilter>(GetLoggingFilters())); }
-        }
+        private IEnumerable<ISitkaLoggingFilter> LoggingFilters => _loggingFilters ?? (_loggingFilters = new ReadOnlyCollection<ISitkaLoggingFilter>(GetLoggingFilters()));
 
         private bool IsRequestExemptedFromLogging(SitkaRequestInfo requestInfo)
         {

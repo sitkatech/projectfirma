@@ -7,10 +7,16 @@ using ProjectFirma.Web.Common;
 using FluentValidation.Mvc;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
 using Keystone.Common;
+using log4net.Config;
+using LtInfo.Common.LoggingFilters;
+using LtInfo.Common.Mvc;
 using Microsoft.IdentityModel.Web;
 using Microsoft.IdentityModel.Web.Configuration;
+using ProjectFirma.Web.Models;
+using SitkaController = ProjectFirma.Web.Common.SitkaController;
+using SitkaRouteTableEntry = ProjectFirma.Web.Common.SitkaRouteTableEntry;
+using System.Web;
 
 namespace ProjectFirma.Web
 {
@@ -18,7 +24,7 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, SitkaWebConfiguration.CanonicalHostName}
+            {string.Empty, FirmaWebConfiguration.CanonicalHostName}
         };
 
         protected void Application_Start()
@@ -41,20 +47,29 @@ namespace ProjectFirma.Web
                             null,
                             false)).ToList();
 
-            ApplicationStart("ProjectFirma",
-                SitkaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
-                SitkaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
-                FirmaBaseController.AllControllerActionMethods,
-                new List<string>
-                {
-                    "~/Views/Shared/TextControls/{0}.cshtml",
-                    "~/Views/Shared/ExpenditureAndBudgetControls/{0}.cshtml",
-                    "~/Views/Shared/PerformanceMeasureControls/{0}.cshtml",
-                    "~/Views/Shared/ProjectControls/{0}.cshtml",
-                    "~/Views/Shared/ProjectLocationControls/{0}.cshtml",
-                    "~/Views/Shared/ProjectWatershedControls/{0}.cshtml",
-                    "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
-                }, defaultRoutes, AreasDictionary);
+            var viewLocations = new ViewEngineLocations { PartialViewLocations = new List<string>
+            {
+                "~/Views/Shared/TextControls/{0}.cshtml",
+                "~/Views/Shared/ExpenditureAndBudgetControls/{0}.cshtml",
+                "~/Views/Shared/PerformanceMeasureControls/{0}.cshtml",
+                "~/Views/Shared/ProjectControls/{0}.cshtml",
+                "~/Views/Shared/ProjectLocationControls/{0}.cshtml",
+                "~/Views/Shared/ProjectWatershedControls/{0}.cshtml",
+                "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
+            } };
+            // read the log4net configuration from the web.config file
+            XmlConfigurator.Configure();
+
+            Logger.InfoFormat("Application Start{0}{1} version: {2}{0}Compiled: {3:MM/dd/yyyy HH:mm:ss}{0}"
+                , Environment.NewLine
+                , "ProjectFirma"
+                , SitkaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion
+                , SitkaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled
+            );
+
+            RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, defaultRoutes, AreasDictionary);
+            SetupCustomViewLocationsForTemplates(viewLocations, AreasDictionary);
+            ModelBinders.Binders.DefaultBinder = new SitkaDefaultModelBinder();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
@@ -66,6 +81,11 @@ namespace ProjectFirma.Web
         protected static void FederatedAuthentication_ServiceConfigurationCreated(object sender, ServiceConfigurationCreatedEventArgs e)
         // ReSharper restore InconsistentNaming
         {
+            foreach (var tenant in Tenant.All.OrderBy(x => x.TenantID))
+            {
+                e.ServiceConfiguration.AudienceRestriction.AllowedAudienceUris.Add(new Uri(
+                    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}"));
+            }
             var sessionHandler = new KeystoneSessionSecurityTokenHandler();
             e.ServiceConfiguration.SecurityTokenHandlers.AddOrReplace(sessionHandler);
         }
@@ -98,6 +118,33 @@ namespace ProjectFirma.Web
             AddCachingHeaders(Response, Request, SitkaWebConfiguration.CacheStaticContentTimeSpan);
 
             ApplicationBeginRequest();
+            UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
+            RedirectToCanonicalHostnameIfNeeded();
+            Response.TrySkipIisCustomErrors = true;
+
+        }
+
+        /// <summary>
+        /// If the URL doesn't match CanonicalHostName do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
+        /// </summary>
+        private void RedirectToCanonicalHostnameIfNeeded()
+        {
+            if (String.IsNullOrWhiteSpace(Request.Url.Host))
+            {
+                return;
+            }
+            var canonicalHostName = FirmaWebConfiguration.GetCanonicalHost(Request.Url.Host, true);
+
+            // Check for hostname match (deliberately case-insensitive, DNS is case-insensitive and so is SSL Cert for common name) against the canonical host name as specified in the configuration
+            if (!String.Equals(Request.Url.Host, canonicalHostName, StringComparison.InvariantCultureIgnoreCase))
+            {
+
+                var builder = new UriBuilder(Request.Url) { Host = canonicalHostName };
+                var newUri = builder.Uri;
+
+                // Signal this as a permanent redirect 301 HTTP status not 302 since we'd want to update bad URLs
+                Response.RedirectPermanent(newUri.AbsoluteUri);
+            }
         }
 
         /// <summary>

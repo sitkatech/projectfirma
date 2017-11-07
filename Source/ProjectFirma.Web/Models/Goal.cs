@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {

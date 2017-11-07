@@ -27,9 +27,9 @@ using System.Security.Principal;
 using System.Text;
 using System.Transactions;
 using ProjectFirma.Web.Common;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Models
 {

@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Globalization;
 using System.Linq;
@@ -25,10 +26,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using Microsoft.Web.Mvc;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     /// <summary>
     /// This is a replacement for <see cref="LinkBuilder.BuildUrlFromExpression{TController}"/> it calls <see cref="RouteCollectionExtensions.GetVirtualPathForArea(System.Web.Routing.RouteCollection,System.Web.Routing.RequestContext,System.Web.Routing.RouteValueDictionary)"/> which is too slow

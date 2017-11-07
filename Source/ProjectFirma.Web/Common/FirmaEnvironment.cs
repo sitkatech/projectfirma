@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using LtInfo.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -30,6 +31,18 @@ namespace ProjectFirma.Web.Common
     {
         public abstract bool IsUnitTestWebServiceTokenOkInThisEnvironment { get; }
         public abstract FirmaEnvironmentType FirmaEnvironmentType { get; }
+
+        public abstract string DomainPrefix { get; }
+
+        public string GetCanonicalHostNameForEnvironment(Tenant tenant)
+        {
+            var separator = "-";
+            if (tenant.IsSubDomain)
+            {
+                separator = "-";
+            }
+            return $"{DomainPrefix}{separator}{tenant.TenantDomain}";
+        }
 
         public static FirmaEnvironment MakeFirmaEnvironment(string firmaEnvironmentSetting)
         {
@@ -49,53 +62,29 @@ namespace ProjectFirma.Web.Common
 
         private class FirmaEnvironmentLocal : FirmaEnvironment
         {
-            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment
-            {
-                get
-                {
-                    // OK in local because this is where we run unit tests
-                    return true;
-                }
-            }
+            // OK in local because this is where we run unit tests
+            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType
-            {
-                get { return FirmaEnvironmentType.Local; }
-            }
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Local;
+            public override string DomainPrefix => "localhost";
         }
 
         private class FirmaEnvironmentProd : FirmaEnvironment
         {
-            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment
-            {
-                get
-                {
-                    // Definitely not OK in Prod, no unit testing here would be a security hole
-                    return false;
-                }
-            }
+            // Definitely not OK in Prod, no unit testing here would be a security hole
+            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => false;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType
-            {
-                get { return FirmaEnvironmentType.Prod; }
-            }
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Prod;
+            public override string DomainPrefix => "www";
         }
 
         private class FirmaEnvironmentQa : FirmaEnvironment
         {
-            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment
-            {
-                get
-                {
-                    // Not OK in QA, no unit testing here
-                    return true;
-                }
-            }
+            // Not OK in QA, no unit testing here
+            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType
-            {
-                get { return FirmaEnvironmentType.Qa; }
-            }
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
+            public override string DomainPrefix => "qa";
         }
     }
 

@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Data.Entity.Infrastructure.Pluralization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirma.Web.Models
