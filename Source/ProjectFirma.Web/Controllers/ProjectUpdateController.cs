@@ -1313,7 +1313,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
             var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
@@ -1949,7 +1949,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForExpendituresAsString(List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures, List<CalendarYearString> calendarYearStrings)
         {
-            var viewData = new Views.Shared.ProjectUpdateDiffControls.ProjectExpendituresSummaryViewData(fundingSourceCalendarYearExpenditures, calendarYearStrings);
+            var viewData = new ProjectExpendituresSummaryViewData(fundingSourceCalendarYearExpenditures, calendarYearStrings);
             var partialViewAsString = RenderPartialViewToString(ProjectExpendituresPartialViewPath, viewData);
             return partialViewAsString;
         }
