@@ -31,9 +31,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
-        public readonly ProjectUpdateSectionEnum CurrentSection;
-
-        public readonly bool ShowCommentsEditor;
 
         public readonly string RequestFundingSourceUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;

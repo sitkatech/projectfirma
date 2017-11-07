@@ -106,6 +106,8 @@ namespace ProjectFirma.Web.Views.Project
 
         public readonly string EditExpectedFundingUrl;
         public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
+        
+        public bool ProjectIsPendingApproval => Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
 
         public readonly Models.Tenant Tenant;
 
