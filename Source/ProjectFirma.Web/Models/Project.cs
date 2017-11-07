@@ -75,7 +75,21 @@ namespace ProjectFirma.Web.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
+        public decimal? UnfundedNeed()
+        {
+            return EstimatedTotalCost - GetSecuredFunding();
+        }
+
+        public decimal? GetSecuredFunding()
+        {
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount) : 0;
+        }
+
+        public decimal GetUnsecuredFunding()
+        {
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount) : 0;
+        }
+
 
         public decimal? TotalExpenditures
         {

@@ -481,7 +481,6 @@
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
-          <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
@@ -613,6 +612,30 @@
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFundingSourceRequest">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceRequest">
+        <MappingFragment StoreEntitySet="ProjectFundingSourceRequest">
+          <ScalarProperty Name="ProjectFundingSourceRequestID" ColumnName="ProjectFundingSourceRequestID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="SecuredAmount" ColumnName="SecuredAmount" />
+          <ScalarProperty Name="UnsecuredAmount" ColumnName="UnsecuredAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFundingSourceRequestUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceRequestUpdate">
+        <MappingFragment StoreEntitySet="ProjectFundingSourceRequestUpdate">
+          <ScalarProperty Name="ProjectFundingSourceRequestUpdateID" ColumnName="ProjectFundingSourceRequestUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="SecuredAmount" ColumnName="SecuredAmount" />
+          <ScalarProperty Name="UnsecuredAmount" ColumnName="UnsecuredAmount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -757,7 +780,6 @@
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
-          <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
@@ -791,6 +813,8 @@
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
           <ScalarProperty Name="WatershedComment" ColumnName="WatershedComment" />
+          <ScalarProperty Name="ExpectedFundingComment" ColumnName="ExpectedFundingComment" />
+          <ScalarProperty Name="ExpectedFundingDiffLog" ColumnName="ExpectedFundingDiffLog" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

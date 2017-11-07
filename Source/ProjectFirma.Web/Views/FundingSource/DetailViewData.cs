@@ -23,8 +23,7 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Results;
-using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
@@ -46,7 +45,11 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly string ProjectCalendarYearExpendituresGridDataUrl;
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
-        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
+        public readonly GridSpec<Models.ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridSpec;
+        public readonly string ProjectFundingSourceRequestsGridName;
+        public readonly string ProjectFundingSourceRequestsGridDataUrl;
+
+        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec) : base(currentPerson)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
@@ -70,6 +73,10 @@ namespace ProjectFirma.Web.Views.FundingSource
             ProjectCalendarYearExpendituresGridName = "projectsCalendarYearExpendituresFromFundingSourceGrid";
             ProjectCalendarYearExpendituresGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectCalendarYearExpendituresGridJsonData(fundingSource));
             ManageFundingSourcesUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index());
+
+            ProjectFundingSourceRequestsGridSpec = projectFundingSourceRequestsGridSpec;
+            ProjectFundingSourceRequestsGridName = "projectsFundingSourceRequestsFromFundingSourceGrid";
+            ProjectFundingSourceRequestsGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceRequestsGridJsonData(fundingSource));
         }
     }
 }

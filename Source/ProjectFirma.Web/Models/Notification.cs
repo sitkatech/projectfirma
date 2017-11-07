@@ -56,8 +56,7 @@ namespace ProjectFirma.Web.Models
             foreach (var emailToCc in emailsToCc)
             {
                 mailMessage.CC.Add(emailToCc);
-            }
-            mailMessage.Bcc.Add(FirmaWebConfiguration.SitkaSupportEmail);
+            }            
             SitkaSmtpClient.Send(mailMessage);
         }
 

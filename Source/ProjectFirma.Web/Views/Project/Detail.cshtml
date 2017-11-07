@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
@@ -31,6 +32,7 @@
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits ProjectFirma.Web.Views.Project.Detail
 
@@ -41,6 +43,7 @@
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/ProjectFundingSourceRequest/ProjectFundingSourceRequestController.js")" type="text/javascript"></script>
     @*TODO: Neutered per #1136; most likely will bring back when BOR project starts
     <script src="@Url.Content("~/Views/ProjectBudget/ProjectBudgetController.js")" type="text/javascript"></script>*@
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
@@ -343,6 +346,36 @@
                                 else
                                 {
                                     PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                                }
+                            </div>
+                        </div>
+                        
+                        <h2 class="sectionHeader">Expected Funding</h2>
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                                Expected Funding
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</label>
+                                    <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</label>
+                                    <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</label>
+                                    <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
+                                    @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
+                                    {
+                                        <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))</div>
+                                    }
+                                </div>
+                                <hr />
+                                @{
+                                    ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
                                 }
                             </div>
                         </div>

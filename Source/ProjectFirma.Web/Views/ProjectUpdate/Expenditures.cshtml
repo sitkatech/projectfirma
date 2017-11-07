@@ -59,7 +59,7 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
     @if (ViewDataTyped.Project.FundingType == FundingType.Capital)
     {
         <div style="width: 300px">@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.SecuredFunding.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.UnfundedNeed.ToStringCurrency()</span></div>
     }
     else if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)

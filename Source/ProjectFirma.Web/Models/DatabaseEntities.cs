@@ -71,12 +71,16 @@ namespace ProjectFirma.Web.Models
 
             var tenantID = tenant.TenantID;
 
+            /*
+             * This is an aggressive check to make sure we're not accidentally doing something like, e.g.,
+             * HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
+             */
             foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
             {
                 var haveATenantID = entry.Entity as IHaveATenantID;
-                var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;   
-                Check.Assert(editingCurrentTenant, "Editing an entity that is not the same tenant: " + entry.Entity);
-            }               
+                var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;
+                Check.Assert(editingCurrentTenant, "Editing or accessing an entity across tenant boundaries: " + entry.Entity);
+            }
 
             foreach (var entry in modifiedEntries)
             {

@@ -39,6 +39,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
@@ -210,6 +211,8 @@ namespace ProjectFirma.Web.Controllers
             var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();
             var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
 
+            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
+
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 confirmNonMandatoryUpdateUrl,
@@ -244,7 +247,8 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridDataUrl,
                 projectBasicsViewData,
                 assessmentTreeViewData,
-                CurrentTenant);
+                CurrentTenant,
+                projectFundingDetailViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

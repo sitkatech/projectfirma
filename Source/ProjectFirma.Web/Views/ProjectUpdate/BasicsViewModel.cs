@@ -53,9 +53,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
         public Money? EstimatedAnnualOperatingCost { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.SecuredFunding)]
-        public Money? SecuredFunding { get; set; }
-
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
@@ -76,7 +73,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CompletionYear = projectUpdate.CompletionYear;
             EstimatedTotalCost = projectUpdate.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = projectUpdate.EstimatedAnnualOperatingCost;
-            SecuredFunding = projectUpdate.SecuredFunding;
             Comments = comments;
         }
 
@@ -89,7 +85,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.ImplementationStartYear = ImplementationStartYear;
             projectUpdate.CompletionYear = CompletionYear;
             projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
-            projectUpdate.SecuredFunding = SecuredFunding;
             projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
         }
     }
