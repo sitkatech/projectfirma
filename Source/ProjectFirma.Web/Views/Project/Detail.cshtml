@@ -62,15 +62,35 @@
 
 @section RightOfPageTitle
 {
-    @if (ViewDataTyped.Project.IsUpdateAllowed && ViewDataTyped.UserHasProjectUpdatePermissions)
+    @if (ViewDataTyped.Project.GetLatestUpdateState() != ProjectUpdateState.Submitted && ViewDataTyped.Project.GetLatestUpdateState() != ProjectUpdateState.Returned)
     {
-        if (ViewDataTyped.Project.IsUpdateMandatory)
+        if (ViewDataTyped.Project.IsUpdateAllowed && ViewDataTyped.UserHasProjectUpdatePermissions)
         {
-            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap Update Project</a>
+            if (ViewDataTyped.Project.IsUpdateMandatory)
+            {
+                <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap Update Project</a>
+            }
+            else
+            {
+                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string> {"btn", "btn-firma"}, null, null)
+            }
         }
-        else
+    }
+    else
+    {
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Review Update">@DhtmlxGridHtmlHelpers.EditIconBootstrap Reivew Update</a>
+    }
+    @if (ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.CurrentPersonCanViewProposal)
+    {
+        switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
         {
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+            case ProjectApprovalStatusEnum.Draft:
+            case ProjectApprovalStatusEnum.Returned:
+                <a class="btn btn-firma" href="@ViewDataTyped.ProposalBasicsUrl" title="Edit Proposal">@DhtmlxGridHtmlHelpers.EditIconBootstrap Edit Proposal</a>
+                break;
+            case ProjectApprovalStatusEnum.PendingApproval:
+                <a class="btn btn-firma" href="@ViewDataTyped.ProposalBasicsUrl" title="Review Proposal">@DhtmlxGridHtmlHelpers.EditIconBootstrap Review Proposal</a>
+                break;
         }
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
@@ -84,80 +104,6 @@
         <a class="btn backButton" href="@projectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @backText</a>
     }
 </div>
-
-@if (ViewDataTyped.Project.IsActiveProposal())
-{
-    <div class="alert alert-info" style="margin-bottom: 10px">
-        <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.Proposal.GetFieldDefinitionLabel()"></span>
-        @switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
-        {
-            case ProjectApprovalStatusEnum.Draft:
-                <span>
-                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
-                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
-                    {
-                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">finalize the Project Proposal</a> at any time.</span>
-                    }
-                </span>
-                break;
-            case ProjectApprovalStatusEnum.Returned:
-                <span>
-                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() was submitted, but returned, and may need further attention.
-                    @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
-                    {
-                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">finalize the Project Proposal</a> at any time.</span>
-                    }
-                </span>
-                break;
-            case ProjectApprovalStatusEnum.PendingApproval:
-                <span>
-                    This @FieldDefinition.Proposal.GetFieldDefinitionLabel() is awaiting review.
-                    @if (ViewDataTyped.CurrentPersonIsApprover)
-                    {
-                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
-                    }
-                    else if (ViewDataTyped.CurrentPersonIsSubmitter)
-                    {
-                        <span>You may <a href="@ViewDataTyped.ProposalBasicsUrl">make changes or withdraw your proposal</a> at any time.</span>
-                    }
-                </span>
-                break;
-            case ProjectApprovalStatusEnum.Approved:
-                @*Should never get here*@
-                <span>
-                    This proposal was accepted by the review and is now an <a href="@ViewDataTyped.Project.GetDetailUrl()">approved Project</a>.
-                </span>
-                break;
-            case ProjectApprovalStatusEnum.Rejected:
-                <span>
-                    This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Contact {0}", ViewDataTyped.Tenant.GetTenantAttribute().TenantDisplayName), ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.Proposal.GetFieldDefinitionLabel().
-                </span>
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    </div>
-}
-
-@if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
-{
-    <div class="alert alert-warning" style="margin-bottom: 10px">
-        <span>
-            @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned && ViewDataTyped.UserHasProjectUpdatePermissions)
-            {
-                @:Updates to this project have been returned. Please fix any issues with the update and re-submit.
-            }
-            else
-            {
-                @:Updates to this project have been submitted but not yet approved. Check back later for more current information on this project.
-            }
-            @if (ViewDataTyped.UserHasProjectUpdatePermissions)
-            {
-                <span>View its <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()"> project update </a></span>
-            }
-        </span>
-    </div>
-}
 
 <div class="row" style="margin: 20px 0;">
     <div class="col-xs-12">
