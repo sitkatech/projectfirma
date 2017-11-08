@@ -197,7 +197,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
             }
-            viewModel.UpdateModel(projectUpdateBatch);
+            viewModel.UpdateModel(projectUpdate);
             if (projectUpdateBatch.IsSubmitted)
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
@@ -211,9 +211,10 @@ namespace ProjectFirma.Web.Controllers
             var basicsValidationResult = projectUpdate.ProjectUpdateBatch.ValidateProjectBasics();
             var viewDataForAngularClass = new BasicsViewData.ViewDataForAngularClass(basicsValidationResult.GetWarningMessages());
             var inflationRate = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().InflationRate;
-            var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch);
+            var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch); // note, the way the diff for the basics section is built, it will actually "commit" the updated values to the project, so it needs to be done last, or we need to change the current approach
 
-            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, ProjectStage.All, viewDataForAngularClass, inflationRate, updateStatus);
+            var projectStages = projectUpdate.ProjectUpdateBatch.Project.ProjectStage.GetProjectStagesThatProjectCanUpdateTo();
+            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, viewDataForAngularClass, inflationRate, updateStatus);
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
@@ -239,6 +240,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdate.LoadUpdateFromProject(project);
                 projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            }
+            if (!projectUpdateBatch.AreAccomplishmentsRelevant())
+            {
+                projectUpdateBatch.DeleteProjectExemptReportingYearUpdates();
+                projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
             }
             return new ModalDialogFormJsonResult();
         }

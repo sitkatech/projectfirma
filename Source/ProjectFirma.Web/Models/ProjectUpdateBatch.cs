@@ -655,5 +655,11 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.ProjectUpdateStateID = projectUpdateState.ProjectUpdateStateID;
             projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
         }
+
+        public bool AreAccomplishmentsRelevant()
+        {
+            var projectStage = ProjectUpdate == null ? Project.ProjectStage : ProjectUpdate.ProjectStage;
+            return projectStage != ProjectStage.PlanningDesign;
+        }
     }
 }

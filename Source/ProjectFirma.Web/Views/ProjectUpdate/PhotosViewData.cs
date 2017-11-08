@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
+        public readonly string ContinueUrl;
 
         public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Photos, updateStatus)
         {
@@ -46,6 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 "Photo");
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPhotos(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPhotos(projectUpdateBatch.Project));
+            ContinueUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(projectUpdateBatch.Project));
         }
     }
 }
