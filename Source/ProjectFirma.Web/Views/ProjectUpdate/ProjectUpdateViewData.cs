@@ -69,6 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string SubmitUrl;
         public readonly string ApproveUrl;
         public readonly string ReturnUrl;
+        public readonly string ProvideFeedbackUrl;
 
         public readonly bool IsEditable;
         public readonly bool IsReadyToApprove;
@@ -106,6 +107,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SubmitUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Submit(Project));
             ApproveUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Approve(Project));
             ReturnUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Return(Project));
+            ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.UpdateFeedback());
             var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(CurrentPerson, Project).HasPermission;
             ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted && isApprover;
             IsEditable = projectUpdateBatch.InEditableState || ShowApproveAndReturnButton;

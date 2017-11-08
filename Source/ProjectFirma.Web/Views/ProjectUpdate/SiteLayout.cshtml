@@ -220,8 +220,10 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
             }
-            <div>
-                <a href="@ViewDataTyped.Project.GetDetailUrl()" target="_blank">Back to @FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
+            <div class="pull-left">
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.FullProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
+                @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
             </div>
 
         </div>
