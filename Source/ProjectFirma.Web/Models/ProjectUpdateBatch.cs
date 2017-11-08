@@ -59,15 +59,27 @@ namespace ProjectFirma.Web.Models
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
         {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch() ?? CreateNewProjectUpdateBatchForProject(project, currentPerson);
+            
+            ProjectUpdateBatch projectUpdateBatch;
+            if (project.GetLatestNotApprovedUpdateBatch() != null)
+            {
+                projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+                isNewProjectUpdateBatch = false;
+            }
+            else
+            {
+                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentPerson);
+                isNewProjectUpdateBatch = true;
+            }
+
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
         {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson, out isNewProjectUpdateBatch);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges();
