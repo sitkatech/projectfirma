@@ -327,7 +327,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && !ViewDataTyped.ProjectIsPendingApproval && !ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
                                     }
@@ -342,6 +342,10 @@
                                 @if (ViewDataTyped.Project.IsActiveProposal())
                                 {
                                     <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
+                                }
+                                else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
+                                {
+                                    <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Planning/Design stage.</p>
                                 }
                                 else
                                 {

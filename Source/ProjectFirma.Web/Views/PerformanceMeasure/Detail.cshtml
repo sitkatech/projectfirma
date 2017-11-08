@@ -112,6 +112,22 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
 
+
+    </div>
+    <div class="col-lg-6 col-md-7">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Accomplishments</h2>
+            </div>
+            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+                @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>Reporting Guidance</h2>
@@ -125,26 +141,15 @@ Source code is available upon request via <support@sitkatech.com>.
                         @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
                     </div>
                 </div>
+                <hr/>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
                         @FieldDefinition.Project.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    </div>                
+                    </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
                     </div>
                 </div>
-            </div>
-        </div>
-
-
-    </div>
-    <div class="col-lg-6 col-md-7">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>Accomplishments</h2>
-            </div>
-            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
-                @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
             </div>
         </div>
     </div>
