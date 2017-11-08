@@ -117,10 +117,10 @@ namespace ProjectFirma.Web.Models
             Email = keystoneUserClaims.Email;
         }
 
-        public bool CanApproveProjectByOrganizationRelationship(Project project)
+        public bool CanStewardProjectByOrganizationRelationship(Project project)
         {
-            var canApproveProjectsOrganization = project.GetCanApproveProjectsOrganization();
-            return canApproveProjectsOrganization != null && canApproveProjectsOrganization.OrganizationID == OrganizationID;
+            var canStewardProjectsOrganization = project.GetCanStewardProjectsOrganization();
+            return canStewardProjectsOrganization != null && canStewardProjectsOrganization.OrganizationID == OrganizationID;
         }
 
         public void SetDefaultProjectOrganizations(Project project)
@@ -130,11 +130,11 @@ namespace ProjectFirma.Web.Models
                 return;
             }
 
-            var relationshipTypeThatCanApprove = MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship();
-            if (relationshipTypeThatCanApprove != null &&
-                relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
+            var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
+            if (canStewardProjectsOrganizationRelationship != null &&
+                canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
             {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatCanApprove));
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, canStewardProjectsOrganizationRelationship));
             }
 
             var relationshipTypeThatIsPrimaryContact = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
@@ -145,14 +145,14 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool PersonIsProjectOwnerWhoCanApproveProjects
+        public bool PersonIsProjectOwnerWhoCanStewardProjects
         {
             get
             {
-                var relationshipTypeThatCanApprove = MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship();
+                var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
                 return Role.ProjectSteward.RoleID == RoleID &&
-                       relationshipTypeThatCanApprove != null &&
-                       relationshipTypeThatCanApprove.OrganizationTypeRelationshipTypes.Any(
+                       canStewardProjectsOrganizationRelationship != null &&
+                       canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
                            x => x.OrganizationTypeID == Organization.OrganizationTypeID);
             }
         }

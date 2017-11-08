@@ -31,11 +31,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
+        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
         {
             this.RelationshipTypeID = relationshipTypeID;
             this.RelationshipTypeName = relationshipTypeName;
-            this.CanApproveProjects = canApproveProjects;
+            this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
         }
@@ -43,13 +43,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
+        public RelationshipType(string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.RelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.RelationshipTypeName = relationshipTypeName;
-            this.CanApproveProjects = canApproveProjects;
+            this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
         }
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Models
         public int RelationshipTypeID { get; set; }
         public int TenantID { get; private set; }
         public string RelationshipTypeName { get; set; }
-        public bool CanApproveProjects { get; set; }
+        public bool CanStewardProjects { get; set; }
         public bool IsPrimaryContact { get; set; }
         public bool CanOnlyBeRelatedOnceToAProject { get; set; }
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }

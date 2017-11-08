@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Models
 
         public bool CanBeAnApprovingOrganization()
         {
-            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship()?.RelationshipTypeID);
+            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
         }
 
         public bool CanBeAPrimaryContactOrganization()

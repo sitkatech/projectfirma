@@ -150,9 +150,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure>
             ProjectExpendituresByOrganizationTypeGridJsonData(int? organizationTypeID, int? calendarYear)
         {
-            ProjectFundingSourceExpendituresByOrganizationTypeGridSpec gridSpec;
             var projectFundingSourceOrganizationTypeExpenditures =
-                GetProjectExpendituresByOrganizationTypeAndGridSpec(out gridSpec, organizationTypeID, calendarYear);
+                GetProjectExpendituresByOrganizationTypeAndGridSpec(out var gridSpec, organizationTypeID, calendarYear);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<ProjectFundingSourceOrganizationTypeExpenditure>(
                     projectFundingSourceOrganizationTypeExpenditures, gridSpec);
@@ -188,8 +187,7 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) ||
                                 x.CalendarYear == calendarYear)
                     .ToList()
-                    .Where(x => x.FundingSource.Organization.OrganizationTypeID.HasValue &&
-                                x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
+                    .Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
                     .OrderBy(x => x.Project.DisplayName)
                     .ToList();
             }
@@ -525,10 +523,9 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>
             SpendingByPerformanceMeasureByProjectGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            SpendingByPerformanceMeasureByProjectGridSpec gridSpec;
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var performanceMeasureSubcategoriesTotalReportedValues =
-                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out gridSpec, performanceMeasure);
+                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(
                     performanceMeasureSubcategoriesTotalReportedValues, gridSpec);

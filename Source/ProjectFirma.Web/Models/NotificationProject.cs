@@ -11,15 +11,6 @@ namespace ProjectFirma.Web.Models
 {
     public partial class NotificationProject
     {
-        private static void AddProjectStewardToPeopleToNotify(List<Person> peopleToNotify, Project project)
-        {
-            var approveProjectsOrganization = project.GetCanApproveProjectsOrganization();
-            if (approveProjectsOrganization != null)
-            {
-                peopleToNotify.AddRange(project.GetProjectStewards());
-            }
-        }
-
         private static void SendMessageAndLogNotificationForProjectUpdateTransition(ProjectUpdateBatch projectUpdateBatch,
             MailMessage mailMessage,
             List<string> emailsToSendTo,

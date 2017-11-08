@@ -786,7 +786,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
-                ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Approve {projectLabel}\" {projectRelationshipTypeLabel}."
+                ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Steward {projectLabel}\" {projectRelationshipTypeLabel}."
                 : $"You don't have permission to edit {projectLabel}.";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);

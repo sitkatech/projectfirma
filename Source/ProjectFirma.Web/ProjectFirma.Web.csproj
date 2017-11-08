@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -350,6 +350,7 @@
     <Compile Include="Models\FundingTypeData.DatabaseContextExtensions.cs" />
     <Compile Include="Models\IFundingSourceRequestAmount.cs" />
     <Compile Include="Models\IMappableProject.cs" />
+    <Compile Include="Models\OrganizationType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
     <Compile Include="Models\ITaxonomyTier.cs" />

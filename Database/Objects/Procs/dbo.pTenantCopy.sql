@@ -35,7 +35,7 @@ as
 	declare @sitkaOrgIDForTenant int
 	select @sitkaOrgIDForTenant = OrganizationID from dbo.Organization o where o.TenantID = @TenantIDTo and o.OrganizationName = 'Sitka Technology Group'
 
-	insert into dbo.RelationshipType(TenantID, RelationshipTypeName, CanApproveProjects, IsPrimaryContact, CanOnlyBeRelatedOnceToAProject)
+	insert into dbo.RelationshipType(TenantID, RelationshipTypeName, CanStewardProjects, IsPrimaryContact, CanOnlyBeRelatedOnceToAProject)
 	values
 	(@TenantIDTo, 'Lead Implementer', 0, 1, 1),
 	(@TenantIDTo, 'Funder', 0, 0, 0),

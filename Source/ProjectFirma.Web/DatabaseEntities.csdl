@@ -888,7 +888,7 @@
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="LogoFileResourceID" Type="Int32" />
-    <Property Name="OrganizationTypeID" Type="Int32" />
+    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationBoundary" Type="Geometry" />
     <NavigationProperty Name="LogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="OrganizationsWhereYouAreTheLogoFileResource" ToRole="LogoFileResource" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
@@ -920,6 +920,7 @@
     <Property Name="OrganizationTypeAbbreviation" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="LegendColor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="ShowOnProjectMaps" Type="Boolean" Nullable="false" />
+    <Property Name="IsDefaultOrganizationType" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Organizations" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="Organizations" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="OrganizationTypeRelationshipTypes" />
     <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotOrganizationTypeExpenditures" />
@@ -1603,7 +1604,7 @@
     <Property Name="RelationshipTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="RelationshipTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="CanApproveProjects" Type="Boolean" Nullable="false" />
+    <Property Name="CanStewardProjects" Type="Boolean" Nullable="false" />
     <Property Name="IsPrimaryContact" Type="Boolean" Nullable="false" />
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="OrganizationTypeRelationshipTypes" />
@@ -2251,7 +2252,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Organization_OrganizationType_OrganizationTypeID">
-    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="0..1" />
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="1" />
     <End Role="Organizations" Type="ProjectFirma.Web.Models.Organization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrganizationType">

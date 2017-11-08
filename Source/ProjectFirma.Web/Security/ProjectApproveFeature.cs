@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Security
             }
 
             if (person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                !person.CanApproveProjectByOrganizationRelationship(contextModelObject))
+                !person.CanStewardProjectByOrganizationRelationship(contextModelObject))
             {
                 var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
                 return new PermissionCheckResult($"You do not have permission to approve this {ProjectLabel} based on your relationship to the {ProjectLabel}'s {organizationLabel}.");

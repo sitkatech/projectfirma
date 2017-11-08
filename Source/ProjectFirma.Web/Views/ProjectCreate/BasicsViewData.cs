@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
         public IEnumerable<SelectListItem> StartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
-        public bool HasCanApproveProjectsOrganizationRelationship { get; private set; }
+        public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
 
 
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            HasCanApproveProjectsOrganizationRelationship = MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship();
+            HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
             HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
         }

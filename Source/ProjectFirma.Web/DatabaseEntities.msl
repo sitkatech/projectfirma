@@ -294,6 +294,7 @@
           <ScalarProperty Name="OrganizationTypeAbbreviation" ColumnName="OrganizationTypeAbbreviation" />
           <ScalarProperty Name="LegendColor" ColumnName="LegendColor" />
           <ScalarProperty Name="ShowOnProjectMaps" ColumnName="ShowOnProjectMaps" />
+          <ScalarProperty Name="IsDefaultOrganizationType" ColumnName="IsDefaultOrganizationType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -856,7 +857,7 @@
           <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
-          <ScalarProperty Name="CanApproveProjects" ColumnName="CanApproveProjects" />
+          <ScalarProperty Name="CanStewardProjects" ColumnName="CanStewardProjects" />
           <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
           <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
         </MappingFragment>

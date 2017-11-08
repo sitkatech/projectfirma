@@ -67,9 +67,9 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public Organization GetCanApproveProjectsOrganization()
+        public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
@@ -354,7 +354,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanApproveProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
         }
 
         public string AssocatedOrganizationNames(Organization organization)
@@ -421,7 +421,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Person> GetProjectStewards()
         {
-            return GetCanApproveProjectsOrganization()?.People
+            return GetCanStewardProjectsOrganization()?.People
                        .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
                        .ToList() ?? new List<Person>();
         }

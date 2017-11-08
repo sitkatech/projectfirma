@@ -97,7 +97,8 @@ namespace ProjectFirma.Web.Controllers
 
                 if (organization == null)
                 {
-                    organization = new Organization(keystoneUserClaims.OrganizationName, true);
+                    var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+                    organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
                 }

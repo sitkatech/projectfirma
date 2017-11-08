@@ -36,9 +36,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName),
                 350,
                 DhtmlxGridColumnFilterType.Html);
-            if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship())
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(Models.FieldDefinition.CanApproveProjectsOrganization.ToGridHeaderString(), x => x.Project.GetCanApproveProjectsOrganization().GetShortNameAsUrl(), 150,
+                Add(Models.FieldDefinition.CanStewardProjectsOrganization.ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);

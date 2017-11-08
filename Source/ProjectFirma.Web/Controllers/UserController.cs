@@ -26,7 +26,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.User;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -281,7 +280,8 @@ namespace ProjectFirma.Web.Controllers
                         x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
                 if (firmaOrganization == null)
                 {
-                    firmaOrganization = new Organization(keystoneOrganization.FullName, true)
+                    var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+                    firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
                     {
                         OrganizationGuid = keystoneOrganization.OrganizationGuid,
                         OrganizationShortName = keystoneOrganization.ShortName,

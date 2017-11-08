@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public int OrganizationTypeID { get; set; }
 
         [Required]
-        [StringLength(Models.OrganizationType.FieldLengths.OrganizationTypeName)]
+        [StringLength(OrganizationType.FieldLengths.OrganizationTypeName)]
         [DisplayName("Name")]
         public string OrganizationTypeName { get; set; }
 
@@ -52,6 +52,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Show On Project Map?")]
         public bool? ShowOnProjectMaps { get; set; }
 
+        [Required]
+        [DisplayName("Is Default?")]
+        public bool? IsDefaultOrganizationType { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -66,6 +70,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
             LegendColor = organizationType.LegendColor;
             ShowOnProjectMaps = organizationType.ShowOnProjectMaps;
+            IsDefaultOrganizationType = organizationType.IsDefaultOrganizationType;
         }
 
         public void UpdateModel(OrganizationType organizationType, Person currentPerson)
@@ -74,6 +79,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 
             organizationType.LegendColor = LegendColor;
             organizationType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
+            organizationType.IsDefaultOrganizationType = IsDefaultOrganizationType ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

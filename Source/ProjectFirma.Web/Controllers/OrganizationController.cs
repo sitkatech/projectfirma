@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, true);
+            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -137,8 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             var viewGoogleChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
 
-            bool hasSpatialData;
-            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, HideProposals);
+            var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, HideProposals);
 
             var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
@@ -361,7 +360,8 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            firmaOrganization = new Organization(keystoneOrganization.FullName, true)
+            var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,
