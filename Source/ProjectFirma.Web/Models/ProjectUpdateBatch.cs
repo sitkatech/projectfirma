@@ -253,6 +253,7 @@ namespace ProjectFirma.Web.Models
             DeletePerformanceMeasureActualUpdates();
             DeleteProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
+            DeleteProjectFundingSourceRequestUpdates();
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            DeleteProjectBudgetUpdates();
             DeleteProjectImageUpdates();

@@ -167,12 +167,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsNotesUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>
-            <li>
-                <hr style="height: 1px;" class="navMenu"/>
-            </li>
-            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.History, ViewDataTyped.SelectedProjectUpdateSection)">
-                <a href="@ViewDataTyped.ProjectUpdateHistoryUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">History</a>
-            </li>
         </ul>
 
     </div>
@@ -222,18 +216,9 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             <div class="pull-left">
                 <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
-                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.FullProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
-                @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
+                @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> { "btn btn-xs btn-firma" }, null)
             </div>
-
         </div>
     </div>
 </div>
-
-<div style="padding: 5px; vertical-align: bottom; font-size: 11px">
-    @if (ViewDataTyped.ProjectUpdateBatch.IsCreated && ModelObjectHelpers.IsRealPrimaryKeyValue(ViewDataTyped.ProjectUpdateBatch.ProjectUpdateBatchID))
-    {
-        @ModalDialogFormHelper.MakeDeleteLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, true)
-    }
-</div>
-

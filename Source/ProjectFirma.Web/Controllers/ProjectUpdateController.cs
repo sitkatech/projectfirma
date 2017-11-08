@@ -1558,7 +1558,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new HistoryViewData(CurrentPerson, projectUpdateBatch, updateStatus);
-            return RazorView<History, HistoryViewData>(viewData);
+            return RazorPartialView<History, HistoryViewData>(viewData);
         }
 
         private static string GenerateEditProjectLocationFormID(Project project)
