@@ -1085,7 +1085,12 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.WatershedComment = viewModel.Comments;
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.PerformanceMeasures(project)) : new SitkaRoute<ProjectUpdateController>(x => x.Watershed(project)));
+            var nextSection = viewModel.AutoAdvance
+                ? (projectUpdateBatch.NewStageIsPlanningDesign
+                    ? new SitkaRoute<ProjectUpdateController>(x => x.ExpectedFunding(project))
+                    : new SitkaRoute<ProjectUpdateController>(x => x.PerformanceMeasures(project)))
+                : new SitkaRoute<ProjectUpdateController>(x => x.Watershed(project));
+            return RedirectToAction(nextSection);
         }
 
         private ViewResult ViewWatershed(Project project, ProjectUpdateBatch projectUpdateBatch, WatershedViewModel viewModel)

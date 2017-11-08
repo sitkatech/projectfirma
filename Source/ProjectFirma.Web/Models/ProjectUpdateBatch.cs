@@ -324,6 +324,8 @@ namespace ProjectFirma.Web.Models
             private set => _areProjectBasicsValid = value;
         }
 
+        public bool NewStageIsPlanningDesign => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;
+
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
@@ -399,7 +401,7 @@ namespace ProjectFirma.Web.Models
 
         public bool ArePerformanceMeasuresValid()
         {
-            return ValidatePerformanceMeasures().IsValid;
+            return NewStageIsPlanningDesign || ValidatePerformanceMeasures().IsValid;
         }
 
         public ExpendituresValidationResult ValidateExpendituresAndForceValidation()
@@ -601,14 +603,20 @@ namespace ProjectFirma.Web.Models
             //  project budgets
             //ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
 
-            // performance measures
-            PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals, performanceMeasureActualSubcategoryOptions);
+            // only relevant for stages past planning/design
+            if (!NewStageIsPlanningDesign)
+            {
+                // performance measures
+                PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals,
+                    performanceMeasureActualSubcategoryOptions);
 
-            // project exempt reporting years
-            ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
+                // project exempt reporting years
+                ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
 
-            // project exempt reporting years reason
-            Project.PerformanceMeasureActualYearsExemptionExplanation = PerformanceMeasureActualYearsExemptionExplanation;
+                // project exempt reporting years reason
+                Project.PerformanceMeasureActualYearsExemptionExplanation =
+                    PerformanceMeasureActualYearsExemptionExplanation;
+            }
 
             // project location simple
             ProjectUpdate.CommitSimpleLocationToProject(Project);

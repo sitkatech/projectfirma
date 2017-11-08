@@ -100,20 +100,23 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                 </a>
             </li>
+            
+            @if (!ViewDataTyped.ProjectUpdateBatch.NewStageIsPlanningDesign)
+            {
+                <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
+                    <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
+                        @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+                        @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
 
-            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
-                <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
-                    @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                    @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
-
-                    @if (ViewDataTyped.HasUpdateStarted)
-                    {
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    }
-                </a>
-            </li>
+                        @if (ViewDataTyped.HasUpdateStarted)
+                        {
+                            <span class="pull-right statusIcon">
+                                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                            </span>
+                        }
+                    </a>
+                </li>
+            }
 
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateExpectedFundingUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
