@@ -18,15 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     [AttributeUsage(AttributeTargets.Parameter)]
     public class PlaceUrlParameterBeforeControllerAndActionName : Attribute

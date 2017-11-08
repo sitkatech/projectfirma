@@ -21,6 +21,9 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantSitkaTechnologyGroup SitkaTechnologyGroup = TenantSitkaTechnologyGroup.Instance;
         public static readonly TenantClackamasPartnership ClackamasPartnership = TenantClackamasPartnership.Instance;
         public static readonly TenantRCDProjectTracker RCDProjectTracker = TenantRCDProjectTracker.Instance;
+        public static readonly TenantInternationYearOfTheSalmon InternationYearOfTheSalmon = TenantInternationYearOfTheSalmon.Instance;
+        public static readonly TenantDemoProjectFirma DemoProjectFirma = TenantDemoProjectFirma.Instance;
+        public static readonly TenantNationalForestFoundation NationalForestFoundation = TenantNationalForestFoundation.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -30,24 +33,26 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, NationalForestFoundation };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected Tenant(int tenantID, string tenantName, string tenantDomain)
+        protected Tenant(int tenantID, string tenantName, string tenantDomain, bool isSubDomain)
         {
             TenantID = tenantID;
             TenantName = tenantName;
             TenantDomain = tenantDomain;
+            IsSubDomain = isSubDomain;
         }
 
         [Key]
         public int TenantID { get; private set; }
         public string TenantName { get; private set; }
         public string TenantDomain { get; private set; }
+        public bool IsSubDomain { get; private set; }
         public int PrimaryKey { get { return TenantID; } }
 
         /// <summary>
@@ -101,6 +106,12 @@ namespace ProjectFirma.Web.Models
             {
                 case TenantEnum.ClackamasPartnership:
                     return ClackamasPartnership;
+                case TenantEnum.DemoProjectFirma:
+                    return DemoProjectFirma;
+                case TenantEnum.InternationYearOfTheSalmon:
+                    return InternationYearOfTheSalmon;
+                case TenantEnum.NationalForestFoundation:
+                    return NationalForestFoundation;
                 case TenantEnum.RCDProjectTracker:
                     return RCDProjectTracker;
                 case TenantEnum.SitkaTechnologyGroup:
@@ -115,24 +126,45 @@ namespace ProjectFirma.Web.Models
     {
         SitkaTechnologyGroup = 1,
         ClackamasPartnership = 2,
-        RCDProjectTracker = 3
+        RCDProjectTracker = 3,
+        InternationYearOfTheSalmon = 4,
+        DemoProjectFirma = 5,
+        NationalForestFoundation = 6
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
     {
-        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"projectfirma.com");
+        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"sitka.projectfirma.com", true);
     }
 
     public partial class TenantClackamasPartnership : Tenant
     {
-        private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org");
+        private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org", false);
     }
 
     public partial class TenantRCDProjectTracker : Tenant
     {
-        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org");
+        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org", false);
+    }
+
+    public partial class TenantInternationYearOfTheSalmon : Tenant
+    {
+        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"iysdemo.projectfirma.com", true);
+    }
+
+    public partial class TenantDemoProjectFirma : Tenant
+    {
+        private TenantDemoProjectFirma(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"demo.projectfirma.com", true);
+    }
+
+    public partial class TenantNationalForestFoundation : Tenant
+    {
+        private TenantNationalForestFoundation(int tenantID, string tenantName, string tenantDomain, bool isSubDomain) : base(tenantID, tenantName, tenantDomain, isSubDomain) {}
+        public static readonly TenantNationalForestFoundation Instance = new TenantNationalForestFoundation(6, @"NationalForestFoundation", @"nffdemo.projectfirma.com", true);
     }
 }

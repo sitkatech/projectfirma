@@ -18,18 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.RouteTableBuilderTestFolder.Areas.MyTestArea1.Controllers;
 using LtInfo.Common.RouteTableBuilderTestFolder.Controllers;
 using NUnit.Framework;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     [TestFixture]
     public class RouteTableBuilderTest

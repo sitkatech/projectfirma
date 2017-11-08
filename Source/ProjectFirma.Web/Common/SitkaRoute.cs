@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,9 +27,10 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     public enum SitkaRouteSecurity
     {
@@ -53,7 +55,7 @@ namespace LtInfo.Common
         // ReSharper restore StaticFieldInGenericType
         {
             var sw = new StringWriter();
-            var url = string.Format("http://{0}{1}", SitkaWebConfiguration.CanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
+            var url = string.Format("http://{0}{1}", FirmaWebConfiguration.CanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
             var request = new HttpRequest(String.Empty, url, String.Empty);
             var httpContext = new HttpContext(request, new HttpResponse(sw));
             return new RequestContext(new HttpContextWrapper(httpContext), new RouteData());
@@ -77,7 +79,7 @@ namespace LtInfo.Common
         public SitkaRoute(Expression<Action<T>> routeExpression) 
         {
             RouteExpression = routeExpression;
-            ControllerName = SitkaController.ControllerTypeToControllerName(typeof(T));
+            ControllerName = ProjectFirma.Web.Common.SitkaController.ControllerTypeToControllerName(typeof(T));
             Body = GetRouteExpressionBody(routeExpression);
 
             var actionName = Body.Method.Name;
@@ -143,10 +145,10 @@ namespace LtInfo.Common
         {
 
             var currentContext = HttpContext.Current;
-            var hostName = SitkaWebConfiguration.CanonicalHostName;
+            var hostName = FirmaWebConfiguration.CanonicalHostName;
             if (currentContext != null)
             {
-                hostName = SitkaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? SitkaWebConfiguration.CanonicalHostName;
+                hostName = FirmaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? FirmaWebConfiguration.CanonicalHostName;
             }
 
             return String.Format("{0}://{1}{2}", protocol, hostName, relativeUrl);

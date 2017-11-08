@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     public class SitkaRouteTableEntry
     {

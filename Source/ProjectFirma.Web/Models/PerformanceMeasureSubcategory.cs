@@ -23,11 +23,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using MoreLinq;
 using Newtonsoft.Json;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {

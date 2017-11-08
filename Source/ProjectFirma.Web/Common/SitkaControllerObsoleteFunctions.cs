@@ -18,11 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace LtInfo.Common
+namespace ProjectFirma.Web.Common
 {
     public partial class SitkaController
     {
