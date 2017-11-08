@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Common
 
         public string GetCanonicalHostNameForEnvironment(Tenant tenant)
         {
-            var separator = "-";
+            var separator = ".";
             if (tenant.IsSubDomain)
             {
                 separator = "-";
