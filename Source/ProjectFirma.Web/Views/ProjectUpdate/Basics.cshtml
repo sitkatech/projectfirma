@@ -33,37 +33,12 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <script type="text/javascript">
             // <![CDATA[
-            angular.module("ProjectFirmaApp").controller("BasicsController", function($scope, angularModelAndViewData)
-            {
-                $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-                $scope.AngularModel = angularModelAndViewData.AngularModel;
-            });
-
-            angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
-            {
-                return {
-                    AngularModel: { ShowValidationWarnings: true},
-                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
-                };
-            });
             jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
             // ]]>
         </script>
     }
 }
 
-<div ng-app="ProjectFirmaApp" ng-controller="BasicsController">
-    @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
-    {
-        <div class="alert alert-warning">
-            <ul>
-                <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                    <span data-ng-bind="warning"></span>
-                </li>
-            </ul>
-        </div>
-    }
-</div>
 <p>
     Update your @FieldDefinition.Project.GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinition.Project.GetFieldDefinitionLabel() is complete, be sure to set the stage to "Complete" or "Post-Implementation"
     from the @FieldDefinition.ProjectStage.GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.

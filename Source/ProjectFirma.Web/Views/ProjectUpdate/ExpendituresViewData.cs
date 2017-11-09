@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly decimal? TotalOperatingCostInYearOfExpenditure;
         public readonly decimal InflationRate;
         public readonly int? StartYearForTotalOperatingCostCalculation;
-        public readonly List<string> ValidationWarnings;
 
-        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, ExpendituresValidationResult expendituresValidationResult) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus)
+        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, ExpendituresValidationResult expendituresValidationResult)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus, expendituresValidationResult.GetWarningMessages())
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
@@ -51,7 +51,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(ProjectUpdateBatch.ProjectUpdate);
             InflationRate = Models.CostParameterSet.GetLatestInflationRate();
             StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(projectUpdateBatch.ProjectUpdate);
-            ValidationWarnings = expendituresValidationResult.GetWarningMessages();
         }
 
         public class ViewDataForAngularClass

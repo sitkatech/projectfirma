@@ -43,16 +43,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public readonly Models.ProjectUpdate ProjectUpdate;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-        // ReSharper disable once InconsistentNaming
-        public readonly ViewDataForAngularClass ViewDataForAngular;
 
         public readonly decimal InflationRate;
         public readonly decimal? CapitalCostInYearOfExpenditure;
         public readonly decimal? TotalOperatingCostInYearOfExpenditure;
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
-        public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate, IEnumerable<ProjectStage> projectStages, ViewDataForAngularClass viewDataForAngular, decimal inflationRate, UpdateStatus updateStatus)
-            : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Basics, updateStatus)
+        public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate, IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus, BasicsValidationResult basicsValidationResult)
+            : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
         {
             ProjectUpdate = projectUpdate;
             TaxonomyTierOneDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyTierOne.DisplayName;
@@ -63,23 +61,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBasics(Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned);            
-            ViewDataForAngular = viewDataForAngular;
+            
             RequestPrimaryContactChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestProjectPrimaryContactChange(projectUpdate.ProjectUpdateBatch.Project));
 
             InflationRate = inflationRate;
             CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
             TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(projectUpdate);
             StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(projectUpdate);
-        }
-
-        public class ViewDataForAngularClass
-        {
-            public readonly List<string> ValidationWarnings;
-
-            public ViewDataForAngularClass(List<string> validationWarnings)
-            {
-                ValidationWarnings = validationWarnings;
-            }
         }
     }
 }

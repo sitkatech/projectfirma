@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 
@@ -31,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ViewDataForAngularClass ViewDataForAngular;
 
         public ExternalLinksViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData, string refreshUrl, string diffUrl)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.ExternalLinks, updateStatus)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.ExternalLinks, updateStatus, new List<string>())
         {
             ViewDataForAngular = viewDataForAngular;
             EntityExternalLinksViewData = entityExternalLinksViewData;

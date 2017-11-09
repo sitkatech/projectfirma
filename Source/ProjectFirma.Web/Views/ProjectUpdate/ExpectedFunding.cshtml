@@ -23,7 +23,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
-@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
@@ -56,18 +55,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 }
 
-<div>
-    @foreach ( string warning in ViewDataTyped.ValidationWarnings)
-    {
-        <div class="alert alert-danger">
-            <ul>
-                <li>
-                    <span>@warning</span>
-                </li>
-            </ul>
-        </div>
-    }
-</div>
+
 
 <p >Enter the expected funding for your project. You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured.</p>
 <p>The Unfunded Need is the difference between the project's Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>

@@ -23,11 +23,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Models
 @using ProjectFirma.Web.Common
 @inherits SiteLayout
 
 @{
+ // ReSharper disable once MustUseReturnValue
     SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
 }
 
@@ -45,6 +45,20 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
 
     @RenderSection("JavascriptAndStylesContent", false)
+}
+
+@if (ViewDataTyped.ValidationWarnings.Any())
+{
+    <div class="alert alert-warning">
+        <ul>
+            @foreach (string warning in ViewDataTyped.ValidationWarnings)
+            {
+                <li>
+                    <span>@warning</span>
+                </li>
+            }
+        </ul>
+    </div>
 }
 
 <div id="projectWizardContent" class="row">
