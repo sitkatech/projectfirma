@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Watershed
         {
             PageTitle = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}";
             MapInitJson = mapInitJson;
-            GridSpec = new IndexGridSpec {ObjectNameSingular = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             GridName = "watershedsGrid";
             GridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
         }

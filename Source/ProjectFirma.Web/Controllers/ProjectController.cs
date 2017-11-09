@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var projects = GetProjectsForGrid(x => x.IsActiveProject());
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -364,28 +364,17 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(
-                x => x.IsActiveProposal(),
-                stateProvinces).ToList();
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProposals(CurrentPerson.CanViewProposals);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
-        {
-            return
-                HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(filterFunction,
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList()).ToList();
         }
 
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload(bool proposalsOnly)
         {
             var projects = proposalsOnly
-                ? GetProjectsForGrid(x => x.IsActiveProposal())
-                : GetProjectsForGrid(x =>
-                    x.IsActiveProject());
+                ? HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProposals(CurrentPerson.CanViewProposals)
+                : HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
 
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
@@ -730,7 +719,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -740,10 +729,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
 
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects
-                .GetProjectsWithGeoSpatialProperties(x => x.IsEditableToThisPerson(CurrentPerson),
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
-                .Where(x => x.IsActiveProposal() && x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                .GetActiveProposals(CurrentPerson.CanViewProposals)
+                .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);

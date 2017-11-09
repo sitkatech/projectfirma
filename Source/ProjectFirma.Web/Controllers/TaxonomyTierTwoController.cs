@@ -29,7 +29,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.PerformanceMeasure;
@@ -68,8 +67,7 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTierTwoViewFeature]
         public GridJsonNetJObjectResult<TaxonomyTierTwo> IndexGridJsonData()
         {
-            var hasDeletePermission = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new IndexGridSpec(hasDeletePermission);
+            var gridSpec = new IndexGridSpec(CurrentPerson);
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.TaxonomyTierTwoName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierTwo>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
@@ -79,10 +77,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
         {
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
-            var taxonomyTierTwoProjects = taxonomyTierTwo.Projects.ToList();
-            var visibleProjectsForUser = new List<IMappableProject>(IsCurrentUserAnonymous()
-                ? taxonomyTierTwoProjects.Where(p => true).ToList()
-                : taxonomyTierTwoProjects);
+            var taxonomyTierTwoProjects = taxonomyTierTwo.GetAssociatedProjects(CurrentPerson).ToList();
+            var visibleProjectsForUser = new List<IMappableProject>(taxonomyTierTwoProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierTwo, new List<int> {taxonomyTierTwo.TaxonomyTierTwoID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
@@ -200,16 +196,10 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTierTwoViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
         {
-            BasicProjectInfoGridSpec gridSpec;
-            var projectTaxonomyTierTwos = GetProjectsAndGridSpec(out gridSpec, taxonomyTierTwoPrimaryKey.EntityObject);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var projectTaxonomyTierTwos = taxonomyTierTwoPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetProjectsAndGridSpec(out BasicProjectInfoGridSpec gridSpec, TaxonomyTierTwo taxonomyTierTwo)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return taxonomyTierTwo.Projects.OrderBy(x => x.DisplayName).ToList();
         }
     }
 }

@@ -35,11 +35,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             
         }
 
-        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<ITaxonomyTier> topLevelTaxonomyTiers, bool hideProposals)
+        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<ITaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
         {
             MapDivID = mapDivID;
             LegendTitle = legendTitle;
-            LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(topLevelTaxonomyTiers, hideProposals);
+            LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(topLevelTaxonomyTiers, showProposals);
         }
 
     }

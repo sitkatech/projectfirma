@@ -202,22 +202,15 @@ namespace ProjectFirma.Web.Controllers
         [FundingSourceViewFeature]
         public GridJsonNetJObjectResult<ProjectCalendarYearExpenditure> ProjectCalendarYearExpendituresGridJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
-            ProjectCalendarYearExpendituresGridSpec gridSpec;
-            var projectFundingSources = GetProjectCalendarYearExpendituresAndGridSpec(out gridSpec, fundingSourcePrimaryKey.EntityObject);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectCalendarYearExpenditure>(projectFundingSources, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private static List<ProjectCalendarYearExpenditure> GetProjectCalendarYearExpendituresAndGridSpec(
-            out ProjectCalendarYearExpendituresGridSpec gridSpec,
-            FundingSource fundingSource)
-        {
+            var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var projectFundingSourceExpenditures = fundingSource.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRangeForExpenditures =
                 projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
-            gridSpec = new ProjectCalendarYearExpendituresGridSpec(calendarYearRangeForExpenditures);
-            return ProjectCalendarYearExpenditure.CreateFromProjectsAndCalendarYears(projectFundingSourceExpenditures,
+            var gridSpec = new ProjectCalendarYearExpendituresGridSpec(calendarYearRangeForExpenditures);
+            var projectFundingSources = ProjectCalendarYearExpenditure.CreateFromProjectsAndCalendarYears(projectFundingSourceExpenditures,
                 calendarYearRangeForExpenditures);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectCalendarYearExpenditure>(projectFundingSources, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         [FundingSourceViewFeature]

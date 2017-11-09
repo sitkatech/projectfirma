@@ -259,6 +259,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
+            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals;
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request
@@ -278,7 +279,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(HideProposals);
+                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(currentPersonCanViewProposals);
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -294,7 +295,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(HideProposals);
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
 
             var initialCustomization =
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
@@ -308,10 +309,10 @@ namespace ProjectFirma.Web.Controllers
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson()
             };
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), HideProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(HideProposals);
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(currentPersonCanViewProposals);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
 
             var filteredProjectsWithLocationAreasUrl =
@@ -326,7 +327,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool hideProposals)
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool showProposals)
         {
             var projectLocationFilterTypesAndValues =
                 new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
@@ -362,7 +363,7 @@ namespace ProjectFirma.Web.Controllers
                 classificationsAsSelectListItems);
 
 
-            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(hideProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
+            var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(showProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
@@ -395,14 +396,11 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(HideProposals);
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentPerson.CanViewProposals);
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var projects = HideProposals
-                ? filteredProjects.Where(p => true).ToList()
-                : filteredProjects;
-            var filteredProjectsWithLocationAreas = projects
+            var filteredProjectsWithLocationAreas = filteredProjects
                 .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)
                 .ToList();
 

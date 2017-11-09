@@ -227,7 +227,7 @@
                                         {
                                             <tr >
                                                 <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                                                <td>@string.Join(", ", projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
+                                                <td>@string.Join(", ", projectOrganization.Select(x => x.RelationshipType.RelationshipTypeName).OrderBy(x => x))</td>
                                             </tr>
                                         }
                                     </table>

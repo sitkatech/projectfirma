@@ -26,9 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFundingSourceRequest;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -55,7 +53,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditProjectFundingSourceRequests(project, viewModel);
             }
-            var currentProjectFundingOrganizations = project.ProjectOrganizations.ToList();
             return UpdateProjectFundingSourceRequests(viewModel, currentProjectFundingSourceRequests);
         }
 

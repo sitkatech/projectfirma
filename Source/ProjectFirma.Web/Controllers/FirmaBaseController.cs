@@ -25,7 +25,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using log4net;
-using LtInfo.Common;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Controllers
@@ -36,8 +35,6 @@ namespace ProjectFirma.Web.Controllers
         public static ControllerContext ControllerContextStatic = null;
 
         protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
-
-        public bool HideProposals => !MultiTenantHelpers.ShowProposalsToThePublic() && CurrentPerson.IsAnonymousOrUnassigned;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {

@@ -24,6 +24,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
@@ -85,14 +86,9 @@ namespace ProjectFirma.Web.Models
             return existingOrganization == null;
         }
 
-        public List<Project> GetAllActiveProjects()
+        public List<Project> GetAllActiveProjectsAndProposals(Person person)
         {
-            return ProjectOrganizations.Select(x => x.Project).Where(x => x.IsActiveProject()).Distinct().ToList();
-        }
-
-        public List<Project> GetAllActiveProposals()
-        {
-            return ProjectOrganizations.Select(x => x.Project).Where(x => x.IsActiveProposal()).Distinct().ToList();
+            return ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
         public string AuditDescriptionString => OrganizationName;
@@ -101,11 +97,6 @@ namespace ProjectFirma.Web.Models
 
         public bool IsUnknown => !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
-        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
-        {
-            return ProjectOrganizations.Where(x => x.ProjectID == project.ProjectID).Select(x => x.RelationshipType).ToList();
-        }
-
         public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
         {
             DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
@@ -113,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            var projectIDs = GetAllActiveProjects().Select(x => x.ProjectID).ToList();
+            var projectIDs = GetAllActiveProjectsAndProposals(currentPerson).Select(x => x.ProjectID).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
         }
 

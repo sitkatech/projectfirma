@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectPersons = person.GetPrimaryContactProjects().OrderBy(x => x.DisplayName).ToList();
+            var projectPersons = person.GetPrimaryContactProjects(person).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);
             return gridJsonNetJObjectResult;
         }

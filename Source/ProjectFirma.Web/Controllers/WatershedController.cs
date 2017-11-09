@@ -28,7 +28,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Watershed;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using Detail = ProjectFirma.Web.Views.Watershed.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Watershed.DetailViewData;
@@ -64,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
         [WatershedViewFeature]
         public GridJsonNetJObjectResult<Watershed> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec();
+            var gridSpec = new IndexGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.OrderBy(x => x.WatershedName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Watershed>(watersheds, gridSpec);
             return gridJsonNetJObjectResult;
@@ -126,15 +125,13 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(WatershedPrimaryKey watershedPrimaryKey)
         {
             var watershed = watershedPrimaryKey.EntityObject;
-
             var mapDivID = $"watershed_{watershed.WatershedID}_Map";
 
-            var watershedAssociatedProposalsToShow = !HideProposals ? watershed.AssociatedProposals : new List<Project>();
-
-            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects, watershedAssociatedProposalsToShow);
+            var associatedProjects = watershed.GetAssociatedProjects(CurrentPerson);
+            var layers = Watershed.GetWatershedAndAssociatedProjectLayers(watershed, associatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
-            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
             const string chartTitle = "Reported Expenditures By Organization Type";
@@ -147,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 
-            var performanceMeasures = watershed.ProjectWatersheds.Select(x => x.Project).Distinct().ToList()
+            var performanceMeasures = associatedProjects
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct()
@@ -196,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(WatershedPrimaryKey watershedPrimaryKey)
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectWatersheds = watershedPrimaryKey.EntityObject.AssociatedProjects.ToList();
+            var projectWatersheds = watershedPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectWatersheds, gridSpec);
             return gridJsonNetJObjectResult;
         }

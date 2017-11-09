@@ -251,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TagPrimaryKey tagPrimaryKey)
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectWatersheds = tagPrimaryKey.EntityObject.AssociatedProjects.ToList();
+            var projectWatersheds = tagPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectWatersheds, gridSpec);
             return gridJsonNetJObjectResult;
         }

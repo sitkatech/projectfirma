@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
 
             var hasTaxonomyTierOneManagePermissions = new TaxonomyTierOneManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(hasTaxonomyTierOneManagePermissions)
+            GridSpec = new IndexGridSpec(currentPerson)
             {
                 ObjectNameSingular = taxonomyTierOneDisplayName,
                 ObjectNamePlural = taxonomyTierOneDisplayNamePluralized,

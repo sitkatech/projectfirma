@@ -40,9 +40,12 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static Person GetAnonymousSitkaUser()
         {
-            var anonymousSitkaUser = new Person { PersonID = AnonymousPersonID };
+            var anonymousSitkaUser = new Person
+            {
+                PersonID = AnonymousPersonID,
+                RoleID = Role.Unassigned.RoleID
+            };
             // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
-            anonymousSitkaUser.RoleID = Role.Unassigned.RoleID;
             return anonymousSitkaUser;
         }
 
@@ -59,20 +62,21 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// List of Projects for which this Person is the primary contact
         /// </summary>
-        public List<Project> GetPrimaryContactProjects()
+        public List<Project> GetPrimaryContactProjects(Person person)
         {
-            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.IsActiveProject() && p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
+            return HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(person.CanViewProposals).Where(p => p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
         }
 
-        public List<Project> GetPrimaryContactUpdatableProjects()
+        public List<Project> GetPrimaryContactUpdatableProjects(Person person)
         {
-            return GetPrimaryContactProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
+            return GetPrimaryContactProjects(person).Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
         }
 
         /// <summary>
         /// Is this Person the primary contact for one or more Projects?
         /// </summary>
-        public bool IsPrimaryContactForOneOrMoreProjects => GetPrimaryContactProjects().Any();
+        /// <param name="person"></param>
+        public bool IsPrimaryContactForOneOrMoreProjects(Person person) => GetPrimaryContactProjects(person).Any();
 
         /// <summary>
         /// List of Organizations for which this Person is the primary contact
@@ -158,5 +162,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;
+
+        public bool CanViewProposals => MultiTenantHelpers.ShowProposalsToThePublic() || !IsAnonymousOrUnassigned;
     }
 }

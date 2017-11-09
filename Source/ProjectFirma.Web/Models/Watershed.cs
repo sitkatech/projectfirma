@@ -36,14 +36,9 @@ namespace ProjectFirma.Web.Models
     {
         public string DisplayName => WatershedName;
 
-        public List<Project> AssociatedProjects
+        public List<Project> GetAssociatedProjects(Person person)
         {
-            get
-            {
-                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.IsActiveProject())
-                    .Distinct(new HavePrimaryKeyComparer<Project>())
-                    .OrderBy(x => x.DisplayName).ToList();
-            }
+            return ProjectWatersheds.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
         public List<Project> AssociatedProposals
@@ -93,14 +88,13 @@ namespace ProjectFirma.Web.Models
                 layerInitialVisibility);
         }
 
-        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects, List<Project> proposals)
+        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Show),
                 GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(proposals), true), "#dbbdff", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show)
             };
             return layerGeoJsons;
         }
