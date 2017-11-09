@@ -29,6 +29,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using MoreLinq;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
@@ -115,6 +116,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         {
             var errors = new List<ValidationResult>();
 
+
+
             if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
                 errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears));
@@ -125,21 +128,36 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears));
             }
 
-            var hasDuplicates = PerformanceMeasureActuals?.GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
-                                    .Select(x => x.ToList())
-                                    .ToList()
-                                    .Select(x => x)
-                                    .Any(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptions).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()) ?? false;
-
-            if (hasDuplicates)
-            {
-                errors.Add(new ValidationResult($"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page."));
-            }
             var exemptYears = ProjectExemptReportingYears?.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
-            if (exemptYears != null && PerformanceMeasureActuals != null && PerformanceMeasureActuals.Any(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value)))
-            {
-                errors.Add(new ValidationResult($"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}."));
-            }
+
+            var performanceMeasureActualsWithDuplicatesDisplayNames = PerformanceMeasureActuals
+                ?.GroupBy(x => new {x.PerformanceMeasureID, x.CalendarYear})
+                .Select(x => x.ToList())
+                .ToList()
+                .Select(x => x)
+                .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptions).ToList()
+                    .Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList()))
+                    .ToList().HasDuplicates()).SelectMany(x => x.Select(y => y.PerformanceMeasureActualName).Distinct())
+                .ToList();
+
+            var performanceMeasureActualsWithMissingDataDisplayNames = PerformanceMeasureActuals?.Where(x =>
+                    x.CalendarYear == null || x.ActualValue == null ||
+                    x.PerformanceMeasureActualSubcategoryOptions.Any(y =>
+                        y.PerformanceMeasureSubcategoryOptionID == null))
+                .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
+
+            var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
+                ?.Where(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value))
+                .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
+
+            performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));
+
+            performanceMeasureActualsWithDuplicatesDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.")));
+
+            performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
+                errors.Add(new ValidationResult(
+                    $"{x} has reported values for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.")));
+            
 
             return errors;
         }

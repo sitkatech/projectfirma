@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
     {
         public int PerformanceMeasureActualSubcategoryOptionID { get; set; }
         public int PerformanceMeasureActualID { get; set; }
-        [Required]
         [DisplayName("Subcategory Option")]
         public int? PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
