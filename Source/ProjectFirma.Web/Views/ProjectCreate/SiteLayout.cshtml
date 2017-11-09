@@ -155,11 +155,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
-                    <a href="@ViewDataTyped.ProposalExpectedFundingUrl">Expected Funding
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
+                    <a href="@ViewDataTyped.ProposalExpectedFundingUrl">Expected Funding</a>
                 }
                 else if (!ViewDataTyped.ProjectStateIsValidInWizard)
                 {

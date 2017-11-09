@@ -290,6 +290,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewExpectedFunding(project, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();

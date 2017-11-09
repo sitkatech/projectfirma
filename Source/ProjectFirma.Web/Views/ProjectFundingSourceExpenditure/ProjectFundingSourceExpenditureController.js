@@ -41,7 +41,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
         var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function (p) { return p.FundingSourceID; });
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) && !_.contains(usedFundingSourceIDs, f.FundingSourceID); }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
+        return _($scope.AngularViewData.AllFundingSources).filter(function(f) {
+            return f.IsActive &&
+                _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
+                !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+        }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
     };
 
     $scope.getAllUsedProjectIds = function () {
@@ -50,7 +54,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
 
     $scope.filteredProjects = function () {
         var usedProjectIDs = $scope.getAllUsedProjectIds();
-        return _($scope.AngularViewData.AllProjects).filter(function (f) { return !_.contains(usedProjectIDs, f.ProjectID); }).sortBy(["DisplayName"]).value();
+        return _($scope.AngularViewData.AllProjects)
+            .filter(function(f) { return !_.contains(usedProjectIDs, f.ProjectID); }).sortBy(["DisplayName"]).value();
     };
 
     $scope.getProjectName = function (projectFundingSourceExpenditure)

@@ -300,11 +300,13 @@
                             </div>
                         </div>
                         
-                        <h2 class="sectionHeader">Expected Funding</h2>
+                        <h2 class="sectionHeader">Funding</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions && !ViewDataTyped.ProjectIsPendingApproval)
-                                Expected Funding
+                                <h3>
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    Expected Funding
+                                </h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -330,10 +332,9 @@
                             </div>
                         </div>
 
-                        <h2 data-toc-skip class="sectionHeader">@FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>
+                                <h3>
                                     @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
                                     {
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
@@ -343,7 +344,7 @@
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
                                     }
                                     @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
-                                </h2>
+                                </h3>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.Project.IsActiveProposal())
