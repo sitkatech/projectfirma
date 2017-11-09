@@ -24,16 +24,18 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
 
     $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID) : null; };
 
-    $scope.getAllUsedFundingSourceIDs = function () {
+    $scope.getAllUsedFundingSourceIds = function () {
         return _.map($scope.AngularModel.ProjectFundingSourceRequests, function (p) { return p.FundingSourceID; });
     };
 
     $scope.filteredFundingSources = function () {
-        var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIDs();        
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID); })
-            .sortBy(function (fs) {
-                return [fs.FundingSourceName.toLowerCase(), fs.OrganizationName.toLowerCase()];
-            }).value();
+        var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
+        var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function (p) { return p.FundingSourceID; });
+        return _($scope.AngularViewData.AllFundingSources).filter(function (f) {
+            return f.IsActive &&
+                _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
+                !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+        }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
     };
 
     $scope.getAllUsedProjectIDs = function () {
@@ -43,9 +45,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
     $scope.filteredProjects = function () {
         var usedProjectIDs = $scope.getAllUsedProjectIDs();
         return _($scope.AngularViewData.AllProjects).filter(function (f) { return !_.includes(usedProjectIDs, f.ProjectID); })
-            .sortBy(function (p) {
-                return p.DisplayName.toLowerCase();
-            }).value();
+            .sortBy(["DisplayName"]).value();
     };
 
     $scope.getProjectName = function (projectFundingSourceRequest)
