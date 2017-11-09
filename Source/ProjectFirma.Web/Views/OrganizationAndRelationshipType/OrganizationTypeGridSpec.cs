@@ -25,6 +25,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
@@ -44,8 +45,9 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
-            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 100);
-            Add("Legend Color", a => ToLegendColor(a), 50, DhtmlxGridColumnFilterType.None);
+            Add($"Is Default?", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
+            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
+            Add("Legend Color", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
         }
 
         private static HtmlString ToLegendColor(OrganizationType organizationType)

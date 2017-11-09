@@ -37,61 +37,6 @@ namespace LtInfo.Common
             return parse(str, out value) ? value : (T?)null;
         }
 
-        public static string AddAnchorTagsToTextForSimpleUrls(this string textToUse)
-        {
-            return AddAnchorTagsToTextForSimpleUrlsWithExternalStyle(textToUse, null);
-        }
-
-        public static string AddAnchorTagsToTextForSimpleUrlsWithExternalStyle(this string textToUse, string externalLinkClassName)
-        {
-            var output = textToUse;
-            if (!String.IsNullOrWhiteSpace(textToUse))
-            {
-                textToUse = textToUse.Replace("&gt;", " GREATERTHANTOKEN").Replace("&lt;", " LESSTHANTOKEN");
-                var regex = new Regex(@"((http(s)?://)|(ftp://)|(www))([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&amp;\*_\-\=\+\\\/\?\.\:\;\'\,]*)?");
-                var matches = regex.Matches(textToUse).Cast<Match>().OrderBy(c => c.Index);
-
-                if (matches.Any())
-                {
-                    output = String.Empty;
-
-                    var currIndex = 0;
-                    foreach (var match in matches)
-                    {
-                        var valueWithProtocolPrefix = match.Value;
-                        if (!valueWithProtocolPrefix.ToLower().StartsWith("http://") && !valueWithProtocolPrefix.ToLower().StartsWith("https://") && !valueWithProtocolPrefix.ToLower().StartsWith("ftp://"))
-                        {
-                            valueWithProtocolPrefix = "http://" + valueWithProtocolPrefix;
-                        }
-                        if (valueWithProtocolPrefix.EndsWith("."))
-                        {
-                            valueWithProtocolPrefix = valueWithProtocolPrefix.Substring(0, valueWithProtocolPrefix.Length - 1);
-                        }
-                        string newValue;
-                        if (externalLinkClassName != null)
-                        {
-                            newValue = String.Format("<a {2} href=\"{0}\" target=\"_blank\">{1}</a>"
-                                , valueWithProtocolPrefix
-                                , match.Value
-                                , (valueWithProtocolPrefix.Contains(SitkaWebConfiguration.CanonicalHostName)) ? String.Empty : "class=\"" + externalLinkClassName + "\""
-                                );
-                        }
-                        else
-                        {
-                            newValue = String.Format("<a href=\"{0}\" target=\"_blank\">{1}</a>", valueWithProtocolPrefix, match.Value);
-                        }
-                        output += textToUse.Substring(currIndex, match.Index - currIndex) + newValue;
-                        currIndex = match.Index + match.Length;
-                    }
-
-                    output += textToUse.Substring(currIndex);
-                }
-
-                output = output.Replace(" GREATERTHANTOKEN", "&gt;").Replace(" LESSTHANTOKEN", "&lt;");
-            }
-            return output;
-        }
-
         public static string Left(this string thisString, int length)
         {
             if (String.IsNullOrWhiteSpace(thisString))

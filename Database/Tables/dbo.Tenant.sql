@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[Tenant](
 	[TenantID] [int] NOT NULL,
 	[TenantName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TenantDomain] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[IsSubDomain] [bit] NOT NULL,
  CONSTRAINT [PK_Tenant_TenantID] PRIMARY KEY CLUSTERED 
 (
 	[TenantID] ASC

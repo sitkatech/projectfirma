@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
         [Required]
         [DisplayName("Can Steward Projects?")]
-        public bool? CanApproveProjects { get; set; }
+        public bool? CanStewardProjects { get; set; }
 
         [Required]
         [DisplayName("Serves as Primary Contact?")]
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeIDs = relationshipType.OrganizationTypeRelationshipTypes
                 .Select(x => x.OrganizationTypeID)
                 .ToList();
-            CanApproveProjects = relationshipType.CanApproveProjects;
+            CanStewardProjects = relationshipType.CanStewardProjects;
             IsPrimaryContact = relationshipType.IsPrimaryContact;
             CanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
         }
@@ -86,9 +86,9 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 allOrganizationTypeRelationshipTypes,
                 (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
 
-            relationshipType.CanApproveProjects = CanApproveProjects ?? false; // Should never be null due to required validation attribute
+            relationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
-            relationshipType.CanOnlyBeRelatedOnceToAProject = relationshipType.CanApproveProjects || relationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can approve projects and isprimarycontact can only related once to a project
+            relationshipType.CanOnlyBeRelatedOnceToAProject = relationshipType.CanStewardProjects || relationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can steward projects and isprimarycontact can only related once to a project
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -100,10 +100,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.", x => x.RelationshipTypeName));
             }
 
-            if (CanApproveProjects == true &&
-                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanApproveProjects))
+            if (CanStewardProjects == true &&
+                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanStewardProjects))
             {
-                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Approve Projects?\" is set to \"Yes\"."));
+                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\"."));
             }
 
             if (IsPrimaryContact == true &&

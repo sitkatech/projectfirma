@@ -24,6 +24,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             }
 
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
-            Add($"Can Steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanApproveProjects.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add($"Can Steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Must be related to a project once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 

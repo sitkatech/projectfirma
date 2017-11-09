@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[Organization](
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LogoFileResourceID] [int] NULL,
-	[OrganizationTypeID] [int] NULL,
+	[OrganizationTypeID] [int] NOT NULL,
 	[OrganizationBoundary] [geometry] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (

@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Models
             OrganizationGuid = organization.OrganizationGuid;
             OrganizationName = organization.OrganizationName;
             OrganizationShortName = organization.OrganizationShortName;
-            OrganizationTypeID = organization.OrganizationTypeID.Value;
+            OrganizationTypeID = organization.OrganizationTypeID;
             PrimaryContactPersonID = organization.PrimaryContactPersonID;
             IsActive = organization.IsActive;
             URL = organization.OrganizationUrl;

@@ -904,7 +904,7 @@ warning 6035: The relationship 'FK_ProjectOrganization_Organization_Organization
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
-    <Property Name="OrganizationTypeID" Type="int" />
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
     <Property Name="OrganizationBoundary" Type="geometry" />
   </EntityType>
   <EntityType Name="OrganizationBoundaryStaging">
@@ -932,6 +932,7 @@ warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Organizat
     <Property Name="OrganizationTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="LegendColor" Type="varchar" Nullable="false" MaxLength="10" />
     <Property Name="ShowOnProjectMaps" Type="bit" Nullable="false" />
+    <Property Name="IsDefaultOrganizationType" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="OrganizationTypeRelationshipType">
     <Key>
@@ -1556,7 +1557,7 @@ warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_Relation
     <Property Name="RelationshipTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="RelationshipTypeName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="CanApproveProjects" Type="bit" Nullable="false" />
+    <Property Name="CanStewardProjects" Type="bit" Nullable="false" />
     <Property Name="IsPrimaryContact" Type="bit" Nullable="false" />
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="bit" Nullable="false" />
   </EntityType>
@@ -2035,7 +2036,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Organization_OrganizationType_OrganizationTypeID">
-    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="0..1" />
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
     <End Role="Organizations" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrganizationType">
@@ -3296,6 +3297,13 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
   </Association>
   <Function Name="LTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="pTenantCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TenantIDFrom" Type="int" Mode="In" />
+    <Parameter Name="TenantIDTo" Type="int" Mode="In" />
+    <Parameter Name="TenantName" Type="varchar" Mode="In" />
+    <Parameter Name="ToolDisplayName" Type="varchar" Mode="In" />
+    <Parameter Name="createDate" Type="datetime" Mode="In" />
   </Function>
   <Function Name="RTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />

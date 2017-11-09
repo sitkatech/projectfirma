@@ -32,19 +32,20 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps) : this()
+        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType) : this()
         {
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationTypeName = organizationTypeName;
             this.OrganizationTypeAbbreviation = organizationTypeAbbreviation;
             this.LegendColor = legendColor;
             this.ShowOnProjectMaps = showOnProjectMaps;
+            this.IsDefaultOrganizationType = isDefaultOrganizationType;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps) : this()
+        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -53,6 +54,7 @@ namespace ProjectFirma.Web.Models
             this.OrganizationTypeAbbreviation = organizationTypeAbbreviation;
             this.LegendColor = legendColor;
             this.ShowOnProjectMaps = showOnProjectMaps;
+            this.IsDefaultOrganizationType = isDefaultOrganizationType;
         }
 
 
@@ -61,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static OrganizationType CreateNewBlank()
         {
-            return new OrganizationType(default(string), default(string), default(string), default(bool));
+            return new OrganizationType(default(string), default(string), default(string), default(bool), default(bool));
         }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace ProjectFirma.Web.Models
         public string OrganizationTypeAbbreviation { get; set; }
         public string LegendColor { get; set; }
         public bool ShowOnProjectMaps { get; set; }
+        public bool IsDefaultOrganizationType { get; set; }
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
         public virtual ICollection<Organization> Organizations { get; set; }

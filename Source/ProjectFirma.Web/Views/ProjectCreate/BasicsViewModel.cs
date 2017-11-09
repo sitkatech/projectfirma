@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required]
         public int FundingTypeID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.CanApproveProjectsOrganization)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CanStewardProjectsOrganization)]
         public int? ApprovingProjectsOrganizationID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsPrimaryContactOrganization)]
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            ApprovingProjectsOrganizationID = project.GetCanApproveProjectsOrganization()?.OrganizationID;
+            ApprovingProjectsOrganizationID = project.GetCanStewardProjectsOrganization()?.OrganizationID;
             PrimaryContactOrganizationID = project.GetPrimaryContactOrganization()?.OrganizationID;
         }
 
@@ -168,10 +168,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
             }
 
-            if (MultiTenantHelpers.HasCanApproveProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"{Models.FieldDefinition.CanApproveProjectsOrganization.GetFieldDefinitionLabel()} is required", m => m.ApprovingProjectsOrganizationID));
+                    $"{Models.FieldDefinition.CanStewardProjectsOrganization.GetFieldDefinitionLabel()} is required", m => m.ApprovingProjectsOrganizationID));
             }
 
             return errors;

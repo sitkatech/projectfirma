@@ -40,19 +40,19 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanApproveProjects)</div>
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanStewardProjects)</div>
                 <div class="col-xs-12 col-sm-9">
                     <div class="radio-inline">
                         <label>
-                            @Html.RadioButtonFor(m => m.CanApproveProjects, true) Yes
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, true) Yes
                         </label>
                     </div>
                     <div class="radio-inline">
                         <label>
-                            @Html.RadioButtonFor(m => m.CanApproveProjects, false) No
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, false) No
                         </label>
                     </div>
-                    @Html.ValidationMessageFor(m => m.CanApproveProjects)
+                    @Html.ValidationMessageFor(m => m.CanStewardProjects)
                 </div>
             </div>
             <div class="form-group">

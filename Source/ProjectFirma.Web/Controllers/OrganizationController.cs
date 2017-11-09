@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, true);
+            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -137,10 +137,9 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             var viewGoogleChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
 
-            bool hasSpatialData;
-            var mapInitJson = GetMapInitJson(organization, out hasSpatialData, HideProposals);
+            var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, HideProposals);
 
-            var performanceMeasures = organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList()
+            var performanceMeasures = organization.GetAllActiveProjects().ToList()
                 .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct()
@@ -172,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(projectsLayerGeoJson);
             }
 
-            var projectDetails = organization.ProjectOrganizations.Where(x => x.Project.IsActiveProject()).SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetails = organization.GetAllActiveProjects().SelectMany(x => x.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
@@ -188,8 +187,7 @@ namespace ProjectFirma.Web.Controllers
                     layers.Add(proposalsLayerGeoJson);
                 }
 
-                var proposalDetails = organization.ProjectOrganizations.Where(x => x.Project.IsActiveProposal())
-                    .SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+                var proposalDetails = organization.GetAllActiveProposals().SelectMany(x => x.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
                 if (proposalDetails.Features.Any())
                 {
                     hasSpatialData = true;
@@ -317,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson);            
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllProjectsIncludingLeadImplementing(), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjects(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -361,7 +359,8 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            firmaOrganization = new Organization(keystoneOrganization.FullName, true)
+            var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,

@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using NUnit.Framework;
 using ProjectFirma.Web;
+using ProjectFirma.Web.Common;
 
 /// <summary>
 /// Sets up the global logger for the project

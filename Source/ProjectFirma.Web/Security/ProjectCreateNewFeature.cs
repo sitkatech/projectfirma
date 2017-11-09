@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Security
                 return false;
             }
 
-            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.PersonIsProjectOwnerWhoCanApproveProjects);
+            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.PersonIsProjectOwnerWhoCanStewardProjects);
         }
     }
 }

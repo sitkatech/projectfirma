@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, CurrentPerson);
 
             SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
-            SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanApproveProjectsOrganizationRelationship());
+            SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship());
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -828,30 +828,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            DeleteProject(project);
+            project.DeleteProjectFull();
             SetMessageForDisplay($"Project {project.DisplayName} successfully deleted.");
             return new ModalDialogFormJsonResult();
-        }
-
-        private static void DeleteProject(Project project)
-        {
-            project.ProjectOrganizations.DeleteProjectOrganization();
-            project.ProjectWatersheds.DeleteProjectWatershed();
-            project.ProjectImages.DeleteProjectImage();
-            project.ProjectLocations.DeleteProjectLocation();
-            project.ProjectLocationStagings.DeleteProjectLocationStaging();
-
-            project.ProjectNotes.DeleteProjectNote();
-            project.ProjectClassifications.DeleteProjectClassification();
-
-            var projectPerformanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
-            projectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList().DeletePerformanceMeasureExpectedSubcategoryOption();
-            projectPerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
-
-            var notifications = project.NotificationProjects.Select(x => x.Notification).ToList();
-            project.NotificationProjects.DeleteNotificationProject();
-            notifications.DeleteNotification();
-            project.DeleteProject();
         }
 
         [HttpGet]

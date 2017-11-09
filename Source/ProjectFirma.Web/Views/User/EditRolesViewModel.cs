@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.User
             var errors = new List<ValidationResult>();
 
             var person = HttpRequestStorage.DatabaseEntities.People.GetPerson(PersonID);
-            if (RoleID == Models.Role.ProjectSteward.RoleID && !person.Organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipType.CanApproveProjects))
+            if (RoleID == Models.Role.ProjectSteward.RoleID && !person.Organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipType.CanStewardProjects))
             {
                 var projectStewardLabel = Models.Role.ProjectSteward.RoleDisplayName;
                 var organizationLabel = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();

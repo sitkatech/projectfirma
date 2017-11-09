@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models

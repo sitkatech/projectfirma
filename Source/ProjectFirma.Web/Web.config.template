@@ -109,11 +109,6 @@
   <!-- keystone / SSO related config -->
   <microsoft.identityModel>
     <service>
-      <audienceUris>
-        <add value="https://${canonical.host.name.root}/"/>
-        <add value="https://${canonical.host.name.tenant.one}/"/>
-        <add value="https://${canonical.host.name.tenant.two}/"/>
-      </audienceUris>
       <federatedAuthentication>
         <wsFederation passiveRedirectEnabled="false" issuer="${keystone-sso-endpoint}" realm="${fq-canonical.host.name}/" requireHttps="true" reply="${fq-canonical.host.name}/Account/LogOn/" signOutReply="${fq-canonical.host.name}/"/>
         <cookieHandler requireSsl="true"/>

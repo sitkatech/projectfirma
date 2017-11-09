@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Security
         {
             var forbidAdmin = !HasPermissionByPerson(person) ||
                               person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                              !person.CanApproveProjectByOrganizationRelationship(contextModelObject);
+                              !person.CanStewardProjectByOrganizationRelationship(contextModelObject);
             return forbidAdmin
                 ? new PermissionCheckResult(
                     $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")

@@ -37,7 +37,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class Project : IAuditableEntity, IProject, IMappableProject
+    public partial class Project : IAuditableEntity, IMappableProject
     {
         public int EntityID => ProjectID;
 
@@ -67,9 +67,9 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public Organization GetCanApproveProjectsOrganization()
+        public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanApproveProjects)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
@@ -354,7 +354,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanApproveProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
         }
 
         public string AssocatedOrganizationNames(Organization organization)
@@ -421,7 +421,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Person> GetProjectStewards()
         {
-            return GetCanApproveProjectsOrganization()?.People
+            return GetCanStewardProjectsOrganization()?.People
                        .Where(y => y.RoleID == Role.ProjectSteward.RoleID)
                        .ToList() ?? new List<Person>();
         }
@@ -468,6 +468,45 @@ namespace ProjectFirma.Web.Models
         {
             return ProjectStage == ProjectStage.Proposal &&
                    ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
+        public void DeleteProjectFull()
+        {
+            var notifications = NotificationProjects.Select(x => x.Notification).ToList();
+            NotificationProjects.DeleteNotificationProject();
+            notifications.DeleteNotification();
+
+            PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList()
+                .DeletePerformanceMeasureActualSubcategoryOption();
+            PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+            PerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList()
+                .DeletePerformanceMeasureExpectedSubcategoryOption();
+            PerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
+            ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
+            ProjectBudgets.DeleteProjectBudget();
+            ProjectClassifications.DeleteProjectClassification();
+            ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
+            ProjectExternalLinks.DeleteProjectExternalLink();
+            ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+            ProjectFundingSourceRequests.DeleteProjectFundingSourceRequest();
+            var fileResources = ProjectImages.Select(x => x.FileResource).ToList();
+            ProjectImages.DeleteProjectImage();
+            fileResources.DeleteFileResource();
+            ProjectLocations.DeleteProjectLocation();
+            ProjectLocationStagings.DeleteProjectLocationStaging();
+            ProjectNotes.DeleteProjectNote();
+            ProjectOrganizations.DeleteProjectOrganization();
+            ProjectTags.DeleteProjectTag();
+
+            foreach (var projectUpdateBatch in ProjectUpdateBatches.ToList())
+            {
+                projectUpdateBatch.DeleteAll();
+            }
+
+            ProjectWatersheds.DeleteProjectWatershed();
+
+            SnapshotProjects.DeleteSnapshotProject();
+            this.DeleteProject();
         }
     }
 }

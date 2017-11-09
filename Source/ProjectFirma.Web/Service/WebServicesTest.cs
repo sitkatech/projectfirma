@@ -27,6 +27,7 @@ using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using NUnit.Framework;
 using ProjectFirma.Web.Controllers;
+using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Service
 {

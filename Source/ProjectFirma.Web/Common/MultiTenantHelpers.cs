@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
-using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
@@ -127,17 +126,17 @@ namespace ProjectFirma.Web.Common
             return new List<ITaxonomyTier>();
         }
 
-        public static bool HasCanApproveProjectsOrganizationRelationship()
+        public static bool HasCanStewardProjectsOrganizationRelationship()
         {
-            return GetCanApproveProjectsOrganizationRelationship() != null;
+            return GetCanStewardProjectsOrganizationRelationship() != null;
         }
         public static bool HasIsPrimaryContactOrganizationRelationship()
         {
             return GetIsPrimaryContactOrganizationRelationship() != null;
         }
-        public static RelationshipType GetCanApproveProjectsOrganizationRelationship()
+        public static RelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanApproveProjects);
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
         public static RelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
