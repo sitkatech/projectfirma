@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 
         public EditPerformanceMeasureExpectedViewModel(List<PerformanceMeasureExpectedSimple> performanceMeasureExpecteds)
         {
-            PerformanceMeasureExpecteds = performanceMeasureExpecteds;
+            PerformanceMeasureExpecteds = performanceMeasureExpecteds.OrderBy(x => x.DisplayName).ToList();
         }
 
         public virtual void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, Models.Project project)

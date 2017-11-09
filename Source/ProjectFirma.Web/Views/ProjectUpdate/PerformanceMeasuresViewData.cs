@@ -39,8 +39,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly bool IsImplementationStartYearValid;
         public readonly string DiffUrl;
 
-        public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, UpdateStatus updateStatus)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.PerformanceMeasures, updateStatus)
+        public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, UpdateStatus updateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.PerformanceMeasures, updateStatus, performanceMeasuresValidationResult.GetWarningMessages())
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPerformanceMeasures(projectUpdateBatch.Project));
@@ -65,17 +65,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
             public readonly List<int> CalendarYears;
             public readonly int MaxSubcategoryOptions;
-            public readonly HashSet<int> PerformanceMeasureActualUpdatesWithValidationWarnings;
             public readonly bool ShowExemptYears;
-            public readonly List<string> ValidationWarnings;
 
             public ViewDataForAngularEditor(int projectUpdateBatchID,
                 List<PerformanceMeasureSimple> allPerformanceMeasures,
                 List<PerformanceMeasureSubcategorySimple> allPerformanceMeasureSubcategories,
                 List<PerformanceMeasureSubcategoryOptionSimple> allPerformanceMeasureSubcategoryOptions,
                 List<int> calendarYears,
-                bool showExemptYears,
-                PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
+                bool showExemptYears)
             {
                 ProjectUpdateBatchID = projectUpdateBatchID;
                 AllPerformanceMeasures = allPerformanceMeasures;
@@ -83,8 +80,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 AllPerformanceMeasureSubcategoryOptions = allPerformanceMeasureSubcategoryOptions;
                 CalendarYears = calendarYears;
                 ShowExemptYears = showExemptYears;
-                PerformanceMeasureActualUpdatesWithValidationWarnings = performanceMeasuresValidationResult.PerformanceMeasureActualUpdatesWithWarnings;
-                ValidationWarnings = performanceMeasuresValidationResult.GetWarningMessages();
                 MaxSubcategoryOptions = allPerformanceMeasureSubcategories.GroupBy(x => x.PerformanceMeasureID).Max(x => x.Count());
             }
         }

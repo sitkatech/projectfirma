@@ -31,18 +31,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
-        public readonly ProjectUpdateSectionEnum CurrentSection;
-
-        public readonly bool ShowCommentsEditor;
 
         public readonly string RequestFundingSourceUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-
-        public ExpectedFundingViewData(Person currentPerson,
-            ProjectUpdateBatch projectUpdateBatch,
-            ViewDataForAngularClass viewDataForAngularClass,
-            ProjectFundingDetailViewData projectFundingDetailViewData, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.ExpectedFunding, updateStatus)
+        
+        public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectFundingDetailViewData projectFundingDetailViewData, UpdateStatus updateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.ExpectedFunding, updateStatus, expectedFundingValidationResult.GetWarningMessages())
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));
@@ -50,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned);
+            ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
         }
 
         public class ViewDataForAngularClass
@@ -58,17 +54,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             // Actually a ProjectUpdateBatchID
             public readonly int ProjectID;
             public readonly decimal EstimatedTotalCost;
-            public readonly List<string> ValidationWarnings;
 
             public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
-                ExpectedFundingValidationResult expectedFundingValidationResult,
                 decimal estimatedTotalCost)
             {
                 AllFundingSources = allFundingSources;
                 ProjectID = projectUpdateBatch.ProjectUpdateBatchID;
                 EstimatedTotalCost = estimatedTotalCost;
-                ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
+                
             }
         }
     }

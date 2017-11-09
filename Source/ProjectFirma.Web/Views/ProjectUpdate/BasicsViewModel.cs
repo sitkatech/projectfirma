@@ -19,17 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using FluentValidation.Attributes;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     [Validator(typeof(BasicsViewModelValidator))]
-    public class BasicsViewModel : FormViewModel
+    public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
         [StringLength(Models.Project.FieldLengths.ProjectDescription)]
@@ -76,9 +78,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Comments = comments;
         }
 
-        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch)
+        public void UpdateModel(Models.ProjectUpdate projectUpdate)
         {            
-            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            
             projectUpdate.ProjectDescription = ProjectDescription;
             projectUpdate.ProjectStageID = ProjectStageID;
             projectUpdate.PlanningDesignStartYear = PlanningDesignStartYear;
@@ -86,6 +88,29 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.CompletionYear = CompletionYear;
             projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
             projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (ImplementationStartYear < PlanningDesignStartYear)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+            }
+
+            if (CompletionYear < ImplementationStartYear)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+            }
+
+            var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
+            if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>("Since project is in Completed or Post-Implementation stage, the Completion Year needs to be less than or equal to the current year", m => m.CompletionYear));
+            }
+
+            return errors;
         }
     }
 }

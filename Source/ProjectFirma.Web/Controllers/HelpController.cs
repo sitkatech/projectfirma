@@ -177,5 +177,22 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();
         }
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpGet]
+        public PartialViewResult UpdateFeedback()
+        {
+            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the Project Update wizard: " + Environment.NewLine);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult UpdateFeedback(SupportFormViewModel viewModel)
+        {
+            return Support(viewModel);
+        }
     }
 }

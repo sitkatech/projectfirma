@@ -74,6 +74,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="text-right">
-        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Begin Update</button>
+        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">@(ViewDataTyped.IsNewProjectUpdateBatch ? "Begin Update" : "Continue")</button>
     </div>
 }

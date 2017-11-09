@@ -39,10 +39,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly decimal InflationRate;
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
-        public ExpendituresViewData(Person currentPerson,
-            ProjectUpdateBatch projectUpdateBatch,
-            ViewDataForAngularClass viewDataForAngularClass,
-            ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus)
+        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, ExpendituresValidationResult expendituresValidationResult)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus, expendituresValidationResult.GetWarningMessages())
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
@@ -60,18 +58,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public readonly List<int> CalendarYearRange;
             public readonly List<FundingSourceSimple> AllFundingSources;
             public readonly int ProjectID;
-            public readonly List<string> ValidationWarnings;
             public readonly int MaxYear;
 
             public ViewDataForAngularClass(Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<int> calendarYearRange,
-                ExpendituresValidationResult expendituresValidationResult)
+                List<int> calendarYearRange)
             {
                 CalendarYearRange = calendarYearRange;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
-                ValidationWarnings = expendituresValidationResult.GetWarningMessages();
+                
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             }
         }

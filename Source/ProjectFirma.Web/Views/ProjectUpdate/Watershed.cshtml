@@ -64,10 +64,8 @@ else
     <hr />
     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
     <div class="row">
-        <div class="col-xs-2">
-            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
-        </div>
-        <div class="col-xs-9">                            
+        
+        <div class="col-xs-12">                            
             @if (ViewDataTyped.ValidationWarnings.Any())
             {
                 <div class="alert alert-danger">
@@ -82,9 +80,15 @@ else
                 </div>
             }
         </div>
-        <div class="col-xs-1">
-            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
-        </div>       
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm(false)">Save</button>
+            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+        </div>
     </div>
 
 
@@ -93,7 +97,7 @@ else
         // <![CDATA[
         jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID", ".submitProject"); });
 
-        function saveForm()
+        function saveForm(autoAdvance)
         {
             var form = jQuery("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID");
             // Do not submit if the form
@@ -113,6 +117,7 @@ else
                     form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
                 </text>
             }
+            form.append('<input type="hidden" name="@Html.NameFor(x => x.AutoAdvance)" value="' + autoAdvance + '" />');
             form.submit();
         }
         // ]]>

@@ -19,6 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectStage
@@ -32,9 +35,11 @@ namespace ProjectFirma.Web.Models
         public abstract bool RequiresPerformanceMeasureActuals();
         public abstract bool IsStagedIncludedInTransporationCostCalculations();
         public abstract bool ShouldShowOnMap();
+
+        public abstract IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo();
     }
 
-    public partial class ProjectStageProposal : ProjectStage
+    public partial class ProjectStageProposal
     {
         public override bool IsOnCompletedList()
         {
@@ -74,6 +79,11 @@ namespace ProjectFirma.Web.Models
         public override bool ShouldShowOnMap()
         {
             return true;
+        }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return new List<ProjectStage>();
         }
     }
 
@@ -119,6 +129,14 @@ namespace ProjectFirma.Web.Models
         {
             return true;
         }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return All.Except(new[]
+            {
+                Proposal
+            });
+        }
     }
 
     public partial class ProjectStageImplementation
@@ -162,6 +180,11 @@ namespace ProjectFirma.Web.Models
         {
             return true;
         }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return All.Except(new ProjectStage[] {PlanningDesign, Proposal});
+        }
     }
 
     public partial class ProjectStageCompleted
@@ -204,6 +227,11 @@ namespace ProjectFirma.Web.Models
         public override bool ShouldShowOnMap()
         {
             return true;
+        }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return new[] { Completed };
         }
     }
 
@@ -249,6 +277,11 @@ namespace ProjectFirma.Web.Models
         {
             return false;
         }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return new[] { Terminated };
+        }
     }
 
     public partial class ProjectStageDeferred
@@ -292,6 +325,11 @@ namespace ProjectFirma.Web.Models
         {
             return false;
         }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return new[] { Deferred };
+        }
     }
 
     public partial class ProjectStagePostImplementation
@@ -334,6 +372,11 @@ namespace ProjectFirma.Web.Models
         public override bool ShouldShowOnMap()
         {
             return true;
+        }
+
+        public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
+        {
+            return All.Except(new List<ProjectStage> { Proposal, PlanningDesign, Implementation });
         }
     }
 }

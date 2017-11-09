@@ -228,7 +228,8 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(project, performanceMeasures);
+            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(
+                new List<ProjectSimple> {new ProjectSimple(project)}, performanceMeasures, project.ProjectID, false);
             var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }

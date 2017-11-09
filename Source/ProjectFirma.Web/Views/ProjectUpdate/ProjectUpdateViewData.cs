@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -69,6 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string SubmitUrl;
         public readonly string ApproveUrl;
         public readonly string ReturnUrl;
+        public readonly string ProvideFeedbackUrl;
 
         public readonly bool IsEditable;
         public readonly bool IsReadyToApprove;
@@ -77,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly UpdateStatus UpdateStatus;
         public readonly bool HasUpdateStarted;
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson, null)
+        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
         {
             SelectedProjectUpdateSection = selectedProjectUpdateSection;
             ProjectUpdateBatch = projectUpdateBatch;
@@ -106,6 +109,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SubmitUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Submit(Project));
             ApproveUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Approve(Project));
             ReturnUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Return(Project));
+            ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.UpdateFeedback());
             var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(CurrentPerson, Project).HasPermission;
             ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted && isApprover;
             IsEditable = projectUpdateBatch.InEditableState || ShowApproveAndReturnButton;
@@ -115,6 +119,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
             UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
+
+            ValidationWarnings = validationWarnings;
         }
+
+        public List<string> ValidationWarnings { get; set; }
     }
 }

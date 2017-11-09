@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class History : LtInfo.Common.Mvc.TypedWebViewPage<HistoryViewData>
+    public abstract class History : LtInfo.Common.Mvc.TypedWebPartialViewPage<HistoryViewData>
     {
     }
 }

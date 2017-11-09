@@ -31,13 +31,12 @@ namespace ProjectFirma.Web.Models
         public int? ProjectID { get; set; }
         [Required]
         public int? PerformanceMeasureID { get; set; }
-        [Required]
         [DisplayName("Calendar Year")]
         public int? CalendarYear { get; set; }
-        [Required]
         [DisplayName("Reported Value")]
         public double? ActualValue { get; set; }
         public List<PerformanceMeasureActualSubcategoryOptionSimple> PerformanceMeasureActualSubcategoryOptions { get; set; }
+        public string PerformanceMeasureActualName { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder

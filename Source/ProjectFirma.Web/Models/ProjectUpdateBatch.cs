@@ -55,19 +55,31 @@ namespace ProjectFirma.Web.Models
         public bool IsReadyToApprove => IsPassingAllValidationRules;
 
         private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
-                                                    IsProjectLocationSimpleValid();
+                                                    IsProjectLocationSimpleValid() && IsProjectWatershedValid();
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
         {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch() ?? CreateNewProjectUpdateBatchForProject(project, currentPerson);
+            
+            ProjectUpdateBatch projectUpdateBatch;
+            if (project.GetLatestNotApprovedUpdateBatch() != null)
+            {
+                projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+                isNewProjectUpdateBatch = false;
+            }
+            else
+            {
+                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentPerson);
+                isNewProjectUpdateBatch = true;
+            }
+
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
         {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson, out isNewProjectUpdateBatch);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -241,6 +253,7 @@ namespace ProjectFirma.Web.Models
             DeletePerformanceMeasureActualUpdates();
             DeleteProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
+            DeleteProjectFundingSourceRequestUpdates();
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            DeleteProjectBudgetUpdates();
             DeleteProjectImageUpdates();
@@ -324,6 +337,8 @@ namespace ProjectFirma.Web.Models
             private set => _areProjectBasicsValid = value;
         }
 
+        public bool NewStageIsPlanningDesign => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;
+
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
@@ -399,7 +414,7 @@ namespace ProjectFirma.Web.Models
 
         public bool ArePerformanceMeasuresValid()
         {
-            return ValidatePerformanceMeasures().IsValid;
+            return NewStageIsPlanningDesign || ValidatePerformanceMeasures().IsValid;
         }
 
         public ExpendituresValidationResult ValidateExpendituresAndForceValidation()
@@ -601,14 +616,20 @@ namespace ProjectFirma.Web.Models
             //  project budgets
             //ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
 
-            // performance measures
-            PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals, performanceMeasureActualSubcategoryOptions);
+            // only relevant for stages past planning/design
+            if (!NewStageIsPlanningDesign)
+            {
+                // performance measures
+                PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals,
+                    performanceMeasureActualSubcategoryOptions);
 
-            // project exempt reporting years
-            ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
+                // project exempt reporting years
+                ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
 
-            // project exempt reporting years reason
-            Project.PerformanceMeasureActualYearsExemptionExplanation = PerformanceMeasureActualYearsExemptionExplanation;
+                // project exempt reporting years reason
+                Project.PerformanceMeasureActualYearsExemptionExplanation =
+                    PerformanceMeasureActualYearsExemptionExplanation;
+            }
 
             // project location simple
             ProjectUpdate.CommitSimpleLocationToProject(Project);
@@ -646,6 +667,12 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.Add(projectUpdateHistory);
             projectUpdateBatch.ProjectUpdateStateID = projectUpdateState.ProjectUpdateStateID;
             projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
+        }
+
+        public bool AreAccomplishmentsRelevant()
+        {
+            var projectStage = ProjectUpdate == null ? Project.ProjectStage : ProjectUpdate.ProjectStage;
+            return projectStage != ProjectStage.PlanningDesign;
         }
     }
 }

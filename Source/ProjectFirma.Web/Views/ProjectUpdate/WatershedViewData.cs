@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -35,20 +35,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly List<string> ValidationWarnings;
 
         public WatershedViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             EditProjectWatershedsViewData editProjectWatershedsViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             WatershedValidationResult watershedValidationResult,
-            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Watershed, updateStatus)
+            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Watershed, updateStatus, watershedValidationResult.GetWarningMessages())
         {
             EditProjectWatershedsViewData = editProjectWatershedsViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectWatershed(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
-            ValidationWarnings = watershedValidationResult.GetWarningMessages();
         } 
     }
 }

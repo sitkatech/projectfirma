@@ -75,6 +75,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
+            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
+
             Project = project;
             SelectedProposalSection = selectedProposalSection;
             ProposalSectionsStatus = proposalSectionsStatus;
@@ -125,6 +127,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalLocationDetailedUrl = string.Empty;
             ProposalNotesUrl = string.Empty;
 
+            CurrentPersonCanWithdraw = false;
+
             SubmitUrl = string.Empty;
             ApproveUrl = string.Empty;
             ReturnUrl = string.Empty;
@@ -140,11 +144,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
+            
             HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
-        
+        public bool CurrentPersonCanWithdraw { get; set; }
     }
 }

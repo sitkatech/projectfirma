@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.ProjectUpdate.FieldLengths.ProjectDescription);
 
             // Act
-            viewModel.UpdateModel(projectUpdate.ProjectUpdateBatch);
+            viewModel.UpdateModel(projectUpdate);
 
             // Assert
             Assert.That(projectUpdate.ProjectDescription, Is.EqualTo(viewModel.ProjectDescription));

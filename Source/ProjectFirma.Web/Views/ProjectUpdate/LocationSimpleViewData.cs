@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -33,12 +33,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly List<string> ValidationWarnings;
-
+        
         public LocationSimpleViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
-            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus)
+            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus, locationSimpleValidationResult.GetWarningMessages())
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
