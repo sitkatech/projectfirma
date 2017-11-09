@@ -85,14 +85,14 @@ namespace ProjectFirma.Web.Models
             return existingOrganization == null;
         }
 
-        public List<ProjectOrganization> GetAllProjectOrganizations()
+        public List<Project> GetAllActiveProjects()
         {
-            return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
+            return ProjectOrganizations.Select(x => x.Project).Where(x => x.IsActiveProject()).Distinct().ToList();
         }
 
-        public List<Project> GetAllProjectsIncludingLeadImplementing()
+        public List<Project> GetAllActiveProposals()
         {
-            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList();
+            return ProjectOrganizations.Select(x => x.Project).Where(x => x.IsActiveProposal()).Distinct().ToList();
         }
 
         public string AuditDescriptionString => OrganizationName;
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
 
         public List<RelationshipType> GetProjectRelationshipTypes(Project project)
         {
-            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
+            return ProjectOrganizations.Where(x => x.ProjectID == project.ProjectID).Select(x => x.RelationshipType).ToList();
         }
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
 
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            var projectIDs = ProjectOrganizations.Select(x => x.ProjectID).ToList();
+            var projectIDs = GetAllActiveProjects().Select(x => x.ProjectID).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
         }
 

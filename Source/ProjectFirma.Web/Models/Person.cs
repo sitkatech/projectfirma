@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public List<Project> GetPrimaryContactProjects()
         {
-            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
+            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.IsActiveProject() && p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
         }
 
         public List<Project> GetPrimaryContactUpdatableProjects()
