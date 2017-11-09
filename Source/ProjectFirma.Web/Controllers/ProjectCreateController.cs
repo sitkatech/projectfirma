@@ -827,30 +827,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            DeleteProject(project);
+            project.DeleteProjectFull();
             SetMessageForDisplay($"Project {project.DisplayName} successfully deleted.");
             return new ModalDialogFormJsonResult();
-        }
-
-        private static void DeleteProject(Project project)
-        {
-            project.ProjectOrganizations.DeleteProjectOrganization();
-            project.ProjectWatersheds.DeleteProjectWatershed();
-            project.ProjectImages.DeleteProjectImage();
-            project.ProjectLocations.DeleteProjectLocation();
-            project.ProjectLocationStagings.DeleteProjectLocationStaging();
-
-            project.ProjectNotes.DeleteProjectNote();
-            project.ProjectClassifications.DeleteProjectClassification();
-
-            var projectPerformanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
-            projectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList().DeletePerformanceMeasureExpectedSubcategoryOption();
-            projectPerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
-
-            var notifications = project.NotificationProjects.Select(x => x.Notification).ToList();
-            project.NotificationProjects.DeleteNotificationProject();
-            notifications.DeleteNotification();
-            project.DeleteProject();
         }
 
         [HttpGet]

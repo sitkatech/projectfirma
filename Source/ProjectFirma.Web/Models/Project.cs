@@ -37,7 +37,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class Project : IAuditableEntity, IProject, IMappableProject
+    public partial class Project : IAuditableEntity, IMappableProject
     {
         public int EntityID => ProjectID;
 
@@ -468,6 +468,45 @@ namespace ProjectFirma.Web.Models
         {
             return ProjectStage == ProjectStage.Proposal &&
                    ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
+        public void DeleteProjectFull()
+        {
+            var notifications = NotificationProjects.Select(x => x.Notification).ToList();
+            NotificationProjects.DeleteNotificationProject();
+            notifications.DeleteNotification();
+
+            PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList()
+                .DeletePerformanceMeasureActualSubcategoryOption();
+            PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+            PerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList()
+                .DeletePerformanceMeasureExpectedSubcategoryOption();
+            PerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
+            ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
+            ProjectBudgets.DeleteProjectBudget();
+            ProjectClassifications.DeleteProjectClassification();
+            ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
+            ProjectExternalLinks.DeleteProjectExternalLink();
+            ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+            ProjectFundingSourceRequests.DeleteProjectFundingSourceRequest();
+            var fileResources = ProjectImages.Select(x => x.FileResource).ToList();
+            ProjectImages.DeleteProjectImage();
+            fileResources.DeleteFileResource();
+            ProjectLocations.DeleteProjectLocation();
+            ProjectLocationStagings.DeleteProjectLocationStaging();
+            ProjectNotes.DeleteProjectNote();
+            ProjectOrganizations.DeleteProjectOrganization();
+            ProjectTags.DeleteProjectTag();
+
+            foreach (var projectUpdateBatch in ProjectUpdateBatches.ToList())
+            {
+                projectUpdateBatch.DeleteAll();
+            }
+
+            ProjectWatersheds.DeleteProjectWatershed();
+
+            SnapshotProjects.DeleteSnapshotProject();
+            this.DeleteProject();
         }
     }
 }

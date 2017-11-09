@@ -148,6 +148,14 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
             break;
     }
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinition.FundingType)
+        </div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.FundingType.GetFundingTypeDisplayName()
+        </div>
+    </div>
 
     <hr />
 
@@ -193,22 +201,6 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <span>@ViewUtilities.NoneString</span>
             }
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6">
-            <label style="margin-left: 14px;">Is Featured?</label>
-        </div>
-        <div class="col-xs-6">
-            @ViewDataTyped.Project.IsFeatured.ToYesNo()
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6">
-            @Html.LabelWithSugarFor(FieldDefinition.FundingType)
-        </div>
-        <div class="col-xs-6">
-            @ViewDataTyped.Project.FundingType.GetFundingTypeDisplayName()
         </div>
     </div>
 </div>

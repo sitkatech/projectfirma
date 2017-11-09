@@ -474,36 +474,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
 
-            project.NotificationProjects.DeleteNotificationProject();
-            project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList().DeletePerformanceMeasureActualSubcategoryOption();
-            project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
-            project.PerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList().DeletePerformanceMeasureExpectedSubcategoryOption();
-            project.PerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
-            project.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
-            project.ProjectBudgets.DeleteProjectBudget();
-            project.ProjectClassifications.DeleteProjectClassification();
-            project.ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
-            project.ProjectExternalLinks.DeleteProjectExternalLink();
-            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
-            var fileResources = project.ProjectImages.Select(x => x.FileResource).ToList();
-            project.ProjectImages.DeleteProjectImage();
-            fileResources.DeleteFileResource();
-            project.ProjectLocations.DeleteProjectLocation();
-            project.ProjectLocationStagings.DeleteProjectLocationStaging();
-            project.ProjectNotes.DeleteProjectNote();
-            project.ProjectOrganizations.DeleteProjectOrganization();
-            project.ProjectTags.DeleteProjectTag();
-
-            foreach (var projectUpdateBatch in project.ProjectUpdateBatches.ToList())
-            {
-                projectUpdateBatch.DeleteAll();
-            }
-
-            project.ProjectWatersheds.DeleteProjectWatershed();
-
-            project.SnapshotProjects.DeleteSnapshotProject();
             var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
-            project.DeleteProject();
+
+            project.DeleteProjectFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }
@@ -536,7 +509,7 @@ namespace ProjectFirma.Web.Controllers
                     .ToList()
                     .Where(x =>
                     {
-                        Person person = CurrentPerson;
+                        var person = CurrentPerson;
                         return true;
                     })
                     .OrderBy(x => x.DisplayName)
