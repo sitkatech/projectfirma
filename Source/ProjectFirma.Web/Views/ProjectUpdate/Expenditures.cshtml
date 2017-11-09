@@ -188,7 +188,7 @@ else
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsExpendituresUpdated)
                         {
                             @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
@@ -196,7 +196,7 @@ else
                     </div>
                     <div style="text-align: right; white-space: nowrap">
                         <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
-                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue</button>
+                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
                     </div>
                 </div>
             

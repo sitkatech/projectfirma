@@ -451,15 +451,14 @@ namespace ProjectFirma.Web.Controllers
 
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
-                calendarYearRange,
-                expendituresValidationResult);
+                calendarYearRange);
             var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
             var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
 
-            var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch));
+            var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
         }
 
@@ -547,11 +546,10 @@ namespace ProjectFirma.Web.Controllers
 
             var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
                 allFundingSources,
-                expectedFundingValidationResult,
                 estimatedTotalCost);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(projectUpdateBatch.ProjectFundingSourceRequestUpdates));
 
-            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch));
+            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
             return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
         }
 

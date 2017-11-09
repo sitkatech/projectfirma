@@ -52,6 +52,18 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 }
 
+<div ng-app="ProjectFirmaApp" ng-controller="BasicsController">
+    @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
+    {
+        <div class="alert alert-warning">
+            <ul>
+                <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                    <span data-ng-bind="warning"></span>
+                </li>
+            </ul>
+        </div>
+    }
+</div>
 <p>
     Update your @FieldDefinition.Project.GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinition.Project.GetFieldDefinitionLabel() is complete, be sure to set the stage to "Complete" or "Post-Implementation"
     from the @FieldDefinition.ProjectStage.GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.
@@ -274,31 +286,19 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         <hr />
         SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
-        <div ng-app="ProjectFirmaApp" ng-controller="BasicsController">
+        <div>
             <table class="summaryLayout" style="width: 100%">
                 <tr>
                     <td>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsBasicsUpdated)
                         {
                             @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Basics", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
                         }
                     </td>
-                    <td>
-                        @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
-                        {
-                            <div class="alert alert-danger">
-                                <ul>
-                                    <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                                        <span data-ng-bind="warning"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        }
-                    </td>
                     <td style="text-align: right; white-space: nowrap">
                         <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
-                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue</button>
+                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
                     </td>
                 </tr>
             </table>
