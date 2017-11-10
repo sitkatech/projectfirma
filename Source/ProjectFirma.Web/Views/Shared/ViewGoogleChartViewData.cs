@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -86,7 +85,7 @@ namespace ProjectFirma.Web.Views.Shared
         {
             GoogleChartJsons = googleChartJsons;
             ChartTitle = chartTitle;
-            var hasData = googleChartJsons.Count != 0 ? googleChartJsons.Any(x => x != null && x.HasData()) : false;
+            var hasData = googleChartJsons.Count != 0 && googleChartJsons.Any(x => x != null && x.HasData());
             HasData = hasData;
             MainColumnLabel = hasData ? googleChartJsons.Where(x => x != null).Select(x => x.GoogleChartDataTable.GoogleChartColumns.FirstOrDefault()?.ColumnLabel).Distinct().SingleOrDefault() : null;
             ChartHeight = hasData ? chartHeight : 65;

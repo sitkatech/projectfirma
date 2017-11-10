@@ -19,10 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -55,13 +52,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
 
-            GoogleChartJsons.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
-
             var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
 
             ShowLastUpdatedDate = showLastUpdatedDate;
-            ChartTitle = performanceMeasure.PerformanceMeasureDisplayName;
+            ChartTitle = performanceMeasure.ChartTitle;
             ViewGoogleChartViewData = new ViewGoogleChartViewData(GoogleChartJsons,
                 ChartTitle,
                 height,
