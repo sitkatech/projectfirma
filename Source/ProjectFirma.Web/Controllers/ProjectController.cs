@@ -782,5 +782,23 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+        
+        [ProjectCreateNewFeature]
+        public PartialViewResult ProjectStewardCannotEditPendingApproval(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var projectCreateUrl =
+                SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(projectPrimaryKey));
+            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
+            var proposalLabel = FieldDefinition.Proposal.GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+
+            var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
+                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the proposal."
+                : $"You don't have permission to edit this {proposalLabel}.";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+            var viewModel = new ConfirmDialogFormViewModel();
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
     }
 }
