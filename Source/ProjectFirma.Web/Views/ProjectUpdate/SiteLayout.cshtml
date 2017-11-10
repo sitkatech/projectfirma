@@ -47,7 +47,9 @@ Source code is available upon request via <support@sitkatech.com>.
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
-@if (ViewDataTyped.ValidationWarnings.Any())
+@Html.ValidationSummary()
+
+@if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
         <ul>
@@ -193,21 +195,38 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+    <div class="row">
+        <div class="pull-left">
+            @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
+            {
+                <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
+            }
+            else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
+            {
+                <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-left">
+            <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+            @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
+            @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> {"btn btn-xs btn-firma"}, null)
+        </div>
         <div class="pull-right">
             @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
             {
-                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
             }
             else if (ViewDataTyped.ShowApproveAndReturnButton)
             {
-                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
                 <span style="padding: 2px"></span>
                 if (ViewDataTyped.IsReadyToApprove)
                 {
 
-                    @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
                 }
                 else
                 {
@@ -218,21 +237,6 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <button class="btn btn-xs btn-firma" disabled="disabled">Submit</button>
             }
-        </div>
-        <div>
-            @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
-            {
-                <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
-            }
-            else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
-            {
-                <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
-            }
-            <div class="pull-left">
-                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
-                @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
-                @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> { "btn btn-xs btn-firma" }, null)
-            </div>
         </div>
     </div>
 </div>

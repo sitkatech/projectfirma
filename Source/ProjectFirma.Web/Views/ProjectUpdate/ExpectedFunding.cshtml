@@ -76,9 +76,14 @@ else if (ViewDataTyped.AreProjectBasicsValid)
             </div>
             <div class="input-group">
                 <select ng-model="FundingSourceToAdd"
-                        ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID"
-                        style="width: 500px;"></select>
-                <button class="btn btn-xs btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+                        class="selectpicker"
+                        data-live-search="true"
+                        data-container="body"
+                        ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
+                        data-width="70%">
+                    <option value="null" disabled selected>Select a Funding Source to Add</option>
+                </select>
+                <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
                 <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                     Not listed?
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
@@ -194,7 +199,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
             <table class="summaryLayout" style="width: 100%">
                 <tr>
                     <td>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, null, "Undo all changes on this page")
                         @if (ViewDataTyped.UpdateStatus.IsExpectedFundingUpdated)
                         {
                             @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })

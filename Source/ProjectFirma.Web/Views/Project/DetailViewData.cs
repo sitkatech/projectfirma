@@ -104,10 +104,11 @@ namespace ProjectFirma.Web.Views.Project
         public readonly bool HasAssessment;
         public readonly string EditProjectWatershedFormID;
         public readonly string ProjectStewardCannotEditUrl;
+        public readonly string ProjectStewardCannotEditPendingApprovalUrl;
 
         public readonly string EditExpectedFundingUrl;
         public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
-        
+
         public bool ProjectIsPendingApproval => Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
 
         public readonly Models.Tenant Tenant;
@@ -208,8 +209,10 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
 
             ProjectStewardCannotEditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
+            ProjectStewardCannotEditPendingApprovalUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEditPendingApproval(project));
 
             Tenant = tenant;
         }
+
     }
 }
