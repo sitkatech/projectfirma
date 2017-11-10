@@ -495,14 +495,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList()
-                    .Where(x =>
-                    {
-                        var person = CurrentPerson;
-                        return true;
-                    })
-                    .OrderBy(x => x.DisplayName)
-                    .ToList();
+                    .ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
             return projectsFound;
         }
 
@@ -546,23 +539,17 @@ namespace ProjectFirma.Web.Controllers
         [ProjectManageFeaturedFeature]
         public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
         {
-            FeaturesListProjectGridSpec gridSpec;
-            var taxonomyTierTwos = GetFeaturedListGridSpec(out gridSpec);
+            var gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetFeaturedListGridSpec(out FeaturesListProjectGridSpec gridSpec)
-        {
-            gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            return HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().OrderBy(x => x.DisplayName).ToList();
         }
 
         [HttpGet]
         [ProjectManageFeaturedFeature]
         public PartialViewResult EditFeaturedProjects()
         {
-            var featuredProjectIDs = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).Select(x => x.ProjectID).ToList();
+            var featuredProjectIDs = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList().GetActiveProjects().Select(x => x.ProjectID).ToList();
             var viewModel = new EditFeaturedProjectsViewModel(featuredProjectIDs);
             return ViewEditFeaturedProjects(viewModel);
         }
@@ -588,7 +575,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditFeaturedProjects(EditFeaturedProjectsViewModel viewModel)
         {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var viewData = new EditFeaturedProjectsViewData(allProjects);
             return RazorPartialView<EditFeaturedProjects, EditFeaturedProjectsViewData, EditFeaturedProjectsViewModel>(viewData, viewModel);
         }
@@ -597,7 +584,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FullProjectListSimple()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectListSimple);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().OrderBy(x => x.DisplayName).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
             var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
         }

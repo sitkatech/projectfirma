@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Select(x => (IProject) x).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
 
             var projectsSpec = new ProjectAssessmentExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);
@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, string.Format(" Assessment as of {0}", DateTime.Now.ToStringDateTime()));
+            return new ExcelResult(excelWorkbook, $" Assessment as of {DateTime.Now.ToStringDateTime()}");
         }
     }
 }

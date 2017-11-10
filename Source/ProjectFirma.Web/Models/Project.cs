@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person) || DoesPersonBelongToProjectStewardOrganization(person) || ProposingPerson.OrganizationID == person.OrganizationID;
+            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person) || DoesPersonBelongToProjectStewardOrganization(person) || ProposingPerson?.OrganizationID == person.OrganizationID;
         }
 
         public bool IsPersonThePrimaryContact(Person person)

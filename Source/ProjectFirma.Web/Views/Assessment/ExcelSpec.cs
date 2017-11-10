@@ -28,7 +28,7 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Assessment
 {
-    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<IProject>
+    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<Models.Project>
     {
         public ProjectAssessmentExcelSpec()
         {

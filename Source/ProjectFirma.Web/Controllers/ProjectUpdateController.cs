@@ -1590,10 +1590,8 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<Project> GetProjectsWithNoContact(Person person)
         {
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var projectsRequiringUpdate = projects.Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
+            var projectsRequiringUpdate = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
             var projectsWithPrimaryContact = projectsRequiringUpdate.GetPrimaryContactPeople().SelectMany(x => x.GetPrimaryContactProjects(person));
-
             return projectsRequiringUpdate.Except(projectsWithPrimaryContact).ToList();
         }
 
@@ -1602,7 +1600,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
             var projects =
-                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsMyProject(CurrentPerson)).ToList();
+                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsEditableToThisPerson(CurrentPerson)).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -1611,9 +1609,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> PeopleReceivingReminderGridJsonData(bool showCheckbox)
         {
             var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
-            var people = projects.GetPrimaryContactPeople();
-            
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsEditableToThisPerson(CurrentPerson)).ToList();
+            var people = projects.GetPrimaryContactPeople();            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(people, gridSpec);
             return gridJsonNetJObjectResult;
         }
