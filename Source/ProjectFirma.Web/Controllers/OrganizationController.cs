@@ -140,7 +140,6 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
             var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
-                .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct()
                 .OrderBy(x => x.PerformanceMeasureDisplayName)

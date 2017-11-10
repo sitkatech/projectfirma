@@ -145,7 +145,6 @@ namespace ProjectFirma.Web.Controllers
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 
             var performanceMeasures = associatedProjects
-                .Where(x => x.ProjectStage.ArePerformanceMeasuresReportable())
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct()
                 .OrderBy(x => x.PerformanceMeasureDisplayName)

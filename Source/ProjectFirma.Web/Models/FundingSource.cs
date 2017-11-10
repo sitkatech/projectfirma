@@ -92,15 +92,5 @@ namespace ProjectFirma.Web.Models
         {
             get { return ProjectFundingSourceExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList(); }
         }
-
-        public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
-        {
-            return ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(ProjectFundingSourceExpenditures);
-        }
-
-        public IEnumerable<CalendarYearReportedValue> GetReportableCalendarYearExpenditures()
-        {
-            return ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(ProjectFundingSourceExpenditures.Where(exp => exp.Project.ProjectStage.AreExpendituresReportable()));
-        }
     }
 }
