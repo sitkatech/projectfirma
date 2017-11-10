@@ -40,7 +40,12 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
             var hasTaxonomyTierTwoManagePermissions = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(hasTaxonomyTierTwoManagePermissions) { ObjectNameSingular = taxonomyTierTwoDisplayName, ObjectNamePlural = taxonomyTierTwoDisplayNamePluralized, SaveFiltersInCookie = true };
+            GridSpec = new IndexGridSpec(currentPerson)
+            {
+                ObjectNameSingular = taxonomyTierTwoDisplayName,
+                ObjectNamePlural = taxonomyTierTwoDisplayNamePluralized,
+                SaveFiltersInCookie = true
+            };
 
             if (hasTaxonomyTierTwoManagePermissions)
             {

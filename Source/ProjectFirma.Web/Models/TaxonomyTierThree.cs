@@ -62,9 +62,9 @@ namespace ProjectFirma.Web.Models
             get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyTierThree, TaxonomyTierThreeID.ToString(), ProjectColorByType.ProjectStage); }
         }
 
-        public ICollection<Project> Projects
+        public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            get { return TaxonomyTierTwos.SelectMany(x => x.TaxonomyTierOnes.SelectMany(y => y.Projects)).ToList(); }
+            return TaxonomyTierTwos.SelectMany(x => x.TaxonomyTierOnes.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
         }
 
         public static bool IsTaxonomyTierThreeNameUnique(IEnumerable<TaxonomyTierThree> taxonomyTierThrees, string taxonomyTierThreeName, int currentTaxonomyTierThreeID)

@@ -36,9 +36,9 @@ namespace ProjectFirma.Web.Models
             get { return SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.DeleteTaxonomyTierTwo(TaxonomyTierTwoID)); }
         }
 
-        public ICollection<Project> Projects
+        public List<Project> GetAssociatedProjects(Person person)
         {
-            get { return TaxonomyTierOnes.SelectMany(x => x.Projects).ToList(); }
+            return TaxonomyTierOnes.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
         public int TaxonomyTierID => TaxonomyTierTwoID;

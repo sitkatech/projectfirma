@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly EditProjectType EditProjectType;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly decimal? TotalExpenditures;
-        public bool HasThreeTierTaxonomy { get; private set; }
+        public bool HasThreeTierTaxonomy { get; }
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyTierOneDisplayName,

@@ -24,14 +24,15 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierOne
 {
     public class IndexGridSpec : GridSpec<Models.TaxonomyTierOne>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
+        public IndexGridSpec(Person currentPerson)
         {
-            if (hasDeletePermissions)
+            if (new TaxonomyTierOneManageFeature().HasPermissionByPerson(currentPerson))
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
                 Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierTwoName), 300);    
             }            
             Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyTierOneName), 350, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.Projects.Count, 90);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
         }
     }
 }

@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
-                ProjectStage.All, FundingType.All, organizations,
+                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), FundingType.All, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,
@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var projects = GetProjectsForGrid(x => x.IsActiveProject());
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -364,28 +364,17 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(
-                x => x.IsActiveProposal(),
-                stateProvinces).ToList();
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProposals(CurrentPerson.CanViewProposals);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
-        {
-            return
-                HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(filterFunction,
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList()).ToList();
         }
 
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload(bool proposalsOnly)
         {
             var projects = proposalsOnly
-                ? GetProjectsForGrid(x => x.IsActiveProposal())
-                : GetProjectsForGrid(x =>
-                    x.IsActiveProject());
+                ? HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProposals(CurrentPerson.CanViewProposals)
+                : HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
 
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
@@ -506,14 +495,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList()
-                    .Where(x =>
-                    {
-                        var person = CurrentPerson;
-                        return true;
-                    })
-                    .OrderBy(x => x.DisplayName)
-                    .ToList();
+                    .ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
             return projectsFound;
         }
 
@@ -557,23 +539,17 @@ namespace ProjectFirma.Web.Controllers
         [ProjectManageFeaturedFeature]
         public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
         {
-            FeaturesListProjectGridSpec gridSpec;
-            var taxonomyTierTwos = GetFeaturedListGridSpec(out gridSpec);
+            var gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetFeaturedListGridSpec(out FeaturesListProjectGridSpec gridSpec)
-        {
-            gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            return HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().OrderBy(x => x.DisplayName).ToList();
         }
 
         [HttpGet]
         [ProjectManageFeaturedFeature]
         public PartialViewResult EditFeaturedProjects()
         {
-            var featuredProjectIDs = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).Select(x => x.ProjectID).ToList();
+            var featuredProjectIDs = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList().GetActiveProjects().Select(x => x.ProjectID).ToList();
             var viewModel = new EditFeaturedProjectsViewModel(featuredProjectIDs);
             return ViewEditFeaturedProjects(viewModel);
         }
@@ -599,7 +575,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditFeaturedProjects(EditFeaturedProjectsViewModel viewModel)
         {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var viewData = new EditFeaturedProjectsViewData(allProjects);
             return RazorPartialView<EditFeaturedProjects, EditFeaturedProjectsViewData, EditFeaturedProjectsViewModel>(viewData, viewModel);
         }
@@ -608,7 +584,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FullProjectListSimple()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectListSimple);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().OrderBy(x => x.DisplayName).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
             var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
         }
@@ -730,7 +706,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -740,10 +716,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
 
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects
-                .GetProjectsWithGeoSpatialProperties(x => x.IsEditableToThisPerson(CurrentPerson),
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList())
-                .Where(x => x.IsActiveProposal() && x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                .GetActiveProposals(CurrentPerson.CanViewProposals)
+                .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);

@@ -24,21 +24,23 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierThree
 {
     public class IndexGridSpec : GridSpec<Models.TaxonomyTierThree>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
-        {            
-            if (hasDeletePermissions)
+        public IndexGridSpec(Person person)
+        {
+            if (new TaxonomyTierThreeManageFeature().HasPermissionByPerson(person))
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
             }
 
             Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierThreeName), 240);
             Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierTwos.Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
-            Add("# of Projects", a => a.Projects.Count, 90);
+            Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
         }
     }
 }

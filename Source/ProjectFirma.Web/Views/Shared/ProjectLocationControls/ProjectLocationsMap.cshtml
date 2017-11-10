@@ -159,8 +159,7 @@ Source code is available upon request via <support@sitkatech.com>.
         return layer;
     };
 
-    ProjectFirmaMaps.Map.prototype.getLegend = function()
-    {
+    ProjectFirmaMaps.Map.prototype.getLegend = function() {
         var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
         var allLegendsHtml = "";
         for (var i = 0; i < markerColorTable.length; ++i)

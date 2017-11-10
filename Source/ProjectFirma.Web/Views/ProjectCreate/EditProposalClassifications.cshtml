@@ -46,9 +46,11 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var classification in classifications)
                 {
                     <div class="col-xs-4">
-                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[i].Selected)
-                        <span style="font-weight: bold">@classification.DisplayName</span>
-                        <div style="font-size: 11px;  font-style: italic">
+                        <label>
+                            @Html.CheckBoxFor(x => x.ProjectClassificationSimples[i].Selected)
+                            <span style="font-weight: bold">@classification.DisplayName</span>
+                        </label>
+                        <div style="font-size: 11px; font-style: italic">
                             @classification.ClassificationDescription
                         </div>
                         @{ i = i + 1; }

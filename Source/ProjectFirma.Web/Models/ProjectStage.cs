@@ -29,8 +29,6 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsOnCompletedList();
         public abstract bool IsDeletable();
 
-        public abstract bool AreExpendituresReportable();
-        public abstract bool ArePerformanceMeasuresReportable();
         public abstract bool RequiresReportedExpenditures();
         public abstract bool RequiresPerformanceMeasureActuals();
         public abstract bool IsStagedIncludedInTransporationCostCalculations();
@@ -47,16 +45,6 @@ namespace ProjectFirma.Web.Models
         }
 
         public override bool IsDeletable()
-        {
-            return false;
-        }
-
-        public override bool AreExpendituresReportable()
-        {
-            return true;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -96,16 +84,6 @@ namespace ProjectFirma.Web.Models
         }
 
         public override bool IsDeletable()
-        {
-            return false;
-        }
-
-        public override bool AreExpendituresReportable()
-        {
-            return true;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -151,16 +129,6 @@ namespace ProjectFirma.Web.Models
             return false;
         }
 
-        public override bool AreExpendituresReportable()
-        {
-            return true;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
-        {
-            return true;
-        }
-
         public override bool RequiresReportedExpenditures()
         {
             return true;
@@ -199,16 +167,6 @@ namespace ProjectFirma.Web.Models
             return false;
         }
 
-        public override bool AreExpendituresReportable()
-        {
-            return true;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
-        {
-            return true;
-        }
-
         public override bool RequiresReportedExpenditures()
         {
             return false;
@@ -244,16 +202,6 @@ namespace ProjectFirma.Web.Models
 
 
         public override bool IsDeletable()
-        {
-            return false;
-        }
-
-        public override bool AreExpendituresReportable()
-        {
-            return false;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -296,16 +244,6 @@ namespace ProjectFirma.Web.Models
             return true;
         }
 
-        public override bool AreExpendituresReportable()
-        {
-            return false;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
-        {
-            return false;
-        }
-
         public override bool RequiresReportedExpenditures()
         {
             return false;
@@ -342,16 +280,6 @@ namespace ProjectFirma.Web.Models
         public override bool IsDeletable()
         {
             return false;
-        }
-
-        public override bool AreExpendituresReportable()
-        {
-            return true;
-        }
-
-        public override bool ArePerformanceMeasuresReportable()
-        {
-            return true;
         }
 
         public override bool RequiresReportedExpenditures()

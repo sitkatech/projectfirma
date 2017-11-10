@@ -317,14 +317,14 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private static void MakeOrganizationTheOnlyAndTheLeadImplementingOrganization(Project theProject, Organization leadOrganization)
+        private static void MakeOrganizationTheOnlyAndTheLeadImplementingOrganization(Project project, Organization leadOrganization)
         {
-            theProject.ProjectOrganizations.Clear();
+            project.ProjectOrganizations.Clear();
 
             var leadImplementingRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
             if (leadImplementingRelationshipType != null)
             {
-                theProject.ProjectOrganizations.Add(new ProjectOrganization(theProject, leadOrganization, leadImplementingRelationshipType));
+                project.ProjectOrganizations.Add(new ProjectOrganization(project, leadOrganization, leadImplementingRelationshipType));
             }
         }
 

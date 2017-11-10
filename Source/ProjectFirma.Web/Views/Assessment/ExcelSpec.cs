@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -28,24 +28,10 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Assessment
 {
-    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<IProject>
+    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<Models.Project>
     {
         public ProjectAssessmentExcelSpec()
         {
-            AddColumn($"Proposal or {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", project =>
-            {
-                switch (project.ProjectType)
-                {
-                    case ProjectType.Project:
-                        return $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
-                    case ProjectType.ProposedProject:
-                        return "Proposal";
-                    case ProjectType.ProjectUpdate:
-                        throw new ArgumentOutOfRangeException();
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            });
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.DisplayName);
 
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
@@ -58,8 +44,8 @@ namespace ProjectFirma.Web.Views.Assessment
                 });
             }
         }
-
     }
+
     public class QuestionsExcelSpec : ExcelWorksheetSpec<AssessmentQuestion>
     {
         public QuestionsExcelSpec()
@@ -71,6 +57,5 @@ namespace ProjectFirma.Web.Views.Assessment
             AddColumn("Count of Yes Answers", question => question.GetCountOfYesAnswers());
             AddColumn("Count of No Answers", question => question.GetCountOfNoAnswers());
         }
-
     }
 }

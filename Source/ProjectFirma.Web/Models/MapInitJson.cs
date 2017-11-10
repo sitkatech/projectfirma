@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -55,7 +56,14 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetAllWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
-            return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)};
+            if (MultiTenantHelpers.HasWatershedMapServiceUrl())
+            {
+                return new List<LayerGeoJson>
+                {
+                    Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)
+                };
+            }
+            return new List<LayerGeoJson>();
         }
 
         public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project)

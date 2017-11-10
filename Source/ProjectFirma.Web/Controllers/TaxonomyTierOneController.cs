@@ -68,8 +68,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<TaxonomyTierOne> IndexGridJsonData()
         {
-            var hasDeletePermission = new TaxonomyTierOneManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new IndexGridSpec(hasDeletePermission);
+            var gridSpec = new IndexGridSpec(CurrentPerson);
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(x => x.TaxonomyTierOneName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierOne>(taxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
@@ -81,15 +80,13 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
 
             var taxonomyTierOneProjects = taxonomyTierOne.Projects.ToList();
-            var projects = new List<IMappableProject>(IsCurrentUserAnonymous()
-                ? taxonomyTierOneProjects.Where(p => true).ToList()
-                : taxonomyTierOneProjects);
+            var projects = new List<IMappableProject>(taxonomyTierOneProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierOne, new List<int> {taxonomyTierOne.TaxonomyTierOneID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyTierOneProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals);
 
             var viewData = new DetailViewData(CurrentPerson, taxonomyTierOne, projectLocationsMapInitJson, projectLocationsMapViewData);
 
@@ -195,16 +192,10 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTierOneViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey)
         {
-            BasicProjectInfoGridSpec gridSpec;
-            var projectTaxonomyTierOnes = GetProjectsAndGridSpec(out gridSpec, taxonomyTierOnePrimaryKey.EntityObject);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var projectTaxonomyTierOnes = taxonomyTierOnePrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetProjectsAndGridSpec(out BasicProjectInfoGridSpec gridSpec, TaxonomyTierOne taxonomyTierOne)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return taxonomyTierOne.Projects.OrderBy(x => x.DisplayName).ToList();
         }
     }
 }

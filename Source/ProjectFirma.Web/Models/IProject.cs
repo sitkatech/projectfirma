@@ -23,13 +23,6 @@ using System.Data.Entity.Spatial;
 
 namespace ProjectFirma.Web.Models
 {
-    public enum ProjectType
-    {
-        Project,
-        ProjectUpdate,
-        ProposedProject
-    }
-
     public interface IProject
     {
         int EntityID { get; }
@@ -50,8 +43,6 @@ namespace ProjectFirma.Web.Models
         decimal? EstimatedTotalCost { get; }
         decimal? EstimatedAnnualOperatingCost { get; }
 
-        ProjectType ProjectType { get; }
-
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
@@ -59,9 +50,6 @@ namespace ProjectFirma.Web.Models
 
         GeoJSON.Net.Feature.FeatureCollection DetailedLocationToGeoJsonFeatureCollection();
 
-        GeoJSON.Net.Feature.FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties);
-
-        
+        GeoJSON.Net.Feature.FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties);        
     }
-
 }

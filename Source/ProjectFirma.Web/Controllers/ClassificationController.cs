@@ -157,16 +157,10 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(ClassificationPrimaryKey classificationPrimaryKey)
         {
-            BasicProjectInfoGridSpec gridSpec;
-            var projectClassifications = GetProjectsAndGridSpec(out gridSpec, classificationPrimaryKey.EntityObject);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
+            var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectClassifications, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetProjectsAndGridSpec(out BasicProjectInfoGridSpec gridSpec, Classification classification)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
-            return classification.AssociatedProjects.ToList();
         }
     }
 }

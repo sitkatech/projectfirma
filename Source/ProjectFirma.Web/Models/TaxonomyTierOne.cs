@@ -70,5 +70,10 @@ namespace ProjectFirma.Web.Models
             };
             return fancyTreeNode;
         }
+
+        public List<Project> GetAssociatedProjects(Person currentPerson)
+        {
+            return Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
+        }
     }
 }

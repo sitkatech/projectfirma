@@ -26,9 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFundingSourceRequest;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -55,7 +53,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditProjectFundingSourceRequests(project, viewModel);
             }
-            var currentProjectFundingOrganizations = project.ProjectOrganizations.ToList();
             return UpdateProjectFundingSourceRequests(viewModel, currentProjectFundingSourceRequests);
         }
 
@@ -97,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectFundingSourceRequests(FundingSource fundingSource,
             EditProjectFundingSourceRequestsViewModel viewModel)
         {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var viewData = new EditProjectFundingSourceRequestsViewData(new FundingSourceSimple(fundingSource), allProjects);
             return RazorPartialView<EditProjectFundingSourceRequests, EditProjectFundingSourceRequestsViewData, EditProjectFundingSourceRequestsViewModel>(viewData, viewModel);
         }

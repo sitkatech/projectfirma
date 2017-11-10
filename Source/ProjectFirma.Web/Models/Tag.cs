@@ -60,9 +60,9 @@ namespace ProjectFirma.Web.Models
             get { return TagName; }
         }
 
-        public List<Project> AssociatedProjects
+        public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            get { return ProjectTags.Select(x => x.Project).ToList(); }
+            return ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
         }
 
         public static bool IsTagNameUnique(IEnumerable<Tag> tags, string tagName, int currentTagID)

@@ -37,20 +37,6 @@ namespace ProjectFirma.Web.Models
         {
             Assert.That(ProjectStage.All.Where(x => x.IsOnCompletedList()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.PostImplementation}));
         }
-
-        [Test]
-        public void AreExpendituresReportableTest()
-        {
-            Assert.That(ProjectStage.All.Where(x => x.AreExpendituresReportable()),
-                Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.Implementation, ProjectStage.PlanningDesign, ProjectStage.PostImplementation}));
-        }
-
-        [Test]
-        public void ArePerformanceMeasuresReportableTest()
-        {
-            Assert.That(ProjectStage.All.Where(x => x.ArePerformanceMeasuresReportable()),
-                Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.Implementation, ProjectStage.PostImplementation}));
-        }
         
         [Test]
         public void RequiresReportedExpendituresTest()

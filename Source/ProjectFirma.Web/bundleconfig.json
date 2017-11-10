@@ -28,5 +28,11 @@
     "inputFiles": [
       "Content/typeahead/typeahead.js"
     ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/ModalDialogForm.min.js",
+    "inputFiles": [
+      "ScriptsCustom/ModalDialogForm.js"
+    ]
   }
 ]

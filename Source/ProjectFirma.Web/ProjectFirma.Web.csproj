@@ -580,7 +580,9 @@
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
     <Content Include="ScriptsCustom\ModalDialogForm.js" />
-    <Content Include="ScriptsCustom\ModalDialogForm.min.js" />
+    <Content Include="ScriptsCustom\ModalDialogForm.min.js">
+      <DependentUpon>ModalDialogForm.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\qtippopuphelper.js" />
     <Content Include="ScriptsCustom\qtippopuphelper.min.js" />
     <Content Include="ScriptsCustom\sitka.grid.js" />
@@ -1370,6 +1372,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

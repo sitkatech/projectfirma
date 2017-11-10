@@ -47,11 +47,6 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
-        public List<ProjectOrganization> GetAllProjectOrganizations()
-        {
-            return ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList();
-        }
-
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int currentProjectID)
         {
             if (string.IsNullOrWhiteSpace(projectName))
@@ -237,7 +232,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
+            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person) || DoesPersonBelongToProjectStewardOrganization(person) || ProposingPerson?.OrganizationID == person.OrganizationID;
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -271,6 +266,17 @@ namespace ProjectFirma.Web.Models
                    primaryContactOrganization.OrganizationID == person.OrganizationID;
         }
 
+        public bool DoesPersonBelongToProjectStewardOrganization(Person person)
+        {
+            if (person == null)
+            {
+                return false;
+            }
+            var canStewardProjectsOrganization = GetCanStewardProjectsOrganization();
+            return canStewardProjectsOrganization != null &&
+                   canStewardProjectsOrganization.OrganizationID == person.OrganizationID;
+        }
+
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
             var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
@@ -293,8 +299,6 @@ namespace ProjectFirma.Web.Models
             }
             return featureCollection;
         }
-
-        public ProjectType ProjectType => ProjectType.Project;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {

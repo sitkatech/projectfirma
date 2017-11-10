@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string ColorByQueryStringParameter = "ColorBy";
 
         public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.ProjectStage;
-        public static List<int> GetDefaultLocationFilterValues(bool hideProposals) => GetProjectStagesForMap(hideProposals).Select(x => x.ProjectStageID).ToList();
+        public static List<int> GetDefaultLocationFilterValues(bool showProposals) => GetProjectStagesForMap(showProposals).Select(x => x.ProjectStageID).ToList();
         public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.ProjectStage;
 
         public List<int> FilterPropertyValues { get; set; }
@@ -94,9 +94,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return String.Format("{0}&{1}={2}", BuildCustomizedUrl(filterType, filterValues), ColorByQueryStringParameter, colorBy.ProjectColorByTypeName);
         }
 
-        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects, bool isCurrentUserAnonymous )
+        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects, bool canViewProposals)
         {
-            return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues(isCurrentUserAnonymous));
+            return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues(canViewProposals));
         }
 
         public string GetCustomizedUrl()
@@ -104,30 +104,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return BuildCustomizedUrl(ProjectLocationFilterType, FilterPropertyValues.JoinCsv(p => p.ToString(), ","), ProjectColorByType);
         }
 
-        public static List<ProjectStage> GetProjectStagesForMap()
+        public static List<ProjectStage> GetProjectStagesForMap(bool showProposals)
         {
-            return GetProjectStagesForMap(false);
-        }
-
-        public static List<ProjectStage> GetProjectStagesForMap(bool hideProposals)
-        {
-            var exceptProposals = !hideProposals ? new List<ProjectStage>()
+            var exceptProposals = showProposals ? new List<ProjectStage>()
                 : new List<ProjectStage> { ProjectStage.Proposal};
             var projectStagesForMap = ProjectStage.All.Where(x => x.ShouldShowOnMap())
                 .Except(exceptProposals).OrderBy(x => x.SortOrder).ToList();
             return projectStagesForMap;
         }
 
-        public static List<IMappableProject> ProjectsForMap(bool hideProposals)
+        public static List<IMappableProject> ProjectsForMap(bool showProposals)
         {
-            var exceptProposals = hideProposals
-                ? HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
-                    .ToList()
-                : new List<Models.Project>();
-            var allProjects = new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.AsEnumerable().Except(exceptProposals));
-            var projectsToShow = allProjects
+            return new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals))
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
-            return projectsToShow;
         }
     }
 }

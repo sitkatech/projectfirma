@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
             EditProjectFundingSourceExpendituresViewModel viewModel,
             List<int> calendarYearRangeForExpenditures)
         {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var viewData = new EditProjectFundingSourceExpendituresViewData(new FundingSourceSimple(fundingSource), allProjects, calendarYearRangeForExpenditures);
             return RazorPartialView<EditProjectFundingSourceExpenditures, EditProjectFundingSourceExpendituresViewData, EditProjectFundingSourceExpendituresViewModel>(viewData, viewModel);
         }
