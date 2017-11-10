@@ -47,11 +47,6 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
-        public List<ProjectOrganization> GetAllProjectOrganizations()
-        {
-            return ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList();
-        }
-
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int currentProjectID)
         {
             if (string.IsNullOrWhiteSpace(projectName))
@@ -304,8 +299,6 @@ namespace ProjectFirma.Web.Models
             }
             return featureCollection;
         }
-
-        public ProjectType ProjectType => ProjectType.Project;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {

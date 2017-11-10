@@ -105,8 +105,6 @@ namespace ProjectFirma.Web.Models
 
         public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
-        public ProjectType ProjectType => ProjectType.ProjectUpdate;
-
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return null;

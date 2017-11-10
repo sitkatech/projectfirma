@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -25,7 +26,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectOrganization;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditOrganizationsViewModel(project.GetAllProjectOrganizations());
+            var viewModel = new EditOrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList());
             return ViewEditOrganizations(viewModel);
         }
 
