@@ -146,5 +146,9 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().ShowProposalsToThePublic;
         }
+        public static bool HasWatershedMapServiceUrl()
+        {
+            return !string.IsNullOrWhiteSpace(HttpRequestStorage.Tenant.GetTenantAttribute().MapServiceUrl);
+        }
     }
 }

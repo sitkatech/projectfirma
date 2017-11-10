@@ -90,13 +90,20 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
         {
-            var layerGeoJsons = new List<LayerGeoJson>
+            if (MultiTenantHelpers.HasWatershedMapServiceUrl())
             {
-                new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Show),
-                GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true), "#ffff00", 1, LayerInitialVisibility.Show)
-            };
-            return layerGeoJsons;
+                return new List<LayerGeoJson>
+                {
+                    new LayerGeoJson(watershed.DisplayName,
+                        new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+                        LayerInitialVisibility.Show),
+                    GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
+                    new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
+                        Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true),
+                        "#ffff00", 1, LayerInitialVisibility.Show)
+                };
+            }
+            return new List<LayerGeoJson>();
         }
 
         public FancyTreeNode ToFancyTreeNode()

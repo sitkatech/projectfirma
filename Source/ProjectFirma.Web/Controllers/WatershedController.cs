@@ -39,22 +39,19 @@ namespace ProjectFirma.Web.Controllers
 {
     public class WatershedController : FirmaBaseController
     {
-        [WatershedManageFeature]
-        public ViewResult Manage()
-        {
-            return IndexImpl();
-        }
-        
         [WatershedViewFeature]
         public ViewResult Index()
         {
-            return IndexImpl();
-        }
-
-        private ViewResult IndexImpl()
-        {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
-            var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>{Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)}, BoundingBox.MakeNewDefaultBoundingBox());
+            var layerGeoJsons = new List<LayerGeoJson>();
+            if (MultiTenantHelpers.HasWatershedMapServiceUrl())
+            {
+                layerGeoJsons = new List<LayerGeoJson>
+                {
+                    Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
+                };
+            }
+            var mapInitJson = new MapInitJson("watershedIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
 
             var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);
