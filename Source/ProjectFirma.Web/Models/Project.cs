@@ -237,7 +237,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
+            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person) || DoesPersonBelongToProjectStewardOrganization(person) || ProposingPerson.OrganizationID == person.OrganizationID;
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -269,6 +269,17 @@ namespace ProjectFirma.Web.Models
             var primaryContactOrganization = GetPrimaryContactOrganization();
             return primaryContactOrganization != null &&
                    primaryContactOrganization.OrganizationID == person.OrganizationID;
+        }
+
+        public bool DoesPersonBelongToProjectStewardOrganization(Person person)
+        {
+            if (person == null)
+            {
+                return false;
+            }
+            var canStewardProjectsOrganization = GetCanStewardProjectsOrganization();
+            return canStewardProjectsOrganization != null &&
+                   canStewardProjectsOrganization.OrganizationID == person.OrganizationID;
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
