@@ -49,6 +49,6 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="pull-right">
     @if (ViewDataTyped.ProjectStateIsValidInWizard || ViewDataTyped.Project == null)
             {
-        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Continue</a>
+        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">@(ViewDataTyped.IsNewProjectCreate ? "Begin" : "Continue")<span class='glyphicon glyphicon-chevron-right'></span></a>
     }
 </div>

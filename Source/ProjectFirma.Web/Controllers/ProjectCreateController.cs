@@ -59,13 +59,13 @@ namespace ProjectFirma.Web.Controllers
                 var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
 
                 var proposalSectionsStatus = new ProposalSectionsStatus(project);
-                var viewData = new InstructionsViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage);
+                var viewData = new InstructionsViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
 
                 return RazorView<Instructions, InstructionsViewData>(viewData);
             }
             else
             {
-                var viewData = new InstructionsViewData(CurrentPerson, firmaPage);
+                var viewData = new InstructionsViewData(CurrentPerson, firmaPage, true);
                 return RazorView<Instructions, InstructionsViewData>(viewData);
             }
         }

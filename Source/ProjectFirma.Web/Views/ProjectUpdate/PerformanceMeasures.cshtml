@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using System.Web.Mvc.Html
+@using LtInfo.Common.DesignByContract
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
@@ -29,6 +30,10 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits PerformanceMeasures
+
+@{
+    Check.Assert(ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign, "Performance Measures can't be edited for projects in the Planning/Design stage.");
+}
 
 @section JavascriptAndStylesContent
 {
