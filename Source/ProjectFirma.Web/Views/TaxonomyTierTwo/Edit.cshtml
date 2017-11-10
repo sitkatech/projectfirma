@@ -31,7 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierTwoName)</div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.TaxonomyTierTwoName)
+                @Html.TextBoxFor(m => m.TaxonomyTierTwoName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.TaxonomyTierTwoName)
             </div>
         </div>
@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="form-group">
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeID)</div>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(m => m.TaxonomyTierThreeID, ViewDataTyped.TaxonomyTierThrees)
+                    @Html.DropDownListFor(m => m.TaxonomyTierThreeID, ViewDataTyped.TaxonomyTierThrees, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.TaxonomyTierThreeID)
                 </div>
             </div>

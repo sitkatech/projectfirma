@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
-                ProjectStage.All, FundingType.All, organizations,
+                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), FundingType.All, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,

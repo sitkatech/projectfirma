@@ -75,7 +75,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
             TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
             EntityName = taxonomyTierTwoDisplayName;
-            new TaxonomyTierTwoPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             PerformanceMeasures = taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 

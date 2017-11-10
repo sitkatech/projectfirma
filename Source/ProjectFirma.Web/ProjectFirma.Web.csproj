@@ -1370,6 +1370,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
