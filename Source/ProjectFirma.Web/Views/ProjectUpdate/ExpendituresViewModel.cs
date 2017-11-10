@@ -28,7 +28,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpendituresViewModel : FormViewModel
+    public class ExpendituresViewModel : FormViewModel, IValidatableObject
     {
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }
@@ -70,6 +70,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectFundingSourceExpenditureUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+            var emptyRows = ProjectFundingSourceExpenditures?.Where(x =>
+                x.CalendarYearExpenditures.All(y => !y.MonetaryAmount.HasValue));
+
+            if (emptyRows?.Any() ?? false)
+            {
+                errors.Add(new ValidationResult("The Project could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
+            }
+
+            return errors;
         }
     }
 }
