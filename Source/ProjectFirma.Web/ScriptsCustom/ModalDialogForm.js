@@ -68,14 +68,7 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     // Generate a unique id for the dialog div
     var loadingDivId = dialogDivId + "LoadingDiv";
 
-    var screenWidth = jQuery(window).width();
-
     var width = parseInt(element.attr("data-dialog-width"));
-    if (screenWidth <= 800)
-    {
-        width = 0;
-    }
-    
     if (width == 0) { width = "auto"; }
     else { width = width + "px"; }
 
@@ -193,7 +186,7 @@ function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent,
 
     var modalDialogHtml =
     "<div class='modal firma-modal' id='" + dialogDivId + "' tabindex='-1'>" +
-        "<div class='modal-dialog firma-modal-dialog' style = 'width: " + width + "'>" +
+        "<div class='modal-dialog firma-modal-dialog' style = 'width:90%; max-width: " + width + "'>" +
             "<div class='modal-content'>" +
                 "<div class='modal-header'>" +
                     "<button type='button' class='modal-close-button btn " + buttonCssClasses + "' data-dismiss='modal'><span>&times;</span></button>" +
