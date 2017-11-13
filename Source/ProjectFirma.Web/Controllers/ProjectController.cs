@@ -333,7 +333,7 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }
-
+        
         [ProjectsViewFullListFeature]
         public ViewResult Index()
         {

@@ -388,6 +388,8 @@
     <Compile Include="Views\ProjectCreate\Watershed.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewData.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewModel.cs" />
+    <Compile Include="Views\Project\FundingRequestSheet.cs" />
+    <Compile Include="Views\Project\FundingRequestSheetViewData.cs" />
     <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
@@ -1373,6 +1375,7 @@
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
+    <Content Include="Views\Project\FundingRequestSheet.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
