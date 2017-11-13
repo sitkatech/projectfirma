@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -27,6 +29,7 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -43,6 +46,11 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string LeadFederalAgency;
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
+
+        public readonly string TaxonomyColor;
+        public readonly string TaxonomyTierOneDisplayName;
+        public readonly string TaxonomyTierOneName;
+        private readonly string TaxonomyTierTwoName;
 
         public FundingRequestSheetViewData(Person currentPerson,
             Models.Project project,
@@ -71,10 +79,38 @@ namespace ProjectFirma.Web.Views.Project
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 24
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
 
+            if (project.TaxonomyTierOne == null)
+            {
+                TaxonomyColor = "blue";
+            }
+            else
+            {
+                switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
+                {
+                    case 1:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        break;
+                    case 2:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        break;
+                    case 3:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+                        break;
+                    // we don't support more than 3 so we should throw if that has more than 3
+                    default:
+                        throw new ArgumentException(
+                            $"ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {MultiTenantHelpers.GetNumberOfTaxonomyTiers()}");
+                }
+            }
+
+            TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
+            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
+            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+
             LeadFederalAgency = project.ProjectFundingSourceRequests.Any()
                 ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.OrganizationName).OrderBy(x => x))
                 : "?";
-            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : "?";
+            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.SecuredAmount).ToStringCurrency() : "?";
         }
 
         public HtmlString LegendHtml
