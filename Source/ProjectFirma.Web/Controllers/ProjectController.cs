@@ -68,6 +68,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel, null);
             }
+            // ReSharper disable once PossibleInvalidOperationException
             var project = new Project(viewModel.TaxonomyTierOneID.Value,
                 viewModel.ProjectStageID,
                 viewModel.ProjectName,
@@ -93,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
+            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures);
         }
 
         [HttpPost]
@@ -104,7 +105,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
+                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures);
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -112,10 +113,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditProjectViewModel viewModel, Project project)
         {
-            return ViewEdit(viewModel, project, EditProjectType.NewProject, string.Empty, null, null);
+            return ViewEdit(viewModel, project, EditProjectType.NewProject, string.Empty, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
@@ -205,6 +206,7 @@ namespace ProjectFirma.Web.Controllers
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
 
             var userHasTaggingPermissions = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             var projectBasicsViewData = new ProjectBasicsViewData(project, userHasProjectBudgetManagePermissions, userHasTaggingPermissions, projectBasicsTagsViewData);
 
             var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
@@ -333,7 +335,43 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }
-        
+
+        [ProjectsViewFullListFeature] //Handling permission check in code since this route is "overloaded" (can handle ProjectID or ProjectNumber)
+        public ViewResult FundingRequestSheet(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            var mapDivID = $"project_{project.ProjectID}_Map";
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+
+            var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
+            var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
+            var googleChartDataTable = GetProjectFundingRequestSheetGoogleChartDataTable(fundingSourceRequestAmountGooglePieChartSlices);
+            var googleChartTitle = $"Funding Request by Organization for: {project.ProjectName}";
+            var googleChartType = GoogleChartType.PieChart;
+            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars, fundingSourceRequestAmountGooglePieChartSlices, googleChartType, googleChartDataTable) { PieSliceText = "value" };
+            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType, googleChartDataTable, null, null);
+
+            var viewData = new FundingRequestSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);
+            return RazorView<FundingRequestSheet, FundingRequestSheetViewData>(viewData);
+        }
+
+        public static GoogleChartDataTable GetProjectFundingRequestSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditureGooglePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Source", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
+            var chartRowCs = fundingSourceExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder).Select(x =>
+            {
+                var sectorRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = GoogleChartJson.GetFormattedValue(x.Value, MeasurementUnitType.Dollars);
+                var expenditureRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { sectorRowV, expenditureRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
         [ProjectsViewFullListFeature]
         public ViewResult Index()
         {
@@ -765,7 +803,6 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                 SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(projectPrimaryKey));
             var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
             var proposalLabel = FieldDefinition.Proposal.GetFieldDefinitionLabel();
-            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the proposal."
