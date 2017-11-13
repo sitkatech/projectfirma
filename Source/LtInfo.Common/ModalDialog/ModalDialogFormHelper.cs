@@ -132,6 +132,47 @@ namespace LtInfo.Common.ModalDialog
             string optionalDialogFormID,
             List<string> extraButtonCssClasses)
         {
+            return ModalDialogFormLink(linkID, linkText, dialogContentUrl, dialogTitle, dialogWidth, saveButtonId,
+                saveButtonText, cancelButtonId, cancelButtonText, extraCssClasses, onJavascriptReadyFunction, postData,
+                optionalDialogFormID, extraButtonCssClasses, null);
+        }
+
+        /// <summary>
+        ///     Creates a link that will open a jQuery UI dialog form.
+        ///     Adds additional parameters controlling button IDs if needed.
+        /// </summary>
+        /// <param name="linkID">Optional LinkID to be able to access it later on the page</param>
+        /// <param name="linkText">The inner text of the anchor element</param>
+        /// <param name="dialogContentUrl">The url that will return the content to be loaded into the dialog window</param>
+        /// <param name="dialogTitle">The title to be displayed in the dialog window</param>
+        /// <param name="dialogWidth">width in pixels of dialog</param>
+        /// <param name="saveButtonId">ID for the save button for later reference by jQuery, etc. Take care to make unique!</param>
+        /// <param name="saveButtonText">Text for the save button</param>
+        /// <param name="cancelButtonId">ID for the cancel button for later reference by jQuery, etc. Take care to make unique!</param>
+        /// <param name="cancelButtonText">Text for the cancel button</param>
+        /// <param name="extraCssClasses">Any extra css classes for the button</param>
+        /// <param name="onJavascriptReadyFunction">Optional javascript function to run when dialog is loaded</param>
+        /// <param name="postData">Optional; if provided, will switch the dialog load to a POST from a GET</param>
+        /// <param name="optionalDialogFormID"></param>
+        /// <param name="extraButtonCssClasses"></param>
+        /// <param name="hoverText"></param>
+        /// <returns></returns>
+        public static HtmlString ModalDialogFormLink(string linkID,
+            string linkText,
+            string dialogContentUrl,
+            string dialogTitle,
+            int? dialogWidth,
+            string saveButtonId,
+            string saveButtonText,
+            string cancelButtonId,
+            string cancelButtonText,
+            List<string> extraCssClasses,
+            string onJavascriptReadyFunction,
+            string postData,
+            string optionalDialogFormID,
+            List<string> extraButtonCssClasses,
+            string hoverText)
+        {
             var builder = new TagBuilder("a");
             builder.InnerHtml += linkText;
             if (!string.IsNullOrWhiteSpace(linkID))
@@ -169,6 +210,11 @@ namespace LtInfo.Common.ModalDialog
                 {
                     builder.AddCssClass(extraCssClass);
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(hoverText))
+            {
+                builder.Attributes.Add("title", hoverText);
             }
 
             return new HtmlString(builder.ToString());

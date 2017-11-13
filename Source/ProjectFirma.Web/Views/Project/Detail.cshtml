@@ -78,7 +78,7 @@
     }
     else
     {
-        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Review Update">@DhtmlxGridHtmlHelpers.EditIconBootstrap Reivew Update</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Review Update">@DhtmlxGridHtmlHelpers.EditIconBootstrap Review Update</a>
     }
     @if (ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.CurrentPersonCanViewProposal)
     {
@@ -154,9 +154,16 @@
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>
-                                        @if (ViewDataTyped.UserHasEditProjectPermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                        @if (ViewDataTyped.UserHasEditProjectPermissions)
                                         {
-                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                            if (!ViewDataTyped.ProjectIsPendingApproval)
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                            }
+                                            else
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                            }
                                         }
                                         else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
                                         {
@@ -176,7 +183,7 @@
                                     <h3>Location</h3>
                                 </div>
                                 <div class="panel-body">
-                                    @if (ViewDataTyped.UserHasMapManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasMapManagePermissions)
                                     {
                                         <ul style="list-style-type: none; padding-left: 0;">
                                             <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
@@ -203,9 +210,16 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasProjectOrganizationManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasProjectOrganizationManagePermissions)
                                     {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions)
+                                        if (!ViewDataTyped.ProjectIsPendingApproval)
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions)
+                                        }
+                                        else
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        }
                                     }
                                     else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
                                     {
@@ -254,9 +268,16 @@
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>
-                                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions)
                                         {
-                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions)
+                                            if (!ViewDataTyped.ProjectIsPendingApproval)
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions)
+                                            }
+                                            else
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                            }
                                         }
                                         else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID && new List<ProjectStage> { ProjectStage.Deferred, ProjectStage.PlanningDesign }.Contains(ViewDataTyped.Project.ProjectStage))
                                         {
@@ -273,13 +294,16 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && !ViewDataTyped.ProjectIsPendingApproval && !ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign)
+                                    @if (!ViewDataTyped.Project.IsActiveProposal())
                                     {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
-                                    }
-                                    else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
-                                    {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && !ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign)
+                                         {
+                                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                                         }
+                                         else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
+                                         {
+                                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                         }
                                     }
                                     Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                                 </h3>
@@ -304,7 +328,21 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasEditProjectPermissions)
+                                    {
+                                        if (!ViewDataTyped.ProjectIsPendingApproval)
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Expected Funding", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                                        }
+                                        else
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        }
+                                    }
+                                    else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID && new List<ProjectStage> { ProjectStage.Deferred, ProjectStage.PlanningDesign }.Contains(ViewDataTyped.Project.ProjectStage))
+                                    {
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                    }
                                     Expected Funding
                                 </h3>
                             </div>
@@ -335,13 +373,16 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (!ViewDataTyped.Project.IsActiveProposal())
                                     {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
-                                    }
-                                    else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
-                                    {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
+                                         {
+                                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
+                                         }
+                                         else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
+                                         {
+                                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                         }
                                     }
                                     @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
                                 </h3>
@@ -362,9 +403,16 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>
-                                    @if (ViewDataTyped.UserHasProjectClassificationManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasProjectClassificationManagePermissions)
                                     {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProjectClassificationManagePermissions)
+                                        if (!ViewDataTyped.ProjectIsPendingApproval)
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProjectClassificationManagePermissions)
+                                        }
+                                        else
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        }
                                     }
                                     else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
                                     {
@@ -403,9 +451,16 @@
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>
-                                        @if (ViewDataTyped.UserHasProjectBudgetManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                        @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                                         {
-                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAssessmentUrl, "Edit Assessment", 800, ViewDataTyped.UserHasProjectBudgetManagePermissions)
+                                            if (!ViewDataTyped.ProjectIsPendingApproval)
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAssessmentUrl, "Edit Assessment", 800, ViewDataTyped.UserHasProjectBudgetManagePermissions)
+                                            }
+                                            else
+                                            {
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                            }
                                         }
                                         else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
                                         {
@@ -423,9 +478,16 @@
                     <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (ViewDataTyped.UserHasProjectExternalLinkManagePermissions && !ViewDataTyped.ProjectIsPendingApproval)
+                                    @if (ViewDataTyped.UserHasProjectExternalLinkManagePermissions)
                                     {
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasProjectExternalLinkManagePermissions)
+                                        if (!ViewDataTyped.ProjectIsPendingApproval)
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasProjectExternalLinkManagePermissions)
+                                        }
+                                        else
+                                        {
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.ProjectStewardCannotEditPendingApprovalUrl, string.Format("Cannot Edit {0} - {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), true)
+                                        }
                                     }
                                     else if (ViewDataTyped.CurrentPerson.RoleID == Role.ProjectSteward.RoleID)
                                     {

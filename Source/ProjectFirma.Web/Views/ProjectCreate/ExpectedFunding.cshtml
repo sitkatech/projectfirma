@@ -50,10 +50,15 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
         <div class="input-group">
-            <select ng-model="FundingSourceToAdd"
-                    ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID"
-                    style="width: 500px;"></select>
-            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+            <<select ng-model="FundingSourceToAdd"
+                     class="selectpicker"
+                     data-live-search="true"
+                     data-container="body"
+                     ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
+                     data-width="70%">
+                <option value="null" disabled selected>Select a Funding Source to Add</option>
+            </select>
+            <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
             <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                 Not listed?
                 @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
@@ -160,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <hr />
         <div class="pull-right">
             <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
-            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue</button>
+            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
         </div>
     </div>
 </div>

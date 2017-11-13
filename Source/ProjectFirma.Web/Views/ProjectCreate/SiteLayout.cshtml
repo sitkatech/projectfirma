@@ -246,72 +246,86 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
-        <div class="pull-right">
-            @if (ViewDataTyped.Project != null)
-            {
-                <span style="margin-right: 20px">Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
-
-                if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Draft || ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Returned)
-                {
-                    if (ViewDataTyped.CanAdvanceStage)
-                    {
-                        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
-                    }
-                    else
-                    {
-                        <button class="btn btn-xs btn-firma" disabled>Submit</button>
-                    }
-                }
-                else
-                {
-                    if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.PendingApproval)
-                    {
-                        if (ViewDataTyped.CurrentPersonIsApprover)
-                        {
-                            if (ViewDataTyped.CanAdvanceStage)
-                            {
-                                <span style="margin-right: 5px">
-                                    @{
-                                        var linkText = "<button class='btn btn-xs btn-firma'>" + string.Format("{0} Approve", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")) + "</button>";
-                                    }
-                                    @ModalDialogFormHelper.ModalDialogFormLink(linkText, ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
-
-                                </span>
-                            }
-                            else
-                            {
-                                <button class="btn btn-xs btn-firma" disabled style="margin-right: 10px">Approve</button>
-                            }
-                            <span style="margin-right: 5px">
-                                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
-                            </span>
-                            <span style="margin-right: 5px">
-                                @ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
-                            </span>
-                        }
-                        else if (ViewDataTyped.CurrentPersonIsSubmitter)
-                        {
-                            @ModalDialogFormHelper.ModalDialogFormLink("Withdraw", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
-                        }
-                    }
-                }
-            }
-        </div>
-        
-        <div class="pull-left">
-            @if (ViewDataTyped.Project != null)
-            {
+<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="pull-left">
                 <p>
                     Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate
                 </p>
-                <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
-            }
-            @if (ViewDataTyped.CurrentPersonCanWithdraw && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
-            {
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="pull-right">
+                @if (ViewDataTyped.Project != null)
+                {
+                    <span>Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="pull-left">
+                @if (ViewDataTyped.Project != null)
+                {
+
+                    <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+                }
+                @if (ViewDataTyped.CurrentPersonIsSubmitter && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+                {
                     @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
-            }
+                }
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="pull-right">
+                @if (ViewDataTyped.Project != null)
+                {
+
+
+                    if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Draft || ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.Returned)
+                    {
+                        if (ViewDataTyped.CanAdvanceStage)
+                        {
+                            @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)
+                        }
+                        else
+                        {
+                            <button class="btn btn-xs btn-firma" disabled>Submit</button>
+                        }
+                    }
+                    else
+                    {
+                        if (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum == ProjectApprovalStatusEnum.PendingApproval)
+                        {
+                            if (ViewDataTyped.CurrentPersonIsApprover)
+                            {
+                                if (ViewDataTyped.CanAdvanceStage)
+                                {
+                                    <span style="margin-right: 5px">
+                                        @{
+                                            var linkText = "<button class='btn btn-xs btn-firma'>" + string.Format("{0} Approve", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")) + "</button>";
+                                        }
+                                        @ModalDialogFormHelper.ModalDialogFormLink(linkText, ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-xs btn-firma" disabled style="margin-right: 10px">Approve</button>
+                                }
+                            <span style="margin-right: 5px">
+                                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)
+                            </span>
+                            <span style="margin-right: 5px">
+                                @ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)
+                            </span>
+                            }
+                        }
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>

@@ -25,15 +25,20 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class InstructionsViewData : ProjectCreateViewData
     {
+
+        public readonly bool IsNewProjectCreate;
+
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, ProposalSectionEnum.Instructions)
+        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProposalSectionEnum.Instructions)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            IsNewProjectCreate = isNewProjectCreate;
         }
 
-        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage) : base(currentPerson, project, ProposalSectionEnum.Instructions, proposalSectionsStatus)
+        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProposalSectionEnum.Instructions, proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            IsNewProjectCreate = isNewProjectCreate;
         }
     }
 }

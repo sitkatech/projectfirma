@@ -22,16 +22,18 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 {
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
-    $scope.getAllUsedFundingSourceIDs = function() { return _.map($scope.AngularModel.ProjectFundingSourceRequests, function(p) { return p.FundingSourceID; }); };
+    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceRequests, function(p) { return p.FundingSourceID; }); };
 
-    $scope.filteredFundingSources = function()
-    {
-        var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIDs();
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID); })
-            .sortBy(function (fs) {
-                return [fs.FundingSourceName.toLowerCase(), fs.OrganizationName.toLowerCase()];
-            }).value();
+    $scope.filteredFundingSources = function () {
+        var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
+        var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function (p) { return p.FundingSourceID; });
+        return _($scope.AngularViewData.AllFundingSources).filter(function (f) {
+            return f.IsActive &&
+                _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
+                !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+        }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
     };
+
 
     $scope.getFundingSourceName = function(projectFundingSourceRequest)
     {
