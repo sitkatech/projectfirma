@@ -408,25 +408,25 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
     {
         
-            foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
+        foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
+        {
+            <div class="row" style="padding-top: 5px">
+                <div class="col-md-12 projectImageTiming">@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</div>
+            </div>
+            foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
             {
-                <div class="row" style="padding-top: 5px">
-                    <div class="col-md-12 projectImageTiming">@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</div>
+                <div class="row">
+                    @foreach (var projectImage in projectImageBatch)
+                    {
+                        <div class="col-md-6 col-sm-12 photoContainer">
+                                <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                                <br />
+                                <span class="photocaption">@projectImage.Caption</span>
+                        </div>
+                    }
                 </div>
-                foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
-                {
-                    <div class="row">
-                        @foreach (var projectImage in projectImageBatch)
-                        {
-                            <div class="col-md-6 col-sm-12 photoContainer">
-                                    <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
-                                    <br />
-                                    <span class="photocaption">@projectImage.Caption</span>
-                            </div>
-                        }
-                    </div>
-                }
             }
+        }
     }
     else
     {
