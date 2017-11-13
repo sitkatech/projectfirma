@@ -841,12 +841,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = project.CanDelete().HasPermission;
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"));
-
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var confirmMessage = $"Are you sure you want to delete {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -856,11 +852,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var permissionCheckResult = project.CanDelete();
-            if (!permissionCheckResult.HasPermission)
-            {
-                throw new SitkaRecordNotAuthorizedException(permissionCheckResult.PermissionDeniedMessage);
-            }
             if (!ModelState.IsValid)
             {
                 return ViewDeleteProject(project, viewModel);

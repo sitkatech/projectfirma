@@ -250,11 +250,6 @@ namespace ProjectFirma.Web.Models
             return IsMyProject(person) || new ProjectApproveFeature().HasPermission(person, this).HasPermission;
         }
 
-        public PermissionCheckResult CanDelete()
-        {
-            return new PermissionCheckResult();
-        }
-
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
             var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
