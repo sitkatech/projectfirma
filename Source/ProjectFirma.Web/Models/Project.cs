@@ -526,6 +526,10 @@ namespace ProjectFirma.Web.Models
             return ProjectStage == ProjectStage.Proposal &&
                    ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
+        public bool IsFactSheetRelevant()
+        {
+            return ProjectStage != ProjectStage.Proposal && ProjectStage != ProjectStage.PlanningDesign;
+        }
 
         public void DeleteProjectFull()
         {
