@@ -102,7 +102,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-4 col-lg-4 cap-label">@Html.LabelWithSugarFor(m => m.EstimatedTotalCost)</div>
         <div class="col-md-2">
-            @Html.TextBoxFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
+            @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
         </div>
     </div>
@@ -110,7 +110,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-4 col-lg-4 op-label">@Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)</div>
         <div class="col-md-2">
-            @Html.TextBoxFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
+            @Html.EditorFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
             @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
         </div>
     </div>

@@ -58,10 +58,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
-        public Money? EstimatedTotalCost { get; set; }
+        public MoneyWholeNumber? EstimatedTotalCost { get; set; }
         
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
-        public Money? EstimatedAnnualOperatingCost { get; set; }
+        public MoneyWholeNumber? EstimatedAnnualOperatingCost { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
