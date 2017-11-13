@@ -18,6 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
+using LtInfo.Common.Views;
+using MoreLinq;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
@@ -25,15 +34,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
-using LtInfo.Common.Views;
-using MoreLinq;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (IsProposal())
+                if (IsActiveProject())
                 {
                     return false;
                 }
@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person) || DoesPersonBelongToProjectStewardOrganization(person) || ProposingPerson?.OrganizationID == person.OrganizationID;
+            return IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this);
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -253,28 +253,6 @@ namespace ProjectFirma.Web.Models
         public PermissionCheckResult CanDelete()
         {
             return new PermissionCheckResult();
-        }
-
-        public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)
-        {
-            if (person == null)
-            {
-                return false;
-            }
-            var primaryContactOrganization = GetPrimaryContactOrganization();
-            return primaryContactOrganization != null &&
-                   primaryContactOrganization.OrganizationID == person.OrganizationID;
-        }
-
-        public bool DoesPersonBelongToProjectStewardOrganization(Person person)
-        {
-            if (person == null)
-            {
-                return false;
-            }
-            var canStewardProjectsOrganization = GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganization != null &&
-                   canStewardProjectsOrganization.OrganizationID == person.OrganizationID;
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
@@ -460,18 +438,22 @@ namespace ProjectFirma.Web.Models
 
         public bool IsActiveProject()
         {
-            return ProjectStage != ProjectStage.Proposal && ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+            return !IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+        }
+
+        public bool IsProposal()
+        {
+            return ProjectStage == ProjectStage.Proposal;
+        }
+
+        public bool IsPendingProposal()
+        {
+            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved && ProjectApprovalStatus != ProjectApprovalStatus.Rejected;
         }
 
         public bool IsActiveProposal()
         {
-            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Rejected;
-        }
-
-        private bool IsProposal()
-        {
-            return ProjectStage == ProjectStage.Proposal &&
-                   ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+            return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
 
         public void DeleteProjectFull()

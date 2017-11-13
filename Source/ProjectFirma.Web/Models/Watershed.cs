@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
@@ -39,15 +38,6 @@ namespace ProjectFirma.Web.Models
         public List<Project> GetAssociatedProjects(Person person)
         {
             return ProjectWatersheds.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
-        }
-
-        public List<Project> AssociatedProposals
-        {
-            get
-            {
-                return ProjectWatersheds.Select(ptc => ptc.Project).Where(x => x.IsActiveProposal())
-                    .Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList();
-            }
         }
 
         public static bool IsWatershedNameUnique(IEnumerable<Watershed> watersheds, string watershedName, int currentWatershedID)

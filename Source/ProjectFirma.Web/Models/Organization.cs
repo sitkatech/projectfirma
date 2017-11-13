@@ -24,7 +24,6 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
@@ -36,7 +35,7 @@ namespace ProjectFirma.Web.Models
         public const string OrganizationSitka = "Sitka Technology Group";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
-        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!string.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : string.Empty)}{(!IsActive ? " (Inactive)" : string.Empty)}";
+        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!String.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : String.Empty)}{(!IsActive ? " (Inactive)" : String.Empty)}";
 
         public string OrganizationNamePossessive
         {
@@ -95,7 +94,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsInKeystone => OrganizationGuid.HasValue;
 
-        public bool IsUnknown => !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
+        public bool IsUnknown => !String.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
         {
@@ -116,6 +115,32 @@ namespace ProjectFirma.Web.Models
         public bool CanBeAPrimaryContactOrganization()
         {
             return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public bool IsMyProject(Project project)
+        {
+            return IsLeadImplementingOrganizationForProject(project) ||
+                   IsProjectStewardOrganizationForProject(project) ||
+                   IsProposingOrganization(project);
+        }
+
+        private bool IsProposingOrganization(Project project)
+        {
+            return project.ProposingPerson?.OrganizationID == OrganizationID;
+        }
+
+        public bool IsLeadImplementingOrganizationForProject(Project project)
+        {
+            var primaryContactOrganization = project.GetPrimaryContactOrganization();
+            return primaryContactOrganization != null &&
+                   primaryContactOrganization.OrganizationID == OrganizationID;
+        }
+
+        public bool IsProjectStewardOrganizationForProject(Project project)
+        {
+            var canStewardProjectsOrganization = project.GetCanStewardProjectsOrganization();
+            return canStewardProjectsOrganization != null &&
+                   canStewardProjectsOrganization.OrganizationID == OrganizationID;
         }
     }
 }

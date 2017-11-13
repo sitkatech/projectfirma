@@ -80,7 +80,7 @@
     {
         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Review Update">@DhtmlxGridHtmlHelpers.EditIconBootstrap Review Update</a>
     }
-    @if (ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.CurrentPersonCanViewProposal)
+    @if (ViewDataTyped.Project.IsProposal() && ViewDataTyped.CurrentPersonCanEditProposal)
     {
         switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
         {
@@ -99,8 +99,8 @@
 
 <div>
     @{
-        var projectsUrl = ViewDataTyped.Project.IsActiveProposal() ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
-        var backText = ViewDataTyped.Project.IsActiveProposal() ? "Back to all Proposals" : "Back to all Projects";
+        var projectsUrl = ViewDataTyped.Project.IsProposal() ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
+        var backText = ViewDataTyped.Project.IsProposal() ? "Back to all Proposals" : "Back to all Projects";
         <a class="btn backButton" href="@projectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @backText</a>
     }
 </div>
@@ -263,7 +263,7 @@
                         </div>*@
 
                         <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.IsActiveProposal())
+                        @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions || ViewDataTyped.Project.IsPendingProposal())
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
@@ -294,9 +294,9 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (!ViewDataTyped.Project.IsActiveProposal())
+                                    @if (!ViewDataTyped.Project.IsProposal())
                                     {
-                                        if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && !ViewDataTyped.Project.IsActiveProposal() && ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign)
+                                        if (ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions && ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign)
                                          {
                                              @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
                                          }
@@ -309,7 +309,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.Project.IsActiveProposal())
+                                @if (ViewDataTyped.Project.IsProposal())
                                 {
                                     <p>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
                                 }
@@ -373,7 +373,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @if (!ViewDataTyped.Project.IsActiveProposal())
+                                    @if (!ViewDataTyped.Project.IsProposal())
                                     {
                                         if (ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)
                                          {
@@ -388,7 +388,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.Project.IsActiveProposal())
+                                @if (ViewDataTyped.Project.IsProposal())
                                 {
                                     <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
                                 }

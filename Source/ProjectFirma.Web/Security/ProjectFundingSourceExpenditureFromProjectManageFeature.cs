@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
     {
         public new PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            if (contextModelObject.IsActiveProposal())
+            if (contextModelObject.IsProposal())
             {
                 return new PermissionCheckResult(
                     $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Proposal stage.");
