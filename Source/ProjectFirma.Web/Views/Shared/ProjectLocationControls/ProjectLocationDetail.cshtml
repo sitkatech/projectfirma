@@ -44,7 +44,19 @@ Source code is available upon request via <support@sitkatech.com>.
 <hr/>
 <p>
     <span style="margin-right:10px">Instead of drawing your @FieldDefinition.Project.GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
-    @ModalDialogFormHelper.ModalDialogFormLink("Upload a GIS File", ViewDataTyped.UploadGisFileUrl, "Upload ArcGIS File Geodatabase", 1000, "Approve Upload", "Cancel", new List<string>(){"btn", "btn-sm", "btn-firma"}, null, null, ViewDataTyped.MapFormID)
+    @ModalDialogFormHelper.ModalDialogFormLink(null,
+        "Upload a GIS File",
+        ViewDataTyped.UploadGisFileUrl,
+        "Upload ArcGIS File Geodatabase",
+        1000,
+        ModalDialogFormHelper.SaveButtonID,
+        "Approve Upload",
+        "Cancel",
+        new List<string>(){"btn", "btn-sm", "btn-firma"},
+        null,
+        null,
+        ViewDataTyped.MapFormID,
+        null)
 </p>
 
 
@@ -195,7 +207,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         updateFeatureCollectionJson();
 
-        var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonId");
+        var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonID");
         if(!Sitka.Methods.isUndefinedNullOrEmpty(saveButton))
         {
             saveButton.text("Save");

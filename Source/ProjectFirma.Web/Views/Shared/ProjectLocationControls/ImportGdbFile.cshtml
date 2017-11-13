@@ -66,7 +66,7 @@ Source code is available upon request via <support@sitkatech.com>.
     function uploadGisFile() {
         var form = jQuery("#uploadGisForm");
         if (form.valid()) {
-            var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonId");
+            var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonID");
             var gisUploadResults = jQuery("#gisUploadResults");
             form.ajaxForm({
                 url: this.action,
@@ -101,10 +101,10 @@ Source code is available upon request via <support@sitkatech.com>.
         var modalDialog = jQuery(".modal");
         if (!Sitka.Methods.isUndefinedNullOrEmpty(modalDialog)) {
             modalDialog.on("shown.bs.modal", function () {
-                jQuery("#" + "@ModalDialogFormHelper.SaveButtonId").prop("disabled", true);
+                jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", true);
             });
         }
-        jQuery("#" + "@ModalDialogFormHelper.SaveButtonId").prop("disabled", true);
+        jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", true);
         jQuery("#" + "@Html.IdFor(x => x.FileResourceData)").change(uploadGisFile);
     });
 </script>

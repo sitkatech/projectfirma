@@ -30,11 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    @if (ViewDataTyped.UserIsSitkaAdmin)
-    {
-        @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string>{"btn", "btn-firma", "btn-sm"})
-    }
-
+    @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string>{"btn", "btn-firma", "btn-sm"}, ViewDataTyped.UserIsSitkaAdmin)
 }
 <p>
     Users listed here all have Single Sign On (SSO) accounts provisioned by <a href="@ViewDataTyped.KeystoneUrl">Sitka's Keystone service</a>. To create a new account, end users must <a href="@ViewDataTyped.KeystoneRegisterUserUrl">request an account</a>.

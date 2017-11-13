@@ -87,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="panel-body">
         <div class="pull-right">
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}", "PDF"), ViewDataTyped.MonitoringProgram.NewMonitoringProgramDocumentUrl, "Add New PDF", ViewDataTyped.UserHasMonitoringProgramManagePermissions)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}", "PDF"), ViewDataTyped.MonitoringProgram.NewMonitoringProgramDocumentUrl, "Add New PDF", new List<string>(), ViewDataTyped.UserHasMonitoringProgramManagePermissions)
         </div>
 
         @if (ViewDataTyped.MonitoringProgram.MonitoringProgramDocuments.Any())
@@ -98,7 +98,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <li>
                         <a href="@monitoringProgramDocument.FileResource.FileResourceUrl">@monitoringProgramDocument.DisplayName</a>
                         <span class="DeletePhotoButtonClass">
-                            @ModalDialogFormHelper.MakeDeleteLink("<span class='glyphicon glyphicon-trash' style='margin-right: 3px'></span>", monitoringProgramDocument.DeleteMonitoringProgramDocumentUrl, ViewDataTyped.UserHasMonitoringProgramManagePermissions)
+                            @ModalDialogFormHelper.MakeDeleteLink("<span class='glyphicon glyphicon-trash' style='margin-right: 3px'></span>", monitoringProgramDocument.DeleteMonitoringProgramDocumentUrl, new List<string>(), ViewDataTyped.UserHasMonitoringProgramManagePermissions)
                         </span>
 
                     </li>

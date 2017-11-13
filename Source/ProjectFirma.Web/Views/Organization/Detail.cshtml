@@ -253,10 +253,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
                                 
                                 <span class="pull-right">
-                                    @if (ViewDataTyped.CanCreateNewFundingSource)
-                                    {
-                                        @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinition.FundingSource.GetFieldDefinitionLabel()), new List<string>())
-                                    }
+                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinition.FundingSource.GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
                                 </span>
                             </div>
                             <div class="panel-body">

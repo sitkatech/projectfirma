@@ -38,13 +38,5 @@ namespace LtInfo.Common
         public static readonly Lazy<LtInfoVersionInfo> WebApplicationVersionInfo = new Lazy<LtInfoVersionInfo>(() => new LtInfoVersionInfo(Assembly.GetCallingAssembly()));
 
         public static readonly int? DebugInfoMaxLength = SitkaConfiguration.GetOptionalIntAppSetting("ErrorDebugInfoMaxLength");
-
-        public static List<string> DefaultModalDialogButtonCssClasses
-        {
-            get
-            {
-                return new List<string>(SitkaConfiguration.GetRequiredAppSettingList("DefaultModalDialogButtonCssClasses"));
-            }
-        }
     }
 }

@@ -61,12 +61,10 @@ function findBootstrapDialogForm(optionalDialogFormId, dialogDiv)
     return form;
 }
 
-function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox)
+function createBootstrapDialogForm(element, dialogDivID, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox)
 {
     // Retrieve values from the HTML5 data attributes of the link        
     var dialogTitle = element.attr("data-dialog-title");
-    // Generate a unique id for the dialog div
-    var loadingDivId = dialogDivId + "LoadingDiv";
 
     var width = parseInt(element.attr("data-dialog-width"));
     if (width == 0) { width = "auto"; }
@@ -74,12 +72,11 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
 
     var saveButtonId = element.attr("data-save-button-id");
     var saveButtonText = element.attr("data-save-button-text");
-    var cancelButtonId = element.attr("data-cancel-button-id");
+    var cancelButtonID = element.attr("data-cancel-button-id");
     var cancelButtonText = element.attr("data-cancel-button-text");
     var optionalDialogFormId = element.attr("data-optional-dialog-form-id");
-    var buttonCssClasses = element.attr("data-button-css-classes");
 
-    var dialogDiv = jQuery(getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, htmlContentsOfDialogBox, width, saveButtonText, saveButtonId, cancelButtonText, cancelButtonId, buttonCssClasses, loadingDivId));
+    var dialogDiv = jQuery(getModalDialogFromHtmlTemplate(dialogDivID, dialogTitle, htmlContentsOfDialogBox, width, saveButtonText, saveButtonId, cancelButtonText, cancelButtonID));
     dialogDiv.modal({ backdrop: "static" });
     dialogDiv.draggable({ handle: ".modal-header" });
 
@@ -109,7 +106,7 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
         // page but just hides it. For the server side 
         // validation tooltips to show up you need to
         // remove the original form the page
-        jQuery("#" + dialogDivId).remove();
+        jQuery("#" + dialogDivID).remove();
     });
 
     // Setup the ajax submit logic, has to be done after the contents are loaded
@@ -177,7 +174,7 @@ function wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction,
     });
 }
 
-function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonId, buttonCssClasses, loadingDivId)
+function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonID)
 {
     var hasRequired = dialogContent.indexOf("requiredFieldIcon") !== -1;
     var requiredLegend = hasRequired
@@ -189,15 +186,15 @@ function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent,
         "<div class='modal-dialog firma-modal-dialog' style = 'width:90%; max-width: " + width + "'>" +
             "<div class='modal-content'>" +
                 "<div class='modal-header'>" +
-                    "<button type='button' class='modal-close-button btn " + buttonCssClasses + "' data-dismiss='modal'><span>&times;</span></button>" +
+                    "<button type='button' class='modal-close-button btn btn-xs btn-firma' data-dismiss='modal'><span>&times;</span></button>" +
                     "<span class='modal-title'>" + dialogTitle + "</span>" +
                 "</div>" +
                 "<div class='modal-body'>" + dialogContent + "</div>" +
                 "<div class='modal-footer'>" +
                     requiredLegend +
                     "<div class='modal-footer-buttons'>" +
-                        "<button type='button' id='" + saveButtonId + "' class='btn " + buttonCssClasses + "'>" + saveButtonText + "</button>" +
-                        "<button type='button' id='" + closeButtonId + "' class='btn " + buttonCssClasses + "' data-dismiss='modal'>" + closeButtonText + "</button>" +
+                        "<button type='button' id='" + saveButtonId + "' class='btn btn-xs btn-firma'>" + saveButtonText + "</button>" +
+                        "<button type='button' id='" + closeButtonID + "' class='btn btn-xs btn-firma' data-dismiss='modal'>" + closeButtonText + "</button>" +
                     "</div>" +
                 "</div>" +
                 "<div class='progress' style='display:none'>" +

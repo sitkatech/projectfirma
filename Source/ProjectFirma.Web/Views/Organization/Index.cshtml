@@ -31,11 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    @if (ViewDataTyped.UserIsSitkaAdmin)
-    {
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" })
-    }
-
+    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserIsSitkaAdmin)
 }
 
 <div class="hidden-xs">

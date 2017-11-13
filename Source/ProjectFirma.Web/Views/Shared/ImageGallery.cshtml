@@ -139,7 +139,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     @ModalDialogFormHelper.MakeEditIconLink(galleryImage.EditUrl, string.Format("Edit {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.UserCanAddPhotos)
                                 </span>
                                 <span class="DeletePhotoButtonClass">
-                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), galleryImage.DeleteUrl, ViewDataTyped.UserCanAddPhotos)
+                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), galleryImage.DeleteUrl, new List<string>(), ViewDataTyped.UserCanAddPhotos)
                                 </span>
                                 &nbsp;
                             </div>

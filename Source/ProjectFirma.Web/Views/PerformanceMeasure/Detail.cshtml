@@ -88,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     Basics
                 </h2>
             </div>
@@ -135,7 +135,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
-                        Critical Definitions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        Critical Definitions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <hr/>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
-                        @FieldDefinition.Project.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        @FieldDefinition.Project.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
@@ -161,9 +161,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
-                   MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
-                   FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
+                        MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
+                        FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()))
                 </h2>
             </div>

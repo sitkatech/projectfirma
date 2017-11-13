@@ -597,15 +597,13 @@ namespace LtInfo.Common.DhtmlWrappers
                 modalDialogForm.ContentUrl,
                 modalDialogForm.DialogTitle,
                 modalDialogForm.DialogWidth,
-                ModalDialogFormHelper.SaveButtonId,
+                ModalDialogFormHelper.SaveButtonID,
                 "Save",
-                ModalDialogFormHelper.CancelButtonId,
                 "Cancel",
                 extraCssClasses,
                 modalDialogForm.OnJavascriptReadyFunction,
                 null,
-                null,
-                new List<string>(){"btn-firma"});
+                null);
         }
 
         /// <summary>

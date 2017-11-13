@@ -258,7 +258,7 @@ else
                         @ModalDialogFormHelper.ModalDialogFormLink("Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsBudgetsUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to  Budget", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to  Budget", 800, "hidden-save-button", string.Empty, "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null)
                         }
                     </td>
                     <td>

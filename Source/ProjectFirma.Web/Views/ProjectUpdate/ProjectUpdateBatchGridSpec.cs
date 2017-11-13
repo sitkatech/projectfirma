@@ -53,13 +53,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                             1000,
                             "hidden-save-button",
                             string.Empty,
-                            "diff-close-button",
                             "Close",
                             new List<string> { "btn", "btn-xs", "btn-firma" },
                             null,
                             null,
-                            null,
-                            new List<string>() {"btn-firma", "btn-xs"});
+                            null);
                     }
                     else if (pub.ProjectUpdateState == ProjectUpdateState.Approved)
                     {

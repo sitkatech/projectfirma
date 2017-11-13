@@ -29,10 +29,10 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="summaryLayoutUpdateControls"style="float: right">
         <span style="display: inline-block">
-            @ModalDialogFormHelper.ModalDialogFormLink(FirmaDhtmlxGridHtmlHelpers.PlusIcon.ToString(), ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)
+            @ModalDialogFormHelper.ModalDialogFormLink(FirmaDhtmlxGridHtmlHelpers.PlusIcon.ToString(), ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), new List<string>(), ViewDataTyped.CanEditNotes)
         </span>
         <span style="display: inline-block; vertical-align: top">
-            @ModalDialogFormHelper.ModalDialogFormLink("Add Note", ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)
+            @ModalDialogFormHelper.ModalDialogFormLink("Add Note", ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), new List<string>(), ViewDataTyped.CanEditNotes)
         </span>
     </div>
 }
@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <tr class="@entityNote.DisplayCssClass">
                 <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.EditUrl, string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.DeleteUrl, ViewDataTyped.CanEditNotes)</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.DeleteUrl, new List<string>(), ViewDataTyped.CanEditNotes)</td>
                 <td>@entityNote.LastUpdated.ToStringDateTime()</td>
                 <td>@entityNote.LastUpdatedBy</td>
                 <td>@Html.Raw(entityNote.Note.HtmlEncodeWithBreaks())</td>
