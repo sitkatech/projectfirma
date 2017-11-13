@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectClassifications =
                 string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName));
             DetailUrl = project.GetDetailUrl();
-            DetailLinkDescriptor = project.IsActiveProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
+            DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
             InitializeDisplayNames();
         }
 

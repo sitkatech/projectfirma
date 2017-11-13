@@ -756,7 +756,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
+            var organization = CurrentPerson.Organization;
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
+                                                                                                                        organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -767,7 +769,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
 
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetActiveProposals(CurrentPerson.CanViewProposals)
+                .GetAllProposals(CurrentPerson.CanViewProposals)
                 .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 

@@ -61,5 +61,9 @@ namespace ProjectFirma.Web.Models
         {
             return showProposals ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
         }
+        public static List<Project> GetAllProposals(this IList<Project> projects, bool showProposals)
+        {
+            return showProposals ? projects.Where(x => x.IsProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+        }
     }
 }

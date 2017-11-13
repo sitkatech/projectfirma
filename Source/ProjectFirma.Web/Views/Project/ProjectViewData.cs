@@ -42,13 +42,13 @@ namespace ProjectFirma.Web.Views.Project
             LatestUpdateState = project.GetLatestUpdateState();
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
-            CurrentPersonCanViewProposal =
+            CurrentPersonCanEditProposal =
                 new ProjectCreateFeature().HasPermission(CurrentPerson, Project).HasPermission;
 
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
         }
 
-        public bool CurrentPersonCanViewProposal { get; set; }
+        public bool CurrentPersonCanEditProposal { get; set; }
 
         public string ProposalBasicsUrl { get; set; }
     }

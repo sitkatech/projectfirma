@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -223,10 +223,10 @@ namespace ProjectFirma.Web.Controllers
             return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
         }
 
-        private bool RedirectToInstructionsIfNotActiveProposal(ProjectPrimaryKey projectPrimaryKey, Project project, out ActionResult redirectToAction)
+        private bool RedirectToInstructionsIfNotAPendingProposal(ProjectPrimaryKey projectPrimaryKey, Project project, out ActionResult redirectToAction)
         {
             redirectToAction = null;
-            if (!project.IsActiveProposal())
+            if (!project.IsPendingProposal())
             {
                 redirectToAction =
                     RedirectToAction(
@@ -321,7 +321,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -383,7 +383,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -440,7 +440,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -494,7 +494,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -651,7 +651,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -707,7 +707,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -813,7 +813,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotActiveProposal(projectPrimaryKey, project, out var redirectToInstructions))
+            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
             {
                 return redirectToInstructions;
             }
@@ -841,12 +841,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = project.CanDelete().HasPermission;
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"));
-
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var confirmMessage = $"Are you sure you want to delete {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\"?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -856,11 +852,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var permissionCheckResult = project.CanDelete();
-            if (!permissionCheckResult.HasPermission)
-            {
-                throw new SitkaRecordNotAuthorizedException(permissionCheckResult.PermissionDeniedMessage);
-            }
             if (!ModelState.IsValid)
             {
                 return ViewDeleteProject(project, viewModel);
