@@ -322,47 +322,50 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
-            
-
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, "There is no Fact Sheet available for this Project because it has been terminated.");
+            return project.IsFactSheetRelevant() ? ViewFactSheet(project) : ViewFundingRequestSheet(project);
+        }
+        private ViewResult ViewFactSheet(Project project)
+        {
+            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            var mapDivID = $"project_{project.ProjectID}_Map";
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+            var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
+            var expenditureGooglePieChartSlices = project.GetExpenditureGooglePieChartSlices();
+            var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
+            var googleChartTitle = $"Investment by Funding Sector for: {project.ProjectName}";
+            var googleChartType = GoogleChartType.PieChart;
+            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle,
+                MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType,
+                googleChartDataTable);
+            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
+                googleChartType, googleChartDataTable, null, null);
+            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
+            return RazorView<FactSheet, FactSheetViewData>(viewData);
+        }
 
-            if (project.IsFactSheetRelevant())
-            {
-                new ProjectViewFeature().DemandPermission(CurrentPerson, project);
-                var mapDivID = $"project_{project.ProjectID}_Map";
-                var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
-                var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
-                var expenditureGooglePieChartSlices = project.GetExpenditureGooglePieChartSlices();
-                var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
-                var googleChartTitle = $"Investment by Funding Sector for: {project.ProjectName}";
-                var googleChartType = GoogleChartType.PieChart;
-                var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle,
-                    MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType,
-                    googleChartDataTable);
-                var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
-                    googleChartType, googleChartDataTable, null, null);
-                var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
-                    googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
-                return RazorView<FactSheet, FactSheetViewData>(viewData);
-            }
-            else
-            {
-                new ProjectViewFeature().DemandPermission(CurrentPerson, project);
-                var mapDivID = $"project_{project.ProjectID}_Map";
-                var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+        private ViewResult ViewFundingRequestSheet(Project project)
+        {
+            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            var mapDivID = $"project_{project.ProjectID}_Map";
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
 
-                var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
-                var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
-                var googleChartDataTable = GetProjectFundingRequestSheetGoogleChartDataTable(fundingSourceRequestAmountGooglePieChartSlices);
-                var googleChartTitle = $"Funding Request by Organization for: {project.ProjectName}";
-                var googleChartType = GoogleChartType.PieChart;
-                var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars, fundingSourceRequestAmountGooglePieChartSlices, googleChartType, googleChartDataTable) { PieSliceText = "value" };
-                var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType, googleChartDataTable, null, null);
+            var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
+            var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
+            var googleChartDataTable =
+                GetProjectFundingRequestSheetGoogleChartDataTable(fundingSourceRequestAmountGooglePieChartSlices);
+            var googleChartTitle = $"Funding Request by Organization for: {project.ProjectName}";
+            var googleChartType = GoogleChartType.PieChart;
+            var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars,
+                fundingSourceRequestAmountGooglePieChartSlices, googleChartType, googleChartDataTable) {PieSliceText = "value"};
+            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType,
+                googleChartDataTable, null, null);
 
-                var viewData = new FundingRequestSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson, googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);
-                return RazorView<FundingRequestSheet, FundingRequestSheetViewData>(viewData);
-            }
+            var viewData = new FundingRequestSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);
+            return RazorView<FundingRequestSheet, FundingRequestSheetViewData>(viewData);
         }
 
         public static GoogleChartDataTable GetProjectFundingRequestSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditureGooglePieChartSlices)
