@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Linq;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;
@@ -33,8 +32,8 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void ProjectProposedTest()
         {
-            var editPerformanceMeasureFeature = new PerformanceMeasureExpectedFromProjectManageFeature();
-            var viewPerformanceMeasureFeature = new PerformanceMeasureExpectedFromProjectViewFeature();
+            var editPerformanceMeasureFeature = new ProjectEditAsAdminFeature();
+            var viewPerformanceMeasureFeature = new ProjectsInProposalStageViewListFeature();
 
             // Test organizations we'll use for membership checks
             var testOrganizationForProject = TestFramework.TestOrganization.Create("The Test Organization for Project");
@@ -59,10 +58,10 @@ namespace ProjectFirma.Web.Models
                 deferredProject.ProjectStageID = ProjectStage.Deferred.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, deferredProject, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, deferredProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, deferredProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, deferredProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, deferredProject, editPerformanceMeasureFeature, false);
@@ -90,10 +89,10 @@ namespace ProjectFirma.Web.Models
                 planningDesignProject.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, planningDesignProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, planningDesignProject, viewPerformanceMeasureFeature, true);               
-                TestExpectedUserPermission(userAdmin, planningDesignProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);               
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, planningDesignProject, editPerformanceMeasureFeature, false);
@@ -120,10 +119,10 @@ namespace ProjectFirma.Web.Models
                 implementationProject.ProjectStageID = ProjectStage.Implementation.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, implementationProject, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, implementationProject, viewPerformanceMeasureFeature, true);                
-                TestExpectedUserPermission(userAdmin, implementationProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, implementationProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, implementationProject, editPerformanceMeasureFeature, false);
@@ -150,10 +149,10 @@ namespace ProjectFirma.Web.Models
                 postImplementationProject.ProjectStageID = ProjectStage.PostImplementation.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, postImplementationProject, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, postImplementationProject, viewPerformanceMeasureFeature, true);                
-                TestExpectedUserPermission(userAdmin, postImplementationProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, postImplementationProject, editPerformanceMeasureFeature, false);
@@ -180,10 +179,10 @@ namespace ProjectFirma.Web.Models
                 completedProject.ProjectStageID = ProjectStage.Completed.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, completedProject, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, completedProject, viewPerformanceMeasureFeature, true);                
-                TestExpectedUserPermission(userAdmin, completedProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, completedProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, completedProject, editPerformanceMeasureFeature, false);
@@ -210,10 +209,10 @@ namespace ProjectFirma.Web.Models
                 terminatedProject.ProjectStageID = ProjectStage.Terminated.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, terminatedProject, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, terminatedProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, terminatedProject, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, terminatedProject, editPerformanceMeasureFeature, false);
@@ -278,7 +277,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void ProjectEditReportedExpendituresTest()
         {
-            var manageReportedExpendituresFeature = new ProjectFundingSourceExpenditureFromProjectManageFeature();
+            var manageReportedExpendituresFeature = new ProjectEditAsAdminFeature();
 
             // Test organizations we'll use for membership checks
             var testOrganizationForProject = TestFramework.TestOrganization.Create("The Test Organization for Project");
@@ -331,6 +330,11 @@ namespace ProjectFirma.Web.Models
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
         {
             Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
+        }
+
+        private static void TestExpectedUserPermission(Person user, FirmaFeature projectCheckingFeature, bool expectedPermission)
+        {
+            Assert.That(projectCheckingFeature.HasPermissionByPerson(user) == expectedPermission);
         }
 
         private static void TestExpectedUserPermissionWithUserInLeadImplementingOrg(Person user,

@@ -33,93 +33,65 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
-using ProjectFirma.Web.Views.Tag;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class DetailViewData : ProjectViewData
     {
-        public readonly bool UserHasProjectViewEverythingPermissions;
-        public readonly bool UserHasEditProjectPermissions;
-        public readonly bool UserHasProjectUpdatePermissions;
-        public readonly bool UserHasProjectOrganizationManagePermissions;
-        public readonly bool UserHasProjectClassificationManagePermissions;
-        public readonly bool UserHasProjectWatershedManagePermissions;
-        public readonly bool UserHasMapManagePermissions;
-        public readonly bool UserHasPerformanceMeasureExpectedViewPermissions;
-        public readonly bool UserHasPerformanceMeasureExpectedManagePermissions;
-        public readonly bool UserHasPerformanceMeasureActualManagePermissions;
-        public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
-        public readonly bool UserHasProjectBudgetManagePermissions;
-        public readonly bool UserHasProjectExternalLinkManagePermissions;
+        public bool UserHasProjectAdminPermissions { get; }
+        public bool UserHasEditProjectPermissions { get; }
+        public bool UserHasProjectUpdatePermissions { get; }
+        public bool UserHasPerformanceMeasureActualManagePermissions { get; }
 
-        public readonly string EditProjectUrl;
-        public readonly string EditProjectOrganizationsUrl;
-        public readonly string EditClassificationsUrl;
-        public readonly string EditWatershedsUrl;
-        public readonly string EditSimpleProjectLocationUrl;
-        public readonly string EditDetailedProjectLocationUrl;
-        public readonly string EditPerformanceMeasureExpectedsUrl;
-        public readonly string EditPerformanceMeasureActualsUrl;
-        public readonly string EditReportedExpendituresUrl;
-        public readonly string EditProjectBudgetUrl;
-        public readonly string EditExternalLinksUrl;
-        public readonly string ConfirmNonMandatoryUpdateUrl;
-        public readonly string EditAssessmentUrl;
-        
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
-        public readonly ProjectBudgetDetailViewData ProjectBudgetDetailViewData;
-        public readonly ProjectBasicsViewData ProjectBasicsViewData;
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData;
-        public readonly PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData;
-        public readonly ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData;
-        public readonly ImageGalleryViewData ImageGalleryViewData;
-        public readonly EntityNotesViewData EntityNotesViewData;
-        public readonly EntityExternalLinksViewData EntityExternalLinksViewData;
+        public string EditProjectUrl { get; }
+        public string EditProjectOrganizationsUrl { get; }
+        public string EditClassificationsUrl { get; }
+        public string EditWatershedsUrl { get; }
+        public string EditSimpleProjectLocationUrl { get; }
+        public string EditDetailedProjectLocationUrl { get; }
+        public string EditPerformanceMeasureExpectedsUrl { get; }
+        public string EditPerformanceMeasureActualsUrl { get; }
+        public string EditReportedExpendituresUrl { get; }
+        public string EditExternalLinksUrl { get; }
+        public string ConfirmNonMandatoryUpdateUrl { get; }
+        public string EditAssessmentUrl { get; }
+        public string EditExpectedFundingUrl { get; }
 
-        public readonly bool UserHasTaggingPermissions;
-        public readonly ProjectBasicsTagsViewData ProjectBasicsTagsViewData;
+        public ProjectBasicsViewData ProjectBasicsViewData { get; }
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData { get; }
+        public PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData { get; }
+        public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
+        public ImageGalleryViewData ImageGalleryViewData { get; }
+        public EntityNotesViewData EntityNotesViewData { get; }
+        public EntityExternalLinksViewData EntityExternalLinksViewData { get; }
 
-        public readonly List<ProjectStage> ProjectStages;
-        public readonly List<Models.ProjectOrganization> AllProjectOrganizations;
-        public readonly string MapFormID;
+        public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
 
-        public readonly ProjectUpdateBatchGridSpec ProjectUpdateBatchGridSpec;
-        public readonly string ProjectUpdateBatchGridName;
-        public readonly string ProjectUpdateBatchGridDataUrl;
-        
-        public readonly AuditLogsGridSpec AuditLogsGridSpec;
-        public readonly string AuditLogsGridName;
-        public readonly string AuditLogsGridDataUrl;
+        public List<ProjectStage> ProjectStages { get; }
+        public List<Models.ProjectOrganization> AllProjectOrganizations { get; }
+        public string MapFormID { get; }
 
-        public readonly ProjectNotificationGridSpec ProjectNotificationGridSpec;
-        public readonly string ProjectNotificationGridName;
-        public readonly string ProjectNotificationGridDataUrl;
+        public ProjectUpdateBatchGridSpec ProjectUpdateBatchGridSpec { get; }
+        public string ProjectUpdateBatchGridName { get; }
+        public string ProjectUpdateBatchGridDataUrl { get; }
 
-        public readonly AssessmentTreeViewData AssessmentTreeViewData;
+        public AuditLogsGridSpec AuditLogsGridSpec { get; }
+        public string AuditLogsGridName { get; }
+        public string AuditLogsGridDataUrl { get; }
 
-        public readonly string ClassificationDisplayName;
-        public readonly string ClassificationDisplayNamePluralized;
-        public readonly bool HasAssessment;
-        public readonly string EditProjectWatershedFormID;
-        public readonly string ProjectStewardCannotEditUrl;
-        public readonly string ProjectStewardCannotEditPendingApprovalUrl;
+        public ProjectNotificationGridSpec ProjectNotificationGridSpec { get; }
+        public string ProjectNotificationGridName { get; }
+        public string ProjectNotificationGridDataUrl { get; }
 
-        public readonly string EditExpectedFundingUrl;
-        public readonly ProjectFundingDetailViewData ProjectFundingDetailViewData;
+        public string ClassificationDisplayName { get; }
+        public string ClassificationDisplayNamePluralized { get; }
+        public string EditProjectWatershedFormID { get; }
+        public string ProjectStewardCannotEditUrl { get; }
+        public string ProjectStewardCannotEditPendingApprovalUrl { get; }
+        public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
 
-        public bool ProjectIsPendingApproval => Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
-
-        public readonly Models.Tenant Tenant;
-
-        //TODO: Inline all url parameters
-
-        public DetailViewData(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //ProjectBudgetDetailViewData projectBudgetDetailViewData, 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //string editProjectBudgetUrl, 
-            Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl, string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl, PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, string editReportedExpendituresUrl, string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData, Models.Tenant tenant, ProjectFundingDetailViewData projectFundingDetailViewData)
+        public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages, ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData, ProjectFundingDetailViewData projectFundingDetailViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, EntityExternalLinksViewData entityExternalLinksViewData, ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions, bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions, bool userHasPerformanceMeasureActualManagePermissions, string mapFormID, string confirmNonMandatoryUpdateUrl, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl, string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl, string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl, string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -129,90 +101,72 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();
-            UserHasProjectViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            UserHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
-            UserHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
+            UserHasProjectAdminPermissions = userHasProjectAdminPermissions;
+            UserHasEditProjectPermissions = userHasEditProjectPermissions;
+            UserHasProjectUpdatePermissions = userHasProjectUpdatePermissions;
+            UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
+
             ProjectBasicsViewData = projectBasicsViewData;
-            AssessmentTreeViewData = assessmentTreeViewData;
-
-            UserHasTaggingPermissions = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
-            var tagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
-            ProjectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
-
-            ProjectTaxonomyViewData = projectTaxonomyViewData;
-
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //ProjectBudgetDetailViewData = projectBudgetDetailViewData;
-            //UserHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
-            //EditProjectBudgetUrl = editProjectBudgetUrl;
+            ProjectBasicsTagsViewData = projectBasicsTagsViewData;
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             MapFormID = mapFormID;
             EditSimpleProjectLocationUrl = editSimpleProjectLocationUrl;
             EditDetailedProjectLocationUrl = editDetailedProjectLocationUrl;
-            UserHasMapManagePermissions = new ProjectMapManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             AllProjectOrganizations = project.ProjectOrganizations.ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
-            UserHasProjectOrganizationManagePermissions = new ProjectOrganizationManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
             EditPerformanceMeasureExpectedsUrl = editPerformanceMeasureExpectedsUrl;
-            UserHasPerformanceMeasureExpectedManagePermissions = new PerformanceMeasureExpectedFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
-            UserHasPerformanceMeasureExpectedViewPermissions = new PerformanceMeasureExpectedFromProjectViewFeature().HasPermission(currentPerson, project).HasPermission;
 
             PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
-            UserHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
-            
+
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             EditExpectedFundingUrl = SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceRequestsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
-            UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
-
             EditClassificationsUrl = editClassificationsUrl;
-            UserHasProjectClassificationManagePermissions = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
-
             EditAssessmentUrl = editAssessmentUrl;
-
             EditWatershedsUrl = editWatershedsUrl;
-            UserHasProjectWatershedManagePermissions = new ProjectWatershedManageFromProjectFeature().HasPermission(currentPerson, project).HasPermission;
-
             EditExternalLinksUrl = editExternalLinksUrl;
-            EntityExternalLinksViewData = entityExternalLinksViewData;
-            UserHasProjectExternalLinkManagePermissions = new ProjectExternalLinkManageFeature().HasPermission(currentPerson, project).HasPermission;
-
             ImageGalleryViewData = imageGalleryViewData;
 
             EntityNotesViewData = entityNotesViewData;
+            EntityExternalLinksViewData = entityExternalLinksViewData;
 
-            ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec() { ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update", ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates", SaveFiltersInCookie = true };
+            ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec
+            {
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates",
+                SaveFiltersInCookie = true
+            };
             ProjectUpdateBatchGridName = "projectUpdateBatch";
-            ProjectUpdateBatchGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ProjectUpdateBatchGridJsonData(project.ProjectID));
+            ProjectUpdateBatchGridDataUrl =
+                SitkaRoute<ProjectController>.BuildUrlFromExpression(x =>
+                    x.ProjectUpdateBatchGridJsonData(project.ProjectID));
 
             AuditLogsGridSpec = auditLogsGridSpec;
             AuditLogsGridName = "projectAuditLogsGrid";
             AuditLogsGridDataUrl = auditLogsGridDataUrl;
 
-
             ProjectNotificationGridSpec = projectNotificationGridSpec;
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
 
-            HasAssessment = false;
-
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            ClassificationDisplayNamePluralized =
+                Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
 
             EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
 
-            ProjectStewardCannotEditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
-            ProjectStewardCannotEditPendingApprovalUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEditPendingApproval(project));
-
-            Tenant = tenant;
+            ProjectStewardCannotEditUrl =
+                SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());
+            ProjectStewardCannotEditPendingApprovalUrl =
+                SitkaRoute<ProjectController>.BuildUrlFromExpression(c =>
+                    c.ProjectStewardCannotEditPendingApproval(project));
         }
-
     }
 }

@@ -42,13 +42,20 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            var forbidAdmin = !HasPermissionByPerson(person) ||
-                              person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                              !person.CanStewardProjectByOrganizationRelationship(contextModelObject);
-            return forbidAdmin
-                ? new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
-                : new PermissionCheckResult();
+            var isProposal = contextModelObject.IsProposal();
+            if (isProposal)
+            {
+                return new PermissionCheckResult(
+                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is in the Proposal stage");
+            }
+            var isProjectStewardButCannotStewardThisProject = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProjectByOrganizationRelationship(contextModelObject);
+            var forbidAdmin = !HasPermissionByPerson(person) || isProjectStewardButCannotStewardThisProject;
+            if (forbidAdmin)
+            {
+                return new PermissionCheckResult(
+                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
+            }
+            return new PermissionCheckResult();
         }
     }
 }

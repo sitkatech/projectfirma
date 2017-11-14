@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectOrganizationController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectOrganizationManageFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectOrganizationManageFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey, EditOrganizationsViewModel viewModel)
         {

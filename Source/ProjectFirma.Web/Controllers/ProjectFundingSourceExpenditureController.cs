@@ -26,7 +26,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectFundingSourceExpenditure;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -34,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectFundingSourceExpenditureController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectFundingSourceExpenditureFromProjectManageFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditProjectFundingSourceExpendituresForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -45,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectFundingSourceExpenditureFromProjectManageFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectFundingSourceExpendituresForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectFundingSourceExpendituresViewModel viewModel)
         {
@@ -61,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectFundingSourceExpenditureFromFundingSourceManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult EditProjectFundingSourceExpendituresForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
@@ -72,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectFundingSourceExpenditureFromFundingSourceManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectFundingSourceExpendituresForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, EditProjectFundingSourceExpendituresViewModel viewModel)
         {

@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add(Models.FieldDefinition.UnfundedNeed.ToGridHeaderString(), x => x.UnfundedNeed(), 85, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", a => a.GetProjectWatershedNamesAsHyperlinks(), 350, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 200);
-            if (new TagViewFeature().HasPermissionByPerson(currentPerson))
+            if (new FirmaAdminFeature().HasPermissionByPerson(currentPerson))
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
             }

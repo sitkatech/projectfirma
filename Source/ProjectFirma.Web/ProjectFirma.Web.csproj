@@ -444,12 +444,6 @@
     <Content Include="Content\Bootstrap\firma\base.theme.min.css">
       <DependentUpon>base.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
-      <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
-      <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
-    </Content>
     <Content Include="Content\Bootstrap\firma\clackamas.css">
       <DependentUpon>clackamas.less</DependentUpon>
     </Content>
@@ -548,9 +542,6 @@
     <Content Include="ScriptsCustom\sitkaAjax.min.js.map" />
     <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.min.js.map" />
     <Content Include="ScriptsCustom\unsavedChanges.min.js.map" />
-    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css.map">
-      <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
-    </Content>
     <Content Include="Content\Bootstrap\firma\base.theme.less" />
     <Content Include="Content\img\RCDProjectTracker\manifest.json" />
     <Content Include="Content\Bootstrap\firma\rcd.theme.less" />
@@ -735,8 +726,6 @@
     <Compile Include="Security\TaxonomyTierThreeManageFeature.cs" />
     <Compile Include="Security\TaxonomyTierThreeViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureActualFromProjectManageFeature.cs" />
-    <Compile Include="Security\PerformanceMeasureExpectedFromProjectManageFeature.cs" />
-    <Compile Include="Security\PerformanceMeasureExpectedFromProjectViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureExpectedProposedFeature.cs" />
     <Compile Include="Security\FieldDefinitionViewFeature.cs" />
     <Compile Include="Security\FundingSourceCreateFeature.cs" />
@@ -749,34 +738,24 @@
     <Compile Include="Security\ProjectCreateNewFeature.cs" />
     <Compile Include="Security\ProjectDeleteFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminFeature.cs" />
-    <Compile Include="Security\ProjectExternalLinkManageFeature.cs" />
-    <Compile Include="Security\ProjectFundingSourceExpenditureFromFundingSourceManageFeature.cs" />
-    <Compile Include="Security\ProjectFundingSourceExpenditureFromProjectManageFeature.cs" />
     <Compile Include="Security\ProjectImageEditOrDeleteAsAdminFeature.cs" />
     <Compile Include="Security\ProjectImageNewFeature.cs" />
     <Compile Include="Security\ProjectImageSetKeyPhotoFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateNewFeature.cs" />
-    <Compile Include="Security\ProjectLocationEditFeature.cs" />
-    <Compile Include="Security\ProjectLocationNewFeature.cs" />
     <Compile Include="Security\ProjectLocationsViewFeature.cs" />
     <Compile Include="Security\ProjectManageFeaturedFeature.cs" />
-    <Compile Include="Security\ProjectMapManageFeature.cs" />
-    <Compile Include="Security\ProjectNoteCreateFeature.cs" />
     <Compile Include="Security\ProjectNoteManageAsAdminFeature.cs" />
     <Compile Include="Security\ProjectNoteUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectNoteUpdateNewFeature.cs" />
-    <Compile Include="Security\ProjectOrganizationManageFeature.cs" />
     <Compile Include="Security\ProjectsViewActiveProjectsListFeature.cs" />
     <Compile Include="Security\ProjectsViewFullListFeature.cs" />
     <Compile Include="Security\ProjectsViewMyOrganizationsProjectListFeature.cs" />
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
-    <Compile Include="Security\ProjectClassificationManageFromClassificationFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeature.cs" />
     <Compile Include="Security\ProjectUpdateCreateEditSubmitFeature.cs" />
     <Compile Include="Security\ProjectUpdateViewFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
-    <Compile Include="Security\ProjectWatershedManageFromProjectFeature.cs" />
     <Compile Include="Security\ProjectCreateFeature.cs" />
     <Compile Include="Security\ProjectImageEditOrDeleteFeature.cs" />
     <Compile Include="Security\ProjectNoteManageFeature.cs" />
@@ -784,9 +763,6 @@
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
     <Compile Include="Security\SpendingByOrganizationTypeByOrganizationViewFeature.cs" />
-    <Compile Include="Security\TagManageFeature.cs" />
-    <Compile Include="Security\TagViewFeature.cs" />
-    <Compile Include="Security\ProjectBudgetManageFeature.cs" />
     <Compile Include="UnitTestCommon\TestTaxonomyTierTwoPerformanceMeasure.cs" />
     <Compile Include="UnitTestCommon\TestTaxonomyTierThree.cs" />
     <Compile Include="UnitTestCommon\TestTaxonomyTierOne.cs" />
@@ -2516,7 +2492,6 @@
       <DependentUpon>bootstrap-toc.min.js</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.less" />
-    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.less" />
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.variables.less" />
     <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.css.map">
       <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
