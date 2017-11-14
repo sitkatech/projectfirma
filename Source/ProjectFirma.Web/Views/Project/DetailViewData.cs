@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Models;
@@ -92,6 +93,7 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectWizardUrl { get; }
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
+        public List<string> ProjectAlerts { get; }
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -123,6 +125,7 @@ namespace ProjectFirma.Web.Views.Project
             UserHasEditProjectPermissions = userHasEditProjectPermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
 
+            var projectAlerts = new List<string>();
             if (project.IsProposal())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
@@ -136,7 +139,11 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
                 ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
                 BackToProjectsText = "Back to all Proposals";
-
+                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                {
+                    projectAlerts.Add(
+                        "This project is in the Proposal stage. Any edits to this project must be made using the proposal workflow.");
+                }
             }
             else
             {
@@ -151,6 +158,22 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectListUrl = FullProjectListUrl;
                 BackToProjectsText = "Back to all Projects";
             }
+            if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+            {
+                if (project.IsMyProject(currentPerson))
+                {
+                    projectAlerts.Add(
+                        "You are a Project Steward for this project. You may edit this project by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
+                }
+                else
+                {
+                    projectAlerts.Add(
+                        "You are a Project Steward, but not for this project. You may only edit projects that are associated with your <a href=\"" +
+                        currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
+                }
+            }
+
+            ProjectAlerts = projectAlerts;
 
             ProjectBasicsViewData = projectBasicsViewData;
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;
