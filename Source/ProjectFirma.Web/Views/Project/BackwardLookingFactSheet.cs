@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FactSheet.cs" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="FactSheet.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Project
 {
-    public abstract class FundingRequestSheet : LtInfo.Common.Mvc.TypedWebViewPage<FundingRequestSheetViewData>
+    public abstract class BackwardLookingFactSheet : LtInfo.Common.Mvc.TypedWebViewPage<BackwardLookingFactSheetViewData>
     {
     }
 }

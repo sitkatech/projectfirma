@@ -35,6 +35,18 @@ namespace ProjectFirma.Web.Models
         public abstract bool ShouldShowOnMap();
 
         public abstract IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo();
+
+        // ReSharper disable once InconsistentNaming
+        public static IEnumerable<ProjectStage> _forwardLookingFactSheetProjectStages;
+
+        public static IEnumerable<ProjectStage> ForwardLookingFactSheetProjectStages => 
+            _forwardLookingFactSheetProjectStages ?? (_forwardLookingFactSheetProjectStages =
+            new List<ProjectStage>
+            {
+                Proposal,
+                Deferred,
+                PlanningDesign
+            });
     }
 
     public partial class ProjectStageProposal
