@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            if (contextModelObject.IsActiveProject())
+            if (contextModelObject.IsProposal())
             {
                 return new PermissionCheckResult(
                     $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
