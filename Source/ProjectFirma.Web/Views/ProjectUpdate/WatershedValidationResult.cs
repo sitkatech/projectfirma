@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class WatershedValidationResult
     {
         public static readonly string MissingWatershedOrNotesMessage =
-            $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} or provide explanatory information in the Notes section.";
+            $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}, or if {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} information is unavailable/irrelevant provide explanatory information in the Notes section.";
 
         private readonly List<string> _warningMessages;
 
