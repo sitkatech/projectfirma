@@ -324,7 +324,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, "There is no Fact Sheet available for this Project because it has been terminated.");
-            return project.IsFactSheetRelevant() ? ViewFactSheet(project) : ViewFundingRequestSheet(project);
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewFactSheet(project) : ViewFundingRequestSheet(project);
         }
         private ViewResult ViewFactSheet(Project project)
         {

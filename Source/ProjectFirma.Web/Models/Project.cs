@@ -503,9 +503,15 @@ namespace ProjectFirma.Web.Models
         {
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
-        public bool IsFactSheetRelevant()
+
+        public bool IsForwardLookingFactSheetRelevant()
         {
-            return ProjectStage != ProjectStage.Proposal && ProjectStage != ProjectStage.PlanningDesign;
+            return ProjectStage.ForwardLookingFactSheetProjectStages.Contains(ProjectStage);
+        }
+
+        public bool IsBackwardLookingFactSheetRelevant()
+        {
+            return !IsForwardLookingFactSheetRelevant();
         }
 
         public void DeleteProjectFull()
