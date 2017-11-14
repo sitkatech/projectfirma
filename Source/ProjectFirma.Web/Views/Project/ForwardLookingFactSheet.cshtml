@@ -303,14 +303,10 @@ Source code is available upon request via <support@sitkatech.com>.
         @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName
     </div>
 
-    <div class="row">
-        <div class="col-md-12" style="padding-top: 20px;">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-        </div>
-    </div>
-    <br/>
-    <div class="row">
+    <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
+            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+            <br />
             <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
             @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
             {
@@ -326,10 +322,9 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <div class="systemText">No expected accomplishments provided.</div>
+                <div class="systemText">No Expected Accomplishments provided.</div>
             }
-        </div>
-        <div class="col-md-6">
+            <br/>
             <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
@@ -348,23 +343,29 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <div class="systemText">No threshold categories provided.</div>
+                <div class="systemText">No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</div>
             }
         </div>
-    </div>
-    <br/>
-    <div class="row">
-        @if (ViewDataTyped.KeyPhoto != null)
-        {
-            <div class="col-md-12 keyPhotoPanel" style="padding-top: 20px; vertical-align:top">
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
                 <span class="keyPhoto">
-                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
-                    <br />
+                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
+                    <br/>
                     <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
                 </span>
-
-            </div>
-        }
+            }
+            else
+            {
+                <div class="sectionTitle" style="height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table;margin: auto;height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="row">
@@ -377,7 +378,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     {
                         var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                         // ReSharper disable once UnusedLocals
-                        var corralMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
+                        var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
                     });
                 </script>
             </div>
@@ -399,7 +400,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else
                         {
-                            <div class="systemText">No expected funding sources identified provided.</div>
+                            <div class="systemText">No Expected Funding sources identified provided.</div>
                         }
                     </div>
                 </div>

@@ -255,7 +255,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="padding: 10px;" class="col-sm-2 col-md-2 taxonomyTierThreeColor">
             <img style="max-height: 200px; margin: 0 auto;" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
         </div>
-           
+
         <div class="col-sm-10 col-md-10" style="padding: 20px">
             <div class="taxonomyTierThreeColor" style="font-size: medium">
                 @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet
@@ -263,8 +263,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
             <table class="summaryLayout">
                 <colgroup>
-                    <col class="col-md-3"/>
-                    <col/>
+                    <col class="col-md-3" />
+                    <col />
                 </colgroup>
                 <tr>
                     <th style="padding-right: 5px">@ViewDataTyped.TaxonomyTierOneDisplayName:</th>
@@ -305,15 +305,11 @@ Source code is available upon request via <support@sitkatech.com>.
         @ViewDataTyped.TaxonomyTierOneName
     </div>
 
-    
-    <div class="row">
-        <div class="col-md-12" style="padding-top: 20px;">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-        </div>
-    </div>
-    <br/>
-    <div class="row">
+
+    <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
+            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+            <br />
             <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
             @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
             {
@@ -331,8 +327,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <p>Accomplishments to be provided upon completion of project.</p>
             }
-        </div>
-        <div class="col-md-6">
+            <br />
             <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
@@ -354,22 +349,31 @@ Source code is available upon request via <support@sitkatech.com>.
                 <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
             }
         </div>
-    </div>
-    <br/>
-    <div class="row">
-        @if (ViewDataTyped.KeyPhoto != null)
-        {
-            <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
-                <span class="keyPhoto">
-                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
-                    <br />
-                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
-                </span>
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
+                <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
+                    <span class="keyPhoto">
+                        <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
+                        <br/>
+                        <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
+                    </span>
 
-            </div>
-        }
+                </div>
+            }
+            else
+            {
+                <div class="sectionTitle" style="height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table;margin: auto;height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-6" style="width: 550px">
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
@@ -411,11 +415,11 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
-    
+
     <div class="sectionTitle taxonomyTierThreeColor photosSection">Photos</div>
     @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
     {
-        
+
         foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
         {
             <div class="row" style="padding-top: 5px">
@@ -427,9 +431,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     @foreach (var projectImage in projectImageBatch)
                     {
                         <div class="col-md-6 col-sm-12 photoContainer">
-                                <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
-                                <br />
-                                <span class="photocaption">@projectImage.Caption</span>
+                            <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                            <br />
+                            <span class="photocaption">@projectImage.Caption</span>
                         </div>
                     }
                 </div>
@@ -441,8 +445,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <p>No photos provided.</p>
     }
 
-    <div class="pull-left onlyOnPrint"><hr/>Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-left onlyOnPrint"><hr />Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
+
 <script type="text/javascript">
     jQuery(document).ready(function()
     {
