@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<IGrouping<Models.PerformanceMeasure, ProjectPerformanceMeasureReportingPeriodValue>> PerformanceMeasureReportedValues;
         public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly string ChartID;
-        public readonly Dictionary<string, decimal> FundingSourceExpenditures;
+        //public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly Models.ProjectImage KeyPhoto;
         public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
         public readonly int ProjectImagesPerTimingGroup;
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
-            FundingSourceExpenditures = project.GetExpendituresDictionary();
+            //FundingSourceExpenditures = project.GetExpenditureGooglePieChartSlices();
             KeyPhoto = project.KeyPhoto;
             ProjectImagesExceptKeyPhotoGroupedByTiming =
                 project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
@@ -138,14 +138,10 @@ namespace ProjectFirma.Web.Views.Project
         public HtmlString GetLegendHTML()
         {
             var legendHtml = "<div>";
-            foreach (var fund in FundingSourceExpenditures)
+            foreach (var googlePieChartSlice in ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
             {
-                var index =
-                    ProjectController
-                        .GetConsistentFundingSourceExpendituresIndexDictionary(FundingSourceExpenditures)[fund.Key];
-                legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " +
-                              ChartColorRange[index] + "'></div> ";
-                legendHtml += "<div style='display:inline-block'>" + fund.Key + " = " + fund.Value.ToString("C0") + "</div>";
+                legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " + googlePieChartSlice.Color + "'></div> ";
+                legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Label + ": " + googlePieChartSlice.Value.ToString("C0") + "</div>";
                 legendHtml += "<br>";
             }
             legendHtml += "</div>";

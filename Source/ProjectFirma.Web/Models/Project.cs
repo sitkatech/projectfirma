@@ -389,13 +389,6 @@ namespace ProjectFirma.Web.Models
             projectImageFileResourceIDsToDelete.DeleteFileResource();
         }
 
-        public Dictionary<string, decimal> GetExpendituresDictionary()
-        {
-            return ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
-                .GroupBy(x => x.FundingSource.FixedLengthDisplayName)
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
-        }
-
         public IEnumerable<Person> GetProjectStewards()
         {
             return GetCanStewardProjectsOrganization()?.People

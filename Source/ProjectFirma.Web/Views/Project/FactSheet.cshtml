@@ -382,7 +382,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="sectionTitle taxonomyTierThreeColor">Expenditures</div>
                 <div class="ltInfoPanel ltInfoPanelDimensions">
                     <div style="width: 450px; height: 550px; overflow: hidden">
-                        @if (ViewDataTyped.FundingSourceExpenditures.Any())
+                        @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
                         {
                             <div style="text-align: center;" class="expendituresChartTitle">
                                 <span style="font-weight: bold">Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</span>
