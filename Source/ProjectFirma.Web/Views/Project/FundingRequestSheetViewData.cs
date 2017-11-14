@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
-            BreadCrumbTitle = "Funding Request Sheet";
+            BreadCrumbTitle = "Fact Sheet";
 
             PerformanceMeasureReportedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                 .OrderBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Views.Project
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
 
             SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
-                ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.OrganizationName).OrderBy(x => x))
+                ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
                 : "?";
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : "?";
         }

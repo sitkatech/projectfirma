@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.DisplayName).Select(x => x.Organization.DisplayName).Distinct()) : String.Empty; }
         }
 
         public string AssocatedOrganizationNames(Organization organization)

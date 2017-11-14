@@ -41,20 +41,19 @@ namespace ProjectFirma.Web.Models
             get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.DeleteFundingSource(FundingSourceID)); }
         }
 
-        public HtmlString DisplayNameAsUrl
-        {
-            get { return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName); }
-        }
+        public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(SummaryUrl, DisplayName);
 
-        public string DisplayName
-        {
-            get { return string.Format("{0} ({1}){2}", FundingSourceName, Organization.OrganizationShortNameIfAvailable, !IsActive ? " (Inactive)" : string.Empty); }
-        }
+        public string DisplayName =>
+            $"{FundingSourceName} ({Organization.OrganizationShortNameIfAvailable}){(!IsActive ? " (Inactive)" : string.Empty)}";
 
         public string FixedLengthDisplayName
         {
             get
             {
+                if (Organization.IsUnknown)
+                {
+                    return Organization.OrganizationShortNameIfAvailable;
+                }
                 var organizationShortNameIfAvailable = $"({Organization.OrganizationShortNameIfAvailable})";
                 return $"{FundingSourceName.ToEllipsifiedString(60 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}";
             }
@@ -83,10 +82,7 @@ namespace ProjectFirma.Web.Models
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Max(x => x.CalendarYear) : (int?) null; }
         }
 
-        public string AuditDescriptionString
-        {
-            get { return FundingSourceName; }
-        }
+        public string AuditDescriptionString => FundingSourceName;
 
         public List<Project> AssociatedProjects
         {
