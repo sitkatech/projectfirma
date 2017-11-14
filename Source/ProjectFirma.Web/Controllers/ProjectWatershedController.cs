@@ -22,14 +22,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
@@ -39,7 +35,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectWatershedController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectWatershedManageFromProjectFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -48,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectWatershedManageFromProjectFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey, EditProjectWatershedsViewModel viewModel)
         {

@@ -25,7 +25,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
@@ -34,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class PerformanceMeasureExpectedController : FirmaBaseController
     {
         [HttpGet]
-        [PerformanceMeasureExpectedFromProjectManageFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditPerformanceMeasureExpectedsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -44,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureExpectedFromProjectManageFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditPerformanceMeasureExpectedsForProject(ProjectPrimaryKey projectPrimaryKey, EditPerformanceMeasureExpectedViewModel viewModel)
         {

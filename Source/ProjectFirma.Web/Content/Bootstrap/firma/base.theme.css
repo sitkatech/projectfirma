@@ -1066,3 +1066,6 @@ td.stage {
 .google-visualization-charteditor-dialog {
   z-index: 1000;
 }
+.systemText {
+  font-style: italic;
+}

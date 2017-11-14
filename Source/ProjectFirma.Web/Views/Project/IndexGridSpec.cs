@@ -35,9 +35,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public IndexGridSpec(Person currentPerson)
         {
-            var userHasTagManagePermissions = new TagManageFeature().HasPermissionByPerson(currentPerson);
-            var userHasTagViewPermissions = new TagViewFeature().HasPermissionByPerson(currentPerson);
-
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
 
             if (userHasTagManagePermissions)
@@ -73,7 +71,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.UnfundedNeed.ToGridHeaderString(), x => x.UnfundedNeed(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), a => a.GetProjectWatershedNamesAsHyperlinks(), 200, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 200);
-            if (userHasTagViewPermissions)
+            if (userHasTagManagePermissions)
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
             }

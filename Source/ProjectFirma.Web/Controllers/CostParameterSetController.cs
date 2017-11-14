@@ -24,27 +24,14 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.CostParameterSet;
-using ProjectFirma.Web.Security.Shared;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class CostParameterSetController : FirmaBaseController
     {
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         public ViewResult Detail()
-        {
-            return DetailImpl();
-        }
-
-        [ProjectBudgetManageFeature]
-        public ViewResult Manage()
-        {
-            return DetailImpl();
-        }
-
-        private ViewResult DetailImpl()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CostParameterSet);
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
@@ -53,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectBudgetManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult New()
         {
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
@@ -62,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectBudgetManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(NewViewModel viewModel)
         {

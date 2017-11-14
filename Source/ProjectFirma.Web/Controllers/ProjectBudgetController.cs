@@ -26,7 +26,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectBudget;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -34,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectBudgetController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectBudgetManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult EditBudgetsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -45,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectBudgetManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditBudgetsForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectBudgetsViewModel viewModel)
         {
@@ -72,8 +71,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectBudgets(Project project, EditProjectBudgetsViewModel viewModel, List<int> calendarYearRangeForExpenditures)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var ProjectCostTypeSimples = ProjectCostType.All.Select(x => new ProjectCostTypeSimple(x)).ToList();
-            var viewData = new EditProjectBudgetsViewData(project, allFundingSources, ProjectCostTypeSimples, calendarYearRangeForExpenditures);
+            var projectCostTypeSimples = ProjectCostType.All.Select(x => new ProjectCostTypeSimple(x)).ToList();
+            var viewData = new EditProjectBudgetsViewData(project, allFundingSources, projectCostTypeSimples, calendarYearRangeForExpenditures);
             return RazorPartialView<EditProjectBudgets, EditProjectBudgetsViewData, EditProjectBudgetsViewModel>(viewData, viewModel);
         }
     }
