@@ -33,6 +33,7 @@ using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Organization;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
@@ -219,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
             var projects = organization.GetAllActiveProjectsAndProposals(currentPerson).ToList();
-            var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
@@ -277,6 +278,23 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson);            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjectsAndProposals(CurrentPerson), gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [OrganizationViewFeature]
+        public GridJsonNetJObjectResult<ProjectFundingSourceExpenditure> ProjectFundingSourceExpendituresForOrganizationGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            
+            // from other orgs
+            var projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList();
+            var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).ToList();
+
+            //to
+            projectFundingSourceExpenditures.AddRange(organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures));
+
+            var gridSpec = new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceExpenditure>(projectFundingSourceExpenditures, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

@@ -392,6 +392,7 @@
     <Compile Include="Views\Project\FundingRequestSheet.cs" />
     <Compile Include="Views\Project\FundingRequestSheetViewData.cs" />
     <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
+    <Compile Include="Views\Organization\ProjectFundingSourceExpendituresForOrganizationGridSpec.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />

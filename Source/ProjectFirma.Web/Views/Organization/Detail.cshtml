@@ -41,9 +41,26 @@ Source code is available upon request via <support@sitkatech.com>.
     <script src="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.js")" type="text/javascript"></script>
     <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css"/>}
 <script type="text/javascript">
-    
-    jQuery(function() {
-        jQuery("#accomplishmentsTab").on("shown.bs.tab", function() {
+
+    jQuery(function () {
+        jQuery("#overviewTab").on("shown.bs.tab", function () {
+            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName1].resizeGridWidths();
+            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName2].resizeGridWidths();
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+        jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
+            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName1].resizeGridWidths();
+            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName2].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
                     if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -53,8 +70,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
         });
         jQuery("#expendituresTab").on("shown.bs.tab", function() {
-            var gridName = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName].resizeGridWidths();
+            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName1].resizeGridWidths();
+            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName2].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
                     if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -239,7 +258,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
-                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, string.Format("height:300px; width:{0}px;", ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec.CalculateTotalColumnWidth()), DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>
                     </div>
@@ -320,7 +339,19 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                All @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="accomplishments">
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
