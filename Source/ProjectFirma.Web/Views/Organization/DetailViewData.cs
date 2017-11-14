@@ -57,7 +57,9 @@ namespace ProjectFirma.Web.Views.Organization
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
         public readonly string NewFundingSourceUrl;
-        public readonly bool CanCreateNewFundingSource; 
+        public readonly bool CanCreateNewFundingSource;
+
+        public readonly string ProjectStewardOrLeadImplementorFieldDefinitionName;
 
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
@@ -121,6 +123,9 @@ namespace ProjectFirma.Web.Views.Organization
                                         (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
                                          CurrentPerson.OrganizationID == organization.OrganizationID);
 
+            ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
+                ? Models.FieldDefinition.CanStewardProjectsOrganization.GetFieldDefinitionLabel()
+                : "Lead Implementer";
         }
 
     }

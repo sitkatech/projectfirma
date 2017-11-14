@@ -90,6 +90,18 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
+        public List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(Person person)
+        {
+            var allActiveProjectsAndProposals = ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            {
+                return allActiveProjectsAndProposals.Where(x => x.GetCanStewardProjectsOrganization() == this).ToList();
+            }
+
+            return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == this).ToList();
+        }
+
         public string AuditDescriptionString => OrganizationName;
 
         public bool IsInKeystone => OrganizationGuid.HasValue;

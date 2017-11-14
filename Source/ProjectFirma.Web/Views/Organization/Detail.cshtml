@@ -300,6 +300,20 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="expenditures">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-xs-12">
+                        <p>@FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel() are presented in several ways:</p>
+                        <ul>
+                            <li>The <strong>Expenditures Provided Directly by this @FieldDefinition.Organization.GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() that originate with @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() owned by this @FieldDefinition.Organization.GetFieldDefinitionLabel()</li>
+                            <li>
+                                The <strong>Expenditures Received from other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() received from other
+                                @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() for all @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() where this @FieldDefinition.Organization.GetFieldDefinitionLabel() is the
+                                @FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName                                
+                            </li>
+                            <li>The <strong>@FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() for which this @FieldDefinition.Organization.GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panelFirma">
@@ -344,7 +358,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                All @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
+                                @FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
                                 @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -353,6 +367,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
+
             <div role="tabpanel" class="tab-pane" id="accomplishments">
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
