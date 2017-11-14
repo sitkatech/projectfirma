@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using LtInfo.Common.Models.Attributes;
 
 namespace ProjectFirma.Web.Models
 {
@@ -414,10 +415,19 @@ namespace ProjectFirma.Web.Models
             foreach (var groupingFundingSource in groupingFundingSources)
             {
                 var sectorColor = ColorTranslator.FromHtml(groupingFundingSource.Key.LegendColor);
+
+                var sectorColorHSL = new HslColor(sectorColor.R, sectorColor.G, sectorColor.B);
+
                 groupingFundingSource.OrderBy(x => x.FundingSourceName)
                     .ForEach((fundingSource, index) =>
                     {
-                        var color = ColorTranslator.ToHtml(Color.FromArgb(sectorColor.ChangeColorBrightness(index / 10f).ToArgb()));
+                        var luminosity = 100.0 * (groupingFundingSource.Count() - index - 1) /
+                                         groupingFundingSource.Count() + 120;
+
+                        //var color = ColorTranslator.ToHtml(Color.FromArgb(sectorColor.ChangeColorBrightness(index / 10f).ToArgb()));
+
+                        var color = ColorTranslator.ToHtml(new HslColor(sectorColorHSL.Hue, sectorColorHSL.Saturation,
+                            luminosity));
                         googlePieChartSlices.Add(new GooglePieChartSlice(fundingSource.FixedLengthDisplayName, Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color));
                     });
             }
