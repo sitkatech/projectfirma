@@ -307,8 +307,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
     
     <div class="row">
-        <div class="col-md-12" class="factSheetAboutProject" style="padding-top: 20px;">
+        <div class="col-md-12" style="padding-top: 20px;">
             <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
             @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
             {
@@ -326,6 +331,8 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <p>Accomplishments to be provided upon completion of project.</p>
             }
+        </div>
+        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
@@ -348,6 +355,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </div>
     </div>
+    <br/>
     <div class="row">
         @if (ViewDataTyped.KeyPhoto != null)
         {

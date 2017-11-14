@@ -306,11 +306,16 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-12" style="padding-top: 20px;">
             <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
-            @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
+            @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
             {
                 <table>
-                    @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
+                    @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
                     {
                         <tr>
                             <td class="bullet">&bull;</td>
@@ -323,17 +328,19 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <div class="systemText">No expected accomplishments provided.</div>
             }
+        </div>
+        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
                 <table>
-                    @foreach (var thresholdCategoryBatch in ViewDataTyped.Classifications.Batch(2))
+                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
                     {
                         <tr>
-                            @foreach (var thresholdCategory in thresholdCategoryBatch)
+                            @foreach (var classification in classificationBatch)
                             {
                                 <td class="bullet">&bull;</td>
-                                <td style="padding-right: 50px">@thresholdCategory.DisplayName</td>
+                                <td style="padding-right: 50px">@classification.DisplayName</td>
                             }
                         </tr>
                     }
@@ -345,6 +352,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </div>
     </div>
+    <br/>
     <div class="row">
         @if (ViewDataTyped.KeyPhoto != null)
         {

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Project
     public class FundingRequestSheetViewData : ProjectViewData
     {
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureReportedValues;
+        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues;
         public readonly List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices;
         public readonly Models.ProjectImage KeyPhoto;
         public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.Project
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
 
-            PerformanceMeasureReportedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
+            PerformanceMeasureExpectedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                 .OrderBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
