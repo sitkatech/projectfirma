@@ -40,7 +40,8 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
-        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ExpendituresDirectlyFromOrganizationViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
 
         public readonly string ManageFundingSourcesUrl;
         public readonly string IndexUrl;
@@ -56,7 +57,9 @@ namespace ProjectFirma.Web.Views.Organization
             Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
-            List<Models.PerformanceMeasure> performanceMeasures, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
+            List<Models.PerformanceMeasure> performanceMeasures, 
+            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentPerson)
         {
             Organization = organization;
             PageTitle = organization.DisplayName;
@@ -87,7 +90,8 @@ namespace ProjectFirma.Web.Views.Organization
 
             MapInitJson = mapInitJson;
             HasSpatialData = hasSpatialData;
-            ViewGoogleChartViewData = viewGoogleChartViewData;
+            ExpendituresDirectlyFromOrganizationViewGoogleChartViewData = expendituresDirectlyFromOrganizationViewGoogleChartViewData;
+            ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
 
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => organization.GetPerformanceMeasureChartViewData(x, currentPerson)).ToList();
 

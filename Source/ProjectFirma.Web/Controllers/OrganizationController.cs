@@ -134,7 +134,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var viewGoogleChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
+            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
+            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentPerson);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
@@ -144,7 +145,7 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, organization, mapInitJson, hasSpatialData, performanceMeasures, viewGoogleChartViewData);
+            var viewData = new DetailViewData(CurrentPerson, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -192,17 +193,41 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresLineChartViewData(Organization organization)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(Organization organization)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var projectFundingSourceExpenditures =
                 organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
 
-            const string chartTitle = "Reported Expenditures By Funding Source";
+            var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
+            var filterValues = organization.FundingSources.Select(x => x.FundingSourceName).ToList();
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.FundingSourceName,
-                organization.FundingSources.Select(x => x.FundingSourceName).ToList(),
+                filterValues,
                 x => x.FundingSource.FundingSourceName,
+                yearRange,
+                chartContainerID,
+                chartTitle,
+                GoogleChartType.AreaChart,
+                true);
+
+            return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
+        }
+
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, Person currentPerson)
+        {
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
+
+            var projects = organization.GetAllActiveProjectsAndProposals(currentPerson).ToList();
+            var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            
+            var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
+            var chartContainerID = chartTitle.Replace(" ", "");
+            var filterValues = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).Select(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName).Distinct().ToList();
+
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                filterValues,
+                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 yearRange,
                 chartContainerID,
                 chartTitle,

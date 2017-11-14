@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <script type="text/javascript">
     
     jQuery(function() {
-        jQuery("#resultsTab").on("shown.bs.tab", function() {
+        jQuery("#accomplishmentsTab").on("shown.bs.tab", function() {
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
                     if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                 });
         });
-        jQuery("#fundingAndProjectsTab").on("shown.bs.tab", function() {
+        jQuery("#expendituresTab").on("shown.bs.tab", function() {
             var gridName = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
             Sitka[gridName].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
@@ -77,16 +77,16 @@ Source code is available upon request via <support@sitkatech.com>.
                 <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
             <li>
-                <a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="fundingAndProjectsTab">Funding &amp; @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
+                <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
             </li>
             <li>
-                <a href="#results" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Results</a>
+                <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
             </li>
         </ul>
     </div>
 </div>
 <div class="panel panel-default">
-    <div class="panel-body tabPaneBody">
+    <div class="panel-body">
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="organizationOverview">
                 <div class="row">
@@ -97,47 +97,71 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Name")</div>
-                                    <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationName</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Short Name")</div>
-                                    <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationShortName</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
-                                    <div class="col-xs-7">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
-                                    <div class="col-xs-7">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page")</div>
-                                    <div class="col-xs-7"><a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a></div>
-                                </div>
+                                   @if (ViewDataTyped.Organization.LogoFileResource != null)
+                                        {
+                                            <div class="col-xs-1">
+                                                <div style="text-align: center;">
+                                                    <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                                </div>
+                                            </div>
+                                   }
+                                       
+                                    <div class="@ViewDataTyped.Organization.LogoFileResource != null ? col-xs-11 : col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Name")</div>
+                                            <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Short Name")</div>
+                                            <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationShortName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
+                                            <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
+                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>
+                                            <div class="col-xs-6">
+                                                <a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit Basics - {0}", ViewDataTyped.Organization.DisplayName), ViewDataTyped.UserHasOrganizationManagePermissions) Logo
+                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
+
+                                <span class="pull-right">
+                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinition.FundingSource.GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
+                                </span>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.Organization.LogoFileResource != null)
+                                @if (ViewDataTyped.Organization.FundingSources.Any())
                                 {
-                                    <div style="width: 100%; text-align: center;">
-                                        <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 200px; max-height: 200px; margin-left: auto; margin-right: auto;" />
-                                    </div>
+                                    <ul>
+                                        @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
+                                        {
+                                            <li>
+                                                @fundingSource.DisplayNameAsUrl
+                                            </li>
+                                        }
+                                    </ul>
                                 }
                                 else
                                 {
-                                    <p>No logo uploaded for this @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</p>
+                                    <div class="alert">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this @FieldDefinition.Organization.GetFieldDefinitionLabel().</div>
                                 }
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="row">
@@ -212,6 +236,18 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
+                                @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, string.Format("height:300px; width:{0}px;", ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec.CalculateTotalColumnWidth()), DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
                                 Users
                             </div>
                             <div class="panel-body">
@@ -244,47 +280,18 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="fundingAndProjects">
+            <div role="tabpanel" class="tab-pane" id="expenditures">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                                <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
-                                
-                                <span class="pull-right">
-                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinition.FundingSource.GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
-                                </span>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.Organization.FundingSources.Any())
-                                {
-                                    <ul>
-                                        @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
-                                        {
-                                            <li>
-                                                @fundingSource.DisplayNameAsUrl
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <div class="alert">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this @FieldDefinition.Organization.GetFieldDefinitionLabel().</div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() by @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
+                                Provided Directly by this @FieldDefinition.Organization.GetFieldDefinitionLabel()
                             </div>
                             <div class="panel-body">
                                 <div>
-                                    @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                                    @if (ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData.HasData)
                                     {
-                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData);
+                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData);
                                     }
                                     else
                                     {
@@ -294,21 +301,28 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
+                                Received from Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
-                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, string.Format("height:300px; width:{0}px;", ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec.CalculateTotalColumnWidth()), DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                <div>
+                                    @if (ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData.HasData)
+                                    {
+                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No expenditure data available</p>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>
-            <div role="tabpanel" class="tab-pane" id="results">
+            <div role="tabpanel" class="tab-pane" id="accomplishments">
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
                     <p>
