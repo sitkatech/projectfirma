@@ -286,15 +286,17 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             
-            // from other orgs
+            // received
             var projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).ToList();
 
-            //to
+            // provided
             projectFundingSourceExpenditures.AddRange(organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures));
 
+            var projectFundingSourceExpendituresToShow =
+                projectFundingSourceExpenditures.Where(x => x.ExpenditureAmount != 0).ToList();
             var gridSpec = new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceExpenditure>(projectFundingSourceExpenditures, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceExpenditure>(projectFundingSourceExpendituresToShow, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
