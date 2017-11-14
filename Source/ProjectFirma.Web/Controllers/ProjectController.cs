@@ -324,9 +324,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, "There is no Fact Sheet available for this Project because it has been terminated.");
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewFactSheet(project) : ViewFundingRequestSheet(project);
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project) : ViewForwardLookingFactSheet(project);
         }
-        private ViewResult ViewFactSheet(Project project)
+        private ViewResult ViewBackwardLookingFactSheet(Project project)
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -341,12 +341,12 @@ namespace ProjectFirma.Web.Controllers
                 googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null, null);
-            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+            var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
-            return RazorView<FactSheet, FactSheetViewData>(viewData);
+            return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
-        private ViewResult ViewFundingRequestSheet(Project project)
+        private ViewResult ViewForwardLookingFactSheet(Project project)
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -363,9 +363,9 @@ namespace ProjectFirma.Web.Controllers
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType,
                 googleChartDataTable, null, null);
 
-            var viewData = new FundingRequestSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+            var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);
-            return RazorView<FundingRequestSheet, FundingRequestSheetViewData>(viewData);
+            return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 
         public static GoogleChartDataTable GetProjectFundingRequestSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditureGooglePieChartSlices)
