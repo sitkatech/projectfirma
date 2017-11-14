@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@inherits FundingRequestSheet
+@inherits ForwardLookingFactSheet
 
 @{
     @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
@@ -244,7 +244,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="col-sm-10 col-md-10" style="padding: 20px">
             <div class="taxonomyTierThreeColor" style="font-size: medium">
-                @FieldDefinition.Project.GetFieldDefinitionLabel() Funding Request Sheet
+                @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet
             </div>
             <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
             <table class="summaryLayout">
@@ -262,7 +262,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </tr>
                 <tr>
                     <th>Supporting Agencies:</th>
-                    <td>@ViewDataTyped.LeadFederalAgency</td>
+                    <td>@ViewDataTyped.SupportingAgenciesForDisplay</td>
                 </tr>
                 <tr>
                     <th>Total Project Cost:</th>
@@ -303,14 +303,15 @@ Source code is available upon request via <support@sitkatech.com>.
         @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName
     </div>
 
-    <div class="row">
-        <div class="col-md-12" style="padding-top: 20px;">
+    <div class="row" style="padding-top: 20px;">
+        <div class="col-md-6">
             <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+            <br />
             <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
-            @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
+            @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
             {
                 <table>
-                    @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
+                    @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
                     {
                         <tr>
                             <td class="bullet">&bull;</td>
@@ -321,19 +322,20 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <div class="systemText">No expected accomplishments provided.</div>
+                <div class="systemText">No Expected Accomplishments provided.</div>
             }
-            <div class="sectionTitle taxonomyTierThreeColor">Threshold Categories</div>
+            <br/>
+            <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
                 <table>
-                    @foreach (var thresholdCategoryBatch in ViewDataTyped.ThresholdCategories.Batch(2))
+                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
                     {
                         <tr>
-                            @foreach (var thresholdCategory in thresholdCategoryBatch)
+                            @foreach (var classification in classificationBatch)
                             {
                                 <td class="bullet">&bull;</td>
-                                <td style="padding-right: 50px">@thresholdCategory.DisplayName</td>
+                                <td style="padding-right: 50px">@classification.DisplayName</td>
                             }
                         </tr>
                     }
@@ -341,22 +343,29 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <div class="systemText">No threshold categories provided.</div>
+                <div class="systemText">No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</div>
             }
         </div>
-    </div>
-    <div class="row">
-        @if (ViewDataTyped.KeyPhoto != null)
-        {
-            <div class="col-md-12 keyPhotoPanel" style="padding-top: 20px; vertical-align:top">
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
                 <span class="keyPhoto">
-                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
-                    <br />
+                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
+                    <br/>
                     <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
                 </span>
-
-            </div>
-        }
+            }
+            else
+            {
+                <div class="sectionTitle" style="height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table;margin: auto;height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="row">
@@ -369,7 +378,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     {
                         var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                         // ReSharper disable once UnusedLocals
-                        var corralMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
+                        var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
                     });
                 </script>
             </div>
@@ -391,7 +400,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else
                         {
-                            <div class="systemText">No expected funding sources identified provided.</div>
+                            <div class="systemText">No Expected Funding sources identified provided.</div>
                         }
                     </div>
                 </div>
@@ -427,7 +436,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="systemText">No photos provided.</div>
     }
 
-    <div class="pull-right onlyOnPrint">Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-left onlyOnPrint"><hr/>Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 
 <script type="text/javascript">

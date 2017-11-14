@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using LtInfo.Common.Models.Attributes;
 
 namespace ProjectFirma.Web.Models
 {
@@ -331,7 +332,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.DisplayName).Select(x => x.Organization.DisplayName).Distinct()) : String.Empty; }
         }
 
         public string AssocatedOrganizationNames(Organization organization)
@@ -389,13 +390,6 @@ namespace ProjectFirma.Web.Models
             projectImageFileResourceIDsToDelete.DeleteFileResource();
         }
 
-        public Dictionary<string, decimal> GetExpendituresDictionary()
-        {
-            return ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
-                .GroupBy(x => x.FundingSource.FixedLengthDisplayName)
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
-        }
-
         public IEnumerable<Person> GetProjectStewards()
         {
             return GetCanStewardProjectsOrganization()?.People
@@ -421,10 +415,16 @@ namespace ProjectFirma.Web.Models
             foreach (var groupingFundingSource in groupingFundingSources)
             {
                 var sectorColor = ColorTranslator.FromHtml(groupingFundingSource.Key.LegendColor);
+                var sectorColorHsl = new HslColor(sectorColor.R, sectorColor.G, sectorColor.B);
+
                 groupingFundingSource.OrderBy(x => x.FundingSourceName)
                     .ForEach((fundingSource, index) =>
                     {
-                        var color = ColorTranslator.ToHtml(Color.FromArgb(sectorColor.ChangeColorBrightness(index / 10f).ToArgb()));
+                        var luminosity = 100.0 * (groupingFundingSource.Count() - index - 1) /
+                                         groupingFundingSource.Count() + 120;
+                        var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
+                            luminosity));
+
                         googlePieChartSlices.Add(new GooglePieChartSlice(fundingSource.FixedLengthDisplayName, Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color));
                     });
             }
@@ -503,9 +503,15 @@ namespace ProjectFirma.Web.Models
         {
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
-        public bool IsFactSheetRelevant()
+
+        public bool IsForwardLookingFactSheetRelevant()
         {
-            return ProjectStage != ProjectStage.Proposal && ProjectStage != ProjectStage.PlanningDesign;
+            return ProjectStage.ForwardLookingFactSheetProjectStages.Contains(ProjectStage);
+        }
+
+        public bool IsBackwardLookingFactSheetRelevant()
+        {
+            return !IsForwardLookingFactSheetRelevant();
         }
 
         public void DeleteProjectFull()

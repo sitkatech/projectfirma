@@ -33,17 +33,17 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class FundingRequestSheetViewData : ProjectViewData
+    public class ForwardLookingFactSheetViewData : ProjectViewData
     {
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureReportedValues;
+        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues;
         public readonly List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices;
         public readonly Models.ProjectImage KeyPhoto;
         public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
         public readonly int ProjectImagesPerTimingGroup;
-        public readonly List<Models.Classification> ThresholdCategories;
+        public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
-        public readonly string LeadFederalAgency;
+        public readonly string SupportingAgenciesForDisplay;
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
 
@@ -51,17 +51,18 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyTierOneDisplayName;
         public readonly string TaxonomyTierOneName;
         private readonly string TaxonomyTierTwoName;
+        public readonly string ClassificationDisplayNamePluralized;
 
-        public FundingRequestSheetViewData(Person currentPerson,
+        public ForwardLookingFactSheetViewData(Person currentPerson,
             Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson googleChartJson,
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
-            BreadCrumbTitle = "Funding Request Sheet";
+            BreadCrumbTitle = "Fact Sheet";
 
-            PerformanceMeasureReportedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
+            PerformanceMeasureExpectedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                 .OrderBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
                 .GroupBy(x => x.ProjectImageTiming).OrderBy(x => x.Key.SortOrder).ToList();
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
-            ThresholdCategories = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
+            Classifications = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
 
             GoogleChartJson = googleChartJson;
             FundingSourceRequestAmountGooglePieChartSlices = fundingSourceRequestAmountGooglePieChartSlices;
@@ -106,11 +107,12 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
 
-            LeadFederalAgency = project.ProjectFundingSourceRequests.Any()
-                ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.OrganizationName).OrderBy(x => x))
+            SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
+                ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
                 : "?";
-            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.SecuredAmount).ToStringCurrency() : "?";
+            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : "?";
         }
 
         public HtmlString LegendHtml
