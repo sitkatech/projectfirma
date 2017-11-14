@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
 
         public readonly string FullProjectListUrl;
-        public readonly string FullProposalsListUrl;
         public readonly string ProjectSearchUrl;
         public readonly string ProjectFindUrl;
         public string PageTitle;
@@ -73,7 +72,6 @@ namespace ProjectFirma.Web.Views
             MakeFirmaMenu(currentPerson);
 
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
-            FullProposalsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 

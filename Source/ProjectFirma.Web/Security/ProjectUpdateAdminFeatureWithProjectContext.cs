@@ -18,16 +18,15 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
+            if (contextModelObject.IsProposal())
+            {
+                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
+            }
+
             var forbidAdmin = !HasPermissionByPerson(person) ||
                                        person.Role.RoleID == Role.ProjectSteward.RoleID &&
                                        !person.CanStewardProjectByOrganizationRelationship(contextModelObject);
-
-            var checkIfProjectIsProposal = new ProjectUpdateFeature().HasPermission(person, contextModelObject);
-            if (!checkIfProjectIsProposal.HasPermission)
-            {
-                return checkIfProjectIsProposal;
-            }
-
+            
             return forbidAdmin
                 ? new PermissionCheckResult(
                     $"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")

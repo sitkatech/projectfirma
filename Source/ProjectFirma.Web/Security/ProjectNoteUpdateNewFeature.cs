@@ -50,16 +50,15 @@ namespace ProjectFirma.Web.Security
                     $"You don't have permission to Edit {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             }
 
+            if (contextModelObject.Project.IsProposal())
+            {
+                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
+            }
+
             var projectIsEditableByUser = new FirmaAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {project.ProjectID} is not editable by you.");
-            }
-
-            var checkIfProjectIsProposal = new ProjectUpdateFeature().HasPermission(person, contextModelObject.Project);
-            if (!checkIfProjectIsProposal.HasPermission)
-            {
-                return checkIfProjectIsProposal;
             }
 
             return new PermissionCheckResult();

@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
@@ -40,7 +39,6 @@ namespace ProjectFirma.Web.Views.Project
     {
         public bool UserHasProjectAdminPermissions { get; }
         public bool UserHasEditProjectPermissions { get; }
-        public bool UserHasProjectUpdatePermissions { get; }
         public bool UserHasPerformanceMeasureActualManagePermissions { get; }
 
         public string EditProjectUrl { get; }
@@ -53,8 +51,6 @@ namespace ProjectFirma.Web.Views.Project
         public string EditPerformanceMeasureActualsUrl { get; }
         public string EditReportedExpendituresUrl { get; }
         public string EditExternalLinksUrl { get; }
-        public string ConfirmNonMandatoryUpdateUrl { get; }
-        public string EditAssessmentUrl { get; }
         public string EditExpectedFundingUrl { get; }
 
         public ProjectBasicsViewData ProjectBasicsViewData { get; }
@@ -91,20 +87,70 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
 
-        public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages, ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData, ProjectFundingDetailViewData projectFundingDetailViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, EntityExternalLinksViewData entityExternalLinksViewData, ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions, bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions, bool userHasPerformanceMeasureActualManagePermissions, string mapFormID, string confirmNonMandatoryUpdateUrl, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl, string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl, string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl, string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl)
+        public string ProjectUpdateButtonText { get; }
+        public bool CanLaunchProjectOrProposalWizard { get; }
+        public string ProjectWizardUrl { get; }
+        public string ProjectListUrl { get; }
+        public string BackToProjectsText { get; }
+
+
+        public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
+            ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
+            ProjectFundingDetailViewData projectFundingDetailViewData,
+            PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
+            PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
+            ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
+            ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData,
+            EntityExternalLinksViewData entityExternalLinksViewData,
+            ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
+            bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
+            bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
+            string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
+            string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
+            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, string editClassificationsUrl,
+            string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
+            string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
             BreadCrumbTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Detail";
 
-            ConfirmNonMandatoryUpdateUrl = confirmNonMandatoryUpdateUrl;
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectAdminPermissions = userHasProjectAdminPermissions;
             UserHasEditProjectPermissions = userHasEditProjectPermissions;
-            UserHasProjectUpdatePermissions = userHasProjectUpdatePermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
+
+            if (project.IsProposal())
+            {
+                var projectApprovalStatus = project.ProjectApprovalStatus;
+                ProjectUpdateButtonText =
+                    projectApprovalStatus == ProjectApprovalStatus.Draft ||
+                    projectApprovalStatus == ProjectApprovalStatus.Returned
+                        ? "Edit Proposal"
+                        : "Review Proposal";
+                ProjectWizardUrl =
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
+                BackToProjectsText = "Back to all Proposals";
+
+            }
+            else
+            {
+                var latestUpdateState = project.GetLatestUpdateState();
+                ProjectUpdateButtonText =
+                    latestUpdateState == ProjectUpdateState.Submitted ||
+                    latestUpdateState == ProjectUpdateState.Returned
+                        ? "Review Update"
+                        : "Update Project";
+                ProjectWizardUrl = project.GetProjectUpdateUrl();
+                CanLaunchProjectOrProposalWizard = userHasProjectUpdatePermissions;
+                ProjectListUrl = FullProjectListUrl;
+                BackToProjectsText = "Back to all Projects";
+            }
 
             ProjectBasicsViewData = projectBasicsViewData;
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;
@@ -124,12 +170,13 @@ namespace ProjectFirma.Web.Views.Project
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
 
             ProjectFundingDetailViewData = projectFundingDetailViewData;
-            EditExpectedFundingUrl = SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceRequestsForProject(project));
+            EditExpectedFundingUrl =
+                SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c =>
+                    c.EditProjectFundingSourceRequestsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
             EditClassificationsUrl = editClassificationsUrl;
-            EditAssessmentUrl = editAssessmentUrl;
             EditWatershedsUrl = editWatershedsUrl;
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
