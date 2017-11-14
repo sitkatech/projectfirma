@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             PageTitle = fundingSource.DisplayName;
             EntityName = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
-            UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromFundingSourceManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             EditFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Edit(fundingSource));
             EditReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForFundingSource(fundingSource));
 

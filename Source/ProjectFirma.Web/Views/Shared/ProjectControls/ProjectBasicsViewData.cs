@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common;
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -27,34 +27,29 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectBasicsViewData
     {
-        public readonly Models.Project Project;
-        public readonly Person PrimaryContactPerson;
-        public readonly bool UserHasProjectBudgetManagePermissions;
-        public readonly bool UserHasTaggingPermissions;
-        public readonly ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts;
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
-        public readonly ProjectBasicsTagsViewData ProjectBasicsTagsViewData;
+        public Models.Project Project { get; }
+        public Person PrimaryContactPerson { get; }
+        public bool UserHasProjectBudgetManagePermissions { get; }
+        public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions, bool userHasTaggingPermissions, ProjectBasicsTagsViewData projectBasicsTagsViewData)
+        public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions)
         {
             Project = project;
             PrimaryContactPerson = project.GetPrimaryContact();
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
-            UserHasTaggingPermissions = userHasTaggingPermissions;
-            ProjectBasicsTagsViewData = projectBasicsTagsViewData;
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project);
-            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
-            
+            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);            
         }        
     }
 
     public class ProjectBasicsCalculatedCosts
     {
-        public readonly decimal? CapitalCostInYearOfExpenditure;
-        public readonly string EditInflationUrl;
-        public readonly decimal InflationRate;
-        public readonly decimal? TotalOperatingCostInYearOfExpenditure;
-        public readonly int? StartYearForTotalOperatingCostCalculation;
+        public decimal? CapitalCostInYearOfExpenditure { get; }
+        public string EditInflationUrl { get; }
+        public decimal InflationRate { get; }
+        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
+        public int? StartYearForTotalOperatingCostCalculation { get; }
 
         public ProjectBasicsCalculatedCosts(Models.Project project)
         {
@@ -65,5 +60,4 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(project);
         }
     }
-
 }

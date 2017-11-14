@@ -22,7 +22,6 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Tag
@@ -45,7 +44,7 @@ namespace ProjectFirma.Web.Views.Tag
             
             EditTagUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Edit(tag));
             ManageTagsUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Index());
-            UserHasTagManagePermissions = new TagManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
 
             BasicProjectInfoGridName = "tagProjectListGrid";
 

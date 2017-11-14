@@ -146,112 +146,65 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            var activeProjectStages = GetActiveProjectStages(project);
+
+            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
 
             var confirmNonMandatoryUpdateUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ConfirmNonMandatoryUpdate(project.PrimaryKey));
-            var activeProjectStages = GetActiveProjectStages(project);
-            var projectTaxonomyViewData = new ProjectTaxonomyViewData(project);
-
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //var projectBudgetAmounts =
-            //    ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(project.ProjectBudgets.ToList()));
-            //var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
-            //var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
-            //var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
-            //var userHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson);
-            var userHasProjectBudgetManagePermissions = false;
-
-            var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
-            var mapFormID = GenerateEditProjectLocationFormID(project);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
             var editDetailedProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationDetailed(project));
-
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
-
-            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds));
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
-
-            var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
-
-            var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
-            var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
-
+            var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
             var editClassificationsUrl = SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(c => c.EditProjectClassificationsForProject(project));
-
             var editAssessmentUrl = SitkaRoute<ProjectAssessmentQuestionController>.BuildUrlFromExpression(c => c.EditAssessment(project));
+            var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false);
+            var mapFormID = GenerateEditProjectLocationFormID(project);
+
+            var projectBasicsViewData = new ProjectBasicsViewData(project, false);
+            var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds));
+            var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
+            var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
+            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
+            var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
+            var entityNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
                 project.DisplayName,
-                new ProjectNoteManageAsAdminFeature().HasPermissionByPerson(CurrentPerson));
+                userHasEditProjectPermissions);
+            var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
-
-            var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
-
-            var tagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
-
-            var auditLogsGridSpec = new AuditLogsGridSpec() {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
+            var auditLogsGridSpec = new AuditLogsGridSpec {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
             var projectNotificationGridSpec = new ProjectNotificationGridSpec();
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-
-            var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
-            var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
-
-            var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
-
-            var userHasTaggingPermissions = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            var projectBasicsViewData = new ProjectBasicsViewData(project, userHasProjectBudgetManagePermissions, userHasTaggingPermissions, projectBasicsTagsViewData);
-
-            var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();
-            var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
-
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
-
             var viewData = new DetailViewData(CurrentPerson,
                 project,
-                confirmNonMandatoryUpdateUrl,
                 activeProjectStages,
-                projectTaxonomyViewData,
-                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-                //projectBudgetSummaryViewData,
-                projectLocationSummaryViewData,
-                mapFormID,
-                editSimpleProjectLocationUrl,
-                editDetailedProjectLocationUrl,
-                editOrganizationsUrl,
-                performanceMeasureExpectedsSummaryViewData,
-                editPerformanceMeasureExpectedsUrl,
-                performanceMeasureReportedValuesGroupedViewData,
-                editPerformanceMeasureActualsUrl,
-                projectExpendituresSummaryViewData,
-                editReportedExpendituresUrl,
-                editClassificationsUrl,
-                editAssessmentUrl,
-                editWatershedsUrl,
-                imageGalleryViewData,
-                entityNotesViewData,
-                auditLogsGridSpec,
-                auditLogsGridDataUrl,
-                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//                editProjectBudgetUrl,
-                editExternalLinksUrl,
-                entityExternalLinksViewData,
-                projectNotificationGridSpec,
-                projectNotificationGridName,
-                projectNotificationGridDataUrl,
                 projectBasicsViewData,
-                assessmentTreeViewData,
-                CurrentTenant,
-                projectFundingDetailViewData);
+                projectLocationSummaryViewData, projectFundingDetailViewData,
+                performanceMeasureExpectedsSummaryViewData, performanceMeasureReportedValuesGroupedViewData,
+                projectExpendituresSummaryViewData, imageGalleryViewData, entityNotesViewData,
+                entityExternalLinksViewData, projectBasicsTagsViewData, userHasProjectAdminPermissions,
+                userHasEditProjectPermissions, userHasProjectUpdatePermissions,
+                userHasPerformanceMeasureActualManagePermissions, mapFormID, confirmNonMandatoryUpdateUrl,
+                editSimpleProjectLocationUrl, editDetailedProjectLocationUrl, editOrganizationsUrl,
+                editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl,
+                editClassificationsUrl, editAssessmentUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
+                editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
+                projectNotificationGridDataUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

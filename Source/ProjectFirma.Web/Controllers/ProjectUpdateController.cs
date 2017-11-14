@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
         public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson, out var isNewProjectUpdateBatch);
+            ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson, out var _);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
         }
 
@@ -1726,7 +1726,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForProjectBasics(Project project)
         {
-            var viewData = new ProjectBasicsViewData(project, false, false, null);
+            var viewData = new ProjectBasicsViewData(project, false);
 
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;

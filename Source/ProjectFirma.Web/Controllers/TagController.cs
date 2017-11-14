@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class TagController : FirmaBaseController
     {
-        [TagViewFeature]
+        [FirmaAdminFeature]
         public ViewResult Index()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TagList);
@@ -52,10 +52,10 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [TagViewFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Tag> IndexGridJsonData()
         {
-            var hasTagDeletePermission = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new IndexGridSpec(hasTagDeletePermission);
             var tags = HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Tag>(tags, gridSpec);
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult New()
         {
             var viewModel = new EditViewModel();
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(EditViewModel viewModel)
         {
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult Edit(TagPrimaryKey tagPrimaryKey)
         {
             var tag = tagPrimaryKey.EntityObject;
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(TagPrimaryKey tagPrimaryKey, EditViewModel viewModel)
         {
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        [TagViewFeature]
+        [FirmaAdminFeature]
         public ViewResult Detail(string tagName)
         {
             var tag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(tagName);
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult DeleteTag(TagPrimaryKey tagPrimaryKey)
         {
             var tag = tagPrimaryKey.EntityObject;
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTag(TagPrimaryKey tagPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -158,14 +158,14 @@ namespace ProjectFirma.Web.Controllers
         /// Dummy get signature so that it can find the post action
         /// </summary>
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public ContentResult RemoveTagsFromProject()
         {
             return new ContentResult();
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RemoveTagsFromProject(BulkTagProjectsViewModel viewModel)
         {
@@ -186,14 +186,14 @@ namespace ProjectFirma.Web.Controllers
         /// Dummy get signature so that it can find the post action
         /// </summary>
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public ContentResult AddTagsToProject()
         {
             return new ContentResult();
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public ActionResult AddTagsToProject(BulkTagProjectsViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -209,14 +209,14 @@ namespace ProjectFirma.Web.Controllers
         /// Dummy get signature so that it can find the post action
         /// </summary>
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public ContentResult AddTagsToProjectModal()
         {
             return new ContentResult();
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult AddTagsToProjectModal(BulkTagProjectsViewModel viewModel)
         {
@@ -247,7 +247,7 @@ namespace ProjectFirma.Web.Controllers
             return existingTag;
         }
 
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TagPrimaryKey tagPrimaryKey)
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public JsonResult Find(string q)
         {
             var searchTerm = q.Trim();
@@ -267,14 +267,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public ContentResult BulkTagProjects()
         {
             return new ContentResult();
         }
 
         [HttpPost]
-        [TagManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult BulkTagProjects(BulkTagProjectsViewModel viewModel)
         {
             var projectDisplayNames = new List<string>();

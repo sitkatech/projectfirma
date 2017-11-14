@@ -24,7 +24,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -32,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectNoteController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectNoteCreateFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditNoteViewModel();
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectNoteCreateFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditNoteViewModel viewModel)
         {

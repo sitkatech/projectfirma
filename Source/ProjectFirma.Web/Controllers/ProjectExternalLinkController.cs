@@ -25,7 +25,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -33,7 +32,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectExternalLinkController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectExternalLinkManageFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult EditProjectExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -43,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectExternalLinkManageFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
         {
