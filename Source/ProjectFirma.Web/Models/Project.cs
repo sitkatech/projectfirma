@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (IsActiveProject())
+                if (IsProposal())
                 {
                     return false;
                 }

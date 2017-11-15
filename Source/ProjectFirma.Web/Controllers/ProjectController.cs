@@ -151,9 +151,9 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
 
-            var confirmNonMandatoryUpdateUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ConfirmNonMandatoryUpdate(project.PrimaryKey));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
             var editDetailedProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationDetailed(project));
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
@@ -199,12 +199,12 @@ namespace ProjectFirma.Web.Controllers
                 projectExpendituresSummaryViewData, imageGalleryViewData, entityNotesViewData,
                 entityExternalLinksViewData, projectBasicsTagsViewData, userHasProjectAdminPermissions,
                 userHasEditProjectPermissions, userHasProjectUpdatePermissions,
-                userHasPerformanceMeasureActualManagePermissions, mapFormID, confirmNonMandatoryUpdateUrl,
+                userHasPerformanceMeasureActualManagePermissions, mapFormID,
                 editSimpleProjectLocationUrl, editDetailedProjectLocationUrl, editOrganizationsUrl,
                 editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl,
-                editClassificationsUrl, editAssessmentUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
+                editClassificationsUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
                 editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
-                projectNotificationGridDataUrl);
+                projectNotificationGridDataUrl, userCanEditProposal);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -48,6 +48,11 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
             }
 
+            if (contextModelObject.IsProposal())
+            {
+                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
+            }
+
             if (!contextModelObject.IsUpdatableViaProjectUpdateProcess)
             {
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} is not updatable via the {FieldDefinition.Project.GetFieldDefinitionLabel()} Update process");
@@ -57,12 +62,6 @@ namespace ProjectFirma.Web.Security
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
-            }
-
-            var checkIfProjectIsProposal = new ProjectUpdateFeature().HasPermission(person, contextModelObject);
-            if (!checkIfProjectIsProposal.HasPermission)
-            {
-                return checkIfProjectIsProposal;
             }
 
             return new PermissionCheckResult();

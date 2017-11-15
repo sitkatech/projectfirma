@@ -23,7 +23,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared.ProjectWatershedControls
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
-@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @inherits Watershed
 
@@ -64,30 +63,12 @@ else
     <hr />
     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
     <div class="row">
-        
-        <div class="col-xs-12">                            
-            @if (ViewDataTyped.ValidationWarnings.Any())
-            {
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach (var warning in ViewDataTyped.ValidationWarnings)
-                        {
-                            <li>
-                                @warning
-                            </li>
-                        }                       
-                    </ul>
-                </div>
-            }
-        </div>
-    </div>
-    <div class="row">
         <div class="col-xs-6">
             @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
         </div>
         <div class="pull-right">
-            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm(false)">Save</button>
-            <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+            <button class="btn btn-xs btn-firma" type="button" onclick="saveForm(false)">Save</button>
+            <button class="btn btn-xs btn-firma" type="button" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
         </div>
     </div>
 

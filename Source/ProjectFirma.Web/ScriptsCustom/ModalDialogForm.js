@@ -110,10 +110,10 @@ function createBootstrapDialogForm(element, dialogDivID, dialogContentDivId, jav
     });
 
     // Setup the ajax submit logic, has to be done after the contents are loaded
-    wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction, optionalDialogFormId);
+    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId);
 }
 
-function wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction, optionalDialogFormId) {
+function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId) {
     // Enable client side validation
     jQuery.validator.unobtrusive.parse(dialogDiv);
     convertJQueryValidationErrorsToQtip();
@@ -160,7 +160,7 @@ function wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction,
                     dialogDiv.find('.modal-body').html(result);
 
                     // Setup the ajax submit logic
-                    wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction, optionalDialogFormId);
+                    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId);
                 }
             });
         },

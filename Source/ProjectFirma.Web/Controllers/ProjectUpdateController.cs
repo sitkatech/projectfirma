@@ -493,7 +493,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -509,7 +509,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
         {
@@ -552,7 +552,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -562,7 +562,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1959,7 +1959,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateFeature]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffExpectedFundingImpl(projectPrimaryKey);

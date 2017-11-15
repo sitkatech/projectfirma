@@ -60,48 +60,24 @@
 
 @section RightOfPageTitle
 {
-    @if (ViewDataTyped.Project.GetLatestUpdateState() != ProjectUpdateState.Submitted && ViewDataTyped.Project.GetLatestUpdateState() != ProjectUpdateState.Returned)
+    @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
     {
-        if (ViewDataTyped.Project.IsUpdateAllowed && ViewDataTyped.UserHasProjectUpdatePermissions)
-        {
-            if (ViewDataTyped.Project.IsUpdateMandatory)
-            {
-                <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap Update Project</a>
-            }
-            else
-            {
-                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string> {"btn", "btn-firma"}, null, null)
-            }
-        }
-    }
-    else
-    {
-        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Review Update">@DhtmlxGridHtmlHelpers.EditIconBootstrap Review Update</a>
-    }
-    @if (ViewDataTyped.Project.IsProposal() && ViewDataTyped.CurrentPersonCanEditProposal)
-    {
-        switch (ViewDataTyped.Project.ProjectApprovalStatus.ToEnum)
-        {
-            case ProjectApprovalStatusEnum.Draft:
-            case ProjectApprovalStatusEnum.Returned:
-                <a class="btn btn-firma" href="@ViewDataTyped.ProposalBasicsUrl" title="Edit Proposal">@DhtmlxGridHtmlHelpers.EditIconBootstrap Edit Proposal</a>
-                break;
-            case ProjectApprovalStatusEnum.PendingApproval:
-                <a class="btn btn-firma" href="@ViewDataTyped.ProposalBasicsUrl" title="Review Proposal">@DhtmlxGridHtmlHelpers.EditIconBootstrap Review Proposal</a>
-                break;
-        }
+        <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>        
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
 }
 
 
 <div>
-    @{
-        var projectsUrl = ViewDataTyped.Project.IsProposal() ? ViewDataTyped.FullProposalsListUrl : ViewDataTyped.FullProjectListUrl;
-        var backText = ViewDataTyped.Project.IsProposal() ? "Back to all Proposals" : "Back to all Projects";
-        <a class="btn backButton" href="@projectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @backText</a>
-    }
+    <a class="btn backButton" href="@ViewDataTyped.ProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @ViewDataTyped.BackToProjectsText</a>
 </div>
+
+@if (ViewDataTyped.ProjectAlerts.Any())
+{
+    <div class="alert alert-info">
+        @Html.Raw(string.Join("<br />", ViewDataTyped.ProjectAlerts))
+    </div>
+}
 
 <div class="row" style="margin: 20px 0;">
     <div class="col-xs-12">
