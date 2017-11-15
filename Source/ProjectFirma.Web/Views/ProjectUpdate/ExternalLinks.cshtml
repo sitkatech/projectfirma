@@ -50,31 +50,33 @@ Source code is available upon request via <support@sitkatech.com>.
                 You may add one or more links to external web pages that further describe this project or are related to it. URLs must start with "http".
             </p>
             <hr />
-            <div>
-                <strong>External Link to Add:</strong><br />
-                Link Text: <input type="text" ng-model="ExternalLinkLabelToAdd" style="width: 300px" />
-                URL: <input type="url" ng-model="ExternalLinkUrlToAdd" style="width: 300px" />
+            <label>External Link to Add:</label>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>Link Text</label>
+                    <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: auto"/>
+                </div>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: auto"/>
+                </div>
                 <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
-                <table class="dialogFormLayout">
-                    <colgroup>
-                        <col style="width: 20px" />
-                        <col style="width: 300px" />
-                        <col style="width: 300px" />
-                    </colgroup>
-                    <tr>
-                        <th></th>
-                        <th>Link Text</th>
-                        <th>URL</th>
-                    </tr>
-                    <tr ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks | orderBy:['ExternalLinkLabel']">
-                        <td>
-                            <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(projectExternalLink)" style="cursor: pointer"></span>
-                        </td>
-                        <td ng-bind="projectExternalLink.ExternalLinkLabel"></td>
-                        <td><a href="{{projectExternalLink.ExternalLinkUrl}}" ng-bind="projectExternalLink.ExternalLinkUrl"></a></td>
-                    </tr>
-                </table>
             </div>
+            <br/>
+            <table class="table">                    
+                <tr>
+                    <th></th>
+                    <th>Link Text</th>
+                    <th>URL</th>
+                </tr>
+                <tr ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks | orderBy:['ExternalLinkLabel']">
+                    <td>
+                        <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(projectExternalLink)" style="cursor: pointer"></span>
+                    </td>
+                    <td ng-bind="projectExternalLink.ExternalLinkLabel"></td>
+                    <td><a href="{{projectExternalLink.ExternalLinkUrl}}" ng-bind="projectExternalLink.ExternalLinkUrl"></a></td>
+                </tr>
+            </table>
         }
     </div>
     <hr />

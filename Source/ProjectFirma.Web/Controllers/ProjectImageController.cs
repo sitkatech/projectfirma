@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectImageController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectImageNewFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageNewFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
         {
@@ -59,8 +59,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(project, viewModel);
             }
-            var userHasPermissionToSetKeyPhoto = new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(CurrentPerson);
-            var projectImage = new ProjectImage(project, userHasPermissionToSetKeyPhoto);
+            var projectImage = new ProjectImage(project, true);
             viewModel.UpdateModel(projectImage, CurrentPerson);
             project.ProjectImages.Add(projectImage);
             return new ModalDialogFormJsonResult();
@@ -126,8 +125,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectImage.Project;
             Project.DeleteProjectImages(new[] { projectImage });
             // reset key photo if needed
-            var userHasPermissionToSetKeyPhoto = new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(CurrentPerson);
-            if (userHasPermissionToSetKeyPhoto && projectImage.IsKeyPhoto)
+            if (projectImage.IsKeyPhoto)
             {
                 var firstNonKeyPhoto = project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
                 firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
@@ -136,7 +134,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageSetKeyPhotoFeature]
+        [ProjectImageEditOrDeleteAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult SetKeyPhoto(ProjectImagePrimaryKey projectImagePrimaryKey)
         {

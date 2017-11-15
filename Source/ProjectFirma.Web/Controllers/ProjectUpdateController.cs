@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult AllMyProjects()
         {
             const ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum filterTypeEnum = ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects;
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(gridDataUrl, filterTypeEnum);
         }
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult MySubmittedProjects()
         {
             const ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum filterTypeEnum = ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(gridDataUrl, filterTypeEnum);
         }
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult MyProjectsRequiringAnUpdate()
         {
             const ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum filterTypeEnum = ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate;
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<MyProjects, MyProjectsViewData>(viewData);
         }
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType)
         {
             var gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, CurrentPerson.IsApprover());
@@ -1449,7 +1449,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public PartialViewResult SubmitAll()
         {
             var viewModel = new ConfirmDialogFormViewModel(CurrentPerson.PersonID);
@@ -1457,7 +1457,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult SubmitAll(ConfirmDialogFormViewModel viewModel)
         {
@@ -1605,7 +1605,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Person> PeopleReceivingReminderGridJsonData(bool showCheckbox)
         {
             var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox);
@@ -1690,7 +1690,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult ProjectUpdateStatus()
         {
             var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
@@ -2397,7 +2397,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateViewFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public PartialViewResult ProjectUpdateBatchDiff(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
         {
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;

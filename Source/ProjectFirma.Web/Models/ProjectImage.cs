@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 
