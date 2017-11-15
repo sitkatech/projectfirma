@@ -34,9 +34,9 @@ Source code is available upon request via <support@sitkatech.com>.
     @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserIsSitkaAdmin)
 }
 
-<div class="hidden-xs">
-    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
-</div>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
 
 <div style="margin-top: 10px;">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

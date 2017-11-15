@@ -89,6 +89,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectSteward ProjectSteward = FieldDefinitionProjectSteward.Instance;
         public static readonly FieldDefinitionChartLastUpdatedDate ChartLastUpdatedDate = FieldDefinitionChartLastUpdatedDate.Instance;
         public static readonly FieldDefinitionUnsecuredFunding UnsecuredFunding = FieldDefinitionUnsecuredFunding.Instance;
+        public static readonly FieldDefinitionProjectStewardOrganizationIndex ProjectStewardOrganizationIndex = FieldDefinitionProjectStewardOrganizationIndex.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -98,7 +99,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, CanStewardProjectsOrganization, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, CanStewardProjectsOrganization, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationIndex };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -281,6 +282,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectStage;
                 case FieldDefinitionEnum.ProjectSteward:
                     return ProjectSteward;
+                case FieldDefinitionEnum.ProjectStewardOrganizationIndex:
+                    return ProjectStewardOrganizationIndex;
                 case FieldDefinitionEnum.Proposal:
                     return Proposal;
                 case FieldDefinitionEnum.Region:
@@ -397,7 +400,8 @@ namespace ProjectFirma.Web.Models
         ProjectRelationshipType = 245,
         ProjectSteward = 246,
         ChartLastUpdatedDate = 247,
-        UnsecuredFunding = 248
+        UnsecuredFunding = 248,
+        ProjectStewardOrganizationIndex = 249
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -824,5 +828,11 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionUnsecuredFunding(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
         public static readonly FieldDefinitionUnsecuredFunding Instance = new FieldDefinitionUnsecuredFunding(248, @"UnsecuredFunding", @"Unsecured Funding", @"<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>", true);
+    }
+
+    public partial class FieldDefinitionProjectStewardOrganizationIndex : FieldDefinition
+    {
+        private FieldDefinitionProjectStewardOrganizationIndex(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionProjectStewardOrganizationIndex Instance = new FieldDefinitionProjectStewardOrganizationIndex(249, @"ProjectStewardOrganizationIndex", @"Project Steward Organization Index", @"<p>List of organizations that can steward projects.</p>", true);
     }
 }

@@ -73,4 +73,5 @@ VALUES
 (245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1),
 (246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>', 1),
 (247, 'Chart Last Updated Date', 'ChartLastUpdatedDate','<p>The date this chart was last updated with current information.</p>', 3),
-(248, N'UnsecuredFunding', N'Unsecured Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>', 1)
+(248, N'UnsecuredFunding', N'Unsecured Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>', 1),
+(249, N'ProjectStewardOrganizationIndex', N'Project Steward Organization Index', N'<p>List of organizations that can steward projects.</p>', 1)

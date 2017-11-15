@@ -35,4 +35,5 @@ values
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1),
 (43, 'ClassificationsList', 'Classifications List', 1),
 (44, 'MonitoringProgramsList', 'Monitoring Programs', 1),
-(45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2)
+(45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2),
+(46, 'ProjectStewardOrganizationList', 'ProjectStewardOrganizationList', 1)
