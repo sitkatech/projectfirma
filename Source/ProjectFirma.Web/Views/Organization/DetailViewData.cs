@@ -94,12 +94,15 @@ namespace ProjectFirma.Web.Views.Organization
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     tc => tc.ProjectsIncludingLeadImplementingGridJsonData(organization));
 
+            ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
+                ? Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
+                : "Lead Implementer";
 
             ProjectFundingSourceExpendituresForOrganizationGridSpec =
                 new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization)
                 {
-                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()} where {organization.DisplayName} is the {ProjectStewardOrLeadImplementorFieldDefinitionName}",
                     SaveFiltersInCookie = true
                 };
 
@@ -121,11 +124,7 @@ namespace ProjectFirma.Web.Views.Organization
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
                                         (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
-                                         CurrentPerson.OrganizationID == organization.OrganizationID);
-
-            ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
-                ? Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
-                : "Lead Implementer";
+                                         CurrentPerson.OrganizationID == organization.OrganizationID);            
         }
 
     }
