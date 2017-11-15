@@ -13,7 +13,7 @@ values
 
 insert into dbo.FieldDefinition(FieldDefinitionID, FieldDefinitionName, FieldDefinitionDisplayName, DefaultDefinition, CanCustomizeLabel) 
 values
-(249, N'ProjectStewardOrganizationIndex', N'Project Steward Organization Index', N'<p>List of organizations that can steward projects.</p>', 1)
+(249, N'ProjectStewardOrganizationListItem', N'Project Steward Organization List Item', N'<p>Name of organization that can steward projects to be shown in a navigation list.</p>', 1)
 
 insert into dbo.FieldDefinitionData(TenantID, FieldDefinitionID, FieldDefinitionDataValue, FieldDefinitionLabel)
 values
