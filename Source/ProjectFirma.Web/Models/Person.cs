@@ -123,8 +123,8 @@ namespace ProjectFirma.Web.Models
 
         public bool CanStewardProjectByOrganizationRelationship(Project project)
         {
-            var canStewardProjectsOrganization = project.GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganization != null && canStewardProjectsOrganization.OrganizationID == OrganizationID;
+            var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
+            return canStewardProjectsOrganizationForProject != null && canStewardProjectsOrganizationForProject.OrganizationID == OrganizationID;
         }
 
         public void SetDefaultProjectOrganizations(Project project)

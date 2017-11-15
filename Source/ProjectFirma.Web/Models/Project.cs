@@ -34,7 +34,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using LtInfo.Common.Models.Attributes;
 
 namespace ProjectFirma.Web.Models
 {
@@ -144,23 +143,6 @@ namespace ProjectFirma.Web.Models
                 }
 
                 return false;
-            }
-        }
-
-        public bool IsUpdateAllowed
-        {
-            get
-            {
-                if (IsProposal())
-                {
-                    return false;
-                }
-
-                if (!IsUpdatableViaProjectUpdateProcess)
-                    return false;
-
-                var projectUpdateState = GetLatestUpdateState();
-                return projectUpdateState != ProjectUpdateState.Submitted;
             }
         }
 
