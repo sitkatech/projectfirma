@@ -77,6 +77,13 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                     <div class="col-xs-7">
                         <h4 class="list-group-item-heading">@organization.OrganizationName</h4>
+                        @{
+                            var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(ViewDataTyped.CurrentPerson).Count;
+                            var projectCountLabel = projectCount.Equals(1) ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
+                        }
+                        <p class="list-group-item-text">
+                            @projectCount @projectCountLabel
+                        </p>
                     </div>
                 </div>     
             </a>
