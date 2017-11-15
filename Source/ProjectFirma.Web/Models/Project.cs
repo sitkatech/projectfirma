@@ -239,12 +239,6 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
-        public bool HasDependentObjectsThatCount()
-        {
-            return PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
-                   ProjectNotes.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
-        }
-
         public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
         {
             var featureCollection = new FeatureCollection();
@@ -276,17 +270,12 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties, Func<IMappableProject, bool> filterFunction)
-        {
-            var featureCollection = new FeatureCollection();
-            var filteredProjectList = projects.Where(x => x.HasProjectLocationPoint).Where(filterFunction).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties)).ToList());
-            return featureCollection;
-        }
-
         public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties)
         {
-            return MappedPointsToGeoJsonFeatureCollection(projects, addProjectProperties, x => x.ProjectStage.ShouldShowOnMap());
+            var featureCollection = new FeatureCollection();
+            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties)).ToList());
+            return featureCollection;
         }
 
         public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)

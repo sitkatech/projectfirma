@@ -27,11 +27,6 @@ namespace ProjectFirma.Web.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IList<Project> projects)
-        {
-            return projects.Where(x => x.IsUpdateMandatory && x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
-        }
-
         public static List<Person> GetPrimaryContactPeople(this IList<Project> projects)
         {
             return projects.Where(x => x.GetPrimaryContact() != null).Select(x => x.GetPrimaryContact()).Distinct(new HavePrimaryKeyComparer<Person>()).ToList();

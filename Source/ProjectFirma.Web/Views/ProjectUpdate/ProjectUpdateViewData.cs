@@ -24,7 +24,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -48,37 +47,37 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
     public class ProjectUpdateViewData : FirmaViewData
     {
-        public readonly ProjectUpdateSectionEnum SelectedProjectUpdateSection;
-        public readonly ProjectUpdateBatch ProjectUpdateBatch;
-        public readonly Models.Project Project;
-        public readonly Person PrimaryContactPerson;
-        public readonly string ProjectUpdateMyProjectsUrl;
-        public readonly string ProjectUpdateInstructionsUrl;
-        public readonly string ProjectUpdateBasicsUrl;
-        public readonly string ProjectUpdatePerformanceMeasuresUrl;
-        public readonly string ProjectUpdateExpendituresUrl;
+        public ProjectUpdateSectionEnum SelectedProjectUpdateSection { get; }
+        public ProjectUpdateBatch ProjectUpdateBatch { get; }
+        public Models.Project Project { get; }
+        public Person PrimaryContactPerson { get; }
+        public string ProjectUpdateMyProjectsUrl { get; }
+        public string ProjectUpdateInstructionsUrl { get; }
+        public string ProjectUpdateBasicsUrl { get; }
+        public string ProjectUpdatePerformanceMeasuresUrl { get; }
+        public string ProjectUpdateExpendituresUrl { get; }
         // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//        public readonly string ProjectUpdateBudgetsUrl;
-        public readonly string ProjectUpdatePhotosUrl;
-        public readonly string ProjectUpdateLocationSimpleUrl;
-        public readonly string ProjectUpdateLocationDetailedUrl;
-        public readonly string ProjectUpdateWatershedUrl;
-        public readonly string ProjectUpdateNotesUrl;
-        public readonly string ProjectUpdateExternalLinksUrl;
-        public readonly string ProjectUpdateHistoryUrl;
-        public readonly string DeleteProjectUpdateUrl;
-        public readonly string ProjectUpdateExpectedFundingUrl;
-        public readonly string SubmitUrl;
-        public readonly string ApproveUrl;
-        public readonly string ReturnUrl;
-        public readonly string ProvideFeedbackUrl;
+        // public string ProjectUpdateBudgetsUrl { get; }
+        public string ProjectUpdatePhotosUrl { get; }
+        public string ProjectUpdateLocationSimpleUrl { get; }
+        public string ProjectUpdateLocationDetailedUrl { get; }
+        public string ProjectUpdateWatershedUrl { get; }
+        public string ProjectUpdateNotesUrl { get; }
+        public string ProjectUpdateExternalLinksUrl { get; }
+        public string ProjectUpdateHistoryUrl { get; }
+        public string DeleteProjectUpdateUrl { get; }
+        public string ProjectUpdateExpectedFundingUrl { get; }
+        public string SubmitUrl { get; }
+        public string ApproveUrl { get; }
+        public string ReturnUrl { get; }
+        public string ProvideFeedbackUrl { get; }
 
-        public readonly bool IsEditable;
-        public readonly bool IsReadyToApprove;
-        public readonly bool ShowApproveAndReturnButton;
-        public readonly bool AreProjectBasicsValid;
-        public readonly UpdateStatus UpdateStatus;
-        public readonly bool HasUpdateStarted;
+        public bool IsEditable { get; }
+        public bool IsReadyToApprove { get; }
+        public bool ShowApproveAndReturnButton { get; }
+        public bool AreProjectBasicsValid { get; }
+        public UpdateStatus UpdateStatus { get; }
+        public bool HasUpdateStarted { get; }
 
         public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
         {

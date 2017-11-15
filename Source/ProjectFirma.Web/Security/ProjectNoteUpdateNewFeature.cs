@@ -42,26 +42,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectUpdateBatch contextModelObject)
         {
-            var hasPermissionByPerson = HasPermissionByPerson(person);
-            var project = contextModelObject.Project;
-            if (!hasPermissionByPerson)
-            {
-                return new PermissionCheckResult(
-                    $"You don't have permission to Edit {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
-            }
-
-            if (contextModelObject.Project.IsProposal())
-            {
-                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
-            }
-
-            var projectIsEditableByUser = new FirmaAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
-            if (!projectIsEditableByUser)
-            {
-                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {project.ProjectID} is not editable by you.");
-            }
-
-            return new PermissionCheckResult();
+            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(person, contextModelObject.Project);
         }
     }
 }

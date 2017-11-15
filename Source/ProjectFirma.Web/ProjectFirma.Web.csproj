@@ -365,7 +365,6 @@
     <Compile Include="Security\LoggedInAndNotUnassignedRoleUnclassifiedFeature.cs" />
     <Compile Include="Security\ProjectApproveFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
-    <Compile Include="Security\ProjectUpdateFeature.cs" />
     <Compile Include="Views\FundingSource\ProjectFundingSourceRequestsGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
@@ -739,8 +738,6 @@
     <Compile Include="Security\ProjectDeleteFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectImageEditOrDeleteAsAdminFeature.cs" />
-    <Compile Include="Security\ProjectImageNewFeature.cs" />
-    <Compile Include="Security\ProjectImageSetKeyPhotoFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectLocationsViewFeature.cs" />
@@ -750,11 +747,9 @@
     <Compile Include="Security\ProjectNoteUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectsViewActiveProjectsListFeature.cs" />
     <Compile Include="Security\ProjectsViewFullListFeature.cs" />
-    <Compile Include="Security\ProjectsViewMyOrganizationsProjectListFeature.cs" />
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeature.cs" />
     <Compile Include="Security\ProjectUpdateCreateEditSubmitFeature.cs" />
-    <Compile Include="Security\ProjectUpdateViewFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
     <Compile Include="Security\ProjectCreateFeature.cs" />
     <Compile Include="Security\ProjectImageEditOrDeleteFeature.cs" />

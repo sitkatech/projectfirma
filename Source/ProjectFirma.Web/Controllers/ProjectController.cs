@@ -161,7 +161,6 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
             var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
             var editClassificationsUrl = SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(c => c.EditProjectClassificationsForProject(project));
-            var editAssessmentUrl = SitkaRoute<ProjectAssessmentQuestionController>.BuildUrlFromExpression(c => c.EditAssessment(project));
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
@@ -233,9 +232,9 @@ namespace ProjectFirma.Web.Controllers
 
         private static ImageGalleryViewData BuildImageGalleryViewData(Project project, Person currentPerson)
         {
-            var userCanAddPhotosToThisProject = new ProjectImageNewFeature().HasPermission(currentPerson, project).HasPermission;
+            var userCanAddPhotosToThisProject = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
-            var selectKeyImageUrl = (new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(currentPerson))
+            var selectKeyImageUrl = userCanAddPhotosToThisProject
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
                 : string.Empty;
             var galleryName = $"ProjectImage{project.ProjectID}";
@@ -636,7 +635,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return new ModalDialogFormJsonResult(project.GetProjectUpdateUrl());
         }
 
-        [ProjectUpdateViewFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Notification> ProjectNotificationsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -646,21 +645,13 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return gridJsonNetJObjectResult;
         }
 
-        [ProjectUpdateViewFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<ProjectUpdateBatch> ProjectUpdateBatchGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var gridSpec = new ProjectUpdateBatchGridSpec();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectUpdateBatch>(project.ProjectUpdateBatches.OrderBy(x => x.LastUpdateDate).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        [ProjectUpdateViewFeature]
-        public PartialViewResult ProjectUpdateDiffLog(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
-        {
-            var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
-            var viewData = new ProjectUpdateBatchDiffLogViewData(CurrentPerson, projectUpdateBatch);
-            return RazorPartialView<ProjectUpdateBatchDiffLog, ProjectUpdateBatchDiffLogViewData>(viewData);
         }
 
         public static Dictionary<int, GooglePieChartSlice> GetSlicesForGoogleChart(Dictionary<string, decimal> fundingSourceExpenditures)
@@ -697,7 +688,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return googleChartDataTable;
         }
 
-        [ProjectsViewMyOrganizationsProjectListFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult MyOrganizationsProjects()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.MyOrganizationsProjects);
@@ -705,7 +696,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
 
-        [ProjectsViewMyOrganizationsProjectListFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
