@@ -48,21 +48,13 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="form-horizontal">
         <div class="row form-group-condensed">
-            <div class="col-md-3">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne)
-            </div>
-            <div class="col-md-9">
-                @ViewDataTyped.TaxonomyTierOneDisplayName
-            </div>
-        </div>
-        <div class="row form-group-condensed">
-            <div class="col-md-3">
+            <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectDescription, true)
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-8">
                 @if (ViewDataTyped.IsEditable)
                 {
-                    @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+                    @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null, new List<string> { "form-control" })
                     @Html.ValidationMessageFor(m => m.ProjectDescription)
                 }
                 else
@@ -74,13 +66,13 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="row form-group-condensed">
-            <div class="col-md-3">
+            <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-8">
                 @if (ViewDataTyped.IsEditable)
                 {
-                    @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages)
+                    @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
                     @Html.ValidationMessageFor(m => m.ProjectStageID)
                 }
                 else
@@ -92,58 +84,99 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         </div>
-        @switch (ViewDataTyped.Project.FundingType.ToEnum)
+        <div class="form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.IsEditable)
+                {
+                    @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                    @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
+                }
+                else
+                {
+                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.PlanningDesignStartYear</p>
+                }
+            </div>
+        </div>
+        <div class="form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.IsEditable)
+                {
+                    @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                    @Html.ValidationMessageFor(m => m.ImplementationStartYear)
+                }
+                else
+                {
+                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.ImplementationStartYear</p>
+                }
+            </div>
+        </div>
+        <div class="form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.CompletionYear)
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.IsEditable)
+                {
+                    @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                    @Html.ValidationMessageFor(m => m.CompletionYear)
+                }
+                else
+                {
+                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.CompletionYear</p>
+                }
+            </div>
+        </div>
+        <div class="row form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne)
+            </div>
+            <div class="col-sm-8">
+                @ViewDataTyped.TaxonomyTierOneDisplayName
+            </div>
+        </div>
+        @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)
         {
-            case FundingTypeEnum.Capital:
-                <div class="row form-group-condensed">
-                    <div class="col-md-3">
-                        @Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)
-                    </div>
-                    <div class="col-md-3">
-                        @if (ViewDataTyped.IsEditable)
-                        {
-                            @Html.EditorFor(m => m.EstimatedTotalCost)
-                            @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-                        }
-                        else
-                        {
-                            @ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()
-                        }
-                    </div>
-                    @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+            <div class="form-group form-group-condensed">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
+                </div>
+                <div class="col-sm-8">
+                    @if (ViewDataTyped.IsEditable)
                     {
-                        <div class="col-md-3">
-                            <span>@Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
-                        </div>
-                            <div class="col-md-3">
-                                <span>@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
-                                <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                            </div>
-                        
-
+                        @Html.EditorFor(m => m.EstimatedTotalCost)
+                        @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
+                    }
+                    else
+                    {
+                        <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</p>
                     }
                 </div>
-                <div class="row form-group-condensed">
-                    <div class="col-md-3">
-                        @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
+            </div>
+            if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+            {
+                <div class="form-group form-group-condensed">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
                     </div>
-                    <div class="col-md-3">
-                            @ViewDataTyped.ProjectUpdate.GetSecuredFunding().ToStringCurrency()
-                    </div>
-                    <div class="col-md-3">
-                        @Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)
-                    </div>
-                    <div class="col-md-3">
-                        @ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency() (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
                     </div>
                 </div>
-                        break;
-            case FundingTypeEnum.OperationsAndMaintenance:
-            <div class="row form-group-condensed">
-                <div class="col-md-3">
+            }
+        }
+        else if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
+        {
+            <div class="form-group form-group-condensed">
+                <div class="col-sm-4 control-label">
                     @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-8">
                     @if (ViewDataTyped.IsEditable)
                     {
                         @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
@@ -151,87 +184,35 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     else
                     {
-                        @ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()
+                        <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</p>
                     }
                 </div>
-                <div class="col-md-3">
+            </div>
+            <div class="form-group form-group-condensed">
+                <div class="col-sm-4 control-label">
                     @Html.LabelWithSugarFor(FieldDefinition.LifecycleOperatingCost)
                 </div>
-                <div class="col-md-3">
-                    @if (CostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
-                    {
-                        @CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()
-                    }
+                <div class="col-sm-8">
+                    <p class="form-control-static">@CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()</p>
                 </div>
             </div>
-                    if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
-                    {
-                        <div class="row form-group-condensed">
-                            <div class="col-md-3">
-
-                                @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
-                            </div>
-                            <div class="col-md-9">
-                                <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
-                                <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                            </div>
-                        </div>
-                    }
-                    break;
+            if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+            {
+                <div class="form-group form-group-condensed">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
+                    </div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency() (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
+                    </div>
+                </div>
+            }
         }
         <div class="row form-group-condensed">
-            <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear, true)
-            </div>
-            <div class="col-md-9">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange)
-                    @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
-                }
-                else
-                {
-                    @ViewDataTyped.ProjectUpdate.PlanningDesignStartYear
-                }
-            </div>
-        </div>
-
-        <div class="row form-group-condensed">
-            <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.ImplementationStartYear, true)
-            </div>
-            <div class="col-md-3">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange)
-                    @Html.ValidationMessageFor(m => m.ImplementationStartYear)
-                }
-                else
-                {
-                    @ViewDataTyped.ProjectUpdate.ImplementationStartYear
-                }
-            </div>
-            <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.CompletionYear)
-            </div>
-
-            <div class="col-md-3">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange)
-                    @Html.ValidationMessageFor(m => m.CompletionYear)
-                }
-                else
-                {
-                    @ViewDataTyped.ProjectUpdate.CompletionYear
-                }
-            </div>
-        </div>
-        <div class="row form-group-condensed">
-            <div class="col-md-3">
+            <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-8">
                 @if (ViewDataTyped.PrimaryContactPerson != null)
                 {
                     @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgShortNameAsUrl()
@@ -253,11 +234,12 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <hr />
             <div class="row form-group">
-                <div class="col-md-3">@Html.LabelWithSugarFor(x => x.Comments)</div>
-                <div class="col-md-9">
-                    @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
                     @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
-                </div>            </div>
+                </div>
+            </div>
         }
         <hr />
         SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);

@@ -898,10 +898,6 @@ a.disabled {
   border-bottom-left-radius: 6px;
   border: 1px solid #ddd;
 }
-.sectionComments {
-  width: 550px;
-  background-color: #fff;
-}
 hr.navMenu {
   width: 90%;
   margin-top: 0;
