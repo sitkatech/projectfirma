@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required]
         public int FundingTypeID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.CanStewardProjectsOrganization)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject)]
         public int? ApprovingProjectsOrganizationID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsPrimaryContactOrganization)]
@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"{Models.FieldDefinition.CanStewardProjectsOrganization.GetFieldDefinitionLabel()} is required", m => m.ApprovingProjectsOrganizationID));
+                    $"{Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()} is required", m => m.ApprovingProjectsOrganizationID));
             }
 
             return errors;

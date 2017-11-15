@@ -36,12 +36,12 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
         public IndexViewData(Person currentPerson, List<Models.Organization> projectStewardOrganizations, Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.ProjectStewardOrganizationListItem.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()}";
 
             GridSpec = new IndexGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.ProjectStewardOrganizationListItem.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.ProjectStewardOrganizationListItem.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Views.Organization
                                          CurrentPerson.OrganizationID == organization.OrganizationID);
 
             ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
-                ? Models.FieldDefinition.CanStewardProjectsOrganization.GetFieldDefinitionLabel()
+                ? Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
                 : "Lead Implementer";
         }
 

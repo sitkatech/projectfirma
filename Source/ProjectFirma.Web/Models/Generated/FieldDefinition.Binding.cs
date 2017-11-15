@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionTaxonomyTierThree TaxonomyTierThree = FieldDefinitionTaxonomyTierThree.Instance;
         public static readonly FieldDefinitionFundingSource FundingSource = FieldDefinitionFundingSource.Instance;
         public static readonly FieldDefinitionIsPrimaryContactOrganization IsPrimaryContactOrganization = FieldDefinitionIsPrimaryContactOrganization.Instance;
-        public static readonly FieldDefinitionCanStewardProjectsOrganization CanStewardProjectsOrganization = FieldDefinitionCanStewardProjectsOrganization.Instance;
+        public static readonly FieldDefinitionProjectsStewardOrganizationRelationshipToProject ProjectsStewardOrganizationRelationshipToProject = FieldDefinitionProjectsStewardOrganizationRelationshipToProject.Instance;
         public static readonly FieldDefinitionOrganization Organization = FieldDefinitionOrganization.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
         public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectSteward ProjectSteward = FieldDefinitionProjectSteward.Instance;
         public static readonly FieldDefinitionChartLastUpdatedDate ChartLastUpdatedDate = FieldDefinitionChartLastUpdatedDate.Instance;
         public static readonly FieldDefinitionUnsecuredFunding UnsecuredFunding = FieldDefinitionUnsecuredFunding.Instance;
-        public static readonly FieldDefinitionProjectStewardOrganizationListItem ProjectStewardOrganizationListItem = FieldDefinitionProjectStewardOrganizationListItem.Instance;
+        public static readonly FieldDefinitionProjectStewardOrganizationDisplayName ProjectStewardOrganizationDisplayName = FieldDefinitionProjectStewardOrganizationDisplayName.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, CanStewardProjectsOrganization, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationListItem };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -182,8 +182,6 @@ namespace ProjectFirma.Web.Models
                     return AssociatedTaxonomyTierTwos;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
-                case FieldDefinitionEnum.CanStewardProjectsOrganization:
-                    return CanStewardProjectsOrganization;
                 case FieldDefinitionEnum.ChartLastUpdatedDate:
                     return ChartLastUpdatedDate;
                 case FieldDefinitionEnum.Classification:
@@ -278,12 +276,14 @@ namespace ProjectFirma.Web.Models
                     return ProjectNote;
                 case FieldDefinitionEnum.ProjectRelationshipType:
                     return ProjectRelationshipType;
+                case FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject:
+                    return ProjectsStewardOrganizationRelationshipToProject;
                 case FieldDefinitionEnum.ProjectStage:
                     return ProjectStage;
                 case FieldDefinitionEnum.ProjectSteward:
                     return ProjectSteward;
-                case FieldDefinitionEnum.ProjectStewardOrganizationListItem:
-                    return ProjectStewardOrganizationListItem;
+                case FieldDefinitionEnum.ProjectStewardOrganizationDisplayName:
+                    return ProjectStewardOrganizationDisplayName;
                 case FieldDefinitionEnum.Proposal:
                     return Proposal;
                 case FieldDefinitionEnum.Region:
@@ -335,7 +335,7 @@ namespace ProjectFirma.Web.Models
         TaxonomyTierThree = 5,
         FundingSource = 8,
         IsPrimaryContactOrganization = 12,
-        CanStewardProjectsOrganization = 13,
+        ProjectsStewardOrganizationRelationshipToProject = 13,
         Organization = 14,
         Password = 17,
         PerformanceMeasure = 18,
@@ -401,7 +401,7 @@ namespace ProjectFirma.Web.Models
         ProjectSteward = 246,
         ChartLastUpdatedDate = 247,
         UnsecuredFunding = 248,
-        ProjectStewardOrganizationListItem = 249
+        ProjectStewardOrganizationDisplayName = 249
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -434,10 +434,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionIsPrimaryContactOrganization Instance = new FieldDefinitionIsPrimaryContactOrganization(12, @"IsPrimaryContactOrganization", @"Is Primary Contact Organization", @"<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. This is usually the lead implementer.</p>", true);
     }
 
-    public partial class FieldDefinitionCanStewardProjectsOrganization : FieldDefinition
+    public partial class FieldDefinitionProjectsStewardOrganizationRelationshipToProject : FieldDefinition
     {
-        private FieldDefinitionCanStewardProjectsOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionCanStewardProjectsOrganization Instance = new FieldDefinitionCanStewardProjectsOrganization(13, @"CanStewardProjectsOrganization", @"Can Steward Projects Organization", @"<p>The entity with primary responsibility for stewarding a project.</p>", true);
+        private FieldDefinitionProjectsStewardOrganizationRelationshipToProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionProjectsStewardOrganizationRelationshipToProject Instance = new FieldDefinitionProjectsStewardOrganizationRelationshipToProject(13, @"ProjectsStewardOrganizationRelationshipToProject", @"Projects Steward Organization Relationship To Project", @"<p>The relationship between a stewarding organization and a project.</p>", true);
     }
 
     public partial class FieldDefinitionOrganization : FieldDefinition
@@ -830,9 +830,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionUnsecuredFunding Instance = new FieldDefinitionUnsecuredFunding(248, @"UnsecuredFunding", @"Unsecured Funding", @"<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>", true);
     }
 
-    public partial class FieldDefinitionProjectStewardOrganizationListItem : FieldDefinition
+    public partial class FieldDefinitionProjectStewardOrganizationDisplayName : FieldDefinition
     {
-        private FieldDefinitionProjectStewardOrganizationListItem(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProjectStewardOrganizationListItem Instance = new FieldDefinitionProjectStewardOrganizationListItem(249, @"ProjectStewardOrganizationListItem", @"Project Steward Organization List Item", @"<p>Name of organization that can steward projects to be shown in a navigation list.</p>", true);
+        private FieldDefinitionProjectStewardOrganizationDisplayName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionProjectStewardOrganizationDisplayName Instance = new FieldDefinitionProjectStewardOrganizationDisplayName(249, @"ProjectStewardOrganizationDisplayName", @"Project Steward Organization Display Name", @"<p>Label for Organization types that can steward projects.</p>", true);
     }
 }
