@@ -178,5 +178,10 @@ namespace LtInfo.Common
         {
             return ToCheckboxImageOrEmpty(value ?? false);
         }
+
+        public static string ToYesOrEmpty(this bool value)
+        {
+            return (value) ? "Yes" : String.Empty;
+        }
     }
 }

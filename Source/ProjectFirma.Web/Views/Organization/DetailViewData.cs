@@ -21,11 +21,14 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.FundingSource;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization
@@ -40,7 +43,11 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
-        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ExpendituresDirectlyFromOrganizationViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
+        public readonly ProjectFundingSourceExpendituresForOrganizationGridSpec ProjectFundingSourceExpendituresForOrganizationGridSpec;
+        public readonly string ProjectFundingSourceExpendituresForOrganizationGridName;
+        public readonly string ProjectFundingSourceExpendituresForOrganizationGridDataUrl;
 
         public readonly string ManageFundingSourcesUrl;
         public readonly string IndexUrl;
@@ -50,13 +57,17 @@ namespace ProjectFirma.Web.Views.Organization
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
         public readonly string NewFundingSourceUrl;
-        public readonly bool CanCreateNewFundingSource; 
+        public readonly bool CanCreateNewFundingSource;
+
+        public readonly string ProjectStewardOrLeadImplementorFieldDefinitionName;
 
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
-            List<Models.PerformanceMeasure> performanceMeasures, ViewGoogleChartViewData viewGoogleChartViewData) : base(currentPerson)
+            List<Models.PerformanceMeasure> performanceMeasures, 
+            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentPerson)
         {
             Organization = organization;
             PageTitle = organization.DisplayName;
@@ -82,12 +93,28 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectOrganizationsGridDataUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     tc => tc.ProjectsIncludingLeadImplementingGridJsonData(organization));
+
+
+            ProjectFundingSourceExpendituresForOrganizationGridSpec =
+                new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization)
+                {
+                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    SaveFiltersInCookie = true
+                };
+
+            ProjectFundingSourceExpendituresForOrganizationGridName = "projectCalendarYearExpendituresForOrganizationGrid";
+            ProjectFundingSourceExpendituresForOrganizationGridDataUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    tc => tc.ProjectFundingSourceExpendituresForOrganizationGridJsonData(organization));
+
             ManageFundingSourcesUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index());
             IndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index());
 
             MapInitJson = mapInitJson;
             HasSpatialData = hasSpatialData;
-            ViewGoogleChartViewData = viewGoogleChartViewData;
+            ExpendituresDirectlyFromOrganizationViewGoogleChartViewData = expendituresDirectlyFromOrganizationViewGoogleChartViewData;
+            ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
 
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => organization.GetPerformanceMeasureChartViewData(x, currentPerson)).ToList();
 
@@ -96,6 +123,10 @@ namespace ProjectFirma.Web.Views.Organization
                                         (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
                                          CurrentPerson.OrganizationID == organization.OrganizationID);
 
+            ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
+                ? Models.FieldDefinition.CanStewardProjectsOrganization.GetFieldDefinitionLabel()
+                : "Lead Implementer";
         }
+
     }
 }

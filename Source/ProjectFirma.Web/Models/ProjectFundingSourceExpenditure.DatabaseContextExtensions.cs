@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
         {
             var fullCategoryYearDictionary = GetFullCategoryYearDictionary(projectFundingSourceExpenditures, filterFunction, filterValues, sortFunction, rangeOfYears);
             var googleChartDataTable = GetGoogleChartDataTable(fullCategoryYearDictionary, rangeOfYears, googleChartType);
-            var googleChartAxis = new GoogleChartAxis("Annual Expenditures and Budget ($)", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Short);
+            var googleChartAxis = new GoogleChartAxis("Annual Expenditures", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Short);
             var googleChartConfiguration = new GoogleChartConfiguration(chartTitle,
                 isStacked,
                 googleChartType,

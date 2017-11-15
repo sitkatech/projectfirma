@@ -1,0 +1,85 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using MoreLinq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.ProjectStewardOrganization.Index
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <style>
+        .list-group-item {
+            height: 120px;
+
+        } 
+        
+
+        .img-responsive {
+              display: inline-block;
+          }
+
+        .col-xs-5, .col-xs-7 {
+            float: none;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
+
+    </style>
+}
+
+@section RightOfPageTitle
+{
+    
+}
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
+<div class="row">
+    @foreach (var organization in ViewDataTyped.ProjectStewardOrganizations)
+     {
+        <div class="col-xs-12 col-sm-4 list-group">
+            <a href="@organization.GetDetailUrl()" class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <figure style="text-align: center;">
+                            @if (organization.LogoFileResource != null)
+                            {
+                                <img class="img-responsive" src="@organization.LogoFileResource.FileResourceUrl" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
+                            }
+                            else
+                            {
+                                <img class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
+                            }
+                        </figure>
+                    </div>
+                    <div class="col-xs-7">
+                        <h4 class="list-group-item-heading">@organization.OrganizationName</h4>
+                    </div>
+                </div>     
+            </a>
+        </div>
+    }
+</div>
