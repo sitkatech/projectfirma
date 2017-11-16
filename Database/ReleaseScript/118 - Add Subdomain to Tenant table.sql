@@ -1,3 +1,33 @@
+ALTER TABLE dbo.Tenant DROP CONSTRAINT AK_Tenant_TenantDomain
+GO
+
+alter table dbo.Tenant drop column IsSubdomain
+alter table dbo.Tenant add TenantSubdomain varchar(100) null
+
+ALTER TABLE dbo.Tenant ADD CONSTRAINT AK_Tenant_TenantDomain_TenantSubdomain UNIQUE (TenantDomain, TenantSubdomain)
+GO
+
+update dbo.Tenant
+set TenantSubdomain = 'sitka'
+where TenantID = 1
+
+update dbo.Tenant
+set TenantSubdomain = 'iysdemo'
+where TenantID = 4
+
+update dbo.Tenant
+set TenantSubdomain = 'demo'
+where TenantID = 5
+
+update dbo.Tenant
+set TenantSubdomain = 'nffdemo'
+where TenantID = 6
+
+
+insert into dbo.Tenant(TenantID, TenantName, TenantDomain, TenantSubdomain)
+values 
+(7, 'JohnDayPartnership', 'projectfirma.com', 'johndaydemo')
+
 if exists(select 1 from sys.objects where object_id = object_id(N'dbo.pTenantCopy'))
   drop procedure dbo.pTenantCopy
 go
@@ -63,3 +93,7 @@ as
 	update dbo.Organization
 	set PrimaryContactPersonID = (select PersonID from dbo.Person where TenantID = @TenantIDTo and Email = 'john.burns@sitkatech.com')
 	where OrganizationID = @sitkaOrgIDForTenant
+GO
+
+
+exec pTenantCopy @TenantIDFrom = 4, @TenantIDTo = 7, @TenantName= 'John Day Partnership', @ToolDisplayName = 'Project Tracker for the John Day Partnership', @createDate = '11/15/2017'

@@ -36,12 +36,9 @@ namespace ProjectFirma.Web.Common
 
         public string GetCanonicalHostNameForEnvironment(Tenant tenant)
         {
-            var separator = ".";
-            if (tenant.IsSubDomain)
-            {
-                separator = "-";
-            }
-            return $"{DomainPrefix}{separator}{tenant.TenantDomain}";
+            var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
+            var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
+            return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
         }
 
         public static FirmaEnvironment MakeFirmaEnvironment(string firmaEnvironmentSetting)
@@ -56,7 +53,7 @@ namespace ProjectFirma.Web.Common
                 case FirmaEnvironmentType.Prod:
                     return new FirmaEnvironmentProd();
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Unknown {0} {1}", typeof(FirmaEnvironmentType).Name, firmaEnvironmentType));
+                    throw new ArgumentOutOfRangeException($"Unknown {typeof(FirmaEnvironmentType).Name} {firmaEnvironmentType}");
             }
         }
 
@@ -75,7 +72,7 @@ namespace ProjectFirma.Web.Common
             public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => false;
 
             public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Prod;
-            public override string DomainPrefix => "www";
+            public override string DomainPrefix => null;
         }
 
         private class FirmaEnvironmentQa : FirmaEnvironment
