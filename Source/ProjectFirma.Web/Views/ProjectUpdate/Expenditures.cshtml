@@ -106,16 +106,22 @@ else
             <div style="display: inline-block; margin-right: 5px; vertical-align: top">
                 @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
             </div>
-            <div style="display: inline-block">
-                <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
-                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
+            <br/>
+            <div class="input-group">
+                <select ng-model="FundingSourceToAdd" class="selectpicker"
+                        data-live-search="true"
+                        data-container="body"
+                        ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
+                        data-width="70%"></select>
+                <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
                 <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                     Not listed?
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </span>
                 <br />
-                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
+                
             </div>
+            <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
             <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
                 <thead>
                     <tr>

@@ -46,11 +46,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        <div class="row form-group-condensed">
+        <div class="row form-group form-group-condensed">
             <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectDescription, true)
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="padding-left: 10px;">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null, new List<string> { "form-control" })
@@ -64,11 +64,11 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </div>
         </div>
-        <div class="row form-group-condensed">
+        <div class="row form-group form-group-condensed">
             <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="padding-left: 10px;">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })

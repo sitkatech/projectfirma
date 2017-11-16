@@ -123,10 +123,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceRequest)" style="cursor: pointer"></span></td>
                     <td ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceRequest)" : "getFundingSourceName(projectFundingSourceRequest)")">
                     <td style="text-align: right; padding-right: 17px;">
-                        <input style="float: right" type="text" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control" ng-currency/>
+                        <input style="float: right; text-align: right" type="text" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
                     <td style="text-align: right; padding-right: 17px;">
-                        <input style="float: right" type="text" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
+                        <input style="float: right; text-align: right" type="text" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
                     <th style="text-align: right" ng-bind="(projectFundingSourceRequest.SecuredAmount + projectFundingSourceRequest.UnsecuredAmount) | nfcurrency"></th>
                 </tr>

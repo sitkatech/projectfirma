@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectImageController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectCreateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

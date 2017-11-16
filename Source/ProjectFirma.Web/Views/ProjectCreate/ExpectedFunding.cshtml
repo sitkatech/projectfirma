@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
         <div class="input-group">
-            <<select ng-model="FundingSourceToAdd"
+            <select ng-model="FundingSourceToAdd"
                      class="selectpicker"
                      data-live-search="true"
                      data-container="body"
@@ -80,10 +80,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     </td>
                     <td ng-bind="getFundingSourceName(projectFundingSourceRequest)"></td>
                     <td style="text-align: right">
-                        <input type="text" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
+                        <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
                     </td>
                     <td style="text-align: right">
-                        <input type="text" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
+                        <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
                     <th style="text-align: right" ng-bind="(projectFundingSourceRequest.SecuredAmount + projectFundingSourceRequest.UnsecuredAmount) | nfcurrency"></th>
                 </tr>
@@ -116,7 +116,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                 <table>
                     <tr>
-                        <td style="width: 200px">
+                        <td style="width: 240px">
                             Estimated Annual Operating Cost:
                         </td>
                         <td>
@@ -126,6 +126,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tr>
                         <td>
                             Estimated Total Operating Cost:
+                        </td>
+                        <td>
+                            <span>@ViewDataTyped.Project.EstimatedTotalCost</span>
                         </td>
                     </tr>
                 </table>
