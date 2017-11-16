@@ -34,12 +34,7 @@ namespace ProjectFirma.Web.Common
 
         public abstract string DomainPrefix { get; }
 
-        public string GetCanonicalHostNameForEnvironment(Tenant tenant)
-        {
-            var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-            var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
-            return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
-        }
+        public abstract string GetCanonicalHostNameForEnvironment(Tenant tenant);
 
         public static FirmaEnvironment MakeFirmaEnvironment(string firmaEnvironmentSetting)
         {
@@ -53,7 +48,8 @@ namespace ProjectFirma.Web.Common
                 case FirmaEnvironmentType.Prod:
                     return new FirmaEnvironmentProd();
                 default:
-                    throw new ArgumentOutOfRangeException($"Unknown {typeof(FirmaEnvironmentType).Name} {firmaEnvironmentType}");
+                    throw new ArgumentOutOfRangeException(
+                        $"Unknown {typeof(FirmaEnvironmentType).Name} {firmaEnvironmentType}");
             }
         }
 
@@ -64,7 +60,15 @@ namespace ProjectFirma.Web.Common
 
             public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Local;
             public override string DomainPrefix => "localhost";
+
+            public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
+            {
+                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
+                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
+                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+            }
         }
+
 
         private class FirmaEnvironmentProd : FirmaEnvironment
         {
@@ -72,7 +76,14 @@ namespace ProjectFirma.Web.Common
             public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => false;
 
             public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Prod;
-            public override string DomainPrefix => null;
+            public override string DomainPrefix => "www";
+
+            public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
+            {
+                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
+                var environmentPrefix = string.IsNullOrWhiteSpace(subdomainPrefix) ? $"{DomainPrefix}." : string.Empty;
+                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+            }
         }
 
         private class FirmaEnvironmentQa : FirmaEnvironment
@@ -82,6 +93,13 @@ namespace ProjectFirma.Web.Common
 
             public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
             public override string DomainPrefix => "qa";
+
+            public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
+            {
+                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
+                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
+                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+            }
         }
     }
 
