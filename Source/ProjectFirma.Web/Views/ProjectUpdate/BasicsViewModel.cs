@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
+        [StringLength(700)]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]

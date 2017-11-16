@@ -250,7 +250,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-6" style="padding-left: 0;">
                 <div class="pull-left">
                     <p>
                         Created by @ViewDataTyped.Project.ProposingPerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.Project.ProposingDate
@@ -264,7 +264,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-6" style="padding-left: 0;">
                 <div class="pull-left">
                     <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
                     @if (ViewDataTyped.CurrentPersonIsSubmitter && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
@@ -279,7 +279,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     {
                         if (ViewDataTyped.CanAdvanceStage)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                            <span>
+                                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                            </span>
                         }
                         else
                         {
@@ -294,14 +296,16 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 if (ViewDataTyped.CanAdvanceStage)
                                 {
-                                    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<button class='btn btn-xs btn-firma'>{0} Approve</button>", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")), ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
+                                    <span>
+                                        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<button class='btn btn-xs btn-firma'>{0} Approve</button>", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")), ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
+                                    </span>
                                 }
                                 else
                                 {
                                     <button class="btn btn-xs btn-firma" disabled>Approve</button>
                                 }
-                                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
-                                @ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)</span>
+                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)</span>
                             }
                         }
                     }

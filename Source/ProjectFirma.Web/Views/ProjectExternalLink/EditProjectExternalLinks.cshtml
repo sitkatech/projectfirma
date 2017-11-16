@@ -38,8 +38,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </p>
 <div id="EditProjectExternalLinksApp" ng-controller="ProjectExternalLinkController">
     <strong>External Link to Add:</strong><br/>
-    Link Text: <input type="text" ng-model="ExternalLinkLabelToAdd" style="width: 300px" />
-    URL: <input type="url" ng-model="ExternalLinkUrlToAdd" style="width: 300px" />
+    Link Text: <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: 300px" />
+    URL: <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: 300px" />
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
     <table class="dialogFormLayout" ng-show="AngularModel.ProjectExternalLinks.length > 0">
         <colgroup>

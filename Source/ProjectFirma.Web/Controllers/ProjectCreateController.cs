@@ -722,7 +722,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectCreateFeature]
         public PartialViewResult NewNote(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditNoteViewModel();
@@ -730,7 +730,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewNote(ProjectPrimaryKey projectPrimaryKey, EditNoteViewModel viewModel)
         {

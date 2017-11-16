@@ -32,6 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
         };
     });
     angular.bootstrap(jQuery("#EditFundingSourceExpendituresApp"), ["ProjectFirmaApp"]);
+    jQuery(".selectpicker").selectpicker("refresh");
     // ]]>
 </script>
 
@@ -53,9 +54,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="display: inline-block; margin-right: 5px;">
             @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:            
         </div>
-        <div style="display: inline-block; vertical-align: top">
-            <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
-            <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
+        <div class="input-group">
+            <select ng-model="FundingSourceToAdd" class="selectpicker"
+                    data-live-search="true"
+                    data-container="body"
+                    ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
+                    data-width="100%"></select>
+            <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
         </div>
     }
     <table class="dialogFormLayout" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
@@ -74,7 +79,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span></td>
             <td ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceExpenditure)" : "getFundingSourceName(projectFundingSourceExpenditure)")">
             <td style="text-align: right" ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'CalendarYear'">
-                <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency" ng-currency />
+                <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" ng-currency />
             </td>
             <th style="text-align: right" ng-bind="getExpenditureTotalForRow(projectFundingSourceExpenditure) | nfcurrency">
             </th>

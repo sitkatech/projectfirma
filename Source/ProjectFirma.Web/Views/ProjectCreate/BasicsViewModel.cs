@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
+        [StringLength(700)]
         [Required]
         public string ProjectDescription { get; set; }
 
@@ -153,6 +153,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
 
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+
+            if (TaxonomyTierOneID == -1)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int>(
+                    $"{MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()} is required.",
+                    m => m.TaxonomyTierOneID));
+            }
             if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
