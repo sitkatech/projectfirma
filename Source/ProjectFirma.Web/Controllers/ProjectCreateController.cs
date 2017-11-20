@@ -90,13 +90,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditBasics(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewModel = new BasicsViewModel(project);
             return ViewEditBasics(project, viewModel);
         }
@@ -212,29 +208,11 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [PerformanceMeasureExpectedProposedFeature]
-        public ActionResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewModel = new ExpectedPerformanceMeasureValuesViewModel(project);
             return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
-        }
-
-        private bool RedirectToInstructionsIfNotAPendingProposal(ProjectPrimaryKey projectPrimaryKey, Project project, out ActionResult redirectToAction)
-        {
-            redirectToAction = null;
-            if (!project.IsPendingProposal())
-            {
-                redirectToAction =
-                    RedirectToAction(
-                        new SitkaRoute<ProjectCreateController>(t =>
-                            t.Instructions(projectPrimaryKey.PrimaryKeyValue)));
-                return true;
-            }
-            return false;
         }
 
         private ViewResult ViewEditExpectedPerformanceMeasureValues(Project project, ExpectedPerformanceMeasureValuesViewModel viewModel)
@@ -318,15 +296,10 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var projectClassificationSimples = GetProjectClassificationSimples(project);
-
             var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples);
             return ViewEditClassifications(project, viewModel);
         }
@@ -380,15 +353,10 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditAssessment(ProjectPrimaryKey projectPrimaryKey)
         {
-            var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
+            var project = projectPrimaryKey.EntityObject;            
             var projectAssessmentQuestionSimples = GetProjectAssessmentQuestionSimples(project);
-
             var viewModel = new EditAssessmentViewModel(projectAssessmentQuestionSimples);
             return ViewEditAssessment(project, viewModel);
         }
@@ -437,13 +405,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewModel = new LocationSimpleViewModel(project);
             return ViewEditLocationSimple(project, viewModel);
         }
@@ -491,13 +455,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewModel = new LocationDetailedViewModel();
             return ViewEditLocationDetailed(project, viewModel);
         }
@@ -648,13 +608,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ActionResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewModel = new WatershedViewModel(project);
             return ViewEditWatershed(project, viewModel);
         }
@@ -704,13 +660,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
             var canEditNotes = new ProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson);
@@ -810,13 +762,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (RedirectToInstructionsIfNotAPendingProposal(projectPrimaryKey, project, out var redirectToInstructions))
-            {
-                return redirectToInstructions;
-            }
             var viewData = BuildImageGalleryViewData(project, CurrentPerson);
             return RazorView<Photos, PhotoViewData>(viewData);
         }

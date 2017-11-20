@@ -40,8 +40,9 @@ namespace ProjectFirma.Web.Common
     {
         public const string StatusErrorIndex = "StatusError";
         public const string StatusMessageIndex = "StatusMessage";
-        
-        public const String NotAuthorizedLoginText = "You do not have permission to do that, please log in.";
+        public const string InfoMessageIndex = "InfoMessage";
+
+        public const string NotAuthorizedLoginText = "You do not have permission to do that, please log in.";
 
         protected static ReadOnlyCollection<MethodInfo> AllControllerActionMethodsProtected;
         

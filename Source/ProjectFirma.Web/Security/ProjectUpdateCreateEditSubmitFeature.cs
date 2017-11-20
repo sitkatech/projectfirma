@@ -26,12 +26,12 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Create, Edit, and Submit {0} Updates", FieldDefinitionEnum.Project)]
     public class ProjectUpdateCreateEditSubmitFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
-        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
+        private readonly FirmaFeatureForProject _firmaFeatureWithContextImpl;
 
         public ProjectUpdateCreateEditSubmitFeature()
             : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
+            _firmaFeatureWithContextImpl = new FirmaFeatureForProject(this);
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 

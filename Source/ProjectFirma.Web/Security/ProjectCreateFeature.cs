@@ -26,12 +26,12 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Edit {0}", FieldDefinitionEnum.Project)]
     public class ProjectCreateFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
-        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
+        private readonly FirmaFeatureForProject _firmaFeatureWithContextImpl;
 
         public ProjectCreateFeature()
             : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
+            _firmaFeatureWithContextImpl = new FirmaFeatureForProject(this);
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
@@ -45,6 +45,11 @@ namespace ProjectFirma.Web.Security
             if (!HasPermissionByPerson(person))
             {
                 return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.DisplayName}");
+            }
+
+            if (contextModelObject.IsActiveProject())
+            {
+                return new PermissionCheckResult("This Project has been approved and can no longer be edited through this wizard.");
             }
 
             var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);

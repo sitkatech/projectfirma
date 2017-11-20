@@ -84,9 +84,9 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString => FundingSourceName;
 
-        public List<Project> AssociatedProjects
+        public List<Project> GetAssociatedProjects(Person person)
         {
-            get { return ProjectFundingSourceExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList(); }
+            return ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
     }
 }

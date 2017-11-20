@@ -38,6 +38,12 @@ namespace ProjectFirma.Web.Models
             return project.IsProposal() ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.EditBasics(project.ProjectID)) : EditUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static readonly UrlTemplate<int> ProjectCreateUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.EditBasics(UrlTemplate.Parameter1Int)));
+        public static string GetProjectCreateUrl(this Project project)
+        {
+            return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
         public static string GetFactSheetUrl(this Project project)
         {
@@ -48,6 +54,12 @@ namespace ProjectFirma.Web.Models
         public static string GetDeleteUrl(this Project project)
         {
             return DeleteUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProject(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteProposalUrl(this Project project)
+        {
+            return DeleteProposalUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
         public static readonly UrlTemplate<int> ProjectUpdateUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(t => t.Instructions(UrlTemplate.Parameter1Int)));

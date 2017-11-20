@@ -56,29 +56,34 @@ namespace ProjectFirma.Web.Security
         {
         }
 
-        public void OnActionExecuting(ActionExecutingContext filterContext)
+        public virtual void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var person = HttpRequestStorage.Person;
+            var primaryKeyForObject = GetPrimaryKeyForObjectAndEnsureTenantMatch(filterContext);
+            DemandPermission(HttpRequestStorage.Person, primaryKeyForObject.EntityObject);
+        }
+
+        protected LtInfoEntityPrimaryKey<T> GetPrimaryKeyForObjectAndEnsureTenantMatch(ActionExecutingContext filterContext)
+        {
             var ltInfoEntityPrimaryKeys = filterContext.ActionParameters.Values.OfType<LtInfoEntityPrimaryKey<T>>().ToList();
 
-            var genericMessage = string.Format("Problem evaluating feature \"{3}\" for controller action \"{0}.{1}()\" while looking for parameter of type \"{2}\".",
+            var genericMessage = string.Format(
+                "Problem evaluating feature \"{3}\" for controller action \"{0}.{1}()\" while looking for parameter of type \"{2}\".",
                 filterContext.Controller.GetType().Name,
                 filterContext.ActionDescriptor.ActionName,
                 typeof(LtInfoEntityPrimaryKey<T>),
                 _firmaFeatureWithContext.FeatureName);
 
             Check.Require(ltInfoEntityPrimaryKeys.Any(), genericMessage + " Change code to add that parameter.");
-            Check.Require(ltInfoEntityPrimaryKeys.Count == 1, genericMessage + " Change code so that there's only one of those parameters.");
+            Check.Require(ltInfoEntityPrimaryKeys.Count == 1,
+                genericMessage + " Change code so that there's only one of those parameters.");
 
             var primaryKeyForObject = ltInfoEntityPrimaryKeys.Single();
-            var hasTenantIDEntity = primaryKeyForObject.EntityObject as IHaveATenantID;
-            if (hasTenantIDEntity != null)
+            if (primaryKeyForObject.EntityObject is IHaveATenantID hasTenantIDEntity)
             {
                 var tenant = HttpRequestStorage.Tenant;
-                Check.RequireThrowNotAuthorized(hasTenantIDEntity.TenantID == tenant.TenantID, string.Format("TenantID mismatch (Expected {0}, Was {1})!", tenant.TenantID, hasTenantIDEntity.TenantID));
+                Check.RequireThrowNotAuthorized(hasTenantIDEntity.TenantID == tenant.TenantID, $"TenantID mismatch (Expected {tenant.TenantID}, Was {hasTenantIDEntity.TenantID})!");
             }
-
-            DemandPermission(person, primaryKeyForObject.EntityObject);
+            return primaryKeyForObject;
         }
     }
 }
