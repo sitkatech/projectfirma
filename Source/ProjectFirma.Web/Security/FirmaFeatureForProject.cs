@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Security
             if (!permissionCheckResult.HasPermission)
             {
                 filterContext.Result = new RedirectResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(primaryKeyForObject.PrimaryKeyValue)));
-                filterContext.Controller.TempData[SitkaController.InfoMessageIndex] = permissionCheckResult.PermissionDeniedMessage;
+                SetInfoMessage(filterContext, permissionCheckResult);
             }
         }
     }

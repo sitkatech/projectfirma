@@ -85,5 +85,9 @@ namespace ProjectFirma.Web.Security
             }
             return primaryKeyForObject;
         }
+        protected static void SetInfoMessage(ActionExecutingContext filterContext, PermissionCheckResult permissionCheckResult)
+        {
+            filterContext.Controller.TempData[SitkaController.InfoMessageIndex] = permissionCheckResult.PermissionDeniedMessage;
+        }
     }
 }
