@@ -110,6 +110,16 @@ namespace ProjectFirma.Web.Common
             tempData[index] = message;
         }
 
+        protected void SetInfoForDisplay(string message)
+        {
+            SetMessage(InfoMessageIndex, message, TempData);
+        }
+
+        protected void ClearInfoForDisplay()
+        {
+            RemoveMessage(InfoMessageIndex, TempData);
+        }
+
         /// <summary>
         /// This can be null so be careful when using it
         /// </summary>

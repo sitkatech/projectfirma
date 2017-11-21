@@ -665,7 +665,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditNotes = new ProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson);
+            var canEditNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", canEditNotes);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);

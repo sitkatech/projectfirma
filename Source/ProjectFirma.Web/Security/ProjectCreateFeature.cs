@@ -47,9 +47,14 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.DisplayName}");
             }
 
-            if (contextModelObject.IsActiveProject())
+            if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
             {
                 return new PermissionCheckResult("This Project has been approved and can no longer be edited through this wizard.");
+            }
+
+            if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
+            {
+                return new PermissionCheckResult("This Project has been rejected and can no longer be edited through this wizard.");
             }
 
             var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);
