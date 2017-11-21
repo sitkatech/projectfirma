@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             Add("Tenant Display Name", t => t.TenantDisplayName, 150);
             Add("Tenant Name", t => t.Tenant.TenantName, 150);
-            Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", t.Tenant.TenantDomain).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(t.Tenant)).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
 
             Add("Primary Contact",
                 t =>
