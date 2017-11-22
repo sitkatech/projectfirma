@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectImage> _firmaFeatureWithContextImpl;
 
         public ProjectImageEditOrDeleteAsAdminFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectImage>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -43,6 +43,11 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectImage contextModelObject)
         {
+            if (contextModelObject.Project.IsProposal())
+            {
+                return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
+            }
+
             return new ProjectEditAsAdminFeature().HasPermission(person, contextModelObject.Project);
         }
     }
