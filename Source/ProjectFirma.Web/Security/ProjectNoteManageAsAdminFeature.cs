@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectNote> _firmaFeatureWithContextImpl;
 
         public ProjectNoteManageAsAdminFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectNote>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -42,6 +42,11 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
         {
+            if (contextModelObject.Project.IsProposal())
+            {
+                return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
+            }
+
             return new ProjectEditAsAdminFeature().HasPermission(person, contextModelObject.Project);
         }
     }
