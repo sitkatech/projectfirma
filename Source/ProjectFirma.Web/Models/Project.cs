@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this);
+            return !person.IsAnonymousUser && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this));
         }
 
         public bool IsPersonThePrimaryContact(Person person)

@@ -42,5 +42,10 @@ namespace ProjectFirma.Web.Models
             var organization = organizations.SingleOrDefault(x => x.OrganizationName == organizationName);
             return organization;
         }
+
+        public static Organization GetUnknownOrganization(this IQueryable<Organization> organizations)
+        {
+            return organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+        }
     }
 }

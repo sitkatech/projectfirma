@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 // new user - provision with limited role
                 SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - creating local profile for User '{0}'", keystoneUserClaims.UserGuid);
-                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
                 person = new Person(keystoneUserClaims.UserGuid,
                     keystoneUserClaims.FirstName,
                     keystoneUserClaims.LastName,
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
                 person.OrganizationID = unknownOrganization.OrganizationID;
                 //Assign user to magic Unkown Organization ID
             }
