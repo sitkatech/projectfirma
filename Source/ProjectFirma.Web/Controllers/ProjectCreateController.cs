@@ -698,7 +698,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectNoteManageFeature]
+        [ProjectCreateFeature]
         public PartialViewResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
             var projectNote = projectNotePrimaryKey.EntityObject;
@@ -707,7 +707,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectNoteManageFeature]
+        [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey, EditNoteViewModel viewModel)
         {
@@ -727,7 +727,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectNoteManageFeature]
+        [ProjectCreateFeature]
         public PartialViewResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
             var projectNote = projectNotePrimaryKey.EntityObject;
@@ -748,7 +748,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectNoteManageFeature]
+        [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
