@@ -82,20 +82,19 @@ namespace ProjectFirma.Web.Models
             foreach (var taxonomyTierThreeGrouping in taxonomyTierOnes.GroupBy(x => x.TaxonomyTierTwo.TaxonomyTierThree).OrderBy(x => x.Key.DisplayName))
             {
                 var taxonomyTierThree = taxonomyTierThreeGrouping.Key;
-                var topLevelGroup = new SelectListGroup() {Name = taxonomyTierThree.DisplayName};
-                groups.Add(taxonomyTierThree.DisplayName, topLevelGroup);
-
+                
                 foreach (var taxonomyTierTwoGrouping in taxonomyTierThreeGrouping.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
                 {
                     var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
-                    var selectListGroup = new SelectListGroup() {Name = taxonomyTierTwo.DisplayName};
-                    groups.Add(taxonomyTierTwo.DisplayName, selectListGroup);
+                    var displayName = $"{taxonomyTierTwo.TaxonomyTierThree.DisplayName} - {taxonomyTierTwo.DisplayName}";
+                    var selectListGroup = new SelectListGroup() {Name = displayName};
+                    groups.Add(displayName, selectListGroup);
 
-                    selectListItems.Add(new SelectListItem() {Text = taxonomyTierTwo.DisplayName, Group = topLevelGroup, Disabled = true});
+                    //selectListItems.Add(new SelectListItem() {Text = taxonomyTierTwo.DisplayName, Group = topLevelGroup, Disabled = true});
 
                     foreach (var taxonomyTierOne in taxonomyTierTwoGrouping.OrderBy(x => x.DisplayName))
                     {
-                        selectListItems.Add(new SelectListItem() {Value = taxonomyTierOne.TaxonomyTierOneID.ToString(), Text = taxonomyTierOne.DisplayName, Group = topLevelGroup});
+                        selectListItems.Add(new SelectListItem() {Value = taxonomyTierOne.TaxonomyTierOneID.ToString(), Text = taxonomyTierOne.DisplayName, Group = selectListGroup });
                     }
                 }
             }

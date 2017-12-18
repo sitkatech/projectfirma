@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ProjectExpendituresDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="ProjectExpendituresDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
@@ -25,37 +25,40 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
 {
-    <table class="summaryLayout">
-        <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
-            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-            {
-                <th style="text-align: right">
-                    @calendarYear
-                </th>
-            }
-            <th style="text-align: right">Total</th>
-        </tr>
-        @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
-        {
+    <div style="overflow-x: auto">
+        <table class="table table-striped table-condensed table-hover table-bordered">
             <tr>
-                <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
-                @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+                <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                 {
-                    <td style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+                    <th class="text-right">
+                        @calendarYear
+                    </th>
                 }
-                <th style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
+                <th class="text-right">Total</th>
             </tr>
-        }
-        <tr>
-            <th>Total:</th>
-            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+            @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
             {
-                <th style="text-align: right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear).Sum(x => x.Value).ToStringCurrency()</th>
+                <tr>
+                    <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
+                    @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+                    {
+                        <td class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+                    }
+                    <th class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
+                </tr>
             }
-            <th style="text-align: right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
-        </tr>
-    </table>
+            <tr>
+                <th>Total:</th>
+                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                {
+                    <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear).Sum(x => x.Value).ToStringCurrency()</th>
+                }
+                <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
+            </tr>
+        </table>
+    </div>
+
 }
 @if (!ViewDataTyped.FundingSourceExpenditures.Any())
 {
