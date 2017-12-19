@@ -71,12 +71,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(project, viewModel);
             }
             var projectImage = new ProjectImage(project, true);
-
-            if (project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
-            {
-                projectImage.IsKeyPhoto = true;
-            }
-
+           
             viewModel.UpdateModel(projectImage, CurrentPerson);
             project.ProjectImages.Add(projectImage);
             return new ModalDialogFormJsonResult();
