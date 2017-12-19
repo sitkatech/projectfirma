@@ -65,11 +65,18 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult NewPostResult(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+
             if (!ModelState.IsValid)
             {
                 return ViewNew(project, viewModel);
             }
             var projectImage = new ProjectImage(project, true);
+
+            if (project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
+            {
+                projectImage.IsKeyPhoto = true;
+            }
+
             viewModel.UpdateModel(projectImage, CurrentPerson);
             project.ProjectImages.Add(projectImage);
             return new ModalDialogFormJsonResult();
