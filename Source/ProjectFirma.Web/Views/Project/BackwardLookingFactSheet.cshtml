@@ -212,6 +212,10 @@ Source code is available upon request via <support@sitkatech.com>.
             padding: 0;
         }
 
+        .factSheet {
+            font-size: 14px;
+        }
+
         .factSheetAboutProject {
             font-size: 18px;
         }
@@ -226,7 +230,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         .summaryLayout {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .sectionTitle {
@@ -234,8 +238,12 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         .projectImageTiming {
-            font-size: 19px;
+            font-size: 18px;
             padding-top: 0;
+        }
+
+        .header {
+            display: none;
         }
     </style>
 
@@ -257,7 +265,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
 
         <div class="col-sm-10 col-md-10" style="padding: 20px">
-            <div class="taxonomyTierThreeColor" style="font-size: medium">
+            <div class="taxonomyTierThreeColor" style="font-size: 14px">
                 @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet
             </div>
             <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
@@ -308,46 +316,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-            <br />
-            <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
-            @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
-            {
-                <table>
-                    @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
-                    {
-                        <tr>
-                            <td class="bullet">&bull;</td>
-                            <td>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</td>
-                        </tr>
-                    }
-                </table>
-            }
-            else
-            {
-                <p>Accomplishments to be provided upon completion of project.</p>
-            }
-            <br />
-            <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
-            @if (ViewDataTyped.Project.ProjectClassifications.Any())
-            {
-                <table>
-                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
-                    {
-                        <tr>
-                            @foreach (var classification in classificationBatch)
-                            {
-                                <td class="bullet">&bull;</td>
-                                <td style="padding-right: 50px">@classification.DisplayName</td>
-                            }
-                        </tr>
-                    }
-                </table>
-            }
-            else
-            {
-                <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
-            }
+            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
+            <br />            
         </div>
         <div class="col-md-6">
             @if (ViewDataTyped.KeyPhoto != null)
@@ -373,7 +343,51 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </div>
     </div>
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+               
+            <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
+            @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
+            {
+                <table>
+                    @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
+                    {
+                        <tr>
+                            <td class="bullet">&bull;</td>
+                            <td>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>Accomplishments to be provided upon completion of project.</p>
+            }
+        </div>
+        <div class="col-md-6">
+            <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
+            @if (ViewDataTyped.Project.ProjectClassifications.Any())
+            {
+                <table>
+                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
+                    {
+                        <tr>
+                            @foreach (var classification in classificationBatch)
+                            {
+                                <td class="bullet">&bull;</td>
+                                <td style="padding-right: 50px">@classification.DisplayName</td>
+                            }
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
+            }
 
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6" style="width: 550px">
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">

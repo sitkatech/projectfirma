@@ -28,7 +28,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <td>@Html.LabelWithSugarFor(x => x.Caption): </td>
             <td>
-                @Html.TextBoxFor(x => x.Caption, new {style = "width:450px"})
+                @Html.TextBoxFor(x => x.Caption, new { @class = "form-control", style = "width:100%"})
                 <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
             </td>
         </tr>
@@ -38,13 +38,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <td>@Html.LabelWithSugarFor(x => x.Credit): </td>
             <td>
-                @Html.TextBoxFor(x => x.Credit, new {style = "width:450px"})
+                @Html.TextBoxFor(x => x.Credit, new { @class = "form-control", style = "width:100%" })
             </td>
         </tr>
         <tr>
             <td>@Html.LabelWithSugarFor(x => x.ProjectImageTimingID): </td>
             <td>
-                @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
+                @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings, new { style = "width: auto;", @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
             </td>
         </tr>
