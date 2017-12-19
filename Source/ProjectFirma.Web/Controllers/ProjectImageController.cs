@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(project, viewModel);
             }
-            var projectImage = new ProjectImage(project, true);           
+            var projectImage = new ProjectImage(project, true);
             viewModel.UpdateModel(projectImage, CurrentPerson);
             project.ProjectImages.Add(projectImage);
             return new ModalDialogFormJsonResult();
