@@ -744,7 +744,7 @@
     <Compile Include="Security\ProjectCreateNewFeature.cs" />
     <Compile Include="Security\ProjectDeleteFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminFeature.cs" />
-    <Compile Include="Security\ProjectImageEditOrDeleteAsAdminFeature.cs" />
+    <Compile Include="Security\ProjectImageEditOrDeleteFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectLocationsViewFeature.cs" />
@@ -759,7 +759,6 @@
     <Compile Include="Security\ProjectUpdateCreateEditSubmitFeature.cs" />
     <Compile Include="Security\ProjectViewFeature.cs" />
     <Compile Include="Security\ProjectCreateFeature.cs" />
-    <Compile Include="Security\ProjectImageEditOrDeleteFeature.cs" />
     <Compile Include="Security\ProjectNoteManageFeature.cs" />
     <Compile Include="Security\ProjectsInProposalStageViewListFeature.cs" />
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />

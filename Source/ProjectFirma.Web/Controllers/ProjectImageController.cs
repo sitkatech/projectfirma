@@ -34,8 +34,13 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectImageController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectCreateFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
+        {
+            return NewGetResult(projectPrimaryKey);
+        }
+
+        private PartialViewResult NewGetResult(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new NewViewModel();
@@ -50,9 +55,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
+        {
+            return NewPostResult(projectPrimaryKey, viewModel);
+        }
+
+        private ActionResult NewPostResult(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -66,7 +76,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectImageEditOrDeleteAsAdminFeature]
+        [ProjectImageEditOrDeleteFeature]
         public PartialViewResult Edit(ProjectImagePrimaryKey projectImagePrimaryKey)
         {
             var projectImage = projectImagePrimaryKey.EntityObject;
@@ -82,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageEditOrDeleteAsAdminFeature]
+        [ProjectImageEditOrDeleteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectImagePrimaryKey projectImagePrimaryKey, EditViewModel viewModel)
         {
@@ -96,7 +106,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectImageEditOrDeleteAsAdminFeature]
+        [ProjectImageEditOrDeleteFeature]
         public PartialViewResult DeleteProjectImage(ProjectImagePrimaryKey projectImagePrimaryKey)
         {
             var projectImage = projectImagePrimaryKey.EntityObject;
@@ -113,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectImageEditOrDeleteAsAdminFeature]
+        [ProjectImageEditOrDeleteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteProjectImage(ProjectImagePrimaryKey projectImagePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -123,24 +133,40 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
             var project = projectImage.Project;
-            Project.DeleteProjectImages(new[] { projectImage });
+            Project.DeleteProjectImages(new[] {projectImage});
             // reset key photo if needed
             if (projectImage.IsKeyPhoto)
             {
-                var firstNonKeyPhoto = project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
-                firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
+                var firstNonKeyPhoto =
+                    project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
+                firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] {firstNonKeyPhoto, projectImage}).ToList());
             }
             return new ModalDialogFormJsonResult();
         }
 
         [HttpPost]
-        [ProjectImageEditOrDeleteAsAdminFeature]
+        [ProjectImageEditOrDeleteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult SetKeyPhoto(ProjectImagePrimaryKey projectImagePrimaryKey)
         {
             var projectImage = projectImagePrimaryKey.EntityObject;
             projectImage.SetAsKeyPhoto();
             return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public PartialViewResult NewFromProposal(ProjectPrimaryKey projectPrimaryKey)
+        {
+            return NewGetResult(projectPrimaryKey);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewFromProposal(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
+        {
+            return NewPostResult(projectPrimaryKey, viewModel);
         }
     }
 }
