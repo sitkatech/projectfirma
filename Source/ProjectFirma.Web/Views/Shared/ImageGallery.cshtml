@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
@@ -42,8 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(document).ready(function()
     {
         var galleryScope = jQuery("#@ViewDataTyped.GalleryName");
-        galleryScope.find(".keyPhotoButton").click(function()
-        {
+        galleryScope.find(".keyPhotoButton").click(function() {
             var selectKeyPhotoButton = jQuery(this);
             var selectKeyPhotoButtonLabel = selectKeyPhotoButton.find("label");
             var selectionMode = selectKeyPhotoButtonLabel.html() == "Done";
@@ -53,8 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var galleryImageEditIcon = galleryScope.find(".EditPhotoButtonClass");
             var galleryImageDeleteIcon = galleryScope.find(".DeletePhotoButtonClass");
             var addPhotoButton = galleryScope.find(".AddPhotoButtonClass");
-            if (!selectionMode)
-            {
+            if (!selectionMode) {
                 selectKeyPhotoButtonLabel.html("Done");
                 addPhotoButton.hide();
                 galleryImageEditIcon.hide();
@@ -63,17 +60,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 galleryImagesContainer.unbind("click.fb"); //unhooks fancybox
 
                 filmStrip.css("background-color", "#BACF9E");
-                galleryImages.click(function()
-                {
+                galleryImages.click(function() {
                     var listItem = jQuery(this);
                     filmStrip.find("li .keyPhotoIcon").removeClass("setKeyPhoto");
                     listItem.addClass("setKeyPhoto");
                     listItem.find(".keyPhotoIcon").addClass("setKeyPhoto");
                     return false; //this stops the click from propigating to the a tag.
                 });
-            }
-            else
-            {
+            } else {
                 selectKeyPhotoButtonLabel.html("Select Key @ViewDataTyped.ImageEntityName");
                 addPhotoButton.show();
                 galleryImageEditIcon.show();
@@ -86,19 +80,18 @@ Source code is available upon request via <support@sitkatech.com>.
 
                 var selectImageUrl = "@ViewDataTyped.SelectKeyImageUrl";
                 var selectedImageId = filmStrip.find("li .setKeyPhoto").first().attr("data-image-id");
-                if (selectedImageId != @ViewDataTyped.CurrentKeyPhotoID)
-                {
+                if (selectedImageId != @ViewDataTyped.CurrentKeyPhotoID) {
                     var url = new Sitka.UrlTemplate(selectImageUrl).ParameterReplace(selectedImageId);
-                SitkaAjax.post(url, new Object(), function(data)
-                {
-                    if (!data.Success)
-                    {
-                        alert(data.Message);
-                    }
-                },
-                function() { alert("There was an error setting your Key @ViewDataTyped.ImageEntityName."); });
+                    SitkaAjax.post(url,
+                        new Object(),
+                        function(data) {
+                            if (!data.Success) {
+                                alert(data.Message);
+                            }
+                        },
+                        function() { alert("There was an error setting your Key @ViewDataTyped.ImageEntityName."); });
+                }
             }
-        }
         });
     });
     // ]]>

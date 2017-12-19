@@ -19,11 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Controllers
 @using LtInfo.Common.Mvc
-@using Microsoft.Web.Mvc
 @inherits ProjectFirma.Web.Views.ProjectImage.New
-@using (Html.BeginForm<ProjectImageController>(x => x.New(ViewDataTyped.Project.ProjectID, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
+@using (Html.BeginForm(null, null, FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
     <div class="row form-group">
         <div class="col-md-4">@Html.LabelWithSugarFor(x => x.FileResourceData)</div>
