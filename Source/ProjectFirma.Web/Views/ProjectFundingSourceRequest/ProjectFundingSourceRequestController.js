@@ -30,12 +30,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
-        var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function (p) { return p.FundingSourceID; });
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) {
-            return f.IsActive &&
-                _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
-                !_.contains(usedFundingSourceIDs, f.FundingSourceID);
-        }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
+        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID); })
+            .sortBy(function (fs) {
+                return [fs.FundingSourceName.toLowerCase(), fs.OrganizationName.toLowerCase()];
+            }).value();
     };
 
     $scope.getAllUsedProjectIDs = function () {

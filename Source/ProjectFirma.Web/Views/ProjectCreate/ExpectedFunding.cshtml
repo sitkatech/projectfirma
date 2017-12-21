@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
         <div class="form-group">
-            <label class="control-label">Funding Source to Add:</label>
+            <label class="control-label">@FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:</label>
             <div class="input-group">
                 <select ng-model="FundingSourceToAdd"
                         data-live-search="true"
@@ -58,10 +58,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         data-title="Select a Funding Source to Add"
                         data-width="100%" class="selectpicker"
                         data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
-                    <option value="null" disabled selected>Select a Funding Source to Add</option>
+                    <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
                 </select>
                 <span class="input-group-btn">
-                    <button class="btn btn-trpa" type="button" ng-click="addRow()">
+                    <button class="btn btn-firma" type="button" ng-click="addRow()">
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </button>
                 </span>

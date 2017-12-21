@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceRequest.EditProjectFundingSourceRequests
 <script type="text/javascript">
@@ -79,27 +80,22 @@ Source code is available upon request via <support@sitkatech.com>.
             else
             {
                 <div class="form-group">
-                    <label class="control-label">
-                        @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
-                    </label>
+                    <label class="control-label">@FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:</label>
                     <div class="input-group">
-
                         <select ng-model="FundingSourceToAdd"
-                                class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
-                                ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
-                                data-width="100%">
-                            <option value="null" disabled selected>Select a Funding Source to Add</option>
+                                data-title="Select a Funding Source to Add"
+                                data-width="100%" class="selectpicker"
+                                data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
+                            <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-firma" type="button" ng-click="addRow()">
                                 <span class="glyphicon glyphicon-plus"></span> Add
                             </button>
                         </span>
-
-                        <br/>
-                    </div>
+                    </div>                    
                 </div>
             }
             <table class="dialogFormLayout" style="margin-top: 20px; table-layout: fixed" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
