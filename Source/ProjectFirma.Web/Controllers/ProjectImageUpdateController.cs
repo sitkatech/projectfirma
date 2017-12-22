@@ -126,12 +126,15 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProjectImageUpdate(ProjectImageUpdatePrimaryKey projectImageUpdatePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var projectImageUpdate = projectImageUpdatePrimaryKey.EntityObject;
+
             if (!ModelState.IsValid)
             {
                 return ViewDeleteProjectImageUpdate(projectImageUpdate, viewModel);
             }
-            ProjectUpdateBatch.DeleteProjectImageUpdates(new[] { projectImageUpdate });
             var projectUpdateBatch = projectImageUpdate.ProjectUpdateBatch;
+
+            ProjectUpdateBatch.DeleteProjectImageUpdates(new[] { projectImageUpdate });
+            
             // reset key photo if needed
             if (projectImageUpdate.IsKeyPhoto)
             {
