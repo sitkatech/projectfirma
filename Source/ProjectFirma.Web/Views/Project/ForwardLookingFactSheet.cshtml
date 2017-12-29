@@ -319,7 +319,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @if (ViewDataTyped.KeyPhoto != null)
             {
                 <span class="keyPhoto">
-                    <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
+                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
                     <br/>
                     <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
                 </span>
@@ -380,7 +380,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
     <div class="row">
-        <div class="col-md-6" style="width: 550px">
+        <div class="col-md-6" >
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
                 <div class="sectionTitle taxonomyTierThreeColor">Location</div>
                 <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
@@ -394,7 +394,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </script>
             </div>
         </div>
-        <div class="col-md-6" style="width: 550px; padding-right:20px">
+        <div class="col-md-6" >
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
                 <div class="sectionTitle taxonomyTierThreeColor">Funding</div>
                 <div class="ltInfoPanel ltInfoPanelDimensions">

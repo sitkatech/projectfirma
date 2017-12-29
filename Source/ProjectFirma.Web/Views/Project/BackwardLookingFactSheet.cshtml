@@ -314,35 +314,36 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
 
-    <div class="row" style="padding-top: 20px;">
-        <div class="col-md-6">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
-            <br />            
-        </div>
-        <div class="col-md-6">
-            @if (ViewDataTyped.KeyPhoto != null)
-            {
-                <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
-                    <span class="keyPhoto">
-                        <img src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
-                        <br/>
-                        <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
-                    </span>
+<div class="row" style="padding-top: 20px;">
+    <div class="col-md-6">
+        <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
+        <br />            
+    </div>
+    <div class="col-md-6">
+        @if (ViewDataTyped.KeyPhoto != null)
+        {
+            <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
+                <span class="keyPhoto">
+                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
+                    <br/>
+                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
+                </span>
 
-                </div>
-            }
-            else
-            {
-                <div class="sectionTitle" style="height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
-                    <div style="display: table;margin: auto;height: 100%;">
-                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
-                            No Key Photo provided for this Project.
-                        </div>
+            </div>
+        }
+        else
+        {
+            <div class="sectionTitle" style="width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                <div style="display: table;margin: auto;height: 100%;">
+                    <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                        No Key Photo provided for this Project.
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>
+
     <div class="row" style="padding-top: 10px">
         <div class="col-md-6">
                
@@ -389,7 +390,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6" style="width: 550px">
+        <div class="col-md-6">
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
                 <div class="sectionTitle taxonomyTierThreeColor">@FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()</div>
                 <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
@@ -403,7 +404,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </script>
             </div>
         </div>
-        <div class="col-md-6" style="width: 550px; padding-right: 20px">
+        <div class="col-md-6">
             <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
                 <div class="sectionTitle taxonomyTierThreeColor">Expenditures</div>
                 <div class="ltInfoPanel ltInfoPanelDimensions">
