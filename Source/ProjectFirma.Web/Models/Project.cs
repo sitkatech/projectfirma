@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Project : IAuditableEntity, IMappableProject
     {
+        public const int MaxLengthForProjectDescription = 700;
+
         public int EntityID => ProjectID;
 
         public string AuditDescriptionString => ProjectName;

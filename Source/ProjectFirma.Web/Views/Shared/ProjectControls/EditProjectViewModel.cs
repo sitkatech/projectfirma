@@ -34,12 +34,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int ProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
-        [StringLength(700)]
         [Required]
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
+        [StringLength(Models.Project.MaxLengthForProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 
