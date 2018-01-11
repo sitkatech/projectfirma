@@ -181,6 +181,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
             }
 
+            if (ProjectStageID == ProjectStage.Completed.ProjectStageID ||
+                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID)
+            {
+                if (CompletionYear > DateTime.Now.Year)
+                {
+                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
+                }
+            }
+
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
