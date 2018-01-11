@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Pending, PendingViewData>(viewData);
         }
 
-        [ProjectsInProposalStageViewListFeature]
+        [PendingProjectsViewListFeature]
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
             var gridSpec = new PendingGridSpec(CurrentPerson);

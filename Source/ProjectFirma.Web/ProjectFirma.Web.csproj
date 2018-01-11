@@ -365,6 +365,7 @@
     <Compile Include="Security\FirmaFeatureForProject.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />
     <Compile Include="Security\LoggedInAndNotUnassignedRoleUnclassifiedFeature.cs" />
+    <Compile Include="Security\PendingProjectsViewListFeature.cs" />
     <Compile Include="Security\ProjectApproveFeature.cs" />
     <Compile Include="Security\ProjectDeleteProposalFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />

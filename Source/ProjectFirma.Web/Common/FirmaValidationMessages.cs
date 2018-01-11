@@ -25,29 +25,30 @@ namespace ProjectFirma.Web.Common
 {
     public static class FirmaValidationMessages
     {
-        public static readonly string PasswordRequiredForNewUser = $"{FieldDefinition.Password.GetFieldDefinitionLabel()} is required for new users";
-        public static readonly string MustEnterOldPasswordWhenChangingPassword = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is required when changing {FieldDefinition.Password.GetFieldDefinitionLabel()}";
-        public static readonly string OldPasswordProvidedIsNotCorrect = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is incorrect";
-        public static readonly string CantChangePasswordToBeSameAsOldPassword = $"Can't reset {FieldDefinition.Password.GetFieldDefinitionLabel()} to same as old {FieldDefinition.Password.GetFieldDefinitionLabel()}";
-        public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}";
-        public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()}";
-        public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}";
+        public static readonly string PasswordRequiredForNewUser = $"{FieldDefinition.Password.GetFieldDefinitionLabel()} is required for new users.";
+        public static readonly string MustEnterOldPasswordWhenChangingPassword = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is required when changing {FieldDefinition.Password.GetFieldDefinitionLabel()}.";
+        public static readonly string OldPasswordProvidedIsNotCorrect = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is incorrect.";
+        public static readonly string CantChangePasswordToBeSameAsOldPassword = $"Can't reset {FieldDefinition.Password.GetFieldDefinitionLabel()} to same as old {FieldDefinition.Password.GetFieldDefinitionLabel()}.";
+        public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
+        public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()}.";
+        public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
         public static readonly string UpdateSectionIsDependentUponBasicsSection = "Your project's \"Basics\" page must be complete before you can begin updating this section.";
-        public static readonly string ProjectNameUnique = $"{FieldDefinition.ProjectName.GetFieldDefinitionLabel()} already exists";
-        public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string OrganizationShortNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} short name already exists";
-        public static readonly string OrganizationMustBeSetForNewUser = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} must be set for a new user";
-        public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string WatershedNameUnique = $"{FieldDefinition.Watershed.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string ExplanationNecessaryForProjectExemptYears = $"Please provide an explanation of why the {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt";
-        public static readonly string ExplanationNotNecessaryForProjectExemptYears = $"Explanation is not necessary since no {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt";
-        public static readonly string TagNameUnique = $"{FieldDefinition.TagName.GetFieldDefinitionLabel()} already exists";
+        public static readonly string ProjectNameUnique = $"{FieldDefinition.ProjectName.GetFieldDefinitionLabel()} already exists.";
+        public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string OrganizationShortNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} short name already exists.";
+        public static readonly string OrganizationMustBeSetForNewUser = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} must be set for a new user.";
+        public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string WatershedNameUnique = $"{FieldDefinition.Watershed.GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string ExplanationNecessaryForProjectExemptYears = $"Please provide an explanation of why the {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt.";
+        public static readonly string ExplanationNotNecessaryForProjectExemptYears = $"Explanation is not necessary since no {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt.";
+        public static readonly string TagNameUnique = $"{FieldDefinition.TagName.GetFieldDefinitionLabel()} already exists.";
+        public static readonly string CompletionYearMustBePastOrPresentForCompletedProjects = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the Completed and Post-Implementation stages cannot have a {FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} in the future.";
         public const string LettersNumbersSpacesDashesAndUnderscoresOnly = "Only letters, numbers, spaces, dashes and underscores are allowed.";
         public const string LettersOnly = "Only letters are allowed.";
-        public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress!";
-        public const string EmailAlreadyUsed = "Email already exists";
+        public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress.";
+        public const string EmailAlreadyUsed = "Email already exists.";
         public const string ExpectedFundingValuesCannotBothBeZeroOrEmpty = "Enter a Secured or Unsecured amount for each Funding Source, or remove Funding Sources with no funding amounts.";
     }
 }
