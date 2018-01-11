@@ -46,8 +46,8 @@ namespace ProjectFirma.Web.Views.Project
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
-                var proposalsOnly = true;
-                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload(proposalsOnly));
+                GridSpec.CustomExcelDownloadUrl =
+                    SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProposalsExcelDownload());
             }
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {

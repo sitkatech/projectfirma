@@ -349,12 +349,33 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectsViewFullListFeature]
-        public ExcelResult IndexExcelDownload(bool proposalsOnly)
+        public ExcelResult IndexExcelDownload()
         {
-            var projects = proposalsOnly
-                ? HttpRequestStorage.DatabaseEntities.Projects.ToList().GetNotRejectedProposals(CurrentPerson.CanViewProposals)
-                : HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects(),
+                FieldDefinition.Project.GetFieldDefinitionLabelPluralized());
+        }
 
+        [ProjectsViewFullListFeature]
+        public ExcelResult ProposalsExcelDownload()
+        {
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetNotRejectedProposals(CurrentPerson.CanViewProposals),
+                FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized());
+        }
+
+        [ProjectsViewFullListFeature]
+        public ExcelResult PendingExcelDownload()
+        {
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                .GetPendingProjects(CurrentPerson.CanViewPending),
+                "Pending Projects");
+        }
+
+        private ExcelResult FullDatabaseExcelDownloadImpl(List<Project> projects, string workbookTitle)
+        {
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
@@ -410,9 +431,7 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            var workbookTitle = proposalsOnly
-                ? $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}"
-                : $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}";
+
             return new ExcelResult(excelWorkbook, workbookTitle);
         }
 

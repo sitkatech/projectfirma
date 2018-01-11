@@ -45,9 +45,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
-                var proposalsOnly = false;
-                //GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
-                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload(proposalsOnly));
+                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
             }
             else if (currentPerson.RoleID == Models.Role.ProjectSteward.RoleID)
             {
