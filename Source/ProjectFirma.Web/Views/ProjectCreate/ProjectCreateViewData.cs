@@ -22,7 +22,6 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 

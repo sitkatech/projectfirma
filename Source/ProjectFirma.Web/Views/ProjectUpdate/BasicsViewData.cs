@@ -25,7 +25,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate

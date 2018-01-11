@@ -53,42 +53,6 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectCreateNewFeature]
-        public PartialViewResult New()
-        {
-            var viewModel = new EditProjectViewModel();
-            return ViewNew(viewModel, null);
-        }
-
-        [HttpPost]
-        [ProjectCreateNewFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditProjectViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewNew(viewModel, null);
-            }
-            // ReSharper disable once PossibleInvalidOperationException
-            var project = new Project(viewModel.TaxonomyTierOneID.Value,
-                viewModel.ProjectStageID,
-                viewModel.ProjectName,
-                viewModel.ProjectDescription,
-                false,
-                ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID,
-                ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
-            CurrentPerson.SetDefaultProjectOrganizations(project);
-
-            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
-            viewModel.UpdateModel(project);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)} succesfully created.");
-            return new ModalDialogFormJsonResult();
-        }
-
-        [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -110,11 +74,6 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewNew(EditProjectViewModel viewModel, Project project)
-        {
-            return ViewEdit(viewModel, project, EditProjectType.NewProject, string.Empty, null);
         }
 
         private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures)

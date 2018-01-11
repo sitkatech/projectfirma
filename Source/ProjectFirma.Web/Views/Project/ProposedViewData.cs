@@ -19,8 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -49,7 +47,6 @@ namespace ProjectFirma.Web.Views.Project
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
                 var proposalsOnly = true;
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
                 GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload(proposalsOnly));
             }
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
