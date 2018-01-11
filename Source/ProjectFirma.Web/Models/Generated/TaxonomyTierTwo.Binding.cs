@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTierTwo()
         {
-            this.TaxonomyTierOnes = new HashSet<TaxonomyTierOne>();
-            this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
+            this.TaxonomyTierOnes = new List<TaxonomyTierOne>();
+            this.TaxonomyTierTwoPerformanceMeasures = new List<TaxonomyTierTwoPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -96,6 +96,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierTwoDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }

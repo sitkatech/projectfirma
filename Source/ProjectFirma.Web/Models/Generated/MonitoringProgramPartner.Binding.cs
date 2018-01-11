@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int MonitoringProgramID { get; set; }
         public int OrganizationID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return MonitoringProgramPartnerID; } set { MonitoringProgramPartnerID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

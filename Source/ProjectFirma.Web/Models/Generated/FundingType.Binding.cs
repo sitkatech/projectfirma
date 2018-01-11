@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Models
         public int FundingTypeID { get; private set; }
         public string FundingTypeName { get; private set; }
         public string FundingTypeDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return FundingTypeID; } }
 
         /// <summary>

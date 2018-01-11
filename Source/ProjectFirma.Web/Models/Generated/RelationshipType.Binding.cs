@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected RelationshipType()
         {
-            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
-            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
+            this.OrganizationTypeRelationshipTypes = new List<OrganizationTypeRelationshipType>();
+            this.ProjectOrganizations = new List<ProjectOrganization>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -84,6 +84,7 @@ namespace ProjectFirma.Web.Models
         public bool CanStewardProjects { get; set; }
         public bool IsPrimaryContact { get; set; }
         public bool CanOnlyBeRelatedOnceToAProject { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
 
         public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }

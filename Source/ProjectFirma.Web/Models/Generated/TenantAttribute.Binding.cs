@@ -105,6 +105,7 @@ namespace ProjectFirma.Web.Models
         public string MapServiceUrl { get; set; }
         public string WatershedLayerName { get; set; }
         public bool ShowProposalsToThePublic { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

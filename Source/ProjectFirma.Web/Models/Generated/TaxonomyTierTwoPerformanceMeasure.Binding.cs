@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyTierTwoID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryTaxonomyTierTwo { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierTwoPerformanceMeasureID; } set { TaxonomyTierTwoPerformanceMeasureID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

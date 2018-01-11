@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected StateProvince()
         {
-            this.Counties = new HashSet<County>();
+            this.Counties = new List<County>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -82,6 +82,7 @@ namespace ProjectFirma.Web.Models
         public string StateProvinceAbbreviation { get; set; }
         public DbGeometry StateProvinceFeature { get; set; }
         public DbGeometry StateProvinceFeatureForAnalysis { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return StateProvinceID; } set { StateProvinceID = value; } }
 
         public virtual ICollection<County> Counties { get; set; }

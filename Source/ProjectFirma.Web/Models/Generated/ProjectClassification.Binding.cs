@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int ClassificationID { get; set; }
         public string ProjectClassificationNotes { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectClassificationID; } set { ProjectClassificationID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

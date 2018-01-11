@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public DbGeometry ProjectLocationGeometry { get; set; }
         public string Annotation { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectLocationID; } set { ProjectLocationID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

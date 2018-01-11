@@ -23,19 +23,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectUpdateBatch()
         {
-            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
-            this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
-            this.ProjectExemptReportingYearUpdates = new HashSet<ProjectExemptReportingYearUpdate>();
-            this.ProjectExternalLinkUpdates = new HashSet<ProjectExternalLinkUpdate>();
-            this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
-            this.ProjectFundingSourceRequestUpdates = new HashSet<ProjectFundingSourceRequestUpdate>();
-            this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
-            this.ProjectLocationStagingUpdates = new HashSet<ProjectLocationStagingUpdate>();
-            this.ProjectLocationUpdates = new HashSet<ProjectLocationUpdate>();
-            this.ProjectNoteUpdates = new HashSet<ProjectNoteUpdate>();
-            this.ProjectUpdates = new HashSet<ProjectUpdate>();
-            this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
-            this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
+            this.PerformanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();
+            this.ProjectBudgetUpdates = new List<ProjectBudgetUpdate>();
+            this.ProjectExemptReportingYearUpdates = new List<ProjectExemptReportingYearUpdate>();
+            this.ProjectExternalLinkUpdates = new List<ProjectExternalLinkUpdate>();
+            this.ProjectFundingSourceExpenditureUpdates = new List<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectFundingSourceRequestUpdates = new List<ProjectFundingSourceRequestUpdate>();
+            this.ProjectImageUpdates = new List<ProjectImageUpdate>();
+            this.ProjectLocationStagingUpdates = new List<ProjectLocationStagingUpdate>();
+            this.ProjectLocationUpdates = new List<ProjectLocationUpdate>();
+            this.ProjectNoteUpdates = new List<ProjectNoteUpdate>();
+            this.ProjectUpdates = new List<ProjectUpdate>();
+            this.ProjectUpdateHistories = new List<ProjectUpdateHistory>();
+            this.ProjectWatershedUpdates = new List<ProjectWatershedUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -138,43 +138,43 @@ namespace ProjectFirma.Web.Models
         public string BudgetsComment { get; set; }
         public int ProjectUpdateStateID { get; set; }
         public bool IsPhotosUpdated { get; set; }
+        public string BasicsDiffLog { get; set; }
         [NotMapped]
-        private string BasicsDiffLog { get; set; }
         public HtmlString BasicsDiffLogHtmlString
         { 
             get { return BasicsDiffLog == null ? null : new HtmlString(BasicsDiffLog); }
             set { BasicsDiffLog = value?.ToString(); }
         }
+        public string PerformanceMeasureDiffLog { get; set; }
         [NotMapped]
-        private string PerformanceMeasureDiffLog { get; set; }
         public HtmlString PerformanceMeasureDiffLogHtmlString
         { 
             get { return PerformanceMeasureDiffLog == null ? null : new HtmlString(PerformanceMeasureDiffLog); }
             set { PerformanceMeasureDiffLog = value?.ToString(); }
         }
+        public string ExpendituresDiffLog { get; set; }
         [NotMapped]
-        private string ExpendituresDiffLog { get; set; }
         public HtmlString ExpendituresDiffLogHtmlString
         { 
             get { return ExpendituresDiffLog == null ? null : new HtmlString(ExpendituresDiffLog); }
             set { ExpendituresDiffLog = value?.ToString(); }
         }
+        public string BudgetsDiffLog { get; set; }
         [NotMapped]
-        private string BudgetsDiffLog { get; set; }
         public HtmlString BudgetsDiffLogHtmlString
         { 
             get { return BudgetsDiffLog == null ? null : new HtmlString(BudgetsDiffLog); }
             set { BudgetsDiffLog = value?.ToString(); }
         }
+        public string ExternalLinksDiffLog { get; set; }
         [NotMapped]
-        private string ExternalLinksDiffLog { get; set; }
         public HtmlString ExternalLinksDiffLogHtmlString
         { 
             get { return ExternalLinksDiffLog == null ? null : new HtmlString(ExternalLinksDiffLog); }
             set { ExternalLinksDiffLog = value?.ToString(); }
         }
+        public string NotesDiffLog { get; set; }
         [NotMapped]
-        private string NotesDiffLog { get; set; }
         public HtmlString NotesDiffLogHtmlString
         { 
             get { return NotesDiffLog == null ? null : new HtmlString(NotesDiffLog); }
@@ -183,6 +183,7 @@ namespace ProjectFirma.Web.Models
         public string WatershedComment { get; set; }
         public string ExpectedFundingComment { get; set; }
         public string ExpectedFundingDiffLog { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
@@ -196,6 +197,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectLocationUpdate> ProjectLocationUpdates { get; set; }
         public virtual ICollection<ProjectNoteUpdate> ProjectNoteUpdates { get; set; }
         protected virtual ICollection<ProjectUpdate> ProjectUpdates { get; set; }
+        [NotMapped]
         public ProjectUpdate ProjectUpdate { get { return ProjectUpdates.SingleOrDefault(); } set { ProjectUpdates = new List<ProjectUpdate>{value};} }
         public virtual ICollection<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
         public virtual ICollection<ProjectWatershedUpdate> ProjectWatershedUpdates { get; set; }

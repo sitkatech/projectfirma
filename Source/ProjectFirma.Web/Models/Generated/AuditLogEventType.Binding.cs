@@ -48,6 +48,7 @@ namespace ProjectFirma.Web.Models
         public int AuditLogEventTypeID { get; private set; }
         public string AuditLogEventTypeName { get; private set; }
         public string AuditLogEventTypeDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return AuditLogEventTypeID; } }
 
         /// <summary>

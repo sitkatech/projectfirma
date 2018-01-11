@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Models
         public string FirmaPageTypeName { get; private set; }
         public string FirmaPageTypeDisplayName { get; private set; }
         public int FirmaPageRenderTypeID { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return FirmaPageTypeID; } }
 
         /// <summary>

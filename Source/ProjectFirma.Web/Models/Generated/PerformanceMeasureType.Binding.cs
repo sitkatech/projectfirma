@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureTypeID { get; private set; }
         public string PerformanceMeasureTypeName { get; private set; }
         public string PerformanceMeasureTypeDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureTypeID; } }
 
         /// <summary>

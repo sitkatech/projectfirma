@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected AssessmentGoal()
         {
-            this.AssessmentSubGoals = new HashSet<AssessmentSubGoal>();
+            this.AssessmentSubGoals = new List<AssessmentSubGoal>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -78,6 +78,7 @@ namespace ProjectFirma.Web.Models
         public int AssessmentGoalNumber { get; set; }
         public string AssessmentGoalTitle { get; set; }
         public string AssessmentGoalDescription { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return AssessmentGoalID; } set { AssessmentGoalID = value; } }
 
         public virtual ICollection<AssessmentSubGoal> AssessmentSubGoals { get; set; }

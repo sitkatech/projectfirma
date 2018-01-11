@@ -119,14 +119,15 @@ namespace ProjectFirma.Web.Models
         public int FieldDefinitionID { get; private set; }
         public string FieldDefinitionName { get; private set; }
         public string FieldDefinitionDisplayName { get; private set; }
+        public string DefaultDefinition { get; set; }
         [NotMapped]
-        private string DefaultDefinition { get; set; }
         public HtmlString DefaultDefinitionHtmlString
         { 
             get { return DefaultDefinition == null ? null : new HtmlString(DefaultDefinition); }
             set { DefaultDefinition = value?.ToString(); }
         }
         public bool CanCustomizeLabel { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return FieldDefinitionID; } }
 
         /// <summary>

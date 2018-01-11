@@ -50,6 +50,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectApprovalStatusID { get; private set; }
         public string ProjectApprovalStatusName { get; private set; }
         public string ProjectApprovalStatusDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectApprovalStatusID; } }
 
         /// <summary>

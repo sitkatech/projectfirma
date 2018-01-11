@@ -23,10 +23,10 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasureSubcategoryOption()
         {
-            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
-            this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
-            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptionUpdates = new List<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new List<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -96,6 +96,7 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
         public string ShortName { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryOptionID; } set { PerformanceMeasureSubcategoryOptionID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }

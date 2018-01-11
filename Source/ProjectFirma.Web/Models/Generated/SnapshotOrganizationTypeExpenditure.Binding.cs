@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
         public int OrganizationTypeID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotOrganizationTypeExpenditureID; } set { SnapshotOrganizationTypeExpenditureID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

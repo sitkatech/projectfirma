@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasureActual()
         {
-            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }

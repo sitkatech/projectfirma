@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected SnapshotPerformanceMeasure()
         {
-            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new List<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotPerformanceMeasureID; } set { SnapshotPerformanceMeasureID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }

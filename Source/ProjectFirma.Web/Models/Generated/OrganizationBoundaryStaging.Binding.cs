@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int OrganizationID { get; set; }
         public string FeatureClassName { get; set; }
         public string GeoJson { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return OrganizationBoundaryStagingID; } set { OrganizationBoundaryStagingID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

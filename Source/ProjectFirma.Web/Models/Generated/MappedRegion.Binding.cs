@@ -80,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public string RegionName { get; set; }
         public string RegionDisplayName { get; set; }
         public DbGeometry RegionFeature { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return MappedRegionID; } set { MappedRegionID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

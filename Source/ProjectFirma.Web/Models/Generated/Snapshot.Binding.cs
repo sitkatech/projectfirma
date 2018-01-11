@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Snapshot()
         {
-            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
-            this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
-            this.SnapshotProjects = new HashSet<SnapshotProject>();
+            this.SnapshotOrganizationTypeExpenditures = new List<SnapshotOrganizationTypeExpenditure>();
+            this.SnapshotPerformanceMeasures = new List<SnapshotPerformanceMeasure>();
+            this.SnapshotProjects = new List<SnapshotProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Models
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
         public virtual ICollection<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get; set; }

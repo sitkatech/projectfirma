@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateStateID { get; private set; }
         public string ProjectUpdateStateName { get; private set; }
         public string ProjectUpdateStateDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateStateID; } }
 
         /// <summary>

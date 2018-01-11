@@ -115,6 +115,7 @@ namespace ProjectFirma.Web.Models
         public string NewValue { get; set; }
         public string AuditDescription { get; set; }
         public int? ProjectID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return AuditLogID; } set { AuditLogID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

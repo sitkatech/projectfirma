@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Models
         public string FundingTypeDisplayName { get; set; }
         public string FundingTypeShortName { get; set; }
         public int SortOrder { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FundingTypeDataID; } set { FundingTypeDataID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

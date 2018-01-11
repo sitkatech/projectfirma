@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FieldDefinitionData()
         {
-            this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
+            this.FieldDefinitionDataImages = new List<FieldDefinitionDataImage>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -85,14 +85,15 @@ namespace ProjectFirma.Web.Models
         public int FieldDefinitionDataID { get; set; }
         public int TenantID { get; private set; }
         public int FieldDefinitionID { get; set; }
+        public string FieldDefinitionDataValue { get; set; }
         [NotMapped]
-        private string FieldDefinitionDataValue { get; set; }
         public HtmlString FieldDefinitionDataValueHtmlString
         { 
             get { return FieldDefinitionDataValue == null ? null : new HtmlString(FieldDefinitionDataValue); }
             set { FieldDefinitionDataValue = value?.ToString(); }
         }
         public string FieldDefinitionLabel { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FieldDefinitionDataID; } set { FieldDefinitionDataID = value; } }
 
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }

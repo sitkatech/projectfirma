@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureActualSubcategoryOptionUpdateID; } set { PerformanceMeasureActualSubcategoryOptionUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

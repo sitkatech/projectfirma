@@ -23,11 +23,11 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasureSubcategory()
         {
-            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
-            this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
-            this.PerformanceMeasureSubcategoryOptions = new HashSet<PerformanceMeasureSubcategoryOption>();
-            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptionUpdates = new List<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureSubcategoryOptions = new List<PerformanceMeasureSubcategoryOption>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new List<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }
         public int? GoogleChartTypeID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }

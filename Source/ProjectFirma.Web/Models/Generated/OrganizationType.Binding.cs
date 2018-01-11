@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected OrganizationType()
         {
-            this.Organizations = new HashSet<Organization>();
-            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
-            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
+            this.Organizations = new List<Organization>();
+            this.OrganizationTypeRelationshipTypes = new List<OrganizationTypeRelationshipType>();
+            this.SnapshotOrganizationTypeExpenditures = new List<SnapshotOrganizationTypeExpenditure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -88,6 +88,7 @@ namespace ProjectFirma.Web.Models
         public string LegendColor { get; set; }
         public bool ShowOnProjectMaps { get; set; }
         public bool IsDefaultOrganizationType { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
         public virtual ICollection<Organization> Organizations { get; set; }

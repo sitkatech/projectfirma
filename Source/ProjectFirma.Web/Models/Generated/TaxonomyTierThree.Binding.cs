@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTierThree()
         {
-            this.TaxonomyTierTwos = new HashSet<TaxonomyTierTwo>();
+            this.TaxonomyTierTwos = new List<TaxonomyTierTwo>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -80,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierThreeDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }

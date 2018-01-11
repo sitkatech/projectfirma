@@ -54,6 +54,7 @@ namespace ProjectFirma.Web.Models
         public string TenantName { get; private set; }
         public string TenantDomain { get; private set; }
         public string TenantSubdomain { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return TenantID; } }
 
         /// <summary>

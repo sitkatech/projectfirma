@@ -82,6 +82,7 @@ namespace ProjectFirma.Web.Models
         public int CurrentYearForPVCalculations { get; set; }
         public string Comment { get; set; }
         public DateTime CreateDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return CostParameterSetID; } set { CostParameterSetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

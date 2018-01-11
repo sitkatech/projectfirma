@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected MonitoringProgram()
         {
-            this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
-            this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
-            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
+            this.MonitoringProgramDocuments = new List<MonitoringProgramDocument>();
+            this.MonitoringProgramPartners = new List<MonitoringProgramPartner>();
+            this.PerformanceMeasureMonitoringPrograms = new List<PerformanceMeasureMonitoringProgram>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -80,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return MonitoringProgramID; } set { MonitoringProgramID = value; } }
 
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }

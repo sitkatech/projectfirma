@@ -23,12 +23,12 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FundingSource()
         {
-            this.ProjectBudgets = new HashSet<ProjectBudget>();
-            this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
-            this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
-            this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
-            this.ProjectFundingSourceRequests = new HashSet<ProjectFundingSourceRequest>();
-            this.ProjectFundingSourceRequestUpdates = new HashSet<ProjectFundingSourceRequestUpdate>();
+            this.ProjectBudgets = new List<ProjectBudget>();
+            this.ProjectBudgetUpdates = new List<ProjectBudgetUpdate>();
+            this.ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditure>();
+            this.ProjectFundingSourceExpenditureUpdates = new List<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectFundingSourceRequests = new List<ProjectFundingSourceRequest>();
+            this.ProjectFundingSourceRequestUpdates = new List<ProjectFundingSourceRequestUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -100,6 +100,7 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }

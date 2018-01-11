@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FirmaPage()
         {
-            this.FirmaPageImages = new HashSet<FirmaPageImage>();
+            this.FirmaPageImages = new List<FirmaPageImage>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -84,13 +84,14 @@ namespace ProjectFirma.Web.Models
         public int FirmaPageID { get; set; }
         public int TenantID { get; private set; }
         public int FirmaPageTypeID { get; set; }
+        public string FirmaPageContent { get; set; }
         [NotMapped]
-        private string FirmaPageContent { get; set; }
         public HtmlString FirmaPageContentHtmlString
         { 
             get { return FirmaPageContent == null ? null : new HtmlString(FirmaPageContent); }
             set { FirmaPageContent = value?.ToString(); }
         }
+        [NotMapped]
         public int PrimaryKey { get { return FirmaPageID; } set { FirmaPageID = value; } }
 
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }

@@ -58,6 +58,7 @@ namespace ProjectFirma.Web.Models
         public string GoogleChartTypeName { get; private set; }
         public string GoogleChartTypeDisplayName { get; private set; }
         public string SeriesDataDisplayType { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return GoogleChartTypeID; } }
 
         /// <summary>

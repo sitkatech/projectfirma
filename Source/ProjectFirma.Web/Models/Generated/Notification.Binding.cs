@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Notification()
         {
-            this.NotificationProjects = new HashSet<NotificationProject>();
+            this.NotificationProjects = new List<NotificationProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int NotificationTypeID { get; set; }
         public int PersonID { get; set; }
         public DateTime NotificationDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return NotificationID; } set { NotificationID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }

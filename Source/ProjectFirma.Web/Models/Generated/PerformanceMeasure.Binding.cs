@@ -23,19 +23,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasure()
         {
-            this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
-            this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
-            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
-            this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
-            this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
-            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
-            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
-            this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
-            this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
-            this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
-            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
-            this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
+            this.ClassificationPerformanceMeasures = new List<ClassificationPerformanceMeasure>();
+            this.PerformanceMeasureActuals = new List<PerformanceMeasureActual>();
+            this.PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptionUpdates = new List<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            this.PerformanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();
+            this.PerformanceMeasureExpecteds = new List<PerformanceMeasureExpected>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureMonitoringPrograms = new List<PerformanceMeasureMonitoringProgram>();
+            this.PerformanceMeasureNotes = new List<PerformanceMeasureNote>();
+            this.PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>();
+            this.SnapshotPerformanceMeasures = new List<SnapshotPerformanceMeasure>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new List<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.TaxonomyTierTwoPerformanceMeasures = new List<TaxonomyTierTwoPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -115,15 +115,15 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int PerformanceMeasureID { get; set; }
         public int TenantID { get; private set; }
+        public string CriticalDefinitions { get; set; }
         [NotMapped]
-        private string CriticalDefinitions { get; set; }
         public HtmlString CriticalDefinitionsHtmlString
         { 
             get { return CriticalDefinitions == null ? null : new HtmlString(CriticalDefinitions); }
             set { CriticalDefinitions = value?.ToString(); }
         }
+        public string ProjectReporting { get; set; }
         [NotMapped]
-        private string ProjectReporting { get; set; }
         public HtmlString ProjectReportingHtmlString
         { 
             get { return ProjectReporting == null ? null : new HtmlString(ProjectReporting); }
@@ -139,6 +139,7 @@ namespace ProjectFirma.Web.Models
         public string ChartCaption { get; set; }
         public bool SwapChartAxes { get; set; }
         public bool CanCalculateTotal { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }

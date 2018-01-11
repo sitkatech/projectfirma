@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasureExpected()
         {
-            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? ExpectedValue { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureExpectedID; } set { PerformanceMeasureExpectedID = value; } }
 
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }

@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectCostTypeID { get; set; }
         public int CalendarYear { get; set; }
         public decimal BudgetedAmount { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectBudgetID; } set { ProjectBudgetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectLocationFilterTypeDisplayName { get; private set; }
         public int SortOrder { get; private set; }
         public int DisplayGroup { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectLocationFilterTypeID; } }
 
         /// <summary>

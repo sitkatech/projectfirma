@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Classification()
         {
-            this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
-            this.ProjectClassifications = new HashSet<ProjectClassification>();
+            this.ClassificationPerformanceMeasures = new List<ClassificationPerformanceMeasure>();
+            this.ProjectClassifications = new List<ProjectClassification>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -88,6 +88,7 @@ namespace ProjectFirma.Web.Models
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
         public int? KeyImageFileResourceID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }

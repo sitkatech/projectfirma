@@ -48,6 +48,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureTargetValueTypeID { get; private set; }
         public string PerformanceMeasureTargetValueTypeName { get; private set; }
         public string PerformanceMeasureTargetValueTypeDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureTargetValueTypeID; } }
 
         /// <summary>

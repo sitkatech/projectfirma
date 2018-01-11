@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Models
         public int ClassificationID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryChart { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ClassificationPerformanceMeasureID; } set { ClassificationPerformanceMeasureID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
