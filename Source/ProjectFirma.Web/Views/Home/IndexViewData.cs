@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -40,6 +39,10 @@ namespace ProjectFirma.Web.Views.Home
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
         public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
+        public readonly string ProposeNewProjectUrl;
+        public readonly string ProjectUpdatesUrl;
+        public readonly string ImportHistoricProjectUrl;
+        public readonly bool DisplayActionButtons;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, Models.FirmaPage firmaPageMapInfo,
             FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
@@ -55,6 +58,12 @@ namespace ProjectFirma.Web.Views.Home
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             FirmaHomePageCarouselImages = firmaHomePageImages;
+            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
+            ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
+            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
+
+            // todo: this is probably wrong like a gong
+            ImportHistoricProjectUrl = ProposeNewProjectUrl;
         }
     }
 }

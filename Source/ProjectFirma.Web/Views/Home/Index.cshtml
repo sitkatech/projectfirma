@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
@@ -137,6 +138,12 @@
         </div>
 
         <div class="col-md-4">
+            @if (ViewDataTyped.DisplayActionButtons)
+            {
+                <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProposeNewProjectUrl" title="Propose a new project">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Propose a New Project</a>
+                <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update a Project</a>
+                <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ImportHistoricProjectUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Import Historic Project</a>
+            }
             <h4 style="margin-bottom: 5px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
             <div>
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }

@@ -52,7 +52,7 @@ h6 {
 }
 .rightFloatingInfo {
   float: right;
-  padding: 10px;
+  margin-top: 20px;
 }
 .hoverEditButton {
   position: absolute;

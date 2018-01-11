@@ -1,23 +1,24 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -29,7 +30,17 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div>
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.DisplayActionButtons)
+    {
+        <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProposeNewProjectUrl" title="Propose a new project">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Propose a New Project</a>
+        <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update a Project</a>
+        <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ImportHistoricProjectUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Import Historic Project</a>
+    }
+}
+
+<div style="padding-top: 10px;">
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
