@@ -106,6 +106,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
             WithdrawUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Withdraw(project));
             RejectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Reject(project));
+
+            ProjectStage = project.ProjectStage;
         }
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
@@ -151,5 +153,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }
 
         public bool CurrentPersonCanWithdraw { get; set; }
+        public ProjectStage ProjectStage { get; set; }
     }
 }

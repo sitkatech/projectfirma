@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult CreateAndEditBasics(BasicsViewModel viewModel)
         {
             var project = new Project(viewModel.TaxonomyTierOneID,
-                ProjectStage.Proposal.ProjectStageID,
+                viewModel.ProjectStageID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,

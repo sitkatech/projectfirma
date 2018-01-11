@@ -43,6 +43,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
 
+        // todo: put correct value in if this is relevant, otherwise rip it out. 
+        public bool IsEditable = true;
+
+        public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
+
 
         public BasicsViewData(Person currentPerson,
             List<Models.Organization> organizations,

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.Basics
@@ -63,6 +64,22 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-8">
             @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
             @Html.ValidationMessageFor(m => m.ProjectDescription)
+        </div>
+    </div>
+    <div class="row form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
+        </div>
+        <div class="col-sm-8" >
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.ProjectStageID)
+            }
+            else
+            {
+                @ViewDataTyped.ProjectStage.ProjectStageDisplayName
+            }
         </div>
     </div>
     <div class="row">

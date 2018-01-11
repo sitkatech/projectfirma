@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required]
         public string ProjectDescription { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [Required]
+        public int ProjectStageID { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
         [Required]
         public int? PlanningDesignStartYear { get; set; }
@@ -90,6 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
+            ProjectStageID = project.ProjectStageID;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
             FundingTypeID = project.FundingTypeID;
             EstimatedTotalCost = project.EstimatedTotalCost;
@@ -124,6 +129,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectID = ProjectID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
+            project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
