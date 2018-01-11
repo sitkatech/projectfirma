@@ -398,6 +398,9 @@
     <Compile Include="Views\Project\ForwardLookingFactSheetViewData.cs" />
     <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
     <Compile Include="Views\Organization\ProjectFundingSourceExpendituresForOrganizationGridSpec.cs" />
+    <Compile Include="Views\Project\PendingGridSpec.cs" />
+    <Compile Include="Views\Project\Pending.cs" />
+    <Compile Include="Views\Project\PendingViewData.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -1355,6 +1358,7 @@
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Content Include="Views\Project\ForwardLookingFactSheet.cshtml" />
     <Content Include="Views\ProjectStewardOrganization\Index.cshtml" />
+    <Content Include="Views\Project\Pending.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

@@ -371,6 +371,24 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+
+        [ProjectsInProposalStageViewListFeature]
+        public ViewResult Pending()
+        {
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
+            var viewData = new PendingViewData(CurrentPerson, firmaPage);
+            return RazorView<Pending, PendingViewData>(viewData);
+        }
+
+        [ProjectsInProposalStageViewListFeature]
+        public GridJsonNetJObjectResult<Project> PendingGridJsonData()
+        {
+            var gridSpec = new PendingGridSpec(CurrentPerson);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPending);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload(bool proposalsOnly)
         {

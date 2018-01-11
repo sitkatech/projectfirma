@@ -477,6 +477,11 @@ namespace ProjectFirma.Web.Models
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
 
+        public bool IsPendingProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
         public bool IsForwardLookingFactSheetRelevant()
         {
             return ProjectStage.ForwardLookingFactSheetProjectStages.Contains(ProjectStage);
