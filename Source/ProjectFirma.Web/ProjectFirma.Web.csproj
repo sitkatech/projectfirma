@@ -203,6 +203,8 @@
     <Compile Include="Models\Generated\ProjectColorByTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCostType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCostTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCreateSection.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCreateSectionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYearPrimaryKey.Binding.cs" />
@@ -275,6 +277,8 @@
     <Compile Include="Models\Generated\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSection.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSectionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateState.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateStatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWatershed.Binding.cs" />
@@ -361,6 +365,7 @@
     <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
     <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />
     <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
+    <Compile Include="Models\ProjectUpdateSection.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
     <Compile Include="Security\FirmaFeatureForProject.cs" />
     <Compile Include="Security\FundingSourceEditFeature.cs" />

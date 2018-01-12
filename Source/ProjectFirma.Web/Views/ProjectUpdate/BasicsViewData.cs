@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
         public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate, IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus, BasicsValidationResult basicsValidationResult)
-            : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
         {
             ProjectUpdate = projectUpdate;
             TaxonomyTierOneDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyTierOne.DisplayName;

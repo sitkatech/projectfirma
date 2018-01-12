@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -673,6 +672,23 @@ namespace ProjectFirma.Web.Models
         {
             var projectStage = ProjectUpdate == null ? Project.ProjectStage : ProjectUpdate.ProjectStage;
             return projectStage != ProjectStage.PlanningDesign;
+        }
+
+        public List<ProjectUpdateSection> GetApplicableWizardSections()
+        {
+            var projectUpdateSections = ProjectUpdateSection.All.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding, ProjectUpdateSection.PerformanceMeasures }).ToList();
+            
+            if (Project.IsExpectedFundingRelevant())
+            {
+                projectUpdateSections.Add(ProjectUpdateSection.ExpectedFunding);
+            }
+
+            if (AreAccomplishmentsRelevant())
+            {
+                projectUpdateSections.Add(ProjectUpdateSection.PerformanceMeasures);
+            }
+
+            return projectUpdateSections.OrderBy(x => x.SortOrder).ToList();
         }
     }
 }

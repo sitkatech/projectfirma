@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -37,7 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public LocationSimpleViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
-            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus, locationSimpleValidationResult.GetWarningMessages())
+            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.LocationSimple, updateStatus, locationSimpleValidationResult.GetWarningMessages())
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;

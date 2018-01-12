@@ -202,8 +202,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x=>x.LocationSimple(project)) : new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
+            //projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            //return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x=>x.LocationSimple(project)) : new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Basics);
         }
 
         private ViewResult ViewBasics(ProjectUpdate projectUpdate, BasicsViewModel viewModel)
@@ -310,9 +311,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.PerformanceMeasuresComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
 
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.ExpectedFunding(project)) : new SitkaRoute<ProjectUpdateController>(x => x.PerformanceMeasures(project)));
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.PerformanceMeasures);
         }
 
         private ViewResult ViewPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasuresViewModel viewModel)
@@ -437,8 +437,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpendituresComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.Photos(project)) : new SitkaRoute<ProjectUpdateController>(x => x.Expenditures(project)));
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Expenditures);
         }
 
         private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresViewModel viewModel)
@@ -532,8 +532,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
             }
 
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.Expenditures(project)) : new SitkaRoute<ProjectUpdateController>(x => x.ExpectedFunding(project)));
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.ExpectedFunding);
         }
 
         private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
@@ -769,8 +768,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.LocationSimpleComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.LocationDetailed(project)) : new SitkaRoute<ProjectUpdateController>(x => x.LocationSimple(project)));
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationSimple);
         }
 
         private ViewResult ViewLocationSimple(Project project, ProjectUpdateBatch projectUpdateBatch, LocationSimpleViewModel viewModel)
@@ -868,8 +867,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.LocationDetailedComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.Watershed(project)) : new SitkaRoute<ProjectUpdateController>(x => x.LocationDetailed(project)));
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationDetailed);
         }
 
         private ViewResult ViewLocationDetailed(ProjectUpdateBatch projectUpdateBatch, LocationDetailedViewModel viewModel)
@@ -1086,13 +1085,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.WatershedComment = viewModel.Comments;
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            var nextSection = viewModel.AutoAdvance
-                ? (projectUpdateBatch.NewStageIsPlanningDesign
-                    ? new SitkaRoute<ProjectUpdateController>(x => x.ExpectedFunding(project))
-                    : new SitkaRoute<ProjectUpdateController>(x => x.PerformanceMeasures(project)))
-                : new SitkaRoute<ProjectUpdateController>(x => x.Watershed(project));
-            return RedirectToAction(nextSection);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Watersheds);
         }
 
         private ViewResult ViewWatershed(Project project, ProjectUpdateBatch projectUpdateBatch, WatershedViewModel viewModel)
@@ -1242,8 +1235,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.Load();
             var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Local;
             viewModel.UpdateModel(currentProjectExternalLinkUpdates, allProjectExternalLinkUpdates);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x => x.Notes(project)) : new SitkaRoute<ProjectUpdateController>(x => x.ExternalLinks(project)));
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.ExternalLinks);
         }
 
         private ViewResult ViewExternalLinks(ProjectUpdateBatch projectUpdateBatch, EditProjectExternalLinksViewModel viewModel)
@@ -2472,6 +2465,15 @@ namespace ProjectFirma.Web.Controllers
                 validationErrorMessages = $" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
             SetErrorForDisplay($"Could not save {FieldDefinition.Proposal.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+        }
+
+        private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection)
+        {
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections();
+            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(projectUpdateBatch.Project) : currentSection.GetSectionUrl(projectUpdateBatch.Project);
+            return Redirect(nextSection);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateBatch projectUpdateBatch,
             ViewDataForAngularEditor viewDataForAngularEditor,
             ProjectBudgetDetailViewData projectBudgetDetailViewData, UpdateStatus updateStatus, BudgetsValidationResult budgetsValidationResult)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Budgets, updateStatus, budgetsValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Budgets, updateStatus, budgetsValidationResult.GetWarningMessages())
         {
             ViewDataForAngular = viewDataForAngularEditor;
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts

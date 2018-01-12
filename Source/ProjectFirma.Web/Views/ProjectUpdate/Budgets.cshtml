@@ -246,7 +246,7 @@ else
                     <div class="col-md-3">@Html.LabelWithSugarFor(x => x.Comments)</div>
                     <div class="col-md-9">
                         @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
-                        @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+                        @Html.Hidden("Section", ViewDataTyped.CurrentSection)
                     </div>
                 </div>
             }

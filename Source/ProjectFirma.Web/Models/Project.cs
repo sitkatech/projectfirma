@@ -530,5 +530,11 @@ namespace ProjectFirma.Web.Models
             SnapshotProjects.DeleteSnapshotProject();
             this.DeleteProject();
         }
+
+        public bool IsExpectedFundingRelevant()
+        {
+            // todo: not always true.
+            return true;
+        }
     }
 }

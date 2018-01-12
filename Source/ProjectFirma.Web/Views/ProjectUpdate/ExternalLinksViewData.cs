@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ViewDataForAngularClass ViewDataForAngular;
 
         public ExternalLinksViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData, string refreshUrl, string diffUrl)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.ExternalLinks, updateStatus, new List<string>())
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.ExternalLinks, updateStatus, new List<string>())
         {
             ViewDataForAngular = viewDataForAngular;
             EntityExternalLinksViewData = entityExternalLinksViewData;

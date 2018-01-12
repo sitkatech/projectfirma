@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -38,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
 
         public LocationDetailedViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, UpdateStatus updateStatus)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.LocationDetailed, updateStatus, new List<string>())
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.LocationDetailed, updateStatus, new List<string>())
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
             UploadGisFileUrl = uploadGisFileUrl;
