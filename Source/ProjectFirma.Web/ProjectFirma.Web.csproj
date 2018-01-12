@@ -361,6 +361,7 @@
     <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
     <Compile Include="Models\ITaxonomyTier.cs" />
     <Compile Include="Models\NotificationProject.cs" />
+    <Compile Include="Models\ProjectCreateSection.cs" />
     <Compile Include="Models\ProjectFundingSourceRequest.cs" />
     <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
     <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />

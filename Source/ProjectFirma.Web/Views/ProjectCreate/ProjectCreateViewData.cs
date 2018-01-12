@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -31,6 +33,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly ProposalSectionEnum SelectedProposalSection;
         public readonly Models.Project Project;
+        public ProjectCreateSection CurrentSection { get; }
+        public List<ProjectCreateSection> ProjectCreateSections { get; }
+
         public readonly string ProposalListUrl;
         public readonly string ProposalDetailUrl;
         public readonly string ProvideFeedbackUrl;
@@ -69,6 +74,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalSectionEnum selectedProposalSection,
             ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
         {
+            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(project);
+
             Check.Assert(project != null);
             Check.Assert(selectedProposalSection == ProposalSectionEnum.Instructions || selectedProposalSection == ProposalSectionEnum.Basics ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
@@ -77,7 +84,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
 
             Project = project;
+            // todo temporary
             SelectedProposalSection = selectedProposalSection;
+            CurrentSection = ProjectCreateSection.Instructions;
             ProposalSectionsStatus = proposalSectionsStatus;
             CanAdvanceStage = proposalSectionsStatus.AreAllSectionsValid;
             // ReSharper disable PossibleNullReferenceException
@@ -86,7 +95,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             PageTitle = $"Proposal: {project.DisplayName}";
 
-            // TODO: Update controller usage
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(project.ProjectID));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));

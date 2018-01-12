@@ -536,5 +536,18 @@ namespace ProjectFirma.Web.Models
             // todo: not always true.
             return true;
         }
+
+        public static List<ProjectCreateSection> GetApplicableProposalWizardSections(Project project)
+        {
+            var projectCreateSections = ProjectCreateSection.All.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding }).ToList();
+            if (project != null)
+            {
+                if (project.IsExpectedFundingRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
+                }
+            }
+            return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
+        }
     }
 }

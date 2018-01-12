@@ -73,14 +73,12 @@ Source code is available upon request via <support@sitkatech.com>.
                         {
                             if (projectUpdateSection.IsComplete(ViewDataTyped.ProjectUpdateBatch))
                             {
-                                @*<span class="glyphicon glyphicon-ok field-validation-success text-left" style="margin-right: 4px"></span>*@
                                 <span class="pull-right statusIcon">
                                     @Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)
                                 </span>
                             }
                             else
                             {
-                                @*<span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left" title="Section is incomplete" style="margin-right: 4px"></span>*@
                                 <span class="pull-right statusIcon">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
                             }
                         }

@@ -63,11 +63,36 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="projectWizardContent" class="row">
     <div id="tab-container" class="col-sm-4 col-md-3">
         <ul>
+            @foreach (var projectCreateSection in ViewDataTyped.ProjectCreateSections)
+            {
+                <li class="@(ViewDataTyped.CurrentSection == projectCreateSection ? "selected" : "selectable")">
+                    <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
+                       class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                        @if (projectCreateSection.HasCompletionStatus && projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                        {
+                            if (projectCreateSection.IsComplete(ViewDataTyped.Project))
+                            {
+                                <span class="pull-right statusIcon">
+                                    @Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="pull-right statusIcon">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
+                            }
+                        }
+
+                        @projectCreateSection.ProjectCreateSectionDisplayName
+                    </a>
+                </li>
+            }
+
+
             <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposalSectionEnum.Instructions, ViewDataTyped.SelectedProposalSection)">
                 <a href="@ViewDataTyped.ProposalInstructionsUrl">Instructions</a>
             </li>
             <li style="list-style-type: none">
-                <hr class="navMenu" />
+                <hr class="navMenu"/>
             </li>
             <li value="1" class="@SetSelectedSectionStyle(ProposalSectionEnum.Basics, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProjectStateIsValidInWizard)
@@ -100,7 +125,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Location - Simple")
                 }
-                
+
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
@@ -115,7 +140,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
                 }
-            </li>            
+            </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Watershed, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
@@ -133,7 +158,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized())
                 }
-            </li>            
+            </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposalSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
                 {
@@ -149,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())                    
+                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())
                 }
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProposalSection)">
@@ -217,7 +242,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos")
+                    ;
                 }
             </li>
             <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Notes, ViewDataTyped.SelectedProposalSection)">
@@ -231,7 +257,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes")
+                    ;
                 }
             </li>
         </ul>
