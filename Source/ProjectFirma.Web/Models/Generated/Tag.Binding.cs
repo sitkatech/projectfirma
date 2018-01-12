@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Tag()
         {
-            this.ProjectTags = new List<ProjectTag>();
+            this.ProjectTags = new HashSet<ProjectTag>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

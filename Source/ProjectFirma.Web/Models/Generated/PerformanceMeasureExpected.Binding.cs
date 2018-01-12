@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasureExpected()
         {
-            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

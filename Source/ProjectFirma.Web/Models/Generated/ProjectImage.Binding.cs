@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectImage()
         {
-            this.ProjectImageUpdates = new List<ProjectImageUpdate>();
+            this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

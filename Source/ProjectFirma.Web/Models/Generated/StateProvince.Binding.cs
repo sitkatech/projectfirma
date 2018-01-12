@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected StateProvince()
         {
-            this.Counties = new List<County>();
+            this.Counties = new HashSet<County>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

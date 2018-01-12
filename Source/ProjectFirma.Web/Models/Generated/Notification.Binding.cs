@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Notification()
         {
-            this.NotificationProjects = new List<NotificationProject>();
+            this.NotificationProjects = new HashSet<NotificationProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Snapshot()
         {
-            this.SnapshotOrganizationTypeExpenditures = new List<SnapshotOrganizationTypeExpenditure>();
-            this.SnapshotPerformanceMeasures = new List<SnapshotPerformanceMeasure>();
-            this.SnapshotProjects = new List<SnapshotProject>();
+            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
+            this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
+            this.SnapshotProjects = new HashSet<SnapshotProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

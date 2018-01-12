@@ -23,25 +23,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Person()
         {
-            this.AuditLogs = new List<AuditLog>();
-            this.FileResourcesWhereYouAreTheCreatePerson = new List<FileResource>();
-            this.Notifications = new List<Notification>();
-            this.OrganizationsWhereYouAreThePrimaryContactPerson = new List<Organization>();
-            this.PerformanceMeasureNotesWhereYouAreTheCreatePerson = new List<PerformanceMeasureNote>();
-            this.PerformanceMeasureNotesWhereYouAreTheUpdatePerson = new List<PerformanceMeasureNote>();
-            this.ProjectsWhereYouAreThePrimaryContactPerson = new List<Project>();
-            this.ProjectsWhereYouAreTheProposingPerson = new List<Project>();
-            this.ProjectsWhereYouAreTheReviewedByPerson = new List<Project>();
-            this.ProjectLocationStagings = new List<ProjectLocationStaging>();
-            this.ProjectLocationStagingUpdates = new List<ProjectLocationStagingUpdate>();
-            this.ProjectNotesWhereYouAreTheCreatePerson = new List<ProjectNote>();
-            this.ProjectNotesWhereYouAreTheUpdatePerson = new List<ProjectNote>();
-            this.ProjectNoteUpdatesWhereYouAreTheCreatePerson = new List<ProjectNoteUpdate>();
-            this.ProjectNoteUpdatesWhereYouAreTheUpdatePerson = new List<ProjectNoteUpdate>();
-            this.ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson = new List<ProjectUpdateBatch>();
-            this.ProjectUpdateHistoriesWhereYouAreTheUpdatePerson = new List<ProjectUpdateHistory>();
-            this.SupportRequestLogsWhereYouAreTheRequestPerson = new List<SupportRequestLog>();
-            this.TenantAttributesWhereYouAreThePrimaryContactPerson = new List<TenantAttribute>();
+            this.AuditLogs = new HashSet<AuditLog>();
+            this.FileResourcesWhereYouAreTheCreatePerson = new HashSet<FileResource>();
+            this.Notifications = new HashSet<Notification>();
+            this.OrganizationsWhereYouAreThePrimaryContactPerson = new HashSet<Organization>();
+            this.PerformanceMeasureNotesWhereYouAreTheCreatePerson = new HashSet<PerformanceMeasureNote>();
+            this.PerformanceMeasureNotesWhereYouAreTheUpdatePerson = new HashSet<PerformanceMeasureNote>();
+            this.ProjectsWhereYouAreThePrimaryContactPerson = new HashSet<Project>();
+            this.ProjectsWhereYouAreTheProposingPerson = new HashSet<Project>();
+            this.ProjectsWhereYouAreTheReviewedByPerson = new HashSet<Project>();
+            this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
+            this.ProjectLocationStagingUpdates = new HashSet<ProjectLocationStagingUpdate>();
+            this.ProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProjectNote>();
+            this.ProjectNotesWhereYouAreTheUpdatePerson = new HashSet<ProjectNote>();
+            this.ProjectNoteUpdatesWhereYouAreTheCreatePerson = new HashSet<ProjectNoteUpdate>();
+            this.ProjectNoteUpdatesWhereYouAreTheUpdatePerson = new HashSet<ProjectNoteUpdate>();
+            this.ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson = new HashSet<ProjectUpdateBatch>();
+            this.ProjectUpdateHistoriesWhereYouAreTheUpdatePerson = new HashSet<ProjectUpdateHistory>();
+            this.SupportRequestLogsWhereYouAreTheRequestPerson = new HashSet<SupportRequestLog>();
+            this.TenantAttributesWhereYouAreThePrimaryContactPerson = new HashSet<TenantAttribute>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

@@ -23,17 +23,17 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FileResource()
         {
-            this.ClassificationsWhereYouAreTheKeyImageFileResource = new List<Classification>();
-            this.FieldDefinitionDataImages = new List<FieldDefinitionDataImage>();
-            this.FirmaHomePageImages = new List<FirmaHomePageImage>();
-            this.FirmaPageImages = new List<FirmaPageImage>();
-            this.MonitoringProgramDocuments = new List<MonitoringProgramDocument>();
-            this.OrganizationsWhereYouAreTheLogoFileResource = new List<Organization>();
-            this.ProjectImages = new List<ProjectImage>();
-            this.ProjectImageUpdates = new List<ProjectImageUpdate>();
-            this.TenantAttributesWhereYouAreTheTenantBannerLogoFileResource = new List<TenantAttribute>();
-            this.TenantAttributesWhereYouAreTheTenantSquareLogoFileResource = new List<TenantAttribute>();
-            this.TenantAttributesWhereYouAreTheTenantStyleSheetFileResource = new List<TenantAttribute>();
+            this.ClassificationsWhereYouAreTheKeyImageFileResource = new HashSet<Classification>();
+            this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
+            this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
+            this.FirmaPageImages = new HashSet<FirmaPageImage>();
+            this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
+            this.OrganizationsWhereYouAreTheLogoFileResource = new HashSet<Organization>();
+            this.ProjectImages = new HashSet<ProjectImage>();
+            this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
+            this.TenantAttributesWhereYouAreTheTenantBannerLogoFileResource = new HashSet<TenantAttribute>();
+            this.TenantAttributesWhereYouAreTheTenantSquareLogoFileResource = new HashSet<TenantAttribute>();
+            this.TenantAttributesWhereYouAreTheTenantStyleSheetFileResource = new HashSet<TenantAttribute>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

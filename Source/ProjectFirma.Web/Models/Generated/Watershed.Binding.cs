@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Watershed()
         {
-            this.ProjectWatersheds = new List<ProjectWatershed>();
-            this.ProjectWatershedUpdates = new List<ProjectWatershedUpdate>();
+            this.ProjectWatersheds = new HashSet<ProjectWatershed>();
+            this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

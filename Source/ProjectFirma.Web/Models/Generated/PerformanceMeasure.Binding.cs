@@ -23,19 +23,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasure()
         {
-            this.ClassificationPerformanceMeasures = new List<ClassificationPerformanceMeasure>();
-            this.PerformanceMeasureActuals = new List<PerformanceMeasureActual>();
-            this.PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
-            this.PerformanceMeasureActualSubcategoryOptionUpdates = new List<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.PerformanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();
-            this.PerformanceMeasureExpecteds = new List<PerformanceMeasureExpected>();
-            this.PerformanceMeasureExpectedSubcategoryOptions = new List<PerformanceMeasureExpectedSubcategoryOption>();
-            this.PerformanceMeasureMonitoringPrograms = new List<PerformanceMeasureMonitoringProgram>();
-            this.PerformanceMeasureNotes = new List<PerformanceMeasureNote>();
-            this.PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>();
-            this.SnapshotPerformanceMeasures = new List<SnapshotPerformanceMeasure>();
-            this.SnapshotPerformanceMeasureSubcategoryOptions = new List<SnapshotPerformanceMeasureSubcategoryOption>();
-            this.TaxonomyTierTwoPerformanceMeasures = new List<TaxonomyTierTwoPerformanceMeasure>();
+            this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
+            this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
+            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
+            this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
+            this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
+            this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
+            this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

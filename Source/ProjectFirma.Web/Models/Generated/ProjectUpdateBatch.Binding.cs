@@ -23,19 +23,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectUpdateBatch()
         {
-            this.PerformanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();
-            this.ProjectBudgetUpdates = new List<ProjectBudgetUpdate>();
-            this.ProjectExemptReportingYearUpdates = new List<ProjectExemptReportingYearUpdate>();
-            this.ProjectExternalLinkUpdates = new List<ProjectExternalLinkUpdate>();
-            this.ProjectFundingSourceExpenditureUpdates = new List<ProjectFundingSourceExpenditureUpdate>();
-            this.ProjectFundingSourceRequestUpdates = new List<ProjectFundingSourceRequestUpdate>();
-            this.ProjectImageUpdates = new List<ProjectImageUpdate>();
-            this.ProjectLocationStagingUpdates = new List<ProjectLocationStagingUpdate>();
-            this.ProjectLocationUpdates = new List<ProjectLocationUpdate>();
-            this.ProjectNoteUpdates = new List<ProjectNoteUpdate>();
-            this.ProjectUpdates = new List<ProjectUpdate>();
-            this.ProjectUpdateHistories = new List<ProjectUpdateHistory>();
-            this.ProjectWatershedUpdates = new List<ProjectWatershedUpdate>();
+            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
+            this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
+            this.ProjectExemptReportingYearUpdates = new HashSet<ProjectExemptReportingYearUpdate>();
+            this.ProjectExternalLinkUpdates = new HashSet<ProjectExternalLinkUpdate>();
+            this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectFundingSourceRequestUpdates = new HashSet<ProjectFundingSourceRequestUpdate>();
+            this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
+            this.ProjectLocationStagingUpdates = new HashSet<ProjectLocationStagingUpdate>();
+            this.ProjectLocationUpdates = new HashSet<ProjectLocationUpdate>();
+            this.ProjectNoteUpdates = new HashSet<ProjectNoteUpdate>();
+            this.ProjectUpdates = new HashSet<ProjectUpdate>();
+            this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
+            this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

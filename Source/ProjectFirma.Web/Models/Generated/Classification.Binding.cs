@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Classification()
         {
-            this.ClassificationPerformanceMeasures = new List<ClassificationPerformanceMeasure>();
-            this.ProjectClassifications = new List<ProjectClassification>();
+            this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
+            this.ProjectClassifications = new HashSet<ProjectClassification>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected AssessmentSubGoal()
         {
-            this.AssessmentQuestions = new List<AssessmentQuestion>();
+            this.AssessmentQuestions = new HashSet<AssessmentQuestion>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

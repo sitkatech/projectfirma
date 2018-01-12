@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected OrganizationType()
         {
-            this.Organizations = new List<Organization>();
-            this.OrganizationTypeRelationshipTypes = new List<OrganizationTypeRelationshipType>();
-            this.SnapshotOrganizationTypeExpenditures = new List<SnapshotOrganizationTypeExpenditure>();
+            this.Organizations = new HashSet<Organization>();
+            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
+            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

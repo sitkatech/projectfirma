@@ -23,11 +23,11 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Organization()
         {
-            this.FundingSources = new List<FundingSource>();
-            this.MonitoringProgramPartners = new List<MonitoringProgramPartner>();
-            this.OrganizationBoundaryStagings = new List<OrganizationBoundaryStaging>();
-            this.People = new List<Person>();
-            this.ProjectOrganizations = new List<ProjectOrganization>();
+            this.FundingSources = new HashSet<FundingSource>();
+            this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
+            this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
+            this.People = new HashSet<Person>();
+            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

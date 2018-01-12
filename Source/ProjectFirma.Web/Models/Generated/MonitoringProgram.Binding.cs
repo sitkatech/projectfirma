@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected MonitoringProgram()
         {
-            this.MonitoringProgramDocuments = new List<MonitoringProgramDocument>();
-            this.MonitoringProgramPartners = new List<MonitoringProgramPartner>();
-            this.PerformanceMeasureMonitoringPrograms = new List<PerformanceMeasureMonitoringProgram>();
+            this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
+            this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
+            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

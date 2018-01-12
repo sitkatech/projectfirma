@@ -23,25 +23,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Project()
         {
-            this.NotificationProjects = new List<NotificationProject>();
-            this.PerformanceMeasureActuals = new List<PerformanceMeasureActual>();
-            this.PerformanceMeasureExpecteds = new List<PerformanceMeasureExpected>();
-            this.ProjectAssessmentQuestions = new List<ProjectAssessmentQuestion>();
-            this.ProjectBudgets = new List<ProjectBudget>();
-            this.ProjectClassifications = new List<ProjectClassification>();
-            this.ProjectExemptReportingYears = new List<ProjectExemptReportingYear>();
-            this.ProjectExternalLinks = new List<ProjectExternalLink>();
-            this.ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditure>();
-            this.ProjectFundingSourceRequests = new List<ProjectFundingSourceRequest>();
-            this.ProjectImages = new List<ProjectImage>();
-            this.ProjectLocations = new List<ProjectLocation>();
-            this.ProjectLocationStagings = new List<ProjectLocationStaging>();
-            this.ProjectNotes = new List<ProjectNote>();
-            this.ProjectOrganizations = new List<ProjectOrganization>();
-            this.ProjectTags = new List<ProjectTag>();
-            this.ProjectUpdateBatches = new List<ProjectUpdateBatch>();
-            this.ProjectWatersheds = new List<ProjectWatershed>();
-            this.SnapshotProjects = new List<SnapshotProject>();
+            this.NotificationProjects = new HashSet<NotificationProject>();
+            this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
+            this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
+            this.ProjectAssessmentQuestions = new HashSet<ProjectAssessmentQuestion>();
+            this.ProjectBudgets = new HashSet<ProjectBudget>();
+            this.ProjectClassifications = new HashSet<ProjectClassification>();
+            this.ProjectExemptReportingYears = new HashSet<ProjectExemptReportingYear>();
+            this.ProjectExternalLinks = new HashSet<ProjectExternalLink>();
+            this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
+            this.ProjectFundingSourceRequests = new HashSet<ProjectFundingSourceRequest>();
+            this.ProjectImages = new HashSet<ProjectImage>();
+            this.ProjectLocations = new HashSet<ProjectLocation>();
+            this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
+            this.ProjectNotes = new HashSet<ProjectNote>();
+            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
+            this.ProjectTags = new HashSet<ProjectTag>();
+            this.ProjectUpdateBatches = new HashSet<ProjectUpdateBatch>();
+            this.ProjectWatersheds = new HashSet<ProjectWatershed>();
+            this.SnapshotProjects = new HashSet<SnapshotProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

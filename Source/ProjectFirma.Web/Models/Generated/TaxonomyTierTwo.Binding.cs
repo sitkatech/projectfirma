@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTierTwo()
         {
-            this.TaxonomyTierOnes = new List<TaxonomyTierOne>();
-            this.TaxonomyTierTwoPerformanceMeasures = new List<TaxonomyTierTwoPerformanceMeasure>();
+            this.TaxonomyTierOnes = new HashSet<TaxonomyTierOne>();
+            this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

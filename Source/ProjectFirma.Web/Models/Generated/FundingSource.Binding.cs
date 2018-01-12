@@ -23,12 +23,12 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FundingSource()
         {
-            this.ProjectBudgets = new List<ProjectBudget>();
-            this.ProjectBudgetUpdates = new List<ProjectBudgetUpdate>();
-            this.ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditure>();
-            this.ProjectFundingSourceExpenditureUpdates = new List<ProjectFundingSourceExpenditureUpdate>();
-            this.ProjectFundingSourceRequests = new List<ProjectFundingSourceRequest>();
-            this.ProjectFundingSourceRequestUpdates = new List<ProjectFundingSourceRequestUpdate>();
+            this.ProjectBudgets = new HashSet<ProjectBudget>();
+            this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
+            this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
+            this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectFundingSourceRequests = new HashSet<ProjectFundingSourceRequest>();
+            this.ProjectFundingSourceRequestUpdates = new HashSet<ProjectFundingSourceRequestUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 

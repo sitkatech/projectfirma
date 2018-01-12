@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected RelationshipType()
         {
-            this.OrganizationTypeRelationshipTypes = new List<OrganizationTypeRelationshipType>();
-            this.ProjectOrganizations = new List<ProjectOrganization>();
+            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
+            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
