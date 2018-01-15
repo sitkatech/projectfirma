@@ -149,6 +149,7 @@ namespace ProjectFirma.Web.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
         public virtual ICollection<AuditLog> AuditLogs { get; set; }

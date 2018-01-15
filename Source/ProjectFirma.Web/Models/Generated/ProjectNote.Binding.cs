@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectNoteID; } set { ProjectNoteID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

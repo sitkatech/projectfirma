@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Models
         public int SnapshotProjectTypeID { get; private set; }
         public string SnapshotProjectTypeName { get; private set; }
         public string SnapshotProjectTypeDisplayName { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotProjectTypeID; } }
 
         /// <summary>

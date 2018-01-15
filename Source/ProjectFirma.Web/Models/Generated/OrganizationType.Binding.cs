@@ -88,6 +88,7 @@ namespace ProjectFirma.Web.Models
         public string LegendColor { get; set; }
         public bool ShowOnProjectMaps { get; set; }
         public bool IsDefaultOrganizationType { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
         public virtual ICollection<Organization> Organizations { get; set; }

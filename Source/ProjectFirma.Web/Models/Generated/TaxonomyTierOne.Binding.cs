@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierOneName { get; set; }
         public string TaxonomyTierOneDescription { get; set; }
         public string TaxonomyTierOneCode { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }

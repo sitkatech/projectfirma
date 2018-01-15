@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Models
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
         public virtual ICollection<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get; set; }

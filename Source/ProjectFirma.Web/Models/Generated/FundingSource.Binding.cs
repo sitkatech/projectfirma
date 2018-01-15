@@ -100,6 +100,7 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }

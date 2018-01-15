@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public string CountyName { get; set; }
         public int StateProvinceID { get; set; }
         public DbGeometry CountyFeature { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return CountyID; } set { CountyID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

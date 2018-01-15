@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Models
         public int SnapshotID { get; set; }
         public int ProjectID { get; set; }
         public int SnapshotProjectTypeID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SnapshotProjectID; } set { SnapshotProjectID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

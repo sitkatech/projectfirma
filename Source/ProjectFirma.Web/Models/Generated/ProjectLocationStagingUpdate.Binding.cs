@@ -105,6 +105,7 @@ namespace ProjectFirma.Web.Models
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectLocationStagingUpdateID; } set { ProjectLocationStagingUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

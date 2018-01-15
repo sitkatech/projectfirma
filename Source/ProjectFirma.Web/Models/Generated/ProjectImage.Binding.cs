@@ -111,6 +111,7 @@ namespace ProjectFirma.Web.Models
         public string Credit { get; set; }
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectImageID; } set { ProjectImageID = value; } }
 
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }

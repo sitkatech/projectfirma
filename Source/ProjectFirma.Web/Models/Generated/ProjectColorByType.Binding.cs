@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectColorByTypeNameWithIdentifier { get; private set; }
         public string ProjectColorByTypeDisplayName { get; private set; }
         public int SortOrder { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectColorByTypeID; } }
 
         /// <summary>

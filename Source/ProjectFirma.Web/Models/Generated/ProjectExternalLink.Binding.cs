@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectExternalLinkID; } set { ProjectExternalLinkID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

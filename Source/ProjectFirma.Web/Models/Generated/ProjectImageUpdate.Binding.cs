@@ -109,6 +109,7 @@ namespace ProjectFirma.Web.Models
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
         public int? ProjectImageID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectImageUpdateID; } set { ProjectImageUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

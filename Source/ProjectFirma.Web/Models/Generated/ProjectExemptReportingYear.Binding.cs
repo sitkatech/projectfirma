@@ -89,6 +89,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectExemptReportingYearID; } set { ProjectExemptReportingYearID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

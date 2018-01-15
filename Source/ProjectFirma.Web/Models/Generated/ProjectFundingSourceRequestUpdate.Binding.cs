@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int FundingSourceID { get; set; }
         public decimal SecuredAmount { get; set; }
         public decimal UnsecuredAmount { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectFundingSourceRequestUpdateID; } set { ProjectFundingSourceRequestUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

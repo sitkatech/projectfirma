@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int FileResourceID { get; set; }
         public string Caption { get; set; }
         public int SortOrder { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FirmaHomePageImageID; } set { FirmaHomePageImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

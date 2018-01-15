@@ -105,6 +105,7 @@ namespace ProjectFirma.Web.Models
         public string RequestDescription { get; set; }
         public string RequestPersonOrganization { get; set; }
         public string RequestPersonPhone { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return SupportRequestLogID; } set { SupportRequestLogID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

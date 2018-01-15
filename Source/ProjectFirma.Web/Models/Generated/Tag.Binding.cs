@@ -76,6 +76,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string TagName { get; set; }
         public string TagDescription { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TagID; } set { TagID = value; } }
 
         public virtual ICollection<ProjectTag> ProjectTags { get; set; }

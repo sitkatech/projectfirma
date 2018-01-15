@@ -67,6 +67,7 @@ namespace ProjectFirma.Web.Models
         public string FileResourceMimeTypeContentTypeName { get; private set; }
         public string FileResourceMimeTypeIconSmallFilename { get; private set; }
         public string FileResourceMimeTypeIconNormalFilename { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return FileResourceMimeTypeID; } }
 
         /// <summary>

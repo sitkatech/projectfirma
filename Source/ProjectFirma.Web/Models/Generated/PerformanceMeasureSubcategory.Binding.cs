@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }
         public int? GoogleChartTypeID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }

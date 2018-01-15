@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectStageDisplayName { get; private set; }
         public int SortOrder { get; private set; }
         public string ProjectStageColor { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectStageID; } }
 
         /// <summary>

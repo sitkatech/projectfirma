@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int MonitoringProgramID { get; set; }
         public string DisplayName { get; set; }
         public DateTime UploadDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return MonitoringProgramDocumentID; } set { MonitoringProgramDocumentID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

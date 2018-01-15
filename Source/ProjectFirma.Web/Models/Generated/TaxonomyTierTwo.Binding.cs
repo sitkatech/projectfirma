@@ -96,6 +96,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierTwoDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }

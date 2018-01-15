@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int WatershedID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectWatershedUpdateID; } set { ProjectWatershedUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

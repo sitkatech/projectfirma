@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int AssessmentSubGoalNumber { get; set; }
         public string AssessmentSubGoalTitle { get; set; }
         public string AssessmentSubGoalDescription { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return AssessmentSubGoalID; } set { AssessmentSubGoalID = value; } }
 
         public virtual ICollection<AssessmentQuestion> AssessmentQuestions { get; set; }

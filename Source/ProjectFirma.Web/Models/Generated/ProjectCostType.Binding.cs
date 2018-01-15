@@ -50,6 +50,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectCostTypeName { get; private set; }
         public string ProjectCostTypeDisplayName { get; private set; }
         public int SortOrder { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectCostTypeID; } }
 
         /// <summary>

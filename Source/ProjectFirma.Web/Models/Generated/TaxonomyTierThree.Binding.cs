@@ -80,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierThreeDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }

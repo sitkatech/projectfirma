@@ -163,6 +163,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }

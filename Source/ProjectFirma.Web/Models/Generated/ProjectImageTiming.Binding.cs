@@ -51,6 +51,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectImageTimingName { get; private set; }
         public string ProjectImageTimingDisplayName { get; private set; }
         public int SortOrder { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectImageTimingID; } }
 
         /// <summary>

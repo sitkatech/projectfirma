@@ -77,6 +77,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string WatershedName { get; set; }
         public DbGeometry WatershedFeature { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return WatershedID; } set { WatershedID = value; } }
 
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }

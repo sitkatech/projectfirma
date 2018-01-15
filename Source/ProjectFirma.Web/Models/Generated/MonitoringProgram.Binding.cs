@@ -80,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return MonitoringProgramID; } set { MonitoringProgramID = value; } }
 
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }

@@ -119,6 +119,7 @@ namespace ProjectFirma.Web.Models
         public byte[] FileResourceData { get; set; }
         public int CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }

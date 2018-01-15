@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateStateID { get; set; }
         public int UpdatePersonID { get; set; }
         public DateTime TransitionDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateHistoryID; } set { ProjectUpdateHistoryID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

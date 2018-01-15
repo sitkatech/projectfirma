@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectAssessmentQuestionID; } set { ProjectAssessmentQuestionID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

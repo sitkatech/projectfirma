@@ -109,6 +109,7 @@ namespace ProjectFirma.Web.Models
         public int? LogoFileResourceID { get; set; }
         public int OrganizationTypeID { get; set; }
         public DbGeometry OrganizationBoundary { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }

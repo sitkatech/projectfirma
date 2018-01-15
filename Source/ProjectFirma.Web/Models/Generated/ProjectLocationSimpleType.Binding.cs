@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectLocationSimpleTypeName { get; private set; }
         public string DisplayInstructions { get; private set; }
         public int DisplayOrder { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectLocationSimpleTypeID; } }
 
         /// <summary>

@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public int AssessmentSubGoalID { get; set; }
         public string AssessmentQuestionText { get; set; }
         public DateTime? ArchiveDate { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return AssessmentQuestionID; } set { AssessmentQuestionID = value; } }
 
         public virtual ICollection<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }

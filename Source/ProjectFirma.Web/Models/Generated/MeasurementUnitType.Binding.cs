@@ -72,6 +72,7 @@ namespace ProjectFirma.Web.Models
         public string LegendDisplayName { get; private set; }
         public string SingularDisplayName { get; private set; }
         public int NumberOfSignificantDigits { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return MeasurementUnitTypeID; } }
 
         /// <summary>

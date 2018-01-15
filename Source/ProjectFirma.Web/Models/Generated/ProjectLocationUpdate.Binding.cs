@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateBatchID { get; set; }
         public DbGeometry ProjectLocationUpdateGeometry { get; set; }
         public string Annotation { get; set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectLocationUpdateID; } set { ProjectLocationUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
