@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
-            : base(currentPerson, ProposalSectionEnum.Basics)
+            : base(currentPerson, ProjectCreateSection.Basics)
         {
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
-            : base(currentPerson, project, ProposalSectionEnum.Basics, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }

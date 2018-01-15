@@ -18,11 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class SiteLayout : LtInfo.Common.Mvc.TypedWebViewPage<ProjectCreateViewData>
     {
-        protected string SetSelectedSectionStyle(ProposalSectionEnum currentSection, ProposalSectionEnum selectedProposalSection)
+        protected string SetSelectedSectionStyle(ProjectCreateSection currentSection, ProjectCreateSection selectedProposalSection)
         {
             return selectedProposalSection == currentSection ? "selected" : "selectable";
         }

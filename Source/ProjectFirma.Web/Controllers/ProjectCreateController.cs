@@ -326,7 +326,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProposalSectionEnum.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProjectCreateSection.Classifications, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
@@ -397,7 +397,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProposalSectionEnum.Assessment, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProjectCreateSection.Assessment, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 

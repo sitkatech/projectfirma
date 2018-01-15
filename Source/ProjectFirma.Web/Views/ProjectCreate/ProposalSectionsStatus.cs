@@ -24,21 +24,21 @@ using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public enum ProposalSectionEnum
-    {
-        Instructions,
-        Basics,
-        PerformanceMeasures,
-        LocationSimple,
-        LocationDetailed,
-        Watershed,
-        Classifications,
-        Assessment,
-        Notes,
-        History,
-        Photos,
-        ExpectedFunding
-    }
+    //public enum ProposalSectionEnum
+    //{
+    //    Instructions,
+    //    Basics,
+    //    PerformanceMeasures,
+    //    LocationSimple,
+    //    LocationDetailed,
+    //    Watershed,
+    //    Classifications,
+    //    Assessment,
+    //    Notes,
+    //    History,
+    //    Photos,
+    //    ExpectedFunding
+    //}
 
     public class ProposalSectionsStatus
     {

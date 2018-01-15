@@ -36,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <style>
         #main-container
         {
-            @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
+            @if (ViewDataTyped.CurrentSection != ProjectCreateSection.Instructions)
             {
                 <text>border-top-left-radius: 6px;</text>
             }
@@ -66,207 +66,36 @@ Source code is available upon request via <support@sitkatech.com>.
             @foreach (var projectCreateSection in ViewDataTyped.ProjectCreateSections)
             {
                 <li class="@(ViewDataTyped.CurrentSection == projectCreateSection ? "selected" : "selectable")">
-                    <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
-                       class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
-                        @if (projectCreateSection.HasCompletionStatus && projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                    
+                        @if (projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard)
                         {
-                            if (projectCreateSection.IsComplete(ViewDataTyped.Project))
-                            {
-                                <span class="pull-right statusIcon">
-                                    @Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="pull-right statusIcon">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
-                            }
+                            <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
+                               class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                                @if (projectCreateSection.HasCompletionStatus)
+                                {
+                                    <span class="pull-right statusIcon">
+                                        @Html.Raw(projectCreateSection.IsComplete(ViewDataTyped.Project) ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                                    </span>
+                                }
+                                @projectCreateSection.ProjectCreateSectionDisplayName
+                            </a>
                         }
-
-                        @projectCreateSection.ProjectCreateSectionDisplayName
-                    </a>
+                        else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                        {
+                            @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.ProjectCreateSectionDisplayName)
+                        }
+                        else
+                        {
+                            @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.ProjectCreateSectionDisplayName)
+                        }
                 </li>
             }
-
-
-            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProposalSectionEnum.Instructions, ViewDataTyped.SelectedProposalSection)">
-                <a href="@ViewDataTyped.ProposalInstructionsUrl">Instructions</a>
-            </li>
-            <li style="list-style-type: none">
-                <hr class="navMenu"/>
-            </li>
-            <li value="1" class="@SetSelectedSectionStyle(ProposalSectionEnum.Basics, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalBasicsUrl">Basics
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Basics")
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationSimple, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalLocationSimpleUrl">Location - Simple
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsProjectLocationSimpleSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Location - Simple")
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Simple")
-                }
-
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.LocationDetailed, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalLocationDetailedUrl">Location - Detailed</a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Location - Detailed")
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Watershed, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsWatershedSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized())
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized())
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalPerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.ExpectedFunding, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalExpectedFundingUrl">Expected Funding</a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Expected Funding")
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Expected Funding")
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Classifications, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized
-                        <span class="pull-right statusIcon">
-                            @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsClassificationsComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                        </span>
-                    </a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(ViewDataTyped.ClassificationDisplayNamePluralized)
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink(ViewDataTyped.ClassificationDisplayNamePluralized)
-                }
-
-            </li>
-            @if (ViewDataTyped.HasAssessments)
-            {
-                <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Assessment, ViewDataTyped.SelectedProposalSection)">
-                    @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                    {
-                        <a href="@ViewDataTyped.ProposalAssessmentUrl">Assessment
-                            <span class="pull-right statusIcon">
-                                @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsAssessmentComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                            </span>
-                        </a>
-                    }
-                    else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                    {
-                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Assessment")
-                    }
-                    else
-                    {
-                        @ProjectWizardComponents.MakeDisabledSectionLink("Assessment")
-                    }
-                </li>
-            }
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Photos, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalPhotosUrl">Photos</a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Photos")
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos")
-                    ;
-                }
-            </li>
-            <li class="@SetSelectedSectionStyle(ProposalSectionEnum.Notes, ViewDataTyped.SelectedProposalSection)">
-                @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete && ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    <a href="@ViewDataTyped.ProposalNotesUrl">Notes</a>
-                }
-                else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects("Notes")
-                }
-                else
-                {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes")
-                    ;
-                }
-            </li>
         </ul>
     </div>
 
     <div id="main-container" class="col-sm-8 col-md-9">
         @RenderBody()
-        @if (ViewDataTyped.SelectedProposalSection != ProposalSectionEnum.Instructions)
+        @if (ViewDataTyped.CurrentSection != ProjectCreateSection.Instructions)
         {
             <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
         }

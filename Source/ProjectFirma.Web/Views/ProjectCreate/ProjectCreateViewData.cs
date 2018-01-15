@@ -31,10 +31,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class ProjectCreateViewData : FirmaViewData
     {
-        public readonly ProposalSectionEnum SelectedProposalSection;
         public readonly Models.Project Project;
-        public ProjectCreateSection CurrentSection { get; }
-        public List<ProjectCreateSection> ProjectCreateSections { get; }
+
+        public readonly ProjectCreateSection CurrentSection;
+        public readonly List<ProjectCreateSection> ProjectCreateSections;
 
         public readonly string ProposalListUrl;
         public readonly string ProposalDetailUrl;
@@ -71,22 +71,19 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,
-            ProposalSectionEnum selectedProposalSection,
+            ProjectCreateSection currentSection,
             ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
         {
             ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(project);
-
             Check.Assert(project != null);
-            Check.Assert(selectedProposalSection == ProposalSectionEnum.Instructions || selectedProposalSection == ProposalSectionEnum.Basics ||
+            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
             CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
 
             Project = project;
-            // todo temporary
-            SelectedProposalSection = selectedProposalSection;
-            CurrentSection = ProjectCreateSection.Instructions;
+            CurrentSection = currentSection;
             ProposalSectionsStatus = proposalSectionsStatus;
             CanAdvanceStage = proposalSectionsStatus.AreAllSectionsValid;
             // ReSharper disable PossibleNullReferenceException
@@ -120,12 +117,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
         protected ProjectCreateViewData(Person currentPerson,
-            ProposalSectionEnum selectedProposalSection) : this(currentPerson)
+            ProjectCreateSection currentSection) : this(currentPerson)
         {
-            Check.Assert(selectedProposalSection == ProposalSectionEnum.Instructions || selectedProposalSection == ProposalSectionEnum.Basics);
+            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics);
+            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(null);
 
             Project = null;
-            SelectedProposalSection = selectedProposalSection;
+            CurrentSection = currentSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
             PageTitle = $"New {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
 

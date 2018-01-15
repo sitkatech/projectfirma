@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly List<Models.Classification> Classifications;
         public readonly string ProjectName;
         
-        public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<Models.Classification> classifications, ProposalSectionEnum proposalSection, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, proposalSection, proposalSectionsStatus)
+        public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<Models.Classification> classifications, ProjectCreateSection currentSection, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentPerson, project, currentSection, proposalSectionsStatus)
         {
             ProjectName = project.DisplayName;
             Classifications = classifications;
