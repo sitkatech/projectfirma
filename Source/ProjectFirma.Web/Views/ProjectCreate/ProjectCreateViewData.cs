@@ -64,7 +64,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool CanAdvanceStage;
         public readonly bool ProjectStateIsValidInWizard;
 
-        public readonly bool HasAssessments;
         public readonly string ClassificationDisplayName;
         public readonly string ClassificationDisplayNamePluralized;
 
@@ -152,7 +151,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
             
-            HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }

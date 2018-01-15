@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectCreate;
@@ -10,6 +11,9 @@ namespace ProjectFirma.Web.Models
     {
         public abstract bool IsComplete(Project project);
         public abstract string GetSectionUrl(Project project);
+
+        public static List<ProjectCreateSection> ConditionalSections =
+            new List<ProjectCreateSection> {ExpectedFunding, Assessment};
     }
 
     public partial class ProjectCreateSectionInstructions

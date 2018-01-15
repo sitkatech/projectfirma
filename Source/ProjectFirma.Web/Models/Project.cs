@@ -539,14 +539,24 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProjectCreateSection> GetApplicableProposalWizardSections(Project project)
         {
-            var projectCreateSections = ProjectCreateSection.All.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding }).ToList();
+            var projectCreateSections = ProjectCreateSection.All.Except(ProjectCreateSection.ConditionalSections).ToList();
+
+            // These checks require the Basics section to have been completed and the pending project to have been saved
             if (project != null)
             {
                 if (project.IsExpectedFundingRelevant())
                 {
                     projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
                 }
+                
             }
+
+            // These checks can be performed regardless of whether the project has been saved or not
+            if (HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any())
+            {
+                projectCreateSections.Add(ProjectCreateSection.Assessment);
+            }
+
             return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
         }
     }
