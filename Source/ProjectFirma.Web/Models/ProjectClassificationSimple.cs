@@ -66,6 +66,18 @@ namespace ProjectFirma.Web.Models
             ProjectID = projectClassification.ProjectID;
             ClassificationID = projectClassification.ClassificationID;
         }
-        
+
+        /// <summary>
+        /// Used for a posteriori validation.
+        /// </summary>
+        public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationID, string projectClassificationNotes, bool selected)
+            : this()
+        {
+            ProjectClassificationID = projectClassificationID;
+            ProjectID = projectID;
+            ClassificationID = classificationID;
+            ProjectClassificationNotes = projectClassificationNotes;
+            Selected = selected;
+        }
     }
 }
