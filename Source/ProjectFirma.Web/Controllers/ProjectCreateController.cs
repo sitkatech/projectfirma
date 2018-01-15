@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully saved.");
 
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditLocationSimple(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditBasics(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Basics);
         }
 
         private static void SetProjectOrganizationForRelationshipType(Project project, int? organizationID, RelationshipType relationshipType)
@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project,ProjectCreateSection.PerformanceMeasures);
         }
 
         [HttpGet]
@@ -289,7 +289,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
             SetMessageForDisplay("Proposed Project Performance Measures successfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
         }
 
         [HttpGet]
@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, currentProjectClassifications);
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications);
         }
 
         [HttpGet]
@@ -389,7 +389,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay("Assessment succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditAssessment(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment);
         }
 
         private ViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
@@ -442,7 +442,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditLocationDetailed(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditLocationSimple(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationSimple);
         }
 
 
@@ -494,7 +494,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditWatershed(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditLocationDetailed(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed);
         }
 
         [HttpGet]
@@ -649,7 +649,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditWatershed(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Watershed);
         }
 
         private static string GenerateEditProjectWatershedFormID(Project project)
@@ -971,6 +971,14 @@ namespace ProjectFirma.Web.Controllers
                 validationErrorMessages =$" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
             SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+        }
+
+        private ActionResult GoToNextSection(FormViewModel viewModel, Project project, ProjectCreateSection currentSection)
+        {
+            var applicableWizardSections = Project.GetApplicableProposalWizardSections(project);
+            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(project) : currentSection.GetSectionUrl(project);
+            return Redirect(nextSection);
         }
     }
 }
