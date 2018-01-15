@@ -548,7 +548,6 @@ namespace ProjectFirma.Web.Models
                 {
                     projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
                 }
-                
             }
 
             // These checks can be performed regardless of whether the project has been saved or not

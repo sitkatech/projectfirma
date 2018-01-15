@@ -60,6 +60,7 @@ namespace ProjectFirma.Web.Models
         public string ProjectUpdateSectionDisplayName { get; private set; }
         public int SortOrder { get; private set; }
         public bool HasCompletionStatus { get; private set; }
+        [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateSectionID; } }
 
         /// <summary>

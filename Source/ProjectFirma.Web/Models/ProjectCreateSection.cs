@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectCreate;
@@ -12,7 +11,7 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsComplete(Project project);
         public abstract string GetSectionUrl(Project project);
 
-        public static List<ProjectCreateSection> ConditionalSections =
+        public static List<ProjectCreateSection> ConditionalSections =>
             new List<ProjectCreateSection> {ExpectedFunding, Assessment};
     }
 
@@ -88,7 +87,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectCreateSectionPerformanceMeasures
+    public partial class ProjectCreateSectionExpectedPerformanceMeasures
     {
         public override bool IsComplete(Project project)
         {
@@ -99,6 +98,24 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(project.ProjectID)) : null;
+        }
+    }
+
+    public partial class ProjectCreateSectionReportedPerformanceMeasures
+    {
+        public override bool IsComplete(Project project)
+        {
+            // todo: not always true
+            return true;
+            //var pmValidationResults = new ReportedPerformanceMeasureValuesViewModel(project).GetValidationResults();
+            //return !pmValidationResults.Any();
+        }
+
+        public override string GetSectionUrl(Project project)
+        {
+            //todo
+            return null;
+            //return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditReportedPerformanceMeasureValues(project.ProjectID)) : null;
         }
     }
 
@@ -163,6 +180,7 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            // todo: more complicated than that.
             return Basics.IsComplete(project);
         }
 
@@ -172,4 +190,19 @@ namespace ProjectFirma.Web.Models
         }
     }
 
+    public partial class ProjectCreateSectionReportedExpenditures
+    {
+        public override bool IsComplete(Project project)
+        {
+            // todo: More complicated than that.
+            return Basics.IsComplete(project);
+        }
+
+        public override string GetSectionUrl(Project project)
+        {
+            // todo
+            return null;
+            //return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ReportedExpenditures(project.ProjectID)) : null;
+        }
+    }
 }

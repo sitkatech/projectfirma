@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
-            return GoToNextSection(viewModel, project,ProjectCreateSection.PerformanceMeasures);
+            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures);
         }
 
         [HttpGet]
