@@ -39,6 +39,8 @@ using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
@@ -290,6 +292,72 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
             SetMessageForDisplay("Proposed Project Performance Measures successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+            }
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
+                calendarYearRange) {ProjectID = project.ProjectID};
+            return ViewExpenditures(project, calendarYearRange, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+            }
+
+            viewModel.ProjectID = project.ProjectID;
+
+            var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(project);
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
+                return ViewExpenditures(project, calendarYearRange, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
+            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures);
+        }
+
+        private ViewResult ViewExpenditures(Project project, List<int> calendarYearRange, ExpendituresViewModel viewModel)
+        {
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+
+            // todo: fix this pattern
+            // var expendituresValidationResult = project.ValidateExpenditures();
+
+            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
+                allFundingSources,
+                calendarYearRange);
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
+                new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
+                calendarYearRange);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
+
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
+            return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

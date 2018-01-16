@@ -533,8 +533,18 @@ namespace ProjectFirma.Web.Models
 
         public bool IsExpectedFundingRelevant()
         {
-            // todo: not always true.
+            // todo: Always relevant for pending projects, otherwise relevant for every stage except terminated/completed
             return true;
+        }
+
+        private bool AreReportedPerformanceMeasuresRelevant()
+        {
+            return ProjectStage != ProjectStage.Proposal;
+        }
+
+        private bool AreReportedExpendituresRelevant()
+        {
+            return ProjectStage != ProjectStage.Proposal;
         }
 
         public static List<ProjectCreateSection> GetApplicableProposalWizardSections(Project project)
@@ -547,6 +557,16 @@ namespace ProjectFirma.Web.Models
                 if (project.IsExpectedFundingRelevant())
                 {
                     projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
+                }
+
+                if (project.AreReportedExpendituresRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ReportedExpenditures);
+                }
+
+                if (project.AreReportedPerformanceMeasuresRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ReportedPerformanceMeasures);
                 }
             }
 

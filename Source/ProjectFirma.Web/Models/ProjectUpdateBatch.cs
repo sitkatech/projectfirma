@@ -269,54 +269,6 @@ namespace ProjectFirma.Web.Models
             ProjectUpdate.DeleteProjectUpdate();
         }
 
-        /// <summary>
-        /// Only public for unit testing
-        /// </summary>
-        public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(ProjectUpdate projectUpdate)
-        {
-            var startYear = projectUpdate?.ImplementationStartYear;
-            return GetYearRangesImpl(projectUpdate, startYear);
-        }
-
-        /// <summary>
-        /// Only public for unit testing
-        /// </summary>
-        public static List<int> GetProjectUpdatePlanningDesignStartToCompletionYearRange(ProjectUpdate projectUpdate)
-        {
-            var startYear = projectUpdate?.PlanningDesignStartYear;
-            return GetYearRangesImpl(projectUpdate, startYear);
-        }
-
-        private static List<int> GetYearRangesImpl(ProjectUpdate projectUpdate, int? startYear)
-        {
-            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
-            if (projectUpdate != null)
-            {
-                if (startYear.HasValue && startYear.Value < FirmaDateUtilities.MinimumYear &&
-                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < FirmaDateUtilities.MinimumYear))
-                {
-                    // both start and completion year are before the minimum year, so no year range required
-                    return new List<int>();
-                }
-
-                if (startYear.HasValue && startYear.Value > currentYearToUse && (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value > currentYearToUse))
-                {
-                    return new List<int>();
-                }
-
-                if (startYear.HasValue && projectUpdate.CompletionYear.HasValue && startYear.Value > projectUpdate.CompletionYear.Value)
-                {
-                    return new List<int>();
-                }
-            }
-            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
-                startYear,
-                projectUpdate?.CompletionYear,
-                currentYearToUse,
-                FirmaDateUtilities.MinimumYear,
-                currentYearToUse);
-        }
-
         public BasicsValidationResult ValidateProjectBasics()
         {
             return new BasicsValidationResult(ProjectUpdate);
@@ -356,7 +308,7 @@ namespace ProjectFirma.Web.Models
             if (ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
             {
                 var exemptYears = ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
-                var yearsExpected = GetProjectUpdateImplementationStartToCompletionYearRange(ProjectUpdate).Where(x => !exemptYears.Contains(x)).ToList();
+                var yearsExpected = ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
                 var yearsEntered = PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
@@ -444,7 +396,7 @@ namespace ProjectFirma.Web.Models
                 // get distinct Funding Sources
                 var fundingSources = ProjectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct().ToList();
                 // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
-                var yearsExpected = GetProjectUpdatePlanningDesignStartToCompletionYearRange(ProjectUpdate);
+                var yearsExpected = ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
                 if (!fundingSources.Any())
                 {
                     // we need to at least check for the missing years

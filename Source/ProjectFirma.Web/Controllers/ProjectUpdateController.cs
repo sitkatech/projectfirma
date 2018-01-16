@@ -274,7 +274,7 @@ namespace ProjectFirma.Web.Controllers
                     .ToList();
             var projectExemptReportingYearUpdates = projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
-            var possibleYearsToExempt = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             projectExemptReportingYearUpdates.AddRange(
                 possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
                     .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));

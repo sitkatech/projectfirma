@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
         public abstract string GetSectionUrl(Project project);
 
         public static List<ProjectCreateSection> ConditionalSections =>
-            new List<ProjectCreateSection> {ExpectedFunding, Assessment};
+            new List<ProjectCreateSection> {ExpectedFunding, Assessment, ReportedPerformanceMeasures, ReportedExpenditures};
     }
 
     public partial class ProjectCreateSectionInstructions
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             //todo
-            return null;
+            return string.Empty;
             //return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditReportedPerformanceMeasureValues(project.ProjectID)) : null;
         }
     }
@@ -194,15 +194,14 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
-            // todo: More complicated than that.
-            return Basics.IsComplete(project);
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures, projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project)){ProjectID=project.ProjectID}.GetValidationResults();
+            return !validationResults.Any();
         }
 
         public override string GetSectionUrl(Project project)
         {
-            // todo
-            return null;
-            //return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ReportedExpenditures(project.ProjectID)) : null;
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID)) : null;
         }
     }
 }

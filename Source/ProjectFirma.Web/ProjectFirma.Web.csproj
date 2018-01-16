@@ -382,6 +382,10 @@
     <Compile Include="Views\ProjectCreate\ExpectedFunding.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\Expenditures.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresValidationResult.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresViewModel.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewModel.cs" />
@@ -1339,6 +1343,7 @@
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
     <Content Include="Views\ProjectCreate\ExpectedFundingController.js" />
+    <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectFundingSourceRequest\ProjectFundingSourceRequestController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
@@ -1366,6 +1371,7 @@
     <Content Include="Views\Project\ForwardLookingFactSheet.cshtml" />
     <Content Include="Views\ProjectStewardOrganization\Index.cshtml" />
     <Content Include="Views\Project\Pending.cshtml" />
+    <Content Include="Views\ProjectCreate\Expenditures.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

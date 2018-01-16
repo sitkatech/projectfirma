@@ -243,19 +243,19 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = 2012;
             projectUpdate.CompletionYear = 2011;
 
-            var result = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            var result = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Both start and completion years before the minimum year; expect it to return an empty range");
 
             // both start and completion years before the minimum year; expect it to return an empty range
             projectUpdate.ImplementationStartYear = 2003;
             projectUpdate.CompletionYear = 2005;
-            result = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            result = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Both start and completion years before the minimum year; expect it to return an empty range");
 
             // both start and completion years after the current year; expect it to return an empty range
             projectUpdate.ImplementationStartYear = currentYear + 2;
             projectUpdate.CompletionYear = currentYear + 4;
-            result = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            result = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Both start and completion years after the current year; expect it to return an empty range");
         }
 
@@ -322,19 +322,19 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = 2012;
             projectUpdate.CompletionYear = 2011;
 
-            var result = ProjectUpdateBatch.GetProjectUpdatePlanningDesignStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            var result = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Completion year is before start year; expect it to return an empty range");
 
             // both start and completion years before the minimum year; expect it to return an empty range
             projectUpdate.PlanningDesignStartYear = 2003;
             projectUpdate.CompletionYear = 2005;
-            result = ProjectUpdateBatch.GetProjectUpdatePlanningDesignStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            result = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Both start and completion years before the minimum year; expect it to return an empty range");
 
             // both start and completion years after the current year; expect it to return an empty range
             projectUpdate.PlanningDesignStartYear = currentYear + 2;
             projectUpdate.CompletionYear = currentYear + 4;
-            result = ProjectUpdateBatch.GetProjectUpdatePlanningDesignStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            result = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
             Assert.That(result, Is.Empty, "Both start and completion years after the current year; expect it to return an empty range");
         }
 
@@ -897,14 +897,14 @@ namespace ProjectFirma.Web.Models
 
         private static void AssertYearRangeForPerformanceMeasuresCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
-            var result = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            var result = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }
 
         private static void AssertYearRangeForExpendituresCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
-            var result = ProjectUpdateBatch.GetProjectUpdatePlanningDesignStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
+            var result = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
             var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }
