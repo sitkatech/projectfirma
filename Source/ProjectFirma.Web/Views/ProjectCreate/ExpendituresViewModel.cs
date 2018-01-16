@@ -80,6 +80,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var emptyRows = ProjectFundingSourceExpenditures?.Where(x =>
                 x.CalendarYearExpenditures.All(y => !y.MonetaryAmount.HasValue));
 
+            if (ProjectFundingSourceExpenditures == null)
+            {
+                ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditureBulk>();
+            }
+
             if (emptyRows?.Any() ?? false)
             {
                 errors.Add(new ValidationResult("The Project could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
@@ -94,7 +99,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     fundingSourcesIDs.Contains(x.FundingSourceID));
             // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
             var yearsExpected = project.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-            if (fundingSources == null || !fundingSources.Any())
+            if (fundingSourcesIDs == null)
+            {
+                errors.Add(new ValidationResult("You must include at least one funding source."));
+            }
+            else if (!fundingSources.Any())
             {
                 // If there are no funding sources then every year is missing.
                 errors.Add(new ValidationResult($"Missing Expenditures for {string.Join(", ", yearsExpected)}"));
