@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -102,7 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
 
             var currentProjectExemptYears = project.ProjectExemptReportingYears.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();
+            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
             if (ProjectExemptReportingYears != null)
@@ -121,6 +122,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
             var errors = new List<ValidationResult>();
 
             if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
@@ -133,7 +139,87 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
+            errors.AddRange(ValidatePerformanceMeasures().GetWarningMessages().Select(m =>
+                new ValidationResult(m)));
+
             return errors;
+        }
+
+        public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
+        {
+            var projectID = PerformanceMeasureActuals.Select(x => x.ProjectID).FirstOrDefault(x => x.HasValue);
+            if (projectID == null)
+            {
+                // do something
+                throw new NotImplementedException();
+            }
+
+
+            Models.Project project = HttpRequestStorage.DatabaseEntities.Projects.Single(x=>x.ProjectID==projectID);
+
+            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
+
+            var exemptYears = ProjectExemptReportingYears.Where(x=>x.IsExempt).Select(x => x.CalendarYear).ToList();
+            var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
+                .Where(x => !exemptYears.Contains(x)).ToList();
+            var yearsEntered = PerformanceMeasureActuals.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct();
+            var missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            
+            // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
+            var performanceMeasureActualsWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualRow();
+
+            //validation 3: duplicate PM row
+            var performanceMeasureActualsWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualRow();
+
+            //validation4: data entered for exempt years
+            var performanceMeasureActualsWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
+
+            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualsWithIncompleteWarnings, performanceMeasureActualsWithDuplicateWarnings, performanceMeasureActualsWithExemptYear);
+            return performanceMeasuresValidationResult;
+        }
+
+        private HashSet<int> ValidateNoIncompletePerformanceMeasureActualRow()
+        {
+            var performanceMeasureIDs =
+                PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
+            var performanceMeasuresIDsAndSubcategoryCounts =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
+                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new { PerformanceMeasureID = x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
+
+            var performanceMeasureActualsWithMissingSubcategoryOptions =
+                PerformanceMeasureActuals.Where(
+                    x => !x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y=>x.PerformanceMeasureID==y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count).ToList();
+            return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
+        }
+
+        private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualRow()
+        {
+            if (PerformanceMeasureActuals == null)
+            {
+                return new HashSet<int>();
+            }
+            var duplicates = PerformanceMeasureActuals
+                .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                .Select(x => x.ToList())
+                .ToList()
+                .Select(x => x)
+                .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptions).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()).ToList();
+
+            return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
+        }
+
+        private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow()
+        {
+            if (PerformanceMeasureActuals == null)
+            {
+                return new HashSet<int>();
+            }
+            var exemptYears = ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
+
+            var performanceMeasureActualsWithExemptYear =
+                PerformanceMeasureActuals.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
+
+            return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
     }
 }

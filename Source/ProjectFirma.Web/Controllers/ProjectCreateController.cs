@@ -293,6 +293,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewPerformanceMeasures(project, viewModel);
             }
             var performanceMeasureActuals = project.PerformanceMeasureActuals.ToList();

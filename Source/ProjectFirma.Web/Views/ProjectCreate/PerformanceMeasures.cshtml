@@ -94,7 +94,7 @@
                                 </label>
                             </div>
                             @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
-                            @Html.ValidationMessageFor(x => x.Explanation)
+                            
                         </div>
                     </div>
                     <hr />
@@ -123,7 +123,6 @@
                     </div>
                 </div>
                 <br />
-                @Html.ValidationSummary()
                 @using (Html.BeginForm<ProjectCreateController>(x => x.PerformanceMeasures(ViewDataTyped.Project, null), FormMethod.Post, new Dictionary<string, object> { { "name", "pmForm" }, { "novalidate", "novalidate" } }))
                 {
                     <table class="table" ng-show="AngularModel.PerformanceMeasureActuals.length > 0" ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
