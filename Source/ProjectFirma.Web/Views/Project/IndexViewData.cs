@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridDataUrl;
         public readonly string ProposeNewProjectUrl;
         public readonly string ProjectUpdatesUrl;
-        public readonly string ImportHistoricProjectUrl;
         public readonly bool DisplayActionButtons;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
@@ -58,9 +57,6 @@ namespace ProjectFirma.Web.Views.Project
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
-
-            // todo: this is probably wrong like a gong
-            ImportHistoricProjectUrl = ProposeNewProjectUrl;
         }
     }
 }

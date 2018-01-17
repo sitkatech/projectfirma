@@ -141,7 +141,25 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
-                        "This project is in the Proposal stage. Any edits to this project must be made using the proposal workflow.");
+                        "This project is in the Proposal stage. Any edits to this project must be made using the Add New Project workflow.");
+                }
+            } else if (project.IsPendingProject())
+            {
+                var projectApprovalStatus = project.ProjectApprovalStatus;
+                ProjectUpdateButtonText =
+                    projectApprovalStatus == ProjectApprovalStatus.Draft ||
+                    projectApprovalStatus == ProjectApprovalStatus.Returned
+                        ? "Edit Pending Project"
+                        : "Review Pending Project";
+                ProjectWizardUrl =
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
+                BackToProjectsText = "Back to all Pending Projects";
+                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                {
+                    projectAlerts.Add(
+                        "This Project is pending. Any edits to this project must be made using the Add New Project workflow.");
                 }
             }
             else
@@ -157,6 +175,7 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectListUrl = FullProjectListUrl;
                 BackToProjectsText = "Back to all Projects";
             }
+
             if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
             {
                 if (project.IsMyProject(currentPerson))
