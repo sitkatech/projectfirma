@@ -255,6 +255,91 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+            }
+            var performanceMeasureActualSimples =
+                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasureID)
+                    .ThenByDescending(x => x.CalendarYear)
+                    .Select(x => new PerformanceMeasureActualSimple(x))
+                    .ToList();
+            var projectExemptReportingYears = project.ProjectExemptReportingYears
+                .Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+            projectExemptReportingYears.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
+
+            var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
+                project.PerformanceMeasureActualYearsExemptionExplanation,
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList());
+            return ViewPerformanceMeasures(project, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+            }
+            if (!ModelState.IsValid)
+            {
+                return ViewPerformanceMeasures(project, viewModel);
+            }
+            var performanceMeasureActuals = project.PerformanceMeasureActuals.ToList();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
+            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+            var performanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
+            viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project);
+
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedPerformanceMeasures);
+        }
+
+        private ViewResult ViewPerformanceMeasures(Project project, PerformanceMeasuresViewModel viewModel)
+        {
+            var performanceMeasures =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var showExemptYears = project.ProjectExemptReportingYears.Any() ||
+                                  ModelState.Values.SelectMany(x => x.Errors)
+                                      .Any(
+                                          x =>
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+
+            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
+
+            var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
+
+            var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            //todo
+            //var performanceMeasuresValidationResult = project.ValidatePerformanceMeasures();
+
+            var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(project.ProjectID,
+                performanceMeasureSimples,
+                performanceMeasureSubcategorySimples,
+                performanceMeasureSubcategoryOptionSimples,
+                calendarYears,
+                showExemptYears);
+            var updateStatus = new ProposalSectionsStatus(project);
+            var viewData =
+                new PerformanceMeasuresViewData(CurrentPerson, project, viewDataForAngularEditor, updateStatus);
+            return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
         public ViewResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

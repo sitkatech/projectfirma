@@ -114,8 +114,7 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             //todo
-            return string.Empty;
-            //return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditReportedPerformanceMeasureValues(project.ProjectID)) : null;
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
         }
     }
 
