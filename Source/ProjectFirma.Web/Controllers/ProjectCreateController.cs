@@ -156,6 +156,13 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project, CurrentPerson);
 
+            if (project.ProjectStage == ProjectStage.Proposal)
+            {
+                DeletePerformanceMeasureActuals(project);
+                DeleteProjectExemptReportingYears(project);
+                DeleteProjectFundingSourceExpenditures(project);
+            }
+
             SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
             SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship());
 
@@ -1133,6 +1140,22 @@ namespace ProjectFirma.Web.Controllers
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(project) : currentSection.GetSectionUrl(project);
             return Redirect(nextSection);
+        }
+
+        private void DeletePerformanceMeasureActuals(Project project)
+        {
+            project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureActualSubcategoryOptionID)).ToList().DeletePerformanceMeasureActualSubcategoryOption();
+            project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+        }
+
+        public void DeleteProjectExemptReportingYears(Project project)
+        {
+            project.ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
+        }
+
+        public void DeleteProjectFundingSourceExpenditures(Project project)
+        {
+            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
         }
     }
 }
