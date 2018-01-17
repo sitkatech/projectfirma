@@ -72,18 +72,26 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ActionResult CreateAndEditBasics()
+        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
         {
-            return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.Organization), null);
+            var showProjectStageDropDown = true;
+            var basicsViewModel = new BasicsViewModel(CurrentPerson.Organization);
+            if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
+            {
+                basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
+                showProjectStageDropDown = false;
+            }
+            
+            return ViewCreateAndEditBasics(basicsViewModel, null, showProjectStageDropDown);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool showProjectStageDropDown)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), showProjectStageDropDown);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -114,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CreateAndEditBasics(BasicsViewModel viewModel)
+        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal, BasicsViewModel viewModel)
         {
             var project = new Project(viewModel.TaxonomyTierOneID,
                 viewModel.ProjectStageID,
@@ -146,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project);
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project, true);
             }
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey))

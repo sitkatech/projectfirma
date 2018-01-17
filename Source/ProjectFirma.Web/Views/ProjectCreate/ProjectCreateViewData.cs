@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public readonly string ProposalInstructionsUrl;
         public readonly string ProposalBasicsUrl;
+        public readonly string HistoricProjectBasicsUrl;
         public readonly string ProposalPerformanceMeasuresUrl;
         public readonly string ProposalLocationSimpleUrl;
         public readonly string ProposalLocationDetailedUrl;
@@ -126,7 +127,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PageTitle = $"New {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
 
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
-            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
+            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));
+            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));
             ProposalPerformanceMeasuresUrl = string.Empty;
             ProposalLocationSimpleUrl = string.Empty;
             ProposalLocationDetailedUrl = string.Empty;

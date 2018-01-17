@@ -65,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <li class="@(ViewDataTyped.CurrentSection == projectCreateSection ? "selected" : "selectable")">
                     
-                        @if (projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard)
+                        @if ((projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard) || projectCreateSection == ProjectCreateSection.Instructions)
                         {
                             <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
                                class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
@@ -113,7 +113,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="col-xs-6">
                 <div class="pull-right">
-                    <span>Proposal Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
+                    <span>New Project Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
                 </div>
             </div>
         </div>
