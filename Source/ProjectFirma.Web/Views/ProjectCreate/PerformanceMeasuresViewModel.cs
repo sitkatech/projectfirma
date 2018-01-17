@@ -27,6 +27,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -36,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string Explanation { get; set; }
         public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
         public List<PerformanceMeasureActualSimple> PerformanceMeasureActuals { get; set; }
+        public int? ProjectID { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -147,22 +149,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
-            var projectID = PerformanceMeasureActuals.Select(x => x.ProjectID).FirstOrDefault(x => x.HasValue);
-            if (projectID == null)
+            if (PerformanceMeasureActuals == null)
             {
-                // do something
-                throw new NotImplementedException();
+                PerformanceMeasureActuals = new List<PerformanceMeasureActualSimple>();
             }
 
+            Models.Project project = HttpRequestStorage.DatabaseEntities.Projects.Single(x=>x.ProjectID==ProjectID);
 
-            Models.Project project = HttpRequestStorage.DatabaseEntities.Projects.Single(x=>x.ProjectID==projectID);
-
-            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
-
+            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
             var exemptYears = ProjectExemptReportingYears.Where(x=>x.IsExempt).Select(x => x.CalendarYear).ToList();
             var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
                 .Where(x => !exemptYears.Contains(x)).ToList();
-            var yearsEntered = PerformanceMeasureActuals.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct();
+            var yearsEntered = PerformanceMeasureActuals?.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct() ?? new List<int>();
             var missingYears = yearsExpected.GetMissingYears(yearsEntered);
             
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
@@ -180,6 +178,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         private HashSet<int> ValidateNoIncompletePerformanceMeasureActualRow()
         {
+            if (PerformanceMeasureActuals == null)
+            {
+                return new HashSet<int>();
+            }
             var performanceMeasureIDs =
                 PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
             var performanceMeasuresIDsAndSubcategoryCounts =

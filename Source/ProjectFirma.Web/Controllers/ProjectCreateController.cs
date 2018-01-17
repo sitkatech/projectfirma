@@ -277,7 +277,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList());
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()){ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
         }
 
@@ -1008,7 +1008,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval,
                 $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
-            Check.Assert(new ProposalSectionsStatus(project).AreAllSectionsValid, "Proposal is not ready for submittal.");
+            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project), "Proposal is not ready for submittal.");
             
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;

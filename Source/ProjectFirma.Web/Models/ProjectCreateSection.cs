@@ -105,10 +105,8 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
-            // todo: not always true
-            return true;
-            //var pmValidationResults = new ReportedPerformanceMeasureValuesViewModel(project).GetValidationResults();
-            //return !pmValidationResults.Any();
+            var pmValidationResults = new PerformanceMeasuresViewModel(project.PerformanceMeasureActuals.Select(x=>new PerformanceMeasureActualSimple(x)).ToList(), project.PerformanceMeasureActualYearsExemptionExplanation,project.ProjectExemptReportingYears.Select(x=>new ProjectExemptReportingYearSimple(x)).ToList()){ProjectID=project.ProjectID}.GetValidationResults();
+            return !pmValidationResults.Any();
         }
 
         public override string GetSectionUrl(Project project)

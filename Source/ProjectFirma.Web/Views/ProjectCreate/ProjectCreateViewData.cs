@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Project = project;
             CurrentSection = currentSection;
             ProposalSectionsStatus = proposalSectionsStatus;
-            CanAdvanceStage = proposalSectionsStatus.AreAllSectionsValid;
+            CanAdvanceStage = ProposalSectionsStatus.AreAllSectionsValidForProject(project);
             // ReSharper disable PossibleNullReferenceException
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException

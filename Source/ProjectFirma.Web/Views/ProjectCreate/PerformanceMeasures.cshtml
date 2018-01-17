@@ -125,6 +125,7 @@
                 <br />
                 @using (Html.BeginForm<ProjectCreateController>(x => x.PerformanceMeasures(ViewDataTyped.Project, null), FormMethod.Post, new Dictionary<string, object> { { "name", "pmForm" }, { "novalidate", "novalidate" } }))
                 {
+                    @Html.HiddenFor(m=>m.ProjectID);
                     <table class="table" ng-show="AngularModel.PerformanceMeasureActuals.length > 0" ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
                         <thead>
                             <tr>
