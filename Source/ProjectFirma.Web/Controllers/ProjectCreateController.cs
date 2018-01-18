@@ -1029,12 +1029,18 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
             project.ApprovalDate = DateTime.Now;
             project.ReviewedByPerson = CurrentPerson;
-            project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
+
+            // Business logic: An approved Proposal becomes an active project in the Planning and Design stage
+            if (project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+            {
+                project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
+            }
+
             GenerateApprovalAuditLogEntries(project);
 
             NotificationProject.SendApprovalMessage(project);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the {project.ProjectStage.ProjectStageDisplayName} stage.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
