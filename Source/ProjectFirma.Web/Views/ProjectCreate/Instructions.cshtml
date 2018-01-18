@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProjectCreate.Instructions
 
@@ -51,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         if (ViewDataTyped.IsNewProjectCreate)
         {
-            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.HistoricProjectBasicsUrl">Import Historic Project <span class='glyphicon glyphicon-calendar'></span></a>
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.HistoricProjectBasicsUrl">Import Historic Project <span class='glyphicon glyphicon-chevron-right'></span></a>
             <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Propose New Project <span class='glyphicon glyphicon-chevron-right'></span></a>
         }
         else
