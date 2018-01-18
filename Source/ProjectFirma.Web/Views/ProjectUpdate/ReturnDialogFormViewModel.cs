@@ -35,22 +35,22 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 switch (ProjectUpdateSectionEnum.Value)
                 {
-                    case ProjectUpdate.ProjectUpdateSectionEnum.Basics:
+                    case Models.ProjectUpdateSectionEnum.Basics:
                         projectUpdateBatch.BasicsComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.Expenditures:
+                    case Models.ProjectUpdateSectionEnum.Expenditures:
                         projectUpdateBatch.ExpendituresComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.PerformanceMeasures:
+                    case Models.ProjectUpdateSectionEnum.PerformanceMeasures:
                         projectUpdateBatch.PerformanceMeasuresComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.LocationSimple:
+                    case Models.ProjectUpdateSectionEnum.LocationSimple:
                         projectUpdateBatch.LocationSimpleComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.LocationDetailed:
+                    case Models.ProjectUpdateSectionEnum.LocationDetailed:
                         projectUpdateBatch.LocationDetailedComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.Watershed:
+                    case Models.ProjectUpdateSectionEnum.Watersheds:
                         projectUpdateBatch.WatershedComment = SectionComments;
                         break;
                     default:

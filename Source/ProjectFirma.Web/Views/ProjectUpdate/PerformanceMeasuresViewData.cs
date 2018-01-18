@@ -24,7 +24,6 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string DiffUrl;
 
         public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, UpdateStatus updateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.PerformanceMeasures, updateStatus, performanceMeasuresValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.PerformanceMeasures, updateStatus, performanceMeasuresValidationResult.GetWarningMessages())
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPerformanceMeasures(projectUpdateBatch.Project));

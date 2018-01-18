@@ -477,6 +477,11 @@ namespace ProjectFirma.Web.Models
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
 
+        public bool IsPendingProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
         public bool IsForwardLookingFactSheetRelevant()
         {
             return ProjectStage.ForwardLookingFactSheetProjectStages.Contains(ProjectStage);
@@ -524,6 +529,54 @@ namespace ProjectFirma.Web.Models
 
             SnapshotProjects.DeleteSnapshotProject();
             this.DeleteProject();
+        }
+
+        public bool IsExpectedFundingRelevant()
+        {
+            // todo: Always relevant for pending projects, otherwise relevant for every stage except terminated/completed
+            return true;
+        }
+
+        private bool AreReportedPerformanceMeasuresRelevant()
+        {
+            return ProjectStage != ProjectStage.Proposal;
+        }
+
+        private bool AreReportedExpendituresRelevant()
+        {
+            return ProjectStage != ProjectStage.Proposal;
+        }
+
+        public static List<ProjectCreateSection> GetApplicableProposalWizardSections(Project project)
+        {
+            var projectCreateSections = ProjectCreateSection.All.Except(ProjectCreateSection.ConditionalSections).ToList();
+
+            // These checks require the Basics section to have been completed and the pending project to have been saved
+            if (project != null)
+            {
+                if (project.IsExpectedFundingRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
+                }
+
+                if (project.AreReportedExpendituresRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ReportedExpenditures);
+                }
+
+                if (project.AreReportedPerformanceMeasuresRelevant())
+                {
+                    projectCreateSections.Add(ProjectCreateSection.ReportedPerformanceMeasures);
+                }
+            }
+
+            // These checks can be performed regardless of whether the project has been saved or not
+            if (HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any())
+            {
+                projectCreateSections.Add(ProjectCreateSection.Assessment);
+            }
+
+            return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
         }
     }
 }

@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 
@@ -32,6 +31,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
+        public readonly string ProposeNewProjectUrl;
+        public readonly string ProjectUpdatesUrl;
+        public readonly bool DisplayActionButtons;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -42,9 +44,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
-                var proposalsOnly = false;
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
-                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload(proposalsOnly));
+                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
             }
             else if (currentPerson.RoleID == Models.Role.ProjectSteward.RoleID)
             {
@@ -53,6 +53,10 @@ namespace ProjectFirma.Web.Views.Project
 
             GridName = "projectsGrid";
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+
+            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
+            ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
+            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
         }
     }
 }

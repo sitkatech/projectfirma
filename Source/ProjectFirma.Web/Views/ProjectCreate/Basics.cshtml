@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.Basics
@@ -65,6 +66,29 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(m => m.ProjectDescription)
         </div>
     </div>
+    if (ViewDataTyped.ShowProjectStageDropDown)
+    {
+        <div class="row form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.IsEditable)
+                {
+                    @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() {{"style", "width: auto"}, {"class", "form-control"}})
+                    @Html.ValidationMessageFor(m => m.ProjectStageID)
+                }
+                else
+                {
+                    @ViewDataTyped.ProjectStage.ProjectStageDisplayName
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(m=>m.ProjectStageID);
+    }
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">

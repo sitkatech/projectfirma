@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public WatershedViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            EditProjectWatershedsViewData editProjectWatershedsViewData) : base(currentPerson, project, ProposalSectionEnum.Watershed, proposalSectionsStatus)
+            EditProjectWatershedsViewData editProjectWatershedsViewData) : base(currentPerson, project, ProjectCreateSection.Watershed, proposalSectionsStatus)
         {
             EditProjectWatershedsViewData = editProjectWatershedsViewData;
         }

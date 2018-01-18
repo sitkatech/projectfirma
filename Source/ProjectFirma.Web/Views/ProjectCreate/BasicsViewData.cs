@@ -42,6 +42,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
+        public bool ShowProjectStageDropDown { get; private set; }
+
+        // todo: put correct value in if this is relevant, otherwise rip it out. 
+        public bool IsEditable = true;
+
+        public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
 
         public BasicsViewData(Person currentPerson,
@@ -49,9 +55,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
-            : base(currentPerson, ProposalSectionEnum.Basics)
+            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType, bool showProjectStageDropDown)
+            : base(currentPerson, ProjectCreateSection.Basics)
         {
+            // This consstructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
+            ShowProjectStageDropDown = showProjectStageDropDown;
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 
@@ -63,8 +71,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
-            : base(currentPerson, project, ProposalSectionEnum.Basics, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
+            ShowProjectStageDropDown = true;
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 

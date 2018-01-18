@@ -18,11 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 
@@ -30,14 +30,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class ProjectCreateViewData : FirmaViewData
     {
-        public readonly ProposalSectionEnum SelectedProposalSection;
         public readonly Models.Project Project;
+
+        public readonly ProjectCreateSection CurrentSection;
+        public readonly List<ProjectCreateSection> ProjectCreateSections;
+
         public readonly string ProposalListUrl;
         public readonly string ProposalDetailUrl;
         public readonly string ProvideFeedbackUrl;
 
         public readonly string ProposalInstructionsUrl;
         public readonly string ProposalBasicsUrl;
+        public readonly string HistoricProjectBasicsUrl;
         public readonly string ProposalPerformanceMeasuresUrl;
         public readonly string ProposalLocationSimpleUrl;
         public readonly string ProposalLocationDetailedUrl;
@@ -60,34 +64,33 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool CanAdvanceStage;
         public readonly bool ProjectStateIsValidInWizard;
 
-        public readonly bool HasAssessments;
         public readonly string ClassificationDisplayName;
         public readonly string ClassificationDisplayNamePluralized;
 
 
         protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,
-            ProposalSectionEnum selectedProposalSection,
+            ProjectCreateSection currentSection,
             ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
         {
+            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(project);
             Check.Assert(project != null);
-            Check.Assert(selectedProposalSection == ProposalSectionEnum.Instructions || selectedProposalSection == ProposalSectionEnum.Basics ||
+            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
             CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
 
             Project = project;
-            SelectedProposalSection = selectedProposalSection;
+            CurrentSection = currentSection;
             ProposalSectionsStatus = proposalSectionsStatus;
-            CanAdvanceStage = proposalSectionsStatus.AreAllSectionsValid;
+            CanAdvanceStage = ProposalSectionsStatus.AreAllSectionsValidForProject(project);
             // ReSharper disable PossibleNullReferenceException
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
 
-            PageTitle = $"Proposal: {project.DisplayName}";
+            PageTitle = $"Add New Project: {project.DisplayName}";
 
-            // TODO: Update controller usage
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(project.ProjectID));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
@@ -106,22 +109,26 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
             WithdrawUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Withdraw(project));
             RejectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Reject(project));
+
+            ProjectStage = project.ProjectStage;
         }
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
         protected ProjectCreateViewData(Person currentPerson,
-            ProposalSectionEnum selectedProposalSection) : this(currentPerson)
+            ProjectCreateSection currentSection) : this(currentPerson)
         {
-            Check.Assert(selectedProposalSection == ProposalSectionEnum.Instructions || selectedProposalSection == ProposalSectionEnum.Basics);
+            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics);
+            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(null);
 
             Project = null;
-            SelectedProposalSection = selectedProposalSection;
+            CurrentSection = currentSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
             PageTitle = $"New {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
 
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
-            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
+            ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));
+            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));
             ProposalPerformanceMeasuresUrl = string.Empty;
             ProposalLocationSimpleUrl = string.Empty;
             ProposalLocationDetailedUrl = string.Empty;
@@ -145,11 +152,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
             
-            HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
         public bool CurrentPersonCanWithdraw { get; set; }
+        public ProjectStage ProjectStage { get; set; }
     }
 }

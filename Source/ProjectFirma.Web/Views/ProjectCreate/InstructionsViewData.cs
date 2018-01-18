@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProposalSectionEnum.Instructions)
+        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
-        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProposalSectionEnum.Instructions, proposalSectionsStatus)
+        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProjectCreateSection.Instructions, proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             IsNewProjectCreate = isNewProjectCreate;

@@ -22,9 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -41,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EditProjectWatershedsViewData editProjectWatershedsViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             WatershedValidationResult watershedValidationResult,
-            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Watershed, updateStatus, watershedValidationResult.GetWarningMessages())
+            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.Watersheds, updateStatus, watershedValidationResult.GetWarningMessages())
         {
             EditProjectWatershedsViewData = editProjectWatershedsViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;

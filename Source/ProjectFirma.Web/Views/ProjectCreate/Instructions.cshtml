@@ -48,7 +48,16 @@ Source code is available upon request via <support@sitkatech.com>.
 <hr />
 <div class="pull-right">
     @if (ViewDataTyped.ProjectStateIsValidInWizard || ViewDataTyped.Project == null)
-            {
-        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">@(ViewDataTyped.IsNewProjectCreate ? "Begin" : "Continue")<span class='glyphicon glyphicon-chevron-right'></span></a>
+    {
+        if (ViewDataTyped.IsNewProjectCreate)
+        {
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.HistoricProjectBasicsUrl">Import Historic Project <span class='glyphicon glyphicon-calendar'></span></a>
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Propose New Project <span class='glyphicon glyphicon-chevron-right'></span></a>
+        }
+        else
+        {
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Continue <span class='glyphicon glyphicon-chevron-right'></span></a>
+        }
+
     }
 </div>

@@ -60,14 +60,18 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="form-group">
                     <label class="control-label">Project to Add:</label>
                     <div class="input-group">
-                        <select ng-model="ProjectToAdd"
+                        <select ng-model="ProjectIDToAdd"
                                 class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
                                 title="Select a Project to Add"
-                                data-width="100%" selectpicker
-                                data-ng-options="project as project.DisplayName for project in filteredProjects() track by project.ProjectID">
-                            <option value="null" disabled selected>Select a Project to Add</option>
+                                data-width="100%">
+                            <option value="null" disabled selected></option>
+                            <option ng-repeat="project in filteredProjects()"
+                                    value="{{project.ProjectID}}"
+                                    ng-selected="ProjectIDToAdd == project.ProjectID"
+                                    ng-bind="project.DisplayName"
+                                    data-tokens="{{project.DisplayName}}"></option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-firma" type="button" ng-click="addRow()">
@@ -80,22 +84,28 @@ Source code is available upon request via <support@sitkatech.com>.
             else
             {
                 <div class="form-group">
-                    <label class="control-label">@FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:</label>
+                    <label class="control-label">Funding Source to Add:</label>
                     <div class="input-group">
-                        <select ng-model="FundingSourceToAdd"
+                        <select ng-model="FundingSourceIDToAdd"
+                                class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
-                                data-title="Select a Funding Source to Add"
-                                data-width="100%" class="selectpicker"
-                                data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
-                            <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
+                                title="Select a Funding Source to Add"
+                                data-width="100%">
+                            <option value="null" disabled selected></option>
+                            <option ng-repeat="fundingSource in filteredFundingSources()"
+                                    value="{{fundingSource.FundingSourceID}}"
+                                    ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
+                                    ng-bind="fundingSource.DisplayName"
+                                    data-tokens="{{fundingSource.DisplayName}}"></option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-firma" type="button" ng-click="addRow()">
                                 <span class="glyphicon glyphicon-plus"></span> Add
                             </button>
                         </span>
-                    </div>                    
+                    </div>
+                    <br />
                 </div>
             }
             <table class="dialogFormLayout" style="margin-top: 20px; table-layout: fixed" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">

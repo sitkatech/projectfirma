@@ -392,6 +392,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(projectCostType, "ProjectCostType", primaryKey);
                     return projectCostType;
 
+                case "ProjectCreateSection":
+                    var projectCreateSection = ProjectCreateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCreateSection, "ProjectCreateSection", primaryKey);
+                    return projectCreateSection;
+
                 case "ProjectExemptReportingYear":
                     return ProjectExemptReportingYears.GetProjectExemptReportingYear(primaryKey);
 
@@ -477,6 +482,11 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectUpdate":
                     return ProjectUpdates.GetProjectUpdate(primaryKey);
+
+                case "ProjectUpdateSection":
+                    var projectUpdateSection = ProjectUpdateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectUpdateSection, "ProjectUpdateSection", primaryKey);
+                    return projectUpdateSection;
 
                 case "ProjectUpdateState":
                     var projectUpdateState = ProjectUpdateState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required]
         public string ProjectDescription { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [Required]
+        public int ProjectStageID { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
         [Required]
         public int? PlanningDesignStartYear { get; set; }
@@ -90,6 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
+            ProjectStageID = project.ProjectStageID;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
             FundingTypeID = project.FundingTypeID;
             EstimatedTotalCost = project.EstimatedTotalCost;
@@ -124,6 +129,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectID = ProjectID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
+            project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
@@ -173,6 +179,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (CompletionYear < ImplementationStartYear)
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+            }
+
+            if (ProjectStageID == ProjectStage.Completed.ProjectStageID ||
+                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID)
+            {
+                if (CompletionYear > DateTime.Now.Year)
+                {
+                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
+                }
             }
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship() && !ApprovingProjectsOrganizationID.HasValue)

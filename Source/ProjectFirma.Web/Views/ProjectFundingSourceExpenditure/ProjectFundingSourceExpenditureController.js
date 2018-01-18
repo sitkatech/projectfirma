@@ -20,9 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureController", function ($scope, angularModelAndViewData)
 {
-    $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = ($scope.FromFundingSource) ? $scope.getFundingSource(angularModelAndViewData.AngularViewData.FundingSourceID) : null; };
+    $scope.$watch(function () {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
 
-    $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID) : null; };
+    $scope.resetFundingSourceIDToAdd = function () { $scope.FundingSourceIDToAdd = ($scope.FromFundingSource) ? $scope.getFundingSource(angularModelAndViewData.AngularViewData.FundingSourceID).FundingSourceID : null; };
+    
+    $scope.resetProjectIDToAdd = function () { $scope.ProjectIDToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID).ProjectID : null; };
 
     $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray = function() { return _($scope.AngularModel.ProjectFundingSourceExpenditures).pluck("CalendarYearExpenditures").flatten(); }
 
@@ -40,12 +44,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
-        var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function (p) { return p.FundingSourceID; });
         return _($scope.AngularViewData.AllFundingSources).filter(function(f) {
-            return f.IsActive &&
-                _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
-                !_.contains(usedFundingSourceIDs, f.FundingSourceID);
-        }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
+               return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+            }).sortBy(function (fs) {
+                return [fs.FundingSourceName.toLowerCase()];
+            }).value();
     };
 
     $scope.getAllUsedProjectIds = function () {
@@ -98,35 +101,35 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
         if ($scope.FromProject)
         {
             _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) {
-                $scope.addCalendarYearExpenditureRow($scope.ProjectToAdd.ProjectID, fundingSourceId, calendarYear);
+                $scope.addCalendarYearExpenditureRow($scope.ProjectIDToAdd, fundingSourceId, calendarYear);
             });
         }
         else if ($scope.FromFundingSource) {
             _.each($scope.getAllUsedProjectIds(), function (projectId) {
-                $scope.addCalendarYearExpenditureRow(projectId, $scope.FundingSourceToAdd.FundingSourceID, calendarYear);
+                $scope.addCalendarYearExpenditureRow(projectId, $scope.FundingSourceIDToAdd, calendarYear);
             });
         }
     };
 
     $scope.findProjectFundingSourceExpenditureRow = function(projectId, fundingSourceId) { return _.find($scope.AngularModel.ProjectFundingSourceExpenditures, function(pfse) { return pfse.ProjectID == projectId && pfse.FundingSourceID == fundingSourceId; }); }
-
-    $scope.addRow = function()
-    {
-        if (($scope.FundingSourceToAdd == null) || ($scope.ProjectToAdd == null))
-        {
+    
+    $scope.addRow = function () {
+        if (($scope.FundingSourceIDToAdd == null) || ($scope.ProjectIDToAdd == null)) {
             return;
         }
-        var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.ProjectToAdd.ProjectID, $scope.FundingSourceToAdd.FundingSourceID, $scope.getCalendarYearRange());
+        var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd, $scope.getCalendarYearRange());
         $scope.AngularModel.ProjectFundingSourceExpenditures.push(newProjectFundingSourceExpenditure);
-        $scope.resetFundingSourceToAdd();
-        $scope.resetProjectToAdd();
+        $scope.resetFundingSourceIDToAdd();
+        $scope.resetProjectIDToAdd();
     };
 
     $scope.createNewRow = function (projectId, fundingSourceId, calendarYearsToAdd)
     {
+        var project = $scope.getProject(projectId);
+        var fundingSource = $scope.getFundingSource(fundingSourceId);
         var newProjectFundingSourceExpenditure = {
-            ProjectID: projectId,
-            FundingSourceID: fundingSourceId,
+            ProjectID: project.ProjectID,
+            FundingSourceID: fundingSource.FundingSourceID,
             CalendarYearExpenditures: _.map(calendarYearsToAdd, $scope.createNewCalendarYearExpenditureRow)
         };
         return newProjectFundingSourceExpenditure;
@@ -154,7 +157,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;
     $scope.FromProject = !$scope.FromFundingSource;
-    $scope.resetFundingSourceToAdd();
-    $scope.resetProjectToAdd();
+    $scope.resetFundingSourceIDToAdd();
+    $scope.resetProjectIDToAdd();
 });
 

@@ -24,21 +24,21 @@ using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public enum ProposalSectionEnum
-    {
-        Instructions,
-        Basics,
-        PerformanceMeasures,
-        LocationSimple,
-        LocationDetailed,
-        Watershed,
-        Classifications,
-        Assessment,
-        Notes,
-        History,
-        Photos,
-        ExpectedFunding
-    }
+    //public enum ProposalSectionEnum
+    //{
+    //    Instructions,
+    //    Basics,
+    //    PerformanceMeasures,
+    //    LocationSimple,
+    //    LocationDetailed,
+    //    Watershed,
+    //    Classifications,
+    //    Assessment,
+    //    Notes,
+    //    History,
+    //    Photos,
+    //    ExpectedFunding
+    //}
 
     public class ProposalSectionsStatus
     {
@@ -51,6 +51,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
+        public static bool AreAllSectionsValidForProject(Models.Project project)
+        {
+            return Models.Project.GetApplicableProposalWizardSections(project).All(x => x.IsComplete(project));
+        }
         public bool IsExpectedFundingSectionComplete { get; set; }
 
         public ProposalSectionsStatus(Models.Project proposal)

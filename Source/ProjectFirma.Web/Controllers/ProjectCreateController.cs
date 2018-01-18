@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -39,9 +38,9 @@ using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Views.ProjectImage;
+using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
@@ -73,18 +72,26 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ActionResult CreateAndEditBasics()
+        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
         {
-            return ViewCreateAndEditBasics(new BasicsViewModel(CurrentPerson.Organization), null);
+            var showProjectStageDropDown = true;
+            var basicsViewModel = new BasicsViewModel(CurrentPerson.Organization);
+            if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
+            {
+                basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
+                showProjectStageDropDown = false;
+            }
+            
+            return ViewCreateAndEditBasics(basicsViewModel, null, showProjectStageDropDown);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool showProjectStageDropDown)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), showProjectStageDropDown);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -115,10 +122,10 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CreateAndEditBasics(BasicsViewModel viewModel)
+        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal, BasicsViewModel viewModel)
         {
             var project = new Project(viewModel.TaxonomyTierOneID,
-                ProjectStage.Proposal.ProjectStageID,
+                viewModel.ProjectStageID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
@@ -147,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project);
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project, true);
             }
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey))
@@ -156,6 +163,13 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project, CurrentPerson);
+
+            if (project.ProjectStage == ProjectStage.Proposal)
+            {
+                DeletePerformanceMeasureActuals(project);
+                DeleteProjectExemptReportingYears(project);
+                DeleteProjectFundingSourceExpenditures(project);
+            }
 
             SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
             SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship());
@@ -176,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully saved.");
 
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditLocationSimple(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditBasics(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Basics);
         }
 
         private static void SetProjectOrganizationForRelationshipType(Project project, int? organizationID, RelationshipType relationshipType)
@@ -251,7 +265,93 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures);
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+            }
+            var performanceMeasureActualSimples =
+                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasureID)
+                    .ThenByDescending(x => x.CalendarYear)
+                    .Select(x => new PerformanceMeasureActualSimple(x))
+                    .ToList();
+            var projectExemptReportingYears = project.ProjectExemptReportingYears
+                .Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+            projectExemptReportingYears.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
+
+            var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
+                project.PerformanceMeasureActualYearsExemptionExplanation,
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()){ProjectID = projectPrimaryKey.PrimaryKeyValue};
+            return ViewPerformanceMeasures(project, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+            }
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
+                return ViewPerformanceMeasures(project, viewModel);
+            }
+            var performanceMeasureActuals = project.PerformanceMeasureActuals.ToList();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
+            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+            var performanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
+            viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project);
+
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedPerformanceMeasures);
+        }
+
+        private ViewResult ViewPerformanceMeasures(Project project, PerformanceMeasuresViewModel viewModel)
+        {
+            var performanceMeasures =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var showExemptYears = project.ProjectExemptReportingYears.Any() ||
+                                  ModelState.Values.SelectMany(x => x.Errors)
+                                      .Any(
+                                          x =>
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+
+            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
+
+            var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
+
+            var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            //todo
+            //var performanceMeasuresValidationResult = project.ValidatePerformanceMeasures();
+
+            var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(project.ProjectID,
+                performanceMeasureSimples,
+                performanceMeasureSubcategorySimples,
+                performanceMeasureSubcategoryOptionSimples,
+                calendarYears,
+                showExemptYears);
+            var updateStatus = new ProposalSectionsStatus(project);
+            var viewData =
+                new PerformanceMeasuresViewData(CurrentPerson, project, viewDataForAngularEditor, updateStatus);
+            return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -292,7 +392,73 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
             SetMessageForDisplay("Proposed Project Performance Measures successfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.ExpectedFunding(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+            }
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
+                calendarYearRange) {ProjectID = project.ProjectID};
+            return ViewExpenditures(project, calendarYearRange, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            
+            if (project == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+            }
+
+            viewModel.ProjectID = project.ProjectID;
+
+            var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(project);
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
+                return ViewExpenditures(project, calendarYearRange, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
+            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures);
+        }
+
+        private ViewResult ViewExpenditures(Project project, List<int> calendarYearRange, ExpendituresViewModel viewModel)
+        {
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+
+            // todo: fix this pattern
+            // var expendituresValidationResult = project.ValidateExpenditures();
+
+            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
+                allFundingSources,
+                calendarYearRange);
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
+                new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
+                calendarYearRange);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
+
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
+            return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -329,7 +495,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProposalSectionEnum.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProjectCreateSection.Classifications, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
@@ -349,7 +515,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, currentProjectClassifications);
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditClassifications(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications);
         }
 
         [HttpGet]
@@ -392,7 +558,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay("Assessment succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.Photos(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditAssessment(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment);
         }
 
         private ViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
@@ -400,7 +566,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProposalSectionEnum.Assessment, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProjectCreateSection.Assessment, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 
@@ -445,7 +611,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditLocationDetailed(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditLocationSimple(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationSimple);
         }
 
 
@@ -497,7 +663,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditWatershed(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditLocationDetailed(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed);
         }
 
         [HttpGet]
@@ -652,7 +818,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectCreateController>(x => x.EditExpectedPerformanceMeasureValues(project.PrimaryKey)) : new SitkaRoute<ProjectCreateController>(x => x.EditWatershed(project.PrimaryKey)));
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Watershed);
         }
 
         private static string GenerateEditProjectWatershedFormID(Project project)
@@ -857,7 +1023,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval,
                 $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
-            Check.Assert(new ProposalSectionsStatus(project).AreAllSectionsValid, "Proposal is not ready for submittal.");
+            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project), "Proposal is not ready for submittal.");
             
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
@@ -974,6 +1140,30 @@ namespace ProjectFirma.Web.Controllers
                 validationErrorMessages =$" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
             SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+        }
+
+        private ActionResult GoToNextSection(FormViewModel viewModel, Project project, ProjectCreateSection currentSection)
+        {
+            var applicableWizardSections = Project.GetApplicableProposalWizardSections(project);
+            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(project) : currentSection.GetSectionUrl(project);
+            return Redirect(nextSection);
+        }
+
+        private void DeletePerformanceMeasureActuals(Project project)
+        {
+            project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureActualSubcategoryOptionID)).ToList().DeletePerformanceMeasureActualSubcategoryOption();
+            project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+        }
+
+        public void DeleteProjectExemptReportingYears(Project project)
+        {
+            project.ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
+        }
+
+        public void DeleteProjectFundingSourceExpenditures(Project project)
+        {
+            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
         }
     }
 }

@@ -20,9 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestController", function ($scope, angularModelAndViewData)
 {
-    $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = ($scope.FromFundingSource) ? $scope.getFundingSource(angularModelAndViewData.AngularViewData.FundingSourceID) : null; };
+    $scope.$watch(function () {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
 
-    $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID) : null; };
+    $scope.resetFundingSourceIDToAdd = function () { $scope.FundingSourceIDToAdd = ($scope.FromFundingSource) ? $scope.getFundingSource(angularModelAndViewData.AngularViewData.FundingSourceID).FundingSourceID : null; };
+
+    $scope.resetProjectIDToAdd = function () { $scope.ProjectIDToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID).ProjectID : null; };
 
     $scope.getAllUsedFundingSourceIds = function () {
         return _.map($scope.AngularModel.ProjectFundingSourceRequests, function (p) { return p.FundingSourceID; });
@@ -30,10 +34,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID); })
-            .sortBy(function (fs) {
-                return [fs.FundingSourceName.toLowerCase(), fs.OrganizationName.toLowerCase()];
-            }).value();
+        return _($scope.AngularViewData.AllFundingSources).filter(function (f) {
+            return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+        }).sortBy(function (fs) {
+            return [fs.FundingSourceName.toLowerCase()];
+        }).value();
     };
 
     $scope.getAllUsedProjectIDs = function () {
@@ -79,14 +84,13 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
 
     $scope.addRow = function()
     {
-        if (($scope.FundingSourceToAdd == null) || ($scope.ProjectToAdd == null))
-        {
+        if (($scope.FundingSourceIDToAdd == null) || ($scope.ProjectIDToAdd == null)) {
             return;
         }
-        var newProjectFundingSourceRequest = $scope.createNewRow($scope.ProjectToAdd.ProjectID, $scope.FundingSourceToAdd.FundingSourceID);
+        var newProjectFundingSourceRequest = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
         $scope.AngularModel.ProjectFundingSourceRequests.push(newProjectFundingSourceRequest);
-        $scope.resetFundingSourceToAdd();
-        $scope.resetProjectToAdd();
+        $scope.resetFundingSourceIDToAdd();
+        $scope.resetProjectIDToAdd();
     };
 
     $scope.createNewRow = function (projectID, fundingSourceID)
@@ -110,7 +114,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;
     $scope.FromProject = !$scope.FromFundingSource;
-    $scope.resetFundingSourceToAdd();
-    $scope.resetProjectToAdd();
+    $scope.resetFundingSourceIDToAdd();
+    $scope.resetProjectIDToAdd();
 });
 

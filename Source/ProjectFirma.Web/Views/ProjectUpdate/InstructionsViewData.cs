@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -32,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string PerformanceMeasuresUrl;
         public readonly bool IsNewProjectUpdateBatch;
 
-        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, bool isNewProjectUpdateBatch) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Instructions, updateStatus, new List<string>())
+        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, bool isNewProjectUpdateBatch) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Instructions, updateStatus, new List<string>())
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
             IsNewProjectUpdateBatch = isNewProjectUpdateBatch;

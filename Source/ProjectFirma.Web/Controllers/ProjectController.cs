@@ -53,42 +53,6 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectCreateNewFeature]
-        public PartialViewResult New()
-        {
-            var viewModel = new EditProjectViewModel();
-            return ViewNew(viewModel, null);
-        }
-
-        [HttpPost]
-        [ProjectCreateNewFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditProjectViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewNew(viewModel, null);
-            }
-            // ReSharper disable once PossibleInvalidOperationException
-            var project = new Project(viewModel.TaxonomyTierOneID.Value,
-                viewModel.ProjectStageID,
-                viewModel.ProjectName,
-                viewModel.ProjectDescription,
-                false,
-                ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID,
-                ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
-            CurrentPerson.SetDefaultProjectOrganizations(project);
-
-            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
-            viewModel.UpdateModel(project);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)} succesfully created.");
-            return new ModalDialogFormJsonResult();
-        }
-
-        [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -110,11 +74,6 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewNew(EditProjectViewModel viewModel, Project project)
-        {
-            return ViewEdit(viewModel, project, EditProjectType.NewProject, string.Empty, null);
         }
 
         private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures)
@@ -371,13 +330,52 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [ProjectsViewFullListFeature]
-        public ExcelResult IndexExcelDownload(bool proposalsOnly)
-        {
-            var projects = proposalsOnly
-                ? HttpRequestStorage.DatabaseEntities.Projects.ToList().GetNotRejectedProposals(CurrentPerson.CanViewProposals)
-                : HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
 
+        [ProjectsInProposalStageViewListFeature]
+        public ViewResult Pending()
+        {
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
+            var viewData = new PendingViewData(CurrentPerson, firmaPage);
+            return RazorView<Pending, PendingViewData>(viewData);
+        }
+
+        [PendingProjectsViewListFeature]
+        public GridJsonNetJObjectResult<Project> PendingGridJsonData()
+        {
+            var gridSpec = new PendingGridSpec(CurrentPerson);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPending);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [ProjectsViewFullListFeature]
+        public ExcelResult IndexExcelDownload()
+        {
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects(),
+                FieldDefinition.Project.GetFieldDefinitionLabelPluralized());
+        }
+
+        [ProjectsViewFullListFeature]
+        public ExcelResult ProposalsExcelDownload()
+        {
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetNotRejectedProposals(CurrentPerson.CanViewProposals),
+                FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized());
+        }
+
+        [ProjectsViewFullListFeature]
+        public ExcelResult PendingExcelDownload()
+        {
+            return FullDatabaseExcelDownloadImpl(
+                HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                .GetPendingProjects(CurrentPerson.CanViewPending),
+                "Pending Projects");
+        }
+
+        private ExcelResult FullDatabaseExcelDownloadImpl(List<Project> projects, string workbookTitle)
+        {
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
@@ -433,9 +431,7 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            var workbookTitle = proposalsOnly
-                ? $"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}"
-                : $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} as of {DateTime.Now.ToStringDateTime()}";
+
             return new ExcelResult(excelWorkbook, workbookTitle);
         }
 

@@ -23,7 +23,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
         public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, ExpendituresValidationResult expendituresValidationResult)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus, expendituresValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Expenditures, updateStatus, expendituresValidationResult.GetWarningMessages())
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));

@@ -28,26 +28,10 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public enum ProjectUpdateSectionEnum
-    {
-        Instructions,
-        Basics,
-        PerformanceMeasures,
-        Expenditures,
-        Photos,
-        LocationSimple,
-        LocationDetailed,
-        Watershed,
-        Notes,
-        History,
-        Budgets,
-        ExternalLinks,
-        ExpectedFunding
-    }
-
     public class ProjectUpdateViewData : FirmaViewData
     {
-        public ProjectUpdateSectionEnum SelectedProjectUpdateSection { get; }
+        public ProjectUpdateSection CurrentSection { get; }
+        public List<ProjectUpdateSection> ProjectUpdateSections { get; }
         public ProjectUpdateBatch ProjectUpdateBatch { get; }
         public Models.Project Project { get; }
         public Person PrimaryContactPerson { get; }
@@ -79,11 +63,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public UpdateStatus UpdateStatus { get; }
         public bool HasUpdateStarted { get; }
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
+        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
         {
-            SelectedProjectUpdateSection = selectedProjectUpdateSection;
+            CurrentSection = currentSection;
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
+
+            ProjectUpdateSections = projectUpdateBatch.GetApplicableWizardSections();
+
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             HtmlPageTitle += $" - {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
             EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";

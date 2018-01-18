@@ -69,7 +69,7 @@
 
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.ProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @ViewDataTyped.BackToProjectsText</a>
+    <a class="btn backButton" style="padding-left: 0;" href="@ViewDataTyped.ProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @ViewDataTyped.BackToProjectsText</a>
 </div>
 
 @if (ViewDataTyped.ProjectAlerts.Any())
@@ -80,7 +80,7 @@
 }
 
 <div class="row" style="margin: 20px 0;">
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="padding-left: 0;">
         @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
         {
             var stage = ViewDataTyped.ProjectStages[i];
