@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Project.Pending
 
 @{
@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @if (ViewDataTyped.HasProposeProjectPermissions)
     {
-        <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
+<a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Add New Project</a>
     }
 }
 
