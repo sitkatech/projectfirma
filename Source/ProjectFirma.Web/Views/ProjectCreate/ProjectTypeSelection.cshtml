@@ -18,7 +18,12 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
-@using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.ProjectCreate.ProjectTypeSelection
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.ValidationMessageFor(m=>m.ProjectIsProposal)
+        Hello, World!
+    </div>
+}

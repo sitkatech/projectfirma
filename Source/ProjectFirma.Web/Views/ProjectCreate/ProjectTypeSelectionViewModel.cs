@@ -18,23 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Models;
-using LtInfo.Common;
+
+using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectTypeSelectionViewModel : FormViewModel
     {
-      
+        //[Required]
+        public int ProjectIsProposal { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public ProjectTypeSelectionViewModel()
         {
         }
-
     }
 }

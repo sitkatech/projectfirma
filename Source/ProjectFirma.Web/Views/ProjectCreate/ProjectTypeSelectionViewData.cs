@@ -26,7 +26,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectTypeSelectionViewData : FirmaUserControlViewData
     {
-       
-
+        public ProjectTypeSelectionViewData()
+        {
+            // todo: what goes here?
+        }
     }
 }

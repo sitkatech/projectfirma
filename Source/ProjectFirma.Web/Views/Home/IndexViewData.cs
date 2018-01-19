@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using LtInfo.Common.BootstrapWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -61,5 +62,14 @@ namespace ProjectFirma.Web.Views.Home
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
         }
+
+        public string ProjectTypeSelectionUrl =
+            SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectTypeSelection());
+
+        public string AddNewProjectButtonText =
+            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add New Project";
+
+        public string ProjectTypeSelectionContinueButtonText =
+            $"Continue {BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-right")}";
     }
 }

@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
             }
-            return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null)));
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
