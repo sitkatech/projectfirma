@@ -48,6 +48,28 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectCreateController : FirmaBaseController
     {
+        [HttpGet]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        public PartialViewResult ProjectTypeSelection()
+        {
+            var viewData = new ProjectTypeSelectionViewData();
+            var viewModel = new ProjectTypeSelectionViewModel();
+            return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
+        {
+            var viewData = new ProjectTypeSelectionViewData();
+
+            if (!ModelState.IsValid)
+            {
+                return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
+            }
+            return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
+        }
+
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ActionResult Instructions(int? projectID)
         {
