@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
             PageTitle = "Pending Projects";
 
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
-            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
+            ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
 
             GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending Project", ObjectNamePlural = $"Pending Projects", SaveFiltersInCookie = true};

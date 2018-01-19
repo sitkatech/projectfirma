@@ -67,11 +67,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
             }
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null)));
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)));
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ActionResult Instructions(int? projectID)
+        public ActionResult InstructionsProposal(int? projectID)
         {
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.ProposeProjectInstructions);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
@@ -81,14 +81,14 @@ namespace ProjectFirma.Web.Controllers
                 var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
 
                 var proposalSectionsStatus = new ProposalSectionsStatus(project);
-                var viewData = new InstructionsViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
+                var viewData = new InstructionsProposalViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
 
-                return RazorView<Instructions, InstructionsViewData>(viewData);
+                return RazorView<InstructionsProposal, InstructionsProposalViewData>(viewData);
             }
             else
             {
-                var viewData = new InstructionsViewData(CurrentPerson, firmaPage, true);
-                return RazorView<Instructions, InstructionsViewData>(viewData);
+                var viewData = new InstructionsProposalViewData(CurrentPerson, firmaPage, true);
+                return RazorView<InstructionsProposal, InstructionsProposalViewData>(viewData);
             }
         }
 
@@ -300,7 +300,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (project == null)
             {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(project.ProjectID)));
             }
             var performanceMeasureActualSimples =
                 project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasureID)
@@ -329,7 +329,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (project == null)
             {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(project.ProjectID)));
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(project.ProjectID)));
             }
             if (!ModelState.IsValid)
             {
@@ -428,7 +428,7 @@ namespace ProjectFirma.Web.Controllers
             
             if (project == null)
             {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
             }
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
@@ -446,7 +446,7 @@ namespace ProjectFirma.Web.Controllers
             
             if (project == null)
             {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.Instructions(projectPrimaryKey.PrimaryKeyValue)));
+                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
             }
 
             viewModel.ProjectID = project.ProjectID;

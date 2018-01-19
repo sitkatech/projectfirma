@@ -1161,8 +1161,8 @@
     <Compile Include="Views\ProjectCreate\ExpectedPerformanceMeasureValuesViewModel.cs" />
     <Compile Include="Views\Project\Proposed.cs" />
     <Compile Include="Views\Project\ProposedViewData.cs" />
-    <Compile Include="Views\ProjectCreate\Instructions.cs" />
-    <Compile Include="Views\ProjectCreate\InstructionsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsProposal.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsProposalViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailed.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailedViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailedViewModel.cs" />
@@ -3234,7 +3234,7 @@
     <Content Include="Views\ProjectCreate\EditProposalClassifications.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedPerformanceMeasureValues.cshtml" />
     <Content Include="Views\Project\Proposed.cshtml" />
-    <Content Include="Views\ProjectCreate\Instructions.cshtml" />
+    <Content Include="Views\ProjectCreate\InstructionsProposal.cshtml" />
     <Content Include="Views\ProjectCreate\LocationDetailed.cshtml" />
     <Content Include="Views\ProjectCreate\LocationSimple.cshtml" />
     <Content Include="Views\ProjectCreate\Notes.cshtml" />

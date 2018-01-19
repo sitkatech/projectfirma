@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
 
         public override string GetSectionUrl(Project project)
         {
-            return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(project != null ? project.ProjectID : (int?) null));
+            return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(project != null ? project.ProjectID : (int?) null));
         }
     }
 

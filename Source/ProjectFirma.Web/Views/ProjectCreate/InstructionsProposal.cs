@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class Instructions : LtInfo.Common.Mvc.TypedWebViewPage<InstructionsViewData>
+    public abstract class InstructionsProposal : LtInfo.Common.Mvc.TypedWebViewPage<InstructionsProposalViewData>
     {
     }
 }
