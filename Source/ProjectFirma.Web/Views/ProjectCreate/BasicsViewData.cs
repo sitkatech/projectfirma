@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         // todo: put correct value in if this is relevant, otherwise rip it out. 
         public bool IsEditable = true;
 
-        public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
+        public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
 
         public BasicsViewData(Person currentPerson,
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
             : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
-            ShowProjectStageDropDown = true;
+            ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 
