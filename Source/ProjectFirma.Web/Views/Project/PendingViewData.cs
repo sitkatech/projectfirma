@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Project
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Instructions(null));
 
 
-            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending Project", ObjectNamePlural = $"Pending Projects", SaveFiltersInCookie = true};
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {

@@ -43,10 +43,16 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
             var isProposal = contextModelObject.IsProposal();
+            var isPending = contextModelObject.IsPendingProject();
             if (isProposal)
             {
                 return new PermissionCheckResult(
-                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is in the Proposal stage");
+                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is in the Proposal stage.");
+            }
+            if (isPending)
+            {
+                return new PermissionCheckResult(
+                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is a Pending Project.");
             }
             var isProjectStewardButCannotStewardThisProject = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProjectByOrganizationRelationship(contextModelObject);
             var forbidAdmin = !HasPermissionByPerson(person) || isProjectStewardButCannotStewardThisProject;
