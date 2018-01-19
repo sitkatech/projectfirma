@@ -141,8 +141,8 @@
         <div class="col-md-4">
             @if (ViewDataTyped.DisplayActionButtons)
             {            
-                @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddNewProjectButtonText,ViewDataTyped.ProjectTypeSelectionUrl,"Add a new project",700,ViewDataTyped.ProjectTypeSelectionContinueButtonText,"Cancel",new List<string>{"btn", "btn-firma"},null,null)
-                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Existing Project</a>
+                @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddNewProjectButtonText,ViewDataTyped.ProjectTypeSelectionUrl,"Add a project",700,ViewDataTyped.ProjectTypeSelectionContinueButtonText,"Cancel",new List<string>{"btn", "btn-firma"},null,null)
+                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Project</a>
             }
             <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
             <div>

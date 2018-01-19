@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Home
             SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectTypeSelection());
 
         public string AddNewProjectButtonText =
-            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add New Project";
+            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add Project";
 
         public string ProjectTypeSelectionContinueButtonText =
             $"Continue {BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-right")}";

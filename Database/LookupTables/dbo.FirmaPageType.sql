@@ -37,4 +37,4 @@ values
 (44, 'MonitoringProgramsList', 'Monitoring Programs', 1),
 (45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2),
 (46, 'ProjectStewardOrganizationList', 'ProjectStewardOrganizationList', 1),
-(47, 'ImportHistoricProjectInstructions', 'Import Historic Project Instructions', 2)
+(47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2)

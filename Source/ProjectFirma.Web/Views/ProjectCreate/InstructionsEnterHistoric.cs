@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="InstructionsProposal.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InstructionsEnterHistoric.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class InstructionsProposal : LtInfo.Common.Mvc.TypedWebViewPage<InstructionsProposalViewData>
+    public abstract class InstructionsEnterHistoric : LtInfo.Common.Mvc.TypedWebViewPage<InstructionsEnterHistoricViewData>
     {
     }
 }

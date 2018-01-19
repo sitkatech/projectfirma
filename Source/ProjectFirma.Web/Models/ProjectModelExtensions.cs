@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
@@ -73,5 +75,48 @@ namespace ProjectFirma.Web.Models
         {
             return ProjectMapPopuUrlTemplate.ParameterReplace(project.ProjectID);
         }
+
+        public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
+        {
+            var startYear = projectUpdate?.ImplementationStartYear;
+            return GetYearRangesImpl(projectUpdate, startYear);
+        }
+
+        public static List<int> GetProjectUpdatePlanningDesignStartToCompletionYearRange(this IProject projectUpdate)
+        {
+            var startYear = projectUpdate?.PlanningDesignStartYear;
+            return GetYearRangesImpl(projectUpdate, startYear);
+        }
+
+        private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
+        {
+            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            if (projectUpdate != null)
+            {
+                if (startYear.HasValue && startYear.Value < FirmaDateUtilities.MinimumYear &&
+                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < FirmaDateUtilities.MinimumYear))
+                {
+                    // both start and completion year are before the minimum year, so no year range required
+                    return new List<int>();
+                }
+
+                if (startYear.HasValue && startYear.Value > currentYearToUse && (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value > currentYearToUse))
+                {
+                    return new List<int>();
+                }
+
+                if (startYear.HasValue && projectUpdate.CompletionYear.HasValue && startYear.Value > projectUpdate.CompletionYear.Value)
+                {
+                    return new List<int>();
+                }
+            }
+            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
+                startYear,
+                projectUpdate?.CompletionYear,
+                currentYearToUse,
+                FirmaDateUtilities.MinimumYear,
+                currentYearToUse);
+        }
+
     }
 }

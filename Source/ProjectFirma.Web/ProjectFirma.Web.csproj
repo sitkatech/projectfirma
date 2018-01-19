@@ -379,6 +379,8 @@
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsEnterHistoric.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsEnterHistoricViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelection.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewModel.cs" />
@@ -1382,6 +1384,7 @@
     <Content Include="Views\ProjectCreate\Expenditures.cshtml" />
     <Content Include="Views\ProjectCreate\PerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectTypeSelection.cshtml" />
+    <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

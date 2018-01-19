@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Instructions.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InstructionsEnterHistoric.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
-@inherits ProjectFirma.Web.Views.ProjectCreate.InstructionsProposal
+@inherits ProjectFirma.Web.Views.ProjectCreate.InstructionsEnterHistoric
 
 @section JavascriptAndStylesContent
 {
@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         if (ViewDataTyped.IsNewProjectCreate)
         {
-            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalBasicsUrl">Propose New Project <span class='glyphicon glyphicon-chevron-right'></span></a>
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.HistoricProjectBasicsUrl">Enter Historic Project <span class='glyphicon glyphicon-chevron-right'></span></a>
         }
         else
         {

@@ -290,6 +290,13 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
         }
     }
+    public partial class FirmaPageTypeEnterHistoricProjectInstructions
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null));
+        }
+    }
 
     public partial class FirmaPageTypeProjectStewardOrganizationList
     {

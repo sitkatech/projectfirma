@@ -67,7 +67,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
             }
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)));
+
+            return viewModel.ProjectIsProposal.Value // a null value will have been caught by the validation
+                ? new ModalDialogFormJsonResult(
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
+                : new ModalDialogFormJsonResult(
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)));
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
@@ -89,6 +94,28 @@ namespace ProjectFirma.Web.Controllers
             {
                 var viewData = new InstructionsProposalViewData(CurrentPerson, firmaPage, true);
                 return RazorView<InstructionsProposal, InstructionsProposalViewData>(viewData);
+            }
+        }
+
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        public ActionResult InstructionsEnterHistoric(int? projectID)
+        {
+            var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.EnterHistoricProjectInstructions);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+
+            if (projectID.HasValue)
+            {
+                var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
+
+                var proposalSectionsStatus = new ProposalSectionsStatus(project);
+                var viewData = new InstructionsEnterHistoricViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
+
+                return RazorView<InstructionsEnterHistoric, InstructionsEnterHistoricViewData>(viewData);
+            }
+            else
+            {
+                var viewData = new InstructionsEnterHistoricViewData(CurrentPerson, firmaPage, true);
+                return RazorView<InstructionsEnterHistoric, InstructionsEnterHistoricViewData>(viewData);
             }
         }
 
