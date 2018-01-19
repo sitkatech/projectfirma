@@ -111,8 +111,9 @@ else
                 <select ng-model="FundingSourceToAdd" class="selectpicker"
                         data-live-search="true"
                         data-container="body"
-                        ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()"
-                        data-width="70%"></select>
+                        data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID"
+                    data-width="70%">
+                    <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option></select>
                 <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
                 <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                     Not listed?

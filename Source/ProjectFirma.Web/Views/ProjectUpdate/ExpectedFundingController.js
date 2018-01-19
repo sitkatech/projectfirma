@@ -20,6 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ExpectedFundingController", function($scope, angularModelAndViewData)
 {
+    $scope.$watch(function () {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
+
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
     $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceRequests, function(p) { return p.FundingSourceID; }); };
