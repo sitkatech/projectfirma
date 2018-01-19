@@ -154,7 +154,10 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project, true);
+
+                bool showProjectStageDropDown = viewModel.ProjectStageID != ProjectStage.Proposal.ProjectStageID;
+
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project, showProjectStageDropDown);
             }
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey))
@@ -1029,12 +1032,18 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
             project.ApprovalDate = DateTime.Now;
             project.ReviewedByPerson = CurrentPerson;
-            project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
+
+            // Business logic: An approved Proposal becomes an active project in the Planning and Design stage
+            if (project.ProjectStageID == ProjectStage.Proposal.ProjectStageID)
+            {
+                project.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
+            }
+
             GenerateApprovalAuditLogEntries(project);
 
             NotificationProject.SendApprovalMessage(project);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the {project.ProjectStage.ProjectStageDisplayName} stage.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

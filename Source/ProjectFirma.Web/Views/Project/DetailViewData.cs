@@ -174,20 +174,21 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userHasProjectUpdatePermissions;
                 ProjectListUrl = FullProjectListUrl;
                 BackToProjectsText = "Back to all Projects";
-            }
 
-            if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
-            {
-                if (project.IsMyProject(currentPerson))
+
+                if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
-                    projectAlerts.Add(
-                        "You are a Project Steward for this project. You may edit this project by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
-                }
-                else
-                {
-                    projectAlerts.Add(
-                        "You are a Project Steward, but not for this project. You may only edit projects that are associated with your <a href=\"" +
-                        currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
+                    if (project.IsMyProject(currentPerson))
+                    {
+                        projectAlerts.Add(
+                            "You are a Project Steward for this project. You may edit this project by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
+                    }
+                    else
+                    {
+                        projectAlerts.Add(
+                            "You are a Project Steward, but not for this project. You may only edit projects that are associated with your <a href=\"" +
+                            currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
+                    }
                 }
             }
 

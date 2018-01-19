@@ -20,6 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ExpendituresController", function($scope, angularModelAndViewData)
 {
+    $scope.$watch(function () {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
+
     $scope.resetFundingSourceToAdd = function() { $scope.FundingSourceToAdd = null; };
 
     $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray = function() { return _($scope.AngularModel.ProjectFundingSourceExpenditures).pluck("CalendarYearExpenditures").flatten(); }
@@ -38,7 +42,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         {
             projectFundingOrganizationFundingSourceIDs = $scope.AngularViewData.ProjectFundingOrganizationFundingSourceIDs;
         }
-        return _($scope.AngularViewData.AllFundingSources).filter(function(f) { return f.IsActive && _.contains(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) && !_.contains(usedFundingSourceIDs, f.FundingSourceID); }).sortByAll(["OrganizationName", "FundingSourceName"]).value();
+        return _($scope.AngularViewData.AllFundingSources).filter(function(f) { return f.IsActive && _.includes(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) && !_.includes(usedFundingSourceIDs, f.FundingSourceID); }).sortByAll(["FundingSourceName"]).value();
     };
 
     $scope.getFundingSourceName = function(projectFundingSourceExpenditure)

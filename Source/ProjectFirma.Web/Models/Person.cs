@@ -165,6 +165,6 @@ namespace ProjectFirma.Web.Models
 
         public bool CanViewProposals => MultiTenantHelpers.ShowProposalsToThePublic() || !IsAnonymousOrUnassigned;
 
-        public bool CanViewPending => Role == Role.ProjectSteward || Role == Role.Admin || Role == Role.SitkaAdmin;
+        public bool CanViewPending => Role != Role.Unassigned;
     }
 }

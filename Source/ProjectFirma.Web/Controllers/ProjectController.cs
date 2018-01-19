@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [ProjectsInProposalStageViewListFeature]
+        [PendingProjectsViewListFeature]
         public ViewResult Pending()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
@@ -344,7 +344,18 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new PendingGridSpec(CurrentPerson);
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPending);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
+            List<Project> filteredProposals;
+            if (CurrentPerson.Role == Role.Normal)
+            {
+                filteredProposals = proposals.Where(x =>
+                        x.ProjectOrganizations.Select(y => y.Organization).Contains(CurrentPerson.Organization))
+                    .ToList();
+            }
+            else
+            {
+                filteredProposals = proposals;
+            }
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
