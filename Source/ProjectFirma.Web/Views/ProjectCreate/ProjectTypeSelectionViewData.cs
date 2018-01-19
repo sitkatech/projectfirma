@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Instructions.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectTypeSelectionViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Collections.Generic;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views;
+
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class Instructions : LtInfo.Common.Mvc.TypedWebViewPage<InstructionsViewData>
+    public class ProjectTypeSelectionViewData : FirmaUserControlViewData
     {
+        public ProjectTypeSelectionViewData()
+        {
+            // todo: what goes here?
+        }
     }
 }

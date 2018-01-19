@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
@@ -139,11 +140,11 @@
 
         <div class="col-md-4">
             @if (ViewDataTyped.DisplayActionButtons)
-            {
-                <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProposeNewProjectUrl" title="Propose a new project">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Add New Project</a>
-                <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Existing Project</a>
+            {            
+                @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddNewProjectButtonText,ViewDataTyped.ProjectTypeSelectionUrl,"Add a project",700,ViewDataTyped.ProjectTypeSelectionContinueButtonText,"Cancel",new List<string>{"btn", "btn-firma"},null,null)
+                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Project</a>
             }
-            <h4 style="margin-bottom: 5px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
+            <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
             <div>
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
             </div>

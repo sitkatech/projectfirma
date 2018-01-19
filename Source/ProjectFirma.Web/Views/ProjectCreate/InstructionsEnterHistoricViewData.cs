@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="InstructionsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InstructionsEnterHistoricViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,19 +23,19 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class InstructionsViewData : ProjectCreateViewData
+    public class InstructionsEnterHistoricViewData : ProjectCreateViewData
     {
 
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions)
+        public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
-        public InstructionsViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProjectCreateSection.Instructions, proposalSectionsStatus)
+        public InstructionsEnterHistoricViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProjectCreateSection.Instructions, proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             IsNewProjectCreate = isNewProjectCreate;

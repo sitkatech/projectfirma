@@ -379,6 +379,11 @@
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsEnterHistoric.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsEnterHistoricViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectTypeSelection.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFunding.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewModel.cs" />
@@ -1158,8 +1163,8 @@
     <Compile Include="Views\ProjectCreate\ExpectedPerformanceMeasureValuesViewModel.cs" />
     <Compile Include="Views\Project\Proposed.cs" />
     <Compile Include="Views\Project\ProposedViewData.cs" />
-    <Compile Include="Views\ProjectCreate\Instructions.cs" />
-    <Compile Include="Views\ProjectCreate\InstructionsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsProposal.cs" />
+    <Compile Include="Views\ProjectCreate\InstructionsProposalViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailed.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailedViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationDetailedViewModel.cs" />
@@ -1378,6 +1383,8 @@
     <Content Include="Views\Project\Pending.cshtml" />
     <Content Include="Views\ProjectCreate\Expenditures.cshtml" />
     <Content Include="Views\ProjectCreate\PerformanceMeasures.cshtml" />
+    <Content Include="Views\ProjectCreate\ProjectTypeSelection.cshtml" />
+    <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3230,7 +3237,7 @@
     <Content Include="Views\ProjectCreate\EditProposalClassifications.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedPerformanceMeasureValues.cshtml" />
     <Content Include="Views\Project\Proposed.cshtml" />
-    <Content Include="Views\ProjectCreate\Instructions.cshtml" />
+    <Content Include="Views\ProjectCreate\InstructionsProposal.cshtml" />
     <Content Include="Views\ProjectCreate\LocationDetailed.cshtml" />
     <Content Include="Views\ProjectCreate\LocationSimple.cshtml" />
     <Content Include="Views\ProjectCreate\Notes.cshtml" />
