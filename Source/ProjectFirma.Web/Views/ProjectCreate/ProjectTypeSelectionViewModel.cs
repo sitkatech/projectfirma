@@ -19,21 +19,34 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ProjectTypeSelectionViewModel : FormViewModel
+    public class ProjectTypeSelectionViewModel : FormViewModel, IValidatableObject
     {
-        //[Required]
-        public int ProjectIsProposal { get; set; }
+        public bool? ProjectIsProposal { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public ProjectTypeSelectionViewModel()
         {
+        }
+
+        // Chose this validation pattern instead of the RequiredAttribute because the qtip validation message is unfriendly
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+            if (ProjectIsProposal == null)
+            {
+                errors.Add(new ValidationResult("You must select an option in order to proceed."));
+            }
+
+            return errors;
         }
     }
 }

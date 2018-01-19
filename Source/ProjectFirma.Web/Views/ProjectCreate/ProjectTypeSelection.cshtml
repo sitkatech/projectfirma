@@ -22,8 +22,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary()
     <div>
-        @Html.ValidationMessageFor(m => m.ProjectIsProposal)
         Do you want to:
     </div>
     <div class="form-group">
