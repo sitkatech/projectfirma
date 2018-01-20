@@ -334,7 +334,7 @@ namespace ProjectFirma.Web.Controllers
         [PendingProjectsViewListFeature]
         public ViewResult Pending()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PendingProjects);
             var viewData = new PendingViewData(CurrentPerson, firmaPage);
             return RazorView<Pending, PendingViewData>(viewData);
         }
