@@ -198,6 +198,7 @@ namespace ProjectFirma.Web.Models
         public void DeleteProjectExemptReportingYearUpdates()
         {
             ProjectExemptReportingYearUpdates.DeleteProjectExemptReportingYearUpdate();
+            PerformanceMeasureActualYearsExemptionExplanation = null;
             RefreshFromDatabase(ProjectExemptReportingYearUpdates);
         }
 
