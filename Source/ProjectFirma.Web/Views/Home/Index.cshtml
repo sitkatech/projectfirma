@@ -24,6 +24,7 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Home
+@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using SitkaController = ProjectFirma.Web.Common.SitkaController
@@ -141,7 +142,7 @@
         <div class="col-md-4">
             @if (ViewDataTyped.DisplayActionButtons)
             {            
-                @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddNewProjectButtonText,ViewDataTyped.ProjectTypeSelectionUrl,"Add a project",700,ViewDataTyped.ProjectTypeSelectionContinueButtonText,"Cancel",new List<string>{"btn", "btn-firma"},null,null)
+                @ProjectCreateHelper.AddProjectButton()
                 <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Project</a>
             }
             <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>

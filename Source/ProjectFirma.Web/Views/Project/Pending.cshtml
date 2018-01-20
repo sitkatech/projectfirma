@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views.ProjectCreate
 @inherits ProjectFirma.Web.Views.Project.Pending
 
 @{
@@ -37,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @if (ViewDataTyped.HasProposeProjectPermissions)
     {
-<a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Add New Project</a>
+        @ProjectCreateHelper.AddProjectButton()
     }
 }
 

@@ -395,6 +395,7 @@
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresValidationResult.cs" />
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCreateHelper.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewModel.cs" />

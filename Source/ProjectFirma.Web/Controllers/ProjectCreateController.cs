@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
                 return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
             }
 
-            return viewModel.ProjectIsProposal.Value // a null value will have been caught by the validation
+            return viewModel.ProjectIsProposal.GetValueOrDefault() // a null value should have been caught by the model validation
                 ? new ModalDialogFormJsonResult(
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
                 : new ModalDialogFormJsonResult(
@@ -221,6 +221,12 @@ namespace ProjectFirma.Web.Controllers
                 DeletePerformanceMeasureActuals(project);
                 DeleteProjectExemptReportingYears(project);
                 DeleteProjectFundingSourceExpenditures(project);
+            }
+
+            if (project.ProjectStage == ProjectStage.PlanningDesign)
+            {
+                DeletePerformanceMeasureActuals(project);
+                DeleteProjectExemptReportingYears(project);
             }
 
             SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
@@ -1212,6 +1218,7 @@ namespace ProjectFirma.Web.Controllers
         {
             project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureActualSubcategoryOptionID)).ToList().DeletePerformanceMeasureActualSubcategoryOption();
             project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+            project.PerformanceMeasureActualYearsExemptionExplanation = null;
         }
 
         public void DeleteProjectExemptReportingYears(Project project)

@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class ProjectCreateViewData : FirmaViewData
     {
-        private const string AddNewProject = "Add New Project";
         public readonly Models.Project Project;
 
         public readonly ProjectCreateSection CurrentSection;
@@ -90,7 +89,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
 
-            PageTitle = $"{AddNewProject}: {project.DisplayName}";
+            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? "Propose Project" : "Add Project";
+            PageTitle = $"{pagetitle}: {project.DisplayName}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(project.ProjectID));
@@ -125,8 +125,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Project = null;
             CurrentSection = currentSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
-            PageTitle = AddNewProject;
-            
+
 
             ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));

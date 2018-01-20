@@ -26,10 +26,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FirmaPage
     {
-        public bool HasFirmaPageContent
-        {
-            get { return !string.IsNullOrWhiteSpace(FirmaPageContent); }
-        }
+        public bool HasFirmaPageContent => !string.IsNullOrWhiteSpace(FirmaPageContent);
 
         public static FirmaPage GetFirmaPageByPageType(FirmaPageType firmaPageType)
         {

@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
         public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions)
         {
+            PageTitle = "Add Project";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             IsNewProjectCreate = isNewProjectCreate;
         }

@@ -539,7 +539,7 @@ namespace ProjectFirma.Web.Models
 
         private bool AreReportedPerformanceMeasuresRelevant()
         {
-            return ProjectStage != ProjectStage.Proposal;
+            return ProjectStage != ProjectStage.Proposal && ProjectStage != ProjectStage.PlanningDesign;
         }
 
         private bool AreReportedExpendituresRelevant()
