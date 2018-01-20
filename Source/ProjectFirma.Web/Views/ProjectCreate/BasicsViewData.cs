@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
         public bool ShowProjectStageDropDown { get; private set; }
+        private string ProjectDisplayName { get; set; }
 
         // todo: put correct value in if this is relevant, otherwise rip it out. 
         public bool IsEditable = true;
@@ -74,6 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
+            ProjectDisplayName = project.DisplayName;
             AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
         }
 
@@ -113,6 +115,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
             HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
+
+            var pagetitle = ShowProjectStageDropDown ? "Add Project" : "Propose Project";
+            PageTitle = $"{pagetitle}";
+            if (ProjectDisplayName != null)
+            {
+                PageTitle += $": {ProjectDisplayName}";
+            }
         }
     }
 }

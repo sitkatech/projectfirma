@@ -62,14 +62,5 @@ namespace ProjectFirma.Web.Views.Home
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
         }
-
-        public string ProjectTypeSelectionUrl =
-            SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectTypeSelection());
-
-        public string AddNewProjectButtonText =
-            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add Project";
-
-        public string ProjectTypeSelectionContinueButtonText =
-            $"Continue {BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-right")}";
     }
 }

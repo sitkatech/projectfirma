@@ -23,6 +23,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views.ProjectCreate
 @inherits Index
 
 @section JavascriptAndStylesContent
@@ -34,8 +35,8 @@
 {
     @if (ViewDataTyped.DisplayActionButtons)
     {
-        <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProposeNewProjectUrl" title="Propose a new project">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Add New Project</a>
-        <a class="btn btn-firma" style="margin-bottom: 10px" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Existing Project</a>
+        @ProjectCreateHelper.AddProjectButton()
+        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Existing Project</a>
     }
 }
 
