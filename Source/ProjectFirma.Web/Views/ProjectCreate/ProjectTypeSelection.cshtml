@@ -31,13 +31,13 @@
             <label>
                 @Html.RadioButtonFor(m => m.ProjectIsProposal, true) <span style="font-weight: bold;">Add a proposal for a future project</span>
             </label>
-            <div class="systemText">This will create a new project in Proposal stage. When a proposal is reviewed and selected for implementation an administrator can advance the project to the Planning/Design stage.</div>
+            <div class="radioExplanationText">This will create a new project in Proposal stage. When a proposal is reviewed and selected for implementation an administrator can advance the project to the Planning/Design stage.</div>
         </div>
         <div class="radio" style="margin-top: 10px;">
             <label>
                 @Html.RadioButtonFor(m => m.ProjectIsProposal, false) <span style="font-weight: bold;">Enter an existing project that is already underway or complete</span>
             </label>
-            <div class="systemText">This will create a new project record for an existing project. You will be asked to select the project stage (e.g. Planning/Design, Implementation, or Complete). An administrator will review the project before it becomes publicly visible.</div>
+            <div class="radioExplanationText">This will create a new project record for an existing project. You will be asked to select the project stage (e.g. Planning/Design, Implementation, or Complete). An administrator will review the project before it becomes publicly visible.</div>
         </div>
     </div>
 }

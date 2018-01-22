@@ -800,6 +800,13 @@ ul.filmStrip li a div.caption {
   margin-top: 4px;
   color: #888888;
 }
+.radioExplanationText,
+.firma-modal-dialog .radioExplanationText {
+  margin-left: 20px;
+  font: 10px/12px Arial, sans-serif;
+  margin-top: 4px;
+  color: #888888;
+}
 .disabled {
   color: LightGray;
 }
