@@ -1359,6 +1359,7 @@
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectFundingSourceRequest\ProjectFundingSourceRequestController.js" />
+    <Content Include="Views\ProjectOrganization\ProjectOrganizationController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />

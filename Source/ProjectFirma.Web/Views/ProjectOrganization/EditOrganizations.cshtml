@@ -22,92 +22,27 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.ProjectOrganization.EditOrganizations
+
 <script type="text/javascript">
     // <![CDATA[    
-    angular.module("EditOrganizationsAngularApp", []).controller("ProjectOrganizationController", function($scope)
+    jQuery(document).ready(function ()
     {
-        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
-        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
-        $scope.OrganizationToAdd = null;
-
-        $scope.$watch(function () {
-            jQuery(".selectpicker").selectpicker("refresh");
-        });
-
-        jQuery("form").submit(function() { jQuery("#@Html.IdFor(x => x.ProjectOrganizationsViewModelJson)").val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
-
-        $scope.getAvailableOrganizations = function (primarySimple) {
-            var usedOrganizationIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-                function(f) {
-                    return f.OrganizationID;
-                });
-
-            var filteredList = _.filter($scope.AngularViewData.AllOrganizations,
-                function(f) {
-                    return primarySimple.OrganizationID === f.OrganizationID ||
-                        !_.includes(usedOrganizationIDs, f.OrganizationID);
-                });
-
-            return filteredList;
-        }
-
-        $scope.addTopTier = function()
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
         {
-            var newPrimary = {
-                OrganizationID: null,
-                RelationshipTypes: []
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
             };
-            $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.push(newPrimary);
-            $scope.addDetailTier(newPrimary);
-        };
-
-        $scope.removeTopTier = function (primarySimple) {
-            Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-                primarySimple);
-        };
-
-        $scope.addDetailTier = function(primarySimple)
-        {
-            if (primarySimple.RelationshipTypes == undefined)
-            {
-                primarySimple.RelationshipTypes = [];
-            }
-            primarySimple.RelationshipTypes.push({});
-        };
-
-        $scope.removeDetailTier = function(primarySimple, detailSimple) {
-            Sitka.Methods.removeFromJsonArray(primarySimple.RelationshipTypes, detailSimple);
-        };
-
-        $scope.updateModel = function(option)
-        {                
-            var primarySimple =
-                Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-                    "OrganizationID",
-                    option.OrganizationID);
-
-            primarySimple.OrganizationID = Number.parseInt(option.OrganizationID);
-        }
-
-        $scope.validRelationshipTypes = function(organizationID) {
-            var organization =
-                Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
-                    "OrganizationID",
-                    organizationID);
-
-            var valid = organization == null ? [] : organization.ValidRelationshipTypeSimples;
-            return valid;
-        }
-
-    });
-
-    angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["EditOrganizationsAngularApp"]);
-
-    jQuery(".modal").on("hidden.bs.modal",
-        function() {
-            jQuery(".bootstrap-select.open").removeClass("open");
         });
 
+        angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
     // ]]>
 </script>
 <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
@@ -232,6 +167,6 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     @using (Html.BeginForm())
     {
-        @Html.HiddenFor(x => x.ProjectOrganizationsViewModelJson)
+        @Html.HiddenFor(x => x.ProjectOrganizations)
     }
 </div>
