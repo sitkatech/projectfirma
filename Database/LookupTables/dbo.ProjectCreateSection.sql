@@ -14,4 +14,5 @@ values
 (11, 'Classifications', 'Project Themes', 110, 1),
 (12, 'Assessment', 'Asssessment', 120, 1),
 (13, 'Photos', 'Photos', 130, 0),
-(14, 'Notes', 'Notes', 140, 0)
+(14, 'Notes', 'Notes', 140, 0),
+(15, 'Organizations', 'Organizations', 25, 1)

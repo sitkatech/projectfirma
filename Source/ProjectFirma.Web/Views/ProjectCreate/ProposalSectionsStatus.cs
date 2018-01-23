@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             return Models.Project.GetApplicableProposalWizardSections(project).All(x => x.IsComplete(project));
         }
         public bool IsExpectedFundingSectionComplete { get; set; }
+        public bool IsProjectOrganizationsSectionComplete { get; set; }
 
         public ProposalSectionsStatus(Models.Project proposal)
         {

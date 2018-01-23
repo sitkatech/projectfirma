@@ -1228,7 +1228,42 @@ namespace ProjectFirma.Web.Controllers
 
         public void DeleteProjectFundingSourceExpenditures(Project project)
         {
-            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure(); 
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new OrganizationsViewModel(project);
+            return ViewOrganizations(project, viewModel);
+        }
+
+        private ViewResult ViewOrganizations(Project project, OrganizationsViewModel viewModel)
+        {
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;
+            var viewData = new OrganizationsViewData(CurrentPerson, project, proposalSectionsStatus);
+
+            return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey, OrganizationsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
+                return ViewOrganizations(project, viewModel);
+            }
+
+            viewModel.UpdateModel(project);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Organizations succesfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
         }
     }
 }

@@ -381,6 +381,9 @@
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
     <Compile Include="Views\ProjectCreate\InstructionsEnterHistoric.cs" />
     <Compile Include="Views\ProjectCreate\InstructionsEnterHistoricViewData.cs" />
+    <Compile Include="Views\ProjectCreate\Organizations.cs" />
+    <Compile Include="Views\ProjectCreate\OrganizationsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\OrganizationsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelection.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewModel.cs" />
@@ -1386,6 +1389,7 @@
     <Content Include="Views\ProjectCreate\PerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectTypeSelection.cshtml" />
     <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
+    <Content Include="Views\ProjectCreate\Organizations.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
