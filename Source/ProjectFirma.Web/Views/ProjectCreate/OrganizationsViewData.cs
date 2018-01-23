@@ -20,18 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class OrganizationsViewData : ProjectCreateViewData
     {
-        
+        public readonly EditOrganizationsViewData EditOrganizationsViewData;
 
         public OrganizationsViewData(Person currentPerson,
             Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus) : base(currentPerson, project, ProjectCreateSection.Organizations, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentPerson, project, ProjectCreateSection.Organizations, proposalSectionsStatus)
         {
-            
+            EditOrganizationsViewData = editOrganizationsViewData;
         }
     }
 }
