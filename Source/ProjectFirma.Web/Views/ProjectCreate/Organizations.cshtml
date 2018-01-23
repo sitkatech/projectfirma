@@ -19,9 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.ProjectOrganization
 @inherits ProjectFirma.Web.Views.ProjectCreate.Organizations
 
 @section JavascriptAndStylesContent
@@ -57,10 +55,8 @@
 </div>*@
 <div class="row">
     <div class="col-xs-12">
-        @using (Html.BeginForm())
-        {
-            <p>Hello, World! @*TODO: where the partial will go.*@</p>
-        }
+        @{ Html.RenderRazorSitkaPartial<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(ViewDataTyped.EditOrganizationsViewData, Model); }
+
     </div>
 </div>
 <div class="row">

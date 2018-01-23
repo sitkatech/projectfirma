@@ -22,10 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {    
-    public class OrganizationsViewModel : FormViewModel, IValidatableObject
+    public class OrganizationsViewModel : EditOrganizationsViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public OrganizationsViewModel(Models.Project project)
+        public OrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations) : base(projectOrganizations)
         {
             
         }
@@ -42,19 +43,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public void UpdateModel(Models.Project project)
         {
             
-        }
-
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return GetValidationResults();
-        }
-
-        public IEnumerable<ValidationResult> GetValidationResults()
-        {
-            var errors = new List<ValidationResult>();
-
-            return errors;
         }
     }    
 }

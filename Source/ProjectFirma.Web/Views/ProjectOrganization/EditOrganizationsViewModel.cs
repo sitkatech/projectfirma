@@ -63,6 +63,11 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
             var errors = new List<ValidationResult>();
 
             var projectOrganizationJsons = ProjectOrganizationsViewModelJson.ProjectOrganizations;
@@ -71,7 +76,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
                 return errors;
             }
-           
+
             if (projectOrganizationJsons.Count != projectOrganizationJsons.Select(x => x.OrganizationID).Distinct().Count())
             {
                 errors.Add(new ValidationResult($"Cannot have the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} listed multiple times."));
@@ -117,7 +122,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             {
                 errors.Add(new ValidationResult("One or more relationship types are invalid."));
             }
-                       
+
             return errors;
         }
     }
