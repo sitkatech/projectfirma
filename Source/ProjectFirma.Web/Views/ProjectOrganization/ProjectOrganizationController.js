@@ -18,10 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController", function ($scope, angularModelAndViewData) {
+angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController", function($scope,
+    angularModelAndViewData) {
     $scope.OrganizationToAdd = null;
 
-    $scope.$watch(function () {
+    $scope.$watch(function() {
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
@@ -30,15 +31,83 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
             function(organization) {
                 return $scope.organizationIsValidForRelationshipType(organization, relationshipType);
             });
+        if (relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            return organizationsForRelationshipType;
+        } else {
+            var usedOrganizations = _.filter($scope.AngularModel.ProjectOrganizationSimples,
+                function(f) {
+                    return f.RelationshipTypeID == relationshipType.RelationshipTypeID;
+                });
+            var usedOrganizationIDs = _.map(usedOrganizations,
+                function (f) {
+                    return f.OrganizationID;
+                });
 
-        return organizationsForRelationshipType;
+            var filteredList = _.filter(organizationsForRelationshipType,
+                function (f) {
+                    return !_.includes(usedOrganizationIDs, f.OrganizationID);
+                });
+
+            return filteredList;
+        }
+    };
+
+    $scope.organizationIsValidForRelationshipType = function(organization, relationshipType) {
+        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(organization.OrganizationID),
+            function(rt) {
+                return rt.RelationshipTypeID;
+            });
+        return _.includes(validRelationshipTypeIDs, relationshipType.RelationshipTypeID);
+    };
+
+    $scope.chosenOrganizationsForRelationshipType = function(relationshipTypeID) {
+        var chosenOrganizationSimples = _.filter($scope.AngularModel.ProjectOrganizationSimples,
+            function(s) {
+                return s.RelationshipTypeID == relationshipTypeID;
+            });
+
+        var organizations = _.map(chosenOrganizationSimples,
+            function(s) {
+                var organization =
+                    Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
+                        "OrganizationID",
+                        s.OrganizationID);
+                return organization;
+            });
+        return organizations;
+    };
+
+    $scope.addProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
+        $scope.AngularModel.ProjectOrganizationSimples.push({
+            OrganizationID: Number(organizationID),
+            RelationshipTypeID: relationshipTypeID
+        });
+    };
+
+    $scope.removeProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
+        var projectOrganizationSimple = { OrganizationID: organizationID, RelationshipTypeID: relationshipTypeID };
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+            projectOrganizationSimple);
     }
 
-    $scope.organizationIsValidForRelationshipType = function (organization, relationshipType) {
-        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(organization.OrganizationID), function (rt) {
-            return rt.RelationshipTypeID;
-        });
-        return _.includes(validRelationshipTypeIDs, relationshipType.RelationshipTypeID);
+    $scope.selectionChanged = function (organizationID, relationshipType) {
+        // changing the dropdown selection for a one-and-only-one relationship type should update the model
+        if (relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            // if there's already a projectOrganizationSimple for this relationship type, just change the OrganizationID
+            var projectOrganizationSimple =
+                Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+                    "RelationshipTypeID",
+                    relationshipType.RelationshipTypeID);
+
+            if (projectOrganizationSimple != null) {
+                projectOrganizationSimple.OrganizationID = Number(organizationID);
+            } else {
+                $scope.AngularModel.ProjectOrganizationSimples.push({
+                    OrganizationID: Number(organizationID),
+                    RelationshipTypeID: relationshipType.RelationshipTypeID
+                });
+            }
+        } // but nothing should happen if it's a many-or-none relationship type
     }
 
     $scope.getAvailableOrganizations = function(primarySimple) {
@@ -56,7 +125,7 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
         return filteredList;
     };
 
-    $scope.addTopTier = function () {
+    $scope.addTopTier = function() {
         var newPrimary = {
             OrganizationID: null,
             RelationshipTypes: []
@@ -65,19 +134,19 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
         $scope.addDetailTier(newPrimary);
     };
 
-    $scope.removeTopTier = function (primarySimple) {
+    $scope.removeTopTier = function(primarySimple) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
             primarySimple);
     };
 
-    $scope.addDetailTier = function (primarySimple) {
+    $scope.addDetailTier = function(primarySimple) {
         if (primarySimple.RelationshipTypes == undefined) {
             primarySimple.RelationshipTypes = [];
         }
         primarySimple.RelationshipTypes.push({});
     };
 
-    $scope.removeDetailTier = function (primarySimple, detailSimple) {
+    $scope.removeDetailTier = function(primarySimple, detailSimple) {
         Sitka.Methods.removeFromJsonArray(primarySimple.RelationshipTypes, detailSimple);
     };
 
@@ -104,6 +173,7 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.HiddenJsonElementID = angularModelAndViewData.HiddenJsonElementID;
+    $scope.AngularModel.ProjectOrganizationSimples = [];
 
     jQuery("form").submit(function () { jQuery($scope.HiddenJsonElementID).val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
 });
