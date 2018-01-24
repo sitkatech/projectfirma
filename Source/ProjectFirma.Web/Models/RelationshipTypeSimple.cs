@@ -28,11 +28,12 @@ namespace ProjectFirma.Web.Models
             : this()
         {
             RelationshipTypeID = relationshipType.RelationshipTypeID;
-            RelationshipTypeName = relationshipType.RelationshipTypeName;            
+            RelationshipTypeName = relationshipType.RelationshipTypeName;
+            RelationshipTypeCanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
         }
 
         public int RelationshipTypeID { get; set; }
-        public string RelationshipTypeName { get; set; }    
-
+        public string RelationshipTypeName { get; set; }
+        public bool RelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
     }
 }
