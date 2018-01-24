@@ -25,6 +25,22 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
+    $scope.getAvailableOrganizationsForRelationshipType = function(relationshipType) {
+        var organizationsForRelationshipType = _.filter($scope.AngularViewData.AllOrganizations,
+            function(organization) {
+                return $scope.organizationIsValidForRelationshipType(organization, relationshipType);
+            });
+
+        return organizationsForRelationshipType;
+    }
+
+    $scope.organizationIsValidForRelationshipType = function (organization, relationshipType) {
+        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(organization.OrganizationID), function (rt) {
+            return rt.RelationshipTypeID;
+        });
+        return _.includes(validRelationshipTypeIDs, relationshipType.RelationshipTypeID);
+    }
+
     $scope.getAvailableOrganizations = function(primarySimple) {
         var usedOrganizationIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
             function(f) {
