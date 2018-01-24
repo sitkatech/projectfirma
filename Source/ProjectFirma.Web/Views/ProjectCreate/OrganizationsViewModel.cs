@@ -39,10 +39,5 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             
         }
-
-        public void UpdateModel(Models.Project project)
-        {
-            
-        }
     }    
 }

@@ -1271,7 +1271,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewOrganizations(project, viewModel);
             }
 
-            viewModel.UpdateModel(project);
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
+            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
+
+            viewModel.UpdateModel(project, allProjectOrganizations);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Organizations succesfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
         }
