@@ -168,7 +168,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     @*TODO: New codes under this line*@
-    <div class="row" ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes">
+    <div class="row" ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:'-RelationshipTypeCanOnlyBeRelatedOnceToAProject'">
         <div class="row">
             @*Relationship type and description*@
             <div class="col-sm-6" ng-bind="relationshipType.RelationshipTypeName"></div>
