@@ -122,56 +122,6 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
             });
     }
 
-    $scope.getAvailableOrganizations = function(primarySimple) {
-        var usedOrganizationIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-            function(f) {
-                return f.OrganizationID;
-            });
-
-        var filteredList = _.filter($scope.AngularViewData.AllOrganizations,
-            function(f) {
-                return primarySimple.OrganizationID === f.OrganizationID ||
-                    !_.includes(usedOrganizationIDs, f.OrganizationID);
-            });
-
-        return filteredList;
-    };
-
-    $scope.addTopTier = function() {
-        var newPrimary = {
-            OrganizationID: null,
-            RelationshipTypes: []
-        };
-        $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.push(newPrimary);
-        $scope.addDetailTier(newPrimary);
-    };
-
-    $scope.removeTopTier = function(primarySimple) {
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-            primarySimple);
-    };
-
-    $scope.addDetailTier = function(primarySimple) {
-        if (primarySimple.RelationshipTypes == undefined) {
-            primarySimple.RelationshipTypes = [];
-        }
-        primarySimple.RelationshipTypes.push({});
-    };
-
-    $scope.removeDetailTier = function(primarySimple, detailSimple) {
-        Sitka.Methods.removeFromJsonArray(primarySimple.RelationshipTypes, detailSimple);
-    };
-
-    $scope.updateModel = function(option) {
-        var primarySimple =
-            Sitka.Methods.findElementInJsonArray(
-                $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
-                "OrganizationID",
-                option.OrganizationID);
-
-        primarySimple.OrganizationID = Number.parseInt(option.OrganizationID);
-    };
-
     $scope.validRelationshipTypes = function(organizationID) {
         var organization =
             Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
