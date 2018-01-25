@@ -57,11 +57,5 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
             //TODO tests
         }
-
-        private static void SetProjectOrganizationsViewModelJson(EditOrganizationsViewModel viewModel,
-            IEnumerable<Models.ProjectOrganization> projectOrganizations)
-        {
-            viewModel.ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(projectOrganizations.GroupBy(x => x.Organization).Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po.Key, po.ToList())).ToList());
-        }
     }
 }

@@ -65,8 +65,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var viewModel = new EditOrganizationsViewModel(_projectOrganizations);
 
             // Assert
-            Assert.That(viewModel.ProjectOrganizationsViewModelJson, Is.Not.Null);
-            ObjectApproval.ObjectApprover.VerifyWithJson(viewModel.ProjectOrganizationsViewModelJson);
+            Assert.That(viewModel.ProjectOrganizationSimples, Is.Not.Null);
         }
 
         [Test]

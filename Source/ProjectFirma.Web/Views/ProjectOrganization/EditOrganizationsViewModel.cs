@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 {
     public class EditOrganizationsViewModel : FormViewModel, IValidatableObject
     {
-        public ProjectOrganizationsViewModelJson ProjectOrganizationsViewModelJson { get; set; }
+        
         public List<ProjectOrganizationSimple> ProjectOrganizationSimples { get; set; }
 
         /// <summary>
@@ -42,9 +42,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations)
         {
-            var projectOrganizationJsons = projectOrganizations.GroupBy(po => po.Organization).Select(o => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(o.Key, o.ToList())).ToList();
-
-            ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(projectOrganizationJsons);
             ProjectOrganizationSimples = projectOrganizations.Select(x => new ProjectOrganizationSimple(x)).ToList();
         }
 

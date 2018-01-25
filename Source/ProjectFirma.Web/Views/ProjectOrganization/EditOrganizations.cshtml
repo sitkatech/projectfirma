@@ -31,8 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             return {
                 AngularModel: @Html.Raw(JObject.FromObject(Model)),
-                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped)),
-                HiddenJsonElementID: @Html.IdFor(x => x.ProjectOrganizationsViewModelJson)
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
             };
         });
 
@@ -116,7 +115,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
     @using (Html.BeginForm())
     {
-        @Html.HiddenFor(x => x.ProjectOrganizationsViewModelJson)
         <div ng-repeat="projectOrganization in AngularModel.ProjectOrganizationSimples">
             <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationID}}"/>
             <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].RelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.RelationshipTypeID}}"/>

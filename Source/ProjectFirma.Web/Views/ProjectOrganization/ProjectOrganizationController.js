@@ -134,7 +134,4 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.HiddenJsonElementID = angularModelAndViewData.HiddenJsonElementID;
-
-    jQuery("form").submit(function () { jQuery($scope.HiddenJsonElementID).val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
 });
