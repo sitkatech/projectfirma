@@ -85,9 +85,10 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
     };
 
     $scope.removeProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
-        var projectOrganizationSimple = { OrganizationID: organizationID, RelationshipTypeID: relationshipTypeID };
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationSimples,
-            projectOrganizationSimple);
+        _.remove($scope.AngularModel.ProjectOrganizationSimples,
+            function(pos) {
+                return pos.OrganizationID == organizationID && pos.RelationshipTypeID == relationshipTypeID;
+            });
     }
 
     $scope.selectionChanged = function (organizationID, relationshipType) {
