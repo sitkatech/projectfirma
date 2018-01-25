@@ -184,7 +184,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     <option value="" disabled selected>Select one</option>
                     <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                             ng-bind="organization.OrganizationName"
-                            ng-value="organization.OrganizationID"></option>
+                            ng-value="organization.OrganizationID"
+                            ng-selected="isOptionSelected(organization,relationshipType)"></option>
                 </select></div>
                 <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID, relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
                     <span class="glyphicon glyphicon-plus"></span>

@@ -111,6 +111,17 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
         } // but nothing should happen if it's a many-or-none relationship type
     }
 
+    $scope.isOptionSelected = function(organization, relationshipType) {
+        if (!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            return false;
+        }
+        return _.any($scope.AngularModel.ProjectOrganizationSimples,
+            function(pos) {
+                return pos.OrganizationID == organization.OrganizationID &&
+                    pos.RelationshipTypeID == relationshipType.RelationshipTypeID;
+            });
+    }
+
     $scope.getAvailableOrganizations = function(primarySimple) {
         var usedOrganizationIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
             function(f) {
