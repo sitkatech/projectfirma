@@ -61,6 +61,7 @@
     <EntitySet Name="ProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProjectNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectNoteUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectNoteUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectOrganization" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectOrganizationUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectOrganizationUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.Store.ProjectTag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" store:Type="Tables" Schema="dbo" />
@@ -481,6 +482,18 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="RelationshipType" EntitySet="RelationshipType" />
       <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganizationUpdate_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganizationUpdate_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="ProjectOrganizationUpdates" EntitySet="ProjectOrganizationUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganizationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganizationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectOrganizationUpdates" EntitySet="ProjectOrganizationUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="ProjectOrganizationUpdates" EntitySet="ProjectOrganizationUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectTag_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
@@ -890,6 +903,7 @@ warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_Organiz
 warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganizationUpdate_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
     <Key>
@@ -1446,6 +1460,16 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ProjectOrganizationUpdate">
+    <Key>
+      <PropertyRef Name="ProjectOrganizationUpdateID" />
+    </Key>
+    <Property Name="ProjectOrganizationUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
+    <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="ProjectTag">
     <Key>
       <PropertyRef Name="ProjectTagID" />
@@ -1485,6 +1509,7 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectUpdateBatch_Project
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganizationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1549,6 +1574,7 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="RelationshipType">
     <Key>
@@ -1560,7 +1586,7 @@ warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_Relation
     <Property Name="CanStewardProjects" Type="bit" Nullable="false" />
     <Property Name="IsPrimaryContact" Type="bit" Nullable="false" />
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="bit" Nullable="false" />
-    <Property Name="RelationshipTypeDescription" Type="varchar" MaxLength="480" />
+    <Property Name="RelationshipTypeDescription" Type="varchar" MaxLength="360" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2932,6 +2958,42 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
         <PropertyRef Name="RelationshipTypeID" />
       </Principal>
       <Dependent Role="ProjectOrganizations">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganizationUpdate_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
+    <End Role="ProjectOrganizationUpdates" Type="ProjectFirma.Web.Models.Store.ProjectOrganizationUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizationUpdates">
+        <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganizationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectOrganizationUpdates" Type="ProjectFirma.Web.Models.Store.ProjectOrganizationUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizationUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.Store.RelationshipType" Multiplicity="1" />
+    <End Role="ProjectOrganizationUpdates" Type="ProjectFirma.Web.Models.Store.ProjectOrganizationUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizationUpdates">
         <PropertyRef Name="RelationshipTypeID" />
       </Dependent>
     </ReferentialConstraint>

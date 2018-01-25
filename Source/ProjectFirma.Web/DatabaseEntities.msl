@@ -760,6 +760,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectOrganizationUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectOrganizationUpdate">
+        <MappingFragment StoreEntitySet="ProjectOrganizationUpdate">
+          <ScalarProperty Name="ProjectOrganizationUpdateID" ColumnName="ProjectOrganizationUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectTag">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectTag">
         <MappingFragment StoreEntitySet="ProjectTag">

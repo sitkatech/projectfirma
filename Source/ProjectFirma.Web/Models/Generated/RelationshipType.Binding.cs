@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
+            this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -70,13 +71,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return OrganizationTypeRelationshipTypes.Any() || ProjectOrganizations.Any();
+            return OrganizationTypeRelationshipTypes.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(RelationshipType).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(ProjectOrganization).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(RelationshipType).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
         [Key]
         public int RelationshipTypeID { get; set; }
@@ -91,12 +92,13 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
+        public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
             public const int RelationshipTypeName = 200;
-            public const int RelationshipTypeDescription = 480;
+            public const int RelationshipTypeDescription = 360;
         }
     }
 }

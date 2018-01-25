@@ -1,4 +1,5 @@
-﻿using ProjectFirma.Web.Controllers;
+﻿using System;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -201,6 +202,25 @@ namespace ProjectFirma.Web.Models
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
             return updateStatus.IsNotesUpdated;
+        }
+    }
+
+    public partial class ProjectUpdateSectionOrganizations
+    {
+        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.AreOrganizationsValid();
+        }
+
+        public override string GetSectionUrl(Project project)
+        {
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Organizations(project)) : null;
+        }
+
+        public override bool SectionIsUpdated(UpdateStatus updateStatus)
+        {
+            return updateStatus.IsOrganizationsUpdated;
         }
     }
 

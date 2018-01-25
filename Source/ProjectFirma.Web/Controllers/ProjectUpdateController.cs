@@ -49,6 +49,29 @@ using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
+using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
+using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
+using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
+using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
+using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
+using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
+using ExpendituresViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewData;
+using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewModel;
+using LocationDetailed = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailed;
+using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewData;
+using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewModel;
+using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
+using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
+using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
+using Notes = ProjectFirma.Web.Views.ProjectUpdate.Notes;
+using NotesViewData = ProjectFirma.Web.Views.ProjectUpdate.NotesViewData;
+using PerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasures;
+using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewData;
+using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewModel;
+using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
+using WatershedViewData = ProjectFirma.Web.Views.ProjectUpdate.WatershedViewData;
+using WatershedViewModel = ProjectFirma.Web.Views.ProjectUpdate.WatershedViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -2399,6 +2422,46 @@ namespace ProjectFirma.Web.Controllers
             return ViewHtmlDiff(partialViewToString,$"{FieldDefinition.Project.GetFieldDefinitionLabel()} Update from {projectUpdateBatch.LastUpdateDate.ToLongDateString()}");
         }
 
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+
+            var viewModel = new OrganizationsViewModel(projectUpdateBatch);
+
+            return ViewOrganizations(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey, OrganizationsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewOrganizations(projectUpdateBatch, viewModel);
+            }
+
+            viewModel.UpdateModel();
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Organizations);
+        }
+
+        private ActionResult ViewOrganizations(ProjectUpdateBatch projectUpdateBatch, OrganizationsViewModel viewModel)
+        {
+            var validationWarnings = new List<string>();
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
+                ProjectUpdateSection.Organizations, updateStatus, validationWarnings);
+            return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
+        }
+
         private UpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
             var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -2417,6 +2480,9 @@ namespace ProjectFirma.Web.Controllers
 
             var isExpectedFundingUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            // todo
+            bool isOrganizationsUpdated = false;
+
             return new UpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
@@ -2428,7 +2494,8 @@ namespace ProjectFirma.Web.Controllers
                 isWatershedUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated,
-                isExpectedFundingUpdated);
+                isExpectedFundingUpdated,
+                isOrganizationsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)

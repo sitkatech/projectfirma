@@ -643,5 +643,11 @@ namespace ProjectFirma.Web.Models
 
             return projectUpdateSections.OrderBy(x => x.SortOrder).ToList();
         }
+
+        public bool AreOrganizationsValid()
+        {
+            //todo
+            return false;
+        }
     }
 }

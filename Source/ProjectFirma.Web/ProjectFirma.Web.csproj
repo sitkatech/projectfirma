@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -262,6 +262,9 @@
     <Compile Include="Models\Generated\ProjectOrganization.Binding.cs" />
     <Compile Include="Models\Generated\ProjectOrganization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectOrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
@@ -341,6 +344,9 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\ProjectUpdate\Organizations.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsViewModel.cs" />
     <Compile Include="Controllers\ProjectStewardOrganizationController.cs" />
     <Compile Include="Common\RouteTableBuilder.cs" />
     <Compile Include="Common\RouteTableBuilderTest.cs" />
@@ -1391,6 +1397,7 @@
     <Content Include="Views\ProjectCreate\ProjectTypeSelection.cshtml" />
     <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
     <Content Include="Views\ProjectCreate\Organizations.cshtml" />
+    <Content Include="Views\ProjectUpdate\Organizations.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

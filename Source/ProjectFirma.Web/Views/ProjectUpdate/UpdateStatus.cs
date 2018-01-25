@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly bool IsWatershedUpdated;
         public readonly bool IsExternalLinksUpdated;
         public readonly bool IsNotesUpdated;
+        public readonly bool IsOrganizationsUpdated;
 
         public UpdateStatus(bool isBasicsUpdated,
             bool isPerformanceMeasuresUpdated,
@@ -44,7 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             bool isWatershedUpdated,
             bool isExternalLinksUpdated,
             bool isNotesUpdated,
-            bool isExpectedFundingUpdated)
+            bool isExpectedFundingUpdated,
+            bool isOrganizationsUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
             IsPerformanceMeasuresUpdated = isPerformanceMeasuresUpdated;
@@ -57,7 +59,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IsExternalLinksUpdated = isExternalLinksUpdated;
             IsNotesUpdated = isNotesUpdated;
             IsExpectedFundingUpdated = isExpectedFundingUpdated;
+            IsOrganizationsUpdated = isOrganizationsUpdated;
         }
 
+        
     }
 }
