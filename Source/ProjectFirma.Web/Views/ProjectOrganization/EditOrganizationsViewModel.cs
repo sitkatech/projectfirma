@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
     public class EditOrganizationsViewModel : FormViewModel, IValidatableObject
     {
         public ProjectOrganizationsViewModelJson ProjectOrganizationsViewModelJson { get; set; }
+        public List<ProjectOrganizationSimple> ProjectOrganizationSimples { get; set; }
 
         /// <summary>
         /// Needed by Model Binder
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var projectOrganizationJsons = projectOrganizations.GroupBy(po => po.Organization).Select(o => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(o.Key, o.ToList())).ToList();
 
             ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(projectOrganizationJsons);
+            ProjectOrganizationSimples = projectOrganizations.Select(x => new ProjectOrganizationSimple(x)).ToList();
         }
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)

@@ -365,6 +365,7 @@
     <Compile Include="Models\ProjectFundingSourceRequest.cs" />
     <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
     <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />
+    <Compile Include="Models\ProjectOrganizationSimple.cs" />
     <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
     <Compile Include="Models\ProjectUpdateSection.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
