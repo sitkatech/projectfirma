@@ -82,6 +82,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             OrganizationID: Number(organizationID),
             RelationshipTypeID: relationshipTypeID
         });
+        $scope.resetSelectedOrganizationID(relationshipTypeID);
     };
 
     $scope.removeProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
@@ -89,9 +90,9 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             function(pos) {
                 return pos.OrganizationID == organizationID && pos.RelationshipTypeID == relationshipTypeID;
             });
-    }
+    };
 
-    $scope.selectionChanged = function (organizationID, relationshipType) {
+    $scope.selectionChanged = function(organizationID, relationshipType) {
         // changing the dropdown selection for a one-and-only-one relationship type should update the model
         if (relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
             // if there's already a projectOrganizationSimple for this relationship type, just change the OrganizationID
@@ -109,7 +110,11 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
                 });
             }
         } // but nothing should happen if it's a many-or-none relationship type
-    }
+    };
+
+    $scope.resetSelectedOrganizationID = function(relationshipTypeID) {
+        $scope.selectedOrganizationID[relationshipTypeID] = "";
+    };
 
     $scope.isOptionSelected = function(organization, relationshipType) {
         if (!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
@@ -120,7 +125,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
                 return pos.OrganizationID == organization.OrganizationID &&
                     pos.RelationshipTypeID == relationshipType.RelationshipTypeID;
             });
-    }
+    };
 
     $scope.dropdownDefaultOption = function(relationshipType) {
         if (relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
@@ -128,7 +133,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         } else {
             return "Add a " + relationshipType.RelationshipTypeName;
         }
-    }
+    };
 
     $scope.validRelationshipTypes = function(organizationID) {
         var organization =
@@ -142,4 +147,5 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.selectedOrganizationID = {};
 });

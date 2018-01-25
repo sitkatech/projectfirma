@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="row">
                             @*Selectpicker*@
                             <div class="col-xs-9">
-                                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)" data-width="100%">
+                                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%">
                                     <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
                                     <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                                             ng-bind="organization.OrganizationName"
@@ -91,7 +91,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                             ng-selected="isOptionSelected(organization,relationshipType)"></option>
                                 </select>
                             </div>
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID, relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Add
                             </button>
