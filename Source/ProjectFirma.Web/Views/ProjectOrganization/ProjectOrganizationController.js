@@ -122,6 +122,14 @@ angular.module("ProjectFirmaApp", []).controller("ProjectOrganizationController"
             });
     }
 
+    $scope.dropdownDefaultOption = function(relationshipType) {
+        if (relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            return "Select the " + relationshipType.RelationshipTypeName;
+        } else {
+            return "Add a " + relationshipType.RelationshipTypeName;
+        }
+    }
+
     $scope.validRelationshipTypes = function(organizationID) {
         var organization =
             Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,

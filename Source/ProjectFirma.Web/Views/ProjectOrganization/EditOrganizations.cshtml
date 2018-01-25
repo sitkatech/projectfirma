@@ -74,17 +74,17 @@ Source code is available upon request via <support@sitkatech.com>.
             <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:'-RelationshipTypeCanOnlyBeRelatedOnceToAProject'">
                 <hr />
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-8">
                         <div class="row">
                             @*Relationship type and description*@
-                            <div class="col-xs-12" ng-bind="relationshipType.RelationshipTypeName"></div>
+                            <div class="col-xs-12"><label ng-bind="relationshipType.RelationshipTypeName"></label></div>
                         </div>
 
                         <div class="row">
                             @*Selectpicker*@
                             <div class="col-xs-9">
                                 <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)" data-width="100%">
-                                    <option value="" disabled selected>Select one</option>
+                                    <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
                                     <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                                             ng-bind="organization.OrganizationName"
                                             ng-value="organization.OrganizationID"
@@ -97,17 +97,19 @@ Source code is available upon request via <support@sitkatech.com>.
                             </button>
                         </div>
 
-                        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
                             @*Selections*@
-                            <div class="col-xs-9" ng-bind="organization.OrganizationName"></div>
+                            <div class="col-xs-9"><span ng-bind="organization.OrganizationName"></span></div>
                             <div class="col-xs-3">
-                                <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
-                                    <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
-                                </a>
+                                <span>
+                                    <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
+                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
+                                    </a>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <p class="smallExplanationText" ng-bind="relationshipType.RelationshipTypeDescription"></p>
                     </div>
                 </div>

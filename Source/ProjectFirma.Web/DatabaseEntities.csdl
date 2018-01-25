@@ -1607,6 +1607,7 @@
     <Property Name="CanStewardProjects" Type="Boolean" Nullable="false" />
     <Property Name="IsPrimaryContact" Type="Boolean" Nullable="false" />
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="Boolean" Nullable="false" />
+    <Property Name="RelationshipTypeDescription" Type="String" MaxLength="480" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="OrganizationTypeRelationshipTypes" />
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizations" />
   </EntityType>

@@ -31,13 +31,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
+        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string relationshipTypeDescription) : this()
         {
             this.RelationshipTypeID = relationshipTypeID;
             this.RelationshipTypeName = relationshipTypeName;
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.RelationshipTypeDescription = relationshipTypeDescription;
         }
 
         /// <summary>
@@ -84,6 +85,7 @@ namespace ProjectFirma.Web.Models
         public bool CanStewardProjects { get; set; }
         public bool IsPrimaryContact { get; set; }
         public bool CanOnlyBeRelatedOnceToAProject { get; set; }
+        public string RelationshipTypeDescription { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
 
@@ -94,6 +96,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int RelationshipTypeName = 200;
+            public const int RelationshipTypeDescription = 480;
         }
     }
 }

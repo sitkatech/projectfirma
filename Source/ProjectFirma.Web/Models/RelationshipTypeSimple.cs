@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Models
             RelationshipTypeID = relationshipType.RelationshipTypeID;
             RelationshipTypeName = relationshipType.RelationshipTypeName;
             RelationshipTypeCanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
+            RelationshipTypeDescription = relationshipType.RelationshipTypeDescription;
         }
 
         public int RelationshipTypeID { get; set; }
