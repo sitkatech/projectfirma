@@ -1275,6 +1275,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
             viewModel.UpdateModel(project, allProjectOrganizations);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Organizations succesfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
         }

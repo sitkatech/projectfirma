@@ -56,6 +56,8 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
             viewModel.UpdateModel(project, projectOrganizations);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
             return new ModalDialogFormJsonResult();
         }
 

@@ -50,13 +50,8 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
         {
-            var projectOrganizationViewModelJsons =
-                ProjectOrganizationsViewModelJson.ProjectOrganizations.ToList();
-
-            var projectOrganizationsUpdated = projectOrganizationViewModelJsons.SelectMany(
-                orgBeingAdded => orgBeingAdded.RelationshipTypes.Select(
-                    relationshipType => new Models.ProjectOrganization(project.ProjectID,
-                        orgBeingAdded.OrganizationID.Value, relationshipType.RelationshipTypeID))).ToList();
+            var projectOrganizationsUpdated = ProjectOrganizationSimples.Select(x =>
+                new Models.ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
 
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
@@ -72,28 +67,24 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
             var errors = new List<ValidationResult>();
 
-            var projectOrganizations = ProjectOrganizationSimples;
-
             // todo: rewrite this
             //if (projectOrganizations.Any(x => x.OrganizationID == null))
             //{
             //    errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
             //    return errors;
             //}
-
-
+            
             // todo: is this the right linq? 90% sure it is.
-            if (projectOrganizations.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
+            if (ProjectOrganizationSimples.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
             }
-
-
+            
             var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
 
             // no more than one todo right linq?
             var projectOrganizationsGroupedByRelationshipTypeID =
-                projectOrganizations.GroupBy(x => x.RelationshipTypeID).ToList();
+                ProjectOrganizationSimples.GroupBy(x => x.RelationshipTypeID).ToList();
 
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) > 1)
@@ -107,7 +98,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                     $"Must have one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
             // todo right linq?
-            var allValidRelationshipTypes = projectOrganizations.All(x =>
+            var allValidRelationshipTypes = ProjectOrganizationSimples.All(x =>
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
                 var organizationType = organization.OrganizationType;
