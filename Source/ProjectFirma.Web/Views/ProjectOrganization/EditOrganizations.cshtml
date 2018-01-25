@@ -192,7 +192,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </button>
         </div>
 
-        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)">
+        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
             @*Selections*@
             <div class="col-sm-5" ng-bind="organization.OrganizationName"></div>
             <div class="col-sm-1">
