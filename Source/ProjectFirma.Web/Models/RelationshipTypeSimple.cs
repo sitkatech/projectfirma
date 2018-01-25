@@ -35,5 +35,6 @@ namespace ProjectFirma.Web.Models
         public int RelationshipTypeID { get; set; }
         public string RelationshipTypeName { get; set; }
         public bool RelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
+        public string RelationshipTypeDescription { get; set; }
     }
 }
