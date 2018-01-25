@@ -1064,7 +1064,6 @@
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModel.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelTest.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelValidatorTest.cs" />
-    <Compile Include="Views\ProjectOrganization\ProjectOrganizationsViewModelJson.cs" />
     <Compile Include="Views\ProjectUpdate\Basics.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsValidationResultsTest.cs" />
