@@ -72,50 +72,52 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
             var errors = new List<ValidationResult>();
 
-            var projectOrganizationJsons = ProjectOrganizationsViewModelJson.ProjectOrganizations;
-            if (projectOrganizationJsons.Any(x => x.OrganizationID == null))
-            {
-                errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
-                return errors;
-            }
+            var projectOrganizations = ProjectOrganizationSimples;
 
-            if (projectOrganizationJsons.Count != projectOrganizationJsons.Select(x => x.OrganizationID).Distinct().Count())
-            {
-                errors.Add(new ValidationResult($"Cannot have the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} listed multiple times."));
-            }
+            // todo: rewrite this
+            //if (projectOrganizations.Any(x => x.OrganizationID == null))
+            //{
+            //    errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
+            //    return errors;
+            //}
 
-            if (projectOrganizationJsons.Any(x => x.RelationshipTypes.Count != x.RelationshipTypes.Select(y => y.RelationshipTypeID).Distinct().Count()))
+
+            // todo: is this the right linq? 90% sure it is.
+            if (projectOrganizations.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
             }
 
+
             var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+
+            // no more than one todo right linq?
+            var projectOrganizationsGroupedByRelationshipTypeID =
+                projectOrganizations.GroupBy(x => x.RelationshipTypeID).ToList();
+
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationJsons.SelectMany(x => x.RelationshipTypes)
-                                 .Count(x => x.RelationshipTypeID ==
-                                             rt.RelationshipTypeID) > 1)
+                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
                     $"Cannot have more than one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
+            // not zero todo right linq?
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationJsons.SelectMany(x => x.RelationshipTypes)
-                                 .Count(x => x.RelationshipTypeID ==
-                                             rt.RelationshipTypeID) == 0)
+                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
                     $"Must have one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
-            var allValidRelationshipTypes = projectOrganizationJsons.All(x =>
+            // todo right linq?
+            var allValidRelationshipTypes = projectOrganizations.All(x =>
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID.Value);
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
                 var organizationType = organization.OrganizationType;
+
                 if (organizationType != null)
                 {
-                    var validRelationshipTypes = organizationType.OrganizationTypeRelationshipTypes
-                        .Select(t => t.RelationshipType)
-                        .ToList();
+                    var organizationTypeRelationshipTypeIDs =
+                        organizationType.OrganizationTypeRelationshipTypes.Select(y => y.RelationshipTypeID);
 
-                    return x.RelationshipTypes.All(y => validRelationshipTypes.Select(i => i.RelationshipTypeID)
-                        .Contains(y.RelationshipTypeID));
+                    return organizationTypeRelationshipTypeIDs.Contains(x.RelationshipTypeID);
                 }
                 return false;
             });
