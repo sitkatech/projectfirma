@@ -179,28 +179,27 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="row">
             @*Selectpicker*@
-            <div class="col-sm-12">
-                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)">
+            <div class="col-sm-5">
+                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)" data-width="100%">
                     <option value="" disabled selected>Select one</option>
                     <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                             ng-bind="organization.OrganizationName"
                             ng-value="organization.OrganizationID"></option>
-                </select>
+                </select></div>
                 <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID, relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
                     <span class="glyphicon glyphicon-plus"></span>
                     Add
                 </button>
-            </div>
         </div>
 
         <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)">
             @*Selections*@
+            <div class="col-sm-5" ng-bind="organization.OrganizationName"></div>
             <div class="col-sm-1">
                 <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
                     <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
                 </a>
             </div>
-            <div class="col-sm-6" ng-bind="organization.OrganizationName"></div>
         </div>
         <hr />
     </div>
