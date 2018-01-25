@@ -72,137 +72,46 @@ Source code is available upon request via <support@sitkatech.com>.
                     A single @FieldDefinition.Organization.GetFieldDefinitionLabel() can have more than one association.
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:'-RelationshipTypeCanOnlyBeRelatedOnceToAProject'">
                 <div class="col-xs-12">
-                    <button type="button" class="btn btn-sm btn-firma pull-right" ng-click="addTopTier()">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Add Organization
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-xs-1"></th>
-                                <th class="col-xs-5">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                <th class="col-xs-1"></th>
-                                <th class="col-xs-4">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-                                <th class="col-xs-1"></th>
-                            </tr>
-                        </thead>
-                        <tbody ng-repeat="primarySimple in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
-                            <tr class="row">
-                                <td class="col-xs-1" style="text-align: center">
-                                    <a href="#" ng-click="removeTopTier(primarySimple); $event.preventDefault();" style="text-decoration: none">
-                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.Organization.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.Organization.GetFieldDefinitionLabel()"></i>
-                                    </a>
-                                </td>
-                                <td class="col-xs-5 organizationIdSelectGroup">
-                                    <input type="hidden" value="{{primarySimple.OrganizationID}}"
-                                           name="ProjectOrganizations[{{$index}}].OrganizationID" />
-                                    <select style="width: 100%" ng-model="primarySimple.OrganizationID"
-                                            name="ProjectOrganizations[{{$index}}].OrganizationID"
-                                            ng-change="updateModel(primarySimple)"
-                                            class="selectpicker"
-                                            data-live-search="true"
-                                            data-container="body"
-                                            title="Select an Organization">
-                                        <option ng-repeat="organization in getAvailableOrganizations(primarySimple)"
-                                                value="{{organization.OrganizationID}}"
-                                                ng-selected="primarySimple.OrganizationID == organization.OrganizationID"
-                                                ng-bind="organization.OrganizationName"
-                                                data-tokens="{{organization.OrganizationName}}"></option>
-                                    </select>
-                                </td>
-                                <td class="col-xs-1" style="text-align: center">
-                                    <a href="#" ng-click="removeDetailTier(primarySimple, primarySimple.RelationshipTypes[0]); $event.preventDefault();" ng-class="primarySimple.RelationshipTypes.length <= 1 ? 'disabled' : ''">
-                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
-                                    </a>
-                                </td>
-                                <td class="col-xs-4">
-                                    <input type="hidden" value="{{primarySimple.RelationshipTypes[0].RelationshipTypeID}}"
-                                           name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" />
-                                    <select class="form-control" style="width: 100%" ng-model="primarySimple.RelationshipTypes[0].RelationshipTypeID" name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" ng-required="true">
-                                        <option value="" disabled selected>Select one</option>
-                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
-                                                ng-selected="primarySimple.RelationshipTypes[0].RelationshipTypeID == detailType.RelationshipTypeID"
-                                                ng-bind="detailType.RelationshipTypeName"
-                                                value="{{detailType.RelationshipTypeID}}"></option>
-                                    </select>
-                                </td>
-                                <td class="col-xs-1">
-                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="validRelationshipTypes(primarySimple.OrganizationID).length <= primarySimple.RelationshipTypes.length">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        Add
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="row subRelationships" ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)">
-                                <td class="col-xs-1">&nbsp;</td>
-                                <td class="col-xs-5">&nbsp;</td>
-                                <td class="col-xs-1" style="text-align: center">
-                                    <input type="hidden" value="{{detailSimple.RelationshipTypeID}}"
-                                           name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" />
-                                    <a href="#" ng-click="removeDetailTier(primarySimple, detailSimple); $event.preventDefault();">
-                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
-                                    </a>
-                                </td>
-                                <td class="col-xs-4">
-                                    <select class="form-control" style="width: 100%" ng-model="detailSimple.RelationshipTypeID" name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" ng-required="true">
-                                        <option value="" disabled selected>Select a Relationship</option>
-                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
-                                                ng-selected="detailSimple.RelationshipTypeID == detailType.RelationshipTypeID"
-                                                ng-bind="detailType.RelationshipTypeName"
-                                                value="{{detailType.RelationshipTypeID}}"></option>
-                                    </select>
-                                </td>
-                                <td class="col-xs-1">&nbsp;</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        @*Relationship type and description*@
+                        <div class="col-xs-6" ng-bind="relationshipType.RelationshipTypeName"></div>
+                        <div class="col-xs-6">
+                            Explanatory text
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @*Selectpicker*@
+                        <div class="col-xs-5">
+                            <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)" data-width="100%">
+                                <option value="" disabled selected>Select one</option>
+                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
+                                        ng-bind="organization.OrganizationName"
+                                        ng-value="organization.OrganizationID"
+                                        ng-selected="isOptionSelected(organization,relationshipType)"></option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID, relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Add
+                        </button>
+                    </div>
+
+                    <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                        @*Selections*@
+                        <div class="col-xs-5" ng-bind="organization.OrganizationName"></div>
+                        <div class="col-xs-1">
+                            <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
             </div>
         </div>
-    </div>
-
-    @*TODO: New codes under this line*@
-    <div class="row" ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:'-RelationshipTypeCanOnlyBeRelatedOnceToAProject'">
-        <div class="row">
-            @*Relationship type and description*@
-            <div class="col-sm-6" ng-bind="relationshipType.RelationshipTypeName"></div>
-            <div class="col-sm-6">
-                Explanatory text
-            </div>
-        </div>
-
-        <div class="row">
-            @*Selectpicker*@
-            <div class="col-sm-5">
-                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID" ng-change="selectionChanged(selectedOrganizationID,relationshipType)" data-width="100%">
-                    <option value="" disabled selected>Select one</option>
-                    <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
-                            ng-bind="organization.OrganizationName"
-                            ng-value="organization.OrganizationID"
-                            ng-selected="isOptionSelected(organization,relationshipType)"></option>
-                </select></div>
-                <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID, relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Add
-                </button>
-        </div>
-
-        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
-            @*Selections*@
-            <div class="col-sm-5" ng-bind="organization.OrganizationName"></div>
-            <div class="col-sm-1">
-                <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
-                    <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
-                </a>
-            </div>
-        </div>
-        <hr />
     </div>
 
     @using (Html.BeginForm())
