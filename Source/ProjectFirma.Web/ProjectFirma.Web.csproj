@@ -46,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -262,6 +263,9 @@
     <Compile Include="Models\Generated\ProjectOrganization.Binding.cs" />
     <Compile Include="Models\Generated\ProjectOrganization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectOrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
@@ -341,6 +345,11 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ProjectOrganizationUpdate.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\Organizations.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsViewModel.cs" />
     <Compile Include="Controllers\ProjectStewardOrganizationController.cs" />
     <Compile Include="Common\RouteTableBuilder.cs" />
     <Compile Include="Common\RouteTableBuilderTest.cs" />
@@ -365,6 +374,7 @@
     <Compile Include="Models\ProjectFundingSourceRequest.cs" />
     <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
     <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />
+    <Compile Include="Models\ProjectOrganizationSimple.cs" />
     <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
     <Compile Include="Models\ProjectUpdateSection.cs" />
     <Compile Include="Models\ProjectWatershedUpdate.cs" />
@@ -381,6 +391,9 @@
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
     <Compile Include="Views\ProjectCreate\InstructionsEnterHistoric.cs" />
     <Compile Include="Views\ProjectCreate\InstructionsEnterHistoricViewData.cs" />
+    <Compile Include="Views\ProjectCreate\Organizations.cs" />
+    <Compile Include="Views\ProjectCreate\OrganizationsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\OrganizationsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelection.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewModel.cs" />
@@ -422,6 +435,7 @@
     <Compile Include="Views\Project\PendingGridSpec.cs" />
     <Compile Include="Views\Project\Pending.cs" />
     <Compile Include="Views\Project\PendingViewData.cs" />
+    <Compile Include="Views\Project\ProjectOrganizationForDiff.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -447,6 +461,8 @@
     <Compile Include="Views\Shared\GooglePieChartConfiguration.cs" />
     <Compile Include="Views\Shared\GooglePieChartSlice.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureChartDataSimple.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cs" />
@@ -1055,12 +1071,11 @@
     <Compile Include="Views\ProjectImage\New.cs" />
     <Compile Include="Views\ProjectImage\NewViewData.cs" />
     <Compile Include="Views\ProjectImage\NewViewModel.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizations.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizationsViewData.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModel.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelTest.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelValidatorTest.cs" />
-    <Compile Include="Views\ProjectOrganization\ProjectOrganizationsViewModelJson.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\EditOrganizations.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\EditOrganizationsViewData.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModelTest.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModelValidatorTest.cs" />
     <Compile Include="Views\ProjectUpdate\Basics.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsValidationResultsTest.cs" />
@@ -1356,6 +1371,7 @@
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectFundingSourceRequest\ProjectFundingSourceRequestController.js" />
+    <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
@@ -1386,6 +1402,9 @@
     <Content Include="Views\ProjectCreate\PerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectTypeSelection.cshtml" />
     <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
+    <Content Include="Views\ProjectCreate\Organizations.cshtml" />
+    <Content Include="Views\ProjectUpdate\Organizations.cshtml" />
+    <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1924,7 +1943,7 @@
     <Content Include="Views\ProjectBudget\ProjectBudgetController.js" />
     <Content Include="Views\ProjectExternalLink\ProjectExternalLinkController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureController.js" />
-    <Content Include="Views\ProjectOrganization\EditOrganizationsViewModelTest.AllViewModelFieldsAreSetFromConstructorTest.approved.txt" />
+    <Content Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModelTest.AllViewModelFieldsAreSetFromConstructorTest.approved.txt" />
     <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
     <Content Include="Views\ProjectUpdate\BudgetsController.js" />
@@ -3213,7 +3232,7 @@
     <Content Include="Views\ProjectImageUpdate\New.cshtml" />
     <Content Include="Views\ProjectImage\Edit.cshtml" />
     <Content Include="Views\ProjectImage\New.cshtml" />
-    <Content Include="Views\ProjectOrganization\EditOrganizations.cshtml" />
+    <Content Include="Views\Shared\ProjectOrganization\EditOrganizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Basics.cshtml" />
     <Content Include="Views\ProjectUpdate\CustomNotification.cshtml" />
     <Content Include="Views\ProjectUpdate\PerformanceMeasures.cshtml" />

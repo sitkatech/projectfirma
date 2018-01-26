@@ -32,6 +32,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -93,6 +94,7 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
+        public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -111,7 +113,8 @@ namespace ProjectFirma.Web.Views.Project
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, string editClassificationsUrl,
             string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
-            string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal)
+            string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -244,6 +247,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridSpec = projectNotificationGridSpec;
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
+            ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
 
             ClassificationDisplayNamePluralized =
                 Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();

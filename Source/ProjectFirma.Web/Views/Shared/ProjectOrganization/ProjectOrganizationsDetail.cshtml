@@ -1,0 +1,64 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectOrganizationsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.Shared.ProjectOrganization
+@inherits ProjectOrganizationsDetail
+@if (ViewDataTyped.AllProjectOrganizations.Any())
+{
+    <table class="summaryLayout">
+        <tr>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+        </tr>
+        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
+        {
+            <tr>
+                <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
+
+                <td>
+                    @{
+                        var projectOrganizations = projectOrganization.OrderBy(x=>x.RelationshipType.RelationshipTypeName).ToList();
+                    }
+                    @for (int i =0; i<projectOrganizations.Count; i++)
+                    {
+                        var x = projectOrganizations[i];
+                        if (i != projectOrganizations.Count-1)
+                        {
+                            <span class="@x.DisplayCssClass">
+                                @x.RelationshipType.RelationshipTypeName,
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="@x.DisplayCssClass">
+                                @x.RelationshipType.RelationshipTypeName
+                            </span>
+                        }
+                    }</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No other organizations set for this project.</p>
+}

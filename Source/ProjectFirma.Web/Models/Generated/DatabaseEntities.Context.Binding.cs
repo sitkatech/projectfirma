@@ -146,6 +146,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectNoteUpdate> ProjectNoteUpdates { get { return AllProjectNoteUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectOrganization> AllProjectOrganizations { get; set; }
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
+        public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -462,6 +464,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectOrganization":
                     return ProjectOrganizations.GetProjectOrganization(primaryKey);
+
+                case "ProjectOrganizationUpdate":
+                    return ProjectOrganizationUpdates.GetProjectOrganizationUpdate(primaryKey);
 
                 case "Project":
                     return Projects.GetProject(primaryKey);

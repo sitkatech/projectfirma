@@ -47,8 +47,32 @@ using MoreLinq;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
+using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
+using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
+using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
+using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
+using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
+using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
+using ExpendituresViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewData;
+using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewModel;
+using LocationDetailed = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailed;
+using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewData;
+using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewModel;
+using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
+using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
+using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
+using Notes = ProjectFirma.Web.Views.ProjectUpdate.Notes;
+using NotesViewData = ProjectFirma.Web.Views.ProjectUpdate.NotesViewData;
+using PerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasures;
+using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewData;
+using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewModel;
+using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
+using WatershedViewData = ProjectFirma.Web.Views.ProjectUpdate.WatershedViewData;
+using WatershedViewModel = ProjectFirma.Web.Views.ProjectUpdate.WatershedViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -63,6 +87,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
+        public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult AllMyProjects()
@@ -1332,6 +1357,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
+            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1346,7 +1373,10 @@ namespace ProjectFirma.Web.Controllers
                 allProjectImages,
                 allProjectLocations,
                 allProjectWatersheds,
-                allProjectFundingSourceRequests);
+                allProjectFundingSourceRequests,
+                allProjectOrganizations);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
 
@@ -2399,6 +2429,70 @@ namespace ProjectFirma.Web.Controllers
             return ViewHtmlDiff(partialViewToString,$"{FieldDefinition.Project.GetFieldDefinitionLabel()} Update from {projectUpdateBatch.LastUpdateDate.ToLongDateString()}");
         }
 
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+
+            var viewModel = new OrganizationsViewModel(projectUpdateBatch);
+
+            return ViewOrganizations(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey, OrganizationsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewOrganizations(projectUpdateBatch, viewModel);
+            }
+
+            
+
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizationUpdates.Load();
+            var projectOrganizationUpdates = projectUpdateBatch.ProjectOrganizationUpdates.ToList();
+            var allProjectOrganizationUpdates = HttpRequestStorage.DatabaseEntities.AllProjectOrganizationUpdates.Local;
+
+            viewModel.UpdateModel(projectUpdateBatch,projectOrganizationUpdates, allProjectOrganizationUpdates);
+            if (projectUpdateBatch.IsSubmitted)
+            {
+                projectUpdateBatch.OrganizationsComment = viewModel.Comments;
+            }
+
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Organizations);
+        }
+
+        private ActionResult ViewOrganizations(ProjectUpdateBatch projectUpdateBatch, OrganizationsViewModel viewModel)
+        {
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var organizationsValidationResult = projectUpdateBatch.ValidateOrganizations();
+
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+
+            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
+            var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
+                ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
+
+            return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
+        }
+
         private UpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
             var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -2417,6 +2511,8 @@ namespace ProjectFirma.Web.Controllers
 
             var isExpectedFundingUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
+
             return new UpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
@@ -2428,7 +2524,8 @@ namespace ProjectFirma.Web.Controllers
                 isWatershedUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated,
-                isExpectedFundingUpdated);
+                isExpectedFundingUpdated,
+                isOrganizationsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -2474,6 +2571,100 @@ namespace ProjectFirma.Web.Controllers
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(projectUpdateBatch.Project) : currentSection.GetSectionUrl(projectUpdateBatch.Project);
             return Redirect(nextSection);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult RefreshOrganizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshExpenditures(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshOrganizations(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectOrganizationUpdates();
+            // refresh data
+            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffOrganizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffOrganizationsImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffOrganizationsImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.DisplayName}");
+
+            var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
+            var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
+
+            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
+            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForModifiedOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated)
+        {
+            var organizationsInOriginal = projectOrganizationsOriginal;
+            var organizationsInUpdated = projectOrganizationsUpdated;
+
+            var organizationsOnlyInOriginal = organizationsInOriginal.Where(x => !organizationsInUpdated.Contains(x)).ToList();
+            var organizationRequestAmounts = projectOrganizationsOriginal.Select(x => new ProjectOrganization(x)).ToList();
+
+            organizationRequestAmounts.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x)).Select(x =>
+                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+            organizationRequestAmounts
+                .Where(x => organizationsOnlyInOriginal
+                    .Select(y => new {y.Organization, y.RelationshipType})
+                    .Contains(new {x.Organization, x.RelationshipType}))
+                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+
+            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+        }
+
+        private string GeneratePartialViewForOriginalOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated)
+        {
+            var organizationsInOriginal = projectOrganizationsOriginal;
+            var organizationsInUpdated = projectOrganizationsUpdated;
+
+            var organizationsOnlyInUpdated = organizationsInUpdated.Where(x => !organizationsInOriginal.Contains(x)).ToList();
+            var organizationRequestAmounts = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
+
+            organizationRequestAmounts.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x)).Select(x =>
+                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+            organizationRequestAmounts
+                .Where(x => organizationsOnlyInUpdated
+                    .Select(y => new { y.Organization, y.RelationshipType })
+                    .Contains(new { x.Organization, x.RelationshipType }))
+                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+        }
+
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations)
+        {
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations);
+            var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
+            return partialViewAsString;
         }
     }
 }

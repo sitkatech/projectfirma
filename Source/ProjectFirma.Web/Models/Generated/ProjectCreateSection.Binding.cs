@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
         public static readonly ProjectCreateSectionNotes Notes = ProjectCreateSectionNotes.Instance;
+        public static readonly ProjectCreateSectionOrganizations Organizations = ProjectCreateSectionOrganizations.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, Notes };
+            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, Notes, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -132,6 +133,8 @@ namespace ProjectFirma.Web.Models
                     return LocationSimple;
                 case ProjectCreateSectionEnum.Notes:
                     return Notes;
+                case ProjectCreateSectionEnum.Organizations:
+                    return Organizations;
                 case ProjectCreateSectionEnum.Photos:
                     return Photos;
                 case ProjectCreateSectionEnum.ReportedExpenditures:
@@ -160,7 +163,8 @@ namespace ProjectFirma.Web.Models
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
-        Notes = 14
+        Notes = 14,
+        Organizations = 15
     }
 
     public partial class ProjectCreateSectionInstructions : ProjectCreateSection
@@ -239,5 +243,11 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectCreateSectionNotes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
         public static readonly ProjectCreateSectionNotes Instance = new ProjectCreateSectionNotes(14, @"Notes", @"Notes", 140, false);
+    }
+
+    public partial class ProjectCreateSectionOrganizations : ProjectCreateSection
+    {
+        private ProjectCreateSectionOrganizations(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
+        public static readonly ProjectCreateSectionOrganizations Instance = new ProjectCreateSectionOrganizations(15, @"Organizations", @"Organizations", 25, true);
     }
 }

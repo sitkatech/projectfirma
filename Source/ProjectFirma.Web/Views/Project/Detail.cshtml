@@ -34,6 +34,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectFirma.Web.Views.Project.Detail
 
 @section JavascriptAndStylesContent
@@ -44,6 +45,7 @@
     <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceRequest/ProjectFundingSourceRequestController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
     <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
     <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
@@ -174,26 +176,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.AllProjectOrganizations.Any())
-                                {
-                                    <table class="summaryLayout">
-                                        <tr>
-                                            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-                                        </tr>
-                                        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
-                                        {
-                                            <tr >
-                                                <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                                                <td>@string.Join(", ", projectOrganization.Select(x => x.RelationshipType.RelationshipTypeName).OrderBy(x => x))</td>
-                                            </tr>
-                                        }
-                                    </table>
-                                }
-                                else
-                                {
-                                    <p>No other organizations set for this project.</p>
-                                }
+                                @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
                             </div>
                         </div>
 

@@ -1,0 +1,128 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditOrganizations.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.ProjectOrganization.EditOrganizations
+
+<script type="text/javascript">
+    // <![CDATA[    
+    jQuery(document).ready(function ()
+    {
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+        {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+            };
+        });
+
+        angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+</script>
+<script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+
+<style>
+    .table > tbody > tr.subRelationships > td {
+        border-top: none;
+        padding-top: 0;
+    }
+    .col-xs-5.organizationIdSelectGroup div.bootstrap-select.btn-group {
+        width: 100%;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    Add @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(), and specify the nature of their association to it.
+                    A single @FieldDefinition.Organization.GetFieldDefinitionLabel() can have more than one association.
+                </div>
+            </div>
+            <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:['-RelationshipTypeCanOnlyBeRelatedOnceToAProject','RelationshipTypeName']">
+                <hr />
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="row">
+                            @*Relationship type and description*@
+                            <div class="col-xs-12"><label ng-bind="relationshipType.RelationshipTypeName"></label></div>
+                        </div>
+
+                        <div class="row">
+                            @*Selectpicker*@
+                            <div class="col-xs-12">
+                                <div class="input-group" style="width: 100%;">
+                                    <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true">
+                                        <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                        <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
+                                                ng-bind="organization.OrganizationName"
+                                                ng-value="organization.OrganizationID"
+                                                ng-selected="isOptionSelected(organization,relationshipType)"></option>
+                                    </select>
+                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                            @*Selections*@
+                            <div class="col-xs-9"><span ng-bind="organization.OrganizationName"></span></div>
+                            <div class="col-xs-3">
+                                <span>
+                                    <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
+                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="smallExplanationText" ng-bind="relationshipType.RelationshipTypeDescription"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="projectOrganization in AngularModel.ProjectOrganizationSimples">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].RelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.RelationshipTypeID}}"/>
+        </div>
+    }
+</div>

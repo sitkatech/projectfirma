@@ -42,6 +42,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Controllers
@@ -124,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
         {
             var showProjectStageDropDown = true;
-            var basicsViewModel = new BasicsViewModel(CurrentPerson.Organization);
+            var basicsViewModel = new BasicsViewModel();
             if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
@@ -228,9 +229,6 @@ namespace ProjectFirma.Web.Controllers
                 DeletePerformanceMeasureActuals(project);
                 DeleteProjectExemptReportingYears(project);
             }
-
-            SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
-            SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship());
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -1228,7 +1226,56 @@ namespace ProjectFirma.Web.Controllers
 
         public void DeleteProjectFundingSourceExpenditures(Project project)
         {
-            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure(); 
+        }
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList());
+            return ViewOrganizations(project, viewModel);
+        }
+
+        private ViewResult ViewOrganizations(Project project, OrganizationsViewModel viewModel)
+        {
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+
+            var proposalSectionsStatus = new ProposalSectionsStatus(project);
+            proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;
+            var viewData = new OrganizationsViewData(CurrentPerson, project, proposalSectionsStatus, editOrganizationsViewData);
+
+            return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Organizations(ProjectPrimaryKey projectPrimaryKey, OrganizationsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList());
+                return ViewOrganizations(project, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
+            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
+
+            viewModel.UpdateModel(project, allProjectOrganizations);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
         }
     }
 }

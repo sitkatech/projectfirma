@@ -42,6 +42,7 @@ using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -148,6 +149,8 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.ProjectOrganizations);
+
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
@@ -162,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl,
                 editClassificationsUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
                 editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
-                projectNotificationGridDataUrl, userCanEditProposal);
+                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

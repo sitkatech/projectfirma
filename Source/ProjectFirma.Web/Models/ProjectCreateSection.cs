@@ -124,7 +124,6 @@ namespace ProjectFirma.Web.Models
 
         public override string GetSectionUrl(Project project)
         {
-            //todo
             return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
         }
     }
@@ -212,6 +211,20 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID)) : null;
+        }
+    }
+
+    public partial class ProjectCreateSectionOrganizations
+    {
+        public override bool IsComplete(Project project)
+        {
+            var validationResults = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList()).GetValidationResults().ToList();
+            return !validationResults.Any();
+        }
+
+        public override string GetSectionUrl(Project project)
+        {
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Organizations(project.ProjectID)) : null;
         }
     }
 }

@@ -66,7 +66,8 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            return organization;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??

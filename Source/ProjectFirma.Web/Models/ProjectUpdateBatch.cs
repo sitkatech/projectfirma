@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -122,11 +123,14 @@ namespace ProjectFirma.Web.Models
             ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
 
-            // notes
+            // external links
             ProjectExternalLinkUpdate.CreateFromProject(projectUpdateBatch);
 
             // notes
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
+
+            // organizations
+            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
 
             return projectUpdateBatch;
         }
@@ -244,6 +248,12 @@ namespace ProjectFirma.Web.Models
         {
             ProjectWatershedUpdates.DeleteProjectWatershedUpdate();
             RefreshFromDatabase(ProjectWatershedUpdates);
+        }
+
+        public void DeleteProjectOrganizationUpdates()
+        {
+            ProjectOrganizationUpdates.DeleteProjectOrganizationUpdate();
+            RefreshFromDatabase(ProjectOrganizationUpdates);
         }
 
         public void DeleteAll()
@@ -429,6 +439,17 @@ namespace ProjectFirma.Web.Models
             return ValidateExpenditures().IsValid;
         }
 
+        public OrganizationsValidationResult ValidateOrganizations()
+        {
+            return new OrganizationsValidationResult(ProjectOrganizationUpdates.Select(x => new ProjectOrganizationSimple(x))
+                .ToList());
+        }
+
+        public bool AreOrganizationsValid()
+        {
+            return ValidateOrganizations().IsValid;
+        }
+
         public BudgetsValidationResult ValidateBudgetsAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
@@ -518,7 +539,7 @@ namespace ProjectFirma.Web.Models
 
         public void Approve(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //IList<ProjectBudget> projectBudgets, 
-            Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests)
+            Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests, IList<ProjectOrganization> allProjectOrganizations)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
@@ -532,7 +553,8 @@ namespace ProjectFirma.Web.Models
                 projectImages,
                 projectLocations,
                 projectWatersheds,
-                projectFundingSourceRequests);
+                projectFundingSourceRequests,
+                allProjectOrganizations);
             CreateNewTransitionRecord(this, ProjectUpdateState.Approved, currentPerson, transitionDate);
             PushTransitionRecordsToAuditLog();
         }
@@ -553,7 +575,7 @@ namespace ProjectFirma.Web.Models
 
         private void CommitChangesToProject(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            IList<ProjectBudget> projectBudgets,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests)
+            IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests, IList<ProjectOrganization> allProjectOrganizations)
         {
             // basics
             ProjectUpdate.CommitChangesToProject(Project);
@@ -602,6 +624,9 @@ namespace ProjectFirma.Web.Models
 
             // notes
             ProjectNoteUpdate.CommitChangesToProject(this, projectNotes);
+
+            // Organizations
+            ProjectOrganizationUpdate.CommitChangesToProject(this, allProjectOrganizations);
         }
 
         public void RejectSubmission(Person currentPerson, DateTime transitionDate)

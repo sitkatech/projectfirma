@@ -25,8 +25,8 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectOrganization;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -56,6 +56,8 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
             viewModel.UpdateModel(project, projectOrganizations);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
             return new ModalDialogFormJsonResult();
         }
 
