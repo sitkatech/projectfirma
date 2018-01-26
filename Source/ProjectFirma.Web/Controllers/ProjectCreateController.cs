@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
         {
             var showProjectStageDropDown = true;
-            var basicsViewModel = new BasicsViewModel(CurrentPerson.Organization);
+            var basicsViewModel = new BasicsViewModel();
             if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
@@ -229,9 +229,6 @@ namespace ProjectFirma.Web.Controllers
                 DeletePerformanceMeasureActuals(project);
                 DeleteProjectExemptReportingYears(project);
             }
-
-            SetProjectOrganizationForRelationshipType(project, viewModel.PrimaryContactOrganizationID, MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
-            SetProjectOrganizationForRelationshipType(project, viewModel.ApprovingProjectsOrganizationID, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship());
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
