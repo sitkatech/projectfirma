@@ -11,10 +11,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
 
-        public OrganizationsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, EditOrganizationsViewData editOrganizationsViewData, OrganizationsValidationResult organizationsValidationResult) : base(
+        public OrganizationsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, EditOrganizationsViewData editOrganizationsViewData, OrganizationsValidationResult organizationsValidationResult, ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData) : base(
             currentPerson, projectUpdateBatch, currentSection, updateStatus, organizationsValidationResult.GetWarningMessages())
         {
             EditOrganizationsViewData = editOrganizationsViewData;
+            ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
             SectionCommentsViewData =
                 new SectionCommentsViewData(projectUpdateBatch.OrganizationsComment, projectUpdateBatch.IsReturned);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshOrganizations(projectUpdateBatch.Project));
@@ -23,5 +24,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public readonly SectionCommentsViewData SectionCommentsViewData;
         public readonly EditOrganizationsViewData EditOrganizationsViewData;
+        public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
     }
 }

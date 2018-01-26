@@ -6,6 +6,11 @@
 @inherits Organizations
 
 
+@if (!ViewDataTyped.IsEditable)
+{
+    ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData);
+}
+
 @if (ViewDataTyped.IsEditable)
 {
 @section JavascriptAndStylesContent

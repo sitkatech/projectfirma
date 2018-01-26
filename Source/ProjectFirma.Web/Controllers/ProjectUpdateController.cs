@@ -2486,8 +2486,9 @@ namespace ProjectFirma.Web.Controllers
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
 
             var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
-                ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult);
+                ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }
