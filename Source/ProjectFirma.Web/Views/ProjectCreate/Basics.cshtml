@@ -190,7 +190,7 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(document).ready(function ()
     {
         displaySelectedFundingTypeFields();
-        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+        HookupCheckIfFormIsDirty(undefined, ".submitProject");
 
         var $primaryContactPersonField = jQuery("[name=\"@Html.NameFor(m => m.PrimaryContactPersonID)\"]");
         $primaryContactPersonField.change(function(event) {

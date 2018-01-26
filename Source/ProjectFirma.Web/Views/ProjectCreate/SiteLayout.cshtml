@@ -134,7 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         if (ViewDataTyped.CanAdvanceStage)
                         {
                             <span>
-                                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProposal btn btn-xs btn-firma"}, null, null)
+                                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
                             </span>
                         }
                         else
@@ -158,8 +158,8 @@ Source code is available upon request via <support@sitkatech.com>.
                                 {
                                     <button class="btn btn-xs btn-firma" disabled>Approve</button>
                                 }
-                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)</span>
-                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> { "submitProposal btn btn-xs btn-firma" }, null, null)</span>
+                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, "Return Proposal to Submitter", 500, "Return", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)</span>
+                                <span>@ModalDialogFormHelper.ModalDialogFormLink("Reject", ViewDataTyped.RejectUrl, "Reject Proposal", 500, "Reject", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)</span>
                             }
                         }
                     }
