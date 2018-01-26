@@ -438,6 +438,17 @@ namespace ProjectFirma.Web.Models
             return ValidateExpenditures().IsValid;
         }
 
+        public OrganizationsValidationResult ValidateOrganizations()
+        {
+            return new OrganizationsValidationResult(ProjectOrganizationUpdates.Select(x => new ProjectOrganizationSimple(x))
+                .ToList());
+        }
+
+        public bool AreOrganizationsValid()
+        {
+            return ValidateOrganizations().IsValid;
+        }
+
         public BudgetsValidationResult ValidateBudgetsAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
@@ -651,12 +662,6 @@ namespace ProjectFirma.Web.Models
             }
 
             return projectUpdateSections.OrderBy(x => x.SortOrder).ToList();
-        }
-
-        public bool AreOrganizationsValid()
-        {
-            //todo
-            return false;
         }
     }
 }

@@ -2464,8 +2464,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult ViewOrganizations(ProjectUpdateBatch projectUpdateBatch, OrganizationsViewModel viewModel)
         {
-            var validationWarnings = new List<string>();
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var organizationsValidationResult = projectUpdateBatch.ValidateOrganizations();
 
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
@@ -2477,7 +2477,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
-                ProjectUpdateSection.Organizations, updateStatus, validationWarnings, editOrganizationsViewData);
+                ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }

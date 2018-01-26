@@ -345,6 +345,7 @@
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\ProjectOrganizationUpdate.cs" />
+    <Compile Include="Views\ProjectUpdate\OrganizationsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Organizations.cs" />
     <Compile Include="Views\ProjectUpdate\OrganizationsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\OrganizationsViewModel.cs" />
