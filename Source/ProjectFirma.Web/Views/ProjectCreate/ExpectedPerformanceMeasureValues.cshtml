@@ -29,10 +29,6 @@ Source code is available upon request via <support@sitkatech.com>.
     <script type="text/javascript" src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
     <script type="text/javascript">
-        // <![CDATA[
-        jQuery(document).ready(function () {
-            HookupCheckIfFormIsDirty(undefined, ".submitProposal");
-        });
 
         function saveForm(autoAdvance) {
             var form = jQuery("form");
@@ -93,3 +89,10 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty("form", ".submitProposal");
+    });
+    // ]]>
+</script>

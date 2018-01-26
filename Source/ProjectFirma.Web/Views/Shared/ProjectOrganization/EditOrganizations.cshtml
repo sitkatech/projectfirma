@@ -24,15 +24,17 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script type="text/javascript">
     // <![CDATA[    
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
     jQuery(document).ready(function ()
     {
-        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
-        {
-            return {
-                AngularModel: @Html.Raw(JObject.FromObject(Model)),
-                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
-            };
-        });
+
+
 
         angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["ProjectFirmaApp"]);
 
@@ -100,13 +102,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
                         <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
                             @*Selections*@
-                            <div class="col-xs-9"><span ng-bind="organization.OrganizationName"></span></div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-12">
                                 <span>
                                     <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
                                         <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
                                     </a>
-                                </span>
+                                </span><span ng-bind="organization.OrganizationName"></span>
                             </div>
                         </div>
                     </div>

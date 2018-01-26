@@ -28,9 +28,6 @@
     <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
-        jQuery(document).ready(function () {
-            HookupCheckIfFormIsDirty(undefined, ".submitProposal");
-        });
 
         function saveForm(autoAdvance) {
             var form = jQuery("form");
@@ -62,4 +59,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    // <![CDATA[
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty("form");
+    });
+    // ]]>
+</script>
 
