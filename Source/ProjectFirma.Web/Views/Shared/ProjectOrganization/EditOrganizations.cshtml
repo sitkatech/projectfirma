@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectOrganization.EditOrganizations
@@ -82,19 +81,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
                         <div class="row">
                             @*Selectpicker*@
-                            <div class="col-xs-9">
-                                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true">
-                                    <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                    <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
-                                            ng-bind="organization.OrganizationName"
-                                            ng-value="organization.OrganizationID"
-                                            ng-selected="isOptionSelected(organization,relationshipType)"></option>
-                                </select>
+                            <div class="col-xs-12">
+                                <div class="input-group" style="width: 100%;">
+                                    <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true">
+                                        <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                        <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
+                                                ng-bind="organization.OrganizationName"
+                                                ng-value="organization.OrganizationID"
+                                                ng-selected="isOptionSelected(organization,relationshipType)"></option>
+                                    </select>
+                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Add
-                            </button>
                         </div>
 
                         <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">

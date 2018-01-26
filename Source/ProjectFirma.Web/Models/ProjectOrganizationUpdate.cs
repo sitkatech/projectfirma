@@ -5,7 +5,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class ProjectOrganizationUpdate : IAuditableEntity
+    public partial class ProjectOrganizationUpdate : IAuditableEntity, IProjectOrganization
     {
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {

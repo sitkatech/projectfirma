@@ -87,6 +87,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
+        public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult AllMyProjects()
@@ -2500,8 +2501,7 @@ namespace ProjectFirma.Web.Controllers
 
             var isExpectedFundingUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
 
-            // todo
-            bool isOrganizationsUpdated = false;
+            var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             return new UpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
@@ -2587,11 +2587,74 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-
+        [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult DiffOrganizations(Project project)
+        public PartialViewResult DiffOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
-            throw new NotImplementedException();
+            var htmlDiffContainer = DiffOrganizationsImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffOrganizationsImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.DisplayName}");
+
+            var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
+            var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
+
+            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
+            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForModifiedOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated)
+        {
+            var organizationsInOriginal = projectOrganizationsOriginal;
+            var organizationsInUpdated = projectOrganizationsUpdated;
+
+            var organizationsOnlyInOriginal = organizationsInOriginal.Where(x => !organizationsInUpdated.Contains(x)).ToList();
+            var organizationRequestAmounts = projectOrganizationsOriginal.Select(x => new ProjectOrganization(x)).ToList();
+
+            organizationRequestAmounts.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x)).Select(x =>
+                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+            organizationRequestAmounts
+                .Where(x => organizationsOnlyInOriginal
+                    .Select(y => new {y.Organization, y.RelationshipType})
+                    .Contains(new {x.Organization, x.RelationshipType}))
+                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+
+            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+        }
+
+        private string GeneratePartialViewForOriginalOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated)
+        {
+            var organizationsInOriginal = projectOrganizationsOriginal;
+            var organizationsInUpdated = projectOrganizationsUpdated;
+
+            var organizationsOnlyInUpdated = organizationsInUpdated.Where(x => !organizationsInOriginal.Contains(x)).ToList();
+            var organizationRequestAmounts = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
+
+            organizationRequestAmounts.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x)).Select(x =>
+                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+            organizationRequestAmounts
+                .Where(x => organizationsOnlyInUpdated
+                    .Select(y => new { y.Organization, y.RelationshipType })
+                    .Contains(new { x.Organization, x.RelationshipType }))
+                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+        }
+
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations)
+        {
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations);
+            var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
+            return partialViewAsString;
         }
     }
 }

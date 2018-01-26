@@ -46,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -434,6 +435,7 @@
     <Compile Include="Views\Project\PendingGridSpec.cs" />
     <Compile Include="Views\Project\Pending.cs" />
     <Compile Include="Views\Project\PendingViewData.cs" />
+    <Compile Include="Views\Project\ProjectOrganizationForDiff.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -459,6 +461,8 @@
     <Compile Include="Views\Shared\GooglePieChartConfiguration.cs" />
     <Compile Include="Views\Shared\GooglePieChartSlice.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureChartDataSimple.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cs" />
@@ -1400,6 +1404,7 @@
     <Content Include="Views\ProjectCreate\InstructionsEnterHistoric.cshtml" />
     <Content Include="Views\ProjectCreate\Organizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Organizations.cshtml" />
+    <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
