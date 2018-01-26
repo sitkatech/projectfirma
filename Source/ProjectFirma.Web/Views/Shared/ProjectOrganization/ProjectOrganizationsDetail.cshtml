@@ -33,11 +33,27 @@
         {
             <tr>
                 <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                <td>@foreach (var x in projectOrganization.OrderBy(x=>x.RelationshipType.RelationshipTypeName))
+
+                <td>
+                    @{
+                        var projectOrganizations = projectOrganization.OrderBy(x=>x.RelationshipType.RelationshipTypeName).ToList();
+                    }
+                    @for (int i =0; i<projectOrganizations.Count; i++)
                     {
-                        <span class="@x.DisplayCssClass">@x.RelationshipType.RelationshipTypeName</span>
+                        var x = projectOrganizations[i];
+                        if (i != projectOrganizations.Count-1)
+                        {
+                            <span class="@x.DisplayCssClass">
+                                @x.RelationshipType.RelationshipTypeName,
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="@x.DisplayCssClass">
+                                @x.RelationshipType.RelationshipTypeName
+                            </span>
+                        }
                     }</td>
-                @*<td>@string.Join(", ", projectOrganization.Select(x => x.RelationshipType.RelationshipTypeName).OrderBy(x=>x))</td>*@
             </tr>
         }
     </table>
