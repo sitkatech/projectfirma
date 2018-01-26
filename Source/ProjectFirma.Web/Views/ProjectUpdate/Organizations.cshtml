@@ -19,10 +19,6 @@
     <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
-        jQuery(document).ready(function() {
-            HookupCheckIfFormIsDirty(undefined, ".submitProject");
-        });
-
         function saveForm(autoAdvance) {
             var form = jQuery("form");
             // Do not submit if the form
@@ -81,4 +77,10 @@
             </tr>
         </table>
     </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        jQuery(document).ready(function () { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+        // ]]>
+    </script>
 }

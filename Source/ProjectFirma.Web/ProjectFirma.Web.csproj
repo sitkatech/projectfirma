@@ -3307,7 +3307,7 @@
     <Content Include="Views\TaxonomyTierOne\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Index.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Detail.cshtml" />
-    <Content Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cshtml" />
+    <Content Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\Results\ResultsByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cshtml" />
   </ItemGroup>

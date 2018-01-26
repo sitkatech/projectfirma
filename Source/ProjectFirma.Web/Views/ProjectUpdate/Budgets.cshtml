@@ -40,10 +40,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 return {
                     AngularModel: @Html.Raw(JObject.FromObject(Model)),
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
-                    };
+                };
             });
-            jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
-            // ]]>
         </script>
     }
 }
@@ -281,3 +279,9 @@ else
         }
     </div>
 }
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+    // ]]>
+</script>

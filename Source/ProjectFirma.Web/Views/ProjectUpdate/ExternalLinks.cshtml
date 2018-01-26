@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ExternalLinks.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="ExternalLinks.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
@@ -42,7 +42,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
                         };
                 });
-                jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
                 // ]]>
             </script>
 
@@ -54,16 +53,16 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="form-inline">
                 <div class="form-group">
                     <label>Link Text</label>
-                    <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: auto"/>
+                    <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: auto" />
                 </div>
                 <div class="form-group">
                     <label>URL</label>
-                    <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: auto"/>
+                    <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: auto" />
                 </div>
                 <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
             </div>
-            <br/>
-            <table class="table">                    
+            <br />
+            <table class="table">
                 <tr>
                     <th></th>
                     <th>Link Text</th>
@@ -102,3 +101,9 @@ Source code is available upon request via <support@sitkatech.com>.
         </tr>
     </table>
 </div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+    // ]]>
+</script>
