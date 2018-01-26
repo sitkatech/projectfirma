@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -17,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         /// <summary>
         /// Required by the ModelBinder
         /// </summary>
-        protected OrganizationsViewModel()
+        public OrganizationsViewModel()
         {
         }
 
@@ -27,9 +28,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Comments = projectUpdateBatch.OrganizationsComment;
         }
 
-        public void UpdateModel()
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch,
+            List<ProjectOrganizationUpdate> currentProjectOrganizationUpdates,
+            IList<ProjectOrganizationUpdate> allProjectOrganizationUpdates)
         {
-            throw new System.NotImplementedException();
+            var projectOrganizationUpdatesUpdated = new List<ProjectOrganizationUpdate>();
+            if (ProjectOrganizationSimples != null)
+            {
+                // Completely rebuild the list
+                projectOrganizationUpdatesUpdated = ProjectOrganizationSimples.Select(x => x.ToProjectOrganizationUpdate(projectUpdateBatch)).ToList();
+            }
+
+            currentProjectOrganizationUpdates.Merge(projectOrganizationUpdatesUpdated,
+                allProjectOrganizationUpdates,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
         }
     }
 }

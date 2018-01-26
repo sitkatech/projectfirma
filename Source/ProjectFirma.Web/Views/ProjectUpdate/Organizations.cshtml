@@ -65,8 +65,8 @@
                     }
                 </td>
                 <td style="text-align: right; white-space: nowrap">
-                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
-                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
                 </td>
             </tr>
         </table>

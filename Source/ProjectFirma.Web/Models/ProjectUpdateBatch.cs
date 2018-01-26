@@ -249,6 +249,12 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectWatershedUpdates);
         }
 
+        public void DeleteProjectOrganizationUpdates()
+        {
+            ProjectOrganizationUpdates.DeleteProjectOrganizationUpdate();
+            RefreshFromDatabase(ProjectOrganizationUpdates);
+        }
+
         public void DeleteAll()
         {
             DeleteProjectLocationStagingUpdates();

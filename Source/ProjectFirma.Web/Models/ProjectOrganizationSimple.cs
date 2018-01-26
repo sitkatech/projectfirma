@@ -55,5 +55,10 @@ namespace ProjectFirma.Web.Models
 
         public int OrganizationID { get; set; }
         public int RelationshipTypeID { get; set; }
+
+        public ProjectOrganizationUpdate ToProjectOrganizationUpdate(ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ProjectOrganizationUpdate(projectUpdateBatch.ProjectUpdateBatchID, OrganizationID, RelationshipTypeID);
+        }
     }
 }

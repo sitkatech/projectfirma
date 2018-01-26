@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="row">
                             @*Selectpicker*@
                             <div class="col-xs-9">
-                                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%">
+                                <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true">
                                     <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
                                     <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                                             ng-bind="organization.OrganizationName"

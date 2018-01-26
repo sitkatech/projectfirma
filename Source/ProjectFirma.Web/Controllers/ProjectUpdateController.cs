@@ -2448,7 +2448,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewOrganizations(projectUpdateBatch, viewModel);
             }
 
-            viewModel.UpdateModel();
+            
+
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizationUpdates.Load();
+            var projectOrganizationUpdates = projectUpdateBatch.ProjectOrganizationUpdates.ToList();
+            var allProjectOrganizationUpdates = HttpRequestStorage.DatabaseEntities.AllProjectOrganizationUpdates.Local;
+
+            viewModel.UpdateModel(projectUpdateBatch,projectOrganizationUpdates, allProjectOrganizationUpdates);
+
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Organizations);
@@ -2557,17 +2565,26 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult RefreshOrganizations(Project project)
+        public ActionResult RefreshOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
-            throw new NotImplementedException();
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshExpenditures(viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshOrganizations(Project project, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshOrganizations(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            throw new NotImplementedException();
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectOrganizationUpdates();
+            // refresh data
+            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
         }
 
 
