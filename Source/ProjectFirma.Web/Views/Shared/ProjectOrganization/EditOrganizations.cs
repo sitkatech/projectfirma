@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="OrganizationsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditOrganizations.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,25 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Views.Shared.ProjectOrganization;
-
-namespace ProjectFirma.Web.Views.ProjectCreate
-{    
-    public class OrganizationsViewModel : EditOrganizationsViewModel
+namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
+{
+    public abstract class EditOrganizations : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditOrganizationsViewData, EditOrganizationsViewModel>
     {
-        /// <summary>
-        /// Needed by the ModelBinder
-        /// </summary>
-        public OrganizationsViewModel()
-        {
-        }
-
-        public OrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations) : base(projectOrganizations)
-        {
-            
-        }
-    }    
+    }
 }

@@ -47,6 +47,7 @@ using MoreLinq;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
@@ -2457,8 +2458,19 @@ namespace ProjectFirma.Web.Controllers
         {
             var validationWarnings = new List<string>();
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
+
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+
+            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
-                ProjectUpdateSection.Organizations, updateStatus, validationWarnings);
+                ProjectUpdateSection.Organizations, updateStatus, validationWarnings, editOrganizationsViewData);
+
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }
 

@@ -19,12 +19,12 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Views.ProjectOrganization
+@using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectFirma.Web.Views.ProjectCreate.Organizations
 
 @section JavascriptAndStylesContent
 {
-<script type="text/javascript" src="@Url.Content("~/Views/ProjectOrganization/ProjectOrganizationController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
@@ -47,12 +47,6 @@
         // ]]>
     </script>
 }
-
-@*<div class="row">
-    <div class="col-xs-12">
-        TODO: where the instructions will go.      
-    </div>
-</div>*@
 <div class="row">
     <div class="col-xs-12">
         @{ Html.RenderRazorSitkaPartial<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(ViewDataTyped.EditOrganizationsViewData, Model); }

@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectOrganization;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {

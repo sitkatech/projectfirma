@@ -2,6 +2,7 @@
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -11,9 +12,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string DiffUrl;
 
         public OrganizationsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch,
-            ProjectUpdateSection currentSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(
+            ProjectUpdateSection currentSection, UpdateStatus updateStatus, List<string> validationWarnings, EditOrganizationsViewData editOrganizationsViewData) : base(
             currentPerson, projectUpdateBatch, currentSection, updateStatus, validationWarnings)
         {
+            EditOrganizationsViewData = editOrganizationsViewData;
             SectionCommentsViewData =
                 new SectionCommentsViewData(projectUpdateBatch.OrganizationsComment, projectUpdateBatch.IsReturned);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshOrganizations(projectUpdateBatch.Project));
@@ -21,5 +23,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
 
         public readonly SectionCommentsViewData SectionCommentsViewData;
+        public readonly EditOrganizationsViewData EditOrganizationsViewData;
     }
 }
