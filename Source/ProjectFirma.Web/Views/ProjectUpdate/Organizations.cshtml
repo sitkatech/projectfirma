@@ -26,8 +26,13 @@
             if (!form.valid()) {
                 return false;
             }
+
+            var comments = jQuery("#@Html.IdFor(x=>x.Comments)").val();
+
+            jQuery("<input type='hidden' name='@Html.NameFor(x=>x.Comments)' value=" + comments + " />").appendTo(form);
             jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />")
                 .appendTo(form);
+
             form.submit();
             return true;
         }

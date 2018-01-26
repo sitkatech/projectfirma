@@ -2461,6 +2461,10 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizationUpdates = HttpRequestStorage.DatabaseEntities.AllProjectOrganizationUpdates.Local;
 
             viewModel.UpdateModel(projectUpdateBatch,projectOrganizationUpdates, allProjectOrganizationUpdates);
+            if (projectUpdateBatch.IsSubmitted)
+            {
+                projectUpdateBatch.OrganizationsComment = viewModel.Comments;
+            }
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
 
