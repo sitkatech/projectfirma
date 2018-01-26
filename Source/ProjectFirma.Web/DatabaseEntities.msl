@@ -827,6 +827,8 @@
           <ScalarProperty Name="WatershedComment" ColumnName="WatershedComment" />
           <ScalarProperty Name="ExpectedFundingComment" ColumnName="ExpectedFundingComment" />
           <ScalarProperty Name="ExpectedFundingDiffLog" ColumnName="ExpectedFundingDiffLog" />
+          <ScalarProperty Name="OrganizationsComment" ColumnName="OrganizationsComment" />
+          <ScalarProperty Name="OrganizationsDiffLog" ColumnName="OrganizationsDiffLog" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

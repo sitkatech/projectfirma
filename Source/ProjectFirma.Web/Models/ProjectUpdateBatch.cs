@@ -122,11 +122,14 @@ namespace ProjectFirma.Web.Models
             ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
 
-            // notes
+            // external links
             ProjectExternalLinkUpdate.CreateFromProject(projectUpdateBatch);
 
             // notes
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
+
+            // organizations
+            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
 
             return projectUpdateBatch;
         }

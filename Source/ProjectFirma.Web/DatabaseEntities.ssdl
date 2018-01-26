@@ -1541,6 +1541,8 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
     <Property Name="WatershedComment" Type="varchar" MaxLength="1000" />
     <Property Name="ExpectedFundingComment" Type="varchar" MaxLength="1000" />
     <Property Name="ExpectedFundingDiffLog" Type="varchar(max)" />
+    <Property Name="OrganizationsComment" Type="varchar" MaxLength="1000" />
+    <Property Name="OrganizationsDiffLog" Type="varchar" MaxLength="1" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>

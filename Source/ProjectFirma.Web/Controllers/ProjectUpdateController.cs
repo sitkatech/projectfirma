@@ -2542,5 +2542,27 @@ namespace ProjectFirma.Web.Controllers
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(projectUpdateBatch.Project) : currentSection.GetSectionUrl(projectUpdateBatch.Project);
             return Redirect(nextSection);
         }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult RefreshOrganizations(Project project)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshOrganizations(Project project, ConfirmDialogFormViewModel viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult DiffOrganizations(Project project)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
