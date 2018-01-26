@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     A single @FieldDefinition.Organization.GetFieldDefinitionLabel() can have more than one association.
                 </div>
             </div>
-            <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:'-RelationshipTypeCanOnlyBeRelatedOnceToAProject'">
+            <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:['-RelationshipTypeCanOnlyBeRelatedOnceToAProject','RelationshipTypeName']">
                 <hr />
                 <div class="row">
                     <div class="col-xs-8">

@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 
@@ -27,6 +30,16 @@ namespace ProjectFirma.Web.Models
                 var organizationName = organization != null ? organization.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return $"Project Update: {projectName}, Organization: {organizationName}";
             }
+        }
+
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectOrganization> allProjectOrganizations)
+        {
+            var project = projectUpdateBatch.Project;
+            var projectOrganizationsFromProjectUpdate =
+                projectUpdateBatch.ProjectOrganizationUpdates.Select(
+                    x => new ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
+            project.ProjectOrganizations.Merge(projectOrganizationsFromProjectUpdate, allProjectOrganizations,
+                (x, y) => x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
         }
     }
 }

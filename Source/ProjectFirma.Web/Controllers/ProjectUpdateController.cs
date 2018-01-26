@@ -1357,6 +1357,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
+            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1371,7 +1373,10 @@ namespace ProjectFirma.Web.Controllers
                 allProjectImages,
                 allProjectLocations,
                 allProjectWatersheds,
-                allProjectFundingSourceRequests);
+                allProjectFundingSourceRequests,
+                allProjectOrganizations);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
 
