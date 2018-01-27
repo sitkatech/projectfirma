@@ -90,7 +90,6 @@ namespace ProjectFirma.Web.Models
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectOrganization).Name};
-        
 
         [Key]
         public int ProjectOrganizationID { get; set; }
