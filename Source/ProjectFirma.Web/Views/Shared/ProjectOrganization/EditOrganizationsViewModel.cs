@@ -41,9 +41,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         {
         }
 
-        public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations)
+        public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations, Person currentPerson)
         {
             ProjectOrganizationSimples = projectOrganizations.Select(x => new ProjectOrganizationSimple(x)).ToList();
+
+            // If the current person belongs to a primary contact organization, and the current project has no primary contact organization set, prepopulate.
+            if (currentPerson != null && currentPerson.Organization.CanBeAPrimaryContactOrganization())
+            {
+                var primaryContactRelationshipTypeIDs = HttpRequestStorage.DatabaseEntities.RelationshipTypes
+                    .Where(x => x.IsPrimaryContact).Select(x => x.RelationshipTypeID).ToList();
+                if (!projectOrganizations.Any(x => primaryContactRelationshipTypeIDs.Contains(x.RelationshipTypeID)))
+                {
+                    ProjectOrganizationSimples.AddRange(primaryContactRelationshipTypeIDs.Select(x =>
+                        new ProjectOrganizationSimple(currentPerson.OrganizationID, x)));
+                }
+            }
         }
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
@@ -64,6 +76,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
+
+            if (ProjectOrganizationSimples == null)
+            {
+                ProjectOrganizationSimples = new List<ProjectOrganizationSimple>();
+            }
 
             // todo: rewrite this
             //if (projectOrganizations.Any(x => x.OrganizationID == null))

@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.UnitTestCommon;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
@@ -63,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public void AllViewModelFieldsAreSetFromConstructorTest()
         {
             // Act
-            var viewModel = new EditOrganizationsViewModel(_projectOrganizations);
+            var viewModel = new EditOrganizationsViewModel(_projectOrganizations, Person.CreateNewBlank(Models.Role.Normal, Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
 
             // Assert
             Assert.That(viewModel.ProjectOrganizationSimples, Is.Not.Null);

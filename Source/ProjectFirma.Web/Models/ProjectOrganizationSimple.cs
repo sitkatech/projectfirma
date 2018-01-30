@@ -53,6 +53,12 @@ namespace ProjectFirma.Web.Models
             RelationshipTypeID = projectOrganization.RelationshipTypeID;
         }
 
+        public ProjectOrganizationSimple(int organizationID, int relationshipTypeID)
+        {
+            OrganizationID = organizationID;
+            RelationshipTypeID = relationshipTypeID;
+        }
+
         public int OrganizationID { get; set; }
         public int RelationshipTypeID { get; set; }
 

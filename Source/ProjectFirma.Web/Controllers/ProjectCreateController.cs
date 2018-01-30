@@ -1234,7 +1234,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList());
+            var viewModel = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
             return ViewOrganizations(project, viewModel);
         }
 

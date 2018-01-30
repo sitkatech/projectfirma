@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
@@ -26,36 +27,25 @@
 {
     <table class="summaryLayout">
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
             <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
         </tr>
-        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
+        @foreach (var relationshipType in ViewDataTyped.SetRelationshipTypes.OrderBy(x=>x.RelationshipTypeName))
         {
+            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipType == relationshipType).OrderBy(x=>x.Organization.OrganizationName).ToList();
             <tr>
-                <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-
+                <td>@relationshipType.RelationshipTypeName</td>
                 <td>
-                    @{
-                        var projectOrganizations = projectOrganization.OrderBy(x=>x.RelationshipType.RelationshipTypeName).ToList();
-                    }
-                    @for (int i =0; i<projectOrganizations.Count; i++)
+                    @foreach (var x in projectOrganizations)
                     {
-                        var x = projectOrganizations[i];
-                        if (i != projectOrganizations.Count-1)
-                        {
-                            <span class="@x.DisplayCssClass">
-                                @x.RelationshipType.RelationshipTypeName,
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="@x.DisplayCssClass">
-                                @x.RelationshipType.RelationshipTypeName
-                            </span>
-                        }
-                    }</td>
+                        @*Note that this tag has to all be on one line to display the comma correctly*@
+                    <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameAsUrl()@if (x != projectOrganizations.LastOrDefault()) { @Html.Raw(",") }</span>
+                    }
+                </td>
             </tr>
         }
+        
+        
     </table>
 }
 else

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -2625,16 +2626,16 @@ namespace ProjectFirma.Web.Controllers
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
+            var comparer = new ProjectOrganizationEqualityComparer();
 
-            var organizationsOnlyInOriginal = organizationsInOriginal.Where(x => !organizationsInUpdated.Contains(x)).ToList();
+            var organizationsOnlyInOriginal = organizationsInOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).ToList();
             var organizationRequestAmounts = projectOrganizationsOriginal.Select(x => new ProjectOrganization(x)).ToList();
 
-            organizationRequestAmounts.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x)).Select(x =>
+
+            organizationRequestAmounts.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
             organizationRequestAmounts
-                .Where(x => organizationsOnlyInOriginal
-                    .Select(y => new {y.Organization, y.RelationshipType})
-                    .Contains(new {x.Organization, x.RelationshipType}))
+                .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
 
             return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
@@ -2645,16 +2646,15 @@ namespace ProjectFirma.Web.Controllers
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
+            var comparer = new ProjectOrganizationEqualityComparer();
 
-            var organizationsOnlyInUpdated = organizationsInUpdated.Where(x => !organizationsInOriginal.Contains(x)).ToList();
+            var organizationsOnlyInUpdated = organizationsInUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).ToList();
             var organizationRequestAmounts = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
 
-            organizationRequestAmounts.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x)).Select(x =>
+            organizationRequestAmounts.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             organizationRequestAmounts
-                .Where(x => organizationsOnlyInUpdated
-                    .Select(y => new { y.Organization, y.RelationshipType })
-                    .Contains(new { x.Organization, x.RelationshipType }))
+                .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
@@ -2665,6 +2665,18 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
+        }
+
+        public class ProjectOrganizationEqualityComparer : EqualityComparerByProperty<IProjectOrganization>
+        {
+
+            public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.RelationshipType.RelationshipTypeID})
+            {
+                
+            }
+            public ProjectOrganizationEqualityComparer(Func<IProjectOrganization, object> f) : base(f)
+            {
+            }
         }
     }
 }

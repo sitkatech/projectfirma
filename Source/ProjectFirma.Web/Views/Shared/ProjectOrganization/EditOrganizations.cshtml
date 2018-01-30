@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectOrganization.EditOrganizations
@@ -64,55 +65,52 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
+
     <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12">
-                    Add @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(), and specify the nature of their association to it.
-                    A single @FieldDefinition.Organization.GetFieldDefinitionLabel() can have more than one association.
-                </div>
+        <div class="col-md-12">
+            Select the @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() that are associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.
+        </div>
+    </div>
+
+    <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:['-RelationshipTypeCanOnlyBeRelatedOnceToAProject','RelationshipTypeName']">
+        <hr />
+        <div class="row">
+            @*Relationship type and description*@
+            <div class="col-md-12"><label ng-bind="relationshipType.RelationshipTypeName"></label><sup ng-show="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-push-8">
+                <p class="smallExplanationText" ng-bind="relationshipType.RelationshipTypeDescription"></p>
             </div>
-            <div ng-repeat="relationshipType in AngularViewData.AllRelationshipTypes | orderBy:['-RelationshipTypeCanOnlyBeRelatedOnceToAProject','RelationshipTypeName']">
-                <hr />
+            <div class="col-md-8 col-md-pull-4">
                 <div class="row">
-                    <div class="col-xs-8">
-                        <div class="row">
-                            @*Relationship type and description*@
-                            <div class="col-xs-12"><label ng-bind="relationshipType.RelationshipTypeName"></label></div>
-                        </div>
-
-                        <div class="row">
-                            @*Selectpicker*@
-                            <div class="col-xs-12">
-                                <div class="input-group" style="width: 100%;">
-                                    <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true">
-                                        <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                        <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
-                                                ng-bind="organization.OrganizationName"
-                                                ng-value="organization.OrganizationID"
-                                                ng-selected="isOptionSelected(organization,relationshipType)"></option>
-                                    </select>
-                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        Add
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
-                            @*Selections*@
-                            <div class="col-xs-12">
-                                <span>
-                                    <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
-                                        <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
-                                    </a>
-                                </span><span ng-bind="organization.OrganizationName"></span>
-                            </div>
+                    @*Selectpicker*@
+                    <div class="col-md-12">
+                        <div class="input-group" style="width: 100%;">
+                            <select class="selectpicker" id="todo{{relationshipType.RelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.RelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
+                                <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
+                                        ng-bind="organization.OrganizationName"
+                                        ng-value="organization.OrganizationID"
+                                        ng-selected="isOptionSelected(organization,relationshipType)">
+                                </option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.RelationshipTypeID], relationshipType.RelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.RelationshipTypeID]" ng-show="!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Add
+                            </button>
                         </div>
                     </div>
-                    <div class="col-xs-4">
-                        <p class="smallExplanationText" ng-bind="relationshipType.RelationshipTypeDescription"></p>
+                </div>
+
+                <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                    @*Selections*@
+                    <div class="col-md-12">
+                        <span>
+                            <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
+                            </a>
+                        </span><span ng-bind="organization.OrganizationName"></span>
                     </div>
                 </div>
             </div>

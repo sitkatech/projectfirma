@@ -46,6 +46,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if (ProjectOrganizationSimples == null)
+            {
+                ProjectOrganizationSimples = new List<ProjectOrganizationSimple>();
+            }
+
             return new List<ValidationResult>();
         }
     }

@@ -24,6 +24,9 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
 
     $scope.$watch(function() {
         jQuery(".selectpicker").selectpicker("refresh");
+
+        // so that unsavedChanges.js knows to check if the form has changed.
+        jQuery("form").trigger("input");
     });
 
     $scope.getAvailableOrganizationsForRelationshipType = function(relationshipType) {

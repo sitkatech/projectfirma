@@ -218,7 +218,7 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
-            var validationResults = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList()).GetValidationResults().ToList();
+            var validationResults = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), null).GetValidationResults().ToList();
             return !validationResults.Any();
         }
 

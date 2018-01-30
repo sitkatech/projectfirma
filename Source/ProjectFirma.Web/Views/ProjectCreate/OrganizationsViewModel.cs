@@ -20,8 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public OrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations) : base(projectOrganizations)
+        public OrganizationsViewModel(List<ProjectOrganization> projectOrganizations, Person currentPerson) : base(projectOrganizations, currentPerson)
         {
             
         }

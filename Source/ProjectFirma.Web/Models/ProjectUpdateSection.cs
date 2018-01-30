@@ -220,9 +220,7 @@ namespace ProjectFirma.Web.Models
 
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
-            return false;
-            // todo: Punting on the diff for this section due to time constraints.
-            //return updateStatus.IsOrganizationsUpdated;
+            return updateStatus.IsOrganizationsUpdated;
         }
     }
 

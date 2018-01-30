@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
@@ -31,9 +32,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public ProjectOrganizationsDetailViewData(IEnumerable<Models.ProjectOrganization> allProjectOrganizations)
         {
             AllProjectOrganizations = allProjectOrganizations.ToList();
+            SetRelationshipTypes = AllProjectOrganizations.Select(x=>x.RelationshipType).Distinct().ToList();
         }
 
         public readonly List<Models.ProjectOrganization> AllProjectOrganizations;
+        public readonly List<RelationshipType> SetRelationshipTypes;
     }
 
     public static class AHtmlHelper
