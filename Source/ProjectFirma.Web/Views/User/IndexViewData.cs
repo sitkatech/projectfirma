@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.User
@@ -40,7 +39,6 @@ namespace ProjectFirma.Web.Views.User
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
             PageTitle = "Users";
-            var hasDeletePermission = new UserEditFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
