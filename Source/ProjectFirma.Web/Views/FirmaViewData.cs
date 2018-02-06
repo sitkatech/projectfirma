@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -78,6 +79,8 @@ namespace ProjectFirma.Web.Views
             ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPerson) : null;
         }
 
+        public LtInfoMenuItem HelpMenu { get; set; }
+
 
         private void MakeFirmaMenu(Person currentPerson)
         {
@@ -95,6 +98,11 @@ namespace ProjectFirma.Web.Views
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
+
+            HelpMenu = new LtInfoMenuItem("Help");
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Request Support", ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).ToString()));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentPerson, "Training"));
+            HelpMenu.AddMenuItem(new LtInfoMenuItem(@"http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/", "About ProjectFirma", true, false, null));
         }
 
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)

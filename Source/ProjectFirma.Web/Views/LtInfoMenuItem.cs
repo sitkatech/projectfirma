@@ -69,6 +69,11 @@ namespace ProjectFirma.Web.Views
             ChildMenus = new List<LtInfoMenuItem>();
         }
 
+        public static LtInfoMenuItem MakeItem(string menuItemName, string rawstring)
+        {
+            return new LtInfoMenuItem(menuItemName, rawstring);
+        }
+
         /// <summary>
         /// Manual consruction of a LtInfoMenuItem with no children and no url
         /// Use case is a top level menu item
@@ -114,7 +119,11 @@ namespace ProjectFirma.Web.Views
             //            <li><a href="@ViewDataTyped.PartnersUrl">Partners</a></li>
             //            <li><a href="@ViewDataTyped.FaqUrl">FAQ</a></li>
             //        </ul>
-            //    </li>  
+            //    </li> 
+            if (RawString != null)
+            {
+                return $"<li>{RawString}</li>";
+            }
             if (!ShouldShow || (IsTopLevelMenuItem && !HasUrl && !ChildenMenuItemsSecurityFiltered.Any()))
             {
                 return string.Empty;
@@ -171,5 +180,13 @@ namespace ProjectFirma.Web.Views
         public readonly bool ShouldShow;
         public readonly bool IsTopLevelMenuItem;
         public readonly List<LtInfoMenuItem> ChildMenus;
+        public readonly string RawString;
+
+        private LtInfoMenuItem(string menuItemName, string rawstring)
+        {
+            MenuItemName = menuItemName;
+            RawString = rawstring;
+            ShouldShow = true;
+        }
     }
 }

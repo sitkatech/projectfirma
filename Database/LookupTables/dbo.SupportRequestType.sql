@@ -9,4 +9,5 @@ insert dbo.SupportRequestType (SupportRequestTypeID, SupportRequestTypeName, Sup
 (5, 'ProvideFeedback', 'Provide Feedback on the site', 6),
 (6, 'RequestOrganizationNameChange', 'Request a change to an Organization''s name', 9),
 (7, 'Other', 'Other', 100),
-(8, 'RequestProjectPrimaryContactChange', 'Request a change to a Project''s primary contact', 10)
+(8, 'RequestProjectPrimaryContactChange', 'Request a change to a Project''s primary contact', 10),
+(9, 'RequestPermissionToAddProjects', 'Request permission to add projects', 11)

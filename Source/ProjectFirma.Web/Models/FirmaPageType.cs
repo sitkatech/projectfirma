@@ -313,4 +313,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectStewardOrganizationController>.BuildUrlFromExpression(x => x.Index());
         }
     }
+
+    public partial class FirmaPageTypeTraining
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
+        }
+    }
 }

@@ -38,4 +38,5 @@ values
 (45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2),
 (46, 'ProjectStewardOrganizationList', 'ProjectStewardOrganizationList', 1),
 (47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2),
-(48, 'PendingProjects', 'Pending Projects', 1)
+(48, 'PendingProjects', 'Pending Projects', 1),
+(49, 'Training','Training',2)

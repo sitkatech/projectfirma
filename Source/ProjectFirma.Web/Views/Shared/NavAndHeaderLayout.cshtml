@@ -147,9 +147,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 }
 
                             </li>
-                            <li>
-                                @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-                            </li>
+                            @ViewDataTyped.HelpMenu.RenderMenu()
                             <li>
                                 @if (Request.IsAuthenticated)
                                 {
