@@ -25,48 +25,40 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.ProjectImageUpdate.New
 @using (Html.BeginForm<ProjectImageUpdateController>(x => x.New(ViewDataTyped.ProjectUpdateBatch, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
-    <table class="dialogFormLayout">
-        <tr>
-            <td>File: </td>
-            <td>
-                @Html.EditorFor(x => x.FileResourceData)
-                <span class="smallExplanationText">
-                    Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
-                </span>
-                @Html.ValidationMessageFor(x => x.FileResourceData)
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelWithSugarFor(x => x.Caption): </td>
-            <td>
-                @Html.TextBoxFor(x => x.Caption, new {style = "width:450px"})
-                <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelWithSugarFor(x => x.Credit): </td>
-            <td>
-                @Html.TextBoxFor(x => x.Credit, new {style = "width:450px"})
-            </td>
-        </tr>
-        <tr>
-            <td>@Html.LabelWithSugarFor(x => x.ProjectImageTimingID): </td>
-            <td>
-                @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
-                @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
-            </td>
-        </tr>
-        <tr>
-            <td style="white-space: nowrap">@Html.LabelWithSugarFor(x => x.ExcludeFromFactSheet): </td>
-            <td>
-                @Html.CheckBoxFor(x => x.ExcludeFromFactSheet)
-            </td>
-        </tr>
-    </table>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.FileResourceData)</div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.FileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.FileResourceData)
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.Caption)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.Caption, new { style = "width:380px" })
+            <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.Credit)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.Credit, new { style = "width:380px" })
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.ProjectImageTimingID)</div>
+        <div class="col-md-8">
+            @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
+            @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.ExcludeFromFactSheet)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.ExcludeFromFactSheet)
+        </div>
+    </div>
 }
