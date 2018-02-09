@@ -19,52 +19,35 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.SpendingByOrganizationTypeByOrganization
 
-<div class="panel-body">
-    <div style="float: right">@Html.Raw(DhtmlxGridHtmlHelpers.CreateCustomExcelDownloadIconHtml("spendingByOrganizationTypeAndOrganization", ViewDataTyped.ExcelUrl, "Download Table", "Down this table as Excel file"))</div>
-    <br style="clear: both" />
-    <table class="gridLayout" style="width: 100%">
-        <tr>
-            <th style="text-align: left">@FieldDefinition.Organization.GetFieldDefinitionLabel() / @FieldDefinition.FundingSource.GetFieldDefinitionLabel()</th>
-            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-            {
-                <th>@calendarYear.Value</th>
-            }
-            <th>Total</th>
-        </tr>
-        @foreach (var groupedByOrganization in ViewDataTyped.FundingSourceCalendarYearExpenditures.GroupBy(x => x.OrganizationName).OrderBy(x => x.Key))
+<table class="table table-striped table-responsive">
+    <tr>
+        <th>@FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()</th>
+        @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
         {
-            <tr style="border: solid black; border-width: 1px 0 1px 1px; background-color: #cecece">
-                <td style="text-align: left" colspan="@(ViewDataTyped.CalendarYears.Count + 1)">@Html.Raw(groupedByOrganization.First().OrganizationNameAsUrl)</td>
-                <td>@groupedByOrganization.Sum(x => x.CalendarYearExpenditure.Sum(y => y.Value)).ToStringCurrency()</td>
-            </tr>
-            foreach (var fundingSourceCalendarYearExpenditure in groupedByOrganization.OrderBy(x => x.FundingSourceName))
-            {
-                <tr>
-                    <td style="text-align: left; padding-left: 20px; white-space: nowrap">@fundingSourceCalendarYearExpenditure.FundingSourceNameAsUrl</td>
-                    @foreach (var calendarYearExpenditure in fundingSourceCalendarYearExpenditure.CalendarYearExpenditure)
-                    {
-                        <td>@calendarYearExpenditure.Value.ToStringCurrency()</td>
-                    }
-                    <td>@fundingSourceCalendarYearExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</td>
-                </tr>
-            }
+            <th style="text-align: right">@organizationType.OrganizationTypeName</th>
         }
+        <th style="text-align: right">Total</th>
+    </tr>
+    @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
+    {
         <tr>
-            <th style="text-align: left">Grand Total</th>
-            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+            <td>@Html.Raw(taxonomyTierTwo.TaxonomyTierTwoName)</td>
+            @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
-                <th>
-                    @{
-                var currentYear = calendarYear;
-                    }
-                    @ViewDataTyped.FundingSourceCalendarYearExpenditures.Where(x => x.CalendarYearExpenditure.ContainsKey(currentYear.Key)).Select(x => x.CalendarYearExpenditure[currentYear.Key]).Where(x => x.HasValue).Sum(x => x.Value).ToStringCurrency()
-                </th>
+                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
             }
-            <th>@ViewDataTyped.FundingSourceCalendarYearExpenditures.Sum(x => x.CalendarYearExpenditure.Values.Where(y => y.HasValue).Sum(y => y.Value)).ToStringCurrency()</th>
+            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
         </tr>
-    </table>
-</div>
+    }
+    <tr>
+        <th>Grand Total</th>
+        @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
+        {
+            <th style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</th>
+        }
+        <th style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</th>
+    </tr>
+</table>

@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Results
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.FundingSource.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.SummaryUrl, x.FundingSource.DisplayName), 200);
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.Organization.GetDetailUrl(), x.FundingSource.Organization.DisplayName), 100);
-            Add(string.Format("{0} ({1})", Models.FieldDefinition.FundedAmount.ToGridHeaderString(), calendarYear?.ToString(CultureInfo.InvariantCulture) ?? "Recent Years"), x => x.ExpenditureAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add($"{Models.FieldDefinition.FundedAmount.ToGridHeaderString()} ({calendarYear?.ToString(CultureInfo.InvariantCulture) ?? "Recent Years"})", x => x.ExpenditureAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
         }
     }
 }

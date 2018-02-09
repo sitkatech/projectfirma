@@ -1,0 +1,153 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectResults.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Results.ProjectResults
+@section JavascriptAndStylesContent
+{
+<script type="text/javascript">
+        // <![CDATA[
+        function loadOrganizationAccomplishments()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var taxonomyTierTwoID = jQuery("#taxonomyTierTwoDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationAccomplishmentsUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID, taxonomyTierTwoID);
+            SitkaAjax.load(jQuery("#organizationAccomplishments"), newUrl);
+        };
+
+        function loadSpendingByOrganizationTypeAndOrganization()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var beginYear = jQuery("#beginYearDropdown").val();
+            var endYear = jQuery("#endYearDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SpendingByOrganizationTypeAndOrganizationUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID, beginYear, endYear);
+            SitkaAjax.load(jQuery("#spendingByOrganizationTypeAndOrganization"), newUrl);
+        };
+
+        function reloadWithNewOrganization() {
+            loadOrganizationAccomplishments();
+            loadSpendingByOrganizationTypeAndOrganization();
+        }
+
+        jQuery(document).ready(function() {
+            reloadWithNewOrganization();
+
+            jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#expendituresTab").on("shown.bs.tab", function() {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+        });
+        // ]]>
+</script>
+}
+
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
+
+<div style="margin: 20px 0">
+    <label>Show Results For</label>
+    <select id="organizationDropdown" onchange="reloadWithNewOrganization()">
+        <option value="-1">All @FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()</option>
+        @foreach (var organization in ViewDataTyped.Organizations)
+        {
+            <option value="@organization.OrganizationID">@organization.OrganizationName</option>
+        }
+    </select>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <ul class="nav nav-tabs" id="projectResultsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+            </li>
+            <li>
+                <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="accomplishmentsPanel">
+                <div style="margin: 10px">
+                    Show Results By
+                    <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()">
+                        <option value="-1">All @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized()</option>
+                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
+                        {
+                            <option value="@taxonomyTierTwo">@taxonomyTierTwo.TaxonomyTierTwoName</option>
+                        }
+                    </select>
+                </div>                
+
+                <div id="organizationAccomplishments">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="expendituresPanel">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Where does funding come from?</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div style="margin: 10px">
+                            Show Results From
+                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()">
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                }
+                            </select>
+                            To
+                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()">
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                }
+                            </select>
+                        </div>
+                        <div id="spendingByOrganizationTypeAndOrganization">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

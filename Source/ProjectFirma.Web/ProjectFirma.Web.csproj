@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -436,6 +436,11 @@
     <Compile Include="Views\Project\Pending.cs" />
     <Compile Include="Views\Project\PendingViewData.cs" />
     <Compile Include="Views\Project\ProjectOrganizationForDiff.cs" />
+    <Compile Include="Views\Results\OrganizationAccomplishments.cs" />
+    <Compile Include="Views\Results\OrganizationAccomplishmentsViewData.cs" />
+    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
+    <Compile Include="Views\Results\ProjectResults.cs" />
+    <Compile Include="Views\Results\ProjectResultsViewData.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -835,9 +840,6 @@
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewModel.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyTierTwo.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyTierTwoViewData.cs" />
-    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cs" />
-    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData.cs" />
-    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo.cs" />
     <Compile Include="Views\TaxonomyTierOne\Edit.cs" />
     <Compile Include="Views\TaxonomyTierOne\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierOne\EditViewModel.cs" />
@@ -1199,12 +1201,6 @@
     <Compile Include="Views\Results\ProjectMapViewData.cs" />
     <Compile Include="Views\Results\ProjectMapViewDataTest.cs" />
     <Compile Include="Views\Results\FundingSourceCalendarYearExpenditureExcelSpec.cs" />
-    <Compile Include="Views\Results\InvestmentByOrganizationType.cs" />
-    <Compile Include="Views\Results\InvestmentByOrganizationTypeViewData.cs" />
-    <Compile Include="Views\Results\InvestmentByOrganizationTypeViewModel.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationType.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeViewData.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProject.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectGridSpec.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectViewData.cs" />
@@ -1405,6 +1401,8 @@
     <Content Include="Views\ProjectCreate\Organizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Organizations.cshtml" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
+    <Content Include="Views\Results\ProjectResults.cshtml" />
+    <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3265,8 +3263,6 @@
     <Content Include="Views\ProjectCreate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectCreate\_ViewStart.cshtml" />
     <Content Include="Views\Results\ProjectMap.cshtml" />
-    <Content Include="Views\Results\InvestmentByOrganizationType.cshtml" />
-    <Content Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationType.cshtml" />
     <Content Include="Views\Results\SpendingByPerformanceMeasureByProject.cshtml" />
     <Content Include="Views\Results\SpendingByOrganizationTypeByOrganization.cshtml" />
     <Content Include="Views\Shared\PerformanceMeasureControls\EditPerformanceMeasureExpected.cshtml" />
@@ -3307,7 +3303,6 @@
     <Content Include="Views\TaxonomyTierOne\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Index.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Detail.cshtml" />
-    <Content Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\Results\ResultsByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cshtml" />
   </ItemGroup>

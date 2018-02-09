@@ -86,15 +86,16 @@ namespace ProjectFirma.Web.Views
         {
             var homeMenuItem = LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Index()), currentPerson, "Home");
 
-            TopLevelLtInfoMenuItems = new List<LtInfoMenuItem>
+            TopLevelLtInfoMenuItems = new List<LtInfoMenuItem>();
+            TopLevelLtInfoMenuItems.Add(homeMenuItem);
+            TopLevelLtInfoMenuItems.Add(BuildAboutMenu(currentPerson));
+            TopLevelLtInfoMenuItems.Add(BuildProjectsMenu(currentPerson));
+            TopLevelLtInfoMenuItems.Add(BuildProgramInfoMenu(currentPerson));
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                homeMenuItem,
-                BuildAboutMenu(currentPerson),
-                BuildProjectsMenu(currentPerson),
-                BuildProgramInfoMenu(currentPerson),
-                //BuildResultsMenu(currentPerson),
-                BuildManageMenu(currentPerson)
-            };
+                TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
+            }
+            TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentPerson));
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -116,15 +117,12 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByOrganizationType(null)), currentPerson, $"Investment by {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(null)),
-                currentPerson,
-                $"Spending by {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} by {Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel()} by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson,
-                $"Results by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map"));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectResults()), currentPerson, $"Results for {Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()}"));
+            //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson,
+            //    $"Results by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
+            //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map"));
 
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
+            //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
             return resultsMenu;
         }
 
@@ -147,7 +145,7 @@ namespace ProjectFirma.Web.Views
         }
 
 
-        private LtInfoMenuItem BuildManageMenu(Person currentPerson)
+        private static LtInfoMenuItem BuildManageMenu(Person currentPerson)
         {
             var manageMenu = new LtInfoMenuItem("Manage");
 

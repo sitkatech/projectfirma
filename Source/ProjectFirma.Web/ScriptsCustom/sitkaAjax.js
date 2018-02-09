@@ -67,6 +67,7 @@ SitkaAjax.postJSON = function (url, postData, callback, errorHandler) {
 };
 
 SitkaAjax.load = function (jqSelector, url, errorHandler) {
+    jqSelector.html('<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" ariavaluemax="100" style="width: 100%;">Loading...</div></div>');
     SitkaAjax.get(url, function (data) { jqSelector.html(data); }, errorHandler);
 };
 

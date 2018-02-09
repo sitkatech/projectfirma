@@ -1,0 +1,59 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="OrganizationAccomplishments.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using MoreLinq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@inherits ProjectFirma.Web.Views.Results.OrganizationAccomplishments
+
+@if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+{
+    <p>
+        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+    </p>
+    foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+    {
+        <div class="row">
+            @foreach (var performanceMeasureChartViewData in batch)
+            {
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="panel panelFirma">
+                        <div class="panel-body">
+                            <div style="margin: auto;">
+                                @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <p class="text-center">
+                There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Organization.GetFieldDefinitionLabel().
+            </p>
+        </div>
+    </div>
+}

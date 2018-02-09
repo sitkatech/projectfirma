@@ -19,21 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class SpendingByOrganizationTypeByOrganizationViewData : FirmaUserControlViewData
     {
-        public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceCalendarYearExpenditures;
-        public readonly Dictionary<int, string> CalendarYears;
-        public readonly string ExcelUrl;
+        public List<OrganizationType> OrganizationTypes { get; }
+        public List<Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
+        public List<Models.TaxonomyTierTwo> TaxonomyTierTwos { get; }
 
-        public SpendingByOrganizationTypeByOrganizationViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures, Dictionary<int, string> calendarYears, string excelUrl)
+        public SpendingByOrganizationTypeByOrganizationViewData(List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<Models.TaxonomyTierTwo> taxonomyTierTwos)
         {
-            FundingSourceCalendarYearExpenditures = fundingSourceCalendarYearExpenditures;
-            CalendarYears = calendarYears;
-            ExcelUrl = excelUrl;
+            OrganizationTypes = organizationTypes;
+            ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
+            TaxonomyTierTwos = taxonomyTierTwos;
         }
+
     }
 }
