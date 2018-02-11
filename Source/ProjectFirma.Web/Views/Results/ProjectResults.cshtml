@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.ProjectResults
 @section JavascriptAndStylesContent
@@ -110,10 +111,9 @@
                 <div style="margin: 10px">
                     Show Results By
                     <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()">
-                        <option value="-1">All @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized()</option>
                         @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
                         {
-                            <option value="@taxonomyTierTwo">@taxonomyTierTwo.TaxonomyTierTwoName</option>
+                            <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
                         }
                     </select>
                 </div>                

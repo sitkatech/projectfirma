@@ -56,6 +56,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Is Default?")]
         public bool? IsDefaultOrganizationType { get; set; }
 
+        [Required]
+        [DisplayName("Is Funding Type?")]
+        public bool? IsFundingType { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -71,6 +75,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             LegendColor = organizationType.LegendColor;
             ShowOnProjectMaps = organizationType.ShowOnProjectMaps;
             IsDefaultOrganizationType = organizationType.IsDefaultOrganizationType;
+            IsFundingType = organizationType.IsFundingType;
         }
 
         public void UpdateModel(OrganizationType organizationType, Person currentPerson)
@@ -80,6 +85,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             organizationType.LegendColor = LegendColor;
             organizationType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
             organizationType.IsDefaultOrganizationType = IsDefaultOrganizationType ?? false;
+            organizationType.IsFundingType = IsFundingType ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

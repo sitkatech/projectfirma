@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ProjectResults()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).ToList();
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear - 7; // TODO: very arbitrary right now to show the last 7 years
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult SpendingByOrganizationTypeByOrganization(int organizationID, int beginYear, int endYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
-            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.OrderBy(x => x.OrganizationTypeName).ToList();
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName).ToList();
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
             var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyTierTwos);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
@@ -90,12 +90,8 @@ namespace ProjectFirma.Web.Controllers
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
 
-            if (ModelObjectHelpers.IsRealPrimaryKeyValue(taxonomyTierTwoID))
-            {
-                projects = projects.Where(x => x.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwoID).ToList();
-            }
-
             var performanceMeasures = projects
+                .Where(x => x.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwoID)
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct()
                 .OrderBy(x => x.PerformanceMeasureDisplayName)

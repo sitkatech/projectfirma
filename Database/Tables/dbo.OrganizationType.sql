@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[OrganizationType](
 	[LegendColor] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ShowOnProjectMaps] [bit] NOT NULL,
 	[IsDefaultOrganizationType] [bit] NOT NULL,
+	[IsFundingType] [bit] NOT NULL,
  CONSTRAINT [PK_OrganizationType_OrganizationTypeID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationTypeID] ASC

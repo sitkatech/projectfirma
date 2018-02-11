@@ -295,6 +295,7 @@
           <ScalarProperty Name="LegendColor" ColumnName="LegendColor" />
           <ScalarProperty Name="ShowOnProjectMaps" ColumnName="ShowOnProjectMaps" />
           <ScalarProperty Name="IsDefaultOrganizationType" ColumnName="IsDefaultOrganizationType" />
+          <ScalarProperty Name="IsFundingType" ColumnName="IsFundingType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

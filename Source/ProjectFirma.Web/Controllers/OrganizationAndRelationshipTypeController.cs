@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewOrganizationType(viewModel);
             }
-            var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false);
+            var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false, viewModel.IsFundingType ?? false);
             viewModel.UpdateModel(organizationType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizationTypes.Add(organizationType);
 

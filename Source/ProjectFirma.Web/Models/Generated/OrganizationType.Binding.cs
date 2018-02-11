@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType) : this()
+        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType) : this()
         {
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationTypeName = organizationTypeName;
@@ -40,12 +40,13 @@ namespace ProjectFirma.Web.Models
             this.LegendColor = legendColor;
             this.ShowOnProjectMaps = showOnProjectMaps;
             this.IsDefaultOrganizationType = isDefaultOrganizationType;
+            this.IsFundingType = isFundingType;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType) : this()
+        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -55,6 +56,7 @@ namespace ProjectFirma.Web.Models
             this.LegendColor = legendColor;
             this.ShowOnProjectMaps = showOnProjectMaps;
             this.IsDefaultOrganizationType = isDefaultOrganizationType;
+            this.IsFundingType = isFundingType;
         }
 
 
@@ -63,7 +65,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static OrganizationType CreateNewBlank()
         {
-            return new OrganizationType(default(string), default(string), default(string), default(bool), default(bool));
+            return new OrganizationType(default(string), default(string), default(string), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -88,6 +90,7 @@ namespace ProjectFirma.Web.Models
         public string LegendColor { get; set; }
         public bool ShowOnProjectMaps { get; set; }
         public bool IsDefaultOrganizationType { get; set; }
+        public bool IsFundingType { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
