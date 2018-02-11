@@ -37,11 +37,14 @@ namespace ProjectFirma.Web.Views.Results
         public int DefaultBeginYear { get; }
         public int DefaultEndYear { get; }
         public List<Models.TaxonomyTierTwo> TaxonomyTierTwos { get; private set; }
+        public string ProjectStewardOrganizationTypeName { get; }
 
         public ProjectResultsViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear, List<Models.TaxonomyTierTwo> taxonomyTierTwos) :
             base(currentPerson, firmaPage)
         {
-            PageTitle = $"Investment by {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
+            var projectStewardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
+                .GetFieldDefinitionLabelPluralized();
+            PageTitle = $"Project Results for {projectStewardOrganizationTypeName}";
             Organizations = organizations;
             CalendarYears = calendarYears;
             DefaultBeginYear = defaultBeginYear;
@@ -49,7 +52,7 @@ namespace ProjectFirma.Web.Views.Results
             TaxonomyTierTwos = taxonomyTierTwos;
             OrganizationAccomplishmentsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationAccomplishments(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
+            ProjectStewardOrganizationTypeName = projectStewardOrganizationTypeName;
         }
-
     }
 }
