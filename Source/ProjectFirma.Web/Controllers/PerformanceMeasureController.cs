@@ -310,7 +310,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var googleChartType = GoogleChartType.ColumnChart;
-            var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default");
+            var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = googleChartType.GoogleChartTypeID };
             var googleChartAxisHorizontal = new GoogleChartAxis("Date", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal, googleChartAxisVerticals);
