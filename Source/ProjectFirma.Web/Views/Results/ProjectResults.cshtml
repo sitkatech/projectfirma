@@ -82,7 +82,7 @@
 
 <div style="margin: 20px 0">
     <label>Show Results For</label>
-    <select id="organizationDropdown" onchange="reloadWithNewOrganization()" class="selectpicker" data-live-search="true">
+    <select id="organizationDropdown" onchange="reloadWithNewOrganization()" class="selectpicker" data-live-search="true" data-width="auto">
         <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
         @foreach (var organization in ViewDataTyped.Organizations)
         {
@@ -109,7 +109,7 @@
             <div role="tabpanel" class="tab-pane active" id="accomplishmentsPanel">
                 <div style="margin: 10px">
                     Show Results By
-                    <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true">
+                    <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="auto">
                         @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
                         {
                             <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
@@ -128,14 +128,14 @@
                     <div class="panel-body">
                         <div style="margin: 10px">
                             Show Results From
-                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker">
+                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
                                 @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                                 {
                                     <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
                                 }
                             </select>
                             To
-                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker">
+                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
                                 @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                                 {
                                     <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
