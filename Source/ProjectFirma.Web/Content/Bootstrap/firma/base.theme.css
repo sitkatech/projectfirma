@@ -103,6 +103,12 @@ form .form-group-condensed {
 .bootstrap-select.btn-group.open .dropdown-menu {
   z-index: 1100;
 }
+.wrapLongString {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+}
 .header {
   background-color: #f8f8f8;
   padding: 10px;
