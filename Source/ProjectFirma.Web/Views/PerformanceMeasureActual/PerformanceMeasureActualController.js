@@ -20,6 +20,17 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData)
 {    
+    $scope.performanceMeasureTooltip = function (performanceMeasureExpected) {
+        var displayName = $scope.getPerformanceMeasureName(performanceMeasureExpected);
+        var definitionAndGuidanceUrl = $scope.getPerformanceMeasureDefinitionAndGuidanceUrl(performanceMeasureExpected);
+        ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(event.target), displayName, definitionAndGuidanceUrl, 430);
+    }
+
+    $scope.getPerformanceMeasureDefinitionAndGuidanceUrl = function (performanceMeasureExpected) {
+        var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
+        return performanceMeasureToFind.DefinitionAndGuidanceUrl;
+    };
+
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
     }

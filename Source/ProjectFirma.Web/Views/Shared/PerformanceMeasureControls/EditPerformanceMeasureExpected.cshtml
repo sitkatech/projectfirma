@@ -109,8 +109,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <div class="panel-heading panelTitle">
                                     <span class="panel-heading-left">
                                         <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
-                                              ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">
-                                            
+                                              ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">                                            
                                         </span>
                                     </span>
                                     <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
@@ -174,7 +173,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     <thead>
                         <tr>
                             <th colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 3}}">
-                                @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
+                                      ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">                                            
+                                </span>
                                 <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)" style="font-weight: bold"></span>
                             </th>
                         </tr>
