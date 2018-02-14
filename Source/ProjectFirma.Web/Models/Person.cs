@@ -64,19 +64,18 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public List<Project> GetPrimaryContactProjects(Person person)
         {
-            return HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(person.CanViewProposals).Where(p => p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
+            var isPersonViewingThePrimaryContact = person.PersonID == PersonID;
+            if (isPersonViewingThePrimaryContact)
+            {
+                return ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
+            }
+            return ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(person.CanViewProposals).ToList();
         }
 
         public List<Project> GetPrimaryContactUpdatableProjects(Person person)
         {
             return GetPrimaryContactProjects(person).Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
         }
-
-        /// <summary>
-        /// Is this Person the primary contact for one or more Projects?
-        /// </summary>
-        /// <param name="person"></param>
-        public bool IsPrimaryContactForOneOrMoreProjects(Person person) => GetPrimaryContactProjects(person).Any();
 
         /// <summary>
         /// List of Organizations for which this Person is the primary contact
