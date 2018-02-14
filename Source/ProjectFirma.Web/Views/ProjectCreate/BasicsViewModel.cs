@@ -156,10 +156,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
             }
 
+            if (ProjectStageID == ProjectStage.Implementation.ProjectStageID)
+            {
+                if (ImplementationStartYear > DateTime.Today.Year)
+                {
+                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationYearMustBePastOrPresentForImplementationProjects, m => m.CompletionYear));
+                }
+            }
+
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID ||
                 ProjectStageID == ProjectStage.PostImplementation.ProjectStageID)
             {
-                if (CompletionYear > DateTime.Now.Year)
+                if (CompletionYear > DateTime.Today.Year)
                 {
                     errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
                 }
