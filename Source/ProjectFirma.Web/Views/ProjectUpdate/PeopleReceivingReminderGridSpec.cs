@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PeopleReceivingReminderGridSpec : GridSpec<Person>
     {
-        public PeopleReceivingReminderGridSpec(bool showCheckbox)
+        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person person)
         {
             if (showCheckbox)
             {
@@ -39,12 +38,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
             Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
-                x => x.GetPrimaryContactUpdatableProjects(x).Count,
+                x => x.GetPrimaryContactUpdatableProjects(person).Count,
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(x).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
@@ -56,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates In Progress",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(x).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
@@ -66,7 +65,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Submitted",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(x).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
@@ -76,7 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Returned",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(x).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
@@ -86,7 +85,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Approved",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(x).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
                     {
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();
@@ -103,7 +102,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Date of Last Reminder Message", x =>
             {
                 var mostRecentReminder = x.GetMostRecentReminder();
-                return mostRecentReminder == null ? (DateTime?) null : mostRecentReminder.NotificationDate;
+                return mostRecentReminder?.NotificationDate;
             }, 130);
         }
     }
