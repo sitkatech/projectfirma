@@ -166,7 +166,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 if (ImplementationStartYear > currentYear)
                 {
-                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationYearMustBePastOrPresentForImplementationProjects, m => m.CompletionYear));
+                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
+                        FirmaValidationMessages.ImplementationYearMustBePastOrPresentForImplementationProjects,
+                        m => m.ImplementationStartYear));
                 }
             }
             
