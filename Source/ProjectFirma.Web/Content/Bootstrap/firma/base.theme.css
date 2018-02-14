@@ -49,6 +49,7 @@ h6 {
   background-color: #fff;
   border: 1px solid #e7e7e7;
   padding-bottom: 20px;
+  padding-top: 10px;
 }
 .rightFloatingInfo {
   float: right;
@@ -997,7 +998,7 @@ td.stage {
 .homepageCarouselFullWidthColumn {
   padding-left: 0;
   padding-right: 0;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 #homepageCarousel,
 #homepageCarousel .carousel-inner .item {
