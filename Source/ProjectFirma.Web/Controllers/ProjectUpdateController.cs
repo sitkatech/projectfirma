@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -1596,7 +1595,7 @@ namespace ProjectFirma.Web.Controllers
                 ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
-            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(true) {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
+            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(true, CurrentPerson) {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageUpdateNotifications);
 
             var projectsWithNoContactCount = GetProjectsWithNoContact(CurrentPerson).Count;
@@ -1632,7 +1631,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Person> PeopleReceivingReminderGridJsonData(bool showCheckbox)
         {
-            var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox);
+            var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox, CurrentPerson);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsEditableToThisPerson(CurrentPerson)).ToList();
             var people = projects.GetPrimaryContactPeople();            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(people, gridSpec);
@@ -1717,7 +1716,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult ProjectUpdateStatus()
         {
-            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
+            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false, CurrentPerson) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectUpdateStatus);
 
             var viewData = new ProjectUpdateStatusViewData(CurrentPerson,

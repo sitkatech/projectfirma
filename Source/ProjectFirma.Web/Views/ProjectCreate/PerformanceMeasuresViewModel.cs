@@ -27,7 +27,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -149,20 +148,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
-            if (PerformanceMeasureActuals == null)
-            {
-                PerformanceMeasureActuals = new List<PerformanceMeasureActualSimple>();
-            }
+            var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
+            var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
 
-            Models.Project project = HttpRequestStorage.DatabaseEntities.Projects.Single(x=>x.ProjectID==ProjectID);
+            var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
 
             // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
-            var exemptYears = ProjectExemptReportingYears.Where(x=>x.IsExempt).Select(x => x.CalendarYear).ToList();
+            var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
             var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
                 .Where(x => !exemptYears.Contains(x)).ToList();
-            var yearsEntered = PerformanceMeasureActuals?.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct() ?? new List<int>();
+            var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct();
             var missingYears = yearsExpected.GetMissingYears(yearsEntered);
-            
+
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
             var performanceMeasureActualsWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualRow();
 
@@ -172,7 +169,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             //validation4: data entered for exempt years
             var performanceMeasureActualsWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
 
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualsWithIncompleteWarnings, performanceMeasureActualsWithDuplicateWarnings, performanceMeasureActualsWithExemptYear);
+            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears,
+                performanceMeasureActualsWithIncompleteWarnings, performanceMeasureActualsWithDuplicateWarnings,
+                performanceMeasureActualsWithExemptYear);
             return performanceMeasuresValidationResult;
         }
 
@@ -186,7 +185,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
             var performanceMeasuresIDsAndSubcategoryCounts =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
-                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new { PerformanceMeasureID = x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
+                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new {x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
 
             var performanceMeasureActualsWithMissingSubcategoryOptions =
                 PerformanceMeasureActuals.Where(
