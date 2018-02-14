@@ -156,21 +156,36 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
             }
 
+            if (CompletionYear < PlanningDesignStartYear)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear, m => m.CompletionYear));
+            }
+
+            var currentYear = DateTime.Today.Year;
             if (ProjectStageID == ProjectStage.Implementation.ProjectStageID)
             {
-                if (ImplementationStartYear > DateTime.Today.Year)
+                if (ImplementationStartYear > currentYear)
                 {
                     errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationYearMustBePastOrPresentForImplementationProjects, m => m.CompletionYear));
                 }
             }
-
-            if (ProjectStageID == ProjectStage.Completed.ProjectStageID ||
-                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID)
+            
+            if (ImplementationStartYear == null && ProjectStageID != ProjectStage.Terminated.ProjectStageID && ProjectStageID != ProjectStage.Deferred.ProjectStageID)
             {
-                if (CompletionYear > DateTime.Today.Year)
-                {
-                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
-                }
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
+                    "Implementation year is required when the project stage is not Deferred or Terminated",
+                    m => m.ImplementationStartYear));
+            }
+
+            if ((ProjectStageID == ProjectStage.Completed.ProjectStageID ||
+                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear>currentYear)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
+            }
+
+            if (ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID && PlanningDesignStartYear > currentYear)
+            {
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>("Since the project is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year", m=>m.PlanningDesignStartYear));
             }
 
             return errors;
