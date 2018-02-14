@@ -109,6 +109,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: @firma-contentBackground-color;
     border: 1px solid @firma-contentBorder-color;
     padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .rightFloatingInfo {
@@ -178,6 +179,14 @@ form {
 .bootstrap-select.btn-group.open .dropdown-menu {
     z-index: 1100;
 }
+
+.wrapLongString {
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;   
+}
+
 // Header
 .header {
     background-color: @firma-logoHeaderBackground-color;
@@ -1082,7 +1091,7 @@ ul.filmStrip li a div.caption {
 
 #tab-container ul li .statusIcon, #tab-container ol li .statusIcon
 {
-    padding: 5px 5px 5px 0;
+    padding: 0 5px;
 }
 
 #tab-container ol li a, #tab-container ol li a:visited, #tab-container ul li a, #tab-container ul li a:visited
@@ -1217,7 +1226,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 .homepageCarouselFullWidthColumn {
     padding-left: 0;
     padding-right: 0;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 #homepageCarousel,
