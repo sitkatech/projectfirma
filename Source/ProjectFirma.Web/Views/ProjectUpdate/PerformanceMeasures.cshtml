@@ -150,7 +150,9 @@ else
                         <thead>
                             <tr>
                                 <th colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}">
-                                    <span class="helpicon glyphicon glyphicon-question-sign" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureGroup)}}"></span>
+                                    <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
+                                          ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">                                            
+                                    </span>
                                     <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)" style="font-weight: bold"></span>
                                 </th>
                             </tr>

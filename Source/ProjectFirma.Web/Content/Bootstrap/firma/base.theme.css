@@ -882,7 +882,7 @@ a.disabled {
 }
 #tab-container ul li .statusIcon,
 #tab-container ol li .statusIcon {
-  padding: 5px 5px 5px 0;
+  padding: 0 5px;
 }
 #tab-container ol li a,
 #tab-container ol li a:visited,
