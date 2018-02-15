@@ -170,12 +170,12 @@ Thank you,<br />
             var subject = $"A Project Proposal was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
             var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.InstructionsProposal(project.ProjectID));
             var message = $@"
-<p>A proposal was submitted for a new Project, “{project.DisplayName}”.</p>
-<p>The proposal was submitted on {project.ProposingDate.ToStringDate()} by {
+<p>A new Project, “{project.DisplayName}”, was submitted.</p>
+<p>The Project was submitted on {project.ProposingDate.ToStringDate()} by {
                     submitterPerson.FullNameFirstLastAndOrg
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
-<a href=""{instructionsUrl}"">View this proposal</a></p>
+<a href=""{instructionsUrl}"">View this project</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
@@ -199,7 +199,7 @@ Thank you,<br />
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLastAndOrg},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} Project submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
 <p>This project is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} Project List</a> and is visible to the public via the project detail page.</p>
 <p><a href=""{detailUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
@@ -229,8 +229,8 @@ Thank you,<br />
             var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.InstructionsProposal(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLast},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} Proposal submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
-<p>The proposal was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this proposal can move forward.</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} project submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
+<p>The project was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this project can move forward.</p>
 <a href=""{instructionsUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
