@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationTypeID) : this()
+        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID) : this()
         {
             this.ClassificationID = classificationID;
             this.ClassificationName = classificationName;
@@ -40,13 +40,13 @@ namespace ProjectFirma.Web.Models
             this.DisplayName = displayName;
             this.GoalStatement = goalStatement;
             this.KeyImageFileResourceID = keyImageFileResourceID;
-            this.ClassificationTypeID = classificationTypeID;
+            this.ClassificationSystemID = classificationSystemID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, int classificationTypeID) : this()
+        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, int classificationSystemID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -55,13 +55,13 @@ namespace ProjectFirma.Web.Models
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
-            this.ClassificationTypeID = classificationTypeID;
+            this.ClassificationSystemID = classificationSystemID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, ClassificationType classificationType) : this()
+        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, ClassificationSystem classificationSystem) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -69,17 +69,17 @@ namespace ProjectFirma.Web.Models
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
-            this.ClassificationTypeID = classificationType.ClassificationTypeID;
-            this.ClassificationType = classificationType;
-            classificationType.Classifications.Add(this);
+            this.ClassificationSystemID = classificationSystem.ClassificationSystemID;
+            this.ClassificationSystem = classificationSystem;
+            classificationSystem.Classifications.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Classification CreateNewBlank(ClassificationType classificationType)
+        public static Classification CreateNewBlank(ClassificationSystem classificationSystem)
         {
-            return new Classification(default(string), default(string), default(string), default(string), classificationType);
+            return new Classification(default(string), default(string), default(string), default(string), classificationSystem);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Models
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
         public int? KeyImageFileResourceID { get; set; }
-        public int ClassificationTypeID { get; set; }
+        public int ClassificationSystemID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource KeyImageFileResource { get; set; }
-        public virtual ClassificationType ClassificationType { get; set; }
+        public virtual ClassificationSystem ClassificationSystem { get; set; }
 
         public static class FieldLengths
         {

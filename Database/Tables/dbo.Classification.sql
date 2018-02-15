@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[Classification](
 	[DisplayName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GoalStatement] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[KeyImageFileResourceID] [int] NULL,
-	[ClassificationTypeID] [int] NOT NULL,
+	[ClassificationSystemID] [int] NOT NULL,
  CONSTRAINT [PK_Classification_ClassificationID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationID] ASC
@@ -34,15 +34,15 @@ CREATE TABLE [dbo].[Classification](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_ClassificationType_ClassificationTypeID] FOREIGN KEY([ClassificationTypeID])
-REFERENCES [dbo].[ClassificationType] ([ClassificationTypeID])
+ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_ClassificationSystem_ClassificationSystemID] FOREIGN KEY([ClassificationSystemID])
+REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID])
 GO
-ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_ClassificationType_ClassificationTypeID]
+ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_ClassificationSystem_ClassificationSystemID]
 GO
-ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_ClassificationType_ClassificationTypeID_TenantID] FOREIGN KEY([ClassificationTypeID], [TenantID])
-REFERENCES [dbo].[ClassificationType] ([ClassificationTypeID], [TenantID])
+ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_ClassificationSystem_ClassificationSystemID_TenantID] FOREIGN KEY([ClassificationSystemID], [TenantID])
+REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID], [TenantID])
 GO
-ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_ClassificationType_ClassificationTypeID_TenantID]
+ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_ClassificationSystem_ClassificationSystemID_TenantID]
 GO
 ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID] FOREIGN KEY([KeyImageFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])

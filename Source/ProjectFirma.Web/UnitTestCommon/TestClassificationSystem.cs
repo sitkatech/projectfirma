@@ -24,22 +24,22 @@ namespace ProjectFirma.Web.UnitTestCommon
 {
     public static partial class TestFramework
     {
-        public static class TestClassificationType
+        public static class TestClassificationSystem
         {
-            public static ClassificationType Create()
+            public static ClassificationSystem Create()
             {
-                var classificationType = ClassificationType.CreateNewBlank();
-                classificationType.ClassificationTypeName = MakeTestName("TestClassificationTypeName", ClassificationType.FieldLengths.ClassificationTypeName);
-                classificationType.ClassificationTypeDescription = MakeTestName("TestClassificationTypeDesc");
+                var classificationSystem = ClassificationSystem.CreateNewBlank();
+                classificationSystem.ClassificationSystemName = MakeTestName("TestClassificationSystemName", ClassificationSystem.FieldLengths.ClassificationSystemName);
+                classificationSystem.ClassificationSystemDescription = MakeTestName("TestClassificationSystemDesc");
                
-                return classificationType;
+                return classificationSystem;
             }
 
-            public static ClassificationType Create(DatabaseEntities dbContext)
+            public static ClassificationSystem Create(DatabaseEntities dbContext)
             {
-                var classificationType = Create();
-                dbContext.AllClassificationTypes.Add(classificationType);
-                return classificationType;
+                var classificationSystem = Create();
+                dbContext.AllClassificationSystems.Add(classificationSystem);
+                return classificationSystem;
             }
         }
     }

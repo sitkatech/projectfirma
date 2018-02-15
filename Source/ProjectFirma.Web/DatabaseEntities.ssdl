@@ -7,7 +7,7 @@
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.Store.AuditLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Classification" EntityType="ProjectFirma.Web.Models.Store.Classification" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ClassificationPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.ClassificationPerformanceMeasure" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ClassificationType" EntityType="ProjectFirma.Web.Models.Store.ClassificationType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClassificationSystem" EntityType="ProjectFirma.Web.Models.Store.ClassificationSystem" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.Store.CostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.Store.County" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
@@ -107,8 +107,8 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
     </AssociationSet>
-    <AssociationSet Name="FK_Classification_ClassificationType_ClassificationTypeID" Association="ProjectFirma.Web.Models.Store.FK_Classification_ClassificationType_ClassificationTypeID">
-      <End Role="ClassificationType" EntitySet="ClassificationType" />
+    <AssociationSet Name="FK_Classification_ClassificationSystem_ClassificationSystemID" Association="ProjectFirma.Web.Models.Store.FK_Classification_ClassificationSystem_ClassificationSystemID">
+      <End Role="ClassificationSystem" EntitySet="ClassificationSystem" />
       <End Role="Classifications" EntitySet="Classification" />
     </AssociationSet>
     <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
@@ -693,7 +693,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
-    <Property Name="ClassificationTypeID" Type="int" Nullable="false" />
+    <Property Name="ClassificationSystemID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -706,16 +706,16 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Classification_ClassificationType_ClassificationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Classification_ClassificationSystem_ClassificationSystemID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
-  <EntityType Name="ClassificationType">
+  <EntityType Name="ClassificationSystem">
     <Key>
-      <PropertyRef Name="ClassificationTypeID" />
+      <PropertyRef Name="ClassificationSystemID" />
     </Key>
-    <Property Name="ClassificationTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ClassificationSystemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ClassificationTypeName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="ClassificationTypeDescription" Type="varchar(max)" Nullable="false" />
+    <Property Name="ClassificationSystemName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="ClassificationSystemDescription" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -1855,15 +1855,15 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Classification_ClassificationType_ClassificationTypeID">
-    <End Role="ClassificationType" Type="ProjectFirma.Web.Models.Store.ClassificationType" Multiplicity="1" />
+  <Association Name="FK_Classification_ClassificationSystem_ClassificationSystemID">
+    <End Role="ClassificationSystem" Type="ProjectFirma.Web.Models.Store.ClassificationSystem" Multiplicity="1" />
     <End Role="Classifications" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ClassificationType">
-        <PropertyRef Name="ClassificationTypeID" />
+      <Principal Role="ClassificationSystem">
+        <PropertyRef Name="ClassificationSystemID" />
       </Principal>
       <Dependent Role="Classifications">
-        <PropertyRef Name="ClassificationTypeID" />
+        <PropertyRef Name="ClassificationSystemID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

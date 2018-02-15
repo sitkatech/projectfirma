@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ClassificationType]
+//  Source Table: [dbo].[ClassificationSystem]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[ClassificationType]")]
-    public partial class ClassificationType : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[ClassificationSystem]")]
+    public partial class ClassificationSystem : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ClassificationType()
+        protected ClassificationSystem()
         {
             this.Classifications = new HashSet<Classification>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,32 +30,32 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationType(int classificationTypeID, string classificationTypeName, string classificationTypeDescription) : this()
+        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDescription) : this()
         {
-            this.ClassificationTypeID = classificationTypeID;
-            this.ClassificationTypeName = classificationTypeName;
-            this.ClassificationTypeDescription = classificationTypeDescription;
+            this.ClassificationSystemID = classificationSystemID;
+            this.ClassificationSystemName = classificationSystemName;
+            this.ClassificationSystemDescription = classificationSystemDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationType(string classificationTypeName, string classificationTypeDescription) : this()
+        public ClassificationSystem(string classificationSystemName, string classificationSystemDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ClassificationTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ClassificationSystemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ClassificationTypeName = classificationTypeName;
-            this.ClassificationTypeDescription = classificationTypeDescription;
+            this.ClassificationSystemName = classificationSystemName;
+            this.ClassificationSystemDescription = classificationSystemDescription;
         }
 
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ClassificationType CreateNewBlank()
+        public static ClassificationSystem CreateNewBlank()
         {
-            return new ClassificationType(default(string), default(string));
+            return new ClassificationSystem(default(string), default(string));
         }
 
         /// <summary>
@@ -70,22 +70,22 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationType).Name, typeof(Classification).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name};
 
         [Key]
-        public int ClassificationTypeID { get; set; }
+        public int ClassificationSystemID { get; set; }
         public int TenantID { get; private set; }
-        public string ClassificationTypeName { get; set; }
-        public string ClassificationTypeDescription { get; set; }
+        public string ClassificationSystemName { get; set; }
+        public string ClassificationSystemDescription { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ClassificationTypeID; } set { ClassificationTypeID = value; } }
+        public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 
         public virtual ICollection<Classification> Classifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
-            public const int ClassificationTypeName = 200;
+            public const int ClassificationSystemName = 200;
         }
     }
 }

@@ -64,7 +64,7 @@
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
-          <ScalarProperty Name="ClassificationTypeID" ColumnName="ClassificationTypeID" />
+          <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -79,13 +79,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ClassificationType">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationType">
-        <MappingFragment StoreEntitySet="ClassificationType">
-          <ScalarProperty Name="ClassificationTypeID" ColumnName="ClassificationTypeID" />
+    <EntitySetMapping Name="ClassificationSystem">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationSystem">
+        <MappingFragment StoreEntitySet="ClassificationSystem">
+          <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ClassificationTypeName" ColumnName="ClassificationTypeName" />
-          <ScalarProperty Name="ClassificationTypeDescription" ColumnName="ClassificationTypeDescription" />
+          <ScalarProperty Name="ClassificationSystemName" ColumnName="ClassificationSystemName" />
+          <ScalarProperty Name="ClassificationSystemDescription" ColumnName="ClassificationSystemDescription" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
