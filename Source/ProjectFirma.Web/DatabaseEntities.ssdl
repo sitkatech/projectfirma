@@ -7,6 +7,7 @@
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.Store.AuditLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Classification" EntityType="ProjectFirma.Web.Models.Store.Classification" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ClassificationPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.ClassificationPerformanceMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClassificationType" EntityType="ProjectFirma.Web.Models.Store.ClassificationType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.Store.CostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.Store.County" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
@@ -105,6 +106,10 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Classification_ClassificationType_ClassificationTypeID" Association="ProjectFirma.Web.Models.Store.FK_Classification_ClassificationType_ClassificationTypeID">
+      <End Role="ClassificationType" EntitySet="ClassificationType" />
+      <End Role="Classifications" EntitySet="Classification" />
     </AssociationSet>
     <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
       <End Role="KeyImageFileResource" EntitySet="FileResource" />
@@ -688,6 +693,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
+    <Property Name="ClassificationTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -698,6 +704,18 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Classification_ClassificationType_ClassificationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="ClassificationType">
+    <Key>
+      <PropertyRef Name="ClassificationTypeID" />
+    </Key>
+    <Property Name="ClassificationTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ClassificationTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="ClassificationTypeDescription" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -1834,6 +1852,18 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Classification_ClassificationType_ClassificationTypeID">
+    <End Role="ClassificationType" Type="ProjectFirma.Web.Models.Store.ClassificationType" Multiplicity="1" />
+    <End Role="Classifications" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassificationType">
+        <PropertyRef Name="ClassificationTypeID" />
+      </Principal>
+      <Dependent Role="Classifications">
+        <PropertyRef Name="ClassificationTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -40,6 +40,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get { return AllClassificationPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Classification> AllClassifications { get; set; }
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ClassificationType> AllClassificationTypes { get; set; }
+        public virtual IQueryable<ClassificationType> ClassificationTypes { get { return AllClassificationTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
@@ -220,6 +222,9 @@ namespace ProjectFirma.Web.Models
 
                 case "Classification":
                     return Classifications.GetClassification(primaryKey);
+
+                case "ClassificationType":
+                    return ClassificationTypes.GetClassificationType(primaryKey);
 
                 case "CostParameterSet":
                     return CostParameterSets.GetCostParameterSet(primaryKey);

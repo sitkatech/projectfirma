@@ -64,6 +64,7 @@
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
+          <ScalarProperty Name="ClassificationTypeID" ColumnName="ClassificationTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -75,6 +76,16 @@
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassificationType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationType">
+        <MappingFragment StoreEntitySet="ClassificationType">
+          <ScalarProperty Name="ClassificationTypeID" ColumnName="ClassificationTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ClassificationTypeName" ColumnName="ClassificationTypeName" />
+          <ScalarProperty Name="ClassificationTypeDescription" ColumnName="ClassificationTypeDescription" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -7,6 +7,7 @@
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.AuditLog" />
     <EntitySet Name="Classification" EntityType="ProjectFirma.Web.Models.Classification" />
     <EntitySet Name="ClassificationPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" />
+    <EntitySet Name="ClassificationType" EntityType="ProjectFirma.Web.Models.ClassificationType" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
@@ -99,6 +100,10 @@
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Classification_ClassificationType_ClassificationTypeID" Association="ProjectFirma.Web.Models.FK_Classification_ClassificationType_ClassificationTypeID">
+      <End Role="ClassificationType" EntitySet="ClassificationType" />
+      <End Role="Classifications" EntitySet="Classification" />
     </AssociationSet>
     <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
       <End Role="KeyImageFileResource" EntitySet="FileResource" />
@@ -671,6 +676,8 @@
     <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="KeyImageFileResourceID" Type="Int32" />
+    <Property Name="ClassificationTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ClassificationType" Relationship="ProjectFirma.Web.Models.FK_Classification_ClassificationType_ClassificationTypeID" FromRole="Classifications" ToRole="ClassificationType" />
     <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProjectClassifications" />
@@ -686,6 +693,16 @@
     <Property Name="IsPrimaryChart" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="ClassificationPerformanceMeasures" ToRole="Classification" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ClassificationPerformanceMeasures" ToRole="PerformanceMeasure" />
+  </EntityType>
+  <EntityType Name="ClassificationType">
+    <Key>
+      <PropertyRef Name="ClassificationTypeID" />
+    </Key>
+    <Property Name="ClassificationTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="ClassificationTypeDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Classifications" Relationship="ProjectFirma.Web.Models.FK_Classification_ClassificationType_ClassificationTypeID" FromRole="ClassificationType" ToRole="Classifications" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -1897,6 +1914,18 @@
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Classification_ClassificationType_ClassificationTypeID">
+    <End Role="ClassificationType" Type="ProjectFirma.Web.Models.ClassificationType" Multiplicity="1" />
+    <End Role="Classifications" Type="ProjectFirma.Web.Models.Classification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassificationType">
+        <PropertyRef Name="ClassificationTypeID" />
+      </Principal>
+      <Dependent Role="Classifications">
+        <PropertyRef Name="ClassificationTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
