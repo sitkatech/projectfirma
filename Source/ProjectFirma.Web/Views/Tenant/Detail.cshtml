@@ -101,7 +101,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7" style="overflow-x: hidden;">
                         @if (ViewDataTyped.TenantAttribute.MapServiceUrl != null)
                         {
-                            <a href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
+                            <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
                                 @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
                                 @ViewDataTyped.TenantAttribute.MapServiceUrl
                             </a>
@@ -201,6 +201,18 @@ Source code is available upon request via <support@sitkatech.com>.
                 Default Map Extent
             </div>
             <div class="panel-body" id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ProjectFirma.Web.Models.FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized()
+            </div>
+            <div class="panel-body">
+                
             </div>
         </div>
     </div>

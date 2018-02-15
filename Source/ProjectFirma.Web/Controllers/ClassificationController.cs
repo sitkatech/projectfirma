@@ -51,8 +51,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson));
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.Classifications.ToList().OrderBy(x => x.ClassificationName).ToList();
-            return new GridJsonNetJObjectResult<Classification>(taxonomyTierOnes, gridSpec);
+            var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList().OrderBy(x => x.ClassificationName).ToList();
+            return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 
         [HttpGet]
