@@ -72,7 +72,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty);
+
+            var classificationType = HttpRequestStorage.DatabaseEntities.ClassificationTypes.FirstOrDefault();
+            var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty, classificationType);
             viewModel.UpdateModel(classification, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
