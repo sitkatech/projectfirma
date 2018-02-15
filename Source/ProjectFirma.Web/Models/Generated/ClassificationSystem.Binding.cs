@@ -30,11 +30,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDescription) : this()
+        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDescription, string classificationSystemListPageContent) : this()
         {
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSystemName = classificationSystemName;
             this.ClassificationSystemDescription = classificationSystemDescription;
+            this.ClassificationSystemListPageContent = classificationSystemListPageContent;
         }
 
         /// <summary>
@@ -77,6 +78,13 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string ClassificationSystemName { get; set; }
         public string ClassificationSystemDescription { get; set; }
+        public string ClassificationSystemListPageContent { get; set; }
+        [NotMapped]
+        public HtmlString ClassificationSystemListPageContentHtmlString
+        { 
+            get { return ClassificationSystemListPageContent == null ? null : new HtmlString(ClassificationSystemListPageContent); }
+            set { ClassificationSystemListPageContent = value?.ToString(); }
+        }
         [NotMapped]
         public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 

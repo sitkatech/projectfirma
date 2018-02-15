@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ClassificationSystem](
 	[TenantID] [int] NOT NULL,
 	[ClassificationSystemName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ClassificationSystemDescription] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ClassificationSystemListPageContent] [dbo].[html] NULL,
  CONSTRAINT [PK_ClassificationSystem_ClassificationSystemID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationSystemID] ASC

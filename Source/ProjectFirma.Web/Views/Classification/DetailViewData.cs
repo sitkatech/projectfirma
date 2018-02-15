@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Classification
             Classification = classification;
             PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
-            IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index(classification.ClassificationSystem));
 
             UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();

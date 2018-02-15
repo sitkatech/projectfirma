@@ -268,14 +268,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeClassificationsList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ClassificationController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
     public partial class FirmaPageTypeMonitoringProgramsList
     {
         public override string GetViewUrl()

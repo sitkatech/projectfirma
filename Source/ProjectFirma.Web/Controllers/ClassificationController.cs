@@ -40,18 +40,19 @@ namespace ProjectFirma.Web.Controllers
     public class ClassificationController : FirmaBaseController
     {
         [PerformanceMeasureViewFeature]
-        public ViewResult Index()
+        public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ClassificationsList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, HttpRequestStorage.DatabaseEntities.Classifications.ToList());
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var viewData = new IndexViewData(CurrentPerson, classificationSystem);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [PerformanceMeasureViewFeature]
-        public GridJsonNetJObjectResult<Classification> IndexGridJsonData()
+        public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson));
-            var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList().OrderBy(x => x.ClassificationName).ToList();
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var classifications = classificationSystem.Classifications.ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 

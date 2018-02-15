@@ -19,13 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using LtInfo.Common;
+using System.Linq;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Classification
 {
@@ -36,10 +35,10 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            Classifications = classifications;
+            Classifications = classificationSystem.Classifications.ToList();
 
             GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
             {
@@ -50,7 +49,7 @@ namespace ProjectFirma.Web.Views.Classification
             };
 
             GridName = "classificationsGrid";
-            GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(classificationSystem));
         }
     }
 }

@@ -4,6 +4,7 @@ CREATE TABLE dbo.ClassificationSystem(
 	TenantID int NOT NULL constraint FK_ClassificationSystem_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant (TenantID),	
 	ClassificationSystemName varchar(200) NOT NULL,
 	ClassificationSystemDescription varchar(max) NOT NULL,
+	ClassificationSystemListPageContent dbo.html null
 )
 
 alter table dbo.ClassificationSystem add constraint AK_ClassificationSystem_ClassificationSystemID_TenantID UNIQUE (ClassificationSystemID, TenantID)
@@ -23,6 +24,14 @@ values (1, 'Classification', '<p>A logical system to group projects according to
 (7, 'Classification', '<p>A logical system to group projects according to overarching program themes or goals.</p>')
 
 
+
+update dbo.ClassificationSystem
+set ClassificationSystemListPageContent = fp.FirmaPageContent
+from dbo.ClassificationSystem cs
+	join dbo.Tenant t on cs.TenantID = t.TenantID
+	join dbo.FirmaPage fp on t.TenantID = fp.TenantID	
+	where fp.FirmaPageTypeID = 43 and fp.TenantID = cs.TenantID
+
 alter table dbo.Classification add ClassificationSystemID int null
 alter table dbo.Classification add constraint FK_Classification_ClassificationSystem_ClassificationSystemID foreign key (ClassificationSystemID) references dbo.ClassificationSystem(ClassificationSystemID)
 alter table dbo.Classification add constraint FK_Classification_ClassificationSystem_ClassificationSystemID_TenantID foreign key (ClassificationSystemID, TenantID) references dbo.ClassificationSystem(ClassificationSystemID, TenantID)
@@ -40,3 +49,5 @@ FROM
 go
 
 alter table dbo.Classification alter column ClassificationSystemID int not null
+
+delete from dbo.FirmaPage where FirmaPageTypeID = 43

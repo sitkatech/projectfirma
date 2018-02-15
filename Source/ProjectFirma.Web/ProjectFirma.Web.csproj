@@ -350,6 +350,8 @@
     <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\ProjectOrganizationUpdate.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
+    <Compile Include="Views\ProgramInfo\ClassificationSystem.cs" />
+    <Compile Include="Views\ProgramInfo\ClassificationSystemViewData.cs" />
     <Compile Include="Views\ProjectUpdate\OrganizationsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Organizations.cs" />
     <Compile Include="Views\ProjectUpdate\OrganizationsViewData.cs" />
@@ -1407,6 +1409,7 @@
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Content Include="Views\Results\ProjectResults.cshtml" />
     <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
+    <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
