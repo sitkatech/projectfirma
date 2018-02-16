@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 
         public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
-            PageTitle = classificationSystem.ClassificationSystemName;
+            PageTitle = classificationSystem.ClassificationSystemNamePluralized;
             Classifications = classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList();           
         }
     }

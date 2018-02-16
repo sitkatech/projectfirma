@@ -115,7 +115,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @foreach (var classification in ViewDataTyped.Classifications)
     {       
         <div class="col-md-4 col-sm-6 classification col-centered">
-            <a href="@classification.GetDetailUrl()">
+            <a href="@classification.GetDetailUrl()" class="taphover">
                 @if (classification.KeyImageFileResource != null)
                 {
                     <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail" alt="Key Image" class="image">
@@ -138,5 +138,18 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 </div>
 
-
+<script>
+    jQuery('a.taphover').on("touchstart", function (e) {
+        "use strict";
+        var link = $(this); //preselect the link
+        if (link.hasClass('hover')) {
+            return true;
+        } else {
+            link.addClass("hover");
+            $('a.taphover').not(this).removeClass("hover");
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
 

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ClassificationController : FirmaBaseController
     {
-        [PerformanceMeasureViewFeature]
+        [PerformanceMeasureManageFeature]
         public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
@@ -47,11 +47,11 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [PerformanceMeasureViewFeature]
+        [PerformanceMeasureManageFeature]
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson));
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
             var classifications = classificationSystem.Classifications.ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, classificationSystem);
             }
             
-            var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem);
+            var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
             viewModel.UpdateModel(classification, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 

@@ -76,4 +76,4 @@ VALUES
 (248, N'UnsecuredFunding', N'Unsecured Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>', 1),
 (249, N'ProjectStewardOrganizationDisplayName', N'Project Steward Organization Display Name', N'<p>Label for Organization types that can steward projects.</p>', 1),
 (250, N'ClassificationSystem', N'Classification System', N'<p>The type of logical system used to group projects according to overarching program themes or goals.</p>', 0),
-(251, N'ClassificationSystemName', N'Classification System Name', N'<p>The name of type of logical system used to group projects according to overarching program themes or goals.</p>', 0)
+(251, N'ClassificationSystemName', N'Classification System Name', N'<p>The name of the logical grouping used to bin projects.</p>', 0)

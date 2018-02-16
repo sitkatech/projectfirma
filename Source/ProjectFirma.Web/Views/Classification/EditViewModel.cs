@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (KeyImageFileResourceData != null && KeyImageFileResourceData.ContentLength > MaxImageSizeInBytes)
             {
-                var errorMessage = String.Format("Logo is too large - must be less than {0}. Your logo was {1}.",
+                var errorMessage = String.Format("Image is too large - must be less than {0}. Your image was {1}.",
                     FileUtility.FormatBytes(MaxImageSizeInBytes),
                     FileUtility.FormatBytes(KeyImageFileResourceData.ContentLength));
                 validationResults.Add(

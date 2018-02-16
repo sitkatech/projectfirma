@@ -23,6 +23,13 @@ insert into dbo.ClassificationSystem(TenantID, ClassificationSystemName, Classif
 values (1, 'Classification', '<p>A logical system to group projects according to overarching program themes or goals.</p>'),
 (7, 'Classification', '<p>A logical system to group projects according to overarching program themes or goals.</p>')
 
+update dbo.ClassificationSystem
+set ClassificationSystemName = 'Project Theme'
+where ClassificationSystemName = 'Project Themes'
+
+update dbo.ClassificationSystem
+set ClassificationSystemName = 'Ecological Priorities or Target'
+where ClassificationSystemName = 'Ecological Priorities or Targets'
 
 
 update dbo.ClassificationSystem
