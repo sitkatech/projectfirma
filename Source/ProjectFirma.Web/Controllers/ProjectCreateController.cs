@@ -122,26 +122,27 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
+        public ActionResult CreateAndEditBasics(bool newProjectIsProposal)
         {
-            var showProjectStageDropDown = true;
             var basicsViewModel = new BasicsViewModel();
-            if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
+            if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
-                showProjectStageDropDown = false;
             }
             
-            return ViewCreateAndEditBasics(basicsViewModel, null, showProjectStageDropDown);
+            return ViewCreateAndEditBasics(basicsViewModel, null, !newProjectIsProposal);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool showProjectStageDropDown)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool newProjectIsHistoric)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), showProjectStageDropDown);
+            var instructionsPageUrl = newProjectIsHistoric
+                ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
+                : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), newProjectIsHistoric, instructionsPageUrl);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -172,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal, BasicsViewModel viewModel)
+        public ActionResult CreateAndEditBasics(bool newProjectIsProposal, BasicsViewModel viewModel)
         {
             var project = new Project(viewModel.TaxonomyTierOneID,
                 viewModel.ProjectStageID,

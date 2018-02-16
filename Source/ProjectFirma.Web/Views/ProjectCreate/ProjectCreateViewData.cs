@@ -42,15 +42,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly string ProposalInstructionsUrl;
         public readonly string ProposalBasicsUrl;
         public readonly string HistoricProjectBasicsUrl;
-        public readonly string ProposalPerformanceMeasuresUrl;
-        public readonly string ProposalLocationSimpleUrl;
-        public readonly string ProposalLocationDetailedUrl;
-        public readonly string ProposalWatershedUrl;
-        public readonly string ProposalClassificationsUrl;
-        public readonly string ProposalAssessmentUrl;
         public readonly string ProposalNotesUrl;
         public readonly string ProposalPhotosUrl;
-        public readonly string ProposalExpectedFundingUrl;
         public readonly string SubmitUrl;
         public readonly string ApproveUrl;
         public readonly string ReturnUrl;
@@ -63,9 +56,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ProposalSectionsStatus ProposalSectionsStatus;
         public readonly bool CanAdvanceStage;
         public readonly bool ProjectStateIsValidInWizard;
-
-        public readonly string ClassificationDisplayName;
-        public readonly string ClassificationDisplayNamePluralized;
+        public bool CurrentPersonCanWithdraw { get; set; }
+        public ProjectStage ProjectStage { get; set; }
 
 
         protected ProjectCreateViewData(Person currentPerson,
@@ -93,18 +85,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PageTitle = $"{pagetitle}: {project.DisplayName}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
-            ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(project.ProjectID));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
-            ProposalPerformanceMeasuresUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(project));
-            ProposalLocationSimpleUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
-            ProposalLocationDetailedUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project));
-            ProposalWatershedUrl =  SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditWatershed(project));
-            ProposalClassificationsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project));
-            ProposalAssessmentUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAssessment(project));
+           
             ProposalNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Notes(project.ProjectID));
             ProposalPhotosUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID));
-            ProposalExpectedFundingUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID));
-
+            
             SubmitUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Submit(project));
             ApproveUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Approve(project));
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
@@ -117,7 +102,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
         protected ProjectCreateViewData(Person currentPerson,
-            ProjectCreateSection currentSection) : this(currentPerson)
+            ProjectCreateSection currentSection, string proposalInstructionsUrl) : this(currentPerson)
         {
             Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics);
             ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(null);
@@ -126,14 +111,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentSection = currentSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
 
-
-            ProposalInstructionsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
+            ProposalInstructionsUrl = proposalInstructionsUrl;
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));
-            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));
-            ProposalPerformanceMeasuresUrl = string.Empty;
-            ProposalLocationSimpleUrl = string.Empty;
-            ProposalLocationDetailedUrl = string.Empty;
-            ProposalNotesUrl = string.Empty;
+            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));            
 
             CurrentPersonCanWithdraw = false;
 
@@ -152,12 +132,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
-            
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
+                        
         }
 
-        public bool CurrentPersonCanWithdraw { get; set; }
-        public ProjectStage ProjectStage { get; set; }
+
     }
 }
