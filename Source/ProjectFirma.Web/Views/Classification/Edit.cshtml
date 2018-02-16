@@ -34,7 +34,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.DisplayName, "Display Name")
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.DisplayName, new { style = "width:100%" })
+                @Html.TextBoxFor(m => m.DisplayName, new { style = "width:100%", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.DisplayName)
             </div>
         </div>
@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ClassificationDescription, "Description")
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.ClassificationDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
+                @Html.TextAreaWithMaxLengthFor(m => m.ClassificationDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.ClassificationDescription)
             </div>
         </div>
@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.GoalStatement, "Goal Statement")
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.GoalStatement, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
+                @Html.TextAreaWithMaxLengthFor(m => m.GoalStatement, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.GoalStatement)
             </div>
         </div>
@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.ThemeColor, "Theme Color"):
+                @Html.LabelWithSugarFor(x => x.ThemeColor, "Theme Color")
             </div>
             <div class="col-sm-9">
                 <div id="themeColorPicker" class="input-group colorpicker-component">

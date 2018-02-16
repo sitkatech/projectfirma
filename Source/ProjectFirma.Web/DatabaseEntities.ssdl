@@ -687,7 +687,6 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     </Key>
     <Property Name="ClassificationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ClassificationName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ClassificationDescription" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ThemeColor" Type="varchar" Nullable="false" MaxLength="7" />
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />

@@ -49,5 +49,11 @@ FROM
 go
 
 alter table dbo.Classification alter column ClassificationSystemID int not null
+ALTER TABLE dbo.Classification DROP CONSTRAINT AK_Classification_ClassificationName_TenantID
+ALTER TABLE dbo.Classification DROP CONSTRAINT AK_Classification_DisplayName_TenantID
+GO
+
+alter table dbo.Classification drop column ClassificationName
+alter table dbo.Classification add constraint AK_Classification_DisplayName_ClassificationSystemID_TenantID UNIQUE (DisplayName, ClassificationSystemID, TenantID) 
 
 delete from dbo.FirmaPage where FirmaPageTypeID = 43

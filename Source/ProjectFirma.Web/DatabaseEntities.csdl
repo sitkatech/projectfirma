@@ -670,7 +670,6 @@
     </Key>
     <Property Name="ClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ClassificationName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="ClassificationDescription" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" Nullable="false" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />

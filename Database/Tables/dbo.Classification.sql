@@ -5,7 +5,6 @@ GO
 CREATE TABLE [dbo].[Classification](
 	[ClassificationID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[ClassificationName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ClassificationDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DisplayName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -21,14 +20,10 @@ CREATE TABLE [dbo].[Classification](
 	[ClassificationID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_Classification_ClassificationName_TenantID] UNIQUE NONCLUSTERED 
-(
-	[ClassificationName] ASC,
-	[TenantID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_Classification_DisplayName_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_Classification_DisplayName_ClassificationSystemID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[DisplayName] ASC,
+	[ClassificationSystemID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]

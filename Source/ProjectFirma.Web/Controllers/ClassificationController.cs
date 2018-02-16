@@ -58,24 +58,26 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [PerformanceMeasureManageFeature]
-        public PartialViewResult New()
+        public PartialViewResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var viewModel = new EditViewModel();
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, classificationSystem);
         }
 
         [HttpPost]
         [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditViewModel viewModel)
+        public ActionResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditViewModel viewModel)
         {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, classificationSystem);
             }
-
-            var classificationSystem = HttpRequestStorage.DatabaseEntities.ClassificationSystems.FirstOrDefault();
-            var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty, classificationSystem);
+            
+            var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem);
             viewModel.UpdateModel(classification, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
@@ -92,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(classification);
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, classification.ClassificationSystem);
         }
 
         [HttpPost]
@@ -100,18 +102,19 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ClassificationPrimaryKey classificationPrimaryKey, EditViewModel viewModel)
         {
+            var classification = classificationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, classification.ClassificationSystem);
             }
-            var classification = classificationPrimaryKey.EntityObject;
+            
             viewModel.UpdateModel(classification, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
-        {
-            var viewData = new EditViewData();
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem)
+        {            
+            var viewData = new EditViewData(classificationSystem);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

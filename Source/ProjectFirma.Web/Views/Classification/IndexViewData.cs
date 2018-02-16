@@ -42,10 +42,10 @@ namespace ProjectFirma.Web.Views.Classification
 
             GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
             {
-                ObjectNameSingular = Models.FieldDefinition.Classification.GetFieldDefinitionLabel(),
-                ObjectNamePlural = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(),
+                ObjectNameSingular = classificationSystem.ClassificationSystemName,
+                ObjectNamePlural = classificationSystem.ClassificationSystemName,
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Classification"),
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem)), $"New {classificationSystem.ClassificationSystemName}"),
             };
 
             GridName = "classificationsGrid";

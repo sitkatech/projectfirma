@@ -31,10 +31,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID) : this()
+        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID) : this()
         {
             this.ClassificationID = classificationID;
-            this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
@@ -46,12 +45,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, int classificationSystemID) : this()
+        public Classification(string classificationDescription, string themeColor, string displayName, int classificationSystemID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
@@ -61,11 +59,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Classification(string classificationName, string classificationDescription, string themeColor, string displayName, ClassificationSystem classificationSystem) : this()
+        public Classification(string classificationDescription, string themeColor, string displayName, ClassificationSystem classificationSystem) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
@@ -79,7 +76,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static Classification CreateNewBlank(ClassificationSystem classificationSystem)
         {
-            return new Classification(default(string), default(string), default(string), default(string), classificationSystem);
+            return new Classification(default(string), default(string), default(string), classificationSystem);
         }
 
         /// <summary>
@@ -99,7 +96,6 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int ClassificationID { get; set; }
         public int TenantID { get; private set; }
-        public string ClassificationName { get; set; }
         public string ClassificationDescription { get; set; }
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }
@@ -117,7 +113,6 @@ namespace ProjectFirma.Web.Models
 
         public static class FieldLengths
         {
-            public const int ClassificationName = 100;
             public const int ClassificationDescription = 300;
             public const int ThemeColor = 7;
             public const int DisplayName = 50;
