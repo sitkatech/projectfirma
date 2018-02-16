@@ -120,7 +120,6 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
             var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
-            var editClassificationsUrl = SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(c => c.EditProjectClassificationsForProject(project));
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
@@ -151,6 +150,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.ProjectOrganizations);
 
+            var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
@@ -162,10 +163,9 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions, userHasProjectUpdatePermissions,
                 userHasPerformanceMeasureActualManagePermissions, mapFormID,
                 editSimpleProjectLocationUrl, editDetailedProjectLocationUrl, editOrganizationsUrl,
-                editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl,
-                editClassificationsUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
+                editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
                 editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
-                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData);
+                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData, classificationSystems);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

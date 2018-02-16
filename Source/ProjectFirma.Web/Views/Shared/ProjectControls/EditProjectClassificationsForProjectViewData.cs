@@ -19,19 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class EditProjectClassificationsForProjectViewData : FirmaUserControlViewData
     {
-        public readonly List<Models.Classification> Classifications;
+        public readonly ClassificationSystem ClassificationSystem;
         public readonly string ProjectName;
 
-        public EditProjectClassificationsForProjectViewData(Models.Project project, List<Models.Classification> classifications)
+        public EditProjectClassificationsForProjectViewData(Models.Project project, ClassificationSystem classificationSystem)
         {
             ProjectName = project.DisplayName;
-            Classifications = classifications;
+            ClassificationSystem = classificationSystem;
         }
     }
 }
