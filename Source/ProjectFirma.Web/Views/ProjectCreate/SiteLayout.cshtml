@@ -120,7 +120,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-xs-6" style="padding-left: 0;">
                 <div class="pull-left">
-                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Proposal Details</a>
                     @if (ViewDataTyped.CurrentPersonIsSubmitter && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
                     {
                         @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)

@@ -24,10 +24,10 @@ namespace ProjectFirma.Web.Models
 {
     public class ProjectClassificationSimple
     {
-
         public int ProjectClassificationID { get; set; }
         public int ProjectID { get; set; }
         public int ClassificationID { get; set; }
+        public int ClassificationSystemID { get; set; }
         public string ProjectClassificationNotes { get; set; }
         public bool Selected { get; set; }
         [StringLength(ProjectClassification.FieldLengths.ProjectClassificationNotes)]
@@ -47,12 +47,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationID, string projectClassificationNotes)
+        public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationSystemID, int classificationID, string projectClassificationNotes)
             : this()
         {
             ProjectClassificationID = projectClassificationID;
             ProjectID = projectID;
             ClassificationID = classificationID;
+            ClassificationSystemID = classificationSystemID;
             ProjectClassificationNotes = projectClassificationNotes;
         }
 
@@ -65,17 +66,19 @@ namespace ProjectFirma.Web.Models
             ProjectClassificationID = projectClassification.ProjectClassificationID;
             ProjectID = projectClassification.ProjectID;
             ClassificationID = projectClassification.ClassificationID;
+            ClassificationSystemID = projectClassification.Classification.ClassificationSystemID;
         }
 
         /// <summary>
         /// Used for a posteriori validation.
         /// </summary>
-        public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationID, string projectClassificationNotes, bool selected)
+        public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationSystemID, int classificationID, string projectClassificationNotes, bool selected)
             : this()
         {
             ProjectClassificationID = projectClassificationID;
             ProjectID = projectID;
             ClassificationID = classificationID;
+            ClassificationSystemID = classificationSystemID;
             ProjectClassificationNotes = projectClassificationNotes;
             Selected = selected;
         }

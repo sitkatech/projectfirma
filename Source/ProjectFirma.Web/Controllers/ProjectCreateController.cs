@@ -547,11 +547,11 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditClassifications(Project project, EditProposalClassificationsViewModel viewModel)
         {
-            var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(p => p.ClassificationSystemName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProjectCreateSection.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassificationSystems, ProjectCreateSection.Classifications, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 

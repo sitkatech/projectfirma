@@ -25,14 +25,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class EditProposalClassificationsViewData : ProjectCreateViewData
     {
-        public readonly List<Models.Classification> Classifications;
+        public readonly List<Models.ClassificationSystem> ClassificationSystems;
         public readonly string ProjectName;
         
-        public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<Models.Classification> classifications, ProjectCreateSection currentSection, ProposalSectionsStatus proposalSectionsStatus)
+        public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<ClassificationSystem> classificationSystems, ProjectCreateSection currentSection, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSection, proposalSectionsStatus)
         {
             ProjectName = project.DisplayName;
-            Classifications = classifications;
+            ClassificationSystems = classificationSystems;
         }
     }
 }
