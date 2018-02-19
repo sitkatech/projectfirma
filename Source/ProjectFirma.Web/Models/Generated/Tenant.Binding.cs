@@ -25,6 +25,8 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantDemoProjectFirma DemoProjectFirma = TenantDemoProjectFirma.Instance;
         public static readonly TenantNationalForestFoundation NationalForestFoundation = TenantNationalForestFoundation.Instance;
         public static readonly TenantJohnDayPartnership JohnDayPartnership = TenantJohnDayPartnership.Instance;
+        public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
+        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -34,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, NationalForestFoundation, JohnDayPartnership };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, NationalForestFoundation, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -106,10 +108,14 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
+                case TenantEnum.AshlandForestAllLandsRestorationInitiative:
+                    return AshlandForestAllLandsRestorationInitiative;
                 case TenantEnum.ClackamasPartnership:
                     return ClackamasPartnership;
                 case TenantEnum.DemoProjectFirma:
                     return DemoProjectFirma;
+                case TenantEnum.IdahoAssociatonOfSoilConservationDistricts:
+                    return IdahoAssociatonOfSoilConservationDistricts;
                 case TenantEnum.InternationYearOfTheSalmon:
                     return InternationYearOfTheSalmon;
                 case TenantEnum.JohnDayPartnership:
@@ -134,7 +140,9 @@ namespace ProjectFirma.Web.Models
         InternationYearOfTheSalmon = 4,
         DemoProjectFirma = 5,
         NationalForestFoundation = 6,
-        JohnDayPartnership = 7
+        JohnDayPartnership = 7,
+        AshlandForestAllLandsRestorationInitiative = 8,
+        IdahoAssociatonOfSoilConservationDistricts = 9
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -177,5 +185,17 @@ namespace ProjectFirma.Web.Models
     {
         private TenantJohnDayPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
         public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"projectfirma.com", @"johndaydemo");
+    }
+
+    public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
+    {
+        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"projectfirma.com", @"ashlanddemo");
+    }
+
+    public partial class TenantIdahoAssociatonOfSoilConservationDistricts : Tenant
+    {
+        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"projectfirma.com", @"swcdemo");
     }
 }
