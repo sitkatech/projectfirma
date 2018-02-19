@@ -6,6 +6,9 @@ values
 	alter table dbo.PerformanceMeasureActual add PerformanceMeasureActualIDFromTenant int null
 	alter table dbo.FileResource add OrganizationIDFromTenant int null
 	alter table dbo.FileResource add ProjectImageIDFromTenant int null
+	alter table dbo.FileResource add ClassificationIDFromTenant int null
+	alter table dbo.FileResource add FirmaPageIDFromTenant int null
+	alter table dbo.FirmaPage add FirmaPageIDFromTenant int null
 	GO
 
 	declare @TenantIDFrom int, @TenantIDTo int, @TenantName varchar(100), @ToolDisplayName varchar(100), @createDate datetime
@@ -16,10 +19,11 @@ values
 	(@TenantIDTo, 2, 0xE61000000104050000000100000040285FC06911DAA3DB1C47400100000040285FC08D97B8A52102454001000000B0415DC08D97B8A52102454001000000B0415DC06911DAA3DB1C47400100000040285FC06911DAA3DB1C474001000000020000000001000000FFFFFFFF0000000003, 2017, @TenantName, @ToolDisplayName, 1, '6LfZQQoUAAAAAIJ_2lD6ct0lBHQB9j5kv8p994SP', '6LfZQQoUAAAAAOeNQDcXlTV9JM7PBQE3jCqlDBSB')
 
 
-	insert into dbo.FirmaPage(FirmaPageTypeID, TenantID, FirmaPageContent)
-	select FirmaPageTypeID, @TenantIDTo as TenantID, fp.FirmaPageContent
+	insert into dbo.FirmaPage(FirmaPageTypeID, TenantID, FirmaPageContent, FirmaPageIDFromTenant)
+	select FirmaPageTypeID, @TenantIDTo as TenantID, fp.FirmaPageContent, fp.FirmaPageID as FirmaPageIDFromTenant
 	from dbo.FirmaPage fp
 	where fp.TenantID = @TenantIDFrom
+
 
 	insert into dbo.FieldDefinitionData(FieldDefinitionID, TenantID, FieldDefinitionLabel, FieldDefinitionDataValue)
 	select FieldDefinitionID, @TenantIDTo as TenantID, FieldDefinitionLabel, FieldDefinitionDataValue
@@ -64,6 +68,21 @@ values
 	join dbo.OrganizationType otnew on ot.OrganizationTypeName = otnew.OrganizationTypeName and otnew.TenantID = @TenantIDTo
 	left join dbo.FileResource fr on o.OrganizationID = fr.OrganizationIDFromTenant and fr.TenantID = @TenantIDTo
 	where o.TenantID = @TenantIDFrom and o.OrganizationName not in ('Sitka Technology Group', '(Unknown or Unspecified Organization)')
+
+	insert into dbo.FileResource(TenantID, FileResourceMimeTypeID, OriginalBaseFilename, OriginalFileExtension, FileResourceGUID, FileResourceData, CreatePersonID, CreateDate, FirmaPageIDFromTenant)
+	select @TenantIDTo as TenantID, fr.FileResourceMimeTypeID, fr.OriginalBaseFilename, fr.OriginalFileExtension, NEWID(), fr.FileResourceData, @primaryContactPersonID as CreatePersonID, fr.CreateDate, fpi.FirmaPageID as FirmaPageIDFromTenant
+	from dbo.FirmaPageImage fpi
+	join dbo.FileResource fr on fpi.FileResourceID = fr.FileResourceID
+	where fpi.TenantID = @TenantIDFrom
+
+	insert into dbo.FirmaPageImage(TenantID, FirmaPageID, FileResourceID)
+	select @TenantIDTo as TenantID, fp.FirmaPageID, fr.FileResourceID
+	from dbo.FirmaPageImage fpi
+	join dbo.FirmaPage fp on fpi.FirmaPageID = fp.FirmaPageIDFromTenant
+	join dbo.FileResource fr on fpi.FirmaPageID = fr.FirmaPageIDFromTenant and fr.TenantID = @TenantIDTo
+	where fpi.TenantID = @TenantIDFrom
+
+
 
 	insert into dbo.RelationshipType(TenantID, RelationshipTypeName, CanStewardProjects, IsPrimaryContact, CanOnlyBeRelatedOnceToAProject)
 	values
@@ -174,10 +193,19 @@ values
 	join dbo.Organization o2 on o.OrganizationName = o2.OrganizationName and o2.TenantID = @TenantIDTo
 	where fs.TenantID = @TenantIDFrom
 
-	insert into dbo.Classification(TenantID, ClassificationName, ClassificationDescription, ThemeColor, DisplayName, GoalStatement)
-	select @TenantIDTo as TenantID, ClassificationName, ClassificationDescription, ThemeColor, DisplayName, GoalStatement
-	from dbo.Classification fs
-	where fs.TenantID = @TenantIDFrom
+	insert into dbo.FileResource(TenantID, FileResourceMimeTypeID, OriginalBaseFilename, OriginalFileExtension, FileResourceGUID, FileResourceData, CreatePersonID, CreateDate, ClassificationIDFromTenant)
+	select @TenantIDTo as TenantID, fr.FileResourceMimeTypeID, fr.OriginalBaseFilename, fr.OriginalFileExtension, NEWID(), fr.FileResourceData, @primaryContactPersonID as CreatePersonID, fr.CreateDate, pim.ClassificationID as ClassificationIDFromTenant
+	from dbo.Classification pim
+	join dbo.FileResource fr on pim.KeyImageFileResourceID = fr.FileResourceID
+	where pim.TenantID = @TenantIDFrom
+
+
+
+	insert into dbo.Classification(TenantID, ClassificationName, ClassificationDescription, ThemeColor, DisplayName, GoalStatement, KeyImageFileResourceID)
+	select @TenantIDTo as TenantID, ClassificationName, ClassificationDescription, ThemeColor, DisplayName, GoalStatement, fr.FileResourceID as KeyImageFileResourceID
+	from dbo.Classification c
+	join dbo.FileResource fr on c.ClassificationID = fr.ClassificationIDFromTenant and fr.TenantID = @TenantIDTo
+	where c.TenantID = @TenantIDFrom
 
 	declare @MattPersonID int
 	select @MattPersonID = PersonID from dbo.Person p where p.TenantID = @TenantIDTo and p.Email = 'matt@sitkatech.com'
@@ -257,6 +285,25 @@ values
 	where pim.TenantID = @TenantIDFrom
 
 
+	insert into dbo.ProjectLocation(TenantID, ProjectID, ProjectLocationGeometry, Annotation)
+	select @TenantIDTo as TenantID, p2.ProjectID, pl.ProjectLocationGeometry, pl.Annotation
+	from dbo.ProjectLocation pl
+	join dbo.Project p on pl.ProjectID = p.ProjectID
+	join dbo.Project p2 on p.ProjectName = p2.ProjectName and p2.TenantID = @TenantIDTo
+	where pl.TenantID = @TenantIDFrom
+
+
+	
+	insert into dbo.TaxonomyTierTwoPerformanceMeasure(TenantID, TaxonomyTierTwoID, PerformanceMeasureID, IsPrimaryTaxonomyTierTwo)
+	select @TenantIDTo as TenantID, tt2.TaxonomyTierTwoID, pm2.PerformanceMeasureID, ttpm.IsPrimaryTaxonomyTierTwo
+	from dbo.TaxonomyTierTwoPerformanceMeasure ttpm
+	join dbo.PerformanceMeasure pm on ttpm.PerformanceMeasureID = pm.PerformanceMeasureID
+	join dbo.PerformanceMeasure pm2 on pm.PerformanceMeasureDisplayName = pm2.PerformanceMeasureDisplayName and pm2.TenantID = @TenantIDTo
+	join dbo.TaxonomyTierTwo tt on ttpm.TaxonomyTierTwoID = tt.TaxonomyTierTwoID
+	join dbo.TaxonomyTierTwo tt2 on tt.TaxonomyTierTwoName = tt2.TaxonomyTierTwoName and tt2.TenantID = @TenantIDTo
+	where ttpm.TenantID = @TenantIDFrom
+
+
 
 	insert into dbo.AuditLog(TenantID, PersonID, AuditLogDate, AuditLogEventTypeID, TableName, RecordID, ColumnName, OriginalValue, NewValue, AuditDescription, ProjectID)
 	select @TenantIDTo as TenantID, per2.PersonID, AuditLogDate, AuditLogEventTypeID, TableName, RecordID, ColumnName, OriginalValue, NewValue, AuditDescription, p2.ProjectID
@@ -267,8 +314,12 @@ values
 	join dbo.Person per2 on per.Email = per2.Email and per2.TenantID = @TenantIDTo
 	where p.TenantID = @TenantIDFrom
 
-	alter table dbo.PerformanceMeasureActual DROP COLUMN PerformanceMeasureActualIDFromTenant
-	alter table dbo.PerformanceMeasureSubcategory DROP COLUMN PerformanceMeasureSubcategoryIDFromTenant
-	alter table dbo.FileResource DROP COLUMN OrganizationIDFromTenant
-	alter table dbo.FileResource DROP COLUMN ProjectImageIDFromTenant
+
+	alter table dbo.PerformanceMeasureSubcategory drop column PerformanceMeasureSubcategoryIDFromTenant
+	alter table dbo.PerformanceMeasureActual drop column PerformanceMeasureActualIDFromTenant
+	alter table dbo.FileResource drop column OrganizationIDFromTenant
+	alter table dbo.FileResource drop column ProjectImageIDFromTenant
+	alter table dbo.FileResource drop column ClassificationIDFromTenant
+	alter table dbo.FileResource drop column FirmaPageIDFromTenant
+	alter table dbo.FirmaPage drop column FirmaPageIDFromTenant
 	GO
