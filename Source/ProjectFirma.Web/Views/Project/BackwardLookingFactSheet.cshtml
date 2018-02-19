@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views.Shared
@@ -35,7 +35,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section JavascriptAndStylesContent
 {
-    <style>       
+    <style>
+
          .factSheet
          {
              background-color: #fff;
@@ -314,39 +315,39 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
 
-<div class="row" style="padding-top: 20px;">
-    <div class="col-md-6">
-        <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
-        <br />            
-    </div>
-    <div class="col-md-6">
-        @if (ViewDataTyped.KeyPhoto != null)
-        {
-            <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
-                <span class="keyPhoto">
-                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
-                    <br/>
-                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
-                </span>
+    <div class="row" style="padding-top: 20px;">
+        <div class="col-md-6">
+            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
+            <br />
+        </div>
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
+                <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
+                    <span class="keyPhoto">
+                        <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
+                        <br />
+                        <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
+                    </span>
 
-            </div>
-        }
-        else
-        {
-            <div class="sectionTitle" style="width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
-                <div style="display: table;margin: auto;height: 100%;">
-                    <div style="display: table-cell; vertical-align: middle; height: 100%;">
-                        No Key Photo provided for this Project.
+                </div>
+            }
+            else
+            {
+                <div class="sectionTitle" style="width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table;margin: auto;height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
 
     <div class="row" style="padding-top: 10px">
         <div class="col-md-6">
-               
+
             <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
             @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
             {
@@ -365,29 +366,35 @@ Source code is available upon request via <support@sitkatech.com>.
                 <p>Accomplishments to be provided upon completion of project.</p>
             }
         </div>
-        <div class="col-md-6">
-            <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
-            @if (ViewDataTyped.Project.ProjectClassifications.Any())
-            {
+
+        @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+        {
+            <div class="col-md-3">
+                <div class="sectionTitle taxonomyTierThreeColor">@classificationSystem.ClassificationSystemNamePluralized</div>
                 <table>
-                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
+                    @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
                     {
-                        <tr>
-                            @foreach (var classification in classificationBatch)
-                            {
+                        foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
+                        {
+                            <tr>
                                 <td class="bullet">&bull;</td>
                                 <td style="padding-right: 50px">@classification.DisplayName</td>
-                            }
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">
+                                No @classificationSystem.ClassificationSystemNamePluralized provided
+                            </td>
                         </tr>
                     }
-                </table>
-            }
-            else
-            {
-                <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
-            }
 
-        </div>
+                </table>
+            </div>
+
+        }
     </div>
     <div class="row">
         <div class="col-md-6">

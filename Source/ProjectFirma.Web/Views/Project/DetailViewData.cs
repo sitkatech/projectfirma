@@ -80,8 +80,6 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectNotificationGridName { get; }
         public string ProjectNotificationGridDataUrl { get; }
 
-        public string ClassificationDisplayName { get; }
-        public string ClassificationDisplayNamePluralized { get; }
         public string EditProjectWatershedFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
@@ -247,11 +245,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
-
-            ClassificationDisplayNamePluralized =
-                Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
-
+           
             EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
 
             ProjectStewardCannotEditUrl =

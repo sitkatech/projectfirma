@@ -51,7 +51,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneName;
         public readonly string TaxonomyTierTwoName;
-        public readonly string ClassificationDisplayNamePluralized;
 
         public readonly string TaxonomyTierOneDisplayName;
         public readonly Person PrimaryContactPerson;
@@ -131,7 +130,6 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             PrimaryContactPerson = project.GetPrimaryContact();
         }
 

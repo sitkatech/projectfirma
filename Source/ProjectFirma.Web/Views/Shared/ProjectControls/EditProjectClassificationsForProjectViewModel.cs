@@ -85,7 +85,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (!ProjectClassificationSimples.Any(x => x.Selected))
             {
-                validationResults.Add(new ValidationResult(string.Format("You must select at least one {0}.", Models.FieldDefinition.Classification.GetFieldDefinitionLabel())));
+                validationResults.Add(new ValidationResult(
+                    $"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} System."));
             }
 
             var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
