@@ -91,10 +91,10 @@ namespace ProjectFirma.Web.Views
             TopLevelLtInfoMenuItems.Add(BuildAboutMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProjectsMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProgramInfoMenu(currentPerson));
-            //if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
-            //{
-            //    TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
-            //}
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            {
+                TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
+            }
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentPerson));
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
