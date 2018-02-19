@@ -19,9 +19,9 @@ values
 	declare @TenantIDFrom int, @TenantIDTo int, @TenantName varchar(100), @ToolDisplayName varchar(100), @createDate datetime
 	select @TenantIDFrom = 5, @TenantIDTo = 8, @TenantName = 'Ashland Forest All-lands Restoration Initiative (AFARI)', @ToolDisplayName = 'Ashland Forest Project Tracker', @createDate = '2/17/18 10:00 PM'
 
-	insert into dbo.TenantAttribute(TenantID, NumberOfTaxonomyTiersToUse, DefaultBoundingBox, MinimumYear, TenantDisplayName, ToolDisplayName, ShowProposalsToThePublic, RecaptchaPublicKey, RecaptchaPrivateKey)
+	insert into dbo.TenantAttribute(TenantID, NumberOfTaxonomyTiersToUse, DefaultBoundingBox, MinimumYear, TenantDisplayName, ToolDisplayName, ShowProposalsToThePublic, RecaptchaPublicKey, RecaptchaPrivateKey, MapServiceUrl, WatershedLayerName)
 	values
-	(@TenantIDTo, 2, 0xE61000000104050000000100000040285FC06911DAA3DB1C47400100000040285FC08D97B8A52102454001000000B0415DC08D97B8A52102454001000000B0415DC06911DAA3DB1C47400100000040285FC06911DAA3DB1C474001000000020000000001000000FFFFFFFF0000000003, 2017, @TenantName, @ToolDisplayName, 1, '6LfZQQoUAAAAAIJ_2lD6ct0lBHQB9j5kv8p994SP', '6LfZQQoUAAAAAOeNQDcXlTV9JM7PBQE3jCqlDBSB')
+	(@TenantIDTo, 2, 0xE61000000104050000000100000040285FC06911DAA3DB1C47400100000040285FC08D97B8A52102454001000000B0415DC08D97B8A52102454001000000B0415DC06911DAA3DB1C47400100000040285FC06911DAA3DB1C474001000000020000000001000000FFFFFFFF0000000003, 2017, @TenantName, @ToolDisplayName, 1, '6LfZQQoUAAAAAIJ_2lD6ct0lBHQB9j5kv8p994SP', '6LfZQQoUAAAAAOeNQDcXlTV9JM7PBQE3jCqlDBSB', 'https://mapserver.projectfirma.com/geoserver/AshlandDemoProjectFirma/wms', 'AshlandDemoProjectFirma:Watershed')
 
 
 	insert into dbo.FirmaPage(FirmaPageTypeID, TenantID, FirmaPageContent, FirmaPageIDFromTenant)
