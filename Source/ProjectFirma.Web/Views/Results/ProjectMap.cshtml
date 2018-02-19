@@ -211,8 +211,8 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
-    <div class="container-fluid">
-        <div class="row" style="border: 1px solid; vertical-align: top;">
+    <div >
+        <div class="row" style="vertical-align: top;">
             <div class="col-md-12" id="mapPanel">
                 @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
             </div>
@@ -431,7 +431,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 jQuery("#mapPanel").removeClass("col-md-12");
                 jQuery("#mapPanel").addClass("col-md-8");
-                jQuery("#mapPanel").css("border-right", "1px solid");
+
                 jQuery("#projectsWithLocationAreaToast").addClass("col-md-4");
                 jQuery("#projectsWithLocationAreaToast").show();
                 jQuery("#showBasinwideProjectsToast").hide();
@@ -443,7 +443,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 jQuery("#mapPanel").removeClass("col-md-8");
                 jQuery("#mapPanel").addClass("col-md-12");
-                jQuery("#mapPanel").css("border-right", "0");
+
                 jQuery("#projectsWithLocationAreaToast").removeClass("col-md-4");
                 jQuery("#projectsWithLocationAreaToast").hide();
                 jQuery("#showBasinwideProjectsToast").show();

@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -39,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public ProjectStage ProjectStage { get; set; }
         public Models.TaxonomyTierOne TaxonomyTierOne { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
-        public string ProjectClassifications { get; set; }
+        public Dictionary<ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string DetailUrl { get; set; }
 
         public ProjectMapPopupViewData(Models.Project project)
@@ -51,8 +53,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectStage = project.ProjectStage;
             TaxonomyTierOne = project.TaxonomyTierOne;
             EstimatedTotalCost = project.EstimatedTotalCost;
-            ProjectClassifications =
-                string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName));
+            
+            var dict = new Dictionary<ClassificationSystem, string>();
+            project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct().ForEach(
+                x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.DisplayName).ToList())));
+            ClassificationsBySystem = dict;
+
             DetailUrl = project.GetDetailUrl();
             DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
             InitializeDisplayNames();

@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -31,11 +32,11 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
 
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues;
+        public readonly Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues;
         public readonly string ProjectLocationsUrl;
         public readonly string FilteredProjectsWithLocationAreasUrl;
 
-        public ProjectMapViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
+        public ProjectMapViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
         {
             PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
