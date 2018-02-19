@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly TenantAttribute TenantAttribute;
         public readonly string EditBasicsUrl;
         public readonly string EditBoundingBoxUrl;
+        public readonly string EditClassificationSystemsUrl;
         public readonly bool UserHasTenantManagePermissions;
         public readonly SitkaRoute<UserController> PrimaryContactRoute;
         public readonly string DeleteTenantStyleSheetFileResourceUrl;
@@ -44,7 +45,11 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl, string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl, string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName, string gridDataUrl)
+        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute,
+            string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
+            string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl,
+            string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName,
+            string gridDataUrl, string editClassificationSystemsUrl)
             : base(currentPerson)
         {
             PageTitle = tenantAttribute.TenantDisplayName;
@@ -52,6 +57,7 @@ namespace ProjectFirma.Web.Views.Tenant
             TenantAttribute = tenantAttribute;
             EditBasicsUrl = editBasicsUrl;
             EditBoundingBoxUrl = editBoundingBoxUrl;
+            EditClassificationSystemsUrl = editClassificationSystemsUrl;
             PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
             UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditBasics.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,24 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.Mvc;
 
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
-
-namespace ProjectFirma.Web.Views.ProgramInfo
+namespace ProjectFirma.Web.Views.Tenant
 {
-    public class ClassificationSystemViewData : FirmaViewData
+    public abstract class EditClassificationSystems : TypedWebPartialViewPage<EditClassificationSystemsViewData, EditClassificationSystemsViewModel>
     {
-        public readonly List<Models.Classification> Classifications;
-        public readonly Models.ClassificationSystem ClassificationSystem;
-
-        public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
-        {
-            PageTitle = classificationSystem.ClassificationSystemNamePluralized;
-            Classifications = classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList();
-            ClassificationSystem = classificationSystem;
-        }
     }
 }

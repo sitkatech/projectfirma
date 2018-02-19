@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = tenant.GetTenantAttribute();
             var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
+            var editClassificationSystemsUrl = new SitkaRoute<TenantController>(c => c.EditClassificationSystems()).BuildUrlFromExpression();
             var deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource()).BuildUrlFromExpression();
             var deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource()).BuildUrlFromExpression();
             var deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource()).BuildUrlFromExpression();
@@ -77,7 +78,8 @@ namespace ProjectFirma.Web.Controllers
                 mapInitJson,
                 gridSpec,
                 gridName,
-                gridDataUrl);
+                gridDataUrl, 
+                editClassificationSystemsUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -162,6 +164,40 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
             return RazorPartialView<EditBoundingBox, EditBoundingBoxViewData, EditBoundingBoxViewModel>(viewData, viewModel);
         }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditClassificationSystems()
+        {
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
+            var viewModel = new EditClassificationSystemsViewModel(tenant);
+            return ViewEditClassificationSystems(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditClassificationSystems(EditClassificationSystemsViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditClassificationSystems(viewModel);
+            }
+
+            var currentClassificationSystems= MultiTenantHelpers.GetClassificationSystems();
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.AllClassificationSystems.Local;
+
+            viewModel.UpdateModel(CurrentPerson, currentClassificationSystems, allClassificationSystems);
+            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
+        }
+
+        private PartialViewResult ViewEditClassificationSystems(EditClassificationSystemsViewModel viewModel)
+        {
+            var viewData = new EditClassificationSystemsViewData(CurrentPerson);
+            return RazorPartialView<EditClassificationSystems, EditClassificationSystemsViewData, EditClassificationSystemsViewModel>(viewData, viewModel);
+        }
+
 
         [Route("Content/style-{tenantName}.css")]
         [AnonymousUnclassifiedFeature]
