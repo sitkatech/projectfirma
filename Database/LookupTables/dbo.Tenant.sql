@@ -9,4 +9,6 @@ values
 (4, 'InternationYearOfTheSalmon', 'projectfirma.com', 'iysdemo'),
 (5, 'DemoProjectFirma', 'projectfirma.com', 'demo'),
 (6, 'NationalForestFoundation', 'projectfirma.com', 'nffdemo'),
-(7, 'JohnDayPartnership', 'projectfirma.com', 'johndaydemo')
+(7, 'JohnDayPartnership', 'projectfirma.com', 'johndaydemo'),
+(8, 'AshlandForestAllLandsRestorationInitiative', 'projectfirma.com', 'ashlanddemo'),
+(9, 'IdahoAssociatonOfSoilConservationDistricts', 'projectfirma.com', 'swcdemo')
