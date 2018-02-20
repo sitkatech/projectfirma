@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
         public readonly int CalculatedChartHeight;
+        public readonly string FactSheetPdfUrl;
 
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneName;
@@ -104,6 +105,8 @@ namespace ProjectFirma.Web.Views.Project
             ChartColorRange = chartColorRange;
             //Dynamically resize chart based on how much space the legend requires
             CalculatedChartHeight = 435 - ExpenditureGooglePieChartSlices.Count * 19;
+            FactSheetPdfUrl =
+                SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyTierOne == null)
             {
@@ -134,7 +137,7 @@ namespace ProjectFirma.Web.Views.Project
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             PrimaryContactPerson = project.GetPrimaryContact();
         }
-
+        
         public HtmlString GetLegendHTML()
         {
             var legendHtml = "<div>";

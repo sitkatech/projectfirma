@@ -785,22 +785,13 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         }
 
         [ProjectsViewFullListFeature]
-        public ViewResult FactSheetContent(ProjectPrimaryKey projectPrimaryKey)
+        public FileContentResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewData = new FactSheetContentViewData(CurrentPerson);
-            return RazorView<FactSheetContent, FactSheetContentViewData>(viewData);
-        }
-
-        [ProjectsViewFullListFeature]
-        public ActionResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-
             using (var outputFile = new DisposableTempFile())
             {
                 PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetContent(project)).BuildAbsoluteUrlFromExpression()),
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlFromExpression()),
                     outputFile.FileInfo,
                     new PDFUtility.PdfConversionSettings(new HttpCookieCollection()));
 
