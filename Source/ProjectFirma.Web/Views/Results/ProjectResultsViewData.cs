@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Results
         {
             var projectStewardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
                 .GetFieldDefinitionLabelPluralized();
-            PageTitle = $"Project Results for {projectStewardOrganizationTypeName}";
+            PageTitle = "Accomplishments Dashboard";
             Organizations = organizations;
             CalendarYears = calendarYears;
             DefaultBeginYear = defaultBeginYear;

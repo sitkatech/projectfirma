@@ -20,17 +20,77 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Results.ProjectResults
 @section JavascriptAndStylesContent
 {
     <style>
-        .counter {
+        #organizationDropdown {
+            font-size: 20px;
             font-weight: bold;
         }
+
+         .counter {
+             font-weight: bold;
+             font-size: 24px;
+         }
+
+        .counterHeader h4 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #3670c5;
+            margin-top: 20px;
+        }
+
+        .counterSection {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .resultsQuestions {
+            margin-top: 40px;
+        }
+
+        .resultsQuestions .btn {
+            font-size: 24px;
+            margin-bottom: 20px;
+            white-space: normal;
+        }
+
+        .resultsQuestions .active {
+            color: white;
+            background-color: #7E9A2C;
+        }
+
+        .tab-content {
+            padding: 15px;
+        }
+
+        .contentWrapper {
+            margin-top: 20px;
+        }
+
+        .list-group-item {
+            height: 120px;
+
+        } 
+        
+        .img-responsive {
+            display: inline-block;
+        }
+
+        .col-xs-5, .col-xs-7 {
+            float: none;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
     </style>
-<script src="/Scripts/waypoints.min.js"></script>
-<script src="/Scripts/jquery.counterup.min.js"></script>
-<script type="text/javascript">
+    <script src="/Scripts/waypoints.min.js"></script>
+    <script src="/Scripts/jquery.counterup.min.js"></script>
+    <script type="text/javascript">
         // <![CDATA[
         function loadOrganizationDashboardSummary()
         {
@@ -44,7 +104,7 @@
                 jQuery("#totalInvestment").html(result.TotalInvestment);
                 jQuery('.counter').counterUp({
                     delay: 10,
-                    time: 1000
+                    time: 1500
                 });
             });
         };
@@ -83,7 +143,7 @@
             loadParticipatingOrganizations();
         }
 
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             reloadWithNewOrganization();
 
             jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
@@ -113,101 +173,129 @@
                         }
                     });
             });
+
+            jQuery('.questionButton').on("click", function () {
+                jQuery('.questionButton').removeClass("active");
+                jQuery(this).addClass("active");
+
+            });
         });
         // ]]>
-</script>
+    </script>
 }
 
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
-<div style="margin: 20px 0">
-    <label>Show Results For</label>
-    <select id="organizationDropdown" onchange="reloadWithNewOrganization()" class="selectpicker" data-live-search="true" data-width="auto">
-        <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
-        @foreach (var organization in ViewDataTyped.Organizations)
-        {
-            <option value="@organization.OrganizationID">@organization.OrganizationName</option>
-        }
-    </select>
-</div>
-<div>
-    <h4>Currently Tracking</h4>
-    <span id="projectCount" class="counter"></span> Projects
-    |
-    <span id="partnerCount" class="counter"></span> Partners
-    |
-    <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <ul class="nav nav-tabs" id="projectResultsTabs" style="border-bottom: none;">
-            <li class="active">
-                <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">What types of work do RCDs do?</a>
-            </li>
-            <li>
-                <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Where does RCD funding come from?</a>
-            </li>
-            <li>
-                <a href="#organizationsPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="organizationsTab">Who do RCDs work with?</a>
-            </li>
-        </ul>
+<div class="row counterHeader">
+    <div class="col-xs-12 text-center">
+        <h4>Showing Results for</h4>
     </div>
 </div>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="accomplishmentsPanel">
-                <div style="margin: 10px">
-                    Show Results By
-                    <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="auto">
-                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
-                        {
-                            <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
-                        }
-                    </select>
-                </div>                
+<div class="row counterSection">
+    <div class="col-xs-12 text-center">
+        <select id="organizationDropdown" onchange="reloadWithNewOrganization()" class="selectpicker" data-live-search="true" data-width="auto">
+            <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
+            @foreach (var organization in ViewDataTyped.Organizations)
+            {
+                <option value="@organization.OrganizationID">@organization.OrganizationName</option>
+            }
+        </select>
+    </div>
+</div>
+<br style="margin: 20px 0;" />
 
-                <div id="organizationAccomplishments">
+<div class="row counterHeader">
+    <div class="col-xs-12 text-center">
+        <h4>Currently Tracking</h4>
+    </div>
+</div>
+<div class="row counterSection">
+    <div class="col-xs-12 text-center">
+        <span id="projectCount" class="counter"></span> Projects
+        <span style="margin: 0 10px;">&bull;</span>
+        <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
+        <span style="margin: 0 10px;">&bull;</span>
+        <span id="partnerCount" class="counter"></span> Partners
+    </div>
+</div>
+
+<div class="row resultsQuestions">
+    <div class="col-xs-12 col-sm-4 text-center">
+        <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab" class="btn btn-lg btn-block btn-firma questionButton">What type of work do<br />RCDs do?</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 text-center">
+        <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab" class="btn btn-lg btn-block btn-firma questionButton">Where does RCD funding<br />come from?</a>
+    </div>
+    <div class="col-xs-12 col-sm-4 text-center">
+        <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab" class="btn btn-lg btn-block btn-firma questionButton">Who do RCDs<br />work with?</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="nothingPanel">
+                <div class="text-center">
+                    <p class="systemText" style="margin: 10px">Select a question to see current results from the @MultiTenantHelpers.GetTenantDisplayName()</p>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="expendituresPanel">
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                    </div>
-                    <div class="panel-body">
-                        <div style="margin: 10px">
-                            Show Results From
-                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
-                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                                {
-                                    <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
-                                }
-                            </select>
-                            To
-                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
-                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                                {
-                                    <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
-                                }
-                            </select>
-                        </div>
-                        <div id="spendingByOrganizationTypeAndOrganization">
-                        </div>
+            <div role="tabpanel" class="tab-pane fade" id="accomplishmentsPanel">
+                <div class="row counterHeader">
+                    <div class="col-xs-12 text-center">
+                        <h4>Showing Results By</h4>
                     </div>
                 </div>
-            </div>            
-            <div role="tabpanel" class="tab-pane" id="organizationsPanel">
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
+                <div class="row counterSection">
+                    <div class="col-xs-12 text-center">
+                        <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="auto">
+                            @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
+                            {
+                                <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
+                            }
+                        </select>
                     </div>
-                    <div class="panel-body">
-                        <div id="participatingOrganizations">
-                        </div>
+                </div>
+                <div id="organizationAccomplishments" class="contentWrapper">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="expendituresPanel">
+                <div class="row counterHeader">
+                    <div class="col-xs-12 text-center">
+                        <h4>Show Results From</h4>
                     </div>
+                </div>
+                <div class="row counterSection">
+                    <div class="col-xs-12 text-center">
+                        <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
+                            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                            {
+                                <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                            }
+                        </select>
+                        <span style="font-size: 14px">To</span>
+                        <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="auto">
+                            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                            {
+                                <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div id="spendingByOrganizationTypeAndOrganization" class="contentWrapper">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="organizationsPanel">
+                <div class="row counterHeader">
+                    <div class="col-xs-12 text-center">
+                        <h4>Showing Top 10 Partners</h4>
+                    </div>
+                </div>
+                <div id="participatingOrganizations" class="contentWrapper">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+

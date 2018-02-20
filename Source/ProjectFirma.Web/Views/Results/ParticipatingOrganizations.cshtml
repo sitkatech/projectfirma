@@ -1,30 +1,34 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="SpendingByOrganizationTypeByOrganization.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="SpendingByOrganizationTypeByOrganization.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.ParticipatingOrganizations
 
-<div class="row">
-    @foreach (var organizationGrouping in ViewDataTyped.Organizations.OrderByDescending(x => x.Count()).ThenBy(x => x.Key.OrganizationName))
-    {
+
+@if (ViewDataTyped.Organizations.Any())
+{
+    <div class="row">
+        @foreach (var organizationGrouping in ViewDataTyped.Organizations.OrderByDescending(x => x.Count()).ThenBy(x => x.Key.OrganizationName))
+        {
+
         <div class="col-xs-12 col-sm-4 list-group">
             <a href="@organizationGrouping.Key.GetDetailUrl()" class="list-group-item">
                 <div class="row">
@@ -50,8 +54,21 @@ Source code is available upon request via <support@sitkatech.com>.
                             @projectCount @projectCountLabel
                         </p>
                     </div>
-                </div>     
+                </div>
             </a>
         </div>
-    }
-</div>
+
+
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <p class="text-center">
+                There are no Partner @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Organization.GetFieldDefinitionLabel().
+            </p>
+        </div>
+    </div>
+}
