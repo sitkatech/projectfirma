@@ -532,9 +532,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var selectedProjectClassifications = project.ProjectClassifications;
 
-            //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
+                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
+                {
+                    ClassificationID = x.ClassificationID,
+                    ClassificationSystemID = x.ClassificationSystemID,
+                    ProjectID = project.ProjectID
+                }).ToList();
  
             foreach (var selectedClassification in selectedProjectClassifications)
             {

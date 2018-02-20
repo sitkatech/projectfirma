@@ -39,13 +39,15 @@
         Click the checkboxes below to associate this @FieldDefinition.Project.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
+
         @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
         {
             <h3>@classificationSystem.ClassificationSystemNamePluralized</h3>
-            var classificationIndex = 0;
             foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList())
             {
-                <div class="row" style="padding-top:20px">                   
+                var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
+                var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
+                <div class="row" style="padding-top: 20px">
                     <div class="col-xs-12 col-sm-4">
                         <label>
                             @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
@@ -63,9 +65,8 @@
                         @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
                     </div>
                 </div>
-                classificationIndex = classificationIndex + 1;
             }
-            <hr />
+            <hr/>
         }
     </div>
 
@@ -83,6 +84,7 @@
     // <![CDATA[
 
     jQuery(document).ready(function () {
+        // This is fragile- depends on the ViewData ClassificationSystems and Classifications being ordered in the same way
         @for (var i = 0; i < ViewDataTyped.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications.OrderBy(y => y.DisplayName)).ToList().Count; i++)
         {
             <text>
