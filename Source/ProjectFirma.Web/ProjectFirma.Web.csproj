@@ -46,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Views\Project\FactSheetContent.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -428,6 +429,7 @@
     <Compile Include="Views\ProjectCreate\Watershed.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewData.cs" />
     <Compile Include="Views\ProjectCreate\WatershedViewModel.cs" />
+    <Compile Include="Views\Project\FactSheetContentViewData.cs" />
     <Compile Include="Views\Project\ForwardLookingFactSheet.cs" />
     <Compile Include="Views\Project\ForwardLookingFactSheetViewData.cs" />
     <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
@@ -1403,6 +1405,7 @@
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Content Include="Views\Results\ProjectResults.cshtml" />
     <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
+    <Content Include="Views\Project\FactSheetContent.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

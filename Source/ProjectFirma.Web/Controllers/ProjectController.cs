@@ -20,7 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using ProjectFirma.Web.Security;
@@ -779,6 +782,36 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [ProjectsViewFullListFeature]
+        public ViewResult FactSheetContent(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewData = new FactSheetContentViewData(CurrentPerson);
+            return RazorView<FactSheetContent, FactSheetContentViewData>(viewData);
+        }
+
+        [ProjectsViewFullListFeature]
+        public ActionResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+
+            using (var outputFile = new DisposableTempFile())
+            {
+                PDFUtility.ConvertURLToPDF(
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetContent(project)).BuildAbsoluteUrlFromExpression()),
+                    outputFile.FileInfo,
+                    new PDFUtility.PdfConversionSettings(new HttpCookieCollection()));
+
+                var fileContents = FileUtility.FileToString(outputFile.FileInfo);
+                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
+                Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
+
+                Response.AddHeader("Content-Disposition", $"inline; filename={project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf");
+                var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
+                return new FileContentResult(content, MediaTypeNames.Application.Pdf);
+            }
         }
     }
 }
