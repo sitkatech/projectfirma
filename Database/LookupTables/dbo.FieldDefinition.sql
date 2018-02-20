@@ -33,7 +33,7 @@ VALUES
 (41, N'UnfundedNeed', N'Unfunded Need', N'<p>The difference between the Total Cost and Secured Funding for a project or program.</p>', 1),
 (42, N'Username', N'User name', N'<p>Password required to log into the system&nbsp;order to access and edit project and program information that is not allowed by public users.</p>', 1),
 (44, N'Project', N'Project', N'<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measures and Expenditures, that contribute to meeting program goals.</p>', 0),
-(46, N'Classification', N'Classification', N'<p>One of the groupings in a logical system used to group projects according to overarching program themes or goals.</p>', 1),
+(46, N'Classification', N'Classification', N'<p>One of the groupings in a logical system used to group projects according to overarching program themes or goals.</p>', 0),
 (48, N'Watershed', N'Watershed', N'<p>The watershed where the project or program is located.</p>', 1),
 (49, N'PerformanceMeasureSubcategory', N'Performance Measure Subcategory', N'<p>The Performance Measure subcategory or subcategories that are relevant to the project. Subcategories are dimensions of a Performance Measure that are used to report performance measure accomplishments at a more granular level.</p>', 1),
 (50, N'PerformanceMeasureSubcategoryOption', N'Performance Measure Subcategory Option', N'<p>The selected attribute of a Performance Measure subcategory.</p>', 1),
