@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
                 organizations = projects.SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType)).GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
             }
 
-            var viewData = new ParticipatingOrganizationsViewData(organizations);
+            var viewData = new ParticipatingOrganizationsViewData(organizations.Take(10).ToList());
             return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
         }
 
