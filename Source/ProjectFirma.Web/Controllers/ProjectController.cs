@@ -393,16 +393,25 @@ namespace ProjectFirma.Web.Controllers
             var projectsSpec = new ProjectExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
+            var workSheets = new List<IExcelWorkbookSheetDescriptor>
+            {
+                wsProjects
+            };
+
+
             var projectsDescriptionSpec = new ProjectDescriptionExcelSpec();
             var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectDescription.GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
+            workSheets.Add(wsProjectDescriptions);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.ProjectOrganizations).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
+            workSheets.Add(wsOrganizations);
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
             var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
+            workSheets.Add(wsProjectNotes);
 
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
@@ -410,38 +419,32 @@ namespace ProjectFirma.Web.Controllers
                 $"Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}s",
                 performanceMeasureExpectedExcelSpec,
                 performanceMeasureExpecteds);
+            workSheets.Add(wsPerformanceMeasureExpecteds);
 
             var performanceMeasureActualExcelSpec = new PerformanceMeasureActualExcelSpec();
             var performanceMeasureActuals = (projects.SelectMany(p => p.GetReportedPerformanceMeasures())).ToList();
             var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
+            workSheets.Add(wsPerformanceMeasureActuals);
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
             var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
+            workSheets.Add(wsProjectFundingSourceExpenditures);
 
             var projectWatershedSpec = new ProjectWatershedExcelSpec();
             var projectWatersheds = (projects.SelectMany(p => p.ProjectWatersheds)).ToList();
             var wsProjectWatersheds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", projectWatershedSpec, projectWatersheds);
+            workSheets.Add(wsProjectWatersheds);
 
-            var projectClassificationSpec = new ProjectClassificationExcelSpec();
-            var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).ToList();
-            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
-                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()}", projectClassificationSpec, projectClassifications);
-
-            
-            var workSheets = new List<IExcelWorkbookSheetDescriptor>
+            MultiTenantHelpers.GetClassificationSystems().ForEach(c =>
             {
-                wsProjects,
-                wsProjectDescriptions,
-                wsOrganizations,
-                wsProjectNotes,
-                wsPerformanceMeasureExpecteds,
-                wsPerformanceMeasureActuals,
-                wsProjectFundingSourceExpenditures,
-                wsProjectWatersheds,
-                wsProjectClassifications
-            };
+                var projectClassificationSpec = new ProjectClassificationExcelSpec();
+                var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).Where(x => x.Classification.ClassificationSystem == c).ToList();
+                var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
+                    c.ClassificationSystemNamePluralized, projectClassificationSpec, projectClassifications);
+                workSheets.Add(wsProjectClassifications);
+            });
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
