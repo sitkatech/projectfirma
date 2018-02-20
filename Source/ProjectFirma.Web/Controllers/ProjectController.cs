@@ -793,7 +793,14 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
                 PDFUtility.ConvertURLToPDF(
                     new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlFromExpression()),
                     outputFile.FileInfo,
-                    new PDFUtility.PdfConversionSettings(new HttpCookieCollection()));
+                    new PDFUtility.PdfConversionSettings(new HttpCookieCollection())
+                    {
+                        PageWidth = 1110,
+                        MarginTop = 0,
+                        MarginRight = 0,
+                        MarginBottom = 0,
+                        MarginLeft = 0
+                    });
 
                 var fileContents = FileUtility.FileToString(outputFile.FileInfo);
                 Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");

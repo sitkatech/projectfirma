@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits BackwardLookingFactSheet
 
 @{
-    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
 }
 
 @section JavascriptAndStylesContent
@@ -253,7 +253,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="container factSheet noPrint aboveFactSheet">
     <div class="pull-right">
         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
-        <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-print"></span> Print</a>
     </div>
 
 </div>

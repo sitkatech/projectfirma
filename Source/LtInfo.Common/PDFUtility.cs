@@ -95,6 +95,8 @@ namespace LtInfo.Common
             public string FooterRight;
             public TimeSpan ExecutionTimeout;
             public PageSizeOption PageSize = PageSizeOption.Letter;
+            public int? PageWidth;
+            public int? PageHeight;
             public PageOrientationOption PageOrientation = PageOrientationOption.Portrait;
             public double Zoom = 1.0;
             public string PostData;
@@ -206,6 +208,18 @@ namespace LtInfo.Common
 
                 args.Add("--page-size");
                 args.Add(PageSize.ToString());
+
+                if (PageWidth.HasValue)
+                {
+                    args.Add("--page-width");
+                    args.Add(PageWidth.ToString());
+                }
+
+                if (PageHeight.HasValue)
+                {
+                    args.Add("--page-height");
+                    args.Add(PageHeight.ToString());
+                }
 
                 args.Add("--orientation");
                 args.Add(PageOrientation.ToString());

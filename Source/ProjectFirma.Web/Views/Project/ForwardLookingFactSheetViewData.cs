@@ -81,8 +81,7 @@ namespace ProjectFirma.Web.Views.Project
             CalculatedChartHeight = 477 - (FundingSourceRequestAmountGooglePieChartSlices.Count <= 2
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 24
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
-            FactSheetPdfUrl =
-                SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
+            FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyTierOne == null)
             {

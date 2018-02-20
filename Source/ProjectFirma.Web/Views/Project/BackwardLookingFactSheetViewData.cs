@@ -105,8 +105,7 @@ namespace ProjectFirma.Web.Views.Project
             ChartColorRange = chartColorRange;
             //Dynamically resize chart based on how much space the legend requires
             CalculatedChartHeight = 435 - ExpenditureGooglePieChartSlices.Count * 19;
-            FactSheetPdfUrl =
-                SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
+            FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyTierOne == null)
             {
