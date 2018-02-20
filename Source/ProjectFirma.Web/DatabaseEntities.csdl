@@ -700,7 +700,7 @@
     <Property Name="ClassificationSystemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ClassificationSystemName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="ClassificationSystemDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ClassificationSystemDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ClassificationSystemListPageContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Classifications" Relationship="ProjectFirma.Web.Models.FK_Classification_ClassificationSystem_ClassificationSystemID" FromRole="ClassificationSystem" ToRole="Classifications" />
   </EntityType>

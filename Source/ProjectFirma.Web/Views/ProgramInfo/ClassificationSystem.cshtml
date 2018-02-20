@@ -1,24 +1,25 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProgramInfo.ClassificationSystem
@@ -29,23 +30,24 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <style>
 
- /* centered columns styles */
-.row-centered {
-    text-align:center;
-}
-.col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
-}
+    /* centered columns styles */
+    .row-centered {
+        text-align: center;
+    }
+
+    .col-centered {
+        display: inline-block;
+        float: none;
+        /* reset the text-align */
+        text-align: left;
+        /* inline-block space fix */
+        margin-right: -4px;
+    }
 
     .classification {
         position: relative;
         margin-bottom: 20px;
-        text-align: center;        
+        text-align: center;
     }
 
     .image {
@@ -107,16 +109,36 @@ Source code is available upon request via <support@sitkatech.com>.
     .classification:hover .overlay {
         opacity: 1;
     }
-
 </style>
 
-<div>
-    @Html.Raw(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContentHtmlString)
-</div>
+@if (ViewDataTyped.ShowEditButton)
+{
+    <div class="firmaPageContent" style="position: relative; min-height: 30px;">
+        <div class="hoverEditButton">
+            <div style="margin-top: 10px">
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.ClassificationSystem.ClassificationSystemName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)
+            </div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContent))
+        {
+            @Html.Raw(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContentHtmlString)
+        }
+        else
+        {
+            <div class="hoverEmptySpace"></div>
+        }
+    </div>
+}
+else
+{
+    <div>
+        @Html.Raw(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContentHtmlString)
+    </div>
+}
 
 <div class="row row-centered">
     @foreach (var classification in ViewDataTyped.Classifications)
-    {       
+    {
         <div class="col-md-4 col-sm-6 classification col-centered">
             <a href="@classification.GetDetailUrl()" class="taphover">
                 @if (classification.KeyImageFileResource != null)
@@ -133,8 +155,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     <p>@classification.ProjectClassifications.Select(x => x.Project).Count() Projects</p>
                 </div>
                 <div class="overlay" style="background-color: @classification.ThemeColor">
-                     <h3>@classification.DisplayName</h3>
-                     <p class="introText">@classification.ClassificationDescription.ToEllipsifiedStringClean(180)</p>
+                    <h3>@classification.DisplayName</h3>
+                    <p class="introText">@classification.ClassificationDescription.ToEllipsifiedStringClean(180)</p>
                 </div>
             </a>
         </div>

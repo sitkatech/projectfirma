@@ -30,24 +30,23 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDescription, string classificationSystemListPageContent) : this()
+        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDefinition, string classificationSystemListPageContent) : this()
         {
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSystemName = classificationSystemName;
-            this.ClassificationSystemDescription = classificationSystemDescription;
+            this.ClassificationSystemDefinition = classificationSystemDefinition;
             this.ClassificationSystemListPageContent = classificationSystemListPageContent;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(string classificationSystemName, string classificationSystemDescription) : this()
+        public ClassificationSystem(string classificationSystemName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationSystemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ClassificationSystemName = classificationSystemName;
-            this.ClassificationSystemDescription = classificationSystemDescription;
         }
 
 
@@ -56,7 +55,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ClassificationSystem CreateNewBlank()
         {
-            return new ClassificationSystem(default(string), default(string));
+            return new ClassificationSystem(default(string));
         }
 
         /// <summary>
@@ -77,7 +76,13 @@ namespace ProjectFirma.Web.Models
         public int ClassificationSystemID { get; set; }
         public int TenantID { get; private set; }
         public string ClassificationSystemName { get; set; }
-        public string ClassificationSystemDescription { get; set; }
+        public string ClassificationSystemDefinition { get; set; }
+        [NotMapped]
+        public HtmlString ClassificationSystemDefinitionHtmlString
+        { 
+            get { return ClassificationSystemDefinition == null ? null : new HtmlString(ClassificationSystemDefinition); }
+            set { ClassificationSystemDefinition = value?.ToString(); }
+        }
         public string ClassificationSystemListPageContent { get; set; }
         [NotMapped]
         public HtmlString ClassificationSystemListPageContentHtmlString

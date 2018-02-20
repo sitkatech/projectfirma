@@ -25,9 +25,9 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public ClassificationSystem ClassificationSystem { get; }
+        public Models.ClassificationSystem ClassificationSystem { get; }
 
-        public EditViewData(ClassificationSystem classificationSystem)
+        public EditViewData(Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystem = classificationSystem;
         }

@@ -18,18 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class EditProjectClassificationsForProjectViewData : FirmaUserControlViewData
     {
-        public readonly ClassificationSystem ClassificationSystem;
+        public readonly Models.ClassificationSystem ClassificationSystem;
         public readonly string ProjectName;
 
-        public EditProjectClassificationsForProjectViewData(Models.Project project, ClassificationSystem classificationSystem)
+        public EditProjectClassificationsForProjectViewData(Models.Project project, Models.ClassificationSystem classificationSystem)
         {
             ProjectName = project.DisplayName;
             ClassificationSystem = classificationSystem;

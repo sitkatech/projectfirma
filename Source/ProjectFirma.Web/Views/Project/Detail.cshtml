@@ -273,7 +273,7 @@
                         <div class="panel-heading panelTitle">
                             <h2>
                                 @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", classificationSystem.ClassificationSystemNamePluralized), ViewDataTyped.UserHasEditProjectPermissions)
-                                @classificationSystem.ClassificationSystemNamePluralized
+                                @Html.LabelWithSugarFor(classificationSystem, classificationSystem.ClassificationSystemNamePluralized)
                             </h2>
                         </div>
                         <div class="panel-body">

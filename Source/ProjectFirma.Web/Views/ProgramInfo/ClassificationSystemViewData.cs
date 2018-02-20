@@ -21,7 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProgramInfo
@@ -30,12 +33,16 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     {
         public readonly List<Models.Classification> Classifications;
         public readonly Models.ClassificationSystem ClassificationSystem;
+        public readonly bool ShowEditButton;
+        public readonly string EditPageContentUrl;
 
         public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
             Classifications = classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList();
             ClassificationSystem = classificationSystem;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, null).HasPermission;
+            EditPageContentUrl = SitkaRoute<ClassificationSystemController>.BuildUrlFromExpression(t => t.EditInDialog(classificationSystem));
         }
     }
 }

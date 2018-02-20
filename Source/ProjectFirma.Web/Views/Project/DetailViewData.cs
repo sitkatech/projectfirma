@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Views.Project
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
-        public List<ClassificationSystem> ClassificationSystems { get; }
+        public List<Models.ClassificationSystem> ClassificationSystems { get; }
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Views.Project
             string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
-            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ClassificationSystem> classificationSystems)
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);

@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class IndexGridSpec : GridSpec<Models.Classification>
     {
-        public IndexGridSpec(bool hasDeletePermissions, ClassificationSystem classificationSystem)
+        public IndexGridSpec(bool hasDeletePermissions, Models.ClassificationSystem classificationSystem)
         {
             if (hasDeletePermissions)
             {
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Classification
                     30);
             }
 
-            Add(classificationSystem.ClassificationSystemName, a => a.GetDisplayNameAsUrl(), 250);
+            Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);

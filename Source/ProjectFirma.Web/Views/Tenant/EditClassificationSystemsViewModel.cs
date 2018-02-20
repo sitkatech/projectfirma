@@ -35,16 +35,16 @@ namespace ProjectFirma.Web.Views.Tenant
             }
         }
 
-        public void UpdateModel(Person currentPerson, List<ClassificationSystem> currentClassificationSystems, ObservableCollection<ClassificationSystem> allClassificationSystems)
+        public void UpdateModel(Person currentPerson, List<Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<Models.ClassificationSystem> allClassificationSystems)
         {
-            var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
+            var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new Models.ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
                 x.ClassificationSystemName, 
-                x.ClassificationSystemDescription, 
+                x.ClassificationSystemDefinition?.ToString(), 
                 null)).ToList();
             currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.TenantID == y.TenantID && x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
-                x.ClassificationSystemDescription = y.ClassificationSystemDescription;
+                x.ClassificationSystemDefinition = y.ClassificationSystemDefinition;
             });
 
         }

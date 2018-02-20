@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public ProjectStage ProjectStage { get; set; }
         public Models.TaxonomyTierOne TaxonomyTierOne { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
-        public Dictionary<ClassificationSystem, string> ClassificationsBySystem { get; set; }
+        public Dictionary<Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string DetailUrl { get; set; }
 
         public ProjectMapPopupViewData(Models.Project project)
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             TaxonomyTierOne = project.TaxonomyTierOne;
             EstimatedTotalCost = project.EstimatedTotalCost;
             
-            var dict = new Dictionary<ClassificationSystem, string>();
+            var dict = new Dictionary<Models.ClassificationSystem, string>();
             project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct().ForEach(
                 x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.DisplayName).ToList())));
             ClassificationsBySystem = dict;

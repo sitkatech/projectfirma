@@ -714,7 +714,7 @@ warning 6035: The relationship 'FK_Classification_ClassificationSystem_Classific
     <Property Name="ClassificationSystemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ClassificationSystemName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="ClassificationSystemDescription" Type="varchar(max)" Nullable="false" />
+    <Property Name="ClassificationSystemDefinition" Type="varchar(max)" />
     <Property Name="ClassificationSystemListPageContent" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="CostParameterSet">

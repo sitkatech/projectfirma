@@ -84,7 +84,7 @@
           <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ClassificationSystemName" ColumnName="ClassificationSystemName" />
-          <ScalarProperty Name="ClassificationSystemDescription" ColumnName="ClassificationSystemDescription" />
+          <ScalarProperty Name="ClassificationSystemDefinition" ColumnName="ClassificationSystemDefinition" />
           <ScalarProperty Name="ClassificationSystemListPageContent" ColumnName="ClassificationSystemListPageContent" />
         </MappingFragment>
       </EntityTypeMapping>

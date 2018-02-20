@@ -20,25 +20,25 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Linq;
-using ProjectFirma.Web.Models;
+using System.Web;
 
-namespace ProjectFirma.Web.Views.Tenant
+namespace ProjectFirma.Web.Models
 {
     public class ClassificationSystemSimple
     {
         public int? ClassificationSystemID { get; set; }
         public int TenantID { get; set; }
         public string ClassificationSystemName { get; set; }
-        public string ClassificationSystemDescription { get; set; }
+        public HtmlString ClassificationSystemDefinition { get; set; }
         public string ClassificationSystemPageContent { get; set; }
         public bool CanDelete { get; set; }
 
-        public ClassificationSystemSimple(ClassificationSystem classificationSystem)
+        public ClassificationSystemSimple(Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystemID = classificationSystem.ClassificationSystemID;
             TenantID = classificationSystem.TenantID;
             ClassificationSystemName = classificationSystem.ClassificationSystemName;
-            ClassificationSystemDescription = classificationSystem.ClassificationSystemDescription;
+            ClassificationSystemDefinition = classificationSystem.ClassificationSystemDefinitionHtmlString;
             ClassificationSystemPageContent = classificationSystem.ClassificationSystemListPageContent;
             CanDelete = !classificationSystem.Classifications.Any();
         }

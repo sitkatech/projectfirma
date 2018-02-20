@@ -18,19 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Controllers
 @inherits ProjectFirma.Web.Views.Shared.FieldDefinitionDetails
 
 @if (ViewDataTyped.ShowEditLink)
 {
     <div class="pull-right">
-        <a href="@(SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(ViewDataTyped.FieldDefinition)))" target="_blank">@DhtmlxGridHtmlHelpers.EditIconBootstrap</a>
+        <a href="@ViewDataTyped.EditUrl" target="_blank">@DhtmlxGridHtmlHelpers.EditIconBootstrap</a>
     </div>
     <div class="clearfix"></div>
 }
-<div class="fieldDefinition">
-    @ViewDataTyped.GetFieldDefinition()
+<div class="fieldDefinition">   
+    @ViewDataTyped.GetFieldDefinition(ViewDataTyped.DefaultDefinitionHtmlString, ViewDataTyped.FieldDefinitionLabel)
 </div>

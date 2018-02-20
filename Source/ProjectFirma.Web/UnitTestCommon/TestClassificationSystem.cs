@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var classificationSystem = ClassificationSystem.CreateNewBlank();
                 classificationSystem.ClassificationSystemName = MakeTestName("TestClassificationSystemName", ClassificationSystem.FieldLengths.ClassificationSystemName);
-                classificationSystem.ClassificationSystemDescription = MakeTestName("TestClassificationSystemDesc");
+                classificationSystem.ClassificationSystemDefinition = MakeTestName("TestClassificationSystemDesc");
                
                 return classificationSystem;
             }

@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
@@ -102,8 +103,19 @@ namespace ProjectFirma.Web.Controllers
         {
             var fieldDefinition = FieldDefinition.AllLookupDictionary[fieldDefinitionID];
             var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.SingleOrDefault(x => x.FieldDefinitionID == fieldDefinitionID);
-            var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentPerson, fieldDefinition).HasPermission; 
-            var viewData = new FieldDefinitionDetailsViewData(fieldDefinition, fieldDefinitionData, showEditLink);
+            var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentPerson, fieldDefinition).HasPermission;
+            var editUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(fieldDefinition));
+            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
+            return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
+        }
+
+        [HttpGet]
+        [FieldDefinitionViewFeature]
+        [CrossAreaRoute]
+        public PartialViewResult FieldDefinitionDetailsForClassificationSystem(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
+        {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var viewData = new FieldDefinitionDetailsViewData(classificationSystem, (bool)false, (string)string.Empty, new HtmlString("<p>A logical system to group projects according to overarching program themes or goals.</p>"), classificationSystem.ClassificationSystemName);
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
     }

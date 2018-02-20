@@ -213,10 +213,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
-                {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
-                }
-                @FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized()
+    {
+            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+}
+                @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem)                
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -232,7 +232,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     {
                         <tr>
                             <td>@classificationSystem.ClassificationSystemName</td>
-                            <td>@Html.Raw(classificationSystem.ClassificationSystemDescription)</td>
+                            <td>@Html.Raw(classificationSystem.ClassificationSystemDefinition)</td>
                         </tr>
                     }
                     </tbody>

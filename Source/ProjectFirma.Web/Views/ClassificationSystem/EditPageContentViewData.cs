@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposalClassificationsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,21 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+using ProjectFirma.Web.Common;
+
+namespace ProjectFirma.Web.Views.ClassificationSystem
 {
-    public class EditProposalClassificationsViewData : ProjectCreateViewData
+    public class EditPageContentViewData : FirmaUserControlViewData
     {
-        public readonly List<Models.ClassificationSystem> ClassificationSystems;
-        public readonly string ProjectName;
-        
-        public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<Models.ClassificationSystem> classificationSystems, ProjectCreateSection currentSection, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, currentSection, proposalSectionsStatus)
+        public readonly CkEditorExtension.CkEditorToolbar CkEditorToolbar;
+        public readonly string FileBrowserImageUploadUrl;
+
+        public EditPageContentViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar)
         {
-            ProjectName = project.DisplayName;
-            ClassificationSystems = classificationSystems;
+            CkEditorToolbar = ckEditorToolbar;
         }
     }
 }
