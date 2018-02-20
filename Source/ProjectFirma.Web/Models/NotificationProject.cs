@@ -167,15 +167,15 @@ Thank you,<br />
         public static void SendSubmittedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $"A Project Proposal was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
-            var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.InstructionsProposal(project.ProjectID));
+            var subject = $"A Project was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
+            var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>A new Project, “{project.DisplayName}”, was submitted.</p>
 <p>The Project was submitted on {project.ProposingDate.ToStringDate()} by {
                     submitterPerson.FullNameFirstLastAndOrg
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
-<a href=""{instructionsUrl}"">View this project</a></p>
+<a href=""{basicsUrl}"">View this project</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
@@ -194,7 +194,7 @@ Thank you,<br />
         {
             Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
             var submitterPerson = project.ProposingPerson;
-            var subject = $"Your Project Proposal \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
+            var subject = $"Your Project \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
@@ -225,13 +225,13 @@ Thank you,<br />
         public static void SendReturnedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $@"Your Proposal ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
-            var instructionsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.InstructionsProposal(project.ProjectID));
+            var subject = $@"Your Project ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
+            var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLast},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} project submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
 <p>The project was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this project can move forward.</p>
-<a href=""{instructionsUrl}"">View this project</a></p>
+<a href=""{basicsUrl}"">View this project</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
 ";
