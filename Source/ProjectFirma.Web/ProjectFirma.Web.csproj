@@ -441,6 +441,8 @@
     <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
     <Compile Include="Views\Results\ProjectResults.cs" />
     <Compile Include="Views\Results\ProjectResultsViewData.cs" />
+    <Compile Include="Views\Results\ParticipatingOrganizations.cs" />
+    <Compile Include="Views\Results\ParticipatingOrganizationsViewData.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
     <Compile Include="Views\Shared\GoogleChartAxis.cs" />
     <Compile Include="Views\Shared\GoogleChartAxisLabelFormat.cs" />
@@ -640,6 +642,8 @@
     <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.min.js" />
     <Content Include="ScriptsCustom\unsavedChanges.js" />
     <Content Include="ScriptsCustom\unsavedChanges.min.js" />
+    <Content Include="Scripts\jquery.counterup.min.js" />
+    <Content Include="Scripts\waypoints.min.js" />
     <Content Include="Service References\KeystoneDataService\ProjectFirma.Web.KeystoneDataService.Organization.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -1403,6 +1407,7 @@
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Content Include="Views\Results\ProjectResults.cshtml" />
     <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
+    <Content Include="Views\Results\ParticipatingOrganizations.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

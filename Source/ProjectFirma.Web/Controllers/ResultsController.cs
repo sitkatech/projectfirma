@@ -76,6 +76,29 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
+        public JsonNetJObjectResult OrganizationDashboardSummary(int organizationID)
+        {
+            List<Project> projects;
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
+                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+                projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
+            }
+            else
+            {
+                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+            }
+
+            return new JsonNetJObjectResult(new
+            {
+                ProjectCount = projects.Count.ToGroupedNumeric(),
+                PartnerCount = projects.SelectMany(x => x.ProjectOrganizations.Select(y => y.OrganizationID)).Distinct().Count().ToGroupedNumeric(),
+                TotalInvestment = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Sum(x => x.ExpenditureAmount).ToGroupedNumeric()
+            });
+        }
+
+        [AnonymousUnclassifiedFeature]
         public PartialViewResult OrganizationAccomplishments(int organizationID, int taxonomyTierTwoID)
         {
             List<Project> projects;
@@ -105,6 +128,27 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
         }
 
+        [AnonymousUnclassifiedFeature]
+        public PartialViewResult ParticipatingOrganizations(int organizationID)
+        {
+            List<Project> projects;
+            List<IGrouping<Organization, ProjectOrganization>> organizations;
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
+                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(CurrentPerson);
+                organizations = projects.SelectMany(x => x.ProjectOrganizations.Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType)).GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+            }
+            else
+            {
+                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+                organizations = projects.SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType)).GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+            }
+
+            var viewData = new ParticipatingOrganizationsViewData(organizations);
+            return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
+        }
 
         [ProjectLocationsViewFeature]
         public ViewResult ProjectMap()

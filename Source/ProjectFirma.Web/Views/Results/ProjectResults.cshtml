@@ -20,12 +20,43 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
-@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.ProjectResults
 @section JavascriptAndStylesContent
 {
+    <style>
+        .counter {
+            font-weight: bold;
+        }
+    </style>
+<script src="/Scripts/waypoints.min.js"></script>
+<script src="/Scripts/jquery.counterup.min.js"></script>
 <script type="text/javascript">
         // <![CDATA[
+        function loadOrganizationDashboardSummary()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationDashboardSummaryUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID);
+
+            SitkaAjax.get(newUrl, function (result) {
+                jQuery("#projectCount").html(result.ProjectCount);
+                jQuery("#partnerCount").html(result.PartnerCount);
+                jQuery("#totalInvestment").html(result.TotalInvestment);
+                jQuery('.counter').counterUp({
+                    delay: 10,
+                    time: 1000
+                });
+            });
+        };
+
+        function loadParticipatingOrganizations()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ParticipatingOrganizationsUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID);
+            SitkaAjax.load(jQuery("#participatingOrganizations"), newUrl);
+        };
+
         function loadOrganizationAccomplishments()
         {
             var organizationID = jQuery("#organizationDropdown").val();
@@ -48,6 +79,8 @@
         function reloadWithNewOrganization() {
             loadOrganizationAccomplishments();
             loadSpendingByOrganizationTypeAndOrganization();
+            loadOrganizationDashboardSummary();
+            loadParticipatingOrganizations();
         }
 
         jQuery(document).ready(function() {
@@ -63,6 +96,15 @@
                     });
             });
             jQuery("#expendituresTab").on("shown.bs.tab", function() {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#organizationsTab").on("shown.bs.tab", function() {
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -90,15 +132,25 @@
         }
     </select>
 </div>
-
+<div>
+    <h4>Currently Tracking</h4>
+    <span id="projectCount" class="counter"></span> Projects
+    |
+    <span id="partnerCount" class="counter"></span> Partners
+    |
+    <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
+</div>
 <div class="container-fluid">
     <div class="row">
         <ul class="nav nav-tabs" id="projectResultsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">What types of work do RCDs do?</a>
             </li>
             <li>
-                <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+                <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Where does RCD funding come from?</a>
+            </li>
+            <li>
+                <a href="#organizationsPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="organizationsTab">Who do RCDs work with?</a>
             </li>
         </ul>
     </div>
@@ -123,7 +175,6 @@
             <div role="tabpanel" class="tab-pane" id="expendituresPanel">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>Where does funding come from?</h2>
                     </div>
                     <div class="panel-body">
                         <div style="margin: 10px">
@@ -143,6 +194,16 @@
                             </select>
                         </div>
                         <div id="spendingByOrganizationTypeAndOrganization">
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div role="tabpanel" class="tab-pane" id="organizationsPanel">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                    </div>
+                    <div class="panel-body">
+                        <div id="participatingOrganizations">
                         </div>
                     </div>
                 </div>
