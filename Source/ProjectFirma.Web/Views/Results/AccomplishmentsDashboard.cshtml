@@ -26,15 +26,15 @@
 @inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
 @section JavascriptAndStylesContent
 {
-    <style>
+<style>
         .pageTitle {
             display: none;
         }
 
-        div.star-primary:after {
-            content: @string.Format("/Content/img/{0}/favicon-32x32.png", MultiTenantHelpers.GetTenantName());
-        }
-    </style>
+            div.star-primary:after {
+                content: url("/Content/img/@MultiTenantHelpers.GetTenantName()/favicon-32x32.png");
+            }
+</style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
     <script type="text/javascript">
@@ -160,7 +160,7 @@
     <div class="homepageHeader">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
-                <div class="intro-text fundingColor">
+                <div class="intro-text">
                     <h1 class="subSectionName">Accomplishments Dashboard</h1>
                     <div class="star-primary"></div>
                 </div>
