@@ -25,6 +25,7 @@ using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views
@@ -117,7 +118,12 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectResults()), currentPerson, $"Results for {Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()}"));
+
+            if (new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson))
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectResults()), currentPerson, "Accomplishments Dashboard"));
+            }
+            
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson,
             //    $"Results by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map"));

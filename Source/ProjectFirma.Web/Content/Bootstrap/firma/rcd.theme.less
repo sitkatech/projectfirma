@@ -12,7 +12,7 @@
 @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
 @import url(https://fonts.googleapis.com/css?family=Crimson+Text);
 
-
+@path-to-favicon: url('../../../Content/img/RCDProjectTracker/favicon-32x32.png');
 
 // Customizable Variables
 @firma-menu-font: "Open Sans", sans-serif;
@@ -585,5 +585,56 @@ h2.sectionHeader {
 @media only screen and (min-width: 768px) {
     .main-text h1 {
         font-size: 32px;
+    }
+}
+
+// Accomplishments Dashboard
+div.star-primary {
+    padding: 0;
+    border: none;
+    border-top: solid 5px;
+    text-align: center;
+    margin: 25px auto 0px
+}
+
+div.star-primary:after {
+    content: @path-to-favicon;
+    display: inline-block;
+    position: relative;
+    top: -.6em;
+    font-size: 2em;
+    padding: 0 .25em
+}
+
+div.star-primary {
+    color: @firma-navBackground-color;
+}
+
+div.star-primary:after {
+    background-color: #fff;
+    color: @firma-navBackground-color;
+}
+
+.homepageHeader {
+    padding-top: 50px;
+}
+
+.intro-text .name, .intro-text .subSectionName {
+    font-family: 'Open Sans', sans-serif;
+    display: block;
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-top: 0;
+    color: @firma-text-color;
+}
+
+
+@media (min-width: 768px) {
+    .homepageHeader {
+        padding-top: 20px;
+    }
+
+    .homepageHeader .intro-text .subSectionName {
+        font-size: 2em
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DetailViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="SpendingByOrganizationTypeByOrganization.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,23 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System.Collections.Generic;
-using ProjectFirma.Web.Views.PerformanceMeasure;
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class OrganizationAccomplishmentsViewData
+    public abstract class ParticipatingOrganizations : LtInfo.Common.Mvc.TypedWebPartialViewPage<ParticipatingOrganizationsViewData>
     {
-        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
-        public string ProjectStewardOrLeadImplementorFieldDefinitionName { get; }
-        public Models.TaxonomyTierTwo TaxonomyTierTwo { get; }
-
-        public OrganizationAccomplishmentsViewData(string projectStewardOrLeadImplementorFieldDefinitionName, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, Models.TaxonomyTierTwo taxonomyTierTwo)
+        public static void RenderPartialView(HtmlHelper html, ParticipatingOrganizationsViewData viewData)
         {
-            ProjectStewardOrLeadImplementorFieldDefinitionName = projectStewardOrLeadImplementorFieldDefinitionName;
-            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
-            TaxonomyTierTwo = taxonomyTierTwo;
+            html.RenderRazorSitkaPartial<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
         }
     }
 }
