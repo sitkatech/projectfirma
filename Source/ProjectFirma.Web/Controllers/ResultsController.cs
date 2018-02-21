@@ -42,22 +42,22 @@ namespace ProjectFirma.Web.Controllers
     public class ResultsController : FirmaBaseController
     {
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ViewResult ProjectResults()
+        public ViewResult AccomplishmentsDashboard()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
-            var defaultBeginYear = defaultEndYear - 7; // TODO: very arbitrary right now to show the last 7 years
+            var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
-            var viewData = new ProjectResultsViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTierTwos);
-            return RazorView<ProjectResults, ProjectResultsViewData>(viewData);
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTierTwos);
+            return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public PartialViewResult SpendingByOrganizationTypeByOrganization(int organizationID, int beginYear, int endYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
-            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName).OrderBy(x => x.OrganizationTypeName == "Other").ToList();
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
             var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyTierTwos);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
             return new JsonNetJObjectResult(new
             {
                 ProjectCount = projects.Count.ToGroupedNumeric(),
-                PartnerCount = projects.SelectMany(x => x.ProjectOrganizations.Select(y => y.OrganizationID)).Distinct().Count().ToGroupedNumeric(),
+                PartnerCount = GetPartnerOrganizations(organizationID).Count,
                 TotalInvestment = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Sum(x => x.ExpenditureAmount).ToGroupedNumeric()
             });
         }
@@ -134,23 +134,36 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public PartialViewResult ParticipatingOrganizations(int organizationID)
         {
+            var partnerOrganizations = GetPartnerOrganizations(organizationID);
+
+            var viewData = new ParticipatingOrganizationsViewData(partnerOrganizations.Take(9).ToList());
+            return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
+        }
+
+        private List<IGrouping<Organization, ProjectOrganization>> GetPartnerOrganizations(int organizationID)
+        {
             List<Project> projects;
-            List<IGrouping<Organization, ProjectOrganization>> organizations;
+            List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
                 MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(CurrentPerson);
-                organizations = projects.SelectMany(x => x.ProjectOrganizations.Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType)).GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                partnerOrganizations = projects
+                    .SelectMany(x => x.ProjectOrganizations.Where(y =>
+                        y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
             }
             else
             {
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
-                organizations = projects.SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType)).GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                partnerOrganizations = projects
+                    .SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType))
+                    .Where(x => !x.Organization.CanBeAnApprovingOrganization())
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
             }
 
-            var viewData = new ParticipatingOrganizationsViewData(organizations.Take(10).ToList());
-            return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
+            return partnerOrganizations;
         }
 
         [ProjectLocationsViewFeature]

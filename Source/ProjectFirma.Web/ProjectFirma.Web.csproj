@@ -439,8 +439,8 @@
     <Compile Include="Views\Results\OrganizationAccomplishments.cs" />
     <Compile Include="Views\Results\OrganizationAccomplishmentsViewData.cs" />
     <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
-    <Compile Include="Views\Results\ProjectResults.cs" />
-    <Compile Include="Views\Results\ProjectResultsViewData.cs" />
+    <Compile Include="Views\Results\AccomplishmentsDashboard.cs" />
+    <Compile Include="Views\Results\AccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Results\ParticipatingOrganizations.cs" />
     <Compile Include="Views\Results\ParticipatingOrganizationsViewData.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
@@ -1405,7 +1405,7 @@
     <Content Include="Views\ProjectCreate\Organizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Organizations.cshtml" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
-    <Content Include="Views\Results\ProjectResults.cshtml" />
+    <Content Include="Views\Results\AccomplishmentsDashboard.cshtml" />
     <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
     <Content Include="Views\Results\ParticipatingOrganizations.cshtml" />
     <Reference Include="Antlr3.Runtime">

@@ -1,0 +1,289 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectResults.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
+@section JavascriptAndStylesContent
+{
+    <style>
+        .pageTitle {
+            display: none;
+        }
+
+        div.star-primary:after {
+            content: @string.Format("/Content/img/{0}/favicon-32x32.png", MultiTenantHelpers.GetTenantName());
+        }
+    </style>
+    <script src="/Scripts/waypoints.min.js"></script>
+    <script src="/Scripts/jquery.counterup.min.js"></script>
+    <script type="text/javascript">
+        // <![CDATA[
+        function loadOrganizationDashboardSummary(countUp)
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationDashboardSummaryUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID);
+
+            SitkaAjax.get(newUrl, function (result) {
+                jQuery("#projectCount").html(result.ProjectCount);
+                jQuery("#partnerCount").html(result.PartnerCount);
+                jQuery("#totalInvestment").html(result.TotalInvestment);
+
+                jQuery("#counterLoader").hide();
+                jQuery("#counterNumbers").show();
+                if (countUp) {                    
+                    jQuery('.counter').counterUp({
+                        delay: 10,
+                        time: 1500
+                    });
+                }
+
+            });
+        };
+
+        function loadParticipatingOrganizations()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ParticipatingOrganizationsUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID);
+            SitkaAjax.load(jQuery("#participatingOrganizations"), newUrl);
+        };
+
+        function loadOrganizationAccomplishments()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var taxonomyTierTwoID = jQuery("#taxonomyTierTwoDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationAccomplishmentsUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID, taxonomyTierTwoID);
+
+            var detailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.TaxonomyTierTwoDetailUrl.ToJS()));
+            var newDetailPageUrl = detailPageUrlTemplate.ParameterReplace(taxonomyTierTwoID);
+            jQuery("#taxonomyTierTwoLink").attr("href", newDetailPageUrl);
+
+            SitkaAjax.load(jQuery("#organizationAccomplishments"), newUrl);
+        };
+
+        function loadSpendingByOrganizationTypeAndOrganization()
+        {
+            var organizationID = jQuery("#organizationDropdown").val();
+            var beginYear = jQuery("#beginYearDropdown").val();
+            var endYear = jQuery("#endYearDropdown").val();
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SpendingByOrganizationTypeAndOrganizationUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(organizationID, beginYear, endYear);
+            SitkaAjax.load(jQuery("#spendingByOrganizationTypeAndOrganization"), newUrl);
+        };
+
+        function reloadWithNewOrganization(countUp) {
+
+            jQuery("#counterLoader").show();
+            jQuery("#counterNumbers").hide();
+
+            var organizationID = jQuery("#organizationDropdown").val();
+            
+            if (organizationID == -1) {
+                jQuery("#orgLink").hide();
+            } else {
+                var orgDetailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationDetailUrl.ToJS()));
+                var newOrgDetailPageUrl = orgDetailPageUrlTemplate.ParameterReplace(organizationID);
+                jQuery("#orgLink").attr("href", newOrgDetailPageUrl);
+                jQuery("#orgLink").show();
+            }
+
+            loadOrganizationAccomplishments();
+            loadSpendingByOrganizationTypeAndOrganization();
+            loadOrganizationDashboardSummary(countUp);
+            loadParticipatingOrganizations();
+        }
+
+        jQuery(document).ready(function () {
+            reloadWithNewOrganization(true);
+
+            jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#expendituresTab").on("shown.bs.tab", function() {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#organizationsTab").on("shown.bs.tab", function() {
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+
+            jQuery('.questionButton').on("click", function () {
+                jQuery('.questionButton').removeClass("active");
+                jQuery(this).addClass("active");
+
+            });
+        });
+        // ]]>
+    </script>
+}
+<div id="accomplishmentsDashboard">
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text fundingColor">
+                    <h1 class="subSectionName">Accomplishments Dashboard</h1>
+                    <div class="star-primary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>Showing Results for</h4>
+        </div>
+    </div>
+    <div class="row counterSection">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-right">
+            <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="100%">
+                <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
+                @foreach (var organization in ViewDataTyped.Organizations)
+                {
+                    <option value="@organization.OrganizationID">@organization.OrganizationName</option>
+                }
+            </select>            
+        </div>
+        <div class="col-xs-12 col-sm-2">
+            <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
+        </div>
+    </div>
+    <br style="margin: 20px 0;" />
+
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>Currently Tracking</h4>
+        </div>
+    </div>
+    <div class="row counterSection">
+        <div class="col-sm-12 text-center">
+            <div id="counterLoader">
+                <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
+            </div>
+            <div id="counterNumbers">
+                <span id="projectCount" class="counter"></span> Projects
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span id="partnerCount" class="counter"></span> Partners
+            </div>
+        </div>
+    </div>
+
+    <div class="row resultsQuestions">
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab" class="btn btn-lg btn-block btn-firma questionButton">What type of work do<br />RCDs do?</a>
+        </div>
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab" class="btn btn-lg btn-block btn-firma questionButton">Where does RCD funding<br />come from?</a>
+        </div>
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab" class="btn btn-lg btn-block btn-firma questionButton">Who do RCDs<br />work with?</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="nothingPanel">
+                    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="accomplishmentsPanel">
+                    <div class="row counterHeader">
+                        <div class="col-xs-12 text-center">
+                            <h4>Showing Results By</h4>
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                            <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
+                                @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
+                                {
+                                    <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
+                                }
+                            </select>                            
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                            <a id="taxonomyTierTwoLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel() Details</a>
+                        </div>
+                    </div>
+                    <div id="organizationAccomplishments" class="contentWrapper">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="expendituresPanel">
+                    <div class="row counterHeader">
+                        <div class="col-xs-12 text-center">
+                            <h4>Show Results From</h4>
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                }
+                            </select>
+                            <span style="font-size: 14px">To</span>
+                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div id="spendingByOrganizationTypeAndOrganization" class="contentWrapper">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="organizationsPanel">
+                    <div class="row counterHeader">
+                        <div class="col-xs-12 text-center">
+                            <h4>Showing Top Partners</h4>
+                        </div>
+                    </div>
+                    <div id="participatingOrganizations" class="contentWrapper">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
