@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Results
 {
-    public abstract class ProjectResults : LtInfo.Common.Mvc.TypedWebViewPage<ProjectResultsViewData>
+    public abstract class AccomplishmentsDashboard : LtInfo.Common.Mvc.TypedWebViewPage<AccomplishmentsDashboardViewData>
     {
     }
 }

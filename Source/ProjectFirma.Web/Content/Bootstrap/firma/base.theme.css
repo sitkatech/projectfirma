@@ -1128,3 +1128,70 @@ div.star-primary:after {
     font-size: 2em;
   }
 }
+#accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
+  font-size: 20px;
+  font-weight: bold;
+}
+#accomplishmentsDashboard .bootstrap-select .dropdown-toggle .filter-option {
+  text-align: center !important;
+}
+#accomplishmentsDashboard .counter {
+  font-weight: bold;
+  font-size: 22px;
+}
+#accomplishmentsDashboard .counterHeader h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #3670c5;
+  margin-top: 20px;
+}
+#accomplishmentsDashboard .counterSection {
+  font-weight: bold;
+  font-size: 24px;
+}
+#accomplishmentsDashboard .resultsQuestions {
+  margin-top: 40px;
+}
+#accomplishmentsDashboard .resultsQuestions .btn {
+  font-size: 24px;
+  margin-bottom: 20px;
+  white-space: normal;
+}
+#accomplishmentsDashboard .resultsQuestions .active {
+  color: white;
+  background-color: #7E9A2C;
+}
+#accomplishmentsDashboard .tab-content {
+  padding: 0 15px 15px 15px;
+}
+#accomplishmentsDashboard .contentWrapper {
+  margin-top: 20px;
+}
+#accomplishmentsDashboard .list-group-item {
+  height: 120px;
+}
+#accomplishmentsDashboard .img-responsive {
+  display: inline-block;
+}
+#accomplishmentsDashboard .col-xs-5,
+#accomplishmentsDashboard .col-xs-7 {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+@media screen and (max-width: 768px) {
+  #accomplishmentsDashboard .bullet {
+    display: none;
+  }
+  #accomplishmentsDashboard .counter {
+    margin-top: 10px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #accomplishmentsDashboard .break {
+    display: none;
+  }
+}

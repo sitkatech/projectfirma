@@ -27,7 +27,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class ProjectResultsViewData : FirmaViewData
+    public class AccomplishmentsDashboardViewData : FirmaViewData
     {
         public string OrganizationDashboardSummaryUrl { get; }
         public string OrganizationAccomplishmentsUrl { get; }
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Results
         public List<Models.TaxonomyTierTwo> TaxonomyTierTwos { get; }
         public string ProjectStewardOrganizationTypeName { get; }
 
-        public ProjectResultsViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear, List<Models.TaxonomyTierTwo> taxonomyTierTwos) :
+        public AccomplishmentsDashboardViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear, List<Models.TaxonomyTierTwo> taxonomyTierTwos) :
             base(currentPerson, firmaPage)
         {
             var projectStewardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
