@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Models
 
         public string PhotoUrl => FileResource.FileResourceUrl;
 
-        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail;
+        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail(150);
 
         public string PhotoUrlScaledForPrint => FileResource.FileResourceUrlScaledForPrint;
 
