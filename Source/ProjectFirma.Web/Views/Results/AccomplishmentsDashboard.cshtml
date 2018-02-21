@@ -45,7 +45,10 @@
                 jQuery("#projectCount").html(result.ProjectCount);
                 jQuery("#partnerCount").html(result.PartnerCount);
                 jQuery("#totalInvestment").html(result.TotalInvestment);
-                if (countUp) {
+
+                jQuery("#counterLoader").hide();
+                jQuery("#counterNumbers").show();
+                if (countUp) {                    
                     jQuery('.counter').counterUp({
                         delay: 10,
                         time: 1500
@@ -88,6 +91,9 @@
         };
 
         function reloadWithNewOrganization(countUp) {
+
+            jQuery("#counterLoader").show();
+            jQuery("#counterNumbers").hide();
 
             var organizationID = jQuery("#organizationDropdown").val();
             
@@ -186,11 +192,16 @@
     </div>
     <div class="row counterSection">
         <div class="col-sm-12 text-center">
-            <span id="projectCount" class="counter"></span> Projects
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-            <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-            <span id="partnerCount" class="counter"></span> Partners
+            <div id="counterLoader">
+                <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" ariavaluemax="100" style="width: 100%;">Loading...</div></div>
+            </div>
+            <div id="counterNumbers">
+                <span id="projectCount" class="counter"></span> Projects
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span id="partnerCount" class="counter"></span> Partners
+            </div>
         </div>
     </div>
 
