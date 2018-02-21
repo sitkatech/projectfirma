@@ -20,7 +20,9 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
 @section JavascriptAndStylesContent
 {
@@ -28,7 +30,6 @@
         .pageTitle {
             display: none;
         }
-
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
@@ -68,6 +69,11 @@
             var taxonomyTierTwoID = jQuery("#taxonomyTierTwoDropdown").val();
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationAccomplishmentsUrl.ToJS()));
             var newUrl = urlTemplate.ParameterReplace(organizationID, taxonomyTierTwoID);
+
+            var detailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.TaxonomyTierTwoDetailUrl.ToJS()));
+            var newDetailPageUrl = detailPageUrlTemplate.ParameterReplace(taxonomyTierTwoID);
+            jQuery("#taxonomyTierTwoLink").attr("href", newDetailPageUrl);
+
             SitkaAjax.load(jQuery("#organizationAccomplishments"), newUrl);
         };
 
@@ -82,6 +88,18 @@
         };
 
         function reloadWithNewOrganization(countUp) {
+
+            var organizationID = jQuery("#organizationDropdown").val();
+            
+            if (organizationID == -1) {
+                jQuery("#orgLink").hide();
+            } else {
+                var orgDetailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationDetailUrl.ToJS()));
+                var newOrgDetailPageUrl = orgDetailPageUrlTemplate.ParameterReplace(organizationID);
+                jQuery("#orgLink").attr("href", newOrgDetailPageUrl);
+                jQuery("#orgLink").show();
+            }
+
             loadOrganizationAccomplishments();
             loadSpendingByOrganizationTypeAndOrganization();
             loadOrganizationDashboardSummary(countUp);
@@ -146,14 +164,17 @@
         </div>
     </div>
     <div class="row counterSection">
-        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-right">
             <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="100%">
                 <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
                 @foreach (var organization in ViewDataTyped.Organizations)
                 {
                     <option value="@organization.OrganizationID">@organization.OrganizationName</option>
                 }
-            </select>
+            </select>            
+        </div>
+        <div class="col-xs-12 col-sm-2">
+            <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()</a>
         </div>
     </div>
     <br style="margin: 20px 0;" />
@@ -163,12 +184,12 @@
             <h4>Currently Tracking</h4>
         </div>
     </div>
-    <div class="row counterSection">       
+    <div class="row counterSection">
         <div class="col-sm-12 text-center">
             <span id="projectCount" class="counter"></span> Projects
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
             <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
             <span id="partnerCount" class="counter"></span> Partners
         </div>
     </div>
@@ -197,13 +218,16 @@
                         </div>
                     </div>
                     <div class="row counterSection">
-                        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+                        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
                             <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
                                 @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
                                 {
                                     <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
                                 }
-                            </select>
+                            </select>                            
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                            <a id="taxonomyTierTwoLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()</a>
                         </div>
                     </div>
                     <div id="organizationAccomplishments" class="contentWrapper">
