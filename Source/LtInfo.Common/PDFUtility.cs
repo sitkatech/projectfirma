@@ -93,6 +93,7 @@ namespace LtInfo.Common
             public string HeaderRight;
             public string FooterLeft;
             public string FooterRight;
+            public int? JavascriptDelay;
             public TimeSpan ExecutionTimeout;
             public PageSizeOption PageSize = PageSizeOption.Letter;
             public int? PageWidth;
@@ -163,6 +164,12 @@ namespace LtInfo.Common
                 {
                     args.Add("--footer-right");
                     args.Add(FooterRight);
+                }
+
+                if (JavascriptDelay.HasValue)
+                {
+                    args.Add("--javascript-delay");
+                    args.Add(JavascriptDelay.ToString());
                 }
 
                 if (!String.IsNullOrWhiteSpace(PostData))
