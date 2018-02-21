@@ -235,6 +235,17 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+            var chartWrapper = new google.visualization.ChartWrapper(chartJson);
+            chartWrapper.draw();
+        }
+    </script>
 }
 
 <div class="container factSheet noPrint aboveFactSheet">
@@ -444,10 +455,3 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="pull-left onlyOnPrint"><hr/>Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 
-<script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-        window.GoogleCharts.drawCharts([chartJson]);
-    });
-</script>
