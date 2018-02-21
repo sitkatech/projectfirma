@@ -1,1 +1,1 @@
-delete * from dbo.OrganizationBoundaryStaging
+delete from dbo.OrganizationBoundaryStaging
