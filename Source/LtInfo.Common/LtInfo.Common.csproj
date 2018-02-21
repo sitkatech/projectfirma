@@ -422,7 +422,6 @@
     <Compile Include="WebServicesErrorHandler.cs" />
     <Compile Include="WhoisUtility.cs" />
     <Compile Include="WhoisUtilityTest.cs" />
-    <Compile Include="PDFUtilityTest.cs" />
     <Compile Include="_Annotations.cs" />
   </ItemGroup>
   <ItemGroup>
