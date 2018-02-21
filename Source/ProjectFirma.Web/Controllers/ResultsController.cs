@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ResultsController : FirmaBaseController
     {
-        [LoggedInUnclassifiedFeature]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult ProjectResults()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
