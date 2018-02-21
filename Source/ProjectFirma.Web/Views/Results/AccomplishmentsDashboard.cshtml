@@ -30,6 +30,10 @@
         .pageTitle {
             display: none;
         }
+
+        div.star-primary:after {
+            content: @string.Format("/Content/img/{0}/favicon-32x32.png", MultiTenantHelpers.GetTenantName());
+        }
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
@@ -180,7 +184,7 @@
             </select>            
         </div>
         <div class="col-xs-12 col-sm-2">
-            <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()</a>
+            <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
         </div>
     </div>
     <br style="margin: 20px 0;" />
@@ -193,7 +197,7 @@
     <div class="row counterSection">
         <div class="col-sm-12 text-center">
             <div id="counterLoader">
-                <div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" ariavaluemax="100" style="width: 100%;">Loading...</div></div>
+                <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
             </div>
             <div id="counterNumbers">
                 <span id="projectCount" class="counter"></span> Projects
@@ -238,7 +242,7 @@
                             </select>                            
                         </div>
                         <div class="col-xs-12 col-sm-2">
-                            <a id="taxonomyTierTwoLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()</a>
+                            <a id="taxonomyTierTwoLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel() Details</a>
                         </div>
                     </div>
                     <div id="organizationAccomplishments" class="contentWrapper">

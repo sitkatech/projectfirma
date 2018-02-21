@@ -1195,3 +1195,44 @@ div.star-primary:after {
     display: none;
   }
 }
+#accomplishmentsDashboard div.star-primary {
+  padding: 0;
+  border: none;
+  border-top: solid 5px;
+  text-align: center;
+  margin: 25px auto 0px;
+}
+#accomplishmentsDashboard div.star-primary:after {
+  display: inline-block;
+  position: relative;
+  top: -0.6em;
+  font-size: 2em;
+  padding: 0 0.25em;
+}
+#accomplishmentsDashboard div.star-primary {
+  color: #7E9A2C;
+}
+#accomplishmentsDashboard div.star-primary:after {
+  background-color: #fff;
+  color: #7E9A2C;
+}
+#accomplishmentsDashboard .homepageHeader {
+  padding-top: 50px;
+}
+#accomplishmentsDashboard .intro-text .name,
+#accomplishmentsDashboard .intro-text .subSectionName {
+  font-family: 'Open Sans', sans-serif;
+  display: block;
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 0;
+  color: #193D5B;
+}
+@media (min-width: 768px) {
+  #accomplishmentsDashboard .homepageHeader {
+    padding-top: 20px;
+  }
+  #accomplishmentsDashboard .homepageHeader .intro-text .subSectionName {
+    font-size: 2em;
+  }
+}
