@@ -408,6 +408,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(organization);
+            HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization
+                .OrganizationBoundaryStagings);
 
             SetMessageForDisplay($"Organization Boundary for {organization.GetDisplayNameAsUrl()} successfully updated.");
             return new ContentResult();
