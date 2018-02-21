@@ -25,19 +25,23 @@
 @section JavascriptAndStylesContent
 {
     <style>
-        #organizationDropdown {
-            font-size: 20px;
-            font-weight: bold;
+        .pageTitle {
+            display: none;
         }
 
-         .counter {
+         .bootstrap-select .dropdown-toggle {
+             font-size: 20px;
              font-weight: bold;
-             font-size: 24px;
          }
+
+        .counter {
+            font-weight: bold;
+            font-size: 22px;
+        }
 
         .counterHeader h4 {
             font-family: 'Open Sans', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
             color: #3670c5;
@@ -65,7 +69,7 @@
         }
 
         .tab-content {
-            padding: 15px;
+            padding: 0 15px 15px 15px;
         }
 
         .contentWrapper {
@@ -92,7 +96,7 @@
     <script src="/Scripts/jquery.counterup.min.js"></script>
     <script type="text/javascript">
         // <![CDATA[
-        function loadOrganizationDashboardSummary()
+        function loadOrganizationDashboardSummary(countUp)
         {
             var organizationID = jQuery("#organizationDropdown").val();
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationDashboardSummaryUrl.ToJS()));
@@ -102,10 +106,13 @@
                 jQuery("#projectCount").html(result.ProjectCount);
                 jQuery("#partnerCount").html(result.PartnerCount);
                 jQuery("#totalInvestment").html(result.TotalInvestment);
-                jQuery('.counter').counterUp({
-                    delay: 10,
-                    time: 1500
-                });
+                if (countUp) {
+                    jQuery('.counter').counterUp({
+                        delay: 10,
+                        time: 1500
+                    });
+                }
+                
             });
         };
 
@@ -136,15 +143,15 @@
             SitkaAjax.load(jQuery("#spendingByOrganizationTypeAndOrganization"), newUrl);
         };
 
-        function reloadWithNewOrganization() {
+        function reloadWithNewOrganization(countUp) {
             loadOrganizationAccomplishments();
             loadSpendingByOrganizationTypeAndOrganization();
-            loadOrganizationDashboardSummary();
+            loadOrganizationDashboardSummary(countUp);
             loadParticipatingOrganizations();
         }
 
         jQuery(document).ready(function () {
-            reloadWithNewOrganization();
+            reloadWithNewOrganization(true);
 
             jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
                 _.forOwn(window.GoogleCharts.chartWrappers,
@@ -184,6 +191,17 @@
     </script>
 }
 
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text fundingColor">
+                    <h1 class="subSectionName">Accomplishments Dashboard</h1>
+                    <div class="star-primary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
@@ -195,7 +213,7 @@
 </div>
 <div class="row counterSection">
     <div class="col-xs-12 text-center">
-        <select id="organizationDropdown" onchange="reloadWithNewOrganization()" class="selectpicker" data-live-search="true" data-width="auto">
+        <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="auto">
             <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
             @foreach (var organization in ViewDataTyped.Organizations)
             {
