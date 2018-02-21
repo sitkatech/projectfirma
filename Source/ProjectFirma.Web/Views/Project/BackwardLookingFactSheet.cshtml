@@ -30,42 +30,36 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits BackwardLookingFactSheet
 
 @{
-    SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
 }
 
 @section JavascriptAndStylesContent
 {
-    <style>       
-         .factSheet
-         {
-             background-color: #fff;
-             margin-left: auto;
-             margin-right: auto;
-             margin-bottom: 20px;
-             font-size: 16px;
-             padding: 15px 20px;
-         }
-
-        @@media print {
-            .factSheet {
-                width: 1110px;
-            }
+    <style>
+        .factSheet {
+            background-color: #fff;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+            font-size: 16px;
+            padding: 15px 20px;
         }
 
-        .aboveFactSheet
-        {
+        @@media print {
+            .factSheet { width: 1110px; }
+        }
+
+        .aboveFactSheet {
             padding: 15px 0 0 0;
             background-color: transparent;
         }
 
-        .factSheetAboutProject
-        {
+        .factSheetAboutProject {
             vertical-align: top;
             width: 700px;
         }
 
-        .ltInfoPanelDimensions
-        {
+        .ltInfoPanelDimensions {
             width: 500px;
             height: 510px;
             margin-left: auto;
@@ -73,85 +67,66 @@ Source code is available upon request via <support@sitkatech.com>.
             background-color: #fff;
         }
 
-        .mapPanel
-        {
+        .mapPanel {
             width: 500px;
             margin-left: auto;
             margin-right: auto;
             height: 510px;
         }
 
-        .keyPhotoPanel
-        {
-            width: 500px;
-        }
+        .keyPhotoPanel { width: 500px; }
 
-        .keyPhoto
-        {
+        .keyPhoto {
             margin-left: auto;
             margin-right: auto;
         }
 
-        .pmChartLegendPanelDimensions
-        {
+        .pmChartLegendPanelDimensions {
             width: 100%;
             overflow-y: auto;
             max-height: 120px;
         }
 
-        .pmChartSize
-        {
+        .pmChartSize {
             width: 600px;
             height: 330px;
         }
 
-        .photoContainer
-        {
+        .photoContainer {
             display: inline-block;
             padding-right: 10px;
             width: 570px;
             vertical-align: top;
         }
 
-        .projectTitle
-        {
+        .projectTitle {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 15px;
         }
 
-        .sectionTitle
-        {
+        .sectionTitle {
             font-size: 18px;
             font-weight: bold;
             margin: 5px 0 5px 0;
         }
 
-        .taxonomyTierThreeColor
-        {
+        .taxonomyTierThreeColor {
             color: @ViewDataTyped.TaxonomyColor;
             border-color: @ViewDataTyped.TaxonomyColor;
         }
 
-        table.summaryLayout th
-        {
-            color: #000;
-        }
+        table.summaryLayout th { color: #000; }
 
-        .photosSection
-        {
-            margin-bottom: 0;
-        }
+        .photosSection { margin-bottom: 0; }
 
-        .photocaption
-        {
+        .photocaption {
             font-size: 0.9em;
             color: #000;
             line-height: 15px;
         }
 
-        .projectTaxonomy
-        {
+        .projectTaxonomy {
             padding: 5px 5px 5px 25px;
             height: 40px;
             color: #ffffff;
@@ -163,39 +138,25 @@ Source code is available upon request via <support@sitkatech.com>.
             font-size: 18px;
         }
 
-        .legendPanel
-        {
-            font-size: 12px;
-        }
+        .legendPanel { font-size: 12px; }
 
-        .expendituresChartTitle
-        {
-            font-size: 14px;
-        }
+        .expendituresChartTitle { font-size: 14px; }
 
-        .projectImageTiming
-        {
+        .projectImageTiming {
             padding-top: 5px;
             font-weight: bold;
             padding-left: 30px;
             padding-bottom: 5px;
         }
 
-        td.bullet
-        {
+        td.bullet {
             padding-right: 5px;
             vertical-align: top;
         }
 
-        .expendituresChartTitle
-        {
-            font-size: 16px;
-        }
+        .expendituresChartTitle { font-size: 16px; }
 
-        .onlyOnPrint
-        {
-            padding-right: 110px;
-        }
+        .onlyOnPrint { padding-right: 110px; }
     </style>
 
     <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
@@ -248,12 +209,24 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+            var chartWrapper = new google.visualization.ChartWrapper(chartJson);
+            chartWrapper.draw();
+        }
+    </script>
 }
 
 <div class="container factSheet noPrint aboveFactSheet">
     <div class="pull-right">
-        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
-        <button class="btn btn-xs btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-print"></span> Print</a>
     </div>
 
 </div>
@@ -314,39 +287,9 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
 
-<div class="row" style="padding-top: 20px;">
-    <div class="col-md-6">
-        <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
-        <br />            
-    </div>
-    <div class="col-md-6">
-        @if (ViewDataTyped.KeyPhoto != null)
-        {
-            <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
-                <span class="keyPhoto">
-                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView"/>
-                    <br/>
-                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
-                </span>
-
-            </div>
-        }
-        else
-        {
-            <div class="sectionTitle" style="width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
-                <div style="display: table;margin: auto;height: 100%;">
-                    <div style="display: table-cell; vertical-align: middle; height: 100%;">
-                        No Key Photo provided for this Project.
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-    <div class="row" style="padding-top: 10px">
+    <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
-               
+            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
             <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
             @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
             {
@@ -364,8 +307,6 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <p>Accomplishments to be provided upon completion of project.</p>
             }
-        </div>
-        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
             @if (ViewDataTyped.Project.ProjectClassifications.Any())
             {
@@ -386,12 +327,34 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
             }
+        </div>
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
+                <div class="col-md-12 keyPhotoPanel" style="padding: 20px; vertical-align: top">
+                    <span class="keyPhoto">
+                        <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
+                        <br />
+                        <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
+                    </span>
 
+                </div>
+            }
+            else
+            {
+                <div class="sectionTitle" style="width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table; margin: auto; height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
+            <div style="width: 560px; margin-left: auto; margin-right: auto; ">
                 <div class="sectionTitle taxonomyTierThreeColor">@FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()</div>
                 <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
                 <script type="text/javascript">
@@ -405,68 +368,61 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="col-md-6">
-            <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                <div class="sectionTitle taxonomyTierThreeColor">Expenditures</div>
-                <div class="ltInfoPanel ltInfoPanelDimensions">
-                    <div style="width: 450px; height: 550px; overflow: hidden">
-                        @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
-                        {
-                            <div style="text-align: center;" class="expendituresChartTitle">
-                                <span style="font-weight: bold">Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</span>
-                                <br />(Estimated Cost: @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency())
-                            </div>
-                            <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
-                            <div class="legendPanel">
-                                @Html.Raw(ViewDataTyped.GetLegendHTML())
-                            </div>
-                        }
-                        else
-                        {
-                            <p>No expenditures provided.</p>
-                        }
+            <div style="width: 560px; margin-left: auto; margin-right: auto; ">
+                <div style="width: 560px; margin-left: auto; margin-right: auto; ">
+                    <div class="sectionTitle taxonomyTierThreeColor">Expenditures</div>
+                    <div class="ltInfoPanel ltInfoPanelDimensions">
+                        <div style="width: 450px; height: 550px; overflow: hidden">
+                            @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
+                            {
+                                <div style="text-align: center;" class="expendituresChartTitle">
+                                    <span style="font-weight: bold">Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</span>
+                                    <br />(Estimated Cost: @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency())
+                                </div>
+                                <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
+                                <div class="legendPanel">
+                                    @Html.Raw(ViewDataTyped.GetLegendHTML())
+                                </div>
+                            }
+                            else
+                            {
+                                <p>No expenditures provided.</p>
+                            }
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="sectionTitle taxonomyTierThreeColor photosSection">Photos</div>
-    @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
-    {
-
-        foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
+        <div class="sectionTitle taxonomyTierThreeColor photosSection">Photos</div>
+        @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
         {
-            <div class="row" style="padding-top: 5px">
-                <div class="col-md-12 projectImageTiming">@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</div>
-            </div>
-            foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+            foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
             {
-                <div class="row">
-                    @foreach (var projectImage in projectImageBatch)
-                    {
-                        <div class="col-md-6 col-sm-12 photoContainer">
-                            <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
-                            <br />
-                            <span class="photocaption">@projectImage.Caption</span>
-                        </div>
-                    }
+                <div class="row" style="padding-top: 5px">
+                    <div class="col-md-12 projectImageTiming">@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</div>
                 </div>
+                foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+                {
+                    <div class="row">
+                        @foreach (var projectImage in projectImageBatch)
+                        {
+                            <div class="col-md-6 col-sm-12 photoContainer">
+                                <img src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                                <br />
+                                <span class="photocaption">@projectImage.Caption</span>
+                            </div>
+                        }
+                    </div>
+                }
             }
         }
-    }
-    else
-    {
-        <p>No photos provided.</p>
-    }
+        else
+        {
+            <p>No photos provided.</p>
+        }
 
-    <div class="pull-left onlyOnPrint"><hr />Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+        <div class="pull-left onlyOnPrint"><hr />Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    </div>
 </div>
-
-<script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-        GoogleCharts.drawCharts([chartJson]);
-    });
-</script>
