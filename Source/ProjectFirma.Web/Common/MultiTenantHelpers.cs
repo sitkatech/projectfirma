@@ -81,6 +81,13 @@ namespace ProjectFirma.Web.Common
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
+        public static string GetTenantBannerLogoScaledAsIconUrl()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource != null
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource.FileResourceUrlScaledThumbnail(32)
+                : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
+        }
+
         public static string GetTenantStyleSheetUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantStyleSheetFileResource != null

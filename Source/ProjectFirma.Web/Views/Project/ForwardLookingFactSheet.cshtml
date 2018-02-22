@@ -36,21 +36,22 @@
 @section JavascriptAndStylesContent
 {
     <style>
-         .factSheet
-         {
-             background-color: #fff;
-             margin-left: auto;
-             margin-right: auto;
-             margin-bottom: 20px;
-             font-size: 16px;
-             padding: 15px 20px;
-         }
+
+        .factSheet
+        {
+            background-color: #fff;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+            font-size: 16px;
+            padding: 15px 20px;
+        }
 
         @@media print {
-             .factSheet {
-                 width: 1110px;
-             }
-         }
+            .factSheet {
+                width: 1110px;
+            }
+        }
 
         .aboveFactSheet
         {
@@ -185,7 +186,7 @@
         }
     </style>
 
-    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
+    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print"/>
 
     <style type="text/css" media="print">
         .container .factSheet {
@@ -235,12 +236,24 @@
     </style>
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+            var chartWrapper = new google.visualization.ChartWrapper(chartJson);
+            chartWrapper.draw();
+        }
+    </script>
 }
 
 <div class="container factSheet noPrint aboveFactSheet">
     <div class="pull-right">
-        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
-        <button class="btn btn-xs btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-print"></span> Print</a>
     </div>
 
 </div>
@@ -314,30 +327,6 @@
     <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
             <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-        </div>
-        <div class="col-md-6">
-            @if (ViewDataTyped.KeyPhoto != null)
-            {
-                <span class="keyPhoto">
-                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
-                    <br />
-                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
-                </span>
-            }
-            else
-            {
-                <div class="sectionTitle" style="max-height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
-                    <div style="display: table;margin: auto;height: 100%;">
-                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
-                            No Key Photo provided for this Project.
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-    <div class="row" style="padding-top: 10px;">
-        <div class="col-md-6">
             <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
             @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
             {
@@ -354,9 +343,8 @@
             else
             {
                 <div class="systemText">No Expected Accomplishments provided.</div>
-            }
+            }            
         </div>
-
         @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
         {
             <div class="col-md-3">
@@ -385,7 +373,26 @@
             </div>
 
         }
-
+        <div class="col-md-6">
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
+                <span class="keyPhoto">
+                    <img style="max-height: 400px;" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
+                    <br />
+                    <span class="photocaption">@ViewDataTyped.KeyPhoto.Caption</span>
+                </span>
+            }
+            else
+            {
+                <div class="sectionTitle" style="max-height: 500px; width: 100%; text-align: center; background-color: #dbdbdb; border-radius: 10px;">
+                    <div style="display: table;margin: auto;height: 100%;">
+                        <div style="display: table-cell; vertical-align: middle; height: 100%;">
+                            No Key Photo provided for this Project.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -458,10 +465,3 @@
     <div class="pull-left onlyOnPrint"><hr />Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 
-<script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-        window.GoogleCharts.drawCharts([chartJson]);
-    });
-</script>

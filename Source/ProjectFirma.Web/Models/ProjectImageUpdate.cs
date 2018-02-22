@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
 
         public string PhotoUrlScaledThumbnail
         {
-            get { return FileResource.FileResourceUrlScaledThumbnail; }
+            get { return FileResource.FileResourceUrlScaledThumbnail(150); }
         }
 
         public string PhotoUrlScaledForPrint

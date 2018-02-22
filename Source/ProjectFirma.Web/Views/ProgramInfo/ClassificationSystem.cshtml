@@ -143,7 +143,7 @@ else
             <a href="@classification.GetDetailUrl()" class="taphover">
                 @if (classification.KeyImageFileResource != null)
                 {
-                    <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail" alt="Key Image" class="image">
+                    <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail(150)" alt="Key Image" class="image">
                 }
                 else
                 {

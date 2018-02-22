@@ -1080,3 +1080,111 @@ td.stage {
 .systemText {
   font-style: italic;
 }
+#accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
+  font-size: 20px;
+  font-weight: bold;
+}
+#accomplishmentsDashboard .bootstrap-select .dropdown-toggle .filter-option {
+  text-align: center !important;
+}
+#accomplishmentsDashboard .counter {
+  font-weight: bold;
+  font-size: 22px;
+}
+#accomplishmentsDashboard .counterHeader h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #3670c5;
+  margin-top: 20px;
+}
+#accomplishmentsDashboard .counterSection {
+  font-weight: bold;
+  font-size: 24px;
+}
+#accomplishmentsDashboard .resultsQuestions {
+  margin-top: 40px;
+}
+#accomplishmentsDashboard .resultsQuestions .btn {
+  font-size: 24px;
+  margin-bottom: 20px;
+  white-space: normal;
+}
+#accomplishmentsDashboard .resultsQuestions .active {
+  color: white;
+  background-color: #7E9A2C;
+}
+#accomplishmentsDashboard .tab-content {
+  padding: 0 15px 15px 15px;
+}
+#accomplishmentsDashboard .contentWrapper {
+  margin-top: 20px;
+}
+#accomplishmentsDashboard .list-group-item {
+  height: 120px;
+}
+#accomplishmentsDashboard .img-responsive {
+  display: inline-block;
+}
+#accomplishmentsDashboard .col-xs-5,
+#accomplishmentsDashboard .col-xs-7 {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+@media screen and (max-width: 768px) {
+  #accomplishmentsDashboard .bullet {
+    display: none;
+  }
+  #accomplishmentsDashboard .counter {
+    margin-top: 10px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #accomplishmentsDashboard .break {
+    display: none;
+  }
+}
+#accomplishmentsDashboard div.star-primary {
+  padding: 0;
+  border: none;
+  border-top: solid 5px;
+  text-align: center;
+  margin: 25px auto 0px;
+}
+#accomplishmentsDashboard div.star-primary:after {
+  display: inline-block;
+  position: relative;
+  top: -0.6em;
+  font-size: 2em;
+  padding: 0 0.25em;
+}
+#accomplishmentsDashboard div.star-primary {
+  color: #7E9A2C;
+}
+#accomplishmentsDashboard div.star-primary:after {
+  background-color: #fff;
+  color: #7E9A2C;
+}
+#accomplishmentsDashboard .homepageHeader {
+  padding-top: 50px;
+}
+#accomplishmentsDashboard .intro-text .name,
+#accomplishmentsDashboard .intro-text .subSectionName {
+  font-family: 'Open Sans', sans-serif;
+  display: block;
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 0;
+  color: #193D5B;
+}
+@media (min-width: 768px) {
+  #accomplishmentsDashboard .homepageHeader {
+    padding-top: 20px;
+  }
+  #accomplishmentsDashboard .homepageHeader .intro-text .subSectionName {
+    font-size: 2em;
+  }
+}

@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -46,11 +47,13 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string SupportingAgenciesForDisplay;
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
+        public readonly string FactSheetPdfUrl;
 
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly string TaxonomyTierOneName;
         public readonly string TaxonomyTierTwoName;
+
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             Models.Project project,
@@ -78,6 +81,7 @@ namespace ProjectFirma.Web.Views.Project
             CalculatedChartHeight = 477 - (FundingSourceRequestAmountGooglePieChartSlices.Count <= 2
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 24
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
+            FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyTierOne == null)
             {

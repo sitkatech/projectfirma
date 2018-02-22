@@ -34,7 +34,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
     {
         <tr>
-            <td>@Html.Raw(taxonomyTierTwo.TaxonomyTierTwoName)</td>
+            <td>@taxonomyTierTwo.GetDisplayNameAsUrl()</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
                 <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>

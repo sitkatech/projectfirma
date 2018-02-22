@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly List<Models.Classification> Classifications;
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
@@ -38,7 +37,6 @@ namespace ProjectFirma.Web.Views.Classification
         public IndexViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
-            Classifications = classificationSystem.Classifications.ToList();
 
             GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem)
             {

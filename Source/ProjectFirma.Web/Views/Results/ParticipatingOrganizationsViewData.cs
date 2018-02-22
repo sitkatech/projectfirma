@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DetailViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="SpendingByOrganizationTypeByOrganizationViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,23 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using System.Collections.Generic;
-using ProjectFirma.Web.Views.PerformanceMeasure;
+using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class OrganizationAccomplishmentsViewData
+    public class ParticipatingOrganizationsViewData : FirmaUserControlViewData
     {
-        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
-        public string ProjectStewardOrLeadImplementorFieldDefinitionName { get; }
-        public Models.TaxonomyTierTwo TaxonomyTierTwo { get; }
+        public List<IGrouping<Models.Organization, ProjectOrganization>> Organizations { get; }
 
-        public OrganizationAccomplishmentsViewData(string projectStewardOrLeadImplementorFieldDefinitionName, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, Models.TaxonomyTierTwo taxonomyTierTwo)
+        public ParticipatingOrganizationsViewData(List<IGrouping<Models.Organization, ProjectOrganization>> organizations)
         {
-            ProjectStewardOrLeadImplementorFieldDefinitionName = projectStewardOrLeadImplementorFieldDefinitionName;
-            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
-            TaxonomyTierTwo = taxonomyTierTwo;
+            Organizations = organizations;
         }
     }
 }
