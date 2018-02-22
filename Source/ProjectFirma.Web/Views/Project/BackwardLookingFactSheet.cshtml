@@ -226,7 +226,8 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="container factSheet noPrint aboveFactSheet">
     <div class="pull-right">
         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
-        <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-print"></span> Print</a>
+        @*<a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-print"></span> Print</a>*@
+        <button class="btn btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
     </div>
 
 </div>
