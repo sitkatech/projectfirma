@@ -186,7 +186,7 @@
         }
     </style>
 
-    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print"/>
+    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
 
     <style type="text/css" media="print">
         .container .factSheet {
@@ -326,53 +326,58 @@
 
     <div class="row" style="padding-top: 20px;">
         <div class="col-md-6">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-            <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
-            @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
-            {
-                <table>
-                    @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="sectionTitle taxonomyTierThreeColor">Targeted Performance Measures</div>
+                    @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
                     {
-                        <tr>
-                            <td class="bullet">&bull;</td>
-                            <td>@eipPerformanceMeasureGroup.Key.PerformanceMeasureDisplayName</td>
-                        </tr>
-                    }
-                </table>
-            }
-            else
-            {
-                <div class="systemText">No Expected Accomplishments provided.</div>
-            }            
-        </div>
-        @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
-        {
-            <div class="col-md-3">
-                <div class="sectionTitle taxonomyTierThreeColor">@classificationSystem.ClassificationSystemNamePluralized</div>
-                <table>
-                    @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
-                    {
-                        foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
-                        {
-                            <tr>
-                                <td class="bullet">&bull;</td>
-                                <td style="padding-right: 50px">@classification.DisplayName</td>
-                            </tr>
-                        }
+                        <table>
+                            @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
+                            {
+                                <tr>
+                                    <td class="bullet">&bull;</td>
+                                    <td>@eipPerformanceMeasureGroup.Key.PerformanceMeasureDisplayName</td>
+                                </tr>
+                            }
+                        </table>
                     }
                     else
                     {
-                        <tr>
-                            <td colspan="2">
-                                No @classificationSystem.ClassificationSystemNamePluralized provided
-                            </td>
-                        </tr>
+                        <div class="systemText">No Expected Accomplishments provided.</div>
                     }
-
-                </table>
+                </div>
+                @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+                {
+                    <div class="col-xs-6">
+                        <div class="sectionTitle taxonomyTierThreeColor">@classificationSystem.ClassificationSystemNamePluralized</div>
+                        <table>
+                            @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
+                            {
+                                foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
+                                {
+                                    <tr>
+                                        <td class="bullet">&bull;</td>
+                                        <td style="padding-right: 50px">@classification.DisplayName</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        No @classificationSystem.ClassificationSystemNamePluralized provided
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
             </div>
+        </div>
 
-        }
         <div class="col-md-6">
             @if (ViewDataTyped.KeyPhoto != null)
             {
