@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Models
         public static HtmlString MakeDisabledSectionLink(string sectionLabel)
         {
             return BootstrapHtmlHelpers.MakeModalDialogAlertLink(string.Format("Unable to edit {0} until Basics are complete", sectionLabel),
-                string.Format("Unable to edit section {0}", sectionLabel),
+                string.Format("Unable to Edit {0}", sectionLabel),
                 "Close",
                 sectionLabel,
                 new List<string>{"disabledSection"});
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         public static HtmlString MakeDisabledSectionLinkForApprovedAndRejectedProjects(string sectionLabel)
         {
             return BootstrapHtmlHelpers.MakeModalDialogAlertLink("Unable to edit project through this wizard.",
-                string.Format("Unable to edit section {0}", sectionLabel),
+                string.Format("Unable to Edit {0}", sectionLabel),
                 "Close",
                 sectionLabel,
                 new List<string> { "disabledSection" });

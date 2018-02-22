@@ -19,39 +19,34 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Web;
-using ProjectFirma.Web.Models;
+using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public class FieldDefinitionDetailsViewData : FirmaUserControlViewData
     {
-        public readonly Models.FieldDefinition FieldDefinition;
-        private readonly FieldDefinitionData _fieldDefinitionData;
+        private readonly IFieldDefinitionData _fieldDefinitionData;
         public readonly bool ShowEditLink;
+        public readonly string EditUrl;
+        public readonly HtmlString DefaultDefinitionHtmlString;
+        public readonly string FieldDefinitionLabel;
 
-        public FieldDefinitionDetailsViewData(Models.FieldDefinition fieldDefinition, FieldDefinitionData fieldDefinitionData, bool showEditLink)
+        public FieldDefinitionDetailsViewData(IFieldDefinitionData fieldDefinitionData, bool showEditLink, string editUrl, HtmlString defaultDefinitionHtmlString, string fieldDefinitionLabel)
         {
-            FieldDefinition = fieldDefinition;
             _fieldDefinitionData = fieldDefinitionData;
             ShowEditLink = showEditLink;
+            EditUrl = editUrl;
+            DefaultDefinitionHtmlString = defaultDefinitionHtmlString;
+            FieldDefinitionLabel = fieldDefinitionLabel;
         }
 
-        public HtmlString GetFieldDefinition()
+        public HtmlString GetFieldDefinition(HtmlString defaultDefinitionHtmlString, string fieldDefinitionLabel)
         {
             if (_fieldDefinitionData != null && _fieldDefinitionData.FieldDefinitionDataValueHtmlString != null)
             {
                return _fieldDefinitionData.FieldDefinitionDataValueHtmlString;
             }
-            return FieldDefinition.DefaultDefinitionHtmlString ?? new HtmlString(string.Format("{0} not yet defined.", FieldDefinition.GetFieldDefinitionLabel()));
-        }
-
-        public string GetFieldDefinitionLabel()
-        {
-            if (_fieldDefinitionData != null && !string.IsNullOrWhiteSpace(_fieldDefinitionData.FieldDefinitionLabel))
-            {
-               return _fieldDefinitionData.FieldDefinitionLabel;
-            }
-            return FieldDefinition.FieldDefinitionDisplayName;
+            return defaultDefinitionHtmlString ?? new HtmlString($"{fieldDefinitionLabel} not yet defined.");
         }
     }
 }

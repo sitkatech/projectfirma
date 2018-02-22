@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="SiteLayout.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="SiteLayout.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using LtInfo.Common.BootstrapWrappers
@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section JavascriptAndStylesContent
 {
-    
+
     <style>
         #main-container
         {
@@ -64,28 +64,34 @@ Source code is available upon request via <support@sitkatech.com>.
             @foreach (var projectCreateSection in ViewDataTyped.ProjectCreateSections)
             {
                 <li class="@(ViewDataTyped.CurrentSection == projectCreateSection ? "selected" : "selectable")">
-                    
-                        @if ((projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard) || projectCreateSection == ProjectCreateSection.Instructions)
-                        {
-                            <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
-                               class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
-                                @if (projectCreateSection.HasCompletionStatus)
-                                {
-                                    <span class="pull-right statusIcon">
-                                        @Html.Raw(projectCreateSection.IsComplete(ViewDataTyped.Project) ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                                    </span>
-                                }
-                                @projectCreateSection.ProjectCreateSectionDisplayName
-                            </a>
-                        }
-                        else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                        {
-                            @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.ProjectCreateSectionDisplayName)
-                        }
-                        else
-                        {
-                            @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.ProjectCreateSectionDisplayName)
-                        }
+
+                    @if (projectCreateSection == ProjectCreateSection.Instructions)
+                    {
+                        <a href="@(ViewDataTyped.ProposalInstructionsUrl ?? projectCreateSection.GetSectionUrl(ViewDataTyped.Project))">
+                            @projectCreateSection.ProjectCreateSectionDisplayName
+                        </a>
+                    }
+                    else if ((projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard))
+                    {
+                        <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
+                           class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                            @if (projectCreateSection.HasCompletionStatus)
+                            {
+                                <span class="pull-right statusIcon">
+                                    @Html.Raw(projectCreateSection.IsComplete(ViewDataTyped.Project) ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                                </span>
+                            }
+                            @projectCreateSection.ProjectCreateSectionDisplayName
+                        </a>
+                    }
+                    else if (!ViewDataTyped.ProjectStateIsValidInWizard)
+                    {
+                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.ProjectCreateSectionDisplayName)
+                    }
+                    else
+                    {
+                        @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.ProjectCreateSectionDisplayName)
+                    }
                 </li>
             }
         </ul>
@@ -120,10 +126,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-xs-6" style="padding-left: 0;">
                 <div class="pull-left">
-                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
+                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Proposal Details</a>
                     @if (ViewDataTyped.CurrentPersonIsSubmitter && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
                     {
-                        @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                     }
                 </div>
             </div>
@@ -134,7 +140,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         if (ViewDataTyped.CanAdvanceStage)
                         {
                             <span>
-                                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
+                                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, "Submit Proposal for review", 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                             </span>
                         }
                         else

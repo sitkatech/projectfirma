@@ -28,8 +28,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static Classification Create()
             {
-                var classification = Classification.CreateNewBlank();
-                classification.ClassificationName = MakeTestName("TestClassificationName", Classification.FieldLengths.ClassificationName);
+                var classification = Classification.CreateNewBlank(ClassificationSystem.CreateNewBlank());
                 classification.ClassificationDescription = MakeTestName("New ClassificationDescription");
                 classification.ThemeColor = "blue";
                 classification.DisplayName = "Test Classification Display Name";

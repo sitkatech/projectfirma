@@ -58,5 +58,14 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);
         }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ClassificationSystem(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
+        {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+
+            var viewData = new ClassificationSystemViewData(CurrentPerson, classificationSystem);
+            return RazorView<Views.ProgramInfo.ClassificationSystem, ClassificationSystemViewData>(viewData);
+        }
     }
 }

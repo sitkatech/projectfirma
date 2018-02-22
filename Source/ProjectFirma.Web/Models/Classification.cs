@@ -33,13 +33,7 @@ namespace ProjectFirma.Web.Models
             return ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals).ToList();
         }
 
-        public string KeyImageUrlLarge
-        {
-            get
-            {
-                return this.KeyImageFileResource != null ? KeyImageFileResource.FileResourceUrlScaledForPrint : "http://placehold.it/280x210";
-            }
-        }
+        public string KeyImageUrlLarge => KeyImageFileResource != null ? KeyImageFileResource.FileResourceUrlScaledForPrint : "http://placehold.it/280x210";
 
         public string GetDeleteUrl()
         {
@@ -57,9 +51,6 @@ namespace ProjectFirma.Web.Models
             return classification == null;
         }
 
-        public string AuditDescriptionString
-        {
-            get { return ClassificationName; }
-        }
+        public string AuditDescriptionString => DisplayName;
     }
 }

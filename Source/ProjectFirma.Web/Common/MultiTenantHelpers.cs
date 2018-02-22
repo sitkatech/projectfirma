@@ -157,5 +157,9 @@ namespace ProjectFirma.Web.Common
         {
             return !string.IsNullOrWhiteSpace(HttpRequestStorage.Tenant.GetTenantAttribute().MapServiceUrl);
         }
+        public static List<ClassificationSystem> GetClassificationSystems()
+        {
+            return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+        }
     }
 }

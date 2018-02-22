@@ -520,16 +520,16 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Classification \"{0}\" in Audit Log database entries.", testClassification.ClassificationName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testClassification.ClassificationName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Classification \"{0}\" in Audit Log database entries.", testClassification.DisplayName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testClassification.DisplayName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newClassificationName = TestFramework.MakeTestName("New Classification", Classification.FieldLengths.ClassificationName);
+            var newClassificationName = TestFramework.MakeTestName("New Classification", Classification.FieldLengths.DisplayName);
             var newClassificationDescription = TestFramework.MakeTestName("New ClassificationDescription");
-            testClassification.ClassificationName = newClassificationName;
+            testClassification.DisplayName = newClassificationName;
             testClassification.ClassificationDescription = newClassificationDescription;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 

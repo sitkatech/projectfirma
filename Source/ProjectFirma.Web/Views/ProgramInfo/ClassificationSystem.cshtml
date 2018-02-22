@@ -1,0 +1,180 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProgramInfo.ClassificationSystem
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<style>
+
+    /* centered columns styles */
+    .row-centered {
+        text-align: center;
+    }
+
+    .col-centered {
+        display: inline-block;
+        float: none;
+        /* reset the text-align */
+        text-align: left;
+        /* inline-block space fix */
+        margin-right: -4px;
+    }
+
+    .classification {
+        position: relative;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .image {
+        display: block;
+        width: 80%;
+        height: 180px;
+        margin: 0 auto;
+        border-radius: 4px;
+        filter: brightness(70%)
+    }
+
+    .dark-overlay {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .visibleText {
+        position: absolute;
+        top: 25%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 1;
+        transition: .5s ease;
+    }
+
+    .classification h3 {
+        color: white;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 20px;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    .classification p {
+        color: white;
+    }
+
+    .classification:hover .visibleText {
+        opacity: 0;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 74%;
+        opacity: 0;
+        transition: .5s ease;
+        margin: 0 auto;
+        border-radius: 4px;
+        padding: 0 5px;
+    }
+
+    .classification:hover .overlay {
+        opacity: 1;
+    }
+</style>
+
+@if (ViewDataTyped.ShowEditButton)
+{
+    <div class="firmaPageContent" style="position: relative; min-height: 30px;">
+        <div class="hoverEditButton">
+            <div style="margin-top: 10px">
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.ClassificationSystem.ClassificationSystemName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)
+            </div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContent))
+        {
+            @Html.Raw(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContentHtmlString)
+        }
+        else
+        {
+            <div class="hoverEmptySpace"></div>
+        }
+    </div>
+}
+else
+{
+    <div>
+        @Html.Raw(ViewDataTyped.ClassificationSystem.ClassificationSystemListPageContentHtmlString)
+    </div>
+}
+
+<div class="row row-centered">
+    @foreach (var classification in ViewDataTyped.Classifications)
+    {
+        <div class="col-md-4 col-sm-6 classification col-centered">
+            <a href="@classification.GetDetailUrl()" class="taphover">
+                @if (classification.KeyImageFileResource != null)
+                {
+                    <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail(150)" alt="Key Image" class="image">
+                }
+                else
+                {
+                    <div class="image" style="background-color: @classification.ThemeColor"></div>
+                }
+
+                <div class="visibleText">
+                    <h3>@classification.DisplayName</h3>
+                    <p>@classification.ProjectClassifications.Select(x => x.Project).Count() Projects</p>
+                </div>
+                <div class="overlay" style="background-color: @classification.ThemeColor">
+                    <h3>@classification.DisplayName</h3>
+                    <p class="introText">@classification.ClassificationDescription.ToEllipsifiedStringClean(180)</p>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    jQuery('a.taphover').on("touchstart", function (e) {
+        "use strict";
+        var link = $(this); //preselect the link
+        if (link.hasClass('hover')) {
+            return true;
+        } else {
+            link.addClass("hover");
+            $('a.taphover').not(this).removeClass("hover");
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
+

@@ -19,38 +19,35 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using LtInfo.Common;
+using System.Linq;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Classification
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly List<Models.Classification> Classifications;
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
-            PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            Classifications = classifications;
+            PageTitle = classificationSystem.ClassificationSystemNamePluralized;
 
-            GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem)
             {
-                ObjectNameSingular = Models.FieldDefinition.Classification.GetFieldDefinitionLabel(),
-                ObjectNamePlural = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(),
+                ObjectNameSingular = classificationSystem.ClassificationSystemName,
+                ObjectNamePlural = classificationSystem.ClassificationSystemNamePluralized,
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Classification"),
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem)), $"New {classificationSystem.ClassificationSystemName}"),
             };
 
             GridName = "classificationsGrid";
-            GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(classificationSystem));
         }
     }
 }

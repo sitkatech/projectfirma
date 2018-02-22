@@ -25,10 +25,10 @@ namespace ProjectFirma.Web.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Classification GetClassificationByClassificationeName(this IQueryable<Classification> classifications, string classificationName)
+        public static Classification GetClassificationByClassificationName(this IQueryable<Classification> classifications, string displayName)
         {
-            var classification = classifications.SingleOrDefault(x => x.ClassificationName == classificationName);
-            Check.RequireNotNullThrowNotFound(classification, FieldDefinition.Classification.GetFieldDefinitionLabel(), classificationName);
+            var classification = classifications.SingleOrDefault(x => x.DisplayName == displayName);
+            Check.RequireNotNullThrowNotFound(classification, FieldDefinition.Classification.GetFieldDefinitionLabel(), displayName);
             return classification;
         }
     }

@@ -45,19 +45,19 @@ namespace ProjectFirma.Web.Views.Classification
             : base(currentPerson)
         {
             Classification = classification;
-            PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
+            PageTitle = classification.ClassificationSystem.ClassificationSystemNamePluralized;
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
-            IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
 
             UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
+            ClassificationDisplayNamePluralized = classification.ClassificationSystem.ClassificationSystemNamePluralized;
+            ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with this {ClassificationDisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with this {ClassificationDisplayNamePluralized}",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
                 SaveFiltersInCookie = true
             };
 

@@ -39,46 +39,51 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ClassificationController : FirmaBaseController
     {
-        [PerformanceMeasureViewFeature]
-        public ViewResult Index()
+        [PerformanceMeasureManageFeature]
+        public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ClassificationsList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, HttpRequestStorage.DatabaseEntities.Classifications.ToList());
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var viewData = new IndexViewData(CurrentPerson, classificationSystem);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [PerformanceMeasureViewFeature]
-        public GridJsonNetJObjectResult<Classification> IndexGridJsonData()
+        [PerformanceMeasureManageFeature]
+        public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson));
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.Classifications.ToList().OrderBy(x => x.ClassificationName).ToList();
-            return new GridJsonNetJObjectResult<Classification>(taxonomyTierOnes, gridSpec);
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
+            var classifications = classificationSystem.Classifications.ToList();
+            return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 
         [HttpGet]
         [PerformanceMeasureManageFeature]
-        public PartialViewResult New()
+        public PartialViewResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var viewModel = new EditViewModel();
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, classificationSystem);
         }
 
         [HttpPost]
         [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditViewModel viewModel)
+        public ActionResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditViewModel viewModel)
         {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, classificationSystem);
             }
-            var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty);
+            
+            var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
             viewModel.UpdateModel(classification, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(
-                $"New {FieldDefinition.Classification.GetFieldDefinitionLabel()} {classification.GetDisplayNameAsUrl()} successfully created!");
+                $"New {classificationSystem.ClassificationSystemName} {classification.GetDisplayNameAsUrl()} successfully created!");
 
             return new ModalDialogFormJsonResult();
         }
@@ -89,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(classification);
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, classification.ClassificationSystem);
         }
 
         [HttpPost]
@@ -97,18 +102,19 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ClassificationPrimaryKey classificationPrimaryKey, EditViewModel viewModel)
         {
+            var classification = classificationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, classification.ClassificationSystem);
             }
-            var classification = classificationPrimaryKey.EntityObject;
+            
             viewModel.UpdateModel(classification, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
-        {
-            var viewData = new EditViewData();
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem)
+        {            
+            var viewData = new EditViewData(classificationSystem);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -125,8 +131,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !classification.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinition.Classification.GetFieldDefinitionLabel()} '{classification.DisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinition.Classification.GetFieldDefinitionLabel(), SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
+                ? $"Are you sure you want to delete this {classification.ClassificationSystem.ClassificationSystemName} '{classification.DisplayName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(classification.ClassificationSystem.ClassificationSystemName, SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

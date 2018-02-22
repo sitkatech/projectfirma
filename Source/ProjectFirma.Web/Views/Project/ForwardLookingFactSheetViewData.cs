@@ -52,9 +52,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly string TaxonomyTierOneName;
-        private readonly string TaxonomyTierTwoName;
-        public readonly string ClassificationDisplayNamePluralized;
-        
+        public readonly string TaxonomyTierTwoName;
+
+
         public ForwardLookingFactSheetViewData(Person currentPerson,
             Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -110,8 +110,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-
+            
             SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
                 ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
                 : "?";

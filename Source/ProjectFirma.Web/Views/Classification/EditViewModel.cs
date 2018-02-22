@@ -97,9 +97,8 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (KeyImageFileResourceData != null && KeyImageFileResourceData.ContentLength > MaxImageSizeInBytes)
             {
-                var errorMessage = String.Format("Logo is too large - must be less than {0}. Your logo was {1}.",
-                    FileUtility.FormatBytes(MaxImageSizeInBytes),
-                    FileUtility.FormatBytes(KeyImageFileResourceData.ContentLength));
+                var errorMessage =
+                    $"Image is too large - must be less than {FileUtility.FormatBytes(MaxImageSizeInBytes)}. Your image was {FileUtility.FormatBytes(KeyImageFileResourceData.ContentLength)}.";
                 validationResults.Add(
                     new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.KeyImageFileResourceData));
             }

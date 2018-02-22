@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Models
         public override bool IsComplete(Project project)
         {
             var projectClassificationSimples = project.ProjectClassifications
-                .Select(x => new ProjectClassificationSimple(x.ProjectClassificationID,project.ProjectID, x.ClassificationID, x.ProjectClassificationNotes, true)).ToList();
+                .Select(x => new ProjectClassificationSimple(x.ProjectClassificationID,project.ProjectID, x.Classification.ClassificationSystemID, x.ClassificationID, x.ProjectClassificationNotes, true)).ToList();
 
             var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples).GetValidationResults();
             return !classificationValidationResults.Any();

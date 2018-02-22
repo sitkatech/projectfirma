@@ -34,7 +34,10 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"Non-Lead Implementing {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
-            AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
+            MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
+                {
+                    AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.DisplayName)));
+                });
             AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);

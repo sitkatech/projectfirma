@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views.Shared
@@ -36,6 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {
     <style>
+
         .factSheet {
             background-color: #fff;
             margin-left: auto;
@@ -286,48 +287,60 @@ Source code is available upon request via <support@sitkatech.com>.
         @ViewDataTyped.TaxonomyTierTwoName &gt;
         @ViewDataTyped.TaxonomyTierOneName
     </div>
-
-
-    <div class="row" style="padding-top: 20px;">
+    <div class="row" style="padding-top: 10px">
         <div class="col-md-6">
-            <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
-            <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
-            @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
-            {
-                <table>
-                    @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="white-space: normal; text-overflow: ellipsis; overflow-y: hidden; max-height: ">@ViewDataTyped.Project.ProjectDescription</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
+                    @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                     {
-                        <tr>
-                            <td class="bullet">&bull;</td>
-                            <td>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</td>
-                        </tr>
-                    }
-                </table>
-            }
-            else
-            {
-                <p>Accomplishments to be provided upon completion of project.</p>
-            }
-            <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
-            @if (ViewDataTyped.Project.ProjectClassifications.Any())
-            {
-                <table>
-                    @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
-                    {
-                        <tr>
-                            @foreach (var classification in classificationBatch)
+                        <table>
+                            @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                             {
-                                <td class="bullet">&bull;</td>
-                                <td style="padding-right: 50px">@classification.DisplayName</td>
+                                <tr>
+                                    <td class="bullet">&bull;</td>
+                                    <td>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</td>
+                                </tr>
                             }
-                        </tr>
+                        </table>
                     }
-                </table>
-            }
-            else
-            {
-                <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
-            }
+                    else
+                    {
+                        <p>Accomplishments to be provided upon completion of project.</p>
+                    }
+                </div>
+                @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+                {
+                    <div class="col-xs-6">
+                        <div class="sectionTitle taxonomyTierThreeColor">@classificationSystem.ClassificationSystemNamePluralized</div>
+
+                        <table>
+                            @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
+                            {
+                                foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
+                                {
+                                    <tr>
+                                        <td class="bullet">&bull;</td>
+                                        <td style="padding-right: 50px">@classification.DisplayName</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        No @classificationSystem.ClassificationSystemNamePluralized provided
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+
+                }
+            </div>
         </div>
         <div class="col-md-6">
             @if (ViewDataTyped.KeyPhoto != null)
@@ -359,12 +372,12 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="sectionTitle taxonomyTierThreeColor">@FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()</div>
                 <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
                 <script type="text/javascript">
-                    jQuery(document).ready(function() {
-                        var projectLocationSummaryMapInitJson =
-                            @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
-                        var projectFirmaMap =
-                            new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
-                    });
+                jQuery(document).ready(function() {
+                    var projectLocationSummaryMapInitJson =
+                        @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
+                    var projectFirmaMap =
+                        new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
+                });
                 </script>
             </div>
         </div>
@@ -427,3 +440,4 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="pull-left onlyOnPrint"><hr />Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
     </div>
 </div>
+

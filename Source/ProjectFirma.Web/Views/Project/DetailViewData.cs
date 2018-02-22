@@ -44,7 +44,6 @@ namespace ProjectFirma.Web.Views.Project
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
-        public string EditClassificationsUrl { get; }
         public string EditWatershedsUrl { get; }
         public string EditSimpleProjectLocationUrl { get; }
         public string EditDetailedProjectLocationUrl { get; }
@@ -81,8 +80,6 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectNotificationGridName { get; }
         public string ProjectNotificationGridDataUrl { get; }
 
-        public string ClassificationDisplayName { get; }
-        public string ClassificationDisplayNamePluralized { get; }
         public string EditProjectWatershedFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
@@ -95,6 +92,7 @@ namespace ProjectFirma.Web.Views.Project
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
+        public List<Models.ClassificationSystem> ClassificationSystems { get; }
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -110,11 +108,11 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
-            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, string editClassificationsUrl,
+            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl,
             string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
-            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData)
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -221,7 +219,6 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
-            EditClassificationsUrl = editClassificationsUrl;
             EditWatershedsUrl = editWatershedsUrl;
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
@@ -248,11 +245,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
-
-            ClassificationDisplayNamePluralized =
-                Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
-
+           
             EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
 
             ProjectStewardCannotEditUrl =
@@ -260,6 +253,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStewardCannotEditPendingApprovalUrl =
                 SitkaRoute<ProjectController>.BuildUrlFromExpression(c =>
                     c.ProjectStewardCannotEditPendingApproval(project));
+
+            ClassificationSystems = classificationSystems;
         }
     }
 }

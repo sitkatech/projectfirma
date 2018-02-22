@@ -26,6 +26,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -56,8 +57,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType, bool showProjectStageDropDown)
-            : base(currentPerson, ProjectCreateSection.Basics)
+            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, 
+            RelationshipType approverRelationshipType, 
+            RelationshipType primaryContactRelationshipType, 
+            bool showProjectStageDropDown,
+            string instructionsPageUrl)
+            : base(currentPerson, ProjectCreateSection.Basics, instructionsPageUrl)
         {
             // This consstructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;

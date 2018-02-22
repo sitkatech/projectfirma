@@ -1,0 +1,69 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditBasics.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using System.Web.UI.WebControls
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Tenant
+@inherits EditClassificationSystems
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+    var i = 0;
+<div class="form-horizontal">
+    @Html.HiddenFor(m => m.TenantID)
+   
+    <div class="row">
+        <div class="col-md-12">            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>@Html.LabelWithSugarFor(FieldDefinition.ClassificationSystemName, "Name")</th>
+                        <th>@Html.Label("Definition")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var classificationSystem in Model.ClassificationSystemSimples)
+                    {
+                        <tr>
+                            <td style="width: 200px">
+                                <input type="text" style="display: inline;" name="@Html.NameFor(m => m.ClassificationSystemSimples[i].ClassificationSystemName)" class="form-control" value="@Model.ClassificationSystemSimples[i].ClassificationSystemName" />
+                                @Html.HiddenFor(m => m.ClassificationSystemSimples[i].ClassificationSystemID)
+                                @Html.HiddenFor(m => m.ClassificationSystemSimples[i].CanDelete)
+                            </td>
+                            <td>@Html.CkEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, CkEditorExtension.CkEditorToolbar.Minimal, true, false, null, 50)</td>
+                        </tr>
+                        i++;
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>

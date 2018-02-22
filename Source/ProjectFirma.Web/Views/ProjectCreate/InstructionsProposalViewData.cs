@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 
@@ -29,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsProposalViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions)
+        public InstructionsProposalViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions, SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
         {
             PageTitle = "Propose Project";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);

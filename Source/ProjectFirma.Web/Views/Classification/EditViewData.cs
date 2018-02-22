@@ -18,9 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Views.Classification
 {
     public class EditViewData : FirmaUserControlViewData
     {
+        public Models.ClassificationSystem ClassificationSystem { get; }
+
+        public EditViewData(Models.ClassificationSystem classificationSystem)
+        {
+            ClassificationSystem = classificationSystem;
+        }
     }
 }

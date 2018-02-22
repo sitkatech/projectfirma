@@ -241,17 +241,17 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool showProposals)
+        private static Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(bool showProposals)
         {
             var projectLocationFilterTypesAndValues =
-                new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
+                new Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>>();
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 var taxonomyTierThreesAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.AsEnumerable().ToSelectList(
                         x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree,
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierThree),
                     taxonomyTierThreesAsSelectListItems);
             }
 
@@ -260,25 +260,21 @@ namespace ProjectFirma.Web.Controllers
                 var taxonomyTierTwosAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.AsEnumerable().ToSelectList(
                         x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo,
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierTwo),
                     taxonomyTierTwosAsSelectListItems);
             }
 
             var taxonomyTierOnesAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.AsEnumerable().ToSelectList(
                     x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne,
+            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierOne),
                 taxonomyTierOnesAsSelectListItems);
 
-            var classificationsAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.Classifications.AsEnumerable().ToSelectList(
-                    x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification,
-                classificationsAsSelectListItems);
-
+            var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.DisplayName}" : x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, string.Join(" & ", MultiTenantHelpers.GetClassificationSystems().Select(x => x.ClassificationSystemName).ToList())), classificationsAsSelectList);
 
             var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(showProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
+            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.ProjectStage), projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
         }

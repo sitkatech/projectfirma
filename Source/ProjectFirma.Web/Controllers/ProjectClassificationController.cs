@@ -35,22 +35,24 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [ProjectEditAsAdminFeature]
-        public PartialViewResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey, ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectClassificationSimples = GetProjectClassificationSimples(project);
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var projectClassificationSimples = GetProjectClassificationSimples(project, classificationSystem);
 
             var viewModel = new EditProjectClassificationsForProjectViewModel(projectClassificationSimples);
-            return ViewEditProjectClassificationsForProject(project, viewModel);
+            return ViewEditProjectClassificationsForProject(project,classificationSystem, viewModel);
         }
 
-        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(Project project)
+        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(Project project,
+            ClassificationSystem classificationSystem)
         {
-            var selectedProjectClassifications = project.ProjectClassifications;
+            var selectedProjectClassifications = project.ProjectClassifications.Where(x => x.Classification.ClassificationSystem == classificationSystem);
 
             //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple {ClassificationID = x.ClassificationID}).ToList();
+                HttpRequestStorage.DatabaseEntities.Classifications.ToList().Where(x => x.ClassificationSystem == classificationSystem).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple {ClassificationID = x.ClassificationID}).ToList();
 
             foreach (var selectedClassification in selectedProjectClassifications)
             {
@@ -66,12 +68,13 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectClassificationsForProjectViewModel viewModel)
+        public ActionResult EditProjectClassificationsForProject(ProjectPrimaryKey projectPrimaryKey, ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditProjectClassificationsForProjectViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditProjectClassificationsForProject(project, viewModel);
+                return ViewEditProjectClassificationsForProject(project, classificationSystem, viewModel);
             }
             var currentProjectClassifications = viewModel.ProjectClassificationSimples;
             HttpRequestStorage.DatabaseEntities.ProjectClassifications.Load();
@@ -80,10 +83,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        private PartialViewResult ViewEditProjectClassificationsForProject(Project project, EditProjectClassificationsForProjectViewModel viewModel)
-        {
-            var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();            
-            var viewData = new EditProjectClassificationsForProjectViewData(project, allClassifications);
+        private PartialViewResult ViewEditProjectClassificationsForProject(Project project, ClassificationSystem classificationSystem, EditProjectClassificationsForProjectViewModel viewModel)
+        {             
+            var viewData = new EditProjectClassificationsForProjectViewData(project, classificationSystem);
             return RazorPartialView<EditProjectClassificationsForProject, EditProjectClassificationsForProjectViewData, EditProjectClassificationsForProjectViewModel>(viewData, viewModel);}
 
     }

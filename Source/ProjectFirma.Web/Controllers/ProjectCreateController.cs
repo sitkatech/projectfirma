@@ -122,26 +122,27 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal)
+        public ActionResult CreateAndEditBasics(bool newProjectIsProposal)
         {
-            var showProjectStageDropDown = true;
             var basicsViewModel = new BasicsViewModel();
-            if (newProjectIsProposal.HasValue && newProjectIsProposal.Value)
+            if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
-                showProjectStageDropDown = false;
             }
             
-            return ViewCreateAndEditBasics(basicsViewModel, null, showProjectStageDropDown);
+            return ViewCreateAndEditBasics(basicsViewModel, null, !newProjectIsProposal);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool showProjectStageDropDown)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool newProjectIsHistoric)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), showProjectStageDropDown);
+            var instructionsPageUrl = newProjectIsHistoric
+                ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
+                : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), newProjectIsHistoric, instructionsPageUrl);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -172,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CreateAndEditBasics(bool? newProjectIsProposal, BasicsViewModel viewModel)
+        public ActionResult CreateAndEditBasics(bool newProjectIsProposal, BasicsViewModel viewModel)
         {
             var project = new Project(viewModel.TaxonomyTierOneID,
                 viewModel.ProjectStageID,
@@ -531,9 +532,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var selectedProjectClassifications = project.ProjectClassifications;
 
-            //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
+                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
+                {
+                    ClassificationID = x.ClassificationID,
+                    ClassificationSystemID = x.ClassificationSystemID,
+                    ProjectID = project.ProjectID
+                }).ToList();
  
             foreach (var selectedClassification in selectedProjectClassifications)
             {
@@ -547,11 +552,11 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditClassifications(Project project, EditProposalClassificationsViewModel viewModel)
         {
-            var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(p => p.ClassificationSystemName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassifications, ProjectCreateSection.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassificationSystems, ProjectCreateSection.Classifications, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 

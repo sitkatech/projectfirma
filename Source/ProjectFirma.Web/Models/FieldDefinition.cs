@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FieldDefinition : IFieldDefinition
     {
-        private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
+        public static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
 
         public bool HasDefinition()
         {

@@ -58,12 +58,12 @@
         <MappingFragment StoreEntitySet="Classification">
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ClassificationName" ColumnName="ClassificationName" />
           <ScalarProperty Name="ClassificationDescription" ColumnName="ClassificationDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
+          <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -75,6 +75,17 @@
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassificationSystem">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationSystem">
+        <MappingFragment StoreEntitySet="ClassificationSystem">
+          <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ClassificationSystemName" ColumnName="ClassificationSystemName" />
+          <ScalarProperty Name="ClassificationSystemDefinition" ColumnName="ClassificationSystemDefinition" />
+          <ScalarProperty Name="ClassificationSystemListPageContent" ColumnName="ClassificationSystemListPageContent" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

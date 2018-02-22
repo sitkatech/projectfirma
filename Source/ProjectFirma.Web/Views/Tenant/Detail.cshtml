@@ -21,10 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Tenant.Detail
@@ -101,7 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7" style="overflow-x: hidden;">
                         @if (ViewDataTyped.TenantAttribute.MapServiceUrl != null)
                         {
-                            <a href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
+                            <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
                                 @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
                                 @ViewDataTyped.TenantAttribute.MapServiceUrl
                             </a>
@@ -201,6 +204,39 @@ Source code is available upon request via <support@sitkatech.com>.
                 Default Map Extent
             </div>
             <div class="panel-body" id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @if (ViewDataTyped.IsCurrentTenant)
+    {
+            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+}
+                @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem)                
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>@Html.LabelWithSugarFor(FieldDefinition.ClassificationSystemName)</th>
+                        <th>@Html.Label("Description")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+                    {
+                        <tr>
+                            <td>@classificationSystem.ClassificationSystemName</td>
+                            <td>@Html.Raw(classificationSystem.ClassificationSystemDefinition)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>               
             </div>
         </div>
     </div>
