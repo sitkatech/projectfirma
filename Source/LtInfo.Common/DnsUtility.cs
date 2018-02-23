@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace LtInfo.Common
 {
@@ -28,22 +29,43 @@ namespace LtInfo.Common
     /// </summary>
     public static class DnsUtility
     {
-        private delegate IPHostEntry GetHostEntryHandler(string ip);
         public static string GetReverseDns(IPAddress ipAddress)
         {
-            return GetReverseDns(ipAddress, TimeSpan.FromMilliseconds(250));
+            return GetReverseDns(ipAddress, TimeSpan.FromSeconds(5));
         }
 
-        public static string GetReverseDns(IPAddress ipAddress, TimeSpan timeout)
+        internal static string GetReverseDns(IPAddress ipAddress, TimeSpan timeout)
         {
-            var callback = new GetHostEntryHandler(Dns.GetHostEntry);
-            var result = callback.BeginInvoke(ipAddress.ToString(), null, null);
+            var ipAddressAsString = ipAddress.ToString().Trim();
+            var fnDnsGetHostEntry = new Func<string, string>(DnsGetHostEntry);
+            var result = fnDnsGetHostEntry.BeginInvoke(ipAddressAsString, null, null);
             if (result.AsyncWaitHandle.WaitOne(timeout, false))
             {
-                return callback.EndInvoke(result).HostName;
+                return fnDnsGetHostEntry.EndInvoke(result);
             }
+            return ipAddressAsString;
+        }
 
-            return ipAddress.ToString().Trim();
+        private static string DnsGetHostEntry(string ipAddress)
+        {
+            string returnString;
+            try
+            {
+                var ipHostEntry = Dns.GetHostEntry(ipAddress);
+                returnString = ipHostEntry.HostName;
+            }
+            catch (SocketException)
+            {
+                // *ANY* socket exception problem means we drop back to just the IP address. (We started out originally with trying to trap a particular error message by string,
+                // but others errors started to trouble us so we've given up that for now.) -- SLG 2/15/2018
+
+                // By the way, if you DON'T trap an error here, the end user will see a yellow-screen-of-death, like this:
+                // https://support.sitkatech.com/fogbugz/default.asp?50012#234241
+
+                // So if you find yourself wondering about this code, you may need to widen the catch above to more (all?) exceptions.
+                returnString = ipAddress;
+            }
+            return returnString;
         }
     }
 }
