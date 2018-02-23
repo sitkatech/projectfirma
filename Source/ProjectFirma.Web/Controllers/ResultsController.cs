@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ResultsController : FirmaBaseController
     {
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
@@ -113,20 +113,17 @@ namespace ProjectFirma.Web.Controllers
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
 
-            var performanceMeasures = projects
-                .Where(x => x.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwoID)
-                .SelectMany(x => x.PerformanceMeasureActuals)
-                .Select(x => x.PerformanceMeasure).Distinct()
-                .OrderBy(x => x.PerformanceMeasureDisplayName)
-                .ToList();
+            var taxonomyTierTwo =HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID);
+
+            var performanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
             var projectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
                 ? FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
                 : "Lead Implementer";
             var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
 
-            var taxonomyTierTwo =
-                HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID);
+            
             var viewData = new OrganizationAccomplishmentsViewData(projectStewardOrLeadImplementorFieldDefinitionName, performanceMeasureChartViewDatas, taxonomyTierTwo);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
         }
