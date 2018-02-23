@@ -115,15 +115,14 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyTierTwo =HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID);
 
-            var performanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
+            var performanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
+
             var projectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
                 ? FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
                 : "Lead Implementer";
-            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
-
-            
+                       
             var viewData = new OrganizationAccomplishmentsViewData(projectStewardOrLeadImplementorFieldDefinitionName, performanceMeasureChartViewDatas, taxonomyTierTwo);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
         }
