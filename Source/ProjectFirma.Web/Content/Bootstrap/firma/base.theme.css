@@ -1188,3 +1188,12 @@ td.stage {
     font-size: 2em;
   }
 }
+.organizationBannerLayout .logoImage {
+  max-height: 100px;
+}
+@media (min-width: 768px) {
+  .organizationBannerLayout .logoImage {
+    max-width: 135px;
+    max-height: 100px;
+  }
+}

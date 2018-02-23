@@ -53,10 +53,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
-<div class="row">
+<div class="row organizationBannerLayout">
     @foreach (var organization in ViewDataTyped.ProjectStewardOrganizations)
      {
-        <div class="col-xs-12 col-sm-4 list-group">
+        <div class="col-xs-12 col-sm-6 col-md-4 list-group">
             <a href="@organization.GetDetailUrl()" class="list-group-item">
                 <div class="row">
                     <div class="col-xs-5">
@@ -64,11 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             @if (organization.LogoFileResource != null)
                             {
                                 <img class="img-responsive" src="@organization.LogoFileResource.FileResourceUrl" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
-                            }
-                            else
-                            {
-                                <img class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
-                            }
+                            }                           
                         </figure>
                     </div>
                     <div class="col-xs-7">
