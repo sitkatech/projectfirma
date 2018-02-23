@@ -25,23 +25,19 @@
 
 @if (ViewDataTyped.Organizations.Any())
 {
-    <div class="row">
+    <div class="row organizationBannerLayout">
         @foreach (var organizationGrouping in ViewDataTyped.Organizations.OrderByDescending(x => x.Count()).ThenBy(x => x.Key.OrganizationName))
         {
 
-        <div class="col-xs-12 col-sm-4 list-group">
+        <div class="col-xs-12 col-sm-6 col-md-4 list-group">
             <a href="@organizationGrouping.Key.GetDetailUrl()" class="list-group-item">
                 <div class="row">
                     <div class="col-xs-5">
                         <figure style="text-align: center;">
                             @if (organizationGrouping.Key.LogoFileResource != null)
                             {
-                                <img class="img-responsive" src="@organizationGrouping.Key.LogoFileResource.FileResourceUrl" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
-                            }
-                            else
-                            {
-                                <img class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
-                            }
+                                <img class="img-responsive logoImage" src="@organizationGrouping.Key.LogoFileResource.FileResourceUrl" alt="Organization Logo">
+                            }                           
                         </figure>
                     </div>
                     <div class="col-xs-7">
@@ -57,8 +53,6 @@
                 </div>
             </a>
         </div>
-
-
         }
     </div>
 }

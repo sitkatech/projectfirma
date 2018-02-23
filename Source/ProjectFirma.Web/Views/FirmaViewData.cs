@@ -119,11 +119,7 @@ namespace ProjectFirma.Web.Views
         {
             var resultsMenu = new LtInfoMenuItem("Results");
 
-            if (new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson))
-            {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
-            }
-            
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson,
             //    $"Results by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map"));
