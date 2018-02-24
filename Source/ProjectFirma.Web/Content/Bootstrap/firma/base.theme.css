@@ -1197,3 +1197,45 @@ td.stage {
     max-height: 100px;
   }
 }
+.factSheet {
+  margin-top: 10px;
+  background-color: #fff;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.factSheet h1,
+.factSheet h2,
+.factSheet h3,
+.factSheet h4,
+.factSheet h5 {
+  font-family: "Open Sans", sans-serif;
+  margin-top: 5px;
+}
+.factSheet .section {
+  margin-top: 10px;
+}
+.factSheet .keyPhoto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.factSheet .keyPhoto img {
+  max-height: 400px;
+}
+.factSheet .captionText {
+  font-size: 12px;
+}
+.factSheet .fixedHeightPanel {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 450px;
+}
+.factSheet .projectTaxonomy {
+  margin: 15px 0;
+  padding: 5px 5px 5px 25px;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: none;
+  font-size: 18px;
+  -webkit-print-color-adjust: exact;
+}

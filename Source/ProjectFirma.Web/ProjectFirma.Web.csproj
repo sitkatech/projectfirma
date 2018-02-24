@@ -508,6 +508,12 @@
     <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
     <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
     <Compile Include="Controllers\TenantController.cs" />
+    <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\print.css">
+      <DependentUpon>print.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\print.min.css">
+      <DependentUpon>print.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\base.theme.css">
       <DependentUpon>base.theme.less</DependentUpon>
     </Content>
@@ -1425,7 +1431,7 @@
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cshtml" />
     <Content Include="Views\Results\AccomplishmentsDashboard.cshtml" />
     <Content Include="Views\Results\OrganizationAccomplishments.cshtml" />
-	<Content Include="Views\Results\ParticipatingOrganizations.cshtml" />
+    <Content Include="Views\Results\ParticipatingOrganizations.cshtml" />
     <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
     <Reference Include="Antlr3.Runtime">
@@ -1812,7 +1818,6 @@
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\mixins\text-overflow.css" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\mixins\vendor-prefixes.css" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\normalize.css" />
-    <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\print.css" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\responsive-embed.css" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\theme.css" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\variables.css" />
@@ -2682,9 +2687,6 @@
     </Content>
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\normalize.css.map">
       <DependentUpon>normalize.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\print.css.map">
-      <DependentUpon>print.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\less\responsive-embed.css.map">
       <DependentUpon>responsive-embed.css</DependentUpon>

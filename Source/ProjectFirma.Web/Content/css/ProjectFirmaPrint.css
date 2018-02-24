@@ -1,4 +1,13 @@
-﻿header, footer, #menubar, nav, .noPrint {
+﻿*,
+*:before,
+*:after {
+    background: inherit !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+header, footer, #menubar, nav, .noPrint, .header {
     display: none;
     border: none;
 }
@@ -7,35 +16,18 @@ body {
     background: #fff;
     margin: 0;
     -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact;
+    color-adjust: exact;
 }
 
 h1, h2, h3, h4, h5, h6, code, pre {
     text-transform: none; /* because sometimes I set all-caps */
 }
 
-h1 {
-    font-size: 11pt;
-    margin-top: 1em;
-}
-
-h2 {
-    font-size: 10pt;
-}
-
-h3 {
-    font-size: 9pt;
-}
-
-h4, h5, h6 {
-    font-size: 8pt;
-}
-
 a, a:after {
     content: normal !important;
 }
 
-.ltinfo #mainnavandcontent {
+#mainnavandcontent {
     border: none;
     border-radius: 0;
     box-shadow: none;
@@ -54,6 +46,10 @@ a, a:after {
 
 .glyphicon-edit, .helpicon {
     display: none;
+}
+
+.container {
+    width: 1110px;
 }
 
 .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {

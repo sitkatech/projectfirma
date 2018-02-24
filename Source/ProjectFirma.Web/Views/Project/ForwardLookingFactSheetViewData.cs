@@ -29,6 +29,7 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.Models;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
@@ -45,6 +46,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
         public readonly string SupportingAgenciesForDisplay;
+        public readonly string EstimatedTotalCost;
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
         public readonly string FactSheetPdfUrl;
@@ -113,8 +115,9 @@ namespace ProjectFirma.Web.Views.Project
             
             SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
                 ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
-                : "?";
-            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : "?";
+                : ViewUtilities.Unknown;
+            EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : ViewUtilities.Unknown;
+            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
         }
 
         public HtmlString LegendHtml
