@@ -1221,6 +1221,18 @@ td.stage {
 .factSheet .keyPhoto img {
   max-height: 400px;
 }
+.factSheet .projectDescription {
+  max-height: 312px;
+  display: block;
+  /* Fallback for non-webkit */
+  display: -webkit-box;
+  line-height: 24px;
+  -webkit-line-clamp: 13;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
 .factSheet .captionText {
   font-size: 12px;
 }

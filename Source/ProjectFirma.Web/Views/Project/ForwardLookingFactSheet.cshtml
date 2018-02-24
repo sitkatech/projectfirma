@@ -166,9 +166,9 @@
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="row">
                 <div class="col-xs-12">
-                    <div>@ViewDataTyped.Project.ProjectDescription</div>
+                    <div class="projectDescription">@ViewDataTyped.Project.ProjectDescription</div>
                 </div>
-                <div class="col-xs-12">
+                <div class="col-xs-12" style="margin-top: 10px">
                     <h4>Targeted Performance Measures</h4>
                     @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
                     {
@@ -254,7 +254,7 @@
                 }
                 else
                 {
-                    <div class="systemText">No Expected Funding sources identified provided.</div>
+                    <div class="systemText">No Expected Funding sources identified provided</div>
                 }
             </div>
         </div>
