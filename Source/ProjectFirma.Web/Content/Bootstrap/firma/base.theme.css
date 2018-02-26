@@ -1197,3 +1197,78 @@ td.stage {
     max-height: 100px;
   }
 }
+.factSheet {
+  margin-top: 10px;
+  background-color: #fff;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.factSheet h1,
+.factSheet h2,
+.factSheet h3,
+.factSheet h4,
+.factSheet h5 {
+  font-family: "Open Sans", sans-serif;
+  margin-top: 5px;
+}
+.factSheet .section {
+  margin-top: 10px;
+}
+.factSheet .keyPhoto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.factSheet .keyPhoto img {
+  max-height: 400px;
+}
+.factSheet .projectDescription {
+  max-height: 264px;
+  display: block;
+  /* Fallback for non-webkit */
+  display: -webkit-box;
+  line-height: 24px;
+  -webkit-line-clamp: 11;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.factSheet .captionText {
+  font-size: 12px;
+}
+.factSheet .locationPanel {
+  width: 450px;
+}
+.factSheet .chartPanel {
+  width: 450px;
+  padding: 0 10px;
+}
+.factSheet .chartPanel,
+.factSheet .locationPanel {
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  border: 2px solid #666;
+  border-radius: 4px;
+}
+@media print {
+  .factSheet .locationPanel {
+    width: 450px;
+  }
+}
+.factSheet .projectTaxonomy {
+  margin: 0 0 15px 0;
+  padding: 5px 5px 5px 25px;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: none;
+  font-size: 18px;
+  -webkit-print-color-adjust: exact;
+}
+.factSheet .headerPanel {
+  min-height: 240px;
+  padding-bottom: 10px;
+}
+.factSheet .headerPanel .row {
+  margin-bottom: 4px;
+}

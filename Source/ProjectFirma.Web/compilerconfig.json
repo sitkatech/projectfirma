@@ -26,5 +26,9 @@
   {
     "outputFile": "Content/qtip/jquery.qtip.es5.js",
     "inputFile": "Content/qtip/jquery.qtip.js"
+  },
+  {
+    "outputFile": "Content/Bootstrap/bootstrap-3.3.7/less/print.css",
+    "inputFile": "Content/Bootstrap/bootstrap-3.3.7/less/print.less"
   }
 ]

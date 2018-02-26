@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int ProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        [StringLength(Models.Project.FieldLengths.ProjectName)]
         [Required]
         public string ProjectName { get; set; }
 
