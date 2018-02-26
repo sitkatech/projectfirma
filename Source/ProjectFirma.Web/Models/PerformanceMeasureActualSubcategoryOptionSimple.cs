@@ -19,9 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Models
 {
