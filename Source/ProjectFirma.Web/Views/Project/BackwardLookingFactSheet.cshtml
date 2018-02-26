@@ -202,7 +202,7 @@
             else
             {
                 <div class="text-center">
-                    <p class="systemText">No Key Photo provided for this Project</p>
+                    <p class="systemText">No Key Photo provided</p>
                 </div>
             }
         </div>
@@ -237,7 +237,9 @@
                     }
                     else
                     {
-                        <div class="systemText">No expenditures provided</div>
+                        <div class="text-center">
+                            <p class="systemText">No expenditures provided</p>                    
+                        </div>
                     }
                 </div>
             </div>
@@ -277,5 +279,5 @@
             </div>
         }
     </div>
-    <div class="pull-left onlyOnPrint"><hr />Project Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-right onlyOnPrint"><hr />Project Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>

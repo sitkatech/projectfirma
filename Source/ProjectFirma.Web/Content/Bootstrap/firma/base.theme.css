@@ -1222,12 +1222,12 @@ td.stage {
   max-height: 400px;
 }
 .factSheet .projectDescription {
-  max-height: 312px;
+  max-height: 264px;
   display: block;
   /* Fallback for non-webkit */
   display: -webkit-box;
   line-height: 24px;
-  -webkit-line-clamp: 13;
+  -webkit-line-clamp: 11;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
