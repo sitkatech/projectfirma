@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Models
 {
@@ -46,7 +48,8 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasureActualSubcategoryOptionID = performanceMeasureActualSubcategoryOptionID;
             PerformanceMeasureActualID = performanceMeasureActualID;
-            PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
+            // It shouldn't ever happen that PerformanceMeasureSubcategoryOptionID is null in the database, but if it is it will come back as a -1 which will break validation on the front-end.
+            PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.IsRealPrimaryKeyValue(performanceMeasureSubcategoryOptionID) ? (int?)performanceMeasureSubcategoryOptionID : null;
             PerformanceMeasureID = performanceMeasureID;
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
@@ -58,7 +61,8 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasureActualSubcategoryOptionID = performanceMeasureActualSubcategoryOption.PerformanceMeasureActualSubcategoryOptionID;
             PerformanceMeasureActualID = performanceMeasureActualSubcategoryOption.PerformanceMeasureActualID;
-            PerformanceMeasureSubcategoryOptionID = performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
+            // It shouldn't ever happen that PerformanceMeasureSubcategoryOptionID is null in the database, but if it is it will come back as a -1 which will break validation on the front-end.
+            PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.IsRealPrimaryKeyValue(performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID) ? (int?)performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID : null;
             PerformanceMeasureID = performanceMeasureActualSubcategoryOption.PerformanceMeasureID;
             PerformanceMeasureSubcategoryID = performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID;
         }
