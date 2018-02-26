@@ -39,7 +39,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<IGrouping<Models.PerformanceMeasure, ProjectPerformanceMeasureReportingPeriodValue>> PerformanceMeasureReportedValues;
         public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly string ChartID;
-        //public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly Models.ProjectImage KeyPhoto;
         public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
         public readonly int ProjectImagesPerTimingGroup;
@@ -56,8 +55,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyTierOneDisplayName;
         public readonly Person PrimaryContactPerson;
 
-        public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson getProjectFactSheetGoogleChart,
-            List<GooglePieChartSlice> getExpenditureGooglePieChartSlices, List<string> chartColorRange) : base(currentPerson, project)
+        public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson projectFactSheetGoogleChart,
+            List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
@@ -88,7 +87,6 @@ namespace ProjectFirma.Web.Views.Project
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
-            //FundingSourceExpenditures = project.GetExpenditureGooglePieChartSlices();
             KeyPhoto = project.KeyPhoto;
             ProjectImagesExceptKeyPhotoGroupedByTiming =
                 project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
@@ -98,12 +96,12 @@ namespace ProjectFirma.Web.Views.Project
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
             Classifications = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
 
-            GoogleChartJson = getProjectFactSheetGoogleChart;
+            GoogleChartJson = projectFactSheetGoogleChart;
 
-            ExpenditureGooglePieChartSlices = getExpenditureGooglePieChartSlices;
+            ExpenditureGooglePieChartSlices = expenditureGooglePieChartSlices;
             ChartColorRange = chartColorRange;
             //Dynamically resize chart based on how much space the legend requires
-            CalculatedChartHeight = 435 - ExpenditureGooglePieChartSlices.Count * 19;
+            CalculatedChartHeight = 350 - ExpenditureGooglePieChartSlices.Count * 19;
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyTierOne == null)

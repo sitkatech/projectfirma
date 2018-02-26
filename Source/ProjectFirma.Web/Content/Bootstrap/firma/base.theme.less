@@ -1504,7 +1504,6 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
     .projectDescription {
         max-height: 312px;
-
         display: block; /* Fallback for non-webkit */
         display: -webkit-box;
         line-height: 24px;
@@ -1519,21 +1518,48 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
         font-size: 12px;
     }
 
-    .fixedHeightPanel {
-        width: 500px;
+
+    .locationPanel {
+        width: 450px;
+    }
+
+    .chartPanel {
+        width: 450px;
+        padding: 0 10px;
+    }
+
+    .chartPanel, .locationPanel {
         margin-left: auto;
         margin-right: auto;
-        height: 450px;
+        height: 400px;
+        border: 2px solid #666;
+        border-radius: 4px;
+    }
+
+
+    @media print {
+        .locationPanel {
+            width: 450px;
+        }
     }
 
     .projectTaxonomy {
-        margin: 15px 0;
+        margin: 0 0 15px 0;
         padding: 5px 5px 5px 25px;
         color: #ffffff !important;
         font-weight: bold;
         border: none;
         font-size: 18px;
         -webkit-print-color-adjust: exact;
+    }
+
+    .headerPanel {
+        min-height: 240px;
+        padding-bottom: 10px;
+
+        .row {
+            margin-bottom: 4px;
+        }
     }
 
     @media (min-width: 768px) {

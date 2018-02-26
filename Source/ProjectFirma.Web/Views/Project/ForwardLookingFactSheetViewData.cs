@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.Project
             FundingSourceRequestAmountGooglePieChartSlices = fundingSourceRequestAmountGooglePieChartSlices;
 
             //Dynamically resize chart based on how much space the legend requires
-            CalculatedChartHeight = 477 - (FundingSourceRequestAmountGooglePieChartSlices.Count <= 2
+            CalculatedChartHeight = 350 - (FundingSourceRequestAmountGooglePieChartSlices.Count <= 2
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 24
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
