@@ -30,5 +30,7 @@ namespace ProjectFirma.Web.Models
         {
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.FieldDefinitionDetailsForClassificationSystem(ClassificationSystemID));
         }
+
+        public bool HasClassifications => Classifications.Count > 0;
     }
 }
