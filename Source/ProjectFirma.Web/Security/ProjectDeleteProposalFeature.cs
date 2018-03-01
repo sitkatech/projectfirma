@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
             var permissionDeniedMessage = $"Project {contextModelObject.DisplayName} is not deletable by you";
-            if (new ProjectEditAsAdminFeature().HasPermission(person, contextModelObject).HasPermission)
+            if (new ProjectDeleteFeature().HasPermission(person, contextModelObject).HasPermission)
             {
                 return new PermissionCheckResult();
             }
