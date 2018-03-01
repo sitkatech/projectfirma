@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using LtInfo.Common.HtmlHelperExtensions;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -31,6 +32,6 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.FieldDefinitionDetailsForClassificationSystem(ClassificationSystemID));
         }
 
-        public bool HasClassifications => Classifications.Count > 0;
+        public bool HasClassifications => Classifications.Any();
     }
 }
