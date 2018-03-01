@@ -42,7 +42,7 @@
 
         @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
         {
-            <h3>@classificationSystem.ClassificationSystemNamePluralized</h3>
+            <h4>@Html.LabelWithSugarFor(classificationSystem)</h4>
             foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList())
             {
                 var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);

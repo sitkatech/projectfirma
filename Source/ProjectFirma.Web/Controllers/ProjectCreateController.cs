@@ -552,7 +552,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditClassifications(Project project, EditProposalClassificationsViewModel viewModel)
         {
-            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(p => p.ClassificationSystemName).ToList();
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList().Where(x => x.HasClassifications).OrderBy(p => p.ClassificationSystemName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 

@@ -24,6 +24,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
+using MoreLinq;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -82,11 +83,22 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!ProjectClassificationSimples.Any(x => x.Selected))
+            if (!ProjectClassificationSimples.Any())
             {
-                validationResults.Add(new ValidationResult(
-                    $"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} System."));
+                validationResults.Add(new ValidationResult($"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.ClassificationSystem.GetFieldDefinitionLabel()}"));
             }
+
+            ProjectClassificationSimples.Select(x => x.ClassificationSystemID).Distinct().ForEach(s =>
+            {
+                var classificationSystem =
+                    HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(s);
+                var selectedClassifications = ProjectClassificationSimples.Where(x => x.ClassificationSystemID == s && x.Selected);
+                if (!selectedClassifications.Any())
+                {
+                    validationResults.Add(new ValidationResult(
+                        $"You must select at least one {classificationSystem.ClassificationSystemName}"));
+                }
+            });
 
             var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
             foreach (var projectClassificationSimple in ProjectClassificationSimples)
