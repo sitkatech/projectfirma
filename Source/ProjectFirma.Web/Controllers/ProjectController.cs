@@ -793,18 +793,19 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var project = projectPrimaryKey.EntityObject;
             using (var outputFile = new DisposableTempFile())
             {
+                var pdfConversionSettings = new PDFUtility.PdfConversionSettings(new HttpCookieCollection()) { Zoom = 0.9 };
                 PDFUtility.ConvertURLToPDF(
                     new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlFromExpression()),
                     outputFile.FileInfo,
-                    new PDFUtility.PdfConversionSettings(new HttpCookieCollection()));
+                    pdfConversionSettings);
 
                 var fileContents = FileUtility.FileToString(outputFile.FileInfo);
                 Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
                 Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
 
-                Response.AddHeader("Content-Disposition", $"inline; filename={project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf");
+                var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
                 var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
-                return new FileContentResult(content, MediaTypeNames.Application.Pdf);
+                return File(content, "application/pdf", fileName);
             }
         }
     }

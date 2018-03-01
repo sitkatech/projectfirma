@@ -71,8 +71,7 @@
     <div style="margin: 15px 0;">
         <div class="pull-right">
             <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
-            <button class="btn btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
-            <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl" target="_blank"><span class="glyphicon glyphicon-file"></span> View PDF</a>
+            <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
 </div>
@@ -83,7 +82,6 @@
             <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
-            <p>@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet</p>
             <h2>@ViewDataTyped.Project.ProjectName</h2>
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
