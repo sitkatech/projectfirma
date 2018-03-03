@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Models
                     return Organization.OrganizationShortNameIfAvailable;
                 }
                 var organizationShortNameIfAvailable = $"({Organization.OrganizationShortNameIfAvailable})";
-                return $"{FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}";
+                return organizationShortNameIfAvailable.Length < 45 ? $"{FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}" : $"{FundingSourceName} {organizationShortNameIfAvailable}";
             }
         }
 
