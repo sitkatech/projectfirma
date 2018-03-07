@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
             PageTitle = taxonomyTierThree.DisplayName;
             EntityName = TaxonomyTierThreeDisplayName;
-            IndexUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
             UserHasTaxonomyTierThreeManagePermissions = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(CurrentPerson);
             UserHasProjectTaxonomyTierThreeExpenditureManagePermissions = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(currentPerson);
