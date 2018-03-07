@@ -161,9 +161,8 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
-                        MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
-                        FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
+                        MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()))
                 </h2>
             </div>
