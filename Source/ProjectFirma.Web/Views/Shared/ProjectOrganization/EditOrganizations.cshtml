@@ -73,9 +73,8 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     @*------------------------------------ Primary Contact Relationship Type (if there is one) and Primary Contact ------------------------------------*@
-
+    <br />
     <div ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">
-        <br />
         <div class="row">
             @*Relationship type and description*@
             <div class="col-md-12"><label ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName"></label><sup ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
@@ -125,7 +124,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </select>
                     </div>
                     <p class="help-block" ng-show="isPersonSelected(null)">
-                        Currently, this means <span ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).PrimaryContactPersonDisplayName"></span> will be the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()).
+                        Currently, this means <span ng-bind="primaryContactOrganizationPersonDisplayName(AngularViewData.PrimaryContactRelationshipTypeSimple)"></span> will be the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()).
                         <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null && primaryContactOrganizationHasNoPrimaryContact(AngularViewData.PrimaryContactRelationshipTypeSimple)">
                             Consider setting a @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) for <a href="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).DetailUrl}}" alt="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName}}" ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName"></a>.
                         </span>
