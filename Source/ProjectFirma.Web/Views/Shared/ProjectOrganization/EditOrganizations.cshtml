@@ -104,7 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="row">
-        <div class="col-md-12">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
+        <div class="col-md-12">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)</div>
     </div>
     <div class="row">
         <div class="col-md-4 col-md-push-8">
@@ -115,9 +115,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 @*Selectpicker*@
                 <div class="col-md-12">
                     <div class="input-group" style="width: 100%;">
-                        <select class="selectpicker" ng-model="PrimaryContactPersonID" data-width="100%" data-live-search="true" data-size="8">
-                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple != null" ng-value="null" selected>Use the {{AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName}}'s @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel())</option>
-                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple == null" ng-value="null" selected>Select One</option>
+                        <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
+                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple != null" value="null" ng-selected="isPersonSelected(null)">Use the {{AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName}}'s @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel())</option>
+                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple == null" value="null" ng-selected="isPersonSelected(null)">Select One</option>
                             <option ng-repeat="person in AngularViewData.AllPeople"
                                     ng-bind="person.FullNameWithOrgShortName"
                                     ng-value="person.PersonID"

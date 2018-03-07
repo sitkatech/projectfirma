@@ -177,6 +177,10 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         return primaryContactPersonId === personID;
     };
 
+    $scope.primaryContactPersonChange = function (personID) {
+        $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
+    }
+
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.selectedOrganizationID = {};
