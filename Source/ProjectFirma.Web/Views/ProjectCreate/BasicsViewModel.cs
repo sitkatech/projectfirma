@@ -66,10 +66,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
         public MoneyWholeNumber? EstimatedAnnualOperatingCost { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
-        public int? PrimaryContactPersonID { get; set; }
-
+      
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         [Required]
         public int FundingTypeID { get; set; }
@@ -87,8 +84,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
-            ProjectStageID = project.ProjectStageID;
-            PrimaryContactPersonID = project.PrimaryContactPersonID;
+            ProjectStageID = project.ProjectStageID;            
             FundingTypeID = project.FundingTypeID;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
@@ -121,7 +117,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
-            project.PrimaryContactPersonID = PrimaryContactPersonID;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

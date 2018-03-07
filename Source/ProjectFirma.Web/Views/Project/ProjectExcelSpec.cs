@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} ID", x => x.Organization.OrganizationID);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Name", x => x.Organization.OrganizationName);
-            AddColumn($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.PrimaryContactPersonWithOrgAsString);
+            AddColumn($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.PrimaryContactPersonWithOrgAsString);
             AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Relationship To {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x => x.RelationshipType.RelationshipTypeName);
         }

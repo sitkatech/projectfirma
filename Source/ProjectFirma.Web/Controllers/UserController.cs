@@ -126,8 +126,8 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{FieldDefinition.Project.GetFieldDefinitionLabel()} where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNameSingular = $"{FieldDefinition.Project.GetFieldDefinitionLabel()} where {person.FullNameFirstLast} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} where {person.FullNameFirstLast} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Controllers
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
-                        $@"You cannot inactive user '{person.FullNameFirstLast}' because {person.FirstName} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.PrimaryContactOrganizations.Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
+                        $@"You cannot inactive user '{person.FullNameFirstLast}' because {person.FirstName} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.PrimaryContactOrganizations.Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
                     $@"You cannot inactive user '{person.FullNameFirstLast}' because {
                             person.FirstName
-                        } is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for one or more {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}!");
+                        } is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for one or more {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}!");
             }
             if (!ModelState.IsValid)
             {

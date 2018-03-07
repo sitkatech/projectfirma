@@ -148,6 +148,35 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         return valid;
     };
 
+    $scope.getSelectedPrimaryContactOrganization = function (relationshipType) {
+
+        var selectedPrimaryContactOrganizationID =
+            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+                "RelationshipTypeID",
+                relationshipType.RelationshipTypeID).OrganizationID;
+
+        var selectedPrimaryContactOrganization =
+            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
+                "OrganizationID",
+                selectedPrimaryContactOrganizationID);
+
+        return selectedPrimaryContactOrganization;
+    }
+
+    $scope.primaryContactOrganizationHasNoPrimaryContact = function(relationshipType) {
+        return $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonID == null;
+    }
+
+    $scope.primaryContactOrganization = function (relationshipType) {
+        return $scope.getSelectedPrimaryContactOrganization(relationshipType);
+    }
+
+    $scope.isPersonSelected = function (personID) {
+        var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
+
+        return primaryContactPersonId === personID;
+    };
+
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.selectedOrganizationID = {};

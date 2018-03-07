@@ -20,22 +20,36 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
     public class EditOrganizationsViewData
     {
-        public readonly List<OrganizationSimple> AllOrganizations;
-        public readonly List<PersonSimple> AllPeople;
-        public readonly List<RelationshipTypeSimple> AllRelationshipTypes;
+        public List<OrganizationSimple> AllOrganizations { get; }
+        public List<PersonSimple> AllPeople { get; }
+        public List<RelationshipTypeSimple> AllRelationshipTypes { get; }
+        public RelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
+        public int? DefaultPrimaryContactPersonID { get; }
+        public string DefaultPrimaryContactPersonName { get; }
 
-        public EditOrganizationsViewData(IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes)
+        public EditOrganizationsViewData(IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
         {
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
             AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
-            AllRelationshipTypes = allRelationshipTypes.Select(x => new RelationshipTypeSimple(x)).ToList();
+
+            var primaryContactRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
+            PrimaryContactRelationshipTypeSimple = primaryContactRelationshipType != null
+                ? new RelationshipTypeSimple(primaryContactRelationshipType)
+                : null;
+            AllRelationshipTypes = allRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new RelationshipTypeSimple(x)).ToList();
+            DefaultPrimaryContactPersonID = defaultPrimaryContactPerson?.PersonID;
+            DefaultPrimaryContactPersonName = defaultPrimaryContactPerson?.FullNameFirstLastAndOrgShortName ?? "nobody";            
         }
     }
 }

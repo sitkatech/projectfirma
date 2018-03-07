@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
             
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Short Name", a => a.OrganizationShortName, 100);
-            Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
+            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAllActiveProjectsAndProposals(currentPerson).Count, 90);
             Add($"# of {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 150);
             Add("# of Users", a => a.People.Count, 90);

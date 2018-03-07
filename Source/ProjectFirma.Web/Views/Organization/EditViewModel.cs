@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Organization
         [Required]
         public int? OrganizationTypeID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationPrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
 
         [Url]

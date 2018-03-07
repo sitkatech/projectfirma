@@ -2484,8 +2484,9 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
-
-            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+            var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            
+            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
                 ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);

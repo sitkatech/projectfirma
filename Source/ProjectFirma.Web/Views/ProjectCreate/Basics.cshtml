@@ -90,33 +90,6 @@ Source code is available upon request via <support@sitkatech.com>.
         @Html.HiddenFor(m=>m.ProjectStageID);
     }
     <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
-        <div class="col-md-8">
-            @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
-            <p id="primaryContactPersonHelpBlock" class="help-block">
-                Currently, this makes @(ViewDataTyped.DefaultPrimaryContactPerson.FullNameFirstLastAndOrgShortName) the @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()).
-            </p>
-            @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
-        </div>
-    </div>
-    @*if (ViewDataTyped.HasCanStewardProjectsOrganizationRelationship)
-    {
-        <div class="row">
-            <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ApprovingProjectsOrganizationID)</div>
-            <div class="col-md-8">
-                @Html.SearchableDropDownListFor(m => m.ApprovingProjectsOrganizationID, ViewDataTyped.ApproverOrganizations)
-                @Html.ValidationMessageFor(m => m.ApprovingProjectsOrganizationID)
-            </div>
-        </div>
-    }
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactOrganizationID)</div>
-        <div class="col-md-8">
-            @Html.SearchableDropDownListFor(m => m.PrimaryContactOrganizationID, ViewDataTyped.PrimaryContactOrganizations)
-            @Html.ValidationMessageFor(m => m.PrimaryContactOrganizationID)
-        </div>
-    </div>*@
-    <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
         <div class="col-md-8">
             @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
@@ -191,17 +164,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         displaySelectedFundingTypeFields();
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
-
-        var $primaryContactPersonField = jQuery("[name=\"@Html.NameFor(m => m.PrimaryContactPersonID)\"]");
-        $primaryContactPersonField.change(function(event) {
-            if (jQuery(event.target).val()) {
-                jQuery("#primaryContactPersonHelpBlock").hide();
-            } else {
-                jQuery("#primaryContactPersonHelpBlock").show();
-            }
-        });
-        $primaryContactPersonField.change();
-
+       
         // Bypass the "Could not parse a blank value" error
         jQuery("#TaxonomyTierOneID option.bs-title-option").val(-1);
     });

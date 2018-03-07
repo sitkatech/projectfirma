@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             
            
             var projectOrganizations = new List<Models.ProjectOrganization>();
-            var viewModel = new EditOrganizationsViewModel(projectOrganizations, Person.CreateNewBlank(Models.Role.Normal, Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
+            var viewModel = new EditOrganizationsViewModel(project, projectOrganizations, Person.CreateNewBlank(Models.Role.Normal, Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
 
             //TODO tests
         }
