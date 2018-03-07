@@ -140,7 +140,7 @@ else
 <div class="row row-centered">
     @foreach (var classification in ViewDataTyped.Classifications)
     {
-        <div class="col-md-4 col-sm-6 classification col-centered">
+        <div class="col-xs-12 col-sm-6 col-md-4 classification col-centered">
             <a href="@classification.GetDetailUrl()" class="taphover">
                 @if (classification.KeyImageFileResource != null)
                 {
