@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
 	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PrimaryContactPersonID] [int] NULL,
  CONSTRAINT [PK_ProjectUpdate_ProjectUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateID] ASC
@@ -27,6 +28,16 @@ CREATE TABLE [dbo].[ProjectUpdate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID]
+GO
+ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdate_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([PrimaryContactPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [FK_ProjectUpdate_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdate_ProjectLocationSimpleType_ProjectLocationSimpleTypeID] FOREIGN KEY([ProjectLocationSimpleTypeID])
 REFERENCES [dbo].[ProjectLocationSimpleType] ([ProjectLocationSimpleTypeID])

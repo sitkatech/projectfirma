@@ -32,11 +32,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<RelationshipType> SetRelationshipTypes { get; }
         public Person PrimaryContactPerson { get; }
 
-        public ProjectOrganizationsDetailViewData(Models.Project project, IEnumerable<Models.ProjectOrganization> allProjectOrganizations)
+        public ProjectOrganizationsDetailViewData(IEnumerable<Models.ProjectOrganization> allProjectOrganizations, Person primaryContactPerson)
         {
             AllProjectOrganizations = allProjectOrganizations.ToList();
             SetRelationshipTypes = AllProjectOrganizations.Select(x=>x.RelationshipType).Distinct().ToList();
-            PrimaryContactPerson = project.GetPrimaryContact();
+            PrimaryContactPerson = primaryContactPerson;
         }
     }
 

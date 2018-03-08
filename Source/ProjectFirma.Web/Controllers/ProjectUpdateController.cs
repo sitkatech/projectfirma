@@ -2487,7 +2487,8 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
             var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.Project, projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
+
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
                 ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
@@ -2581,7 +2582,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshExpenditures(viewModel);
+            return ViewRefreshOrganizations(viewModel);
         }
 
         [HttpPost]
@@ -2596,6 +2597,14 @@ namespace ProjectFirma.Web.Controllers
             ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshOrganizations(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} for this {FieldDefinition.Project.GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -2615,15 +2624,15 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
             var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
 
-            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, project);
-            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, project);
+            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, projectUpdateBatch.ProjectUpdate);
+            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, projectUpdateBatch.ProjectUpdate);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
         private string GeneratePartialViewForModifiedOrganizations(
             List<IProjectOrganization> projectOrganizationsOriginal,
-            List<IProjectOrganization> projectOrganizationsUpdated, Project project)
+            List<IProjectOrganization> projectOrganizationsUpdated, ProjectUpdate projectUpdate)
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
@@ -2639,12 +2648,12 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate);
         }
 
         private string GeneratePartialViewForOriginalOrganizations(
             List<IProjectOrganization> projectOrganizationsOriginal,
-            List<IProjectOrganization> projectOrganizationsUpdated, Project project)
+            List<IProjectOrganization> projectOrganizationsUpdated, ProjectUpdate projectupdate)
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
@@ -2659,12 +2668,12 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectupdate);
         }
 
-        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Project project)
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, ProjectUpdate projectupdate)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(project, projectOrganizations);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations, projectupdate.GetPrimaryContact());
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }

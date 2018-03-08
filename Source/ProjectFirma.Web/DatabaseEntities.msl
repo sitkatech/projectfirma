@@ -810,6 +810,7 @@
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
+          <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

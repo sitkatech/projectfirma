@@ -207,24 +207,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             }
         }
-        <div class="row form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.OrganizationPrimaryContact)
-            </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.PrimaryContactPerson != null)
-                {
-                    @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgShortNameAsUrl()
-
-                    <div>
-                        <i>To update the @FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel() for this project please 
-                            @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestPrimaryContactChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)    
-                        </i>
-                    </div>
-                }
-            </div>
-        </div>
-
     </div>    
 
     if (ViewDataTyped.IsEditable)

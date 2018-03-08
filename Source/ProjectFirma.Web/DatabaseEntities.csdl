@@ -421,6 +421,10 @@
       <End Role="UpdatePerson" EntitySet="Person" />
       <End Role="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" EntitySet="ProjectNoteUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID">
+      <End Role="PrimaryContactPerson" EntitySet="Person" />
+      <End Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson" EntitySet="ProjectUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID">
       <End Role="LastUpdatePerson" EntitySet="Person" />
       <End Role="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" EntitySet="ProjectUpdateBatch" />
@@ -1183,6 +1187,7 @@
     <NavigationProperty Name="ProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="ProjectUpdatesWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProjectUpdatesWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="LastUpdatePerson" ToRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" />
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
@@ -1562,6 +1567,8 @@
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="PrimaryContactPersonID" Type="Int32" />
+    <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectUpdatesWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectUpdateBatch">
@@ -2874,6 +2881,18 @@
       </Principal>
       <Dependent Role="ProjectNoteUpdatesWhereYouAreTheUpdatePerson">
         <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID">
+    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.ProjectUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrimaryContactPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson">
+        <PropertyRef Name="PrimaryContactPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

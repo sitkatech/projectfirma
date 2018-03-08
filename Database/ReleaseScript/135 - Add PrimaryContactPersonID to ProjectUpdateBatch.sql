@@ -1,0 +1,3 @@
+alter table dbo.ProjectUpdate add PrimaryContactPersonID int null
+alter table dbo.ProjectUpdate add constraint FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID FOREIGN KEY (PrimaryContactPersonID) REFERENCES dbo.Person (PersonID)
+alter table dbo.ProjectUpdate add constraint FK_ProjectUpdate_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID foreign key (PrimaryContactPersonID, TenantID) references dbo.Person(PersonID, TenantID)
