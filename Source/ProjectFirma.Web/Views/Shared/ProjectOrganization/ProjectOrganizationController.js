@@ -173,7 +173,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
 
     $scope.primaryContactOrganizationPersonDisplayName = function (relationshipType) {
         if (relationshipType != null) {
-            return getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonDisplayName;
+            return $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonDisplayName;
         }
 
         return "nobody";

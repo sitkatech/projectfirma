@@ -2487,7 +2487,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
             var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.Project, projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganization(x)));
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
                 ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
@@ -2615,54 +2615,56 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
             var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
 
-            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
-            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated);
+            var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, project);
+            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, project);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForModifiedOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
-            List<IProjectOrganization> projectOrganizationsUpdated)
+        private string GeneratePartialViewForModifiedOrganizations(
+            List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated, Project project)
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
             var comparer = new ProjectOrganizationEqualityComparer();
 
             var organizationsOnlyInOriginal = organizationsInOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).ToList();
-            var organizationRequestAmounts = projectOrganizationsOriginal.Select(x => new ProjectOrganization(x)).ToList();
+            var projectOrganizations = projectOrganizationsOriginal.Select(x => new ProjectOrganization(x)).ToList();
 
 
-            organizationRequestAmounts.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
+            projectOrganizations.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
-            organizationRequestAmounts
+            projectOrganizations
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project);
         }
 
-        private string GeneratePartialViewForOriginalOrganizations(List<IProjectOrganization> projectOrganizationsOriginal,
-            List<IProjectOrganization> projectOrganizationsUpdated)
+        private string GeneratePartialViewForOriginalOrganizations(
+            List<IProjectOrganization> projectOrganizationsOriginal,
+            List<IProjectOrganization> projectOrganizationsUpdated, Project project)
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
             var comparer = new ProjectOrganizationEqualityComparer();
 
             var organizationsOnlyInUpdated = organizationsInUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).ToList();
-            var organizationRequestAmounts = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
+            var projectOrganizations = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
 
-            organizationRequestAmounts.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
+            projectOrganizations.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
-            organizationRequestAmounts
+            projectOrganizations
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(organizationRequestAmounts);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project);
         }
 
-        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations)
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Project project)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations);
+            var viewData = new ProjectOrganizationsDetailViewData(project, projectOrganizations);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }
