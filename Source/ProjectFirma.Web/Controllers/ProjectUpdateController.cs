@@ -2625,7 +2625,7 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
 
             var updatedHtml = GeneratePartialViewForModifiedOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, projectUpdateBatch.ProjectUpdate);
-            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, projectUpdateBatch.ProjectUpdate);
+            var originalHtml = GeneratePartialViewForOriginalOrganizations(projectOrganizationsOriginal, projectOrganizationsUpdated, projectUpdateBatch.Project);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
@@ -2648,12 +2648,12 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate.GetPrimaryContact());
         }
 
         private string GeneratePartialViewForOriginalOrganizations(
             List<IProjectOrganization> projectOrganizationsOriginal,
-            List<IProjectOrganization> projectOrganizationsUpdated, ProjectUpdate projectupdate)
+            List<IProjectOrganization> projectOrganizationsUpdated, Project project)
         {
             var organizationsInOriginal = projectOrganizationsOriginal;
             var organizationsInUpdated = projectOrganizationsUpdated;
@@ -2668,12 +2668,12 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectupdate);
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project.GetPrimaryContact());
         }
 
-        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, ProjectUpdate projectupdate)
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations, projectupdate.GetPrimaryContact());
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations, primaryContactPerson);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }
