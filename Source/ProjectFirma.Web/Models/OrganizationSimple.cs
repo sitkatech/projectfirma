@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -36,7 +37,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int organizationTypeId, int? primaryContactPersonID, bool isActive, string url, int? logoFileResourceID)
+        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName,
+            string organizationShortName, int organizationTypeId, int? primaryContactPersonID, bool isActive,
+            string url, int? logoFileResourceID, string detailUrl)
             : this()
         {
             OrganizationID = organizationID;
@@ -45,8 +48,10 @@ namespace ProjectFirma.Web.Models
             OrganizationShortName = organizationShortName;
             OrganizationTypeID = organizationTypeId;
             PrimaryContactPersonID = primaryContactPersonID;
+            PrimaryContactPersonDisplayName = primaryContactPersonID != null ? HttpRequestStorage.DatabaseEntities.People.GetPerson(primaryContactPersonID.Value).FullNameFirstLastAndOrgShortName : "nobody";
             IsActive = isActive;
             URL = url;
+            DetailUrl = detailUrl;
             LogoFileResourceID = logoFileResourceID;
         }
 
@@ -62,8 +67,10 @@ namespace ProjectFirma.Web.Models
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
             PrimaryContactPersonID = organization.PrimaryContactPersonID;
+            PrimaryContactPersonDisplayName = organization.PrimaryContactPerson != null ? organization.PrimaryContactPerson.FullNameFirstLastAndOrgShortName : "nobody";
             IsActive = organization.IsActive;
             URL = organization.OrganizationUrl;
+            DetailUrl = organization.GetDetailUrl();
             LogoFileResourceID = organization.LogoFileResourceID;
             ValidRelationshipTypeSimples = organization.OrganizationType?.OrganizationTypeRelationshipTypes.Select(x => x.RelationshipType).ToList()
                                                .Select(x => new RelationshipTypeSimple(x))
@@ -76,8 +83,10 @@ namespace ProjectFirma.Web.Models
         public string OrganizationShortName { get; set; }
         public int OrganizationTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
+        public string PrimaryContactPersonDisplayName { get; set; }
         public bool IsActive { get; set; }
         public string URL { get; set; }
+        public string DetailUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
         public List<RelationshipTypeSimple> ValidRelationshipTypeSimples;
 

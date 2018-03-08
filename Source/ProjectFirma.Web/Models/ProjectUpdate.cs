@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Models
             project.CompletionYear = CompletionYear;
             project.EstimatedTotalCost = EstimatedTotalCost;
             project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+            project.PrimaryContactPersonID = PrimaryContactPersonID;
         }
 
         public void CommitSimpleLocationToProject(Project project)
@@ -146,6 +147,13 @@ namespace ProjectFirma.Web.Models
         {
             var projectUpdate = new ProjectUpdate(projectUpdateBatch);
             HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
+        }
+
+        public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
+
+        public Organization GetPrimaryContactOrganization()
+        {
+            return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
     }
 }

@@ -507,6 +507,10 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Tag" EntitySet="Tag" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID">
+      <End Role="PrimaryContactPerson" EntitySet="Person" />
+      <End Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson" EntitySet="ProjectUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
@@ -1160,6 +1164,7 @@ warning 6035: The relationship 'FK_ProjectNote_Person_CreatePersonID_TenantID_Pe
 warning 6035: The relationship 'FK_ProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectUpdate_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateBatch_Person_LastUpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1516,6 +1521,7 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
     <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
+    <Property Name="PrimaryContactPersonID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3052,6 +3058,18 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectTags">
         <PropertyRef Name="TagID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID">
+    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrimaryContactPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectUpdatesWhereYouAreThePrimaryContactPerson">
+        <PropertyRef Name="PrimaryContactPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

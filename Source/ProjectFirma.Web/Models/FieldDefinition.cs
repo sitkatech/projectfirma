@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Data.Entity.Infrastructure.Pluralization;
+using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -48,6 +49,16 @@ namespace ProjectFirma.Web.Models
                 return fieldDefinitionData.FieldDefinitionLabel;
             }
             return FieldDefinitionDisplayName;
+        }
+
+        public HtmlString GetFieldDefinitionDescription()
+        {
+            var fieldDefinitionData = GetFieldDefinitionData();
+            if (fieldDefinitionData != null && !string.IsNullOrWhiteSpace(fieldDefinitionData.FieldDefinitionDataValueHtmlString?.ToString()))
+            {
+                return fieldDefinitionData.FieldDefinitionDataValueHtmlString;
+            }
+            return DefaultDefinitionHtmlString;
         }
 
         public bool HasCustomFieldLabel()

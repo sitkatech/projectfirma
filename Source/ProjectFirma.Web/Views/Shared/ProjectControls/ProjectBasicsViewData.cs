@@ -28,7 +28,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     public class ProjectBasicsViewData
     {
         public Models.Project Project { get; }
-        public Person PrimaryContactPerson { get; }
         public bool UserHasProjectBudgetManagePermissions { get; }
         public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
@@ -36,7 +35,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions)
         {
             Project = project;
-            PrimaryContactPerson = project.GetPrimaryContact();
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project);
             ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);            

@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.ProjectOrganizations);
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.ProjectOrganizations, project.GetPrimaryContact());
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 

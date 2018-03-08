@@ -130,19 +130,16 @@ namespace ProjectFirma.Web.Controllers
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
             }
             
-            return ViewCreateAndEditBasics(basicsViewModel, null, !newProjectIsProposal);
+            return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
         }
 
-        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, Project project, bool newProjectIsHistoric)
+        private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, bool newProjectIsHistoric)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
             var instructionsPageUrl = newProjectIsHistoric
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, defaultPrimaryContactPerson, FundingType.All, taxonomyTierOnes, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship(), newProjectIsHistoric, instructionsPageUrl);
+            var viewData = new BasicsViewData(CurrentPerson, FundingType.All, taxonomyTierOnes, newProjectIsHistoric, instructionsPageUrl);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -162,10 +159,7 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var primaryContacts = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            var defaultPrimaryContactPerson = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson ?? CurrentPerson;
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, defaultPrimaryContactPerson, FundingType.All, MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship(), MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship());
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, FundingType.All);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -208,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
 
                 bool showProjectStageDropDown = viewModel.ProjectStageID != ProjectStage.Proposal.ProjectStageID;
 
-                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, project, showProjectStageDropDown);
+                return ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey) ? ViewEditBasics(project, viewModel) : ViewCreateAndEditBasics(viewModel, showProjectStageDropDown);
             }
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.PrimaryKey))
@@ -248,34 +242,6 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully saved.");
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.Basics);
-        }
-
-        private static void SetProjectOrganizationForRelationshipType(Project project, int? organizationID, RelationshipType relationshipType)
-        {
-            if (relationshipType != null && organizationID.HasValue)
-            {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID.Value);
-
-                var projectPrimaryContactOrganization =
-                    project.ProjectOrganizations.SingleOrDefault(x =>
-                        x.RelationshipTypeID == relationshipType.RelationshipTypeID);
-                if (relationshipType.OrganizationTypeRelationshipTypes.Any(x =>
-                    x.OrganizationTypeID == organization.OrganizationTypeID))
-                {
-                    if (projectPrimaryContactOrganization == null)
-                    {
-                        project.ProjectOrganizations.Add(new ProjectOrganization(project, organization, relationshipType));
-                    }
-                    else
-                    {
-                        projectPrimaryContactOrganization.OrganizationID = organizationID.Value;
-                    }
-                }
-                else
-                {
-                    projectPrimaryContactOrganization?.DeleteProjectOrganization();
-                }
-            }
         }
 
         [HttpGet]
@@ -1239,7 +1205,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new OrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
+            var viewModel = new OrganizationsViewModel(project, CurrentPerson);
             return ViewOrganizations(project, viewModel);
         }
 
@@ -1252,7 +1218,9 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
-            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+            var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            
+            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;

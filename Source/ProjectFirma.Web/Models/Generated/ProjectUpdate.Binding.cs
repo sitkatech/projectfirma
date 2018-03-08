@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, string projectWatershedNotes) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, string projectWatershedNotes, int? primaryContactPersonID) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             this.ProjectWatershedNotes = projectWatershedNotes;
+            this.PrimaryContactPersonID = primaryContactPersonID;
         }
 
         /// <summary>
@@ -112,6 +113,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public string ProjectWatershedNotes { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
@@ -119,6 +121,7 @@ namespace ProjectFirma.Web.Models
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
+        public virtual Person PrimaryContactPerson { get; set; }
 
         public static class FieldLengths
         {

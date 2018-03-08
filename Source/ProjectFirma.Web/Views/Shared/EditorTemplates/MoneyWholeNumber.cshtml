@@ -20,5 +20,5 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @model MoneyWholeNumber?
 <!-- ReSharper disable SpecifyACultureInStringConversionExplicitly -->
-@Html.TextBox("", (Model.HasValue ? Model.Value.ToString("C0") : string.Empty), new {@class = "sitkaCurrency form-control", onchange = "this.value = Sitka.Methods.formatAsCurrencyFromString(this.value, 0);"})
+@Html.TextBox("", (Model.HasValue ? Model.Value.ToString("C0") : string.Empty), new {@class = "sitkaCurrency form-control", @style="width: auto", onchange = "this.value = Sitka.Methods.formatAsCurrencyFromString(this.value, 0);"})
 <!-- ReSharper restore SpecifyACultureInStringConversionExplicitly -->

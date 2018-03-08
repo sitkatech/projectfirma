@@ -139,7 +139,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                             <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationPrimaryContact)</div>
                                             <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
                                         </div>
                                         <div class="row">

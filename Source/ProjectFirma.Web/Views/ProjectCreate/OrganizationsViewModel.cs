@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public OrganizationsViewModel(List<ProjectOrganization> projectOrganizations, Person currentPerson) : base(projectOrganizations, currentPerson)
+        public OrganizationsViewModel(Models.Project project, Person currentPerson) : base(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), currentPerson)
         {
             
         }

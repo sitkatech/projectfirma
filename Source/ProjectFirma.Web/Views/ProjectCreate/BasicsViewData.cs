@@ -33,11 +33,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class BasicsViewData : ProjectCreateViewData
     {
         public IEnumerable<SelectListItem> TaxonomyTierOnes { get; private set; }
-        public IEnumerable<SelectListItem> Organizations { get; private set; }
-        public IEnumerable<SelectListItem> ApproverOrganizations { get; private set; }
-        public IEnumerable<SelectListItem> PrimaryContactOrganizations { get; private set; }
-        public IEnumerable<SelectListItem> PrimaryContactPeople { get; private set; }
-        public Person DefaultPrimaryContactPerson { get; private set; }
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
         public IEnumerable<SelectListItem> StartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
@@ -53,64 +48,33 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
 
         public BasicsViewData(Person currentPerson,
-            List<Models.Organization> organizations,
-            IEnumerable<Person> primaryContactPeople,
-            Person defaultPrimaryContactPerson,
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, 
-            RelationshipType approverRelationshipType, 
-            RelationshipType primaryContactRelationshipType, 
             bool showProjectStageDropDown,
             string instructionsPageUrl)
             : base(currentPerson, ProjectCreateSection.Basics, instructionsPageUrl)
         {
-            // This consstructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
+            // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
+            AssignParameters(taxonomyTierOnes, fundingTypes);
         }
 
         public BasicsViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes,
-            List<Models.Organization> organizations,
-            IEnumerable<Person> primaryContactPeople,
-            Person defaultPrimaryContactPerson,
-            IEnumerable<FundingType> fundingTypes, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
+            IEnumerable<FundingType> fundingTypes)
             : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.DisplayName;
-            AssignParameters(taxonomyTierOnes, organizations, primaryContactPeople, fundingTypes, defaultPrimaryContactPerson, approverRelationshipType, primaryContactRelationshipType);
+            AssignParameters(taxonomyTierOnes, fundingTypes);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, List<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes, Person defaultPrimaryContactPerson, RelationshipType approverRelationshipType, RelationshipType primaryContactRelationshipType)
+        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<FundingType> fundingTypes)
         {
             TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
-            Organizations = organizations.OrderBy(x => x.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            IEnumerable<SelectListItem> approverOrganizations;
-            if (approverRelationshipType != null)
-            {
-                approverOrganizations = organizations.Where(x =>
-                        x.OrganizationType?.OrganizationTypeRelationshipTypes.Any(
-                            y =>
-                                y.RelationshipTypeID == approverRelationshipType.RelationshipTypeID) == true)
-                    .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
-            }
-            else
-            {
-                approverOrganizations = new List<SelectListItem>();
-            }
-            ApproverOrganizations = approverOrganizations;
-            PrimaryContactOrganizations = organizations.Where(x => x.OrganizationType?.OrganizationTypeRelationshipTypes.Any(y =>
-                                                                       y.RelationshipTypeID == primaryContactRelationshipType
-                                                                           ?.RelationshipTypeID) == true)
-                .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.OrganizationName);
-            PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(
-                x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrgShortName,
-                $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
-            DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
-
+            
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             StartYearRange =
                 FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)

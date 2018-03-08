@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditOrganizationsViewModel(project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
-            return ViewEditOrganizations(viewModel);
+            var viewModel = new EditOrganizationsViewModel(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
+            return ViewEditOrganizations(viewModel, project);
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditOrganizations(viewModel);
+                return ViewEditOrganizations(viewModel, project);
             }
 
             HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditOrganizations(EditOrganizationsViewModel viewModel)
+        private PartialViewResult ViewEditOrganizations(EditOrganizationsViewModel viewModel, Project project)
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
@@ -70,7 +70,9 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
-            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
+            var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+
+            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }

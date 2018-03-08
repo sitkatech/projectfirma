@@ -34,13 +34,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken)
+        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken, string organizationShortNameIfAvailable)
             : this()
         {
             PersonID = personID;
             PersonGuid = personGuid;
             FirstName = firstName;
             LastName = lastName;
+            FullNameWithOrgShortName = $"{FirstName} {LastName} ({organizationShortNameIfAvailable})";
             Email = email;
             Phone = phone;
             PasswordPdfK2SaltHash = passwordPdfK2SaltHash;
@@ -63,6 +64,7 @@ namespace ProjectFirma.Web.Models
             PersonGuid = person.PersonGuid;
             FirstName = person.FirstName;
             LastName = person.LastName;
+            FullNameWithOrgShortName = $"{FirstName} {LastName} ({person.Organization.OrganizationShortNameIfAvailable})";
             Email = person.Email;
             Phone = person.Phone;
             PasswordPdfK2SaltHash = person.PasswordPdfK2SaltHash;
@@ -79,6 +81,7 @@ namespace ProjectFirma.Web.Models
         public Guid PersonGuid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullNameWithOrgShortName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string PasswordPdfK2SaltHash { get; set; }

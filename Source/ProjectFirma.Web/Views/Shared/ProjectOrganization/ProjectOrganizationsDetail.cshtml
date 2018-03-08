@@ -21,8 +21,10 @@
 @using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectOrganizationsDetail
+   
 @if (ViewDataTyped.AllProjectOrganizations.Any())
 {
     <table class="summaryLayout">
@@ -44,11 +46,30 @@
                 </td>
             </tr>
         }
-        
-        
+
     </table>
 }
 else
 {
-    <p>No other organizations set for this project.</p>
+    <p class="systemText">No organizations set for this project.</p>
 }
+
+<hr />
+<div class="row">
+    <div class="col-xs-3">
+        @Html.LabelWithSugarFor(FieldDefinition.ProjectPrimaryContact)
+    </div>
+
+    <div class="col-xs-9">
+        @if (ViewDataTyped.PrimaryContactPerson != null)
+        {
+            <span>
+                @ViewDataTyped.PrimaryContactPerson.FullNameFirstLast (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
+            </span>
+        }
+        else
+        {
+            <span>@ViewUtilities.NoneString</span>
+        }
+    </div>
+</div>

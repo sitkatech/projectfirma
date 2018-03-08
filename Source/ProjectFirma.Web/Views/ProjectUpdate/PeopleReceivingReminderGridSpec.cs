@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 AddCheckBoxColumn();
                 Add("PersonID", x => x.PersonID, 0);
             }
-            Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
+            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
             Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
                 x => x.GetPrimaryContactUpdatableProjects(person).Count,

@@ -183,24 +183,4 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.Project.CompletionYear
         </div>
     </div>
-
-    <hr />
-    <div class="row">
-        <div class="col-xs-6">
-            @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
-        </div>
-
-        <div class="col-xs-6">
-            @if (ViewDataTyped.PrimaryContactPerson != null)
-            {
-                <span>
-                    @ViewDataTyped.PrimaryContactPerson.FullNameFirstLast (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
-                </span>
-            }
-            else
-            {
-                <span>@ViewUtilities.NoneString</span>
-            }
-        </div>
-    </div>
 </div>

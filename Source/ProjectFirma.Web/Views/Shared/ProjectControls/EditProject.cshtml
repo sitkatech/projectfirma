@@ -54,23 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-4 control-label">
-                @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)
-            </div>
-            <div class="col-xs-8">
-                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
-                <p id="primaryContactPersonHelpBlock" class="help-block">
-                    Currently, this means @(ViewDataTyped.DefaultPrimaryContactPersonName) will be the @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()).
-                    @if (ViewDataTyped.DefaultPrimaryContactPerson == null)
-                    {
-                        <text>Consider setting a @(FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()) for this project's associated organization.</text>
-                    }
-                </p>
-                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
-            </div>
-        </div>
+        </div>       
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectStageID)
@@ -161,17 +145,7 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     jQuery(document).ready(function() {
-        displaySelectedFundingTypeFields();
-
-        var $primaryContactPersonField = jQuery("[name=\"@Html.NameFor(m => m.PrimaryContactPersonID)\"]");
-        $primaryContactPersonField.change(function(event) {
-            if (jQuery(event.target).val()) {
-                jQuery("#primaryContactPersonHelpBlock").hide();
-            } else {
-                jQuery("#primaryContactPersonHelpBlock").show();
-            }
-        });
-        $primaryContactPersonField.change();
+        displaySelectedFundingTypeFields();       
     });
     // ]]>
 </script>

@@ -60,9 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBasics(Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned);            
-            
-            RequestPrimaryContactChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestProjectPrimaryContactChange(projectUpdate.ProjectUpdateBatch.Project));
-
+                        
             InflationRate = inflationRate;
             CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
             TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(projectUpdate);
