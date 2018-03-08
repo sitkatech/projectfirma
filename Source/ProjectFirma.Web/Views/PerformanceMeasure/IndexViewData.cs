@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
@@ -33,7 +32,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string PerformanceMeasureGridName;
         public readonly string PerformanceMeasureGridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson) : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(FirmaPageType.PerformanceMeasuresList))
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 

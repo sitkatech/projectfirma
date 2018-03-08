@@ -22,11 +22,18 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.Index
+
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+    <div class="col-xs-12">
+        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
 </div>
+
