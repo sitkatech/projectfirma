@@ -59,7 +59,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PerformanceMeasuresList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
