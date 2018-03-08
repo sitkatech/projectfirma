@@ -59,8 +59,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentPerson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

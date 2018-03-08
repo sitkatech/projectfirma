@@ -1272,3 +1272,8 @@ td.stage {
 .factSheet .headerPanel .row {
   margin-bottom: 4px;
 }
+@media print {
+  a[href]:after {
+    content: none;
+  }
+}
