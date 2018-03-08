@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class CostParameterSetController : FirmaBaseController
     {
-        [FirmaAdminFeature]
+        [SitkaAdminFeature]
         public ViewResult Detail()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CostParameterSet);
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [SitkaAdminFeature]
         public PartialViewResult New()
         {
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(NewViewModel viewModel)
         {
