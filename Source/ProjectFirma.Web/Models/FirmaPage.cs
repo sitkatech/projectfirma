@@ -25,9 +25,10 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class FirmaPage
+    public partial class FirmaPage : IFirmaPage
     {
-        public bool HasFirmaPageContent => !string.IsNullOrWhiteSpace(FirmaPageContent);
+        public string FirmaPageDisplayName => FirmaPageType.FirmaPageTypeDisplayName;
+        public bool HasPageContent => !string.IsNullOrWhiteSpace(FirmaPageContent);
 
         public static FirmaPage GetFirmaPageByPageType(FirmaPageType firmaPageType)
         {
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Models
             return firmaPage;
         }
 
-        public string GetEditInDialogUrl()
+        public string GetEditPageContentUrl()
         {
             return SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(this));
         }

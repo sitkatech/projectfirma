@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.FirmaPage
                     30);
             }
             Add("Page Name", a => UrlTemplate.MakeHrefString(a.FirmaPageType.GetViewUrl(), a.FirmaPageType.FirmaPageTypeDisplayName), 180, DhtmlxGridColumnFilterType.Text);
-            Add("Has Content", a => a.HasFirmaPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Type", a => a.FirmaPageType.FirmaPageRenderType.FirmaPageRenderTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("FirmaPageID", a => a.FirmaPageID, 0);
         }

@@ -1,5 +1,6 @@
 ﻿
 using System.Web;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -9,19 +10,15 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly string FirmaPageDisplayName;
         public readonly bool ShowEditButton;
         public readonly bool HasPageContent;
-        public readonly string FirmaPageContentID;
-        public readonly string FirmaPageEditHoverButtonID;
         public readonly string EditPageContentUrl;
 
-        public ViewPageContentViewData(Models.FirmaPage firmaPage, bool showEditButton)
+        public ViewPageContentViewData(IFirmaPage firmaPage, bool showEditButton)
         {
             FirmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
-            FirmaPageDisplayName = firmaPage.FirmaPageType.FirmaPageTypeDisplayName;
+            FirmaPageDisplayName = firmaPage.FirmaPageDisplayName;
             ShowEditButton = showEditButton;
-            HasPageContent = firmaPage.HasFirmaPageContent;
-            FirmaPageContentID = $"firmaPageContent{firmaPage.FirmaPageID}";
-            FirmaPageEditHoverButtonID = $"editHoverButton{firmaPage.FirmaPageID}";
-            EditPageContentUrl = firmaPage.GetEditInDialogUrl();
+            HasPageContent = firmaPage.HasPageContent;
+            EditPageContentUrl = firmaPage.GetEditPageContentUrl();
         }        
     }
 }

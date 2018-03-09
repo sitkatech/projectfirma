@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var firmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
-            if (!firmaPage.HasFirmaPageContent)
+            if (!firmaPage.HasPageContent)
             {
                 firmaPageContentHtmlString = new HtmlString(string.Format("No page content for Page \"{0}\".", firmaPage.FirmaPageType.FirmaPageTypeDisplayName));
             }
