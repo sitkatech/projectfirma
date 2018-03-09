@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -35,13 +36,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions, SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
             PageTitle = "Add Project";
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
         public InstructionsEnterHistoricViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProjectCreateSection.Instructions, proposalSectionsStatus)
         {
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
     }

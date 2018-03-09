@@ -112,6 +112,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CustomPage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CustomPage">
+        <MappingFragment StoreEntitySet="CustomPage">
+          <ScalarProperty Name="CustomPageID" ColumnName="CustomPageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="CustomPageDisplayName" ColumnName="CustomPageDisplayName" />
+          <ScalarProperty Name="CustomPageVanityUrl" ColumnName="CustomPageVanityUrl" />
+          <ScalarProperty Name="CustomPageDisplayTypeID" ColumnName="CustomPageDisplayTypeID" />
+          <ScalarProperty Name="CustomPageContent" ColumnName="CustomPageContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomPageImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CustomPageImage">
+        <MappingFragment StoreEntitySet="CustomPageImage">
+          <ScalarProperty Name="CustomPageImageID" ColumnName="CustomPageImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="CustomPageID" ColumnName="CustomPageID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="FieldDefinitionData">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FieldDefinitionData">
         <MappingFragment StoreEntitySet="FieldDefinitionData">

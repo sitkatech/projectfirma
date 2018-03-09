@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPerson) : null;
+            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission) : null;
         }
 
         public LtInfoMenuItem HelpMenu { get; set; }
@@ -110,8 +110,11 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
         {
             var aboutMenu = new LtInfoMenuItem("About");
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About()), currentPerson, "About " + MultiTenantHelpers.GetTenantDisplayName()));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
+
+            MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
+            {
+                
+            });
             return aboutMenu;
         }
 

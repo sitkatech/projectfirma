@@ -10,6 +10,8 @@
     <EntitySet Name="ClassificationSystem" EntityType="ProjectFirma.Web.Models.ClassificationSystem" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
+    <EntitySet Name="CustomPage" EntityType="ProjectFirma.Web.Models.CustomPage" />
+    <EntitySet Name="CustomPageImage" EntityType="ProjectFirma.Web.Models.CustomPageImage" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
     <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.FieldDefinitionDataImage" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.FileResource" />
@@ -124,6 +126,14 @@
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Counties" EntitySet="County" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomPageImage_CustomPage_CustomPageID" Association="ProjectFirma.Web.Models.FK_CustomPageImage_CustomPage_CustomPageID">
+      <End Role="CustomPage" EntitySet="CustomPage" />
+      <End Role="CustomPageImages" EntitySet="CustomPageImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_CustomPageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="CustomPageImages" EntitySet="CustomPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" Association="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
       <End Role="FieldDefinitionData" EntitySet="FieldDefinitionData" />
@@ -730,6 +740,29 @@
     <Property Name="CountyFeature" Type="Geometry" />
     <NavigationProperty Name="StateProvince" Relationship="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID" FromRole="Counties" ToRole="StateProvince" />
   </EntityType>
+  <EntityType Name="CustomPage">
+    <Key>
+      <PropertyRef Name="CustomPageID" />
+    </Key>
+    <Property Name="CustomPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="CustomPageDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="CustomPageVanityUrl" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="CustomPageDisplayTypeID" Type="Int32" Nullable="false" />
+    <Property Name="CustomPageContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="CustomPageImages" Relationship="ProjectFirma.Web.Models.FK_CustomPageImage_CustomPage_CustomPageID" FromRole="CustomPage" ToRole="CustomPageImages" />
+  </EntityType>
+  <EntityType Name="CustomPageImage">
+    <Key>
+      <PropertyRef Name="CustomPageImageID" />
+    </Key>
+    <Property Name="CustomPageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="CustomPageID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CustomPage" Relationship="ProjectFirma.Web.Models.FK_CustomPageImage_CustomPage_CustomPageID" FromRole="CustomPageImages" ToRole="CustomPage" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_CustomPageImage_FileResource_FileResourceID" FromRole="CustomPageImages" ToRole="FileResource" />
+  </EntityType>
   <EntityType Name="FieldDefinitionData">
     <Key>
       <PropertyRef Name="FieldDefinitionDataID" />
@@ -766,6 +799,7 @@
     <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="ClassificationsWhereYouAreTheKeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="KeyImageFileResource" ToRole="ClassificationsWhereYouAreTheKeyImageFileResource" />
+    <NavigationProperty Name="CustomPageImages" Relationship="ProjectFirma.Web.Models.FK_CustomPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="CustomPageImages" />
     <NavigationProperty Name="FieldDefinitionDataImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionDataImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="FirmaHomePageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaHomePageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaHomePageImages" />
@@ -1993,6 +2027,30 @@
       </Principal>
       <Dependent Role="Counties">
         <PropertyRef Name="StateProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomPageImage_CustomPage_CustomPageID">
+    <End Role="CustomPage" Type="ProjectFirma.Web.Models.CustomPage" Multiplicity="1" />
+    <End Role="CustomPageImages" Type="ProjectFirma.Web.Models.CustomPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomPage">
+        <PropertyRef Name="CustomPageID" />
+      </Principal>
+      <Dependent Role="CustomPageImages">
+        <PropertyRef Name="CustomPageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomPageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="CustomPageImages" Type="ProjectFirma.Web.Models.CustomPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="CustomPageImages">
+        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

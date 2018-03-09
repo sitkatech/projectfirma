@@ -36,22 +36,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeAbout
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.About());
-        }
-    }
-
-    public partial class FirmaPageTypeMeetingsandDocuments
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Meetings());
-        }
-    }
-
     public partial class FirmaPageTypeDemoScript
     {
         public override string GetViewUrl()

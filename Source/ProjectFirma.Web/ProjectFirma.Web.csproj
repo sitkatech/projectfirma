@@ -75,6 +75,14 @@
     <Compile Include="Models\Generated\County.Binding.cs" />
     <Compile Include="Models\Generated\County.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CountyPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayType.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.Binding.cs" />
@@ -351,6 +359,7 @@
     <Compile Include="Controllers\ProjectLocationFilterTypeSimple.cs" />
     <Compile Include="Models\ClassificationSystemModelExtensions.cs" />
     <Compile Include="Models\ClassificationSystem.cs" />
+    <Compile Include="Models\IFirmaPage.cs" />
     <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\ProjectOrganizationUpdate.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
@@ -3344,6 +3353,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj">
@@ -3390,7 +3400,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60514/</IISUrl>
+          <IISUrl>http://localhost:57753/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>https://localhost.projectFirma.sitkatech.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -10,6 +10,8 @@
     <EntitySet Name="ClassificationSystem" EntityType="ProjectFirma.Web.Models.Store.ClassificationSystem" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.Store.CostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.Store.County" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomPage" EntityType="ProjectFirma.Web.Models.Store.CustomPage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomPageImage" EntityType="ProjectFirma.Web.Models.Store.CustomPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionDataImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.Store.FileResource" store:Type="Tables" Schema="dbo" />
@@ -126,6 +128,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.Store.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Counties" EntitySet="County" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomPageImage_CustomPage_CustomPageID" Association="ProjectFirma.Web.Models.Store.FK_CustomPageImage_CustomPage_CustomPageID">
+      <End Role="CustomPage" EntitySet="CustomPage" />
+      <End Role="CustomPageImages" EntitySet="CustomPageImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_CustomPageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="CustomPageImages" EntitySet="CustomPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
       <End Role="FieldDefinitionData" EntitySet="FieldDefinitionData" />
@@ -743,6 +753,29 @@ warning 6035: The relationship 'FK_Classification_ClassificationSystem_Classific
     <Property Name="CountyFeature" Type="geometry" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_CustomPageImage_CustomPage_CustomPageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="CustomPage">
+    <Key>
+      <PropertyRef Name="CustomPageID" />
+    </Key>
+    <Property Name="CustomPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="CustomPageDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="CustomPageVanityUrl" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="CustomPageDisplayTypeID" Type="int" Nullable="false" />
+    <Property Name="CustomPageContent" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="CustomPageImage">
+    <Key>
+      <PropertyRef Name="CustomPageImageID" />
+    </Key>
+    <Property Name="CustomPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="CustomPageID" Type="int" Nullable="false" />
+    <Property Name="FileResourceID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="FieldDefinitionData">
@@ -766,6 +799,7 @@ warning 6035: The relationship 'FK_FieldDefinitionDataImage_FieldDefinitionData_
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_CustomPageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FieldDefinitionDataImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FirmaHomePageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FirmaPageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1918,6 +1952,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="Counties">
         <PropertyRef Name="StateProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomPageImage_CustomPage_CustomPageID">
+    <End Role="CustomPage" Type="ProjectFirma.Web.Models.Store.CustomPage" Multiplicity="1" />
+    <End Role="CustomPageImages" Type="ProjectFirma.Web.Models.Store.CustomPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomPage">
+        <PropertyRef Name="CustomPageID" />
+      </Principal>
+      <Dependent Role="CustomPageImages">
+        <PropertyRef Name="CustomPageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomPageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
+    <End Role="CustomPageImages" Type="ProjectFirma.Web.Models.Store.CustomPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="CustomPageImages">
+        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
