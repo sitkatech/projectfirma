@@ -94,7 +94,10 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPageType);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+
+            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentPerson, firmaPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
@@ -148,14 +151,15 @@ namespace ProjectFirma.Web.Controllers
             return con.ViewPageContent(FirmaPageTypeEnum.Training);
         }
 
-        //[AnonymousUnclassifiedFeature]
-        //public ActionResult About(CustomPagePrimaryKey customPagePrimaryKey)
-        //{
-        //    var customPage = customPagePrimaryKey.EntityObject;
+        [AnonymousUnclassifiedFeature]
+        public ActionResult About(CustomPagePrimaryKey customPagePrimaryKey)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
 
-        //    var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPageType);
-        //    return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
-        //}
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
+            return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
+        }
 
     }
 }

@@ -111,9 +111,9 @@ namespace ProjectFirma.Web.Views
         {
             var aboutMenu = new LtInfoMenuItem("About");
 
-            MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
+            MultiTenantHelpers.GetPublicCustomPages().ForEach(x =>
             {
-                
+                aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About(x)), currentPerson, x.CustomPageDisplayName, "Group1"));
             });
             return aboutMenu;
         }

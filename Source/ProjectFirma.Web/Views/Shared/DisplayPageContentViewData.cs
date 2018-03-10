@@ -27,12 +27,10 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public readonly ViewPageContentViewData ViewWholePageContentViewData;
 
-        public DisplayPageContentViewData(Person currentPerson, FirmaPageType firmaPageType) : base(currentPerson)
+        public DisplayPageContentViewData(Person currentPerson, IFirmaPage firmaPage, bool showEditButton) : base(currentPerson)
         {
-            PageTitle = firmaPageType.FirmaPageTypeDisplayName;
-            var firmaPageByPageType = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);
-
-            ViewWholePageContentViewData = new ViewPageContentViewData(firmaPageByPageType, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageByPageType).HasPermission);
+            PageTitle = firmaPage.FirmaPageDisplayName;            
+            ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
         }
     }
 }
