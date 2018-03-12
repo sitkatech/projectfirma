@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -26,7 +27,6 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
@@ -36,10 +36,20 @@ namespace ProjectFirma.Web.Views.CustomPage
         {            
             if (hasManagePermissions)
             {               
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, hasManagePermissions, true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         "Edit")),
-                    30);
+                    30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
+                    SitkaRoute<CustomPageController>.BuildUrlFromExpression(y => y.EditInDialog(a)),
+                    800,
+                    $"Edit Content for {a.CustomPageDisplayName}",
+                    true,
+                    "Save",
+                    "Cancel",
+                    new List<string> { "gridButton" },
+                    null,
+                    null), 80, DhtmlxGridColumnFilterType.None);
             }
             Add("Page Name", a => UrlTemplate.MakeHrefString(a.AboutPageUrl, a.CustomPageDisplayName), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
