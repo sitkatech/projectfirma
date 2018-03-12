@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -36,14 +37,21 @@ namespace ProjectFirma.Web.Views.CustomPage
 
         public IndexViewData(Person currentPerson) : base(currentPerson, null)
         {
-            PageTitle = "Manage Custom Pages";
+            PageTitle = "Manage Custom About Pages";
 
             GridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(currentPerson))
             {
-                ObjectNameSingular = "Page",
-                ObjectNamePlural = "Pages",
+                ObjectNameSingular = "About Page",
+                ObjectNamePlural = "About Pages",
                 SaveFiltersInCookie = true
             };
+
+            var hasCustomPageManagePermissions = new CustomPageManageFeature().HasPermissionByPerson(currentPerson);
+            if (hasCustomPageManagePermissions)
+            {
+                var contentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.New());
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new About Page");
+            }
             GridName = "customPagesGrid";
             GridDataUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             CustomPageUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(x => x.CustomPageDetails(UrlTemplate.Parameter1Int));

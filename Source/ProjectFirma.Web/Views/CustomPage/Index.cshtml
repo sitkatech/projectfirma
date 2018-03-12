@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
@@ -28,9 +28,38 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-        </div>        
+        <div class="col-xs-12">
+            <p>Use this page to add, remove, and control the visibility of pages on the About menu. Select a page to view its current page content. You can also edit the text in place throughout the site by using the Edit button that appears when you hover over content that is customizable.</p>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-md-7">
+            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        </div>
+        <div class="col-md-5">
+            <h2 style="margin-top: 0">Page Content</h2>
+            <div id="customPage" style="outline: 1px solid gray; padding: 10px; margin-top: 10px"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function()
+    {
+        var sitkaGrid = Sitka.@ViewDataTyped.GridName;
+        sitkaGrid.grid.attachEvent("onRowSelect", function(id)
+        {
+            var firmaPageId = sitkaGrid.grid.cells(id, sitkaGrid.getColumnIndexByName("CustomPageID")).getValue();
+            console.log(firmaPageId);
+            var dataUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.CustomPageUrl.ToJS()));
+            var dataUrl = dataUrlTemplate.ParameterReplace(firmaPageId);
+            SitkaAjax.load(jQuery("#customPage"), dataUrl);
+        });
+        sitkaGrid.grid.attachEvent("onXLE", function() { sitkaGrid.grid.selectRow(0, true); });
+        sitkaGrid.grid.attachEvent("onFilterEnd", function() { sitkaGrid.grid.selectRow(0, true); });
+    });
+    // ]]>
+</script>

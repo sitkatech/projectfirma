@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,18 +19,32 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Web.Mvc;
+using System.ComponentModel;
+using System.Web;
+using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class EditHtmlContentInDialogViewModel : FormViewModel
     {
-        public IEnumerable<SelectListItem> CustomPageDisplayTypes { get; }
+        [DisplayName("Page Content")]
+        public HtmlString CustomPageContentHtmlString { get; set; }
 
-        public EditViewData(IEnumerable<SelectListItem> customPageDisplayTypes)
+        /// <summary>
+        /// Needed by model binder
+        /// </summary>
+        public EditHtmlContentInDialogViewModel()
         {
-            CustomPageDisplayTypes = customPageDisplayTypes;           
+        }
+        
+        public EditHtmlContentInDialogViewModel(Models.CustomPage customPage)
+        {
+            CustomPageContentHtmlString = customPage != null ? customPage.CustomPageContentHtmlString : null;
+        }
+
+        public void UpdateModel(Models.CustomPage customPage)
+        {
+            customPage.CustomPageContentHtmlString = CustomPageContentHtmlString == null || string.IsNullOrWhiteSpace(CustomPageContentHtmlString.ToString()) ? null : CustomPageContentHtmlString;
         }
     }
 }

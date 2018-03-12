@@ -18,15 +18,38 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Common
+@using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.CustomPage.Edit
-
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary()
-    <div style="max-height: 600px; overflow-y: auto">
-        @Html.CkEditorFor(x => x.CustomPageContentHtmlString, ViewDataTyped.CkEditorToolbar, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 600)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.CustomPageDisplayName)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.CustomPageDisplayName, new { style = "width: 100%", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomPageDisplayName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.CustomPageVanityUrl)
+            </div>
+            <div class="col-sm-9">
+               @Html.TextBoxFor(m => m.CustomPageVanityUrl, new { style = "width: auto", @class = "form-control" })
+               @Html.ValidationMessageFor(m => m.CustomPageVanityUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.CustomPageDisplayTypeID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.CustomPageDisplayTypeID, ViewDataTyped.CustomPageDisplayTypes, new { style = "width: auto", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomPageDisplayTypeID)
+            </div>
+        </div>      
     </div>
-
-    <script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
+    @Html.HiddenFor(m => m.CustomPageID)
 }

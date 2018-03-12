@@ -23,5 +23,10 @@ namespace ProjectFirma.Web.Models
         {
             return SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(this));
         }
+
+        public string GetViewUrl()
+        {
+            return SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.About(CustomPageVanityUrl));
+        }
     }
 }

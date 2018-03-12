@@ -19,32 +19,68 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
-    public class EditViewModel : FormViewModel
+    public class EditViewModel : FormViewModel, IValidatableObject
     {
-        [DisplayName("Page Content")]
-        public HtmlString CustomPageContentHtmlString { get; set; }
+        public int CustomPageID { get; set; }
+
+        [Required]
+        [StringLength(Models.CustomPage.FieldLengths.CustomPageDisplayName)]
+        [DisplayName("Page Name")]
+        public string CustomPageDisplayName { get; set; }
+
+        [Required]
+        [StringLength(Models.CustomPage.FieldLengths.CustomPageVanityUrl)]
+        [DisplayName("Vanity Url")]
+        public string CustomPageVanityUrl { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CustomPageDisplayType)]
+        [Required]
+        public int? CustomPageDisplayTypeID { get; set; }
 
         /// <summary>
-        /// Needed by model binder
+        /// Needed by the ModelBinder
         /// </summary>
         public EditViewModel()
         {
         }
-        
+
         public EditViewModel(Models.CustomPage customPage)
         {
-            CustomPageContentHtmlString = customPage != null ? customPage.CustomPageContentHtmlString : null;
+            CustomPageID = customPage.CustomPageID;
+            CustomPageDisplayName = customPage.CustomPageDisplayName;
+            CustomPageVanityUrl = customPage.CustomPageVanityUrl;
+            CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;            
         }
 
-        public void UpdateModel(Models.CustomPage customPage)
+        public void UpdateModel(Models.CustomPage customPage, Person currentPerson)
         {
-            customPage.CustomPageContentHtmlString = CustomPageContentHtmlString == null || string.IsNullOrWhiteSpace(CustomPageContentHtmlString.ToString()) ? null : CustomPageContentHtmlString;
+            customPage.CustomPageDisplayName = CustomPageDisplayName;
+            customPage.CustomPageVanityUrl = CustomPageVanityUrl;
+            customPage.CustomPageDisplayTypeID = CustomPageDisplayTypeID.Value;           
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var validationResults = new List<ValidationResult>();
+
+            return validationResults;
+        }
+
     }
 }

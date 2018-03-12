@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Views.CustomPage
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(a)),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         "Edit")),
-                    30);
+                    30);               
             }
-            Add("Page Name", a => a.CustomPageDisplayName, 180, DhtmlxGridColumnFilterType.Text);
+            Add("Page Name", a => UrlTemplate.MakeHrefString(a.GetViewUrl(), a.CustomPageDisplayName), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Display Type", a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }

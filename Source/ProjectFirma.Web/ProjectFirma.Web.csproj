@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -370,11 +370,14 @@
     <Compile Include="Views\ClassificationSystem\EditPageContentViewData.cs" />
     <Compile Include="Views\ClassificationSystem\EditPageContentViewModel.cs" />
     <Compile Include="Views\CustomPage\Edit.cs" />
-    <Compile Include="Views\CustomPage\EditViewData.cs" />
-    <Compile Include="Views\CustomPage\EditViewModel.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialog.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialogViewData.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialogViewModel.cs" />
     <Compile Include="Views\CustomPage\CustomPageDetails.cs" />
     <Compile Include="Views\CustomPage\CustomPageDetailsViewData.cs" />
     <Compile Include="Views\CustomPage\CustomPageGridSpec.cs" />
+    <Compile Include="Views\CustomPage\EditViewData.cs" />
+    <Compile Include="Views\CustomPage\EditViewModel.cs" />
     <Compile Include="Views\CustomPage\Index.cs" />
     <Compile Include="Views\CustomPage\IndexViewData.cs" />
     <Compile Include="Views\ProgramInfo\ClassificationSystem.cs" />
@@ -716,9 +719,10 @@
     <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
     <Content Include="Views\Organization\EditBoundaryErrors.cshtml" />
     <Content Include="Views\ClassificationSystem\EditPageContent.cshtml" />
-    <Content Include="Views\CustomPage\Edit.cshtml" />
+    <Content Include="Views\CustomPage\EditHtmlContentInDialog.cshtml" />
     <Content Include="Views\CustomPage\CustomPageDetails.cshtml" />
     <Content Include="Views\CustomPage\Index.cshtml" />
+    <Content Include="Views\CustomPage\Edit.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />

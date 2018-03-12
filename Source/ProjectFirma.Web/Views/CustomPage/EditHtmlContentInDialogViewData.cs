@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Edit.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Common;
+
 namespace ProjectFirma.Web.Views.CustomPage
 {
-    public abstract class Edit : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditViewData, EditViewModel>
+    public class EditHtmlContentInDialogViewData : FirmaUserControlViewData
     {
+        public readonly CkEditorExtension.CkEditorToolbar CkEditorToolbar;
+        public readonly string FileBrowserImageUploadUrl;
+
+        public EditHtmlContentInDialogViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar, string fileBrowserImageUploadUrl)
+        {
+            CkEditorToolbar = ckEditorToolbar;
+            FileBrowserImageUploadUrl = fileBrowserImageUploadUrl;
+        }
     }
 }

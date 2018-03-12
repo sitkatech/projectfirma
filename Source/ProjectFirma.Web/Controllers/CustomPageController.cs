@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,12 +28,27 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.CustomPage;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class CustomPageController : FirmaBaseController
     {
+        [AnonymousUnclassifiedFeature]
+        [Route("About/{customPageVanityUrl}")]
+        public ActionResult About(string customPageVanityUrl)
+        {
+            var customPage = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
+                .SingleOrDefault(x => x.CustomPageVanityUrl == customPageVanityUrl);
+
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
+            return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
+        }
+
         [FirmaPageViewListFeature]
         public ViewResult Index()
         {
@@ -56,14 +73,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditInDialog(CustomPagePrimaryKey customPagePrimaryKey)
         {
             var customPage = customPagePrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(customPage);
+            var viewModel = new EditHtmlContentInDialogViewModel(customPage);
             return ViewEditInDialog(viewModel, customPage);
         }
 
         [HttpPost]
         [CustomPageManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditInDialog(CustomPagePrimaryKey customPagePrimaryKey, EditViewModel viewModel)
+        public ActionResult EditInDialog(CustomPagePrimaryKey customPagePrimaryKey, EditHtmlContentInDialogViewModel viewModel)
         {
             var customPage = customPagePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -74,12 +91,12 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditInDialog(EditViewModel viewModel, CustomPage customPage)
+        private PartialViewResult ViewEditInDialog(EditHtmlContentInDialogViewModel viewModel, CustomPage customPage)
         {
             var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
-            var viewData = new EditViewData(ckEditorToolbar,
+            var viewData = new EditHtmlContentInDialogViewData(ckEditorToolbar,
                 SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForCustomPage(customPage)));
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            return RazorPartialView<EditHtmlContentInDialog, EditHtmlContentInDialogViewData, EditHtmlContentInDialogViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -94,6 +111,66 @@ namespace ProjectFirma.Web.Controllers
             }
             var viewData = new CustomPageDetailsViewData(customPageContentHtmlString);
             return RazorPartialView<CustomPageDetails, CustomPageDetailsViewData>(viewData);
+        }
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult New()
+        {
+            var viewModel = new EditViewModel();
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
+            viewModel.UpdateModel(customPage, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"CustomPage {customPage.CustomPageDisplayName} succesfully created.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [CustomPageManageFeature]
+        public PartialViewResult Edit(CustomPagePrimaryKey customPagePrimaryKey)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            var viewModel = new EditViewModel(customPage);
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [CustomPageManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(CustomPagePrimaryKey customPagePrimaryKey, EditViewModel viewModel)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            viewModel.UpdateModel(customPage, CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        {
+            var customPageTypesAsSelectListItems = CustomPageDisplayType.All.OrderBy(x => x.CustomPageDisplayTypeDisplayName)
+                .ToSelectListWithEmptyFirstRow(x => x.CustomPageDisplayTypeID.ToString(CultureInfo.InvariantCulture),
+                    x => x.CustomPageDisplayTypeDisplayName);
+                      
+            var viewData = new EditViewData(customPageTypesAsSelectListItems);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }
 }
