@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.CustomPage;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using MoreLinq;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 
@@ -135,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(customPage, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"CustomPage {customPage.CustomPageDisplayName} succesfully created.");
+            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' succesfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -171,6 +172,43 @@ namespace ProjectFirma.Web.Controllers
                       
             var viewData = new EditViewData(customPageTypesAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [CustomPageManageFeature]
+        public PartialViewResult DeleteCustomPage(CustomPagePrimaryKey customPagePrimaryKey)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(customPage.CustomPageID);
+            return ViewDeleteCustomPage(customPage, viewModel);
+        }
+
+        private PartialViewResult ViewDeleteCustomPage(CustomPage customPage, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = true;
+            var confirmMessage = canDelete
+                ? $"Are you sure you want to delete the Custom About Page '{customPage.CustomPageDisplayName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("About Page", SitkaRoute<CustomPageController>.BuildLinkFromExpression(x => x.About(customPage.CustomPageVanityUrl), "here"));
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [CustomPageManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteCustomPage(CustomPagePrimaryKey customPagePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteCustomPage(customPage, viewModel);
+            }
+            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' succesfully removed.");
+
+            customPage.CustomPageImages.DeleteCustomPageImage();
+            customPage.DeleteCustomPage();
+            return new ModalDialogFormJsonResult();
         }
     }
 }

@@ -135,7 +135,7 @@ DECLARE @customPageID int
 SET @customPageID = 
 (select cp.CustomPageID
 from dbo.CustomPage cp
-where cp.TenantID = 2 and cp.CustomPageDisplayName = 'Meetings and Documents')
+where cp.TenantID = 2 and cp.CustomPageDisplayName = 'About')
 
 insert into dbo.CustomPageImage
 select fp.TenantID, @customPageID, fpi.FileResourceID

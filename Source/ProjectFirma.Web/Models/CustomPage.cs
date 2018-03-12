@@ -6,7 +6,7 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class CustomPage : IFirmaPage
+    public partial class CustomPage : IFirmaPage, IAuditableEntity
     {
         public HtmlString FirmaPageContentHtmlString => CustomPageContentHtmlString;
         public string FirmaPageDisplayName => CustomPageDisplayName;
@@ -24,9 +24,10 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(this));
         }
 
-        public string GetViewUrl()
-        {
-            return SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.About(CustomPageVanityUrl));
-        }
+        public string AboutPageUrl => SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.About(CustomPageVanityUrl));        
+
+        public string DeleteUrl => SitkaRoute<CustomPageController>.BuildUrlFromExpression(c => c.DeleteCustomPage(CustomPageID));
+
+        public string AuditDescriptionString => $"Custom About Page: {CustomPageDisplayName}";
     }
 }

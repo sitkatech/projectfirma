@@ -21,10 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
@@ -33,14 +35,15 @@ namespace ProjectFirma.Web.Views.CustomPage
         public CustomPageGridSpec(bool hasManagePermissions)
         {            
             if (hasManagePermissions)
-            {
+            {               
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, hasManagePermissions, true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         "Edit")),
-                    30);               
+                    30);
             }
-            Add("Page Name", a => UrlTemplate.MakeHrefString(a.GetViewUrl(), a.CustomPageDisplayName), 180, DhtmlxGridColumnFilterType.Text);
+            Add("Page Name", a => UrlTemplate.MakeHrefString(a.AboutPageUrl, a.CustomPageDisplayName), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Display Type", a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.CustomPageDisplayType.ToGridHeaderString(), a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
