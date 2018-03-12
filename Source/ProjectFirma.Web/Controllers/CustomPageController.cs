@@ -39,12 +39,12 @@ namespace ProjectFirma.Web.Controllers
     public class CustomPageController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
-        [Route("About/{customPageVanityUrl}")]
-        public ActionResult About(string customPageVanityUrl)
+        [Route("About/{vanityUrl}")]
+        public ActionResult About(string vanityUrl)
         {
-            var customPage = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
-                .SingleOrDefault(x => x.CustomPageVanityUrl == customPageVanityUrl);
-
+            var customPage = MultiTenantHelpers.GetCustomPages()
+                .SingleOrDefault(x => x.CustomPageVanityUrl == vanityUrl);
+            new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [FirmaPageViewListFeature]
         public PartialViewResult New()
         {
             var viewModel = new EditViewModel();
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [FirmaPageViewListFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(EditViewModel viewModel)
         {

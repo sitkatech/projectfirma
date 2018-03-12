@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -366,6 +366,7 @@
     <Compile Include="Models\IFirmaPage.cs" />
     <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\ProjectOrganizationUpdate.cs" />
+    <Compile Include="Security\CustomPageViewFeature.cs" />
     <Compile Include="Security\CustomPageManageFeature.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
     <Compile Include="Views\ClassificationSystem\EditPageContent.cs" />
