@@ -111,9 +111,16 @@ namespace ProjectFirma.Web.Views
         {
             var aboutMenu = new LtInfoMenuItem("About");
 
-            MultiTenantHelpers.GetPublicCustomPages().ForEach(x =>
+            MultiTenantHelpers.GetCustomPages().ForEach(x =>
             {
-                aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentPerson, x.CustomPageDisplayName, "Group1"));
+                var isVisible = x.CustomPageDisplayType == CustomPageDisplayType.Public ||
+                                (!currentPerson.IsAnonymousUser &&
+                                 x.CustomPageDisplayType == CustomPageDisplayType.Protected);
+                if (isVisible)
+                {
+                    aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentPerson, x.CustomPageDisplayName, "Group1"));
+                }
+                
             });
             return aboutMenu;
         }

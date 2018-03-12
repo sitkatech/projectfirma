@@ -162,9 +162,9 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
         }
 
-        public static List<CustomPage> GetPublicCustomPages()
+        public static List<CustomPage> GetCustomPages()
         {
-            return HttpRequestStorage.DatabaseEntities.CustomPages.ToList().Where(x => x.CustomPageDisplayType == CustomPageDisplayType.Public).ToList();
+            return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
         }
     }
 }

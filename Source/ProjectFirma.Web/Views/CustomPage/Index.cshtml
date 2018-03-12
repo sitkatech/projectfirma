@@ -53,7 +53,6 @@
         sitkaGrid.grid.attachEvent("onRowSelect", function(id)
         {
             var firmaPageId = sitkaGrid.grid.cells(id, sitkaGrid.getColumnIndexByName("CustomPageID")).getValue();
-            console.log(firmaPageId);
             var dataUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.CustomPageUrl.ToJS()));
             var dataUrl = dataUrlTemplate.ParameterReplace(firmaPageId);
             SitkaAjax.load(jQuery("#customPage"), dataUrl);

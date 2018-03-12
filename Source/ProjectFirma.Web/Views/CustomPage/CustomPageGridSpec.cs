@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -27,6 +28,7 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
@@ -51,9 +53,10 @@ namespace ProjectFirma.Web.Views.CustomPage
                     null,
                     null), 80, DhtmlxGridColumnFilterType.None);
             }
-            Add("Page Name", a => UrlTemplate.MakeHrefString(a.AboutPageUrl, a.CustomPageDisplayName), 180, DhtmlxGridColumnFilterType.Text);
+            Add("Page Name", a => a.CustomPageDisplayType != CustomPageDisplayType.Disabled ? UrlTemplate.MakeHrefString(a.AboutPageUrl, a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.CustomPageDisplayType.ToGridHeaderString(), a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("CustomPageID", a => a.CustomPageID, 0);
         }
     }
 }

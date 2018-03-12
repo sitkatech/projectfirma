@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
@@ -78,6 +79,24 @@ namespace ProjectFirma.Web.Views.CustomPage
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+
+            var existingCustomPages = MultiTenantHelpers.GetCustomPages();
+            if (!CustomPageModelExtensions.IsDisplayNameUnique(existingCustomPages, CustomPageDisplayName, CustomPageID))
+            {
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("About Page with the provided Display Name already exists.", x => x.CustomPageDisplayName));
+            }
+           
+            if (!string.IsNullOrWhiteSpace(CustomPageVanityUrl))
+            {
+                if (!new Regex("^[a-zA-Z0-9]*$").IsMatch(CustomPageVanityUrl))
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("Vanity Url must not contain any special characters or spaces.", x => x.CustomPageVanityUrl));
+                }
+                else if (!CustomPageModelExtensions.IsVanityUrlUnique(existingCustomPages, CustomPageVanityUrl, CustomPageID))
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("An About Page with the provided Vanity Url already exists.", x => x.CustomPageVanityUrl));
+                }
+            }
 
             return validationResults;
         }
