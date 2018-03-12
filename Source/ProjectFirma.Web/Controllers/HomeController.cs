@@ -152,9 +152,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult About(CustomPagePrimaryKey customPagePrimaryKey)
+        [Route("About/{customPageVanityUrl}")]
+        public ActionResult About(string customPageVanityUrl)
         {
-            var customPage = customPagePrimaryKey.EntityObject;
+            var customPage = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
+                .SingleOrDefault(x => x.CustomPageVanityUrl == customPageVanityUrl);
 
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);

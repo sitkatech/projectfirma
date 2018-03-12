@@ -48,6 +48,20 @@ ALTER TABLE dbo.CustomPage CHECK CONSTRAINT FK_CustomPage_Tenant_TenantID
 GO
 
 
+ALTER TABLE dbo.CustomPage ADD  CONSTRAINT AK_CustomPage_CustomPageVanityUrl_TenantID UNIQUE NONCLUSTERED 
+(
+	CustomPageVanityUrl ASC,
+	TenantID ASC
+)
+GO
+
+ALTER TABLE dbo.CustomPage ADD  CONSTRAINT AK_CustomPage_CustomPageDisplayName_TenantID UNIQUE NONCLUSTERED 
+(
+	CustomPageDisplayName ASC,
+	TenantID ASC
+)
+GO
+
 CREATE TABLE dbo.CustomPageImage(
 	CustomPageImageID int IDENTITY(1,1) NOT NULL,
 	TenantID int NOT NULL,

@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views
 
             MultiTenantHelpers.GetPublicCustomPages().ForEach(x =>
             {
-                aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About(x)), currentPerson, x.CustomPageDisplayName, "Group1"));
+                aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About(x.CustomPageVanityUrl)), currentPerson, x.CustomPageDisplayName, "Group1"));
             });
             return aboutMenu;
         }
