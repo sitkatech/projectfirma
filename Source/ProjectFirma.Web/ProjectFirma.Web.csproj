@@ -75,6 +75,14 @@
     <Compile Include="Models\Generated\County.Binding.cs" />
     <Compile Include="Models\Generated\County.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CountyPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayType.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.Binding.cs" />
@@ -347,16 +355,34 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\CustomPageModelExtensions.cs" />
+    <Compile Include="Models\CustomPageImage.cs" />
+    <Compile Include="Controllers\CustomPageController.cs" />
+    <Compile Include="Models\CustomPage.cs" />
     <Compile Include="Controllers\ClassificationSystemController.cs" />
     <Compile Include="Controllers\ProjectLocationFilterTypeSimple.cs" />
     <Compile Include="Models\ClassificationSystemModelExtensions.cs" />
     <Compile Include="Models\ClassificationSystem.cs" />
+    <Compile Include="Models\IFirmaPage.cs" />
     <Compile Include="Models\IProjectOrganization.cs" />
     <Compile Include="Models\ProjectOrganizationUpdate.cs" />
+    <Compile Include="Security\CustomPageViewFeature.cs" />
+    <Compile Include="Security\CustomPageManageFeature.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
     <Compile Include="Views\ClassificationSystem\EditPageContent.cs" />
     <Compile Include="Views\ClassificationSystem\EditPageContentViewData.cs" />
     <Compile Include="Views\ClassificationSystem\EditPageContentViewModel.cs" />
+    <Compile Include="Views\CustomPage\Edit.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialog.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialogViewData.cs" />
+    <Compile Include="Views\CustomPage\EditHtmlContentInDialogViewModel.cs" />
+    <Compile Include="Views\CustomPage\CustomPageDetails.cs" />
+    <Compile Include="Views\CustomPage\CustomPageDetailsViewData.cs" />
+    <Compile Include="Views\CustomPage\CustomPageGridSpec.cs" />
+    <Compile Include="Views\CustomPage\EditViewData.cs" />
+    <Compile Include="Views\CustomPage\EditViewModel.cs" />
+    <Compile Include="Views\CustomPage\Index.cs" />
+    <Compile Include="Views\CustomPage\IndexViewData.cs" />
     <Compile Include="Views\ProgramInfo\ClassificationSystem.cs" />
     <Compile Include="Views\ProgramInfo\ClassificationSystemViewData.cs" />
     <Compile Include="Views\ProjectUpdate\OrganizationsValidationResult.cs" />
@@ -696,6 +722,10 @@
     <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
     <Content Include="Views\Organization\EditBoundaryErrors.cshtml" />
     <Content Include="Views\ClassificationSystem\EditPageContent.cshtml" />
+    <Content Include="Views\CustomPage\EditHtmlContentInDialog.cshtml" />
+    <Content Include="Views\CustomPage\CustomPageDetails.cshtml" />
+    <Content Include="Views\CustomPage\Index.cshtml" />
+    <Content Include="Views\CustomPage\Edit.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
@@ -3344,6 +3374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj">
@@ -3390,7 +3421,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60514/</IISUrl>
+          <IISUrl>http://localhost:57753/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>https://localhost.projectFirma.sitkatech.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

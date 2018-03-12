@@ -1,27 +1,24 @@
 ﻿
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
+using System.Web;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public class ViewPageContentViewData
     {
-        public readonly Models.FirmaPage FirmaPage;
+        public readonly HtmlString FirmaPageContentHtmlString;
+        public readonly string FirmaPageDisplayName;
         public readonly bool ShowEditButton;
-        public readonly string FirmaPageContentID;
-        public readonly string FirmaPageEditHoverButtonID;
+        public readonly bool HasPageContent;
         public readonly string EditPageContentUrl;
 
-        public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
+        public ViewPageContentViewData(IFirmaPage firmaPage, bool showEditButton)
         {
-            FirmaPage = firmaPage;
-            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
-            FirmaPageContentID = $"firmaPageContent{firmaPage.FirmaPageID}";
-            FirmaPageEditHoverButtonID = $"editHoverButton{firmaPage.FirmaPageID}";
-            EditPageContentUrl = SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(FirmaPage));
+            FirmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
+            FirmaPageDisplayName = firmaPage.FirmaPageDisplayName;
+            ShowEditButton = showEditButton;
+            HasPageContent = firmaPage.HasPageContent;
+            EditPageContentUrl = firmaPage.GetEditPageContentUrl();
         }        
     }
 }

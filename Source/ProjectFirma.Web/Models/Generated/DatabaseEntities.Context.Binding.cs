@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
         public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<CustomPageImage> AllCustomPageImages { get; set; }
+        public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<CustomPage> AllCustomPages { get; set; }
+        public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
         public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
@@ -231,6 +235,17 @@ namespace ProjectFirma.Web.Models
 
                 case "County":
                     return Counties.GetCounty(primaryKey);
+
+                case "CustomPageDisplayType":
+                    var customPageDisplayType = CustomPageDisplayType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(customPageDisplayType, "CustomPageDisplayType", primaryKey);
+                    return customPageDisplayType;
+
+                case "CustomPageImage":
+                    return CustomPageImages.GetCustomPageImage(primaryKey);
+
+                case "CustomPage":
+                    return CustomPages.GetCustomPage(primaryKey);
 
                 case "FieldDefinitionDataImage":
                     return FieldDefinitionDataImages.GetFieldDefinitionDataImage(primaryKey);

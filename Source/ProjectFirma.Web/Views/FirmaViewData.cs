@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPerson) : null;
+            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission) : null;
         }
 
         public LtInfoMenuItem HelpMenu { get; set; }
@@ -110,8 +110,18 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
         {
             var aboutMenu = new LtInfoMenuItem("About");
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About()), currentPerson, "About " + MultiTenantHelpers.GetTenantDisplayName()));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
+
+            MultiTenantHelpers.GetCustomPages().ForEach(x =>
+            {
+                var isVisible = x.CustomPageDisplayType == CustomPageDisplayType.Public ||
+                                (!currentPerson.IsAnonymousUser &&
+                                 x.CustomPageDisplayType == CustomPageDisplayType.Protected);
+                if (isVisible)
+                {
+                    aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentPerson, x.CustomPageDisplayName, "Group1"));
+                }
+                
+            });
             return aboutMenu;
         }
 
@@ -182,6 +192,7 @@ namespace ProjectFirma.Web.Views
             // Group 3 - Content Editing stuff
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Custom Page Content", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Custom Labels & Definitions", "Group3"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentPerson, "Custom About Pages", "Group3"));
 
             // Group 4 - Other
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentPerson, "Internal Setup Notes", "Group4"));

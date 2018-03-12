@@ -240,5 +240,31 @@ namespace ProjectFirma.Web.Controllers
                 return ckEditorJavascriptContentToReturn;
             }
         }
+
+
+        /// <summary>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// </summary>
+        /// <returns></returns>
+        [CrossAreaRoute]
+        [HttpGet]
+        [CustomPageManageFeature]
+        public ContentResult CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey customPagePrimaryKey)
+        {
+            return Content(String.Empty);
+        }
+
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        [CustomPageManageFeature]
+        public ContentResult CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey customPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
+        {
+            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var customPage = customPagePrimaryKey.EntityObject;
+            var ppImage = new CustomPageImage(customPage, fileResource);
+            HttpRequestStorage.DatabaseEntities.AllCustomPageImages.Add(ppImage);
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+        }
     }
 }

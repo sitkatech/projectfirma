@@ -77,4 +77,5 @@ VALUES
 (249, N'ProjectStewardOrganizationDisplayName', N'Project Steward Organization Display Name', N'<p>Label for Organization types that can steward projects.</p>', 1),
 (250, N'ClassificationSystem', N'Classification System', N'<p>The type of logical system used to group projects according to overarching program themes or goals.</p>', 0),
 (251, N'ClassificationSystemName', N'Classification System Name', N'<p>The name of the logical grouping used to bin projects.</p>', 0),
-(252, N'ProjectPrimaryContact', N'Project Primary Contact', N'<p>An individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>', 1)
+(252, N'ProjectPrimaryContact', N'Project Primary Contact', N'<p>An individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>', 1),
+(253, N'CustomPageDisplayType', N'Custom Page Display Type', N'<p>The status of a custom About page, controls whether the page is visible to the public, protected and only visible for logged in users, or disabled and not shown on the About menu.</p>', 1)

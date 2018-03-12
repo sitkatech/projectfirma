@@ -24,6 +24,7 @@ using LtInfo.Common.BootstrapWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -50,9 +51,9 @@ namespace ProjectFirma.Web.Views.Home
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, currentPerson);
-            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, currentPerson);
-            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, currentPerson);
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageHomePage).HasPermission);
+            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageAdditionalInfo).HasPermission);
+            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageMapInfo).HasPermission);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

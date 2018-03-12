@@ -8,12 +8,12 @@
     <div class="firmaPageContent" style="position: relative; min-height: 30px;">
         <div class="hoverEditButton">
             <div style="margin-top: 10px">
-                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPageDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
             </div>
         </div>
-        @if (ViewDataTyped.FirmaPage.HasFirmaPageContent)
+        @if (ViewDataTyped.HasPageContent)
         {
-            @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+            @Html.Raw(ViewDataTyped.FirmaPageContentHtmlString)
         }
         else
         {
@@ -24,6 +24,6 @@
 else
 {
     <div>
-        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        @Html.Raw(ViewDataTyped.FirmaPageContentHtmlString)
     </div>
 }

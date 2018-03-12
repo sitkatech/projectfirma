@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -93,24 +94,11 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPageType);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+
+            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentPerson, firmaPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ViewResult About()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.About);
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ViewResult Meetings()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.MeetingsandDocuments);
         }
 
         [HttpGet]
@@ -161,6 +149,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.Training);
-        }
+        }       
+
     }
 }
