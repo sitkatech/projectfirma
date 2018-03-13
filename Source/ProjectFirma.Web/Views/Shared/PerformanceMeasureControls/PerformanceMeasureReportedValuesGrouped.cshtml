@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureReportedValuesGrouped.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="PerformanceMeasureReportedValuesGrouped.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
@@ -30,8 +30,8 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <table class="summaryLayout performanceMeasureTable" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle()">
             @{
-        var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
-        var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty;
+                var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
+                var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty;
             }
             <tr style="border-bottom: 1px solid black">
                 <th colspan="@(subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 2)">
@@ -51,12 +51,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     <th style="text-align: right; vertical-align: bottom">Total</th>
                     <th style="text-align: center; vertical-align: bottom">Units</th>
                 </tr>
-                for (var index = 0; index < performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Count; index++)
+                foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
-                    var subcategoriesReportedValue = performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues[index];
-                    var backgroundColor = index%2 == 0 ? "none" : "white";
-
-                    <tr style="background-color: @backgroundColor">
+                    <tr>
                         <th></th>
                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
                         {
@@ -85,9 +82,7 @@ Source code is available upon request via <support@sitkatech.com>.
             else
             {
                 <tr>
-                    <th colspan="@subcategoryCount">
-                        @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)
-                    </th>
+                    <th colspan="@subcategoryCount"></th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
                     {
                         <th style="text-align: right; vertical-align: bottom; border-bottom: 1px solid;" rowspan="2">
@@ -108,35 +103,31 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     }
                 </tr>
-
-                for (var index = 0; index < performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Count; index++)
+                foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
-                     var subcategoriesReportedValue = performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues[index];
-                     var backgroundColor = index%2 == 0 ? "none" : "white";
+                    <tr>
+                        @if (!subcategoriesReportedValue.SubcategoryNames.Any())
+                        {
+                            <td colspan="@subcategoryCount"></td>
+                        }
+                        else
+                        {
+                            foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
+                            {
+                                <td>@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
+                            }
+                        }
 
-                     <tr style="background-color: @backgroundColor">
-                         @if (!subcategoriesReportedValue.SubcategoryNames.Any())
-                         {
-                             <td colspan="@subcategoryCount"></td>
-                         }
-                         else
-                         {
-                             foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
-                             {
-                                 <td>@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
-                             }
-                         }
-
-                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
-                         {
-                             <td style="text-align: right">
-                                 @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
-                             </td>
-                         }
-                         <th style="text-align: right">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
-                         <th style="text-align: center">@pmUnits</th>
-                     </tr>
-                 }
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
+                        {
+                            <td style="text-align: right">
+                                @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
+                            </td>
+                        }
+                        <th style="text-align: right">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
+                        <th style="text-align: center">@pmUnits</th>
+                    </tr>
+                }
                 <tr style="border-top: 1px solid">
                     <th colspan="@subcategoryCount" style="text-align: right">Total</th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
