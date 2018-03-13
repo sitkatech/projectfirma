@@ -69,14 +69,21 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var reportedValues in groupedByPerformanceMeasure)
             {
                 var performanceMeasure = reportedValues.Key;
+                var groupBy = reportedValues.GroupBy(x => x.PerformanceMeasureSubcategoriesAsString).ToList();
                 var subcategoriesReportedValues =
-                    reportedValues.GroupBy(x => x.PerformanceMeasureSubcategoriesAsString)
+                    groupBy
                         .Select(
                             subcategoriesReportedValue =>
-                                new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().PerformanceMeasureSubcategoryOptions,
-                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.ReportedValue))))
+                            {
+                                return new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().PerformanceMeasureSubcategoryOptions,
+                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.ReportedValue)));
+                            })                                
                         .ToList();
-                performanceMeasureCalendarYearReportedValues.Add(new PerformanceMeasureSubcategoriesCalendarYearReportedValue(performanceMeasure, subcategoriesReportedValues, null));
+                var orderedSubcategoryReportedValues = subcategoriesReportedValues.OrderBy(srv =>
+                    srv.PerformanceMeasureValueSubcategoryOptions
+                        .OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).First()
+                        .PerformanceMeasureSubcategoryOption.SortOrder).ToList();
+                performanceMeasureCalendarYearReportedValues.Add(new PerformanceMeasureSubcategoriesCalendarYearReportedValue(performanceMeasure, orderedSubcategoryReportedValues, null));
             }
             return performanceMeasureCalendarYearReportedValues;
         }

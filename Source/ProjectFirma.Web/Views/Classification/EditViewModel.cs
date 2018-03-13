@@ -37,14 +37,16 @@ namespace ProjectFirma.Web.Views.Classification
         [Required]
         public int ClassificationID { get; set; }
 
-        [Required]
+        [Required]        
         [StringLength(Models.Classification.FieldLengths.DisplayName)]
         public string DisplayName { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ClassificationDescription)]
         [StringLength(Models.Classification.FieldLengths.ClassificationDescription)]
         public string ClassificationDescription { get; set; }
-        
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ClassificationGoalStatement)]
         [StringLength(Models.Classification.FieldLengths.GoalStatement)]
         public string GoalStatement { get; set; }
 
