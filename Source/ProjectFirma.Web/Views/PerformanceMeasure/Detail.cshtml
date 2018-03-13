@@ -94,11 +94,11 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Display Name</div>
+                    <div class="col-xs-5 fieldLabel text-right">Name</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@MultiTenantHelpers.GetPerformanceMeasureName() Type</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureType, string.Format("{0}", FieldDefinition.PerformanceMeasureType.GetFieldDefinitionLabel()))</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
@@ -173,7 +173,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>@FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()</th>
+                                <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategoryOption, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))</th>
                             </tr>
                         </thead>
                         <tbody>
