@@ -94,6 +94,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionClassificationSystemName ClassificationSystemName = FieldDefinitionClassificationSystemName.Instance;
         public static readonly FieldDefinitionProjectPrimaryContact ProjectPrimaryContact = FieldDefinitionProjectPrimaryContact.Instance;
         public static readonly FieldDefinitionCustomPageDisplayType CustomPageDisplayType = FieldDefinitionCustomPageDisplayType.Instance;
+        public static readonly FieldDefinitionTaxonomyTierThreeDescription TaxonomyTierThreeDescription = FieldDefinitionTaxonomyTierThreeDescription.Instance;
+        public static readonly FieldDefinitionTaxonomyTierTwoDescription TaxonomyTierTwoDescription = FieldDefinitionTaxonomyTierTwoDescription.Instance;
+        public static readonly FieldDefinitionTaxonomyTierOneDescription TaxonomyTierOneDescription = FieldDefinitionTaxonomyTierOneDescription.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -103,7 +106,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType, TaxonomyTierThreeDescription, TaxonomyTierTwoDescription, TaxonomyTierOneDescription };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -321,12 +324,18 @@ namespace ProjectFirma.Web.Models
                     return TaxonomySystemName;
                 case FieldDefinitionEnum.TaxonomyTierOne:
                     return TaxonomyTierOne;
+                case FieldDefinitionEnum.TaxonomyTierOneDescription:
+                    return TaxonomyTierOneDescription;
                 case FieldDefinitionEnum.TaxonomyTierOneDisplayNameForProject:
                     return TaxonomyTierOneDisplayNameForProject;
                 case FieldDefinitionEnum.TaxonomyTierThree:
                     return TaxonomyTierThree;
+                case FieldDefinitionEnum.TaxonomyTierThreeDescription:
+                    return TaxonomyTierThreeDescription;
                 case FieldDefinitionEnum.TaxonomyTierTwo:
                     return TaxonomyTierTwo;
+                case FieldDefinitionEnum.TaxonomyTierTwoDescription:
+                    return TaxonomyTierTwoDescription;
                 case FieldDefinitionEnum.UnfundedNeed:
                     return UnfundedNeed;
                 case FieldDefinitionEnum.UnsecuredFunding:
@@ -418,7 +427,10 @@ namespace ProjectFirma.Web.Models
         ClassificationSystem = 250,
         ClassificationSystemName = 251,
         ProjectPrimaryContact = 252,
-        CustomPageDisplayType = 253
+        CustomPageDisplayType = 253,
+        TaxonomyTierThreeDescription = 254,
+        TaxonomyTierTwoDescription = 255,
+        TaxonomyTierOneDescription = 256
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -772,7 +784,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition
     {
         private FieldDefinitionMonitoringProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", @"<p>A on-going activity to collect environmental monitoring data</p>", true);
+        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", @"<p>A on-going activity to collect environmental monitoring data.</p>", true);
     }
 
     public partial class FieldDefinitionMonitoringApproach : FieldDefinition
@@ -790,25 +802,25 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionMonitoringProgramUrl : FieldDefinition
     {
         private FieldDefinitionMonitoringProgramUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", @"<p>The external homepage of a related monitoring program</p>", true);
+        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", @"<p>The external homepage of a related monitoring program.</p>", true);
     }
 
     public partial class FieldDefinitionClassificationDescription : FieldDefinition
     {
         private FieldDefinitionClassificationDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionClassificationDescription Instance = new FieldDefinitionClassificationDescription(240, @"ClassificationDescription", @"Classification Description", @"<p>The long-form description of the entries in the project classification system.-</p>", true);
+        public static readonly FieldDefinitionClassificationDescription Instance = new FieldDefinitionClassificationDescription(240, @"ClassificationDescription", @"Classification Description", @"<p>The long-form description of the entries in the project classification system.</p>", true);
     }
 
     public partial class FieldDefinitionClassificationGoalStatement : FieldDefinition
     {
         private FieldDefinitionClassificationGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionClassificationGoalStatement Instance = new FieldDefinitionClassificationGoalStatement(241, @"ClassificationGoalStatement", @"Classification Goal Statement", @"<p>The goal of this classification system record.-</p>", true);
+        public static readonly FieldDefinitionClassificationGoalStatement Instance = new FieldDefinitionClassificationGoalStatement(241, @"ClassificationGoalStatement", @"Classification Goal Statement", @"<p>The goal of this classification system record.</p>", true);
     }
 
     public partial class FieldDefinitionClassificationNarrative : FieldDefinition
     {
         private FieldDefinitionClassificationNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionClassificationNarrative Instance = new FieldDefinitionClassificationNarrative(242, @"ClassificationNarrative", @"Classification Narrative", @"<p>Descriptive text describing the criteria for including a project in this classification system..-</p>", true);
+        public static readonly FieldDefinitionClassificationNarrative Instance = new FieldDefinitionClassificationNarrative(242, @"ClassificationNarrative", @"Classification Narrative", @"<p>Descriptive text describing the criteria for including a project in this classification system.</p>", true);
     }
 
     public partial class FieldDefinitionTaxonomySystemName : FieldDefinition
@@ -875,5 +887,23 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionCustomPageDisplayType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
         public static readonly FieldDefinitionCustomPageDisplayType Instance = new FieldDefinitionCustomPageDisplayType(253, @"CustomPageDisplayType", @"Custom Page Display Type", @"<p>The status of a custom About page, controls whether the page is visible to the public, protected and only visible for logged in users, or disabled and not shown on the About menu.</p>", true);
+    }
+
+    public partial class FieldDefinitionTaxonomyTierThreeDescription : FieldDefinition
+    {
+        private FieldDefinitionTaxonomyTierThreeDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionTaxonomyTierThreeDescription Instance = new FieldDefinitionTaxonomyTierThreeDescription(254, @"TaxonomyTierThreeDescription", @"Taxonomy Tier Three Description", @"<p>The long-form description of the entries in the project taxonomy system.</p>", true);
+    }
+
+    public partial class FieldDefinitionTaxonomyTierTwoDescription : FieldDefinition
+    {
+        private FieldDefinitionTaxonomyTierTwoDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionTaxonomyTierTwoDescription Instance = new FieldDefinitionTaxonomyTierTwoDescription(255, @"TaxonomyTierTwoDescription", @"Taxonomy Tier Two Description", @"<p>The long-form description of the entries in the project taxonomy system.</p>", true);
+    }
+
+    public partial class FieldDefinitionTaxonomyTierOneDescription : FieldDefinition
+    {
+        private FieldDefinitionTaxonomyTierOneDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionTaxonomyTierOneDescription Instance = new FieldDefinitionTaxonomyTierOneDescription(256, @"TaxonomyTierOneDescription", @"Taxonomy Tier One Description", @"<p>The long-form description of the entries in the project taxonomy system.</p>", true);
     }
 }

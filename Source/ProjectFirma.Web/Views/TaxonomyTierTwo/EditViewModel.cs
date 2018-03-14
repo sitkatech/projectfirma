@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public string TaxonomyTierTwoName { get; set; }
 
         [StringLength(Models.TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoDescription)]
-        [DisplayName("Description")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierTwoDescription)]
         public string TaxonomyTierTwoDescription { get; set; }
 
         [Required]
