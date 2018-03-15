@@ -468,9 +468,9 @@ namespace ProjectFirma.Web.Models
             return ProjectStage == ProjectStage.Proposal;
         }
 
-        public bool IsPendingProposal()
+        public bool IsPendingOrRejectedProposal()
         {
-            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved && ProjectApprovalStatus != ProjectApprovalStatus.Rejected;
+            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
 
         public bool IsActiveProposal()
@@ -481,6 +481,11 @@ namespace ProjectFirma.Web.Models
         public bool IsPendingProject()
         {
             return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
+        public bool IsRejectedPendingProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
         public bool IsForwardLookingFactSheetRelevant()

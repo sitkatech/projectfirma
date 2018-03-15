@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetNotRejectedProposals(CurrentPerson.CanViewProposals);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetNotApprovedProposals(CurrentPerson.CanViewProposals);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetNotRejectedProposals(CurrentPerson.CanViewProposals),
+                    .GetNotApprovedProposals(CurrentPerson.CanViewProposals),
                 FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized());
         }
 
