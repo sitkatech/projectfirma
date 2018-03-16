@@ -207,9 +207,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                         </div>
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
-                                            <p>
-                                                This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized(), @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized(), and boundaries associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().
-                                            </p>
+                                        <p>
+                                            The map displays the @FieldDefinition.Organization.GetFieldDefinitionLabel() boundary, and the locations of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() that have spatial data.
+                                        </p>
                                         }
                                         else
                                         {
@@ -258,6 +258,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
+                                <p></p>
                                 @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>

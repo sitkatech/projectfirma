@@ -21,14 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.FundingSource;
 using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization

@@ -100,6 +100,16 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
+        public List<Project> GetAllActiveProjects(Person person)
+        {
+            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetActiveProjects();
+        }
+
+        public List<Project> GetAllActiveProposals(Person person)
+        {
+            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetActiveProposals(person.CanViewProposals);
+        }
+
         public List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(Person person)
         {
             var allActiveProjectsAndProposals = ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
