@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
+            var canDelete = true;
             var confirmMessage = $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
