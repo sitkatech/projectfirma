@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     else
                     {
-                        <p>No expenditures to report for this Funding Source</p>
+                        <p class="systemText">No expenditures to report for this @FieldDefinition.FundingSource.GetFieldDefinitionLabel().</p>
                     }
                 </div>
             </div>            
@@ -100,9 +100,9 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default panelLTInfo">
-                <div class="panel-heading">
-                    Expected Funding by Project
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    Expected Funding by @FieldDefinition.Project.GetFieldDefinitionLabel()
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceRequestsGridSpec, ViewDataTyped.ProjectFundingSourceRequestsGridName, ViewDataTyped.ProjectFundingSourceRequestsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

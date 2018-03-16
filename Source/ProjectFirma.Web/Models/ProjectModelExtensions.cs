@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
-        public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProject(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProjectProposal(UrlTemplate.Parameter1Int)));
         public static string GetDeleteProposalUrl(this Project project)
         {
             return DeleteProposalUrlTemplate.ParameterReplace(project.ProjectID);
