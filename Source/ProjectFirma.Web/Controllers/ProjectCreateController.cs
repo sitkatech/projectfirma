@@ -974,8 +974,8 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectCreateFeature]
-        public PartialViewResult DeleteProject(ProjectPrimaryKey projectPrimaryKey)
+        [ProjectDeleteProposalFeature]
+        public PartialViewResult DeleteProjectProposal(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new ConfirmDialogFormViewModel(projectPrimaryKey.PrimaryKeyValue);
             return ViewDeleteProject(projectPrimaryKey.EntityObject, viewModel);
@@ -989,9 +989,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectDeleteProposalFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteProject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteProjectProposal(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -1002,6 +1002,7 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"Project {project.DisplayName} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
+
 
         [HttpGet]
         [ProjectCreateFeature]

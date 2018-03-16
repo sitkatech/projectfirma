@@ -126,25 +126,12 @@ namespace ProjectFirma.Web.Views.Project
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
 
             var projectAlerts = new List<string>();
-            if (project.IsProposal())
-            {
-                var projectApprovalStatus = project.ProjectApprovalStatus;
-                ProjectUpdateButtonText =
-                    projectApprovalStatus == ProjectApprovalStatus.Draft ||
-                    projectApprovalStatus == ProjectApprovalStatus.Returned
-                        ? "Edit Proposal"
-                        : "Review Proposal";
-                ProjectWizardUrl =
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
-                CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
-                BackToProjectsText = "Back to all Proposals";
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
-                {
-                    projectAlerts.Add(
-                        "This project is in the Proposal stage. Any edits to this project must be made using the Add New Project workflow.");
-                }
-            } else if (project.IsPendingProject())
+            var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
+            var backToAllProposalsText = "Back to all Proposals";
+            var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
+            var backToAllPendingProjectsText = "Back to all Pending Projects";
+
+            if (project.IsRejected())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
@@ -155,14 +142,61 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
-                BackToProjectsText = "Back to all Pending Projects";
+                if (project.IsProposal())
+                {
+                    ProjectListUrl = proposedProjectListUrl;
+                    BackToProjectsText = backToAllProposalsText;
+                }
+                else if (project.IsPendingProject())
+                {
+                    ProjectListUrl = pendingProjectsListUrl;
+                    BackToProjectsText = backToAllPendingProjectsText;
+                }
+
+                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                {
+                    projectAlerts.Add(
+                        "This project was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
+                }
+            }            
+            else if (project.IsProposal())
+            {
+                var projectApprovalStatus = project.ProjectApprovalStatus;
+                ProjectUpdateButtonText =
+                    projectApprovalStatus == ProjectApprovalStatus.Draft ||
+                    projectApprovalStatus == ProjectApprovalStatus.Returned
+                        ? "Edit Proposal"
+                        : "Review Proposal";
+                ProjectWizardUrl =
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectListUrl = proposedProjectListUrl;
+                BackToProjectsText = backToAllProposalsText;
+                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                {
+                    projectAlerts.Add(
+                        "This project is in the Proposal stage. Any edits to this project must be made using the Add New Project workflow.");
+                }
+            }
+            else if (project.IsPendingProject())
+            {
+                var projectApprovalStatus = project.ProjectApprovalStatus;
+                ProjectUpdateButtonText =
+                    projectApprovalStatus == ProjectApprovalStatus.Draft ||
+                    projectApprovalStatus == ProjectApprovalStatus.Returned
+                        ? "Edit Pending Project"
+                        : "Review Pending Project";
+                ProjectWizardUrl =
+                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectListUrl = pendingProjectsListUrl;
+                BackToProjectsText = backToAllPendingProjectsText;
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
                         "This Project is pending. Any edits to this project must be made using the Add New Project workflow.");
                 }
-            }
+            }            
             else
             {
                 var latestUpdateState = project.GetLatestUpdateState();
