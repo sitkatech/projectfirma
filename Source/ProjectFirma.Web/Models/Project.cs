@@ -468,7 +468,7 @@ namespace ProjectFirma.Web.Models
             return ProjectStage == ProjectStage.Proposal;
         }
 
-        public bool IsPendingOrRejectedProposal()
+        public bool IsNotApprovedProposal()
         {
             return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
@@ -483,7 +483,7 @@ namespace ProjectFirma.Web.Models
             return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
 
-        public bool IsRejectedPendingProjectOrProposal()
+        public bool IsRejected()
         {
             return ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }

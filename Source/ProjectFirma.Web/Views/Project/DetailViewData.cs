@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views.Project
             var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
             var backToAllPendingProjectsText = "Back to all Pending Projects";
 
-            if (project.IsRejectedPendingProjectOrProposal())
+            if (project.IsRejected())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =

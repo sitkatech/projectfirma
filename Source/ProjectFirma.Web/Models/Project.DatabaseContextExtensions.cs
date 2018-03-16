@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         }
         public static List<Project> GetNotApprovedProposals(this IList<Project> projects, bool showProposals)
         {
-            return showProposals ? projects.Where(x => x.IsPendingOrRejectedProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+            return showProposals ? projects.Where(x => x.IsNotApprovedProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
         }
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
         {
