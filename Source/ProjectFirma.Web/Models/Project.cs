@@ -313,7 +313,7 @@ namespace ProjectFirma.Web.Models
         {
             var projectOrganizationAssocationNames = new List<string>();
             ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
-            return string.Join(",", projectOrganizationAssocationNames);
+            return string.Join(", ", projectOrganizationAssocationNames);
         }
 
         public ProjectImage KeyPhoto

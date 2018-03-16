@@ -219,7 +219,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(currentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             
             // received
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(CurrentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).ToList();
 
             // provided
