@@ -483,9 +483,9 @@ namespace ProjectFirma.Web.Models
             return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
 
-        public bool IsRejectedPendingProject()
+        public bool IsRejectedPendingProjectOrProposal()
         {
-            return !IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
+            return ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
         public bool IsForwardLookingFactSheetRelevant()
