@@ -132,6 +132,115 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(Project).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(SupportRequestLog).Name, typeof(TenantAttribute).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in AuditLogs.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in FileResourcesWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in Notifications.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in OrganizationsWhereYouAreThePrimaryContactPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureNotesWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureNotesWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectsWhereYouAreThePrimaryContactPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectsWhereYouAreTheProposingPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectsWhereYouAreTheReviewedByPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocationStagings.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocationStagingUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNotesWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNotesWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNoteUpdatesWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNoteUpdatesWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdatesWhereYouAreThePrimaryContactPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SupportRequestLogsWhereYouAreTheRequestPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TenantAttributesWhereYouAreThePrimaryContactPerson.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllPeople.Remove(this);                
+        }
+
         [Key]
         public int PersonID { get; set; }
         public int TenantID { get; private set; }

@@ -95,6 +95,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectBudget).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Remove(this);                
+        }
+
         [Key]
         public int ProjectBudgetID { get; set; }
         public int TenantID { get; private set; }

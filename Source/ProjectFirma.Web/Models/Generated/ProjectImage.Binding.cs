@@ -101,6 +101,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in ProjectImageUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllProjectImages.Remove(this);                
+        }
+
         [Key]
         public int ProjectImageID { get; set; }
         public int TenantID { get; private set; }

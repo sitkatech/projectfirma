@@ -86,6 +86,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FirmaPageImage).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Remove(this);                
+        }
+
         [Key]
         public int FirmaPageImageID { get; set; }
         public int TenantID { get; private set; }

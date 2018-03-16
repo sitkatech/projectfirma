@@ -96,6 +96,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(SnapshotPerformanceMeasureSubcategoryOption).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllSnapshotPerformanceMeasureSubcategoryOptions.Remove(this);                
+        }
+
         [Key]
         public int SnapshotPerformanceMeasureSubcategoryOptionID { get; set; }
         public int TenantID { get; private set; }

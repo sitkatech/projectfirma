@@ -92,6 +92,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in PerformanceMeasureActualSubcategoryOptions.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Remove(this);                
+        }
+
         [Key]
         public int PerformanceMeasureActualID { get; set; }
         public int TenantID { get; private set; }

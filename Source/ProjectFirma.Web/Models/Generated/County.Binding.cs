@@ -85,6 +85,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(County).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllCounties.Remove(this);                
+        }
+
         [Key]
         public int CountyID { get; set; }
         public int TenantID { get; private set; }

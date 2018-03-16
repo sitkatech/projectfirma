@@ -74,6 +74,30 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MonitoringProgram).Name, typeof(MonitoringProgramDocument).Name, typeof(MonitoringProgramPartner).Name, typeof(PerformanceMeasureMonitoringProgram).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in MonitoringProgramDocuments.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in MonitoringProgramPartners.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureMonitoringPrograms.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllMonitoringPrograms.Remove(this);                
+        }
+
         [Key]
         public int MonitoringProgramID { get; set; }
         public int TenantID { get; private set; }

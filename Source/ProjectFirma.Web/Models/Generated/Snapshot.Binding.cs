@@ -75,6 +75,30 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Snapshot).Name, typeof(SnapshotOrganizationTypeExpenditure).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotProject).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in SnapshotOrganizationTypeExpenditures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotPerformanceMeasures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotProjects.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllSnapshots.Remove(this);                
+        }
+
         [Key]
         public int SnapshotID { get; set; }
         public int TenantID { get; private set; }

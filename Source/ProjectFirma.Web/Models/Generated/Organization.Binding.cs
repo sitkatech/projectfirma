@@ -98,6 +98,45 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in FundingSources.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in MonitoringProgramPartners.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in OrganizationBoundaryStagings.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in People.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectOrganizations.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectOrganizationUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllOrganizations.Remove(this);                
+        }
+
         [Key]
         public int OrganizationID { get; set; }
         public int TenantID { get; private set; }

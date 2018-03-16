@@ -74,6 +74,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MappedRegion).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllMappedRegions.Remove(this);                
+        }
+
         [Key]
         public int MappedRegionID { get; set; }
         public int TenantID { get; private set; }

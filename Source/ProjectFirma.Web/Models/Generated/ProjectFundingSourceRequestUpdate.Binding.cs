@@ -92,6 +92,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectFundingSourceRequestUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequestUpdates.Remove(this);                
+        }
+
         [Key]
         public int ProjectFundingSourceRequestUpdateID { get; set; }
         public int TenantID { get; private set; }

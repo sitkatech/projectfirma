@@ -90,6 +90,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureNote).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureNotes.Remove(this);                
+        }
+
         [Key]
         public int PerformanceMeasureNoteID { get; set; }
         public int TenantID { get; private set; }
