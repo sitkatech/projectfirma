@@ -37,9 +37,19 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string EditOrganizationUrl;
         public readonly string EditBoundaryUrl;
         public readonly string DeleteOrganizationBoundaryUrl;
+
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
+
+        public readonly ProjectsIncludingLeadImplementingGridSpec ProposalsGridSpec;
+        public readonly string ProposalsGridName;
+        public readonly string ProposalsGridDataUrl;
+
+        public readonly ProjectsIncludingLeadImplementingGridSpec PendingProjectsGridSpec;
+        public readonly string PendingProjectsGridName;
+        public readonly string PendingProjectsGridDataUrl;
+
         public readonly ViewGoogleChartViewData ExpendituresDirectlyFromOrganizationViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
         public readonly ProjectFundingSourceExpendituresForOrganizationGridSpec ProjectFundingSourceExpendituresForOrganizationGridSpec;
@@ -57,6 +67,11 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly bool CanCreateNewFundingSource;
 
         public readonly string ProjectStewardOrLeadImplementorFieldDefinitionName;
+
+        public readonly bool ShowProposals;
+        public readonly string ProposalsPanelHeader;
+
+        public readonly bool ShowPendingProjects;
 
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
@@ -79,7 +94,7 @@ namespace ProjectFirma.Web.Views.Organization
                     c => c.DeleteOrganizationBoundary(organization));
 
             ProjectsIncludingLeadImplementingGridSpec =
-                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson)
+                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
@@ -121,7 +136,39 @@ namespace ProjectFirma.Web.Views.Organization
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
                                         (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
-                                         CurrentPerson.OrganizationID == organization.OrganizationID);            
+                                         CurrentPerson.OrganizationID == organization.OrganizationID);
+            ShowProposals = currentPerson.CanViewProposals;
+            ProposalsPanelHeader = MultiTenantHelpers.ShowProposalsToThePublic()
+                ? Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()
+                : $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";
+
+            ProposalsGridSpec =
+                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
+                {
+                    ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    SaveFiltersInCookie = true
+                };
+
+            ProposalsGridName = "proposalsGrid";
+            ProposalsGridDataUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    tc => tc.ProposalsGridJsonData(organization));
+
+            ShowPendingProjects = currentPerson.CanViewPendingProjects;
+
+            PendingProjectsGridSpec =
+                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
+                {
+                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    SaveFiltersInCookie = true
+                };
+
+            PendingProjectsGridName = "pendingProjectsGrid";
+            PendingProjectsGridDataUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    tc => tc.PendingProjectsGridJsonData(organization));
         }
 
     }

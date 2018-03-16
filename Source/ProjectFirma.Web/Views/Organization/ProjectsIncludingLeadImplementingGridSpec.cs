@@ -33,9 +33,15 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class ProjectsIncludingLeadImplementingGridSpec : GridSpec<Models.Project>
     {
-        public ProjectsIncludingLeadImplementingGridSpec(Models.Organization organization, Person currentPerson)
+        public ProjectsIncludingLeadImplementingGridSpec(Models.Organization organization, Person currentPerson, bool showSubmittalStatus)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
+
+            if (showSubmittalStatus)
+            {
+                Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            }
+            
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {

@@ -105,9 +105,14 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetActiveProjects();
         }
 
-        public List<Project> GetAllActiveProposals(Person person)
+        public List<Project> GetAllProposals(Person person)
         {
-            return ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProposals(person.CanViewProposals);
+            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetAllProposals(person.CanViewProposals);
+        }
+
+        public List<Project> GetAllPendingProjects(Person person)
+        {
+            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetPendingProjects(person.CanViewPendingProjects);
         }
 
         public List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(Person person)

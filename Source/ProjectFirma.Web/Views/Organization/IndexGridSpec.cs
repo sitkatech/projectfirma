@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentPerson).Count, 90);
             if (currentPerson.CanViewProposals)
             {
-                Add($"# of {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetAllActiveProposals(currentPerson).Count, 90);
+                Add($"# of {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetAllProposals(currentPerson).Count, 90);
             }
             Add($"# of {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 90);
             Add("# of Users", a => a.People.Count, 90);
