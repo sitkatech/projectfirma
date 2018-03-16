@@ -110,6 +110,75 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(TenantAttribute).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in ClassificationsWhereYouAreTheKeyImageFileResource.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in CustomPageImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in FieldDefinitionDataImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in FirmaHomePageImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in FirmaPageImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in MonitoringProgramDocuments.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in OrganizationsWhereYouAreTheLogoFileResource.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectImageUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllFileResources.Remove(this);                
+        }
+
         [Key]
         public int FileResourceID { get; set; }
         public int TenantID { get; private set; }

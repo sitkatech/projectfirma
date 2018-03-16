@@ -92,6 +92,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(SnapshotOrganizationTypeExpenditure).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllSnapshotOrganizationTypeExpenditures.Remove(this);                
+        }
+
         [Key]
         public int SnapshotOrganizationTypeExpenditureID { get; set; }
         public int TenantID { get; private set; }

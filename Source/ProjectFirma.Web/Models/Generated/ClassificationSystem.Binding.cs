@@ -72,6 +72,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in Classifications.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllClassificationSystems.Remove(this);                
+        }
+
         [Key]
         public int ClassificationSystemID { get; set; }
         public int TenantID { get; private set; }

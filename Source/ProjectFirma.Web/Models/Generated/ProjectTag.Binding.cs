@@ -86,6 +86,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectTag).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectTags.Remove(this);                
+        }
+
         [Key]
         public int ProjectTagID { get; set; }
         public int TenantID { get; private set; }

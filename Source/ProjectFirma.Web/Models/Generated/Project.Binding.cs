@@ -136,6 +136,110 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectBudget).Name, typeof(ProjectClassification).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceRequest).Name, typeof(ProjectImage).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(SnapshotProject).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in NotificationProjects.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureActuals.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureExpecteds.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectAssessmentQuestions.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectBudgets.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectClassifications.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectExemptReportingYears.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectExternalLinks.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectFundingSourceExpenditures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectFundingSourceRequests.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectImages.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocations.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocationStagings.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNotes.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectOrganizations.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectTags.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdateBatches.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectWatersheds.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotProjects.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllProjects.Remove(this);                
+        }
+
         [Key]
         public int ProjectID { get; set; }
         public int TenantID { get; private set; }

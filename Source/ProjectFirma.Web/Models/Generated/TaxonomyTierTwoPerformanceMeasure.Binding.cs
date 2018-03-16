@@ -89,6 +89,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierTwoPerformanceMeasure).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoPerformanceMeasures.Remove(this);                
+        }
+
         [Key]
         public int TaxonomyTierTwoPerformanceMeasureID { get; set; }
         public int TenantID { get; private set; }

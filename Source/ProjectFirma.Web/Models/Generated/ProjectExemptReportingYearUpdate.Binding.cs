@@ -84,6 +84,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectExemptReportingYearUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYearUpdates.Remove(this);                
+        }
+
         [Key]
         public int ProjectExemptReportingYearUpdateID { get; set; }
         public int TenantID { get; private set; }

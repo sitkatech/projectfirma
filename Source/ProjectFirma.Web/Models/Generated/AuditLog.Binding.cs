@@ -102,6 +102,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AuditLog).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllAuditLogs.Remove(this);                
+        }
+
         [Key]
         public int AuditLogID { get; set; }
         public int TenantID { get; private set; }

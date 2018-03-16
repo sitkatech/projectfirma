@@ -90,6 +90,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectNoteUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectNoteUpdates.Remove(this);                
+        }
+
         [Key]
         public int ProjectNoteUpdateID { get; set; }
         public int TenantID { get; private set; }

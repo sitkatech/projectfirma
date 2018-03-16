@@ -126,6 +126,85 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(ProjectBudgetUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectFundingSourceRequestUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(ProjectWatershedUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in PerformanceMeasureActualUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectBudgetUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectExemptReportingYearUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectExternalLinkUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectFundingSourceExpenditureUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectFundingSourceRequestUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectImageUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocationStagingUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectLocationUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectNoteUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectOrganizationUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdateHistories.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectWatershedUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdateBatches.Remove(this);                
+        }
+
         [Key]
         public int ProjectUpdateBatchID { get; set; }
         public int TenantID { get; private set; }

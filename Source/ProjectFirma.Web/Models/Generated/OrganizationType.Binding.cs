@@ -82,6 +82,30 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(SnapshotOrganizationTypeExpenditure).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in Organizations.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in OrganizationTypeRelationshipTypes.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotOrganizationTypeExpenditures.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllOrganizationTypes.Remove(this);                
+        }
+
         [Key]
         public int OrganizationTypeID { get; set; }
         public int TenantID { get; private set; }
