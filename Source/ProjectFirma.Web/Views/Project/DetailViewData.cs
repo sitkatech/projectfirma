@@ -126,6 +126,11 @@ namespace ProjectFirma.Web.Views.Project
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
 
             var projectAlerts = new List<string>();
+            var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
+            var backToAllProposalsText = "Back to all Proposals";
+            var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
+            var backToAllPendingProjectsText = "Back to all Pending Projects";
+
             if (project.IsRejectedPendingProjectOrProposal())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
@@ -137,8 +142,17 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
-                BackToProjectsText = "Back to all Pending Projects";
+                if (project.IsProposal())
+                {
+                    ProjectListUrl = proposedProjectListUrl;
+                    BackToProjectsText = backToAllProposalsText;
+                }
+                else if (project.IsPendingProject())
+                {
+                    ProjectListUrl = pendingProjectsListUrl;
+                    BackToProjectsText = backToAllPendingProjectsText;
+                }
+
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
@@ -156,8 +170,8 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
-                BackToProjectsText = "Back to all Proposals";
+                ProjectListUrl = proposedProjectListUrl;
+                BackToProjectsText = backToAllProposalsText;
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
@@ -175,8 +189,8 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                ProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
-                BackToProjectsText = "Back to all Pending Projects";
+                ProjectListUrl = pendingProjectsListUrl;
+                BackToProjectsText = backToAllPendingProjectsText;
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
