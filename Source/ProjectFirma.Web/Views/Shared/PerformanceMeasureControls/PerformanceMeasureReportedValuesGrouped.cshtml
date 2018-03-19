@@ -114,20 +114,15 @@
                         }
                         else
                         {
-                            foreach (var test in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
+                            foreach (var subategory in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
                             {
                                 {
-                                    var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == test.PerformanceMeasureSubcategoryID);
-                                    var label = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
+                                    var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == subategory.PerformanceMeasureSubcategoryID);
+                                    var subcategoryOptionName = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
                                 
-                                    <td>@label</td>
+                                    <td>@subcategoryOptionName</td>
                                 }
                             }
-
-                            @*foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
-                            {
-                                <td>@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
-                            }*@
                         }
 
                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
