@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetNotApprovedProposals(CurrentPerson.CanViewProposals);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -349,17 +349,17 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
             var gridSpec = new PendingGridSpec(CurrentPerson);
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPending);
+            var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects);
             List<Project> filteredProposals;
             if (CurrentPerson.Role == Role.Normal)
             {
-                filteredProposals = proposals.Where(x =>
+                filteredProposals = pendingProjects.Where(x =>
                         x.ProjectOrganizations.Select(y => y.Organization).Contains(CurrentPerson.Organization))
                     .ToList();
             }
             else
             {
-                filteredProposals = proposals;
+                filteredProposals = pendingProjects;
             }
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
             return gridJsonNetJObjectResult;
@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetNotApprovedProposals(CurrentPerson.CanViewProposals),
+                    .GetProposalsVisibleToUser(CurrentPerson),
                 FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized());
         }
 
@@ -387,7 +387,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetPendingProjects(CurrentPerson.CanViewPending),
+                .GetPendingProjects(CurrentPerson.CanViewPendingProjects),
                 "Pending Projects");
         }
 
@@ -728,7 +728,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var gridSpec = new ProposalsGridSpec(CurrentPerson);
 
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetAllProposals(CurrentPerson.CanViewProposals)
+                .GetProposalsVisibleToUser(CurrentPerson)
                 .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 

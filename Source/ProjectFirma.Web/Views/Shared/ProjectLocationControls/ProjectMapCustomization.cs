@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<IMappableProject> ProjectsForMap(bool showProposals)
         {
-            return new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals))
+            return new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
         }
     }

@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllProposals(CurrentPerson), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetProposalsVisibleToUser(CurrentPerson), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
