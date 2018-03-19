@@ -482,8 +482,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
-
-            project.DeleteProjectFull();
+            project.DeleteFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }

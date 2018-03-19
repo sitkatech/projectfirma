@@ -25,6 +25,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using GeoJSON.Net.Feature;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -249,10 +250,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = true;
-            var confirmMessage = $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?";
-
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var projectFundingSourceExpenditureTotal = organization.FundingSources.Sum(x => x.ProjectFundingSourceExpenditures.Sum(y => y.ExpenditureAmount)).ToStringCurrency();
+            var confirmMessage = $"Organization \"{organization.OrganizationName}\" is related to {organization.ProjectOrganizations.Count} projects and has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.<br /><br />Are you sure you want to delete this Organization?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -266,7 +266,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganization(organization, viewModel);
             }
+            var message = $"Organization \"{organization.OrganizationName}\" succesfully deleted.";
             organization.DeleteFull();
+            SetMessageForDisplay(message);
+
             return new ModalDialogFormJsonResult();
         }
 

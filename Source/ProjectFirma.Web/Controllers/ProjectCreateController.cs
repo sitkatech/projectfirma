@@ -998,8 +998,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            project.DeleteProjectFull();
-            SetMessageForDisplay($"Project {project.DisplayName} successfully deleted.");
+            var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
+            project.DeleteFull();
+            SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }
 
