@@ -498,45 +498,6 @@ namespace ProjectFirma.Web.Models
             return !IsForwardLookingFactSheetRelevant();
         }
 
-        public void DeleteProjectFull()
-        {
-            var notifications = NotificationProjects.Select(x => x.Notification).ToList();
-            NotificationProjects.DeleteNotificationProject();
-            notifications.DeleteNotification();
-
-            PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList()
-                .DeletePerformanceMeasureActualSubcategoryOption();
-            PerformanceMeasureActuals.DeletePerformanceMeasureActual();
-            PerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList()
-                .DeletePerformanceMeasureExpectedSubcategoryOption();
-            PerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
-            ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
-            ProjectBudgets.DeleteProjectBudget();
-            ProjectClassifications.DeleteProjectClassification();
-            ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
-            ProjectExternalLinks.DeleteProjectExternalLink();
-            ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
-            ProjectFundingSourceRequests.DeleteProjectFundingSourceRequest();
-            var fileResources = ProjectImages.Select(x => x.FileResource).ToList();
-            ProjectImages.DeleteProjectImage();
-            fileResources.DeleteFileResource();
-            ProjectLocations.DeleteProjectLocation();
-            ProjectLocationStagings.DeleteProjectLocationStaging();
-            ProjectNotes.DeleteProjectNote();
-            ProjectOrganizations.DeleteProjectOrganization();
-            ProjectTags.DeleteProjectTag();
-
-            foreach (var projectUpdateBatch in ProjectUpdateBatches.ToList())
-            {
-                projectUpdateBatch.DeleteAll();
-            }
-
-            ProjectWatersheds.DeleteProjectWatershed();
-
-            SnapshotProjects.DeleteSnapshotProject();
-            this.DeleteProject();
-        }
-
         public bool IsExpectedFundingRelevant()
         {
             // todo: Always relevant for pending projects, otherwise relevant for every stage except terminated/completed
