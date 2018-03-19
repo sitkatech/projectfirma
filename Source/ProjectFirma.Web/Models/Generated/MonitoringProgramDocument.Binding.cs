@@ -92,6 +92,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MonitoringProgramDocument).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllMonitoringProgramDocuments.Remove(this);                
+        }
+
         [Key]
         public int MonitoringProgramDocumentID { get; set; }
         public int TenantID { get; private set; }

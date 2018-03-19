@@ -72,6 +72,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(ProjectWatershed).Name, typeof(ProjectWatershedUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in ProjectWatersheds.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectWatershedUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllWatersheds.Remove(this);                
+        }
+
         [Key]
         public int WatershedID { get; set; }
         public int TenantID { get; private set; }

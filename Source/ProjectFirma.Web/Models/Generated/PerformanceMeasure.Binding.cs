@@ -112,6 +112,80 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureMonitoringProgram).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in ClassificationPerformanceMeasures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureActuals.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureActualSubcategoryOptions.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureActualSubcategoryOptionUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureActualUpdates.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureExpecteds.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureExpectedSubcategoryOptions.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureMonitoringPrograms.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureNotes.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in PerformanceMeasureSubcategories.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotPerformanceMeasures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in SnapshotPerformanceMeasureSubcategoryOptions.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TaxonomyTierTwoPerformanceMeasures.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Remove(this);                
+        }
+
         [Key]
         public int PerformanceMeasureID { get; set; }
         public int TenantID { get; private set; }

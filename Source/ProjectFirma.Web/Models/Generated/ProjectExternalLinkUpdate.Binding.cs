@@ -87,6 +87,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectExternalLinkUpdate).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Remove(this);                
+        }
+
         [Key]
         public int ProjectExternalLinkUpdateID { get; set; }
         public int TenantID { get; private set; }

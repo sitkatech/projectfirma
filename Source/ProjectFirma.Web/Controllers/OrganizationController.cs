@@ -249,10 +249,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Organization.GetFieldDefinitionLabel()}", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
+            var canDelete = true;
+            var confirmMessage = $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -268,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganization(organization, viewModel);
             }
-            organization.DeleteOrganization();
+            organization.DeleteFull();
             return new ModalDialogFormJsonResult();
         }
 

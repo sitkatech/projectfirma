@@ -93,6 +93,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in ClassificationPerformanceMeasures.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectClassifications.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllClassifications.Remove(this);                
+        }
+
         [Key]
         public int ClassificationID { get; set; }
         public int TenantID { get; private set; }

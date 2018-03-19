@@ -87,6 +87,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in PerformanceMeasureExpectedSubcategoryOptions.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Remove(this);                
+        }
+
         [Key]
         public int PerformanceMeasureExpectedID { get; set; }
         public int TenantID { get; private set; }

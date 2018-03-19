@@ -86,6 +86,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierOne).Name, typeof(Project).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in Projects.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOnes.Remove(this);                
+        }
+
         [Key]
         public int TaxonomyTierOneID { get; set; }
         public int TenantID { get; private set; }

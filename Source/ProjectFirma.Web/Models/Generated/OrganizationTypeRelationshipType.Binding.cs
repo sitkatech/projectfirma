@@ -86,6 +86,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationTypeRelationshipType).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            HttpRequestStorage.DatabaseEntities.AllOrganizationTypeRelationshipTypes.Remove(this);                
+        }
+
         [Key]
         public int OrganizationTypeRelationshipTypeID { get; set; }
         public int TenantID { get; private set; }

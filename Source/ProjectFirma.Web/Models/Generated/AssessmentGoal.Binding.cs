@@ -72,6 +72,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AssessmentGoal).Name, typeof(AssessmentSubGoal).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in AssessmentSubGoals.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllAssessmentGoals.Remove(this);                
+        }
+
         [Key]
         public int AssessmentGoalID { get; set; }
         public int TenantID { get; private set; }

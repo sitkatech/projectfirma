@@ -81,6 +81,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinitionData).Name, typeof(FieldDefinitionDataImage).Name};
 
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+
+            foreach(var x in FieldDefinitionDataImages.ToList())
+            {
+                x.DeleteFull();
+            }
+            HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDatas.Remove(this);                
+        }
+
         [Key]
         public int FieldDefinitionDataID { get; set; }
         public int TenantID { get; private set; }
