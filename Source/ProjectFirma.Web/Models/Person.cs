@@ -162,8 +162,8 @@ namespace ProjectFirma.Web.Models
 
         public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;
 
-        public bool CanViewProposals => MultiTenantHelpers.ShowProposalsToThePublic() || !IsAnonymousOrUnassigned;
+        public bool CanViewProposals => MultiTenantHelpers.ShowProposalsToThePublic() || !IsAnonymousOrUnassigned;       
+        public bool CanViewPendingProjects => new PendingProjectsViewListFeature().HasPermissionByPerson(this);
 
-        public bool CanViewPending => Role != Role.Unassigned;
     }
 }

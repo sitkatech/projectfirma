@@ -95,7 +95,7 @@
                 <tr style="border-bottom: 1px solid">
                     @if (performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Any())
                     {
-                        foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.First().SubcategoryNames)
+                        foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Select( x=> x.PerformanceMeasureSubcategoryDisplayName))
                         {
                             <th>
                                 @performanceMeasureSubcategoryName
@@ -103,6 +103,8 @@
                         }
                     }
                 </tr>
+
+
                 foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
                     <tr>
@@ -112,9 +114,14 @@
                         }
                         else
                         {
-                            foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
+                            foreach (var subategory in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
                             {
-                                <td>@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
+                                {
+                                    var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == subategory.PerformanceMeasureSubcategoryID);
+                                    var subcategoryOptionName = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
+                                
+                                    <td>@subcategoryOptionName</td>
+                                }
                             }
                         }
 
@@ -128,6 +135,8 @@
                         <th style="text-align: center">@pmUnits</th>
                     </tr>
                 }
+
+
                 <tr style="border-top: 1px solid">
                     <th colspan="@subcategoryCount" style="text-align: right">Total</th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))

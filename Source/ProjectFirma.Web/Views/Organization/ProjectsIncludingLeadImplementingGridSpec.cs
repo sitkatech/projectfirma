@@ -33,9 +33,15 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class ProjectsIncludingLeadImplementingGridSpec : GridSpec<Models.Project>
     {
-        public ProjectsIncludingLeadImplementingGridSpec(Models.Organization organization, Person currentPerson)
+        public ProjectsIncludingLeadImplementingGridSpec(Models.Organization organization, Person currentPerson, bool showSubmittalStatus)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
+
+            if (showSubmittalStatus)
+            {
+                Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            }
+            
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
@@ -46,7 +52,7 @@ namespace ProjectFirma.Web.Views.Organization
 
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.ProjectRelationshipType.ToGridHeaderStringPlural(Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabelPluralized()),
-                a => a.AssocatedOrganizationNames(organization), 180, DhtmlxGridColumnFilterType.None);
+                a => a.AssocatedOrganizationNames(organization), 180, DhtmlxGridColumnFilterType.Text);
 
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);

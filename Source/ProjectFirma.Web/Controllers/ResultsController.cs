@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
 
             return new JsonNetJObjectResult(new
             {
-                ProjectCount = projects.Count.ToGroupedNumeric(),
+                ProjectCount = projects.Count,
                 PartnerCount = GetPartnerOrganizations(organizationID).Count,
                 TotalInvestment = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Sum(x => x.ExpenditureAmount).ToGroupedNumeric()
             });
@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
                 MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(CurrentPerson);
+                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson);
                 partnerOrganizations = projects
                     .SelectMany(x => x.ProjectOrganizations.Where(y =>
                         y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))

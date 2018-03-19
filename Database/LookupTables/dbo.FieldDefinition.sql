@@ -81,4 +81,5 @@ VALUES
 (253, N'CustomPageDisplayType', N'Custom Page Display Type', N'<p>The status of a custom About page, controls whether the page is visible to the public, protected and only visible for logged in users, or disabled and not shown on the About menu.</p>', 1),
 (254, N'TaxonomyTierThreeDescription', N'Taxonomy Tier Three Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (255, N'TaxonomyTierTwoDescription', N'Taxonomy Tier Two Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
-(256, N'TaxonomyTierOneDescription', N'Taxonomy Tier One Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1)
+(256, N'TaxonomyTierOneDescription', N'Taxonomy Tier One Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
+(257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>', 1)

@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(currentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
@@ -277,8 +277,26 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsIncludingLeadImplementingGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson);            
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjectsAndProposals(CurrentPerson), gridSpec);
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false);            
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjects(CurrentPerson), gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [OrganizationViewFeature]
+        public GridJsonNetJObjectResult<Project> ProposalsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetProposalsVisibleToUser(CurrentPerson), gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [OrganizationViewFeature]
+        public GridJsonNetJObjectResult<Project> PendingProjectsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllPendingProjects(CurrentPerson), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -288,7 +306,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             
             // received
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrLeadImplementer(CurrentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).ToList();
 
             // provided

@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Models
 {
@@ -54,16 +55,16 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
         {
-            return showProposals ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+            return showProposals
+                ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.DisplayName).ToList()
+                : new List<Project>();
         }
-        public static List<Project> GetAllProposals(this IList<Project> projects, bool showProposals)
+
+        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
         {
-            return showProposals ? projects.Where(x => x.IsProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
         }
-        public static List<Project> GetNotApprovedProposals(this IList<Project> projects, bool showProposals)
-        {
-            return showProposals ? projects.Where(x => x.IsNotApprovedProposal()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
-        }
+
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
         {
             return showPendingProjects? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();

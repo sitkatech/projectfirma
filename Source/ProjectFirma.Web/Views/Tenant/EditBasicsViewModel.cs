@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Watershed Layer Name")]
         public string WatershedLayerName { get; set; }
 
-        [DisplayName("Show Proposals To The Public?")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         public bool ShowProposalsToThePublic { get; set; }
 
 

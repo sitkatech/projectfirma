@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionTaxonomyTierThreeDescription TaxonomyTierThreeDescription = FieldDefinitionTaxonomyTierThreeDescription.Instance;
         public static readonly FieldDefinitionTaxonomyTierTwoDescription TaxonomyTierTwoDescription = FieldDefinitionTaxonomyTierTwoDescription.Instance;
         public static readonly FieldDefinitionTaxonomyTierOneDescription TaxonomyTierOneDescription = FieldDefinitionTaxonomyTierOneDescription.Instance;
+        public static readonly FieldDefinitionShowProposalsToThePublic ShowProposalsToThePublic = FieldDefinitionShowProposalsToThePublic.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -106,7 +107,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType, TaxonomyTierThreeDescription, TaxonomyTierTwoDescription, TaxonomyTierOneDescription };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType, TaxonomyTierThreeDescription, TaxonomyTierTwoDescription, TaxonomyTierOneDescription, ShowProposalsToThePublic };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -314,6 +315,8 @@ namespace ProjectFirma.Web.Models
                     return RoleName;
                 case FieldDefinitionEnum.SecuredFunding:
                     return SecuredFunding;
+                case FieldDefinitionEnum.ShowProposalsToThePublic:
+                    return ShowProposalsToThePublic;
                 case FieldDefinitionEnum.SpendingAssociatedWithPM:
                     return SpendingAssociatedWithPM;
                 case FieldDefinitionEnum.TagDescription:
@@ -430,7 +433,8 @@ namespace ProjectFirma.Web.Models
         CustomPageDisplayType = 253,
         TaxonomyTierThreeDescription = 254,
         TaxonomyTierTwoDescription = 255,
-        TaxonomyTierOneDescription = 256
+        TaxonomyTierOneDescription = 256,
+        ShowProposalsToThePublic = 257
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -905,5 +909,11 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionTaxonomyTierOneDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
         public static readonly FieldDefinitionTaxonomyTierOneDescription Instance = new FieldDefinitionTaxonomyTierOneDescription(256, @"TaxonomyTierOneDescription", @"Taxonomy Tier One Description", @"<p>The long-form description of the entries in the project taxonomy system.</p>", true);
+    }
+
+    public partial class FieldDefinitionShowProposalsToThePublic : FieldDefinition
+    {
+        private FieldDefinitionShowProposalsToThePublic(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionShowProposalsToThePublic Instance = new FieldDefinitionShowProposalsToThePublic(257, @"ShowProposalsToThePublic", @"Show Proposals To The Public", @"<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>", true);
     }
 }

@@ -152,7 +152,7 @@ namespace LtInfo.Common
 
         public static HtmlString ToCheckboxImageOrEmpty(this bool value)
         {
-            return new HtmlString(value ? String.Format(" {0} ", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-ok-circle", "Yes")) : String.Empty);
+            return new HtmlString(value ? $" {BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-ok-circle", "Yes")} " : String.Empty);
         }
 
         public static HtmlString ToCheckboxImageOrEmpty(this bool? value)
