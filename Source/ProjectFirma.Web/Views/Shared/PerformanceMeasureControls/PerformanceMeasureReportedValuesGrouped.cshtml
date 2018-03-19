@@ -95,7 +95,7 @@
                 <tr style="border-bottom: 1px solid">
                     @if (performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Any())
                     {
-                        foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.First().SubcategoryNames)
+                        foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Select( x=> x.PerformanceMeasureSubcategoryDisplayName))
                         {
                             <th>
                                 @performanceMeasureSubcategoryName
@@ -103,6 +103,8 @@
                         }
                     }
                 </tr>
+
+
                 foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
                     <tr>
@@ -112,10 +114,20 @@
                         }
                         else
                         {
-                            foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
+                            foreach (var test in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
+                            {
+                                {
+                                    var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == test.PerformanceMeasureSubcategoryID);
+                                    var label = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
+                                
+                                    <td>@label</td>
+                                }
+                            }
+
+                            @*foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
                             {
                                 <td>@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
-                            }
+                            }*@
                         }
 
                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
@@ -128,6 +140,8 @@
                         <th style="text-align: center">@pmUnits</th>
                     </tr>
                 }
+
+
                 <tr style="border-top: 1px solid">
                     <th colspan="@subcategoryCount" style="text-align: right">Total</th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
