@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTierTwo()
         {
-            this.TaxonomyTierOnes = new HashSet<TaxonomyTierOne>();
+            this.TaxonomyLeafs = new HashSet<TaxonomyLeaf>();
             this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
@@ -80,13 +80,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyTierOnes.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
+            return TaxonomyLeafs.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierTwo).Name, typeof(TaxonomyTierOne).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierTwo).Name, typeof(TaxonomyLeaf).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Models
         public void DeleteFull()
         {
 
-            foreach(var x in TaxonomyTierOnes.ToList())
+            foreach(var x in TaxonomyLeafs.ToList())
             {
                 x.DeleteFull();
             }
@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
-        public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
+        public virtual ICollection<TaxonomyLeaf> TaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }

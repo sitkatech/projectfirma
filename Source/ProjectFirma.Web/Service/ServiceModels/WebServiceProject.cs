@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
-            TaxonomyTierThree = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName;
-            TaxonomyTierTwo = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName;
-            TaxonomyTierOne = project.TaxonomyTierOne.TaxonomyTierOneName;
+            TaxonomyTierThree = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName;
+            TaxonomyTierTwo = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierTwoName;
+            TaxonomyLeaf = project.TaxonomyLeaf.TaxonomyLeafName;
             ProjectDescription = project.ProjectDescription;
 
             PlanningStartDate = project.PlanningDesignStartYear;
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string TaxonomyTierThree { get; set; }
         [DataMember] public string TaxonomyTierTwo { get; set; }
-        [DataMember] public string TaxonomyTierOne { get; set; }
+        [DataMember] public string TaxonomyLeaf { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
 
         [DataMember] public int? PlanningStartDate { get; set; }
@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Add("ProjectName", x => x.ProjectName, 0);
             Add("TaxonomyTierThree", x => x.TaxonomyTierThree, 0);
             Add("TaxonomyTierTwo", x => x.TaxonomyTierTwo, 0);
-            Add("TaxonomyTierOne", x => x.TaxonomyTierOne, 0);
+            Add("TaxonomyLeaf", x => x.TaxonomyLeaf, 0);
             Add("Stage", x => x.Stage, 0);
             Add("ProjectDescription", x => x.ProjectDescription, 0);
             Add("PlanningStartDate", x => x.PlanningStartDate, 0);

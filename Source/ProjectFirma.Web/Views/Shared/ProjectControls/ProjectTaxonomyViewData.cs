@@ -27,11 +27,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public readonly Models.TaxonomyTierThree TaxonomyTierThree;
         public readonly Models.TaxonomyTierTwo TaxonomyTierTwo;
-        public readonly Models.TaxonomyTierOne TaxonomyTierOne;
+        public readonly Models.TaxonomyLeaf TaxonomyLeaf;
         public readonly Models.Project Project;
 
         public readonly bool IsProject;
-        public readonly bool IsTaxonomyTierOne;
+        public readonly bool IsTaxonomyLeaf;
         public readonly bool IsTaxonomyTierTwo;
         public readonly bool IsTaxonomyTierThree;
 
@@ -43,24 +43,24 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyTierOne taxonomyTierOne) : this(taxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree, taxonomyTierOne.TaxonomyTierTwo, taxonomyTierOne, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf) : this(taxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree, taxonomyLeaf.TaxonomyTierTwo, taxonomyLeaf, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree, project.TaxonomyTierOne.TaxonomyTierTwo, project.TaxonomyTierOne, project)
+        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree, project.TaxonomyLeaf.TaxonomyTierTwo, project.TaxonomyLeaf, project)
         {
         }
 
-        private ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyTierOne taxonomyTierOne, Models.Project project)
+        private ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project)
         {
-            TaxonomyTierOne = taxonomyTierOne;
+            TaxonomyLeaf = taxonomyLeaf;
             TaxonomyTierThree = taxonomyTierThree;
             TaxonomyTierTwo = taxonomyTierTwo;
             Project = project;
             IsProject = Project != null;
-            IsTaxonomyTierOne = TaxonomyTierOne != null && !IsProject;
-            IsTaxonomyTierTwo = TaxonomyTierTwo != null && !IsTaxonomyTierOne && !IsProject;
-            IsTaxonomyTierThree = TaxonomyTierThree != null && !IsTaxonomyTierTwo && !IsTaxonomyTierOne && !IsProject;
+            IsTaxonomyLeaf = TaxonomyLeaf != null && !IsProject;
+            IsTaxonomyTierTwo = TaxonomyTierTwo != null && !IsTaxonomyLeaf && !IsProject;
+            IsTaxonomyTierThree = TaxonomyTierThree != null && !IsTaxonomyTierTwo && !IsTaxonomyLeaf && !IsProject;
 
             if (HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() <= 1 && !IsTaxonomyTierThree)
             {

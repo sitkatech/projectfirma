@@ -84,11 +84,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierOneList
+    public partial class FirmaPageTypeTaxonomyLeafList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 

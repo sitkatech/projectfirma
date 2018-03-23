@@ -52,8 +52,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string FactSheetPdfUrl;
 
         public readonly string TaxonomyColor;
-        public readonly string TaxonomyTierOneDisplayName;
-        public readonly string TaxonomyTierOneName;
+        public readonly string TaxonomyLeafDisplayName;
+        public readonly string TaxonomyLeafName;
         public readonly string TaxonomyTierTwoName;
 
 
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.Project
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
-            if (project.TaxonomyTierOne == null)
+            if (project.TaxonomyLeaf == null)
             {
                 TaxonomyColor = "blue";
             }
@@ -94,13 +94,13 @@ namespace ProjectFirma.Web.Views.Project
                 switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
                 {
                     case 1:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.ThemeColor;
                         break;
                     case 2:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.ThemeColor;
                         break;
                     case 3:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
                         break;
                     // we don't support more than 3 so we should throw if that has more than 3
                     default:
@@ -109,9 +109,9 @@ namespace ProjectFirma.Web.Views.Project
                 }
             }
 
-            TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
-            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
-            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
+            TaxonomyTierTwoName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyTierTwo.DisplayName;
+            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             
             SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
                 ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))

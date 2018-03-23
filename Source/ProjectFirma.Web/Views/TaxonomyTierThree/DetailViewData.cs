@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         public readonly string TaxonomyTierThreeDisplayName;
         public readonly string TaxonomyTierThreeDisplayNamePluralized;
         public readonly string TaxonomyTierTwoDisplayNamePluralized;
-        public readonly string TaxonomyTierOneDisplayNamePluralized;
+        public readonly string TaxonomyLeafDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierThree taxonomyTierThree,
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
             TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
             TaxonomyTierThreeDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabelPluralized();
             TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
-            TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;

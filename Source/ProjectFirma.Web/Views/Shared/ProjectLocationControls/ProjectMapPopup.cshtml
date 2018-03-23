@@ -46,19 +46,19 @@
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierThreeDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</div>
             </div>
         }
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierTwoDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierTwoName</div>
             </div>
         }
         <div class="row">
-            <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierOneDisplayName</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneName</div>
+            <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong></div>
+            <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</div>
         </div>
         <div class="row">
             <div class="col-xs-5"><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong></div>

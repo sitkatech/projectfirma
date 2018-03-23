@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly IEnumerable<SelectListItem> ImplementationStartYearRange;
         public readonly IEnumerable<SelectListItem> CompletionYearRange;
         public readonly IEnumerable<SelectListItem> ProjectStages;
-        public readonly string TaxonomyTierOneDisplayName;
+        public readonly string TaxonomyLeafDisplayName;
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
         public readonly string RequestPrimaryContactChangeUrl;
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
         {
             ProjectUpdate = projectUpdate;
-            TaxonomyTierOneDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyTierOne.DisplayName;
+            TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.DisplayName;
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             PlanningDesignStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));

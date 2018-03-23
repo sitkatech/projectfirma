@@ -144,9 +144,9 @@ namespace ProjectFirma.Web.Controllers
 
             // If ProjectFundingSourceExpenditures is empty, ToGoogleChart returns null...
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
+                .ToGoogleChart(x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
+                    x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     chartContainerID,
                     fundingSource.DisplayName);
 

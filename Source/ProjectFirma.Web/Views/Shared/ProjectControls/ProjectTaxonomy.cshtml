@@ -64,14 +64,14 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     }
 
-    if (ViewDataTyped.TaxonomyTierOne != null)
+    if (ViewDataTyped.TaxonomyLeaf != null)
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++)">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-5">
-                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyLeaf ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyLeaf ? new HtmlString(ViewDataTyped.TaxonomyLeaf.DisplayName) : ViewDataTyped.TaxonomyLeaf.GetDisplayNameAsUrl())</span>
             </div>
         </div>
     }

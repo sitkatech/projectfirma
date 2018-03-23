@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
         public readonly string TaxonomyTierTwoDisplayName;
         public readonly string TaxonomyTierTwoDisplayNamePluralized;
-        public readonly string TaxonomyTierOneDisplayNamePluralized;
+        public readonly string TaxonomyLeafDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierTwo taxonomyTierTwo,
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             var taxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
             TaxonomyTierTwoDisplayName = taxonomyTierTwoDisplayName;
             TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
-            TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
             EntityName = taxonomyTierTwoDisplayName;
             PerformanceMeasures = taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);

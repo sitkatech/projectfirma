@@ -37,9 +37,9 @@ Source code is available upon request via <support@sitkatech.com>.
             <td>@taxonomyTierTwo.GetDisplayNameAsUrl()</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
-                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
             }
-            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
         </tr>
     }
     <tr>

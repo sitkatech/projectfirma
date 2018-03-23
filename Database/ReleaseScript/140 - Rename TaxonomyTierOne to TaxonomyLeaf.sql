@@ -1,0 +1,14 @@
+exec sp_rename 'dbo.FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID', 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_Project_TaxonomyTierOne_TaxonomyTierOneID', 'FK_Project_TaxonomyLeaf_TaxonomyLeafID', 'OBJECT';
+exec sp_rename 'dbo.PK_TaxonomyTierOne_TaxonomyTierOneID', 'PK_TaxonomyLeaf_TaxonomyLeafID', 'OBJECT';
+exec sp_rename 'dbo.AK_TaxonomyTierOne_TaxonomyTierOneID_TenantID', 'AK_TaxonomyLeaf_TaxonomyLeafID_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierOne_Tenant_TenantID', 'FK_TaxonomyLeaf_Tenant_TenantID', 'OBJECT';
+exec sp_rename 'dbo.AK_TaxonomyTierOne_TaxonomyTierOneName_TenantID', 'AK_TaxonomyLeaf_TaxonomyLeafName_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID', 'FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID', 'FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID', 'OBJECT';
+exec sp_rename 'dbo.TaxonomyTierOne.TaxonomyTierOneCode', 'TaxonomyLeafCode', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierOne.TaxonomyTierOneDescription', 'TaxonomyLeafDescription', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierOne.TaxonomyTierOneID', 'TaxonomyLeafID', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierOne.TaxonomyTierOneName', 'TaxonomyLeafName', 'COLUMN';
+exec sp_rename 'dbo.Project.TaxonomyTierOneID', 'TaxonomyLeafID', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierOne', 'TaxonomyLeaf';

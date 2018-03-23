@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectLocationFilterTypeTaxonomyTierThree TaxonomyTierThree = ProjectLocationFilterTypeTaxonomyTierThree.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectLocationFilterTypeTaxonomyTierTwo.Instance;
-        public static readonly ProjectLocationFilterTypeTaxonomyTierOne TaxonomyTierOne = ProjectLocationFilterTypeTaxonomyTierOne.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyLeaf TaxonomyLeaf = ProjectLocationFilterTypeTaxonomyLeaf.Instance;
         public static readonly ProjectLocationFilterTypeClassification Classification = ProjectLocationFilterTypeClassification.Instance;
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
 
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, Classification, ProjectStage };
+            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyLeaf, Classification, ProjectStage };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -112,8 +112,8 @@ namespace ProjectFirma.Web.Models
                     return Classification;
                 case ProjectLocationFilterTypeEnum.ProjectStage:
                     return ProjectStage;
-                case ProjectLocationFilterTypeEnum.TaxonomyTierOne:
-                    return TaxonomyTierOne;
+                case ProjectLocationFilterTypeEnum.TaxonomyLeaf:
+                    return TaxonomyLeaf;
                 case ProjectLocationFilterTypeEnum.TaxonomyTierThree:
                     return TaxonomyTierThree;
                 case ProjectLocationFilterTypeEnum.TaxonomyTierTwo:
@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Models
     {
         TaxonomyTierThree = 1,
         TaxonomyTierTwo = 2,
-        TaxonomyTierOne = 3,
+        TaxonomyLeaf = 3,
         Classification = 4,
         ProjectStage = 5
     }
@@ -145,10 +145,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectLocationFilterTypeTaxonomyTierTwo Instance = new ProjectLocationFilterTypeTaxonomyTierTwo(2, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"Taxonomy Tier Two", 20, 1);
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierOne : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyLeaf : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeTaxonomyTierOne(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierOne Instance = new ProjectLocationFilterTypeTaxonomyTierOne(3, @"TaxonomyTierOne", @"TaxonomyTierOneID", @"Taxonomy Tier One", 30, 1);
+        private ProjectLocationFilterTypeTaxonomyLeaf(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyLeaf Instance = new ProjectLocationFilterTypeTaxonomyLeaf(3, @"TaxonomyLeaf", @"TaxonomyLeafID", @"Taxonomy Leaf", 30, 1);
     }
 
     public partial class ProjectLocationFilterTypeClassification : ProjectLocationFilterType

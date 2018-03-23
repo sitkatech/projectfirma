@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
         public readonly string TaxonomyTierThreeDisplayName;
         public readonly string TaxonomyTierTwoDisplayName;
-        public readonly string TaxonomyTierOneDisplayName;
+        public readonly string TaxonomyLeafDisplayName;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage)
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
             TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
             TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
         }
     }
 }

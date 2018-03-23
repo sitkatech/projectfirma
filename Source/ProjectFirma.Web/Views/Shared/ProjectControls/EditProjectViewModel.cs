@@ -60,9 +60,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]
         [Required(ErrorMessage = "This field is required.")]
-        public int? TaxonomyTierOneID { get; set; }
+        public int? TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public MoneyWholeNumber? EstimatedTotalCost { get; set; }
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewModel(Models.Project project, bool hasExistingProjectUpdate)
         {
-            TaxonomyTierOneID = project.TaxonomyTierOneID;
+            TaxonomyLeafID = project.TaxonomyLeafID;
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.TaxonomyTierOneID = TaxonomyTierOneID.Value;
+            project.TaxonomyLeafID = TaxonomyLeafID.Value;
             project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             project.ImplementationStartYear = ImplementationStartYear;

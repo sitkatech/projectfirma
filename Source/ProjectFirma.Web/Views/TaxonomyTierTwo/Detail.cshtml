@@ -96,21 +96,21 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyTierOneDisplayNamePluralized</a>
+                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyLeafDisplayNamePluralized</a>
                 </h2>
             </div>
             <div class="panel-body">
-                @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.Any())
+                @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyLeafs.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
+                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTierTwo.TaxonomyLeafs)
                         {
                             <tr>
                                 <td>
-                                    @taxonomyTierOne.GetDisplayNameAsUrl()
+                                    @taxonomyLeaf.GetDisplayNameAsUrl()
                                 </td>
                             </tr>
                         }
@@ -118,7 +118,7 @@
                 }
                 else
                 {
-                    <p class="systemText">No @ViewDataTyped.TaxonomyTierOneDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierTwoDisplayName.</p>
+                    <p class="systemText">No @ViewDataTyped.TaxonomyLeafDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierTwoDisplayName.</p>
                 }
             </div>
         </div>

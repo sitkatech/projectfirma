@@ -3,7 +3,7 @@ go
 
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName], [DefaultDefinition], CanCustomizeLabel) 
 VALUES 
-(1, N'TaxonomyTierOne', N'Taxonomy Tier One', N'<p>The highest level record in the hierarchical project taxonomy system.</p>', 1),
+(1, N'TaxonomyLeaf', N'Taxonomy Tier One', N'<p>The highest level record in the hierarchical project taxonomy system.</p>', 1),
 (4, N'ExpectedValue', N'Expected Value', N'<p>The estimated cumulative Performance Measure value that the project or program is projected to achieve after implementation.</p>', 1),
 (5, N'TaxonomyTierThree', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
 (8, N'FundingSource', N'Funding Source', N'<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>', 1),
@@ -69,7 +69,7 @@ VALUES
 (241, N'ClassificationGoalStatement', N'Classification Goal Statement', N'<p>The goal of this classification system record.</p>', 1),
 (242, N'ClassificationNarrative', N'Classification Narrative', N'<p>Descriptive text describing the criteria for including a project in this classification system.</p>', 1),
 (243, N'TaxonomySystemName', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>', 1),
-(244, N'TaxonomyTierOneDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>', 1),
+(244, N'TaxonomyLeafDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>', 1),
 (245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>', 1),
 (246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>', 1),
 (247, N'Chart Last Updated Date', N'ChartLastUpdatedDate', N'<p>The date this chart was last updated with current information.</p>', 3),
@@ -81,5 +81,5 @@ VALUES
 (253, N'CustomPageDisplayType', N'Custom Page Display Type', N'<p>The status of a custom About page, controls whether the page is visible to the public, protected and only visible for logged in users, or disabled and not shown on the About menu.</p>', 1),
 (254, N'TaxonomyTierThreeDescription', N'Taxonomy Tier Three Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (255, N'TaxonomyTierTwoDescription', N'Taxonomy Tier Two Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
-(256, N'TaxonomyTierOneDescription', N'Taxonomy Tier One Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
+(256, N'TaxonomyLeafDescription', N'Taxonomy Tier One Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>', 1)

@@ -80,7 +80,7 @@
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.Store.StateProvince" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierOne" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierOne" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierThree" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
@@ -333,8 +333,8 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="ReviewedByPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreTheReviewedByPerson" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
+    <AssociationSet Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyLeaf_TaxonomyLeafID">
+      <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
       <End Role="Projects" EntitySet="Project" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
@@ -601,9 +601,9 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="RequestPerson" EntitySet="Person" />
       <End Role="SupportRequestLogsWhereYouAreTheRequestPerson" EntitySet="SupportRequestLog" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
+    <AssociationSet Name="FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID">
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
-      <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
+      <End Role="TaxonomyLeafs" EntitySet="TaxonomyLeaf" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
       <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
@@ -1253,7 +1253,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     </Key>
     <Property Name="ProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" />
     <Property Name="ProjectStageID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
@@ -1753,18 +1753,18 @@ warning 6035: The relationship 'FK_ProjectTag_Tag_TagID_TenantID' has columns th
     <Property Name="TagDescription" Type="varchar" MaxLength="1000" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
-  <EntityType Name="TaxonomyTierOne">
+  <EntityType Name="TaxonomyLeaf">
     <Key>
-      <PropertyRef Name="TaxonomyTierOneID" />
+      <PropertyRef Name="TaxonomyLeafID" />
     </Key>
-    <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierOneDescription" Type="varchar" MaxLength="4000" />
-    <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyLeafName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyLeafDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="TaxonomyLeafCode" Type="varchar" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1781,7 +1781,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTie
     <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyTierTwo">
@@ -2567,15 +2567,15 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="1" />
+  <Association Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID">
+    <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="1" />
     <End Role="Projects" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
+      <Principal Role="TaxonomyLeaf">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Principal>
       <Dependent Role="Projects">
-        <PropertyRef Name="TaxonomyTierOneID" />
+        <PropertyRef Name="TaxonomyLeafID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3371,14 +3371,14 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
+  <Association Name="FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID">
     <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="1" />
-    <End Role="TaxonomyTierOnes" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="*" />
+    <End Role="TaxonomyLeafs" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TaxonomyTierTwo">
         <PropertyRef Name="TaxonomyTierTwoID" />
       </Principal>
-      <Dependent Role="TaxonomyTierOnes">
+      <Dependent Role="TaxonomyLeafs">
         <PropertyRef Name="TaxonomyTierTwoID" />
       </Dependent>
     </ReferentialConstraint>

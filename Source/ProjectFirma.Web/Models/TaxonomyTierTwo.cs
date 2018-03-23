@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
 
         public List<Project> GetAssociatedProjects(Person person)
         {
-            return TaxonomyTierOnes.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
         public int TaxonomyTierID => TaxonomyTierTwoID;
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
             {
                 ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTierThree.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,
-                Children = TaxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList()
+                Children = TaxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList()
             };
             return fancyTreeNode;
         }

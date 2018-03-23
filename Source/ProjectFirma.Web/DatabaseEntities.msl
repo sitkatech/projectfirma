@@ -509,7 +509,7 @@
         <MappingFragment StoreEntitySet="Project">
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
+          <ScalarProperty Name="TaxonomyLeafID" ColumnName="TaxonomyLeafID" />
           <ScalarProperty Name="ProjectStageID" ColumnName="ProjectStageID" />
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
@@ -1008,15 +1008,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierOne">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierOne">
-        <MappingFragment StoreEntitySet="TaxonomyTierOne">
-          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
+    <EntitySetMapping Name="TaxonomyLeaf">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyLeaf">
+        <MappingFragment StoreEntitySet="TaxonomyLeaf">
+          <ScalarProperty Name="TaxonomyLeafID" ColumnName="TaxonomyLeafID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
-          <ScalarProperty Name="TaxonomyTierOneName" ColumnName="TaxonomyTierOneName" />
-          <ScalarProperty Name="TaxonomyTierOneDescription" ColumnName="TaxonomyTierOneDescription" />
-          <ScalarProperty Name="TaxonomyTierOneCode" ColumnName="TaxonomyTierOneCode" />
+          <ScalarProperty Name="TaxonomyLeafName" ColumnName="TaxonomyLeafName" />
+          <ScalarProperty Name="TaxonomyLeafDescription" ColumnName="TaxonomyLeafDescription" />
+          <ScalarProperty Name="TaxonomyLeafCode" ColumnName="TaxonomyLeafCode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

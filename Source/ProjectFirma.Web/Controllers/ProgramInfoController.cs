@@ -49,8 +49,8 @@ namespace ProjectFirma.Web.Controllers
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 1:
-                    var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList();
+                    var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 default:
                     throw new NotImplementedException("Only one, two, or three taxonomy tiers are supported.");

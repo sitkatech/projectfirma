@@ -107,21 +107,21 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyTierOneDisplayNamePluralized</a>
+                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyLeafDisplayNamePluralized</a>
                 </h2>
             </div>
             <div class="panel-body">
-                @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.Any())
+                @if (ViewDataTyped.TaxonomyTierThree.TaxonomyLeafs.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes)
+                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTierThree.TaxonomyLeafs)
                         {
                             <tr>
                                 <td>
-                                    @taxonomyTierOne.GetDisplayNameAsUrl()
+                                    @taxonomyLeaf.GetDisplayNameAsUrl()
                                 </td>
                             </tr>
                         }
@@ -129,7 +129,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p>No @ViewDataTyped.TaxonomyTierOneDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierThreeDisplayName.</p>
+                    <p>No @ViewDataTyped.TaxonomyLeafDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierThreeDisplayName.</p>
                 }
             </div>
         </div>

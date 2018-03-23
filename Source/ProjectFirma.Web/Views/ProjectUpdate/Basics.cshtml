@@ -133,10 +133,10 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="row form-group-condensed">
             <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne)
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf)
             </div>
             <div class="col-sm-8">
-                @ViewDataTyped.TaxonomyTierOneDisplayName
+                @ViewDataTyped.TaxonomyLeafDisplayName
             </div>
         </div>
         @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)

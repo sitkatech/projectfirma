@@ -8,7 +8,7 @@ values
 (5, 'InternalSetupNotes', 'Internal Setup Notes', 2),
 (6, 'FullProjectList', 'Full Project List', 1),
 (9, 'PerformanceMeasuresList', 'Performance Measures List', 1),
-(11, 'TaxonomyTierOneList', 'Taxonomy Tier One List', 1),
+(11, 'TaxonomyLeafList', 'Taxonomy Tier One List', 1),
 (13, 'TaxonomyTierTwoList', 'Taxonomy Tier Two List', 1),
 (14, 'TaxonomyTierThreeList', 'Taxonomy Tier Three List', 1),
 (15, 'FundingSourcesList', 'Funding Sources List', 1),

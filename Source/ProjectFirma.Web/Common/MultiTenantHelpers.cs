@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Common
             return FieldDefinition.TaxonomySystemName.GetFieldDefinitionLabel();
         }
 
-        public static string GetTaxonomyTierOneDisplayNameForProject()
+        public static string GetTaxonomyLeafDisplayNameForProject()
         {
-            return FieldDefinition.TaxonomyTierOneDisplayNameForProject.GetFieldDefinitionLabel();
+            return FieldDefinition.TaxonomyLeafDisplayNameForProject.GetFieldDefinitionLabel();
         }
 
         public static string GetPerformanceMeasureName()
