@@ -39,14 +39,14 @@ Source code is available upon request via <support@sitkatech.com>.
     int i = 0;
 
 
-    if (ViewDataTyped.TaxonomyTierThree != null)
+    if (ViewDataTyped.TaxonomyTrunk != null)
      {
          <div class="row taxonomyRow">
              <div class="col-sm-5">
-                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierThree, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
              </div>
              <div class="col-sm-7">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierThree ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierThree ? new HtmlString(ViewDataTyped.TaxonomyTierThree.DisplayName) : ViewDataTyped.TaxonomyTierThree.GetDisplayNameAsUrl())</span>
+                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.DisplayName) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
              </div>
          </div>
          i++;

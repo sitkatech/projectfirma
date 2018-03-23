@@ -2,7 +2,7 @@
 delete from dbo.ProjectLocationFilterType
 
 insert dbo.ProjectLocationFilterType (ProjectLocationFilterTypeID, ProjectLocationFilterTypeName, ProjectLocationFilterTypeDisplayName, ProjectLocationFilterTypeNameWithIdentifier, SortOrder, DisplayGroup) values 
-(1, 'TaxonomyTierThree', 'Taxonomy Tier Three', 'TaxonomyTierThreeID', 10, 1),
+(1, 'TaxonomyTrunk', 'Taxonomy Trunk', 'TaxonomyTrunkID', 10, 1),
 (2, 'TaxonomyTierTwo', 'Taxonomy Tier Two', 'TaxonomyTierTwoID', 20, 1),
 (3, 'TaxonomyLeaf', 'Taxonomy Leaf', 'TaxonomyLeafID', 30, 1),
 (4, 'Classification', 'Classification', 'ClassificationID', 40, 3),

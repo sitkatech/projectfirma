@@ -79,12 +79,12 @@ namespace ProjectFirma.Web.Models
 
         private static void BuildThreeTierSelectList(List<TaxonomyLeaf> taxonomyLeafs, Dictionary<string, SelectListGroup> groups, List<SelectListItem> selectListItems)
         {
-            foreach (var taxonomyTierThreeGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyTierTwo.TaxonomyTierThree).OrderBy(x => x.Key.DisplayName))
+            foreach (var taxonomyTrunkGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyTierTwo.TaxonomyTrunk).OrderBy(x => x.Key.DisplayName))
             {                
-                foreach (var taxonomyTierTwoGrouping in taxonomyTierThreeGrouping.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
+                foreach (var taxonomyTierTwoGrouping in taxonomyTrunkGrouping.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
                 {
                     var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
-                    var displayName = $"{taxonomyTierTwo.TaxonomyTierThree.DisplayName} - {taxonomyTierTwo.DisplayName}";
+                    var displayName = $"{taxonomyTierTwo.TaxonomyTrunk.DisplayName} - {taxonomyTierTwo.DisplayName}";
                     var selectListGroup = new SelectListGroup() {Name = displayName};
                     groups.Add(displayName, selectListGroup);
                     

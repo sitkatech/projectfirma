@@ -44,8 +44,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public string TaxonomyTierTwoDescription { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierThree)]
-        public int TaxonomyTierThreeID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTrunk)]
+        public int TaxonomyTrunkID { get; set; }
 
         [Required]
         public string ThemeColor { get; set; }
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             TaxonomyTierTwoName = taxonomyTierTwo.TaxonomyTierTwoName;
             TaxonomyTierTwoDescription = taxonomyTierTwo.TaxonomyTierTwoDescription;
-            TaxonomyTierThreeID = taxonomyTierTwo.TaxonomyTierThreeID;
+            TaxonomyTrunkID = taxonomyTierTwo.TaxonomyTrunkID;
             ThemeColor = taxonomyTierTwo.ThemeColor;
         }
 
@@ -70,9 +70,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         {
             taxonomyTierTwo.TaxonomyTierTwoName = TaxonomyTierTwoName;
             taxonomyTierTwo.TaxonomyTierTwoDescription = TaxonomyTierTwoDescription;
-            taxonomyTierTwo.TaxonomyTierThreeID = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3
-                ? TaxonomyTierThreeID
-                : HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.First().TaxonomyTierThreeID; // really should only be one
+            taxonomyTierTwo.TaxonomyTrunkID = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3
+                ? TaxonomyTrunkID
+                : HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.First().TaxonomyTrunkID; // really should only be one
             taxonomyTierTwo.ThemeColor = ThemeColor;
         }
 

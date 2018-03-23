@@ -188,12 +188,12 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Tag> Tags { get { return AllTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyLeaf> AllTaxonomyLeafs { get; set; }
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierThree> AllTaxonomyTierThrees { get; set; }
-        public virtual IQueryable<TaxonomyTierThree> TaxonomyTierThrees { get { return AllTaxonomyTierThrees.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> AllTaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual IQueryable<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get { return AllTaxonomyTierTwoPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwo> AllTaxonomyTierTwos { get; set; }
         public virtual IQueryable<TaxonomyTierTwo> TaxonomyTierTwos { get { return AllTaxonomyTierTwos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
+        public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
@@ -569,14 +569,14 @@ namespace ProjectFirma.Web.Models
                 case "TaxonomyLeaf":
                     return TaxonomyLeafs.GetTaxonomyLeaf(primaryKey);
 
-                case "TaxonomyTierThree":
-                    return TaxonomyTierThrees.GetTaxonomyTierThree(primaryKey);
-
                 case "TaxonomyTierTwoPerformanceMeasure":
                     return TaxonomyTierTwoPerformanceMeasures.GetTaxonomyTierTwoPerformanceMeasure(primaryKey);
 
                 case "TaxonomyTierTwo":
                     return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
+
+                case "TaxonomyTrunk":
+                    return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);
 
                 case "TenantAttribute":
                     return TenantAttributes.GetTenantAttribute(primaryKey);

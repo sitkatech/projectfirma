@@ -137,16 +137,16 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.OrderBy(x => x.TaxonomyTrunkName).ToList();
 
             const string chartTitle = "Reported Expenditures";
             var chartContainerID = chartTitle.Replace(" ", "");
 
             // If ProjectFundingSourceExpenditures is empty, ToGoogleChart returns null...
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
-                    taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
+                .ToGoogleChart(x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.DisplayName,
+                    taxonomyTrunks.Select(x => x.DisplayName).ToList(),
+                    x => x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.DisplayName,
                     chartContainerID,
                     fundingSource.DisplayName);
 

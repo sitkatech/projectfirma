@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestTaxonomyTierThreeAuditLogging()
+        public void TestTaxonomyTrunkAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -255,34 +255,34 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testTaxonomyTierThree = TestFramework.TestTaxonomyTierThree.Create(dbContext);
+            var testTaxonomyTrunk = TestFramework.TestTaxonomyTrunk.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTierThree named \"{0}\" in Audit Log database entries.", testTaxonomyTierThree.TaxonomyTierThreeName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTierThree.TaxonomyTierThreeName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTrunk named \"{0}\" in Audit Log database entries.", testTaxonomyTrunk.TaxonomyTrunkName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTrunk.TaxonomyTrunkName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newTaxonomyTierThreeName = TestFramework.MakeTestName("New TaxonomyTierThree Name", TaxonomyTierThree.FieldLengths.TaxonomyTierThreeName);
-            testTaxonomyTierThree.TaxonomyTierThreeName = newTaxonomyTierThreeName;
+            var newTaxonomyTrunkName = TestFramework.MakeTestName("New TaxonomyTrunk Name", TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            testTaxonomyTrunk.TaxonomyTrunkName = newTaxonomyTrunkName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTierThreeName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTrunkName)));
 
             // Delete audit logging
             // --------------------
 
-            testTaxonomyTierThree.DeleteTaxonomyTierThree();
+            testTaxonomyTrunk.DeleteTaxonomyTrunk();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this TaxonomyTierThree name as deleted
+            // Check that the audit log mentions this TaxonomyTrunk name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "TaxonomyTierThree" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTierThree.TaxonomyTierThreeID) != null,
-                "Could not find deleted TaxonomyTierThree record");
+                    al => al.TableName == "TaxonomyTrunk" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTrunk.TaxonomyTrunkID) != null,
+                "Could not find deleted TaxonomyTrunk record");
         }
 
         [Test]

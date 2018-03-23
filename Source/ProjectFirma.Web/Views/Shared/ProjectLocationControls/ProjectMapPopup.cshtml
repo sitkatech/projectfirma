@@ -45,8 +45,8 @@
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
         {
             <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierThreeDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</div>
+                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.TaxonomyTrunkName</div>
             </div>
         }
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)

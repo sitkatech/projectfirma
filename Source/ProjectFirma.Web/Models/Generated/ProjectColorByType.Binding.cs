@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectColorByType : IHavePrimaryKey
     {
-        public static readonly ProjectColorByTypeTaxonomyTierThree TaxonomyTierThree = ProjectColorByTypeTaxonomyTierThree.Instance;
+        public static readonly ProjectColorByTypeTaxonomyTrunk TaxonomyTrunk = ProjectColorByTypeTaxonomyTrunk.Instance;
         public static readonly ProjectColorByTypeProjectStage ProjectStage = ProjectColorByTypeProjectStage.Instance;
         public static readonly ProjectColorByTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectColorByTypeTaxonomyTierTwo.Instance;
 
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectColorByType()
         {
-            All = new List<ProjectColorByType> { TaxonomyTierThree, ProjectStage, TaxonomyTierTwo };
+            All = new List<ProjectColorByType> { TaxonomyTrunk, ProjectStage, TaxonomyTierTwo };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectColorByType>(All.ToDictionary(x => x.ProjectColorByTypeID));
         }
 
@@ -106,10 +106,10 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectColorByTypeEnum.ProjectStage:
                     return ProjectStage;
-                case ProjectColorByTypeEnum.TaxonomyTierThree:
-                    return TaxonomyTierThree;
                 case ProjectColorByTypeEnum.TaxonomyTierTwo:
                     return TaxonomyTierTwo;
+                case ProjectColorByTypeEnum.TaxonomyTrunk:
+                    return TaxonomyTrunk;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -118,15 +118,15 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectColorByTypeEnum
     {
-        TaxonomyTierThree = 1,
+        TaxonomyTrunk = 1,
         ProjectStage = 2,
         TaxonomyTierTwo = 3
     }
 
-    public partial class ProjectColorByTypeTaxonomyTierThree : ProjectColorByType
+    public partial class ProjectColorByTypeTaxonomyTrunk : ProjectColorByType
     {
-        private ProjectColorByTypeTaxonomyTierThree(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeTaxonomyTierThree Instance = new ProjectColorByTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Taxonomy Tier Three", 10);
+        private ProjectColorByTypeTaxonomyTrunk(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
+        public static readonly ProjectColorByTypeTaxonomyTrunk Instance = new ProjectColorByTypeTaxonomyTrunk(1, @"TaxonomyTrunk", @"TaxonomyTrunkID", @"Taxonomy Trunk", 10);
     }
 
     public partial class ProjectColorByTypeProjectStage : ProjectColorByType

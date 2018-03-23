@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
-            TaxonomyTierThree = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName;
+            TaxonomyTrunk = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.TaxonomyTrunkName;
             TaxonomyTierTwo = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierTwoName;
             TaxonomyLeaf = project.TaxonomyLeaf.TaxonomyLeafName;
             ProjectDescription = project.ProjectDescription;
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
         [DataMember] public int ProjectID { get; set; }
         [DataMember] public string ProjectName { get; set; }
-        [DataMember] public string TaxonomyTierThree { get; set; }
+        [DataMember] public string TaxonomyTrunk { get; set; }
         [DataMember] public string TaxonomyTierTwo { get; set; }
         [DataMember] public string TaxonomyLeaf { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             Add("ProjectID", x => x.ProjectID, 0);
             Add("ProjectName", x => x.ProjectName, 0);
-            Add("TaxonomyTierThree", x => x.TaxonomyTierThree, 0);
+            Add("TaxonomyTrunk", x => x.TaxonomyTrunk, 0);
             Add("TaxonomyTierTwo", x => x.TaxonomyTierTwo, 0);
             Add("TaxonomyLeaf", x => x.TaxonomyLeaf, 0);
             Add("Stage", x => x.Stage, 0);

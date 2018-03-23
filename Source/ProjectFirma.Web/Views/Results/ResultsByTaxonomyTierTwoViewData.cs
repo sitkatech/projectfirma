@@ -30,17 +30,17 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class ResultsByTaxonomyTierTwoViewData : FirmaViewData
     {
-        public readonly List<Models.TaxonomyTierThree> TaxonomyTierThrees;
+        public readonly List<Models.TaxonomyTrunk> TaxonomyTrunks;
         public readonly Models.TaxonomyTierTwo SelectedTaxonomyTierTwo;
         public readonly string ResultsByTaxonomyTierTwoUrl;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
         public ResultsByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
-            List<Models.TaxonomyTierThree> taxonomyTierThrees,
+            List<Models.TaxonomyTrunk> taxonomyTrunks,
             Models.TaxonomyTierTwo selectedTaxonomyTierTwo, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson, firmaPage)
         {
-            TaxonomyTierThrees = taxonomyTierThrees;
+            TaxonomyTrunks = taxonomyTrunks;
             PageTitle = string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
             SelectedTaxonomyTierTwo = selectedTaxonomyTierTwo;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;

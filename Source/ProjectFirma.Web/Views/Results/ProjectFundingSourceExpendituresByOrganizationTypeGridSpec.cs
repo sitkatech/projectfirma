@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Results
                 x => UrlTemplate.MakeHrefString(x.Project.GetDetailUrl(), x.Project.ProjectName),
                 200,
                 DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.SummaryUrl, x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.DisplayName), 150);
+            Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.SummaryUrl, x.Project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.DisplayName), 150);
             Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.TaxonomyLeaf.TaxonomyTierTwo.SummaryUrl, x.Project.TaxonomyLeaf.TaxonomyTierTwo.DisplayName), 100);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);

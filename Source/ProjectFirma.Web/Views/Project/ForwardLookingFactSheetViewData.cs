@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.Project
                         TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.ThemeColor;
                         break;
                     case 3:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.ThemeColor;
                         break;
                     // we don't support more than 3 so we should throw if that has more than 3
                     default:

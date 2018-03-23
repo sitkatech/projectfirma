@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectLocationFilterType : IHavePrimaryKey
     {
-        public static readonly ProjectLocationFilterTypeTaxonomyTierThree TaxonomyTierThree = ProjectLocationFilterTypeTaxonomyTierThree.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyTrunk TaxonomyTrunk = ProjectLocationFilterTypeTaxonomyTrunk.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectLocationFilterTypeTaxonomyTierTwo.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyLeaf TaxonomyLeaf = ProjectLocationFilterTypeTaxonomyLeaf.Instance;
         public static readonly ProjectLocationFilterTypeClassification Classification = ProjectLocationFilterTypeClassification.Instance;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyLeaf, Classification, ProjectStage };
+            All = new List<ProjectLocationFilterType> { TaxonomyTrunk, TaxonomyTierTwo, TaxonomyLeaf, Classification, ProjectStage };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -114,10 +114,10 @@ namespace ProjectFirma.Web.Models
                     return ProjectStage;
                 case ProjectLocationFilterTypeEnum.TaxonomyLeaf:
                     return TaxonomyLeaf;
-                case ProjectLocationFilterTypeEnum.TaxonomyTierThree:
-                    return TaxonomyTierThree;
                 case ProjectLocationFilterTypeEnum.TaxonomyTierTwo:
                     return TaxonomyTierTwo;
+                case ProjectLocationFilterTypeEnum.TaxonomyTrunk:
+                    return TaxonomyTrunk;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -126,17 +126,17 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectLocationFilterTypeEnum
     {
-        TaxonomyTierThree = 1,
+        TaxonomyTrunk = 1,
         TaxonomyTierTwo = 2,
         TaxonomyLeaf = 3,
         Classification = 4,
         ProjectStage = 5
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierThree : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyTrunk : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeTaxonomyTierThree(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierThree Instance = new ProjectLocationFilterTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Taxonomy Tier Three", 10, 1);
+        private ProjectLocationFilterTypeTaxonomyTrunk(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyTrunk Instance = new ProjectLocationFilterTypeTaxonomyTrunk(1, @"TaxonomyTrunk", @"TaxonomyTrunkID", @"Taxonomy Trunk", 10, 1);
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierTwo : ProjectLocationFilterType

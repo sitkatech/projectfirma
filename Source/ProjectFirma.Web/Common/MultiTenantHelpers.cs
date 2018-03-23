@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Common
         {            
             if (GetNumberOfTaxonomyTiers() == 3)
             {
-                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
+                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList());
             }
             if (GetNumberOfTaxonomyTiers() == 2)
             {

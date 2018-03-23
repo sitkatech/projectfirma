@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Views
             // Group 1 - Project Classifications Stuff (taxonomies, classification systems, PMs)
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabelPluralized(), "Group1"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTrunkController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized(), "Group1"));
             }
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)

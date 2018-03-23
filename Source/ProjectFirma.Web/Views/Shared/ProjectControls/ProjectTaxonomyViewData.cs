@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectTaxonomyViewData : FirmaUserControlViewData
     {
-        public readonly Models.TaxonomyTierThree TaxonomyTierThree;
+        public readonly Models.TaxonomyTrunk TaxonomyTrunk;
         public readonly Models.TaxonomyTierTwo TaxonomyTierTwo;
         public readonly Models.TaxonomyLeaf TaxonomyLeaf;
         public readonly Models.Project Project;
@@ -33,38 +33,38 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly bool IsProject;
         public readonly bool IsTaxonomyLeaf;
         public readonly bool IsTaxonomyTierTwo;
-        public readonly bool IsTaxonomyTierThree;
+        public readonly bool IsTaxonomyTrunk;
 
-        public ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree) : this(taxonomyTierThree, null, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk) : this(taxonomyTrunk, null, null, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyTierTwo taxonomyTierTwo) : this(taxonomyTierTwo.TaxonomyTierThree, taxonomyTierTwo, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTierTwo taxonomyTierTwo) : this(taxonomyTierTwo.TaxonomyTrunk, taxonomyTierTwo, null, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf) : this(taxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree, taxonomyLeaf.TaxonomyTierTwo, taxonomyLeaf, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf) : this(taxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk, taxonomyLeaf.TaxonomyTierTwo, taxonomyLeaf, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree, project.TaxonomyLeaf.TaxonomyTierTwo, project.TaxonomyLeaf, project)
+        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk, project.TaxonomyLeaf.TaxonomyTierTwo, project.TaxonomyLeaf, project)
         {
         }
 
-        private ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project)
+        private ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project)
         {
             TaxonomyLeaf = taxonomyLeaf;
-            TaxonomyTierThree = taxonomyTierThree;
+            TaxonomyTrunk = taxonomyTrunk;
             TaxonomyTierTwo = taxonomyTierTwo;
             Project = project;
             IsProject = Project != null;
             IsTaxonomyLeaf = TaxonomyLeaf != null && !IsProject;
             IsTaxonomyTierTwo = TaxonomyTierTwo != null && !IsTaxonomyLeaf && !IsProject;
-            IsTaxonomyTierThree = TaxonomyTierThree != null && !IsTaxonomyTierTwo && !IsTaxonomyLeaf && !IsProject;
+            IsTaxonomyTrunk = TaxonomyTrunk != null && !IsTaxonomyTierTwo && !IsTaxonomyLeaf && !IsProject;
 
-            if (HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() <= 1 && !IsTaxonomyTierThree)
+            if (HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Count() <= 1 && !IsTaxonomyTrunk)
             {
-                TaxonomyTierThree = null;
+                TaxonomyTrunk = null;
             }
         }
     }

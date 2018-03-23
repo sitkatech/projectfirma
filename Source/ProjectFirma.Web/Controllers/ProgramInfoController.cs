@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Controllers
             switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
             {
                 case 3:
-                    var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList();
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 2:
                     var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();

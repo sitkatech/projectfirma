@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierThree.SummaryUrl, a.TaxonomyTierThree.TaxonomyTierThreeName), 210);    
+                Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTrunk.SummaryUrl, a.TaxonomyTrunk.TaxonomyTrunkName), 210);    
             }            
             Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierTwoName), 240);
             Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyLeafs.Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);

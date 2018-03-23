@@ -25,14 +25,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> TaxonomyTierThrees;
-        public readonly string TaxonomyTierThreeDisplayName;
+        public readonly IEnumerable<SelectListItem> TaxonomyTrunks;
+        public readonly string TaxonomyTrunkDisplayName;
         public readonly bool HasProjects;
 
-        public EditViewData(IEnumerable<SelectListItem> taxonomyTierThrees, string taxonomyTierThreeDisplayName)
+        public EditViewData(IEnumerable<SelectListItem> taxonomyTrunks, string taxonomyTrunkDisplayName)
         {
-            TaxonomyTierThrees = taxonomyTierThrees;
-            TaxonomyTierThreeDisplayName = taxonomyTierThreeDisplayName;
+            TaxonomyTrunks = taxonomyTrunks;
+            TaxonomyTrunkDisplayName = taxonomyTrunkDisplayName;
         }
     }
 }

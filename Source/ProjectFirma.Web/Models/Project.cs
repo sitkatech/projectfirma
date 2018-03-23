@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Models
         public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
-            feature.Properties.Add("TaxonomyTierThreeID", TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("TaxonomyTrunkID", TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("ProjectStageID", ProjectStageID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("Info", DisplayName);
             if (addProjectProperties)
@@ -347,7 +347,7 @@ namespace ProjectFirma.Web.Models
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(
-                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false) { ThemeColor = TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
+                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false) { ThemeColor = TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

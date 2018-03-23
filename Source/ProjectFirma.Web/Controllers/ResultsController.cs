@@ -244,11 +244,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                var taxonomyTierThreesAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierThree),
-                    taxonomyTierThreesAsSelectListItems);
+                var taxonomyTrunksAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.AsEnumerable().ToSelectList(
+                        x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTrunk),
+                    taxonomyTrunksAsSelectListItems);
             }
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
@@ -326,11 +326,11 @@ namespace ProjectFirma.Web.Controllers
         [ResultsByTaxonomyTierTwoViewFeature]
         public ViewResult ResultsByTaxonomyTierTwo(int? taxonomyTierTwoID)
         {
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees
-                .OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks
+                .OrderBy(x => x.TaxonomyTrunkName).ToList();
             var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue
                 ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value)
-                : taxonomyTierThrees.First().TaxonomyTierTwos.First();
+                : taxonomyTrunks.First().TaxonomyTierTwos.First();
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyTierTwo);
             var performanceMeasureChartViewDatas = selectedTaxonomyTierTwo.GetPerformanceMeasures().ToList()
                 .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
@@ -338,7 +338,7 @@ namespace ProjectFirma.Web.Controllers
                         new List<int>(),
                         CurrentPerson,
                         false)).ToList();
-            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierThrees,
+            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTrunks,
                 selectedTaxonomyTierTwo, performanceMeasureChartViewDatas);
             return RazorView<ResultsByTaxonomyTierTwo, ResultsByTaxonomyTierTwoViewData>(viewData);
         }

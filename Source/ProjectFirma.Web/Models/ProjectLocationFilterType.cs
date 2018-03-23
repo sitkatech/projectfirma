@@ -31,14 +31,14 @@ namespace ProjectFirma.Web.Models
         public abstract string DisplayName { get; }
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierThree
+    public partial class ProjectLocationFilterTypeTaxonomyTrunk
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierThreeID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunkID);
         }
 
-        public override string DisplayName => FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierTwo

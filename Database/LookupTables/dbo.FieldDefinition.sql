@@ -5,7 +5,7 @@ INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [Fie
 VALUES 
 (1, N'TaxonomyLeaf', N'Taxonomy Tier One', N'<p>The highest level record in the hierarchical project taxonomy system.</p>', 1),
 (4, N'ExpectedValue', N'Expected Value', N'<p>The estimated cumulative Performance Measure value that the project or program is projected to achieve after implementation.</p>', 1),
-(5, N'TaxonomyTierThree', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
+(5, N'TaxonomyTrunk', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
 (8, N'FundingSource', N'Funding Source', N'<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>', 1),
 (12, N'IsPrimaryContactOrganization', N'Is Primary Contact Organization', N'<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. This is usually the lead implementer.</p>', 1),
 (13, N'ProjectsStewardOrganizationRelationshipToProject', N'Projects Steward Organization Relationship To Project', N'<p>The relationship between a stewarding organization and a project.</p>', 1),
@@ -79,7 +79,7 @@ VALUES
 (251, N'ClassificationSystemName', N'Classification System Name', N'<p>The name of the logical grouping used to bin projects.</p>', 0),
 (252, N'ProjectPrimaryContact', N'Project Primary Contact', N'<p>An individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>', 1),
 (253, N'CustomPageDisplayType', N'Custom Page Display Type', N'<p>The status of a custom About page, controls whether the page is visible to the public, protected and only visible for logged in users, or disabled and not shown on the About menu.</p>', 1),
-(254, N'TaxonomyTierThreeDescription', N'Taxonomy Tier Three Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
+(254, N'TaxonomyTrunkDescription', N'Taxonomy Tier Three Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (255, N'TaxonomyTierTwoDescription', N'Taxonomy Tier Two Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (256, N'TaxonomyLeafDescription', N'Taxonomy Tier One Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>', 1)

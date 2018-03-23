@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     public class TaxonomyViewData : FirmaViewData
     {
         public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
-        public readonly string TaxonomyTierThreeDisplayName;
+        public readonly string TaxonomyTrunkDisplayName;
         public readonly string TaxonomyTierTwoDisplayName;
         public readonly string TaxonomyLeafDisplayName;
 
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         {
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
-            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+            TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
             TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
         }

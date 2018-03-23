@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var taxonomyTierTwo = new TaxonomyTierTwo(viewModel.TaxonomyTierThreeID, string.Empty);
+            var taxonomyTierTwo = new TaxonomyTierTwo(viewModel.TaxonomyTrunkID, string.Empty);
             viewModel.UpdateModel(taxonomyTierTwo, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwos.Add(taxonomyTierTwo);
 
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyTierTwo);
-            return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTierThree.DisplayName);
+            return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTrunk.DisplayName);
         }
 
         [HttpPost]
@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTierThree.DisplayName);
+                return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTrunk.DisplayName);
             }
             viewModel.UpdateModel(taxonomyTierTwo, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -149,12 +149,12 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(viewModel, string.Empty);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTierThreeDisplayName)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTrunkDisplayName)
         {
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList()
+            var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList()
                 .OrderBy(x => x.DisplayName)
-                .ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            var viewData = new EditViewData(taxonomyTierThrees, taxonomyTierThreeDisplayName);
+                .ToSelectList(x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var viewData = new EditViewData(taxonomyTrunks, taxonomyTrunkDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

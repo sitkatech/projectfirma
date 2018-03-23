@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[TaxonomyTierTwo](
 	[TaxonomyTierTwoID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[TaxonomyTierThreeID] [int] NOT NULL,
+	[TaxonomyTrunkID] [int] NOT NULL,
 	[TaxonomyTierTwoName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierTwoDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -27,15 +27,15 @@ CREATE TABLE [dbo].[TaxonomyTierTwo](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[TaxonomyTierTwo]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID] FOREIGN KEY([TaxonomyTierThreeID])
-REFERENCES [dbo].[TaxonomyTierThree] ([TaxonomyTierThreeID])
+ALTER TABLE [dbo].[TaxonomyTierTwo]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID] FOREIGN KEY([TaxonomyTrunkID])
+REFERENCES [dbo].[TaxonomyTrunk] ([TaxonomyTrunkID])
 GO
-ALTER TABLE [dbo].[TaxonomyTierTwo] CHECK CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID]
+ALTER TABLE [dbo].[TaxonomyTierTwo] CHECK CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID]
 GO
-ALTER TABLE [dbo].[TaxonomyTierTwo]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID] FOREIGN KEY([TaxonomyTierThreeID], [TenantID])
-REFERENCES [dbo].[TaxonomyTierThree] ([TaxonomyTierThreeID], [TenantID])
+ALTER TABLE [dbo].[TaxonomyTierTwo]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID_TenantID] FOREIGN KEY([TaxonomyTrunkID], [TenantID])
+REFERENCES [dbo].[TaxonomyTrunk] ([TaxonomyTrunkID], [TenantID])
 GO
-ALTER TABLE [dbo].[TaxonomyTierTwo] CHECK CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID]
+ALTER TABLE [dbo].[TaxonomyTierTwo] CHECK CONSTRAINT [FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID_TenantID]
 GO
 ALTER TABLE [dbo].[TaxonomyTierTwo]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwo_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

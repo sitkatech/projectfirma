@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Models
         {
             var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTierTwoID.ToString(), false)
             {
-                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTierThree.ThemeColor : ThemeColor,
+                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTrunk.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,
                 Children = TaxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList()
             };

@@ -31,10 +31,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTierThreeID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor, string taxonomyTierTwoCode) : this()
+        public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTrunkID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor, string taxonomyTierTwoCode) : this()
         {
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
-            this.TaxonomyTierThreeID = taxonomyTierThreeID;
+            this.TaxonomyTrunkID = taxonomyTrunkID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
             this.TaxonomyTierTwoDescription = taxonomyTierTwoDescription;
             this.ThemeColor = themeColor;
@@ -44,34 +44,34 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierTwo(int taxonomyTierThreeID, string taxonomyTierTwoName) : this()
+        public TaxonomyTierTwo(int taxonomyTrunkID, string taxonomyTierTwoName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TaxonomyTierThreeID = taxonomyTierThreeID;
+            this.TaxonomyTrunkID = taxonomyTrunkID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TaxonomyTierTwo(TaxonomyTierThree taxonomyTierThree, string taxonomyTierTwoName) : this()
+        public TaxonomyTierTwo(TaxonomyTrunk taxonomyTrunk, string taxonomyTierTwoName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
-            this.TaxonomyTierThree = taxonomyTierThree;
-            taxonomyTierThree.TaxonomyTierTwos.Add(this);
+            this.TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
+            this.TaxonomyTrunk = taxonomyTrunk;
+            taxonomyTrunk.TaxonomyTierTwos.Add(this);
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TaxonomyTierTwo CreateNewBlank(TaxonomyTierThree taxonomyTierThree)
+        public static TaxonomyTierTwo CreateNewBlank(TaxonomyTrunk taxonomyTrunk)
         {
-            return new TaxonomyTierTwo(taxonomyTierThree, default(string));
+            return new TaxonomyTierTwo(taxonomyTrunk, default(string));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int TaxonomyTierTwoID { get; set; }
         public int TenantID { get; private set; }
-        public int TaxonomyTierThreeID { get; set; }
+        public int TaxonomyTrunkID { get; set; }
         public string TaxonomyTierTwoName { get; set; }
         public string TaxonomyTierTwoDescription { get; set; }
         public string ThemeColor { get; set; }
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<TaxonomyLeaf> TaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
+        public virtual TaxonomyTrunk TaxonomyTrunk { get; set; }
 
         public static class FieldLengths
         {

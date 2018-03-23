@@ -50,10 +50,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="col-md-10">
             <select onchange="reloadWithNewTaxonomyTierTwo(this)">
-                @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThrees)
+                @foreach (var taxonomyTrunk in ViewDataTyped.TaxonomyTrunks)
                 {
-                    <optgroup label="@taxonomyTierThree.DisplayName">
-                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
+                    <optgroup label="@taxonomyTrunk.DisplayName">
+                        @foreach (var taxonomyTierTwo in taxonomyTrunk.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
                         {
                             <option value="@taxonomyTierTwo.TaxonomyTierTwoID" @((ViewDataTyped.SelectedTaxonomyTierTwo.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).ToSelectedOrEmpty())>@taxonomyTierTwo.DisplayName</option>
                         }
