@@ -132,18 +132,5 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
         }
-        
-        public HtmlString GetLegendHTML()
-        {
-            var legendHtml = "<div>";
-            foreach (var googlePieChartSlice in ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
-            {
-                legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " + googlePieChartSlice.Color + "'></div> ";
-                legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Label + ": " + googlePieChartSlice.Value.ToString("C0") + "</div>";
-                legendHtml += "<br>";
-            }
-            legendHtml += "</div>";
-            return new HtmlString(legendHtml);
-        }
     }
 }

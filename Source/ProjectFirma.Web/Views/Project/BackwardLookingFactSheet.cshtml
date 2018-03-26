@@ -230,7 +230,16 @@
                         </div>
                         <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
                         <div class="captionText">
-                            @Html.Raw(ViewDataTyped.GetLegendHTML())
+                            <div>
+                                @foreach (var googlePieChartSlice in ViewDataTyped.ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
+                                {
+                                    <div class="chartLegendColorBox" style="display:inline-block; border: solid 6px @(googlePieChartSlice.Color);"></div>
+                                    <div style="display: inline-block;">
+                                        @(googlePieChartSlice.Label): @googlePieChartSlice.Value.ToString("C0")
+                                    </div>
+                                    <br/>
+                                }
+                            </div>
                         </div>
                     }
                     else
