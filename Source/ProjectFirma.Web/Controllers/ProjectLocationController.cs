@@ -259,20 +259,26 @@ namespace ProjectFirma.Web.Controllers
             var layerGeoJsons = new List<LayerGeoJson>
                 {
                     project.DefaultBoundingBox != null
-                        ? new LayerGeoJson("Bounding Box",
+                        ? new LayerGeoJson("Map Extent",
                             new FeatureCollection(new List<Project> {project}.Select(x =>
                                 DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
                             FirmaHelpers.DefaultColorRange[0], 0.8m, LayerInitialVisibility.Show)
                         : null,
-                    new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
-                        FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show),
-                    new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
-                        FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                    project.HasProjectLocationPoint
+                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                        : null,
+                    project.HasProjectLocationDetail
+                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                        : null
                 }
                 .Where(x => x != null)
                 .ToList();
 
-            var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
+            var boundingBox = layerGeoJsons.Any()
+                ? BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons)
+                : BoundingBox.MakeNewDefaultBoundingBox();
 
             // Add Watersheds after creating bounding box from other layers - we don't want the default extent to include evey Watershed
             layerGeoJsons.Add(Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
