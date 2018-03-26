@@ -1,0 +1,86 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+
+@inherits EditProjectBoundingBox
+
+@Html.ValidationSummary()
+
+<form method="POST" id="@ViewDataTyped.EditProjectBoundingBoxFormID" action="@ViewDataTyped.EditProjectBoundingBoxUrl">
+    @Html.HiddenFor(x => x.North)
+    @Html.HiddenFor(x => x.South)
+    @Html.HiddenFor(x => x.East)
+    @Html.HiddenFor(x => x.West)
+</form>
+
+<div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;"></div>
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None)),
+            firmaMap = new ProjectFirmaMaps.Map(mapInitJson),
+            drawnItems = L.FeatureGroup(),
+            drawControl = new L.Control.Draw({
+                edit: {
+                    featureGroup: drawnItems
+                },
+                draw: {
+                    // Rectangle only
+                    polygon: false,
+                    polyline: false,
+                    circle: false,
+                    marker: false
+                }
+            });
+        firmaMap.map.addControl(drawControl);
+        var north = @Html.Raw(Model.North != null ? Model.North.ToString() : "null"),
+            south = @Html.Raw(Model.North != null ? Model.South.ToString() : "null"),
+            east = @Html.Raw(Model.North != null ? Model.East.ToString() : "null"),
+            west = @Html.Raw(Model.North != null ? Model.West.ToString() : "null");
+
+        if (!Sitka.Methods.isUndefinedNullOrEmpty(north) &&
+            !Sitka.Methods.isUndefinedNullOrEmpty(south) &&
+            !Sitka.Methods.isUndefinedNullOrEmpty(east) &&
+            !Sitka.Methods.isUndefinedNullOrEmpty(west)) {
+            L.rectangle([[south, west], [north, east]]).addTo(drawnItems);
+        }
+        firmaMap.map.addLayer(drawnItems);
+
+        function setBoundingBoxValues(north, south, east, west)
+        {
+            jQuery("#@Html.IdFor(m => m.North)").val(north);
+            jQuery("#@Html.IdFor(m => m.South)").val(south);
+            jQuery("#@Html.IdFor(m => m.East)").val(east);
+            jQuery("#@Html.IdFor(m => m.West)").val(west);
+        }
+
+        function setBoundingBox(layer) {
+            var bounds = layer.getBounds();
+            //var northEast = bounds.getNorthEast().wrap();
+            //var southWest = bounds.getSouthWest().wrap();
+            var northEast = bounds.getNorthEast();
+            var southWest = bounds.getSouthWest();
+            setBoundingBoxValues(northEast.lat, southWest.lat, northEast.lng, southWest.lng);
+        }
+
+        function removePreviousRegion()
+        {
+            drawnItems.clearLayers();
+            setBoundingBoxValues("", "", "", "");
+        }
+
+        firmaMap.map.on("draw:drawstart", removePreviousRegion);
+        firmaMap.map.on("draw:deleted", removePreviousRegion);
+
+        firmaMap.map.on("draw:created",
+            function(event)
+            {
+                drawnItems.addLayer(event.layer);
+                setBoundingBox(event.layer);
+            });
+        firmaMap.map.on("draw:edited",
+            function(event) { event.layers.eachLayer(function(layer) { setBoundingBox(layer); }); });
+    });
+    // ]]>
+</script>

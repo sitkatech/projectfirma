@@ -59,6 +59,7 @@ Source code is available upon request via <support@sitkatech.com>.
             south = @Html.Raw(Model.South != null ? Model.South.ToString() : "null"),
             east = @Html.Raw(Model.East != null ? Model.East.ToString() : "null"),
             west = @Html.Raw(Model.West != null ? Model.West.ToString() : "null");
+
         if (!Sitka.Methods.isUndefinedNullOrEmpty(north) &&
             !Sitka.Methods.isUndefinedNullOrEmpty(south) &&
             !Sitka.Methods.isUndefinedNullOrEmpty(east) &&
@@ -102,5 +103,5 @@ Source code is available upon request via <support@sitkatech.com>.
         firmaMap.map.on("draw:edited",
             function(event) { event.layers.eachLayer(function(layer) { setBoundingBox(layer); }); });
     });
-        // ]]>
+    // ]]>
 </script>
