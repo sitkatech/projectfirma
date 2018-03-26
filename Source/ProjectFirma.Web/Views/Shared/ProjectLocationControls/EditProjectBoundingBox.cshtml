@@ -20,7 +20,7 @@
     jQuery(function() {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None)),
             firmaMap = new ProjectFirmaMaps.Map(mapInitJson),
-            drawnItems = L.FeatureGroup(),
+            drawnItems = new L.FeatureGroup(),
             drawControl = new L.Control.Draw({
                 edit: {
                     featureGroup: drawnItems

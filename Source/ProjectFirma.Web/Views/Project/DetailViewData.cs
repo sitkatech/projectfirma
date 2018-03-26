@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EditWatershedsUrl { get; }
         public string EditSimpleProjectLocationUrl { get; }
         public string EditDetailedProjectLocationUrl { get; }
+        public string EditProjectBoundingBoxUrl { get; }
         public string EditPerformanceMeasureExpectedsUrl { get; }
         public string EditPerformanceMeasureActualsUrl { get; }
         public string EditReportedExpendituresUrl { get; }
@@ -81,6 +82,7 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectNotificationGridDataUrl { get; }
 
         public string EditProjectWatershedFormID { get; }
+        public string EditProjectBoundingBoxFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
@@ -112,7 +114,8 @@ namespace ProjectFirma.Web.Views.Project
             string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
-            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems)
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems,
+            string editProjectBoundingBoxFormID)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -236,6 +239,9 @@ namespace ProjectFirma.Web.Views.Project
             MapFormID = mapFormID;
             EditSimpleProjectLocationUrl = editSimpleProjectLocationUrl;
             EditDetailedProjectLocationUrl = editDetailedProjectLocationUrl;
+
+            EditProjectBoundingBoxUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
+            EditProjectBoundingBoxFormID = editProjectBoundingBoxFormID;
 
             AllProjectOrganizations = project.ProjectOrganizations.ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;

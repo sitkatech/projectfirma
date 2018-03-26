@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectLocationController : FirmaBaseController
     {
-        private const string EditProjectBoundingBoxFormID = "EditProjectBoundingBoxForm";
+        public const string EditProjectBoundingBoxFormID = "EditProjectBoundingBoxForm";
 
         [HttpGet]
         [ProjectEditAsAdminFeature]
@@ -256,13 +256,28 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectBoundingBox(Project project, EditProjectBoundingBoxViewModel viewModel)
         {
-            var boundingBoxLayer = new LayerGeoJson("Bounding Box",
-                new FeatureCollection(new List<Project> {project}
-                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
-                FirmaHelpers.DefaultColorRange[0], 0.8m, LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10,
-                MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Hide),
-                BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var layerGeoJsons = new List<LayerGeoJson>
+                {
+                    project.DefaultBoundingBox != null
+                        ? new LayerGeoJson("Bounding Box",
+                            new FeatureCollection(new List<Project> {project}.Select(x =>
+                                DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
+                            FirmaHelpers.DefaultColorRange[0], 0.8m, LayerInitialVisibility.Show)
+                        : null,
+                    new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
+                        FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show),
+                    new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
+                        FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                }
+                .Where(x => x != null)
+                .ToList();
+
+            var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
+
+            // Add Watersheds after creating bounding box from other layers - we don't want the default extent to include evey Watershed
+            layerGeoJsons.Add(Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
+
+            var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, boundingBox);
             var editProjectBoundingBoxUrl =
                 SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
 
