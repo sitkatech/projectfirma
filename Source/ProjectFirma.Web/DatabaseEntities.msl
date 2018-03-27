@@ -533,6 +533,7 @@
           <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
+          <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

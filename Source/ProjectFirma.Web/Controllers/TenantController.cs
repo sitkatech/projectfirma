@@ -24,7 +24,6 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using GeoJSON.Net.Feature;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Mvc;
@@ -170,7 +169,6 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditClassificationSystems()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new EditClassificationSystemsViewModel(tenant);
             return ViewEditClassificationSystems(viewModel);
         }

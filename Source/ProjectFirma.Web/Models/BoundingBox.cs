@@ -25,11 +25,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
+using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Models
 {
@@ -203,6 +205,29 @@ namespace ProjectFirma.Web.Models
 
             var boundingBox = new BoundingBox(p1, p2);
             return boundingBox;
+        }
+
+        public static BoundingBox MakeBoundingBoxFromProject(IProject project)
+        {
+            if (project.GetDefaultBoundingBox() != null)
+            {
+                return new BoundingBox(project.GetDefaultBoundingBox());
+            }
+
+            if (project.GetProjectLocationDetails().Any())
+            {
+                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
+            }
+
+            if (project.ProjectLocationPoint != null)
+            {
+                return new BoundingBox(new Point(project.ProjectLocationPoint), 0.001m);
+            }
+
+            var watershedDbGeometries = HttpRequestStorage.DatabaseEntities.Watersheds.Select(x => x.WatershedFeature).ToList();
+            return watershedDbGeometries.Any()
+                ? new BoundingBox(watershedDbGeometries)
+                : MakeNewDefaultBoundingBox();
         }
 
         public static BoundingBox MakeBoundingBoxFromLayerGeoJsonList(List<LayerGeoJson> layerGeoJsons)

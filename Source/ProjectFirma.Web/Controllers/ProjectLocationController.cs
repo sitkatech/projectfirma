@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -29,6 +30,7 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Map;
 
@@ -36,6 +38,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectLocationController : FirmaBaseController
     {
+        public const string EditProjectBoundingBoxFormID = "EditProjectBoundingBoxForm";
+
         [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
@@ -222,6 +226,69 @@ namespace ProjectFirma.Web.Controllers
         public static string GenerateEditProjectLocationFormID(int projectID)
         {
             return $"editMapForProject{projectID}";
+        }
+
+        [HttpGet]
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult EditProjectBoundingBox(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new EditProjectBoundingBoxViewModel(project);
+            return ViewEditProjectBoundingBox(project, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectEditAsAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProjectBoundingBox(ProjectPrimaryKey projectPrimaryKey, EditProjectBoundingBoxViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProjectBoundingBox(project, viewModel);
+            }
+
+            viewModel.UpdateModel(project);
+            SetMessageForDisplay($"The default map extent for {project.ProjectName} has been successfully updated.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditProjectBoundingBox(Project project, EditProjectBoundingBoxViewModel viewModel)
+        {
+            var layerGeoJsons = new List<LayerGeoJson>
+                {
+                    project.DefaultBoundingBox != null
+                        ? new LayerGeoJson("Map Extent",
+                            new FeatureCollection(new List<Project> {project}.Select(x =>
+                                DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
+                            FirmaHelpers.DefaultColorRange[0], 0.8m, LayerInitialVisibility.Show)
+                        : null,
+                    project.HasProjectLocationPoint
+                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                        : null,
+                    project.HasProjectLocationDetail
+                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                        : null
+                }
+                .Where(x => x != null)
+                .ToList();
+
+            var boundingBox = layerGeoJsons.Any()
+                ? BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons)
+                : BoundingBox.MakeNewDefaultBoundingBox();
+
+            // Add Watersheds after creating bounding box from other layers - we don't want the default extent to include evey Watershed
+            layerGeoJsons.Add(Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
+
+            var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, boundingBox);
+            var editProjectBoundingBoxUrl =
+                SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
+
+            var viewData = new EditProjectBoundingBoxViewData(mapInitJson, editProjectBoundingBoxUrl, EditProjectBoundingBoxFormID);
+            return RazorPartialView<EditProjectBoundingBox, EditProjectBoundingBoxViewData, EditProjectBoundingBoxViewModel>(viewData, viewModel);
         }
     }
 }

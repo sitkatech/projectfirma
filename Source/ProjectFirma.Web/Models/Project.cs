@@ -263,6 +263,11 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToList();
         }
 
+        public DbGeometry GetDefaultBoundingBox()
+        {
+            return DefaultBoundingBox;
+        }
+
         public IEnumerable<Watershed> GetProjectWatersheds()
         {
             return ProjectWatersheds.Select(x => x.Watershed);

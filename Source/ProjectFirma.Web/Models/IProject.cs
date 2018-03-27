@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Models
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
+        DbGeometry GetDefaultBoundingBox();
         IEnumerable<Watershed> GetProjectWatersheds();
 
         GeoJSON.Net.Feature.FeatureCollection DetailedLocationToGeoJsonFeatureCollection();
