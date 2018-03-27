@@ -1277,6 +1277,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="SubmissionDate" Type="datetime" />
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />
+    <Property Name="DefaultBoundingBox" Type="geometry" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>

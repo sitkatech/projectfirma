@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using GeoJSON.Net.Feature;
@@ -114,6 +115,11 @@ namespace ProjectFirma.Web.Models
         public IEnumerable<IProjectLocation> GetProjectLocationDetails()
         {
             return ProjectUpdateBatch.ProjectLocationUpdates.ToList();
+        }
+
+        public DbGeometry GetDefaultBoundingBox()
+        {
+            return ProjectUpdateBatch.Project.GetDefaultBoundingBox();
         }
 
         public IEnumerable<Watershed> GetProjectWatersheds()

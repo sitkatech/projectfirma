@@ -355,6 +355,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Models\CustomPageModelExtensions.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
     <Compile Include="Controllers\CustomPageController.cs" />
@@ -507,6 +508,8 @@
     <Compile Include="Views\Shared\GooglePieChartConfiguration.cs" />
     <Compile Include="Views\Shared\GooglePieChartSlice.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureChartDataSimple.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBoxViewData.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBoxViewModel.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
@@ -1464,6 +1467,7 @@
     <Content Include="Views\Results\ParticipatingOrganizations.cshtml" />
     <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
+    <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

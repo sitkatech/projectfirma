@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
                 editSimpleProjectLocationUrl, editDetailedProjectLocationUrl, editOrganizationsUrl,
                 editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
                 editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
-                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData, classificationSystems);
+                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData, classificationSystems, ProjectLocationController.EditProjectBoundingBoxFormID);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
