@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTierTwos);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.OrderBy(x => x.TaxonomyBranchName).ToList();
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyBranches);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
 
@@ -58,8 +58,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName).ToList();
-            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyTierTwos);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.OrderBy(x => x.TaxonomyBranchName).ToList();
+            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyBranches);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
                 SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public PartialViewResult OrganizationAccomplishments(int organizationID, int taxonomyTierTwoID)
+        public PartialViewResult OrganizationAccomplishments(int organizationID, int taxonomyBranchID)
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
@@ -113,17 +113,17 @@ namespace ProjectFirma.Web.Controllers
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
 
-            var taxonomyTierTwo =HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID);
+            var taxonomyBranch =HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyBranchID);
 
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
-            var performanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var performanceMeasures = taxonomyBranch.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
             var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
 
             var projectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
                 ? FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
                 : "Lead Implementer";
                        
-            var viewData = new OrganizationAccomplishmentsViewData(projectStewardOrLeadImplementorFieldDefinitionName, performanceMeasureChartViewDatas, taxonomyTierTwo);
+            var viewData = new OrganizationAccomplishmentsViewData(projectStewardOrLeadImplementorFieldDefinitionName, performanceMeasureChartViewDatas, taxonomyBranch);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
         }
 
@@ -253,11 +253,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
-                var taxonomyTierTwosAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierTwo),
-                    taxonomyTierTwosAsSelectListItems);
+                var taxonomyBranchesAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.AsEnumerable().ToSelectList(
+                        x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyBranch),
+                    taxonomyBranchesAsSelectListItems);
             }
 
             var taxonomyLeafsAsSelectListItems =
@@ -323,24 +323,24 @@ namespace ProjectFirma.Web.Controllers
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }
 
-        [ResultsByTaxonomyTierTwoViewFeature]
-        public ViewResult ResultsByTaxonomyTierTwo(int? taxonomyTierTwoID)
+        [ResultsByTaxonomyBranchViewFeature]
+        public ViewResult ResultsByTaxonomyBranch(int? taxonomyBranchID)
         {
             var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks
                 .OrderBy(x => x.TaxonomyTrunkName).ToList();
-            var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue
-                ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value)
-                : taxonomyTrunks.First().TaxonomyTierTwos.First();
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyTierTwo);
-            var performanceMeasureChartViewDatas = selectedTaxonomyTierTwo.GetPerformanceMeasures().ToList()
+            var selectedTaxonomyBranch = taxonomyBranchID.HasValue
+                ? HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyBranchID.Value)
+                : taxonomyTrunks.First().TaxonomyBranches.First();
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyBranch);
+            var performanceMeasureChartViewDatas = selectedTaxonomyBranch.GetPerformanceMeasures().ToList()
                 .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
                     new PerformanceMeasureChartViewData(x,
                         new List<int>(),
                         CurrentPerson,
                         false)).ToList();
-            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTrunks,
-                selectedTaxonomyTierTwo, performanceMeasureChartViewDatas);
-            return RazorView<ResultsByTaxonomyTierTwo, ResultsByTaxonomyTierTwoViewData>(viewData);
+            var viewData = new ResultsByTaxonomyBranchViewData(CurrentPerson, firmaPage, taxonomyTrunks,
+                selectedTaxonomyBranch, performanceMeasureChartViewDatas);
+            return RazorView<ResultsByTaxonomyBranch, ResultsByTaxonomyBranchViewData>(viewData);
         }
 
         [SpendingByPerformanceMeasureByProjectViewFeature]

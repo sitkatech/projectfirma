@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static TaxonomyLeaf Create()
             {
-                var taxonomyTierTwo = TestTaxonomyTierTwo.Create();
-                var taxonomyLeaf = TaxonomyLeaf.CreateNewBlank(taxonomyTierTwo);
+                var taxonomyBranch = TestTaxonomyBranch.Create();
+                var taxonomyLeaf = TaxonomyLeaf.CreateNewBlank(taxonomyBranch);
                 return taxonomyLeaf;
             }
 
@@ -38,8 +38,8 @@ namespace ProjectFirma.Web.UnitTestCommon
             /// </summary>
             public static TaxonomyLeaf Create(DatabaseEntities dbContext)
             {
-                var taxonomyTierTwo = TestTaxonomyTierTwo.Create(dbContext);
-                var taxonomyLeaf = new TaxonomyLeaf(taxonomyTierTwo, MakeTestName("Test Taxonomy Tier One", TaxonomyLeaf.FieldLengths.TaxonomyLeafName));
+                var taxonomyBranch = TestTaxonomyBranch.Create(dbContext);
+                var taxonomyLeaf = new TaxonomyLeaf(taxonomyBranch, MakeTestName("Test Taxonomy Tier One", TaxonomyLeaf.FieldLengths.TaxonomyLeafName));
                 var newTaxonomyLeaf = taxonomyLeaf;
                 dbContext.AllTaxonomyLeafs.Add(newTaxonomyLeaf);
                 return newTaxonomyLeaf;

@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public readonly string TaxonomyColor;
         public readonly string TaxonomyLeafName;
-        public readonly string TaxonomyTierTwoName;
+        public readonly string TaxonomyBranchName;
 
         public readonly string TaxonomyLeafDisplayName;
         public readonly Person PrimaryContactPerson;
@@ -113,13 +113,13 @@ namespace ProjectFirma.Web.Views.Project
                 switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
                 {
                     case 1:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
                         break;
                     case 2:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
                         break;
                     case 3:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.ThemeColor;
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor;
                         break;
                     // we don't support more than 3 so we should throw if that has more than 3
                     default:
@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Views.Project
                 }
             }
             TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
-            TaxonomyTierTwoName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyTierTwo.DisplayName;
+            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
         }

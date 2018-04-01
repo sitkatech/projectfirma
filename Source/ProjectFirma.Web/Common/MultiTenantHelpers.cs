@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Common
             }
             if (GetNumberOfTaxonomyTiers() == 2)
             {
-                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList());
+                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList());
             }
             return new List<ITaxonomyTier>();
         }

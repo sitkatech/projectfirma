@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         public readonly bool UserHasTaxonomyTrunkManagePermissions;
         public readonly bool UserHasProjectTaxonomyTrunkExpenditureManagePermissions;
         public readonly string EditTaxonomyTrunkUrl;
-        public readonly string TaxonomyTierTwoIndexUrl;
+        public readonly string TaxonomyBranchIndexUrl;
 
         public readonly string IndexUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 
         public readonly string TaxonomyTrunkDisplayName;
         public readonly string TaxonomyTrunkDisplayNamePluralized;
-        public readonly string TaxonomyTierTwoDisplayNamePluralized;
+        public readonly string TaxonomyBranchDisplayNamePluralized;
         public readonly string TaxonomyLeafDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             TaxonomyTrunk = taxonomyTrunk;
             TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
             TaxonomyTrunkDisplayNamePluralized = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized();
-            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
             TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             UserHasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(CurrentPerson);
             UserHasProjectTaxonomyTrunkExpenditureManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
             EditTaxonomyTrunkUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(c => c.Edit(taxonomyTrunk.TaxonomyTrunkID));
-            TaxonomyTierTwoIndexUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
+            TaxonomyBranchIndexUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.Index());
 
             BasicProjectInfoGridName = "taxonomyTrunkProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)

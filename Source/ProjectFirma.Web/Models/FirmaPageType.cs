@@ -116,11 +116,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierTwoList
+    public partial class FirmaPageTypeTaxonomyBranchList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -172,11 +172,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeResultsByTaxonomyTierTwo
+    public partial class FirmaPageTypeResultsByTaxonomyBranch
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyTierTwo(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyBranch(null));
         }
     }
 

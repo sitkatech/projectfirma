@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
     public abstract partial class ProjectLocationFilterType : IHavePrimaryKey
     {
         public static readonly ProjectLocationFilterTypeTaxonomyTrunk TaxonomyTrunk = ProjectLocationFilterTypeTaxonomyTrunk.Instance;
-        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectLocationFilterTypeTaxonomyTierTwo.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyBranch TaxonomyBranch = ProjectLocationFilterTypeTaxonomyBranch.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyLeaf TaxonomyLeaf = ProjectLocationFilterTypeTaxonomyLeaf.Instance;
         public static readonly ProjectLocationFilterTypeClassification Classification = ProjectLocationFilterTypeClassification.Instance;
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { TaxonomyTrunk, TaxonomyTierTwo, TaxonomyLeaf, Classification, ProjectStage };
+            All = new List<ProjectLocationFilterType> { TaxonomyTrunk, TaxonomyBranch, TaxonomyLeaf, Classification, ProjectStage };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -112,10 +112,10 @@ namespace ProjectFirma.Web.Models
                     return Classification;
                 case ProjectLocationFilterTypeEnum.ProjectStage:
                     return ProjectStage;
+                case ProjectLocationFilterTypeEnum.TaxonomyBranch:
+                    return TaxonomyBranch;
                 case ProjectLocationFilterTypeEnum.TaxonomyLeaf:
                     return TaxonomyLeaf;
-                case ProjectLocationFilterTypeEnum.TaxonomyTierTwo:
-                    return TaxonomyTierTwo;
                 case ProjectLocationFilterTypeEnum.TaxonomyTrunk:
                     return TaxonomyTrunk;
                 default:
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Models
     public enum ProjectLocationFilterTypeEnum
     {
         TaxonomyTrunk = 1,
-        TaxonomyTierTwo = 2,
+        TaxonomyBranch = 2,
         TaxonomyLeaf = 3,
         Classification = 4,
         ProjectStage = 5
@@ -139,10 +139,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectLocationFilterTypeTaxonomyTrunk Instance = new ProjectLocationFilterTypeTaxonomyTrunk(1, @"TaxonomyTrunk", @"TaxonomyTrunkID", @"Taxonomy Trunk", 10, 1);
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierTwo : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyBranch : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeTaxonomyTierTwo(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo Instance = new ProjectLocationFilterTypeTaxonomyTierTwo(2, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"Taxonomy Tier Two", 20, 1);
+        private ProjectLocationFilterTypeTaxonomyBranch(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyBranch Instance = new ProjectLocationFilterTypeTaxonomyBranch(2, @"TaxonomyBranch", @"TaxonomyBranchID", @"Taxonomy Branch", 20, 1);
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyLeaf : ProjectLocationFilterType

@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectColorByTypeTaxonomyTrunk TaxonomyTrunk = ProjectColorByTypeTaxonomyTrunk.Instance;
         public static readonly ProjectColorByTypeProjectStage ProjectStage = ProjectColorByTypeProjectStage.Instance;
-        public static readonly ProjectColorByTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectColorByTypeTaxonomyTierTwo.Instance;
+        public static readonly ProjectColorByTypeTaxonomyBranch TaxonomyBranch = ProjectColorByTypeTaxonomyBranch.Instance;
 
         public static readonly List<ProjectColorByType> All;
         public static readonly ReadOnlyDictionary<int, ProjectColorByType> AllLookupDictionary;
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectColorByType()
         {
-            All = new List<ProjectColorByType> { TaxonomyTrunk, ProjectStage, TaxonomyTierTwo };
+            All = new List<ProjectColorByType> { TaxonomyTrunk, ProjectStage, TaxonomyBranch };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectColorByType>(All.ToDictionary(x => x.ProjectColorByTypeID));
         }
 
@@ -106,8 +106,8 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectColorByTypeEnum.ProjectStage:
                     return ProjectStage;
-                case ProjectColorByTypeEnum.TaxonomyTierTwo:
-                    return TaxonomyTierTwo;
+                case ProjectColorByTypeEnum.TaxonomyBranch:
+                    return TaxonomyBranch;
                 case ProjectColorByTypeEnum.TaxonomyTrunk:
                     return TaxonomyTrunk;
                 default:
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Models
     {
         TaxonomyTrunk = 1,
         ProjectStage = 2,
-        TaxonomyTierTwo = 3
+        TaxonomyBranch = 3
     }
 
     public partial class ProjectColorByTypeTaxonomyTrunk : ProjectColorByType
@@ -135,9 +135,9 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectColorByTypeProjectStage Instance = new ProjectColorByTypeProjectStage(2, @"ProjectStage", @"ProjectStageID", @"Stage", 20);
     }
 
-    public partial class ProjectColorByTypeTaxonomyTierTwo : ProjectColorByType
+    public partial class ProjectColorByTypeTaxonomyBranch : ProjectColorByType
     {
-        private ProjectColorByTypeTaxonomyTierTwo(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeTaxonomyTierTwo Instance = new ProjectColorByTypeTaxonomyTierTwo(3, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"Taxonomy Tier Two", 11);
+        private ProjectColorByTypeTaxonomyBranch(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
+        public static readonly ProjectColorByTypeTaxonomyBranch Instance = new ProjectColorByTypeTaxonomyBranch(3, @"TaxonomyBranch", @"TaxonomyBranchID", @"Taxonomy Branch", 11);
     }
 }

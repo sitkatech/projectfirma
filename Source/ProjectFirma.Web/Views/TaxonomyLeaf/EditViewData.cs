@@ -26,13 +26,13 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> TaxonomyTierTwos;
-        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly IEnumerable<SelectListItem> TaxonomyBranches;
+        public readonly string TaxonomyBranchDisplayName;
 
-        public EditViewData(IEnumerable<SelectListItem> taxonomyTierTwos, string taxonomyTierTwoDisplayName)
+        public EditViewData(IEnumerable<SelectListItem> taxonomyBranches, string taxonomyBranchDisplayName)
         {
-            TaxonomyTierTwos = taxonomyTierTwos;
-            TaxonomyTierTwoDisplayName = taxonomyTierTwoDisplayName;
+            TaxonomyBranches = taxonomyBranches;
+            TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
         }
     }
 }

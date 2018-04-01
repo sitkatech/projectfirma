@@ -57,13 +57,13 @@ namespace ProjectFirma.Web.Models
             }
             else if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2)
             {
-                foreach (var taxonomyTierTwoGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
+                foreach (var taxonomyBranchGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyBranch).OrderBy(x => x.Key.DisplayName))
                 {
-                    var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
-                    var selectListGroup = new SelectListGroup() { Name = taxonomyTierTwo.DisplayName };
-                    groups.Add(taxonomyTierTwo.DisplayName, selectListGroup);
+                    var taxonomyBranch = taxonomyBranchGrouping.Key;
+                    var selectListGroup = new SelectListGroup() { Name = taxonomyBranch.DisplayName };
+                    groups.Add(taxonomyBranch.DisplayName, selectListGroup);
 
-                    foreach (var taxonomyLeaf in taxonomyTierTwoGrouping.OrderBy(x => x.DisplayName))
+                    foreach (var taxonomyLeaf in taxonomyBranchGrouping.OrderBy(x => x.DisplayName))
                     {
                         selectListItems.Add(new SelectListItem() { Value = taxonomyLeaf.TaxonomyLeafID.ToString(), Text = taxonomyLeaf.DisplayName, Group = selectListGroup });
                     }
@@ -79,16 +79,16 @@ namespace ProjectFirma.Web.Models
 
         private static void BuildThreeTierSelectList(List<TaxonomyLeaf> taxonomyLeafs, Dictionary<string, SelectListGroup> groups, List<SelectListItem> selectListItems)
         {
-            foreach (var taxonomyTrunkGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyTierTwo.TaxonomyTrunk).OrderBy(x => x.Key.DisplayName))
+            foreach (var taxonomyTrunkGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyBranch.TaxonomyTrunk).OrderBy(x => x.Key.DisplayName))
             {                
-                foreach (var taxonomyTierTwoGrouping in taxonomyTrunkGrouping.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
+                foreach (var taxonomyBranchGrouping in taxonomyTrunkGrouping.GroupBy(x => x.TaxonomyBranch).OrderBy(x => x.Key.DisplayName))
                 {
-                    var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
-                    var displayName = $"{taxonomyTierTwo.TaxonomyTrunk.DisplayName} - {taxonomyTierTwo.DisplayName}";
+                    var taxonomyBranch = taxonomyBranchGrouping.Key;
+                    var displayName = $"{taxonomyBranch.TaxonomyTrunk.DisplayName} - {taxonomyBranch.DisplayName}";
                     var selectListGroup = new SelectListGroup() {Name = displayName};
                     groups.Add(displayName, selectListGroup);
                     
-                    foreach (var taxonomyLeaf in taxonomyTierTwoGrouping.OrderBy(x => x.DisplayName))
+                    foreach (var taxonomyLeaf in taxonomyBranchGrouping.OrderBy(x => x.DisplayName))
                     {
                         selectListItems.Add(new SelectListItem() {Value = taxonomyLeaf.TaxonomyLeafID.ToString(), Text = taxonomyLeaf.DisplayName, Group = selectListGroup });
                     }

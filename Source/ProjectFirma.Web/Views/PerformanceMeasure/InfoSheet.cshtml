@@ -171,11 +171,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         <th>Units:</th>
                         <td>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
                     </tr>
-                    @if (ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo != null)
+                    @if (ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyBranch != null)
                     {
                         <tr>
-                            <th>Primary @ViewDataTyped.TaxonomyTierTwoDisplayName:</th>
-                            <td>@ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo.TaxonomyTierTwoName</td>
+                            <th>Primary @ViewDataTyped.TaxonomyBranchDisplayName:</th>
+                            <td>@ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyBranch.TaxonomyBranchName</td>
                         </tr>
                     }
                 </table>
@@ -284,27 +284,27 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>    </div>
 
     <div class="summarySection">
-        <span class="sectionTitle">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</span>
+        <span class="sectionTitle">@ViewDataTyped.TaxonomyBranchDisplayNamePluralized</span>
         <div class="contentWrapper">
-            @if (ViewDataTyped.PerformanceMeasureTaxonomyTierTwos.Any())
+            @if (ViewDataTyped.PerformanceMeasureTaxonomyBranches.Any())
             {
                 <table class="summaryLayout">
                     <tr>
-                        <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
-                        <th>Is Primary @ViewDataTyped.TaxonomyTierTwoDisplayName</th>
+                        <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
+                        <th>Is Primary @ViewDataTyped.TaxonomyBranchDisplayName</th>
                     </tr>
-                    @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.PerformanceMeasureTaxonomyTierTwos)
+                    @foreach (var taxonomyBranchPerformanceMeasure in ViewDataTyped.PerformanceMeasureTaxonomyBranches)
                     {
                         <tr>
-                            <td>@taxonomyTierTwoPerformanceMeasure.Key.DisplayName</td>
-                            <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                            <td>@taxonomyBranchPerformanceMeasure.Key.DisplayName</td>
+                            <td style="text-align: center">@taxonomyBranchPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                         </tr>
                     }
                 </table>
             }
             else
             {
-                <p class="systemText">No @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                <p class="systemText">No @ViewDataTyped.TaxonomyBranchDisplayNamePluralized set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>

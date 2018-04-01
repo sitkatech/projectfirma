@@ -1,0 +1,120 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.TaxonomyBranchPerformanceMeasure.Edit
+<script type="text/javascript">
+    // <![CDATA[    
+    angular.module("EditAngularApp", []).controller("TaxonomyBranchPerformanceMeasureController", function($scope)
+    {
+        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
+        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
+        $scope.TaxonomyBranchToAdd = null;
+
+        $scope.filteredTaxonomyBranches = function()
+        {
+            var usedTaxonomyBranchIDs = _.map($scope.AngularModel.TaxonomyBranchPerformanceMeasures, function(p) { return p.TaxonomyBranchID; });
+            var filter = _.filter($scope.AngularViewData.AllTaxonomyBranches, function(f) { return !_.contains(usedTaxonomyBranchIDs, f.TaxonomyBranchID); });
+            return filter;
+        };
+
+        $scope.setPrimaryTaxonomyBranch = function(program)
+        {
+            $scope.AngularModel.PrimaryTaxonomyBranchID = program.TaxonomyBranchID;
+        };
+
+        $scope.getTaxonomyBranchName = function(programPerformanceMeasure)
+        {
+            var programToFind = $scope.getTaxonomyBranch(programPerformanceMeasure.TaxonomyBranchID);
+            return programToFind.DisplayName;
+        };
+
+        $scope.getTaxonomyBranch = function(programId) { return _.find($scope.AngularViewData.AllTaxonomyBranches, function(f) { return programId == f.TaxonomyBranchID; }); };
+
+        $scope.addTaxonomyBranch = function()
+        {
+            if ($scope.TaxonomyBranchToAdd != null)
+            {
+                if ($scope.AngularModel.TaxonomyBranchPerformanceMeasures.length == 0)
+                {
+                    $scope.setPrimaryTaxonomyBranch($scope.TaxonomyBranchToAdd);
+                }
+                var newTaxonomyBranchPerformanceMeasureJson = {
+                    TaxonomyBranchID: $scope.TaxonomyBranchToAdd.TaxonomyBranchID,
+                    PerformanceMeasureID: $scope.AngularViewData.PerformanceMeasure.PerformanceMeasureID,
+                    IsPrimaryTaxonomyBranch: false
+                };
+                $scope.AngularModel.TaxonomyBranchPerformanceMeasures.push(newTaxonomyBranchPerformanceMeasureJson);
+                $scope.TaxonomyBranchToAdd = null;
+            }
+        };
+
+        $scope.deleteTaxonomyBranch = function(program)
+        {
+            var isTaxonomyBranchTheCurrentPrimary = program.TaxonomyBranchID == $scope.AngularModel.PrimaryTaxonomyBranchID;
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyBranchPerformanceMeasures, program);
+
+            if (isTaxonomyBranchTheCurrentPrimary && $scope.AngularModel.TaxonomyBranchPerformanceMeasures.length > 0)
+            {
+                $scope.setPrimaryTaxonomyBranch($scope.AngularModel.TaxonomyBranchPerformanceMeasures[0]);
+            }
+        };
+    });
+    angular.bootstrap(jQuery("#EditTaxonomyBranchesAngularApp"), ["EditAngularApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div style="font-weight: bold; margin-bottom: 20px">@ViewDataTyped.TaxonomyBranchDisplayNamePluralized Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
+<div id="EditTaxonomyBranchesAngularApp" ng-controller="TaxonomyBranchPerformanceMeasureController">
+    @ViewDataTyped.TaxonomyBranchDisplayName to Add: <select ng-model="TaxonomyBranchToAdd" ng-options="program.DisplayName for program in filteredTaxonomyBranches()">
+    <option value="">Choose One</option>
+</select>
+    <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyBranch()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyBranchDisplayName))</th>
+        </tr>
+        <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures | orderBy:getTaxonomyBranchName">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyBranch(programPerformanceMeasure)" style="cursor: pointer"></span>
+            </td>
+            <td>{{getTaxonomyBranchName(programPerformanceMeasure)}}</td>
+            <td>
+                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyBranchID" ng-value="programPerformanceMeasure.TaxonomyBranchID" />
+            </td>
+
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyBranchPerformanceMeasures[0].TaxonomyBranchID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyBranchID}}">
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyBranchPerformanceMeasures[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.PerformanceMeasureID}}">
+        <input type="hidden" name="@Html.NameFor(x => x.PrimaryTaxonomyBranchID)" value="{{AngularModel.PrimaryTaxonomyBranchID}}">
+    }
+</div>

@@ -557,8 +557,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
         {
             var gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -716,9 +716,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             var organization = CurrentPerson.Organization;
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
                                                                                                                         organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.DisplayName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

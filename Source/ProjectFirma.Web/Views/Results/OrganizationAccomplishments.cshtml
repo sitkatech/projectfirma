@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
 {
     <p>
-        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results for the @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel() @ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl() within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results for the @FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel() @ViewDataTyped.TaxonomyBranch.GetDisplayNameAsUrl() within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
     </p>
     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
     {

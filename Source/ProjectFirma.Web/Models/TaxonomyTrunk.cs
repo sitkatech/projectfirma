@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
 
         public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            return TaxonomyTierTwos.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
+            return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
         }
 
         public static bool IsTaxonomyTrunkNameUnique(IEnumerable<TaxonomyTrunk> taxonomyTrunks, string taxonomyTrunkName, int currentTaxonomyTrunkID)
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
 
         public List<TaxonomyLeaf> TaxonomyLeafs
         {
-            get { return TaxonomyTierTwos.SelectMany(x => x.TaxonomyLeafs).OrderBy(x => x.TaxonomyLeafName).ToList(); }
+            get { return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs).OrderBy(x => x.TaxonomyLeafName).ToList(); }
         }
 
         public FancyTreeNode ToFancyTreeNode()
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,
-                Children = TaxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList()
+                Children = TaxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList()
             };
             return fancyTreeNode;
         }

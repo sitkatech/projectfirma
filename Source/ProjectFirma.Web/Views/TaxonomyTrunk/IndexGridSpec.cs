@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             }
 
             Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTrunkName), 240);
-            Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierTwos.Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
         }
     }

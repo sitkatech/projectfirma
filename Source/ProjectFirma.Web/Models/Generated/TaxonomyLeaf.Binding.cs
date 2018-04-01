@@ -30,10 +30,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyTierTwoID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode) : this()
+        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyBranchID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode) : this()
         {
             this.TaxonomyLeafID = taxonomyLeafID;
-            this.TaxonomyTierTwoID = taxonomyTierTwoID;
+            this.TaxonomyBranchID = taxonomyBranchID;
             this.TaxonomyLeafName = taxonomyLeafName;
             this.TaxonomyLeafDescription = taxonomyLeafDescription;
             this.TaxonomyLeafCode = taxonomyLeafCode;
@@ -42,34 +42,34 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeaf(int taxonomyTierTwoID, string taxonomyLeafName) : this()
+        public TaxonomyLeaf(int taxonomyBranchID, string taxonomyLeafName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyLeafID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TaxonomyTierTwoID = taxonomyTierTwoID;
+            this.TaxonomyBranchID = taxonomyBranchID;
             this.TaxonomyLeafName = taxonomyLeafName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TaxonomyLeaf(TaxonomyTierTwo taxonomyTierTwo, string taxonomyLeafName) : this()
+        public TaxonomyLeaf(TaxonomyBranch taxonomyBranch, string taxonomyLeafName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyLeafID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
-            this.TaxonomyTierTwo = taxonomyTierTwo;
-            taxonomyTierTwo.TaxonomyLeafs.Add(this);
+            this.TaxonomyBranchID = taxonomyBranch.TaxonomyBranchID;
+            this.TaxonomyBranch = taxonomyBranch;
+            taxonomyBranch.TaxonomyLeafs.Add(this);
             this.TaxonomyLeafName = taxonomyLeafName;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TaxonomyLeaf CreateNewBlank(TaxonomyTierTwo taxonomyTierTwo)
+        public static TaxonomyLeaf CreateNewBlank(TaxonomyBranch taxonomyBranch)
         {
-            return new TaxonomyLeaf(taxonomyTierTwo, default(string));
+            return new TaxonomyLeaf(taxonomyBranch, default(string));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int TaxonomyLeafID { get; set; }
         public int TenantID { get; private set; }
-        public int TaxonomyTierTwoID { get; set; }
+        public int TaxonomyBranchID { get; set; }
         public string TaxonomyLeafName { get; set; }
         public string TaxonomyLeafDescription { get; set; }
         public string TaxonomyLeafCode { get; set; }
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<Project> Projects { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
+        public virtual TaxonomyBranch TaxonomyBranch { get; set; }
 
         public static class FieldLengths
         {

@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
 
         public string ThemeColor
         {
-            get { return TaxonomyTierTwo.ThemeColor; }
+            get { return TaxonomyBranch.ThemeColor; }
         }
 
         public static bool IsTaxonomyLeafNameUnique(IEnumerable<TaxonomyLeaf> taxonomyLeafs, string taxonomyLeafName, int currentTaxonomyLeafID)

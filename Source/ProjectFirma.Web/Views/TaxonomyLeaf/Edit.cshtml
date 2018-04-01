@@ -37,11 +37,11 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID)
+                    @Html.LabelWithSugarFor(m => m.TaxonomyBranchID)
                 </div>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(m => m.TaxonomyTierTwoID, ViewDataTyped.TaxonomyTierTwos, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.TaxonomyTierTwoID)
+                    @Html.DropDownListFor(m => m.TaxonomyBranchID, ViewDataTyped.TaxonomyBranches, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TaxonomyBranchID)
                 </div>
             </div>
         }

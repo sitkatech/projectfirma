@@ -73,13 +73,13 @@
         function loadOrganizationAccomplishments()
         {
             var organizationID = jQuery("#organizationDropdown").val();
-            var taxonomyTierTwoID = jQuery("#taxonomyTierTwoDropdown").val();
+            var taxonomyBranchID = jQuery("#taxonomyBranchDropdown").val();
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.OrganizationAccomplishmentsUrl.ToJS()));
-            var newUrl = urlTemplate.ParameterReplace(organizationID, taxonomyTierTwoID);
+            var newUrl = urlTemplate.ParameterReplace(organizationID, taxonomyBranchID);
 
-            var detailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.TaxonomyTierTwoDetailUrl.ToJS()));
-            var newDetailPageUrl = detailPageUrlTemplate.ParameterReplace(taxonomyTierTwoID);
-            jQuery("#taxonomyTierTwoLink").attr("href", newDetailPageUrl);
+            var detailPageUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.TaxonomyBranchDetailUrl.ToJS()));
+            var newDetailPageUrl = detailPageUrlTemplate.ParameterReplace(taxonomyBranchID);
+            jQuery("#taxonomyBranchLink").attr("href", newDetailPageUrl);
 
             SitkaAjax.load(jQuery("#organizationAccomplishments"), newUrl);
         };
@@ -234,15 +234,15 @@
                     </div>
                     <div class="row counterSection">
                         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                            <select id="taxonomyTierTwoDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
-                                @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos)
+                            <select id="taxonomyBranchDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
+                                @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyBranches)
                                 {
-                                    <option value="@taxonomyTierTwo.TaxonomyTierTwoID">@taxonomyTierTwo.TaxonomyTierTwoName</option>
+                                    <option value="@taxonomyBranch.TaxonomyBranchID">@taxonomyBranch.TaxonomyBranchName</option>
                                 }
                             </select>                            
                         </div>
                         <div class="col-xs-12 col-sm-2">
-                            <a id="taxonomyTierTwoLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel() Details</a>
+                            <a id="taxonomyBranchLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel() Details</a>
                         </div>
                     </div>
                     <div id="organizationAccomplishments" class="contentWrapper">

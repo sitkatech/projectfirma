@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Controllers
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 2:
-                    var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
+                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 1:
                     var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();

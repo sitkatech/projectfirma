@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     {
         public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
         public readonly string TaxonomyTrunkDisplayName;
-        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyBranchDisplayName;
         public readonly string TaxonomyLeafDisplayName;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
             TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
         }
     }

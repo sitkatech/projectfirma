@@ -130,8 +130,8 @@ namespace ProjectFirma.Web.Views
             var resultsMenu = new LtInfoMenuItem("Results");
 
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
-            //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson,
-            //    $"Results by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}"));
+            //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyBranch(null)), currentPerson,
+            //    $"Results by {Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel()}"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map"));
 
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized(), "Group1"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyBranchController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized(), "Group1"));
             }
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyLeafController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized(), "Group1"));
             MultiTenantHelpers.GetClassificationSystems().ForEach(x =>

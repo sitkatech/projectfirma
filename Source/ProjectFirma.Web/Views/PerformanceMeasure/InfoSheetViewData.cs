@@ -32,10 +32,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HasReportedValues;
-        public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> PerformanceMeasureTaxonomyTierTwos;
+        public readonly List<KeyValuePair<Models.TaxonomyBranch, bool>> PerformanceMeasureTaxonomyBranches;
         public readonly string IndexUrl;
-        public readonly string TaxonomyTierTwoDisplayName;
-        public readonly string TaxonomyTierTwoDisplayNamePluralized;
+        public readonly string TaxonomyBranchDisplayName;
+        public readonly string TaxonomyBranchDisplayNamePluralized;
         public List<GoogleChartJson> GoogleChartJsons { get; set; }
 
         public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, List<GoogleChartJson> googleChartJsons)
@@ -47,12 +47,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             BreadCrumbTitle = "Info Sheet";
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
-            PerformanceMeasureTaxonomyTierTwos = performanceMeasure.GetTaxonomyTierTwos().OrderBy(x => x.Key.DisplayName).ToList();
+            PerformanceMeasureTaxonomyBranches = performanceMeasure.GetTaxonomyBranches().OrderBy(x => x.Key.DisplayName).ToList();
 
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
             GoogleChartJsons = googleChartJsons;

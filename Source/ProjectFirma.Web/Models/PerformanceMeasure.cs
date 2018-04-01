@@ -40,12 +40,12 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasureActuals.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }
         }
 
-        public TaxonomyTierTwo PrimaryTaxonomyTierTwo
+        public TaxonomyBranch PrimaryTaxonomyBranch
         {
             get
             {
-                var taxonomyTierTwoPerformanceMeasure = TaxonomyTierTwoPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryTaxonomyTierTwo);
-                return taxonomyTierTwoPerformanceMeasure?.TaxonomyTierTwo;
+                var taxonomyBranchPerformanceMeasure = TaxonomyBranchPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryTaxonomyBranch);
+                return taxonomyBranchPerformanceMeasure?.TaxonomyBranch;
             }
         }
 
@@ -83,11 +83,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
         }
 
-        public Dictionary<TaxonomyTierTwo, bool> GetTaxonomyTierTwos()
+        public Dictionary<TaxonomyBranch, bool> GetTaxonomyBranches()
         {
-            return TaxonomyTierTwoPerformanceMeasures.Any()
-                ? TaxonomyTierTwoPerformanceMeasures.ToDictionary(x => x.TaxonomyTierTwo, x => x.IsPrimaryTaxonomyTierTwo, new HavePrimaryKeyComparer<TaxonomyTierTwo>())
-                : new Dictionary<TaxonomyTierTwo, bool>();
+            return TaxonomyBranchPerformanceMeasures.Any()
+                ? TaxonomyBranchPerformanceMeasures.ToDictionary(x => x.TaxonomyBranch, x => x.IsPrimaryTaxonomyBranch, new HavePrimaryKeyComparer<TaxonomyBranch>())
+                : new Dictionary<TaxonomyBranch, bool>();
         }
 
         public decimal? TotalExpenditure()
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Models
             // TODO: We might want to consider removing the FKs to SnapshotPerformanceMeasure and SnapshotPerformanceMeasureSubcategoryOption since it's purpose it to track historical data
             SnapshotPerformanceMeasureSubcategoryOptions.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasureSubcategoryOption());
             SnapshotPerformanceMeasures.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasure());
-            TaxonomyTierTwoPerformanceMeasures.ToList().ForEach(x => x.DeleteTaxonomyTierTwoPerformanceMeasure());
+            TaxonomyBranchPerformanceMeasures.ToList().ForEach(x => x.DeleteTaxonomyBranchPerformanceMeasure());
             PerformanceMeasureNotes.ToList().ForEach(x => x.DeletePerformanceMeasureNote());
             this.DeletePerformanceMeasure();
         }

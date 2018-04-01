@@ -28,13 +28,13 @@ namespace ProjectFirma.Web.Views.Results
     {
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public string ProjectStewardOrLeadImplementorFieldDefinitionName { get; }
-        public Models.TaxonomyTierTwo TaxonomyTierTwo { get; }
+        public Models.TaxonomyBranch TaxonomyBranch { get; }
 
-        public OrganizationAccomplishmentsViewData(string projectStewardOrLeadImplementorFieldDefinitionName, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, Models.TaxonomyTierTwo taxonomyTierTwo)
+        public OrganizationAccomplishmentsViewData(string projectStewardOrLeadImplementorFieldDefinitionName, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, Models.TaxonomyBranch taxonomyBranch)
         {
             ProjectStewardOrLeadImplementorFieldDefinitionName = projectStewardOrLeadImplementorFieldDefinitionName;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
-            TaxonomyTierTwo = taxonomyTierTwo;
+            TaxonomyBranch = taxonomyBranch;
         }
     }
 }

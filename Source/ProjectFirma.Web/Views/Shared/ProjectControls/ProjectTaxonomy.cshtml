@@ -52,14 +52,14 @@ Source code is available upon request via <support@sitkatech.com>.
          i++;
      }
 
-    if (ViewDataTyped.TaxonomyTierTwo != null)
+    if (ViewDataTyped.TaxonomyBranch != null)
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++)">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-6">
-                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl())</span>
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyBranch ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyBranch ? new HtmlString(ViewDataTyped.TaxonomyBranch.DisplayName) : ViewDataTyped.TaxonomyBranch.GetDisplayNameAsUrl())</span>
             </div>
         </div>
     }

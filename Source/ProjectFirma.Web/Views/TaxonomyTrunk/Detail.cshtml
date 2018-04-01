@@ -77,21 +77,21 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</a>
+                    <a href="@ViewDataTyped.TaxonomyBranchIndexUrl">@ViewDataTyped.TaxonomyBranchDisplayNamePluralized</a>
                 </h2>
             </div>
             <div class="panel-body">
-                @if (ViewDataTyped.TaxonomyTrunk.TaxonomyTierTwos.Any())
+                @if (ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTrunk.TaxonomyTierTwos.OrderBy(x => x.DisplayName))
+                        @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.OrderBy(x => x.DisplayName))
                         {
                             <tr>
                                 <td>
-                                    @taxonomyTierTwo.GetDisplayNameAsUrl()
+                                    @taxonomyBranch.GetDisplayNameAsUrl()
                                 </td>
                             </tr>
                         }
@@ -99,7 +99,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p>No @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTrunkDisplayName.</p>
+                    <p>No @ViewDataTyped.TaxonomyBranchDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTrunkDisplayName.</p>
                 }
             </div>
         </div>

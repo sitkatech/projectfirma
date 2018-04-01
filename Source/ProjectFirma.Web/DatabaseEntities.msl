@@ -1009,39 +1009,39 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyBranch">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyBranch">
+        <MappingFragment StoreEntitySet="TaxonomyBranch">
+          <ScalarProperty Name="TaxonomyBranchID" ColumnName="TaxonomyBranchID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TaxonomyTrunkID" ColumnName="TaxonomyTrunkID" />
+          <ScalarProperty Name="TaxonomyBranchName" ColumnName="TaxonomyBranchName" />
+          <ScalarProperty Name="TaxonomyBranchDescription" ColumnName="TaxonomyBranchDescription" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
+          <ScalarProperty Name="TaxonomyBranchCode" ColumnName="TaxonomyBranchCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyBranchPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyBranchPerformanceMeasure">
+        <MappingFragment StoreEntitySet="TaxonomyBranchPerformanceMeasure">
+          <ScalarProperty Name="TaxonomyBranchPerformanceMeasureID" ColumnName="TaxonomyBranchPerformanceMeasureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TaxonomyBranchID" ColumnName="TaxonomyBranchID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IsPrimaryTaxonomyBranch" ColumnName="IsPrimaryTaxonomyBranch" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TaxonomyLeaf">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyLeaf">
         <MappingFragment StoreEntitySet="TaxonomyLeaf">
           <ScalarProperty Name="TaxonomyLeafID" ColumnName="TaxonomyLeafID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
+          <ScalarProperty Name="TaxonomyBranchID" ColumnName="TaxonomyBranchID" />
           <ScalarProperty Name="TaxonomyLeafName" ColumnName="TaxonomyLeafName" />
           <ScalarProperty Name="TaxonomyLeafDescription" ColumnName="TaxonomyLeafDescription" />
           <ScalarProperty Name="TaxonomyLeafCode" ColumnName="TaxonomyLeafCode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierTwo">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwo">
-        <MappingFragment StoreEntitySet="TaxonomyTierTwo">
-          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TaxonomyTrunkID" ColumnName="TaxonomyTrunkID" />
-          <ScalarProperty Name="TaxonomyTierTwoName" ColumnName="TaxonomyTierTwoName" />
-          <ScalarProperty Name="TaxonomyTierTwoDescription" ColumnName="TaxonomyTierTwoDescription" />
-          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
-          <ScalarProperty Name="TaxonomyTierTwoCode" ColumnName="TaxonomyTierTwoCode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierTwoPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure">
-        <MappingFragment StoreEntitySet="TaxonomyTierTwoPerformanceMeasure">
-          <ScalarProperty Name="TaxonomyTierTwoPerformanceMeasureID" ColumnName="TaxonomyTierTwoPerformanceMeasureID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
-          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
-          <ScalarProperty Name="IsPrimaryTaxonomyTierTwo" ColumnName="IsPrimaryTaxonomyTierTwo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

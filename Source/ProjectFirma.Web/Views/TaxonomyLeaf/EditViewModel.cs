@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string TaxonomyLeafDescription { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierTwo)]
-        public int TaxonomyTierTwoID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyBranch)]
+        public int TaxonomyBranchID { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -60,14 +60,14 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
             TaxonomyLeafName = taxonomyLeaf.TaxonomyLeafName;
             TaxonomyLeafDescription = taxonomyLeaf.TaxonomyLeafDescription;
-            TaxonomyTierTwoID = taxonomyLeaf.TaxonomyTierTwoID;
+            TaxonomyBranchID = taxonomyLeaf.TaxonomyBranchID;
         }
 
         public void UpdateModel(Models.TaxonomyLeaf taxonomyLeaf, Person currentPerson)
         {
             taxonomyLeaf.TaxonomyLeafName = TaxonomyLeafName;
             taxonomyLeaf.TaxonomyLeafDescription = TaxonomyLeafDescription;
-            taxonomyLeaf.TaxonomyTierTwoID = TaxonomyTierTwoID;
+            taxonomyLeaf.TaxonomyBranchID = TaxonomyBranchID;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

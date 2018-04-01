@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var taxonomyLeaf = new TaxonomyLeaf(viewModel.TaxonomyTierTwoID, string.Empty);
+            var taxonomyLeaf = new TaxonomyLeaf(viewModel.TaxonomyBranchID, string.Empty);
             viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Add(taxonomyLeaf);
 
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyLeaf);
-            return ViewEdit(viewModel, taxonomyLeaf.TaxonomyTierTwo.DisplayName);
+            return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.DisplayName);
         }
 
         [HttpPost]
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyLeaf.TaxonomyTierTwo.DisplayName);
+                return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.DisplayName);
             }
             viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -147,10 +147,10 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(viewModel, string.Empty);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTierTwoDisplayName)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyBranchDisplayName)
         {
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.DisplayName).ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            var viewData = new EditViewData(taxonomyTierTwos, taxonomyTierTwoDisplayName);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(x => x.DisplayName).ToSelectList(x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var viewData = new EditViewData(taxonomyBranches, taxonomyBranchDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

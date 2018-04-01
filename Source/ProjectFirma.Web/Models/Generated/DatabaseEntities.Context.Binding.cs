@@ -186,12 +186,12 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }
         public virtual IQueryable<Tag> Tags { get { return AllTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TaxonomyBranch> AllTaxonomyBranches { get; set; }
+        public virtual IQueryable<TaxonomyBranch> TaxonomyBranches { get { return AllTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TaxonomyBranchPerformanceMeasure> AllTaxonomyBranchPerformanceMeasures { get; set; }
+        public virtual IQueryable<TaxonomyBranchPerformanceMeasure> TaxonomyBranchPerformanceMeasures { get { return AllTaxonomyBranchPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyLeaf> AllTaxonomyLeafs { get; set; }
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> AllTaxonomyTierTwoPerformanceMeasures { get; set; }
-        public virtual IQueryable<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get { return AllTaxonomyTierTwoPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierTwo> AllTaxonomyTierTwos { get; set; }
-        public virtual IQueryable<TaxonomyTierTwo> TaxonomyTierTwos { get { return AllTaxonomyTierTwos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
         public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
@@ -566,14 +566,14 @@ namespace ProjectFirma.Web.Models
                 case "Tag":
                     return Tags.GetTag(primaryKey);
 
+                case "TaxonomyBranch":
+                    return TaxonomyBranches.GetTaxonomyBranch(primaryKey);
+
+                case "TaxonomyBranchPerformanceMeasure":
+                    return TaxonomyBranchPerformanceMeasures.GetTaxonomyBranchPerformanceMeasure(primaryKey);
+
                 case "TaxonomyLeaf":
                     return TaxonomyLeafs.GetTaxonomyLeaf(primaryKey);
-
-                case "TaxonomyTierTwoPerformanceMeasure":
-                    return TaxonomyTierTwoPerformanceMeasures.GetTaxonomyTierTwoPerformanceMeasure(primaryKey);
-
-                case "TaxonomyTierTwo":
-                    return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
 
                 case "TaxonomyTrunk":
                     return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);

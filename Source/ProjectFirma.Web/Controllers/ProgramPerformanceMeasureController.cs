@@ -26,25 +26,25 @@ using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.TaxonomyTierTwoPerformanceMeasure;
+using ProjectFirma.Web.Views.TaxonomyBranchPerformanceMeasure;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TaxonomyTierTwoPerformanceMeasureController : FirmaBaseController
+    public class TaxonomyBranchPerformanceMeasureController : FirmaBaseController
     {
         [HttpGet]
-        [TaxonomyTierTwoPerformanceMeasureManageFeature]
+        [TaxonomyBranchPerformanceMeasureManageFeature]
         public PartialViewResult Edit(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var taxonomyTierTwoPerformanceMeasureSimples = performanceMeasure.TaxonomyTierTwoPerformanceMeasures.Select(x => new TaxonomyTierTwoPerformanceMeasureSimple(x)).ToList();
-            var primaryTaxonomyTierTwoID = performanceMeasure.PrimaryTaxonomyTierTwo != null ? performanceMeasure.PrimaryTaxonomyTierTwo.TaxonomyTierTwoID : (int?) null;
-            var viewModel = new EditViewModel(taxonomyTierTwoPerformanceMeasureSimples, primaryTaxonomyTierTwoID);
+            var taxonomyBranchPerformanceMeasureSimples = performanceMeasure.TaxonomyBranchPerformanceMeasures.Select(x => new TaxonomyBranchPerformanceMeasureSimple(x)).ToList();
+            var primaryTaxonomyBranchID = performanceMeasure.PrimaryTaxonomyBranch != null ? performanceMeasure.PrimaryTaxonomyBranch.TaxonomyBranchID : (int?) null;
+            var viewModel = new EditViewModel(taxonomyBranchPerformanceMeasureSimples, primaryTaxonomyBranchID);
             return ViewEdit(viewModel, performanceMeasure);
         }
 
         [HttpPost]
-        [TaxonomyTierTwoPerformanceMeasureManageFeature]
+        [TaxonomyBranchPerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditViewModel viewModel)
         {
@@ -53,15 +53,15 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, performanceMeasure);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoPerformanceMeasures.Load();
-            viewModel.UpdateModel(performanceMeasure.TaxonomyTierTwoPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoPerformanceMeasures.Local);
+            HttpRequestStorage.DatabaseEntities.TaxonomyBranchPerformanceMeasures.Load();
+            viewModel.UpdateModel(performanceMeasure.TaxonomyBranchPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyBranchPerformanceMeasures.Local);
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, PerformanceMeasure performanceMeasure)
         {
-            var taxonomyTierTwoSimples = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyTierTwoSimple(x)).ToList();
-            var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyTierTwoSimples);
+            var taxonomyBranchSimples = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyBranchSimple(x)).ToList();
+            var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyBranchSimples);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }

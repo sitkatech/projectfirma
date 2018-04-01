@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTrunk()
         {
-            this.TaxonomyTierTwos = new HashSet<TaxonomyTierTwo>();
+            this.TaxonomyBranches = new HashSet<TaxonomyBranch>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -65,13 +65,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyTierTwos.Any();
+            return TaxonomyBranches.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(TaxonomyTierTwo).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(TaxonomyBranch).Name};
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
         public void DeleteFull()
         {
 
-            foreach(var x in TaxonomyTierTwos.ToList())
+            foreach(var x in TaxonomyBranches.ToList())
             {
                 x.DeleteFull();
             }
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyTrunkID; } set { TaxonomyTrunkID = value; } }
 
-        public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
+        public virtual ICollection<TaxonomyBranch> TaxonomyBranches { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

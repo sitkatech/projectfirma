@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Models
         public override bool IsRelevantToTenant => true;
     }
 
-    public partial class ProjectColorByTypeTaxonomyTierTwo
+    public partial class ProjectColorByTypeTaxonomyBranch
     {
-        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
 
         public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2;
     }

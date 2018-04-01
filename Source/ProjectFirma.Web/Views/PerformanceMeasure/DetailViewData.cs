@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public readonly string EditMonitoringProgramsUrl;
 
-        public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> TaxonomyTierTwoPerformanceMeasures;
-        public readonly string EditTaxonomyTierTwosUrl;
-        public readonly bool UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions;
+        public readonly List<KeyValuePair<Models.TaxonomyBranch, bool>> TaxonomyBranchPerformanceMeasures;
+        public readonly string EditTaxonomyBranchesUrl;
+        public readonly bool UserHasTaxonomyBranchPerformanceMeasureManagePermissions;
         public readonly PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec;
         public readonly string PerformanceMeasureReportedValuesGridName;
         public readonly string PerformanceMeasureReportedValuesGridDataUrl;
@@ -58,8 +58,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string PerformanceMeasureExpectedsGridName;
         public readonly string PerformanceMeasureExpectedsGridDataUrl;
 
-        public readonly string TaxonomyTierTwoDisplayName;
-        public readonly string TaxonomyTierTwoDisplayNamePluralized;
+        public readonly string TaxonomyBranchDisplayName;
+        public readonly string TaxonomyBranchDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.PerformanceMeasure performanceMeasure,
@@ -87,9 +87,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
-            UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions = new TaxonomyTierTwoPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
-            EditTaxonomyTierTwosUrl = SitkaRoute<TaxonomyTierTwoPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
-            TaxonomyTierTwoPerformanceMeasures = performanceMeasure.GetTaxonomyTierTwos().OrderBy(x => x.Key.DisplayName).ToList();
+            UserHasTaxonomyBranchPerformanceMeasureManagePermissions = new TaxonomyBranchPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
+            EditTaxonomyBranchesUrl = SitkaRoute<TaxonomyBranchPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
+            TaxonomyBranchPerformanceMeasures = performanceMeasure.GetTaxonomyBranches().OrderBy(x => x.Key.DisplayName).ToList();
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
             {
@@ -110,8 +110,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
         }
     }
 }

@@ -35,20 +35,20 @@ namespace ProjectFirma.Web.Models
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunkID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
         }
 
         public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierTwo
+    public partial class ProjectLocationFilterTypeTaxonomyBranch
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyTierTwoID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranchID);
         }
 
-        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyLeaf

@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[TaxonomyLeaf](
 	[TaxonomyLeafID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[TaxonomyTierTwoID] [int] NOT NULL,
+	[TaxonomyBranchID] [int] NOT NULL,
 	[TaxonomyLeafName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyLeafDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyLeafCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -26,15 +26,15 @@ CREATE TABLE [dbo].[TaxonomyLeaf](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[TaxonomyLeaf]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID] FOREIGN KEY([TaxonomyTierTwoID])
-REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
+ALTER TABLE [dbo].[TaxonomyLeaf]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID] FOREIGN KEY([TaxonomyBranchID])
+REFERENCES [dbo].[TaxonomyBranch] ([TaxonomyBranchID])
 GO
-ALTER TABLE [dbo].[TaxonomyLeaf] CHECK CONSTRAINT [FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID]
+ALTER TABLE [dbo].[TaxonomyLeaf] CHECK CONSTRAINT [FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID]
 GO
-ALTER TABLE [dbo].[TaxonomyLeaf]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID] FOREIGN KEY([TaxonomyTierTwoID], [TenantID])
-REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID], [TenantID])
+ALTER TABLE [dbo].[TaxonomyLeaf]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_TenantID] FOREIGN KEY([TaxonomyBranchID], [TenantID])
+REFERENCES [dbo].[TaxonomyBranch] ([TaxonomyBranchID], [TenantID])
 GO
-ALTER TABLE [dbo].[TaxonomyLeaf] CHECK CONSTRAINT [FK_TaxonomyLeaf_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID]
+ALTER TABLE [dbo].[TaxonomyLeaf] CHECK CONSTRAINT [FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_TenantID]
 GO
 ALTER TABLE [dbo].[TaxonomyLeaf]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyLeaf_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

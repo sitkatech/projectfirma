@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string DetailLinkDescriptor;
 
         public string TaxonomyTrunkDisplayName { get; private set; }
-        public string TaxonomyTierTwoDisplayName { get; private set; }
+        public string TaxonomyBranchDisplayName { get; private set; }
         public string TaxonomyLeafDisplayName { get; private set; }
         public string ClassificationDisplayNamePluralized { get; private set; }
 
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         private void InitializeDisplayNames()
         {
             TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }

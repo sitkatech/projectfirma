@@ -46,14 +46,14 @@
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTrunk.TaxonomyTrunkName</div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</div>
             </div>
         }
         @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
         {
             <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTierTwoDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyTierTwo.TaxonomyTierTwoName</div>
+                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
             </div>
         }
         <div class="row">
