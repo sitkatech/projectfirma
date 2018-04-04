@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem.Classifications);
+            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem);
             EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }

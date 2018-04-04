@@ -27,10 +27,12 @@ namespace ProjectFirma.Web.Views.Classification
     public class EditSortOrderViewData : FirmaUserControlViewData
     {
         public List<Models.Classification> Classifications { get; }
+        public string ClassificationSystemNamePlural { get; }
 
-        public EditSortOrderViewData(IEnumerable<Models.Classification> classifications)
+        public EditSortOrderViewData(Models.ClassificationSystem classificationSystem)
         {
-            Classifications = classifications.ToList();
+            Classifications = classificationSystem.Classifications.ToList();
+            ClassificationSystemNamePlural = classificationSystem.ClassificationSystemNamePluralized;
         }
     }
 }
