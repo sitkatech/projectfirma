@@ -170,17 +170,17 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureManageFeature]
-        public PartialViewResult EditSortOrder(ClassificationPrimaryKey classificationPrimaryKey)
+        public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            EditSortOrderViewData viewData = null;
-            EditSortOrderViewModel viewModel = null;
+            EditSortOrderViewData viewData = new EditSortOrderViewData();
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public PartialViewResult EditSortOrder(ClassificationPrimaryKey classificationPrimaryKey, EditSortOrderViewModel viewModel)
+        public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditSortOrderViewModel viewModel)
         {
             throw new NotImplementedException();
         }
