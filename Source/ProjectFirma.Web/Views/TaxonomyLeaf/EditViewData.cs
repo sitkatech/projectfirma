@@ -20,19 +20,23 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> TaxonomyBranches;
-        public readonly string TaxonomyBranchDisplayName;
+        public IEnumerable<SelectListItem> TaxonomyBranches { get; }
+        public string TaxonomyBranchDisplayName { get; }
+        public bool ShowTaxonomyBranch { get; }
 
         public EditViewData(IEnumerable<SelectListItem> taxonomyBranches, string taxonomyBranchDisplayName)
         {
             TaxonomyBranches = taxonomyBranches;
             TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
+            ShowTaxonomyBranch = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
         }
+
     }
 }

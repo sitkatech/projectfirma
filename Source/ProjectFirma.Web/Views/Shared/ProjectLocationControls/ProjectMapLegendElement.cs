@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                     ProjectMapCustomization.GetProjectStagesForMap(showProposals).Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
                 },
                 {
-                    MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3 ? ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier,
+                    MultiTenantHelpers.IsTaxonomyLevelTrunk() ? ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier,
                     topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName)).ToList()
                 }
             };

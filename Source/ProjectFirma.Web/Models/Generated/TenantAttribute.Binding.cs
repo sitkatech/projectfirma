@@ -30,11 +30,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic, int taxonomyLevelID) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
-            this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.TenantSquareLogoFileResourceID = tenantSquareLogoFileResourceID;
@@ -47,31 +46,46 @@ namespace ProjectFirma.Web.Models
             this.MapServiceUrl = mapServiceUrl;
             this.WatershedLayerName = watershedLayerName;
             this.ShowProposalsToThePublic = showProposalsToThePublic;
+            this.TaxonomyLevelID = taxonomyLevelID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.DefaultBoundingBox = defaultBoundingBox;
-            this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
             this.TenantDisplayName = tenantDisplayName;
             this.ToolDisplayName = toolDisplayName;
             this.ShowProposalsToThePublic = showProposalsToThePublic;
+            this.TaxonomyLevelID = taxonomyLevelID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.DefaultBoundingBox = defaultBoundingBox;
+            this.MinimumYear = minimumYear;
+            this.TenantDisplayName = tenantDisplayName;
+            this.ToolDisplayName = toolDisplayName;
+            this.ShowProposalsToThePublic = showProposalsToThePublic;
+            this.TaxonomyLevelID = taxonomyLevel.TaxonomyLevelID;
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TenantAttribute CreateNewBlank()
+        public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel)
         {
-            return new TenantAttribute(default(DbGeometry), default(int), default(int), default(string), default(string), default(bool));
+            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel);
         }
 
         /// <summary>
@@ -101,7 +115,6 @@ namespace ProjectFirma.Web.Models
         public int TenantAttributeID { get; set; }
         public int TenantID { get; private set; }
         public DbGeometry DefaultBoundingBox { get; set; }
-        public int NumberOfTaxonomyTiersToUse { get; set; }
         public int MinimumYear { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public int? TenantSquareLogoFileResourceID { get; set; }
@@ -114,6 +127,7 @@ namespace ProjectFirma.Web.Models
         public string MapServiceUrl { get; set; }
         public string WatershedLayerName { get; set; }
         public bool ShowProposalsToThePublic { get; set; }
+        public int TaxonomyLevelID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
@@ -122,6 +136,7 @@ namespace ProjectFirma.Web.Models
         public virtual FileResource TenantBannerLogoFileResource { get; set; }
         public virtual FileResource TenantSquareLogoFileResource { get; set; }
         public virtual FileResource TenantStyleSheetFileResource { get; set; }
+        public TaxonomyLevel TaxonomyLevel { get { return TaxonomyLevel.AllLookupDictionary[TaxonomyLevelID]; } }
 
         public static class FieldLengths
         {

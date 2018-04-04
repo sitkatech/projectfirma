@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -43,6 +44,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public decimal? EstimatedTotalCost { get; set; }
         public Dictionary<Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string DetailUrl { get; set; }
+        public TaxonomyLevel TaxonomyLevel { get; }
 
         public ProjectMapPopupViewData(Models.Project project)
         {
@@ -62,6 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             DetailUrl = project.GetDetailUrl();
             DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
             InitializeDisplayNames();
+            TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
         }
 
         private void InitializeDisplayNames()

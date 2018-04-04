@@ -1045,6 +1045,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyLeafPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure">
+        <MappingFragment StoreEntitySet="TaxonomyLeafPerformanceMeasure">
+          <ScalarProperty Name="TaxonomyLeafPerformanceMeasureID" ColumnName="TaxonomyLeafPerformanceMeasureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TaxonomyLeafID" ColumnName="TaxonomyLeafID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IsPrimaryTaxonomyLeaf" ColumnName="IsPrimaryTaxonomyLeaf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TaxonomyTrunk">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTrunk">
         <MappingFragment StoreEntitySet="TaxonomyTrunk">
@@ -1063,7 +1074,6 @@
           <ScalarProperty Name="TenantAttributeID" ColumnName="TenantAttributeID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
-          <ScalarProperty Name="NumberOfTaxonomyTiersToUse" ColumnName="NumberOfTaxonomyTiersToUse" />
           <ScalarProperty Name="MinimumYear" ColumnName="MinimumYear" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="TenantSquareLogoFileResourceID" ColumnName="TenantSquareLogoFileResourceID" />
@@ -1076,6 +1086,7 @@
           <ScalarProperty Name="MapServiceUrl" ColumnName="MapServiceUrl" />
           <ScalarProperty Name="WatershedLayerName" ColumnName="WatershedLayerName" />
           <ScalarProperty Name="ShowProposalsToThePublic" ColumnName="ShowProposalsToThePublic" />
+          <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

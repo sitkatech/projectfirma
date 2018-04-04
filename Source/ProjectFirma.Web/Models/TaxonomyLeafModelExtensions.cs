@@ -51,27 +51,27 @@ namespace ProjectFirma.Web.Models
             var selectListItems = new List<SelectListItem>();
             var groups = new Dictionary<string, SelectListGroup>();
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 BuildThreeTierSelectList(taxonomyLeafs, groups, selectListItems);    
             }
-            else if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2)
+            else if (MultiTenantHelpers.IsTaxonomyLevelBranch())
             {
                 foreach (var taxonomyBranchGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyBranch).OrderBy(x => x.Key.DisplayName))
                 {
                     var taxonomyBranch = taxonomyBranchGrouping.Key;
-                    var selectListGroup = new SelectListGroup() { Name = taxonomyBranch.DisplayName };
+                    var selectListGroup = new SelectListGroup { Name = taxonomyBranch.DisplayName };
                     groups.Add(taxonomyBranch.DisplayName, selectListGroup);
 
                     foreach (var taxonomyLeaf in taxonomyBranchGrouping.OrderBy(x => x.DisplayName))
                     {
-                        selectListItems.Add(new SelectListItem() { Value = taxonomyLeaf.TaxonomyLeafID.ToString(), Text = taxonomyLeaf.DisplayName, Group = selectListGroup });
+                        selectListItems.Add(new SelectListItem { Value = taxonomyLeaf.TaxonomyLeafID.ToString(), Text = taxonomyLeaf.DisplayName, Group = selectListGroup });
                     }
                 }
             }
             else
             {
-                return taxonomyLeafs.ToSelectListWithEmptyFirstRow(m=> m.TaxonomyLeafID.ToString(), m=> m.DisplayName, "Select the " + MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject());
+                return taxonomyLeafs.ToSelectListWithEmptyFirstRow(m=> m.TaxonomyLeafID.ToString(), m=> m.DisplayName, $"Select the {MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()}");
             }
             
             return selectListItems;

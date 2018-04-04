@@ -38,17 +38,17 @@ namespace ProjectFirma.Web.Controllers
             
             
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes;
-            switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
+            switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
             {
-                case 3:
+                case TaxonomyLevelEnum.Trunk:
                     var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
-                case 2:
+                case TaxonomyLevelEnum.Branch:
                     var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
-                case 1:
+                case TaxonomyLevelEnum.Leaf:
                     var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList();
                     break;

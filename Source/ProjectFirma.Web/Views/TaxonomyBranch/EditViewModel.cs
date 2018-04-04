@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             taxonomyBranch.TaxonomyBranchName = TaxonomyBranchName;
             taxonomyBranch.TaxonomyBranchDescription = TaxonomyBranchDescription;
-            taxonomyBranch.TaxonomyTrunkID = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3
+            taxonomyBranch.TaxonomyTrunkID = MultiTenantHelpers.IsTaxonomyLevelTrunk()
                 ? TaxonomyTrunkID
                 : HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.First().TaxonomyTrunkID; // really should only be one
             taxonomyBranch.ThemeColor = ThemeColor;

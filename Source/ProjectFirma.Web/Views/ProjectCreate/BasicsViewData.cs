@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
-            HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
+            HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
             var pagetitle = ShowProjectStageDropDown ? "Add Project" : "Propose Project";
             PageTitle = $"{pagetitle}";

@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyLeaf.Edit
 @using (Html.BeginForm())
 {
@@ -33,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.TaxonomyLeafName)
             </div>
         </div>
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+        @if (ViewDataTyped.ShowTaxonomyBranch)
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">

@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantAttributeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[DefaultBoundingBox] [geometry] NOT NULL,
-	[NumberOfTaxonomyTiersToUse] [int] NOT NULL,
 	[MinimumYear] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[TenantSquareLogoFileResourceID] [int] NULL,
@@ -19,6 +18,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[MapServiceUrl] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[WatershedLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ShowProposalsToThePublic] [bit] NOT NULL,
+	[TaxonomyLevelID] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -74,11 +74,12 @@ REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
 GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_TaxonomyLevel_TaxonomyLevelID] FOREIGN KEY([TaxonomyLevelID])
+REFERENCES [dbo].[TaxonomyLevel] ([TaxonomyLevelID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_TaxonomyLevel_TaxonomyLevelID]
+GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_Tenant_TenantID]
-GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [CK_TenantAttribute_NumberOfTaxonomyTiersToUseBetweenOneAndThree] CHECK  (([NumberOfTaxonomyTiersToUse]<(4) AND [NumberOfTaxonomyTiersToUse]>(0)))
-GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [CK_TenantAttribute_NumberOfTaxonomyTiersToUseBetweenOneAndThree]

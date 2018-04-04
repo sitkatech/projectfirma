@@ -83,6 +83,7 @@
     <EntitySet Name="TaxonomyBranch" EntityType="ProjectFirma.Web.Models.TaxonomyBranch" />
     <EntitySet Name="TaxonomyBranchPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyBranchPerformanceMeasure" />
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.TaxonomyLeaf" />
+    <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.TaxonomyTrunk" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
@@ -326,6 +327,10 @@
     <AssociationSet Name="FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="TaxonomyBranchPerformanceMeasures" EntitySet="TaxonomyBranchPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -622,6 +627,10 @@
     <AssociationSet Name="FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID">
       <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
       <End Role="TaxonomyLeafs" EntitySet="TaxonomyLeaf" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+      <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AssessmentGoal">
@@ -1037,6 +1046,7 @@
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
     <NavigationProperty Name="TaxonomyBranchPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="TaxonomyBranchPerformanceMeasures" />
+    <NavigationProperty Name="TaxonomyLeafPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="TaxonomyLeafPerformanceMeasures" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActual">
     <Key>
@@ -1846,6 +1856,19 @@
     <Property Name="TaxonomyLeafCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyLeaf_TaxonomyLeafID" FromRole="TaxonomyLeaf" ToRole="Projects" />
     <NavigationProperty Name="TaxonomyBranch" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" FromRole="TaxonomyLeafs" ToRole="TaxonomyBranch" />
+    <NavigationProperty Name="TaxonomyLeafPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" FromRole="TaxonomyLeaf" ToRole="TaxonomyLeafPerformanceMeasures" />
+  </EntityType>
+  <EntityType Name="TaxonomyLeafPerformanceMeasure">
+    <Key>
+      <PropertyRef Name="TaxonomyLeafPerformanceMeasureID" />
+    </Key>
+    <Property Name="TaxonomyLeafPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomyLeafID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="IsPrimaryTaxonomyLeaf" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="TaxonomyLeafPerformanceMeasures" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="TaxonomyLeaf" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" FromRole="TaxonomyLeafPerformanceMeasures" ToRole="TaxonomyLeaf" />
   </EntityType>
   <EntityType Name="TaxonomyTrunk">
     <Key>
@@ -1866,7 +1889,6 @@
     <Property Name="TenantAttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="DefaultBoundingBox" Type="Geometry" Nullable="false" />
-    <Property Name="NumberOfTaxonomyTiersToUse" Type="Int32" Nullable="false" />
     <Property Name="MinimumYear" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="TenantSquareLogoFileResourceID" Type="Int32" />
@@ -1879,6 +1901,7 @@
     <Property Name="MapServiceUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="WatershedLayerName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShowProposalsToThePublic" Type="Boolean" Nullable="false" />
+    <Property Name="TaxonomyLevelID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />
@@ -2627,6 +2650,18 @@
         <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
       <Dependent Role="TaxonomyBranchPerformanceMeasures">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
         <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3516,6 +3551,18 @@
       </Principal>
       <Dependent Role="TaxonomyLeafs">
         <PropertyRef Name="TaxonomyBranchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+    <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.TaxonomyLeaf" Multiplicity="1" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyLeaf">
+        <PropertyRef Name="TaxonomyLeafID" />
+      </Principal>
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

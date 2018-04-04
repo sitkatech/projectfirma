@@ -97,11 +97,12 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div style="padding: 0 15px;">
         <div class="pull-left" style="font-weight: bold">
-            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
             {
-            @ViewDataTyped.TaxonomyTrunkDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
+                @ViewDataTyped.TaxonomyTrunkDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
+                @ViewDataTyped.TaxonomyBranchDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }
-            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
             {
             @ViewDataTyped.TaxonomyBranchDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }            

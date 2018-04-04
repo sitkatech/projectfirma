@@ -83,6 +83,7 @@
     <EntitySet Name="TaxonomyBranch" EntityType="ProjectFirma.Web.Models.Store.TaxonomyBranch" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyBranchPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyBranchPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
@@ -617,6 +618,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
       <End Role="TaxonomyLeafs" EntitySet="TaxonomyLeaf" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+      <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
+    </AssociationSet>
     <AssociationSet Name="FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID">
       <End Role="TenantBannerLogoFileResource" EntitySet="FileResource" />
       <End Role="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" EntitySet="TenantAttribute" />
@@ -1028,6 +1037,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureSubcategory_PerformanceMeas
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -1781,6 +1791,7 @@ warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyLeaf">
     <Key>
@@ -1792,6 +1803,16 @@ warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID'
     <Property Name="TaxonomyLeafName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyLeafDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyLeafCode" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="TaxonomyLeafPerformanceMeasure">
+    <Key>
+      <PropertyRef Name="TaxonomyLeafPerformanceMeasureID" />
+    </Key>
+    <Property Name="TaxonomyLeafPerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
+    <Property Name="IsPrimaryTaxonomyLeaf" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1814,7 +1835,6 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TenantAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
-    <Property Name="NumberOfTaxonomyTiersToUse" Type="int" Nullable="false" />
     <Property Name="MinimumYear" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="TenantSquareLogoFileResourceID" Type="int" />
@@ -1827,6 +1847,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="MapServiceUrl" Type="varchar" MaxLength="255" />
     <Property Name="WatershedLayerName" Type="varchar" MaxLength="255" />
     <Property Name="ShowProposalsToThePublic" Type="bit" Nullable="false" />
+    <Property Name="TaxonomyLevelID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3417,6 +3438,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="TaxonomyLeafs">
         <PropertyRef Name="TaxonomyBranchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+    <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="1" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyLeaf">
+        <PropertyRef Name="TaxonomyLeafID" />
+      </Principal>
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

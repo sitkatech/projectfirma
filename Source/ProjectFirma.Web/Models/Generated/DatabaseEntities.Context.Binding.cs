@@ -190,6 +190,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TaxonomyBranch> TaxonomyBranches { get { return AllTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyBranchPerformanceMeasure> AllTaxonomyBranchPerformanceMeasures { get; set; }
         public virtual IQueryable<TaxonomyBranchPerformanceMeasure> TaxonomyBranchPerformanceMeasures { get { return AllTaxonomyBranchPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TaxonomyLeafPerformanceMeasure> AllTaxonomyLeafPerformanceMeasures { get; set; }
+        public virtual IQueryable<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get { return AllTaxonomyLeafPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyLeaf> AllTaxonomyLeafs { get; set; }
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
@@ -572,8 +574,16 @@ namespace ProjectFirma.Web.Models
                 case "TaxonomyBranchPerformanceMeasure":
                     return TaxonomyBranchPerformanceMeasures.GetTaxonomyBranchPerformanceMeasure(primaryKey);
 
+                case "TaxonomyLeafPerformanceMeasure":
+                    return TaxonomyLeafPerformanceMeasures.GetTaxonomyLeafPerformanceMeasure(primaryKey);
+
                 case "TaxonomyLeaf":
                     return TaxonomyLeafs.GetTaxonomyLeaf(primaryKey);
+
+                case "TaxonomyLevel":
+                    var taxonomyLevel = TaxonomyLevel.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(taxonomyLevel, "TaxonomyLevel", primaryKey);
+                    return taxonomyLevel;
 
                 case "TaxonomyTrunk":
                     return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);

@@ -42,14 +42,18 @@
             <div class="col-xs-5"><strong>Duration</strong></div>
             <div class="col-xs-7">@ViewDataTyped.Duration @ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
         </div>
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
                 <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</div>
             </div>
+            <div class="row">
+                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
+            </div>
         }
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
         {
             <div class="row">
                 <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>

@@ -38,14 +38,15 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
                     30);
             }
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
-                Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.TaxonomyTrunk.SummaryUrl, a.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName), 250);    
+                Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.TaxonomyTrunk.SummaryUrl, a.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName), 250);
             }
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
-                Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.SummaryUrl, a.TaxonomyBranch.TaxonomyBranchName), 300);    
-            }            
+                Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.SummaryUrl, a.TaxonomyBranch.TaxonomyBranchName), 300);
+            }
             Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
         }

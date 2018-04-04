@@ -166,12 +166,12 @@ namespace ProjectFirma.Web.Views
             var manageMenu = new LtInfoMenuItem("Manage");
 
             // Group 1 - Project Classifications Stuff (taxonomies, classification systems, PMs)
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTrunkController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized(), "Group1"));
             }
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyBranchController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized(), "Group1"));
             }

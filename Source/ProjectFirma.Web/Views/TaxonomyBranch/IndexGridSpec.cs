@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
             }
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTrunk.SummaryUrl, a.TaxonomyTrunk.TaxonomyTrunkName), 210);    
             }            

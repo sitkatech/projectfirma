@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyLeaf()
         {
             this.Projects = new HashSet<Project>();
+            this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -78,13 +79,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any();
+            return Projects.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -94,6 +95,11 @@ namespace ProjectFirma.Web.Models
         {
 
             foreach(var x in Projects.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in TaxonomyLeafPerformanceMeasures.ToList())
             {
                 x.DeleteFull();
             }
@@ -111,6 +117,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyBranch TaxonomyBranch { get; set; }
 

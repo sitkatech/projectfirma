@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
 
-        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
+        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelTrunk();
     }
 
     public partial class ProjectColorByTypeProjectStage
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
 
-        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2;
+        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelBranch();
     }
 
 }

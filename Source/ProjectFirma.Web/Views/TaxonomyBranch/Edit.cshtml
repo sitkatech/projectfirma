@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Edit
               
 <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css" />
@@ -35,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.TaxonomyBranchName)
             </div>
         </div>
-        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+        @if (ViewDataTyped.IsTaxonomyLevelTrunk)
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkID)</div>

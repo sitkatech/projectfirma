@@ -342,7 +342,12 @@
     <Compile Include="Models\Generated\TaxonomyBranchPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyLeaf.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyLeaf.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLevel.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLevelPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyTrunk.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyTrunk.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TaxonomyTrunkPrimaryKey.Binding.cs" />

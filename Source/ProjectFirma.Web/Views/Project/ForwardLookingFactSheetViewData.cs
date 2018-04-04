@@ -91,21 +91,15 @@ namespace ProjectFirma.Web.Views.Project
             }
             else
             {
-                switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
+                switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
                 {
-                    case 1:
+                    case TaxonomyLevelEnum.Leaf:
+                    case TaxonomyLevelEnum.Branch:
                         TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
                         break;
-                    case 2:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
-                        break;
-                    case 3:
+                    case TaxonomyLevelEnum.Trunk:
                         TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor;
                         break;
-                    // we don't support more than 3 so we should throw if that has more than 3
-                    default:
-                        throw new ArgumentException(
-                            $"ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {MultiTenantHelpers.GetNumberOfTaxonomyTiers()}");
                 }
             }
 

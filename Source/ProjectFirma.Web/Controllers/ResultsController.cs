@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationFilterTypesAndValues =
                 new Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>>();
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 var taxonomyTrunksAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.AsEnumerable().ToSelectList(
@@ -251,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
                     taxonomyTrunksAsSelectListItems);
             }
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
                 var taxonomyBranchesAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyBranches.AsEnumerable().ToSelectList(

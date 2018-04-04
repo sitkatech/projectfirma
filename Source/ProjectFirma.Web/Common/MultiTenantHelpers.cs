@@ -100,11 +100,6 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().DefaultBoundingBox;
         }
 
-        public static int GetNumberOfTaxonomyTiers()
-        {
-            return HttpRequestStorage.Tenant.GetTenantAttribute().NumberOfTaxonomyTiersToUse;
-        }
-
         public static int GetMinimumYear()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().MinimumYear;
@@ -121,16 +116,37 @@ namespace ProjectFirma.Web.Common
         }
 
         public static List<ITaxonomyTier> GetTopLevelTaxonomyTiers()
-        {            
-            if (GetNumberOfTaxonomyTiers() == 3)
+        {
+            var taxonomyLevel = GetTaxonomyLevel();            
+            if (taxonomyLevel == TaxonomyLevel.Trunk)
             {
                 return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList());
             }
-            if (GetNumberOfTaxonomyTiers() == 2)
+            if (taxonomyLevel == TaxonomyLevel.Branch)
             {
                 return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList());
             }
             return new List<ITaxonomyTier>();
+        }
+
+        public static TaxonomyLevel GetTaxonomyLevel()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TaxonomyLevel;
+        }
+
+        public static bool IsTaxonomyLevelTrunk()
+        {
+            return GetTaxonomyLevel() == TaxonomyLevel.Trunk;
+        }
+
+        public static bool IsTaxonomyLevelBranch()
+        {
+            return GetTaxonomyLevel() == TaxonomyLevel.Branch;
+        }
+
+        public static bool IsTaxonomyLevelLeaf()
+        {
+            return GetTaxonomyLevel() == TaxonomyLevel.Leaf;
         }
 
         public static bool HasCanStewardProjectsOrganizationRelationship()
