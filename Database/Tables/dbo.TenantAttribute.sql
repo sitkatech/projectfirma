@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[WatershedLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ShowProposalsToThePublic] [bit] NOT NULL,
 	[TaxonomyLevelID] [int] NOT NULL,
+	[AssociatePerfomanceMeasureTaxonomyLevelID] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -73,6 +74,11 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_TaxonomyLevel_AssociatePerfomanceMeasureTaxonomyLevelID_TaxonomyLevelID] FOREIGN KEY([AssociatePerfomanceMeasureTaxonomyLevelID])
+REFERENCES [dbo].[TaxonomyLevel] ([TaxonomyLevelID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_TaxonomyLevel_AssociatePerfomanceMeasureTaxonomyLevelID_TaxonomyLevelID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_TaxonomyLevel_TaxonomyLevelID] FOREIGN KEY([TaxonomyLevelID])
 REFERENCES [dbo].[TaxonomyLevel] ([TaxonomyLevelID])

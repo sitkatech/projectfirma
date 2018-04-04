@@ -57,6 +57,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
         public int? TaxonomyLevelID { get; set; }
 
+        [DisplayName("Associate Performance Measures at Taxonomy Tier")]
+        public int? AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
+
         [DisplayName("Tenant Style Sheet")]
         [SitkaFileExtensions("css")]
         public HttpPostedFileBase TenantStyleSheetFileResourceData { get; set; }
@@ -80,7 +83,6 @@ namespace ProjectFirma.Web.Views.Tenant
         public bool ShowProposalsToThePublic { get; set; }
 
 
-
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -95,6 +97,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ToolDisplayName = tenantAttribute.ToolDisplayName;
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
             TaxonomyLevelID = tenantAttribute.TaxonomyLevelID;
+            AssociatePerfomanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             WatershedLayerName = tenantAttribute.WatershedLayerName;
@@ -118,6 +121,7 @@ namespace ProjectFirma.Web.Views.Tenant
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
             tenantAttribute.TaxonomyLevelID = TaxonomyLevelID.Value;
+            tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
             tenantAttribute.MinimumYear = MinimumYear.Value;
 
             tenantAttribute.MapServiceUrl = MapServiceUrl;

@@ -56,6 +56,13 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
+        <div class="col-md-8">
+            @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+            @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.MinimumYear)</div>
         <div class="col-md-8">
             @Html.TextBoxFor(m => m.MinimumYear, new Dictionary<string, object> {{"type", "number"}, {"class", "form-control"}, {"style", "width:auto;"}})

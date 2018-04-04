@@ -1087,6 +1087,7 @@
           <ScalarProperty Name="WatershedLayerName" ColumnName="WatershedLayerName" />
           <ScalarProperty Name="ShowProposalsToThePublic" ColumnName="ShowProposalsToThePublic" />
           <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
+          <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
