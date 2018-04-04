@@ -1,20 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class EditProjectBoundingBoxViewModel
+    public class EditProjectBoundingBoxViewModel : IValidatableObject
     {
-        [Required(ErrorMessage = "The North coordinate is required.")]
         public decimal? North { get; set; }
-
-        [Required(ErrorMessage = "The South coordinate is required.")]
         public decimal? South { get; set; }
-
-        [Required(ErrorMessage = "The East coordinate is required.")]
         public decimal? East { get; set; }
-
-        [Required(ErrorMessage = "The West coordinate is required.")]
         public decimal? West { get; set; }
 
         /// <summary>
@@ -53,10 +48,24 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public void UpdateModel(Models.Project project)
         {
-            project.DefaultBoundingBox =
-                DbGeometry.FromText(
+            project.DefaultBoundingBox = North.HasValue && South.HasValue && East.HasValue && West.HasValue
+                ? DbGeometry.FromText(
                     string.Format("POLYGON(({0} {1}, {0} {2}, {3} {2}, {3} {1}, {0} {1}))", West, North, South, East),
-                    4326);
+                    4326)
+                : null;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            var coords = new List<decimal?> {North, South, East, West}.Where(x => x != null).ToList();
+            if (coords.Count != 0 && coords.Count != 4) // Either expect all or none of the coordinates
+            {
+                errors.Add(new ValidationResult("Invalid coordinates provided for Project Bounding Box."));
+            }
+
+            return errors;
         }
     }
 }

@@ -43,6 +43,13 @@ namespace ProjectFirma.Web.Models
             return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayName) : new HtmlString(null);
         }
 
+        public static HtmlString GetDisplayNameWithoutAbbreviationAsUrl(this Organization organization)
+        {
+            return organization != null
+                ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayNameWithoutAbbreviation)
+                : new HtmlString(null);
+        }
+
         public static HtmlString GetShortNameAsUrl(this Organization organization)
         {          
             return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.OrganizationShortName ?? organization.OrganizationName) : new HtmlString(null);
