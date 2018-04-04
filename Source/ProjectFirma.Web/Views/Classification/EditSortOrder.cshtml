@@ -21,5 +21,22 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
 @inherits ProjectFirma.Web.Views.Classification.EditSortOrder
-    
+
+<script src="~/Content/Sortable.js"></script>
+
 Hallo, Welt!
+<div id="classifications-list">
+    @foreach (var classification in ViewDataTyped.Classifications.OrderBy(x => x.ClassificationSortOrder))
+    {
+        <div>
+            @classification.DisplayName
+        </div>
+    }
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        var list = document.getElementById("classifications-list");
+        Sortable.create(list);
+    })
+</script>

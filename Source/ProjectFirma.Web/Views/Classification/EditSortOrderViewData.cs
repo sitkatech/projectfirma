@@ -19,9 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ProjectFirma.Web.Views.Classification
 {
     public class EditSortOrderViewData : FirmaUserControlViewData
     {
+        public List<Models.Classification> Classifications { get; }
+
+        public EditSortOrderViewData(IEnumerable<Models.Classification> classifications)
+        {
+            Classifications = classifications.ToList();
+        }
     }
 }

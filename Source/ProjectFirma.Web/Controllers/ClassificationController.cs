@@ -172,7 +172,8 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData();
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem.Classifications);
             EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }

@@ -621,6 +621,8 @@
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
     </Content>
+    <Content Include="Content\Sortable.js" />
+    <Content Include="Content\Sortable.min.js" />
     <Content Include="Content\spinjs\spin.min.js" />
     <Content Include="Content\typeahead\typeahead.js" />
     <Content Include="Content\typeahead\typeahead.min.js">
