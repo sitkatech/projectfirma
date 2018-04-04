@@ -26,3 +26,5 @@ set AssociatePerfomanceMeasureTaxonomyLevelID = 2
 alter table dbo.TenantAttribute alter column TaxonomyLevelID int not null
 alter table dbo.TenantAttribute alter column AssociatePerfomanceMeasureTaxonomyLevelID int not null
 alter table dbo.TenantAttribute drop column NumberOfTaxonomyTiersToUse
+
+alter table dbo.TenantAttribute add constraint CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID check (AssociatePerfomanceMeasureTaxonomyLevelID <= TaxonomyLevelID)

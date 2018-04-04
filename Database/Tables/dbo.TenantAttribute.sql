@@ -89,3 +89,7 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID] CHECK  (([AssociatePerfomanceMeasureTaxonomyLevelID]<=[TaxonomyLevelID]))
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID]

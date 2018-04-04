@@ -170,6 +170,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 }
             }
 
+            if (TaxonomyLevelID.Value < AssociatePerfomanceMeasureTaxonomyLevelID.Value)
+            {
+                errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Cannot choose a Taxonomy Tier that does not exist!", m => m.AssociatePerfomanceMeasureTaxonomyLevelID));
+            }
+
             return errors;
         }
     }
