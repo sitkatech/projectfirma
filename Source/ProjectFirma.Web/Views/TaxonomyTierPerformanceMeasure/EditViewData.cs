@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 
-namespace ProjectFirma.Web.Views.TaxonomyBranchPerformanceMeasure
+namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewData : FirmaUserControlViewData
     {

@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
             UserHasTaxonomyBranchPerformanceMeasureManagePermissions = new TaxonomyBranchPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
-            EditTaxonomyBranchesUrl = SitkaRoute<TaxonomyBranchPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
+            EditTaxonomyBranchesUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             TaxonomyBranchPerformanceMeasures = performanceMeasure.GetTaxonomyBranches().OrderBy(x => x.Key.DisplayName).ToList();
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)

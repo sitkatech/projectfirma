@@ -24,7 +24,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.TaxonomyBranchPerformanceMeasure
+namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewModel : FormViewModel
     {

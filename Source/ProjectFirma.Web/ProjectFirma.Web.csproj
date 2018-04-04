@@ -525,6 +525,9 @@
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
+    <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
+    <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
+    <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystems.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystemsViewData.cs" />
     <Compile Include="Models\ClassificationSystemSimple.cs" />
@@ -769,7 +772,7 @@
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewModel.cs" />
     <Compile Include="Common\MultiTenantHelpers.cs" />
-    <Compile Include="Controllers\ProgramPerformanceMeasureController.cs" />
+    <Compile Include="Controllers\TaxonomyTierPerformanceMeasureController.cs" />
     <Compile Include="Controllers\TaxonomyTrunkController.cs" />
     <Compile Include="Controllers\ProgramInfoController.cs" />
     <Compile Include="Controllers\TaxonomyBranchController.cs" />
@@ -901,9 +904,6 @@
     <Compile Include="Views\Shared\ViewPageContent.cs" />
     <Compile Include="Views\Shared\ViewPageContentViewData.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
-    <Compile Include="Views\TaxonomyBranchPerformanceMeasure\Edit.cs" />
-    <Compile Include="Views\TaxonomyBranchPerformanceMeasure\EditViewData.cs" />
-    <Compile Include="Views\TaxonomyBranchPerformanceMeasure\EditViewModel.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyBranch.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyBranchViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\Edit.cs" />
@@ -1473,7 +1473,7 @@
     <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
-    <Content Include="Views\TaxonomyBranchPerformanceMeasure\Edit.cshtml" />
+    <Content Include="Views\TaxonomyTierPerformanceMeasure\Edit.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3371,7 +3371,6 @@
     <Content Include="Views\TaxonomyLeaf\Index.cshtml" />
     <Content Include="Views\TaxonomyLeaf\Detail.cshtml" />
     <Content Include="Views\Results\ResultsByTaxonomyBranch.cshtml" />
-    <Content Include="Views\TaxonomyBranchPerformanceMeasure\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
