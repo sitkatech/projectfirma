@@ -707,6 +707,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
     <Property Name="ClassificationSystemID" Type="int" Nullable="false" />
+    <Property Name="ClassificationSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>

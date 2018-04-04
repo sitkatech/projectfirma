@@ -64,6 +64,7 @@
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
           <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
+          <ScalarProperty Name="ClassificationSortOrder" ColumnName="ClassificationSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

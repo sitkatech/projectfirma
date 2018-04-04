@@ -690,6 +690,7 @@
     <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="KeyImageFileResourceID" Type="Int32" />
     <Property Name="ClassificationSystemID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationSortOrder" Type="Int32" />
     <NavigationProperty Name="ClassificationSystem" Relationship="ProjectFirma.Web.Models.FK_Classification_ClassificationSystem_ClassificationSystemID" FromRole="Classifications" ToRole="ClassificationSystem" />
     <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />

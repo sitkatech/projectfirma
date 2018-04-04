@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
+using System;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
@@ -167,6 +167,22 @@ namespace ProjectFirma.Web.Controllers
             var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectClassifications, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult EditSortOrder(ClassificationPrimaryKey classificationPrimaryKey)
+        {
+            EditSortOrderViewData viewData = null;
+            EditSortOrderViewModel viewModel = null;
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public PartialViewResult EditSortOrder(ClassificationPrimaryKey classificationPrimaryKey, EditSortOrderViewModel viewModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
