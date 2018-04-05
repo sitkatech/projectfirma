@@ -21,18 +21,19 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
     public class EditSortOrderViewData : FirmaUserControlViewData
     {
-        public List<Models.Classification> Classifications { get; }
-        public string ClassificationSystemNamePlural { get; }
+        public List<IHaveASortOrder> Sortables { get; }
+        public string SortableNamePlural { get; }
 
-        public EditSortOrderViewData(Models.ClassificationSystem classificationSystem)
+        public EditSortOrderViewData(ICollection<IHaveASortOrder> sortables, string sortableNamePlural)
         {
-            Classifications = classificationSystem.Classifications.ToList();
-            ClassificationSystemNamePlural = classificationSystem.ClassificationSystemNamePluralized;
+            Sortables = sortables.ToList();
+            SortableNamePlural = sortableNamePlural;
         }
     }
 }

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
@@ -179,7 +180,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(ClassificationSystem classificationSystem, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem);
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(classificationSystem.Classifications), classificationSystem.ClassificationSystemNamePluralized);
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
@@ -195,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditSortOrder(classificationSystem, viewModel);
             }
 
-            viewModel.UpdateModel(classificationSystem.Classifications);
+            viewModel.UpdateModel(new List<IHaveASortOrder>(classificationSystem.Classifications));
             SetMessageForDisplay("Successfully Updated Classification Sort Order");
             return new ModalDialogFormJsonResult();
         }

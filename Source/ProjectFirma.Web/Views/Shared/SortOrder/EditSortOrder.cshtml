@@ -18,18 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.Mvc
 @inherits ProjectFirma.Web.Views.Shared.SortOrder.EditSortOrder
 
 <script src="~/Content/Sortable.js"></script>
 
-<span class="systemText">Drag and drop the @ViewDataTyped.ClassificationSystemNamePlural to set their sorting order.</span><hr/>
-<div id="classifications-list">
-    @foreach (var classification in ViewDataTyped.Classifications.OrderBy(x => x.ClassificationSortOrder).ToArray())
+<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span><hr/>
+<div id="sortables-list">
+    @foreach (var sortable in ViewDataTyped.Sortables.OrderBy(x => x.SortOrder).ToArray())
     {
-        <div data-id="@classification.ClassificationID"><span class="glyphicon glyphicon-menu-hamburger"></span>
-            @classification.DisplayName
+        <div data-id="@sortable.ID"><span class="glyphicon glyphicon-menu-hamburger"></span>
+            @sortable.DisplayName
         </div>
     }
 </div>
@@ -40,19 +38,19 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <script>
-    //var sortableClassifications = null;
+    //var sortedSortables = null;
     jQuery(document).ready(function () {
-        var list = document.getElementById("classifications-list");
-        var sortableClassifications = Sortable.create(list,
+        var list = document.getElementById("sortables-list");
+        var sortedSortables = Sortable.create(list,
             {
                 handle: ".glyphicon-menu-hamburger"
             });
 
         jQuery('#ltinfo-modal-dialog-save-button-id').click(function() {
-            var idArray = sortableClassifications.toArray();
+            var idArray = sortedSortables.toArray();
             var form = jQuery("form");
             for (var i = 0; i < idArray.length; i++) {
-                jQuery("<input type='hidden' name='@(Html.NameFor(m=>m.ReorderedClassificationIDs))["+i+"]' value=" + idArray[i] + " />").appendTo(form);
+                jQuery("<input type='hidden' name='@(Html.NameFor(m=>m.ReorderedSortableIDs))["+i+"]' value=" + idArray[i] + " />").appendTo(form);
             }
         });
     })

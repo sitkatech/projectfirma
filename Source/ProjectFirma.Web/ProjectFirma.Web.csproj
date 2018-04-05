@@ -521,6 +521,7 @@
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
+    <Compile Include="Views\Shared\SortOrder\IHaveASortOrder.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystems.cs" />

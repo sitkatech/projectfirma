@@ -26,7 +26,7 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class Classification : IAuditableEntity
+    public partial class Classification : IAuditableEntity, IHaveASortOrder
     {
         public List<Project> GetAssociatedProjects(Person person)
         {
@@ -52,5 +52,13 @@ namespace ProjectFirma.Web.Models
         }
 
         public string AuditDescriptionString => DisplayName;
+
+        public int? SortOrder
+        {
+            get => ClassificationSortOrder;
+            set => ClassificationSortOrder = value;
+        }
+
+        public int ID => ClassificationID;
     }
 }

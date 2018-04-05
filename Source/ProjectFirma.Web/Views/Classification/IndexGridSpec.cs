@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
-using ProjectFirma.Web.Common;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Classification
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30);
+                    30,DhtmlxGridColumnFilterType.None);
             }
 
             Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
