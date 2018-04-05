@@ -118,6 +118,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectBudgetUpdate> ProjectBudgetUpdates { get { return AllProjectBudgetUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
+        public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -418,6 +420,9 @@ namespace ProjectFirma.Web.Models
                     var projectCreateSection = ProjectCreateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCreateSection, "ProjectCreateSection", primaryKey);
                     return projectCreateSection;
+
+                case "ProjectDocument":
+                    return ProjectDocuments.GetProjectDocument(primaryKey);
 
                 case "ProjectExemptReportingYear":
                     return ProjectExemptReportingYears.GetProjectExemptReportingYear(primaryKey);

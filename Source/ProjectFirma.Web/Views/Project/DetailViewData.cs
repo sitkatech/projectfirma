@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.ProjectDocument;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
 
         public List<ProjectStage> ProjectStages { get; }
-        public List<Models.ProjectOrganization> AllProjectOrganizations { get; }
+        public List<ProjectOrganization> AllProjectOrganizations { get; }
         public string MapFormID { get; }
 
         public ProjectUpdateBatchGridSpec ProjectUpdateBatchGridSpec { get; }
@@ -95,6 +96,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<string> ProjectAlerts { get; }
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
         public List<Models.ClassificationSystem> ClassificationSystems { get; }
+        public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -295,6 +297,8 @@ namespace ProjectFirma.Web.Views.Project
                     c.ProjectStewardCannotEditPendingApproval(project));
 
             ClassificationSystems = classificationSystems;
+
+            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson);
         }
     }
 }

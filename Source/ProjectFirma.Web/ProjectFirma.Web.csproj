@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -216,6 +216,9 @@
     <Compile Include="Models\Generated\ProjectCostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSection.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSectionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYearPrimaryKey.Binding.cs" />
@@ -355,6 +358,18 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ProjectDocument.cs" />
+    <Compile Include="Views\ProjectDocument\Edit.cs" />
+    <Compile Include="Views\ProjectDocument\EditViewData.cs" />
+    <Compile Include="Views\ProjectDocument\EditViewModel.cs" />
+    <Compile Include="Views\ProjectDocument\New.cs" />
+    <Compile Include="Controllers\ProjectDocumentController.cs" />
+    <Compile Include="Security\ProjectDocumentEditAsAdminFeature.cs" />
+    <Compile Include="Views\ProjectDocument\NewViewData.cs" />
+    <Compile Include="Views\ProjectDocument\NewViewModel.cs" />
+    <Compile Include="Views\ProjectDocument\ProjectDocumentsDetail.cs" />
+    <Compile Include="Views\ProjectDocument\ProjectDocumentsDetailViewData.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewModel.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrder.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewData.cs" />
@@ -1476,6 +1491,9 @@
     <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
+    <Content Include="Views\ProjectDocument\New.cshtml" />
+    <Content Include="Views\ProjectDocument\Edit.cshtml" />
+    <Content Include="Views\ProjectDocument\ProjectDocumentsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
