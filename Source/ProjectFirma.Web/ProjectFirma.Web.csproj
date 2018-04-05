@@ -711,6 +711,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Views\Classification\EditSortOrderController.js" />
     <Content Include="Views\Home\FeaturedProjects.cshtml" />
     <None Include="Service References\KeystoneDataService\KeystoneData.wsdl" />
     <None Include="Service References\KeystoneDataService\KeystoneData.xsd">

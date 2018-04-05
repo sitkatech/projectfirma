@@ -34,12 +34,21 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 </div>
 
+@using (Html.BeginForm())
+{
+    <div id="EditSortOrderApp" ng-app="ProjectFirmaApp" ng-controller="EditSortOrderController"></div>
+}
+
 <script>
+    var applebees = null;
     jQuery(document).ready(function () {
         var list = document.getElementById("classifications-list");
-        Sortable.create(list,
+        applebees = Sortable.create(list,
             {
                 handle: ".glyphicon-menu-hamburger"
             });
+
+        
+        angular.bootstrap(jQuery("#EditSortOrderApp"), ["ProjectFirmaApp"]);
     })
 </script>
