@@ -46,7 +46,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
+    <Compile Include="Models\ProjectDocument.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -217,6 +217,9 @@
     <Compile Include="Models\Generated\ProjectCostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSection.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSectionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYearPrimaryKey.Binding.cs" />
@@ -356,6 +359,17 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\ProjectDocument\Edit.cs" />
+    <Compile Include="Views\ProjectDocument\EditViewData.cs" />
+    <Compile Include="Views\ProjectDocument\EditViewModel.cs" />
+    <Compile Include="Views\ProjectDocument\New.cs" />
+    <Compile Include="Controllers\ProjectDocumentController.cs" />
+    <Compile Include="Security\ProjectDocumentEditAsAdminFeature.cs" />
+    <Compile Include="Views\ProjectDocument\NewViewData.cs" />
+    <Compile Include="Views\ProjectDocument\NewViewModel.cs" />
+    <Compile Include="Views\ProjectDocument\ProjectDocumentsDetail.cs" />
+    <Compile Include="Views\ProjectDocument\ProjectDocumentsDetailViewData.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Models\CustomPageModelExtensions.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
     <Compile Include="Controllers\CustomPageController.cs" />
@@ -1468,6 +1482,9 @@
     <Content Include="Views\ProgramInfo\ClassificationSystem.cshtml" />
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
+    <Content Include="Views\ProjectDocument\New.cshtml" />
+    <Content Include="Views\ProjectDocument\Edit.cshtml" />
+    <Content Include="Views\ProjectDocument\ProjectDocumentsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
