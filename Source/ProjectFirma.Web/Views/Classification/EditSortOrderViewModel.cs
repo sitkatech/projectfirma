@@ -25,5 +25,14 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class EditSortOrderViewModel : FormViewModel
     {
+        public int[] ReorderedClassificationIDs { get; set; }
+
+        public EditSortOrderViewModel()
+        {
+
+        }
+
+
+
     }
 }
