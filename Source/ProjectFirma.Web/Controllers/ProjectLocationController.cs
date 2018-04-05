@@ -269,14 +269,9 @@ namespace ProjectFirma.Web.Controllers
                 }
                 .Where(x => x != null)
                 .ToList();
-
-            var boundingBox = layerGeoJsons.Any()
-                ? BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons)
-                : BoundingBox.MakeNewDefaultBoundingBox();
-
-            // Add Watersheds after creating bounding box from other layers - we don't want the default extent to include evey Watershed
+            
             layerGeoJsons.Add(Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
-
+            var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project);
             var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, boundingBox)
             {
                 AllowFullScreen = false
