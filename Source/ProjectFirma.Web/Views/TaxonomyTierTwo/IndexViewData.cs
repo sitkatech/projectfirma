@@ -29,10 +29,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-
+        public IndexGridSpec GridSpec{ get; }
+        public string GridName{ get; }
+        public string GridDataUrl{ get; }
+        public string EditSortOrderUrl { get; }
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             var taxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
@@ -54,6 +54,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
             GridName = "taxonomyTierTwosGrid";
             GridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            EditSortOrderUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
         }
     }
 }

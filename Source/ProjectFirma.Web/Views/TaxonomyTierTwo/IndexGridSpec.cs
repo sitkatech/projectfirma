@@ -36,16 +36,20 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         {
             if (new TaxonomyTierTwoManageFeature().HasPermissionByPerson(currentPerson))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
+
+            Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierTwoName), 240);
+            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
-                Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierThree.SummaryUrl, a.TaxonomyTierThree.TaxonomyTierThreeName), 210);    
-            }            
-            Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierTwoName), 240);
-            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
+                Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(),
+                    a => UrlTemplate.MakeHrefString(a.TaxonomyTierThree.SummaryUrl,
+                        a.TaxonomyTierThree.TaxonomyTierThreeName), 210);
+            }
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
+            Add("Sort Order", a => a.TaxonomyTierTwoSortOrder + 1, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }
     }
 }

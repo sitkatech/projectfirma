@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Classification
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
-            Add("Sort Order", a => a.ClassificationSortOrder + 1, 90);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
+            Add("Sort Order", a => a.ClassificationSortOrder + 1, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }
     }
 }

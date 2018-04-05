@@ -29,7 +29,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyTierThree : IAuditableEntity, ITaxonomyTier
+    public partial class TaxonomyTierThree : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
     {
         public string DeleteUrl
         {
@@ -46,6 +46,14 @@ namespace ProjectFirma.Web.Models
                 return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTierThreeName);
             }
         }
+
+        public int? SortOrder
+        {
+            get => TaxonomyTierThreeSortOrder;
+            set => TaxonomyTierThreeSortOrder = value;
+        }
+
+        public int ID => TaxonomyTierThreeID;
 
         public HtmlString GetDisplayNameAsUrl()
         {
