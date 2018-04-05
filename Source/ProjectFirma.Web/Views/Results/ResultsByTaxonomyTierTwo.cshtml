@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThrees)
                 {
                     <optgroup label="@taxonomyTierThree.DisplayName">
-                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
+                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoSortOrder))
                         {
                             <option value="@taxonomyTierTwo.TaxonomyTierTwoID" @((ViewDataTyped.SelectedTaxonomyTierTwo.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).ToSelectedOrEmpty())>@taxonomyTierTwo.DisplayName</option>
                         }

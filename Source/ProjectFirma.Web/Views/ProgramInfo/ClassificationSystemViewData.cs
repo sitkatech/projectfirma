@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
-            Classifications = classificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList();
+            Classifications = classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ToList();
             ClassificationSystem = classificationSystem;
             ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, null).HasPermission;
             EditPageContentUrl = SitkaRoute<ClassificationSystemController>.BuildUrlFromExpression(t => t.EditInDialog(classificationSystem));

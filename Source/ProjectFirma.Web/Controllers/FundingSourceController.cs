@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeSortOrder).ToList();
 
             const string chartTitle = "Reported Expenditures";
             var chartContainerID = chartTitle.Replace(" ", "");

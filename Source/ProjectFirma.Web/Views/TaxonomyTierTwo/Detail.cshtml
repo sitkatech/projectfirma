@@ -106,7 +106,7 @@
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
+                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.OrderBy(x=>x.TaxonomyTierOneSortOrder))
                         {
                             <tr>
                                 <td>

@@ -31,7 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         <th style="text-align: right">Total</th>
     </tr>
-    @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
+    @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoSortOrder))
     {
         <tr>
             <td>@taxonomyTierTwo.GetDisplayNameAsUrl()</td>

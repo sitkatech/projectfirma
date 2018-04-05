@@ -295,7 +295,7 @@
                             @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
                             @if (projectClassifications.Count > 0)
                             {
-                                foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
+                                foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).Batch(3))
                                 {
                                     <div class="row" style="padding-top: 10px;">
                                         @foreach (var projectClassification in projectClassificationBatch)

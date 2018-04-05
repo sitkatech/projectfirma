@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             }
 
             Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierTwoName), 240);
-            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.OrderBy(x=>x.TaxonomyTierOneSortOrder).Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
