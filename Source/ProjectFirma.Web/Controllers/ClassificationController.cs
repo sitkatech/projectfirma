@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
@@ -29,6 +28,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Classification;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using Index = ProjectFirma.Web.Views.Classification.Index;

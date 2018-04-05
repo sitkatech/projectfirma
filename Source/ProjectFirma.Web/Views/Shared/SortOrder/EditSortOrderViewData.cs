@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditSortOrderViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditSortOrderViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -21,31 +21,18 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Models;
 
-namespace ProjectFirma.Web.Views.Classification
+namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
-    public class EditSortOrderViewModel : FormViewModel
+    public class EditSortOrderViewData : FirmaUserControlViewData
     {
-        public List<int> ReorderedClassificationIDs { get; set; }
+        public List<Models.Classification> Classifications { get; }
+        public string ClassificationSystemNamePlural { get; }
 
-        public EditSortOrderViewModel()
+        public EditSortOrderViewData(Models.ClassificationSystem classificationSystem)
         {
-        }
-
-
-        public void UpdateModel(ICollection<Models.Classification> classificationSystemClassifications)
-        {
-            for (var i = 0; i < ReorderedClassificationIDs.Count; i++)
-            {
-                var theGuy = classificationSystemClassifications
-                    .SingleOrDefault(x => x.ClassificationID == ReorderedClassificationIDs[i]);
-
-                if (theGuy != null)
-                {
-                    theGuy.ClassificationSortOrder = i;
-                }
-            }
+            Classifications = classificationSystem.Classifications.ToList();
+            ClassificationSystemNamePlural = classificationSystem.ClassificationSystemNamePluralized;
         }
     }
 }

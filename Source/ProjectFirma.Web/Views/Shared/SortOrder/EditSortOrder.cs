@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditSortOrderViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditSortOrder.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,20 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
+using LtInfo.Common.Mvc;
 
-namespace ProjectFirma.Web.Views.Classification
+namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
-    public class EditSortOrderViewData : FirmaUserControlViewData
+    public abstract class EditSortOrder : TypedWebPartialViewPage<EditSortOrderViewData,EditSortOrderViewModel>
     {
-        public List<Models.Classification> Classifications { get; }
-        public string ClassificationSystemNamePlural { get; }
-
-        public EditSortOrderViewData(Models.ClassificationSystem classificationSystem)
-        {
-            Classifications = classificationSystem.Classifications.ToList();
-            ClassificationSystemNamePlural = classificationSystem.ClassificationSystemNamePluralized;
-        }
     }
 }
