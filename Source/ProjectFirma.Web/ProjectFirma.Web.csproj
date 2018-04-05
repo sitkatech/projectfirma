@@ -373,7 +373,6 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewModel.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrder.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewData.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Models\CustomPageModelExtensions.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
     <Compile Include="Controllers\CustomPageController.cs" />
