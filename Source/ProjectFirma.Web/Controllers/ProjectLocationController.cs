@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project);
-            SetMessageForDisplay($"The default map extent for {project.ProjectName} has been successfully updated.");
+            SetMessageForDisplay($"The custom map extent for {project.ProjectName} has been successfully updated.");
 
             return new ModalDialogFormJsonResult();
         }
