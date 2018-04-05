@@ -32,12 +32,16 @@
 
 <style>
     </style>
+
 @section RightOfPageTitle
-{<div class="pull-right">
-    @ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", ViewDataTyped.EditSortOrderUrl,
-    "Edit sort order", 700, "Save", "Cancel",
-    new List<string> {"btn", "btn-firma"}, null, null)
-</div>}
+{
+    <div class="pull-right">
+        @ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", ViewDataTyped.EditSortOrderUrl,
+            "Edit sort order", 700, "Save", "Cancel",
+            new List<string> {"btn", "btn-firma"}, null, null)
+    </div>
+}
+
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

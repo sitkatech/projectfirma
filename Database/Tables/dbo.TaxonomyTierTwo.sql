@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[TaxonomyTierTwo](
 	[TaxonomyTierTwoDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierTwoCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaxonomyTierTwoSortOrder] [int] NULL,
  CONSTRAINT [PK_TaxonomyTierTwo_TaxonomyTierTwoID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierTwoID] ASC

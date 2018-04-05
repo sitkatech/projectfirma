@@ -36,17 +36,18 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30);
+                    30, DhtmlxGridColumnFilterType.None);
+            }
+            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyTierOneName), 350, DhtmlxGridColumnFilterType.Html);
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            {
+                Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierTwoName), 300);
             }
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.TaxonomyTierThree.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName), 250);    
-            }
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
-            {
-                Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierTwoName), 300);    
-            }            
-            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyTierOneName), 350, DhtmlxGridColumnFilterType.Html);
+            }    
+            
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
         }
     }
