@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
-            var classifications = classificationSystem.Classifications.ToList();
+            var classifications = classificationSystem.Classifications.OrderBy(x=>x.ClassificationSortOrder).ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 
@@ -173,17 +173,31 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem);
             EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(classificationSystem, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(ClassificationSystem classificationSystem, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(classificationSystem);
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditSortOrderViewModel viewModel)
+        public ActionResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditSortOrderViewModel viewModel)
         {
-            throw new NotImplementedException();
+            
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(classificationSystem, viewModel);
+            }
+
+            viewModel.UpdateModel(classificationSystem.Classifications);
+            SetMessageForDisplay("Successfully Updated Classification Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

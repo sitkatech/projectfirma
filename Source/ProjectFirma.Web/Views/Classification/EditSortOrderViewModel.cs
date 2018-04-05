@@ -19,20 +19,33 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
     public class EditSortOrderViewModel : FormViewModel
     {
-        public int[] ReorderedClassificationIDs { get; set; }
+        public List<int> ReorderedClassificationIDs { get; set; }
 
         public EditSortOrderViewModel()
         {
-
         }
 
 
+        public void UpdateModel(ICollection<Models.Classification> classificationSystemClassifications)
+        {
+            for (var i = 0; i < ReorderedClassificationIDs.Count; i++)
+            {
+                var theGuy = classificationSystemClassifications
+                    .SingleOrDefault(x => x.ClassificationID == ReorderedClassificationIDs[i]);
 
+                if (theGuy != null)
+                {
+                    theGuy.ClassificationSortOrder = i;
+                }
+            }
+        }
     }
 }
