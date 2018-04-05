@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyTierOne.Index
 @section JavascriptAndStylesContent
 {
@@ -30,11 +30,9 @@
 
 @section RightOfPageTitle
 {
-    <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", ViewDataTyped.EditSortOrderUrl,
-                 "Edit sort order", 700, "Save", "Cancel",
-                 new List<string> { "btn", "btn-firma" }, null, null)
-    </div>
+<div class="pull-right">
+    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl)
+</div>
 }
 
 <div>

@@ -19,15 +19,13 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.Classification.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
-    <script src="~/Views/Classification/EditSortOrderController.js"></script>
 }
 
 <style>
@@ -36,9 +34,7 @@
 @section RightOfPageTitle
 {
     <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", ViewDataTyped.EditSortOrderUrl,
-            "Edit sort order", 700, "Save", "Cancel",
-            new List<string> {"btn", "btn-firma"}, null, null)
+        @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl)
     </div>
 }
 
