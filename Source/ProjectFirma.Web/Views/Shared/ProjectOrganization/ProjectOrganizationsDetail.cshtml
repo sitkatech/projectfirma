@@ -24,10 +24,11 @@
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectOrganizationsDetail
+
    
 @if (ViewDataTyped.AllProjectOrganizations.Any())
 {
-    <table class="summaryLayout table">
+    <table class="summaryLayout table table-borderless">
         <tr>
             <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
             <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
@@ -45,7 +46,7 @@
                     <td>@relationshipType.RelationshipTypeName</td>
                 }
                 <td>
-                    <ul>
+                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
                         @foreach (var x in projectOrganizations)
                         {
                             <li>

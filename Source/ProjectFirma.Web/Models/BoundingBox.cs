@@ -224,6 +224,16 @@ namespace ProjectFirma.Web.Models
                 return new BoundingBox(new Point(project.ProjectLocationPoint), 0.001m);
             }
 
+            if (project.GetProjectWatersheds().Any())
+            {
+                return new BoundingBox(project.GetProjectWatersheds().Select(x => x.WatershedFeature).ToList());
+            }
+
+            if (MultiTenantHelpers.GetDefaultBoundingBox() != null)
+            {
+                return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
+            }
+
             var watershedDbGeometries = HttpRequestStorage.DatabaseEntities.Watersheds.Select(x => x.WatershedFeature).ToList();
             return watershedDbGeometries.Any()
                 ? new BoundingBox(watershedDbGeometries)
