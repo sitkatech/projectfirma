@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Web;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
@@ -31,6 +34,11 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
             return ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", url,
                 "Edit sort order", 700, "Save", "Cancel",
                 new List<string> {"btn", "btn-firma"}, null, null);
+        }
+
+        public static ICollection<T> SortSortables<T>(this T fart) where T : IHaveASortOrder
+        {
+            throw new NotImplementedException();
         }
     }
 }
