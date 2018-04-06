@@ -360,6 +360,7 @@
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
+          <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
@@ -99,7 +100,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierTwo);
 
-            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SortByOrderThenName().ToList();
 
             EditChildrenSortOrderUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x=>x.EditChildrenSortOrder(TaxonomyTierTwo));
         }

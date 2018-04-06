@@ -26,6 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProgramInfo;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -41,15 +42,15 @@ namespace ProjectFirma.Web.Controllers
             switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
             {
                 case 3:
-                    var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
+                    var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList().SortByOrderThenName().ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 2:
-                    var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();
+                    var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().SortByOrderThenName().ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 case 1:
-                    var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList();
+                    var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().SortByOrderThenName().ToList();
                     topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 default:

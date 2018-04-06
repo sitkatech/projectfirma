@@ -84,6 +84,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>

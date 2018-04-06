@@ -13,3 +13,7 @@ go
 alter table dbo.TaxonomyTierThree
 Add TaxonomyTierThreeSortOrder int null
 go
+
+alter table dbo.PerformanceMeasure
+Add PerformanceMeasureSortOrder int null
+go

@@ -28,9 +28,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly PerformanceMeasureGridSpec PerformanceMeasureGridSpec;
-        public readonly string PerformanceMeasureGridName;
-        public readonly string PerformanceMeasureGridDataUrl;
+        public PerformanceMeasureGridSpec PerformanceMeasureGridSpec{ get; }
+        public string PerformanceMeasureGridName{ get; }
+        public string PerformanceMeasureGridDataUrl{ get; }
+        public string EditSortOrderUrl { get; set; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -55,6 +56,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";
             PerformanceMeasureGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.PerformanceMeasureGridJsonData());
+            EditSortOrderUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.EditSortOrder());
         }
     }
 }
