@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Models;
@@ -36,9 +37,9 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
                 new List<string> {"btn", "btn-firma"}, null, null);
         }
 
-        public static ICollection<T> SortSortables<T>(this T fart) where T : IHaveASortOrder
+        public static IOrderedEnumerable<T> SortSortables<T>(this ICollection<T> sortableList) where T : IHaveASortOrder
         {
-            throw new NotImplementedException();
+            return sortableList.OrderBy(x => x.SortOrder);
         }
     }
 }
