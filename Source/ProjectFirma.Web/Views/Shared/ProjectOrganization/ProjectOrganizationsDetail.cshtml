@@ -24,26 +24,38 @@
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectOrganizationsDetail
+
    
 @if (ViewDataTyped.AllProjectOrganizations.Any())
 {
-    <table class="summaryLayout">
+    <table class="summaryLayout table table-borderless">
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
         </tr>
-        @foreach (var relationshipType in ViewDataTyped.SetRelationshipTypes.OrderBy(x=>x.RelationshipTypeName))
+        @foreach (var relationshipType in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x.RelationshipTypeName))
         {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipType == relationshipType).OrderBy(x=>x.Organization.OrganizationName).ToList();
+            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipType == relationshipType).OrderBy(x => x.Organization.OrganizationName).ToList();
             <tr>
-                <td>@relationshipType.RelationshipTypeName</td>
+                @if (projectOrganizations.Count > 1)
+                {
+                    <td>@(relationshipType.RelationshipTypeName + "s")</td>
+                }
+                else
+                {
+                    <td>@relationshipType.RelationshipTypeName</td>
+                }
                 <td>
-                    @foreach (var x in projectOrganizations)
-                    {
-                        @*Note that this tag has to all be on one line to display the comma correctly*@
-                    <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameAsUrl()@if (x != projectOrganizations.LastOrDefault()) { @Html.Raw(",") }</span>
-                    }
+                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                        @foreach (var x in projectOrganizations)
+                        {
+                            <li>
+                                <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
+                            </li>
+                        }
+                    </ul>
                 </td>
+
             </tr>
         }
 

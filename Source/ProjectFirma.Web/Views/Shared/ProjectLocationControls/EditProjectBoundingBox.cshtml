@@ -8,7 +8,14 @@
 @Html.ValidationSummary()
 
 <p>
-    Update the default map extent for this @FieldDefinition.Project.GetFieldDefinitionLabel(), which is used to set the zoom level and center of maps that this @FieldDefinition.Project.GetFieldDefinitionLabel() appears in.
+    Update the custom map extent for this @FieldDefinition.Project.GetFieldDefinitionLabel(), which is used to set the zoom level and center of maps that this @FieldDefinition.Project.GetFieldDefinitionLabel() appears in. The extent for a project map is set according to these rules:
+    <ul>
+        <li>If a custom map extent is provided, the map will always center on the custom extent</li>
+        <li>If no custom extent is provided, the map will center on the project detailed location</li>
+        <li>If no detailed location is provided, the map will center on the project simple location</li>
+        <li>If no simple location is provided, the map will center on the project watersheds</li>
+        <li>If none of the above are provided, the map will display "Location Not Specified"</li>
+    </ul>
 </p>
 <form method="POST" id="@ViewDataTyped.EditProjectBoundingBoxFormID" action="@ViewDataTyped.EditProjectBoundingBoxUrl">
     @Html.HiddenFor(x => x.North)

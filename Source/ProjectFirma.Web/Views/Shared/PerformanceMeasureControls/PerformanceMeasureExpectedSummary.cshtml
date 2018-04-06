@@ -25,20 +25,19 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.PerformanceMeasureExpecteds.Any())
 {
-    <table class="summaryLayout">
+    <table class="summaryLayout table table-borderless">
         <tr>
             <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
             <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
-            <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
-            <th></th>
+            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds.OrderBy(pm => pm.PerformanceMeasureID))
         {
             <tr>
                 <td>@performanceMeasureExpected.PerformanceMeasure.GetDisplayNameAsUrl()</td>
                 <td>@performanceMeasureExpected.PerformanceMeasureSubcategoriesAsString</td>
-                <td style="text-align: right">@performanceMeasureExpected.ReportedValue</td>
-                <td>@performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
+                <td style="text-align: right;">@(performanceMeasureExpected.ReportedValue.HasValue ? new HtmlString(performanceMeasureExpected.ReportedValue + " " + performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
+
             </tr>
         }
     </table>

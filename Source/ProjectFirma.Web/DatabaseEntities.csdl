@@ -47,6 +47,7 @@
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
     <EntitySet Name="ProjectBudgetUpdate" EntityType="ProjectFirma.Web.Models.ProjectBudgetUpdate" />
     <EntitySet Name="ProjectClassification" EntityType="ProjectFirma.Web.Models.ProjectClassification" />
+    <EntitySet Name="ProjectDocument" EntityType="ProjectFirma.Web.Models.ProjectDocument" />
     <EntitySet Name="ProjectExemptReportingYear" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYear" />
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
@@ -162,6 +163,10 @@
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
       <End Role="LogoFileResource" EntitySet="FileResource" />
       <End Role="OrganizationsWhereYouAreTheLogoFileResource" EntitySet="Organization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="ProjectDocuments" EntitySet="ProjectDocument" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -466,6 +471,10 @@
     <AssociationSet Name="FK_ProjectClassification_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocument_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectDocument_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectDocuments" EntitySet="ProjectDocument" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYear_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -806,6 +815,7 @@
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
+    <NavigationProperty Name="ProjectDocuments" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectDocuments" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantBannerLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" />
@@ -1268,6 +1278,7 @@
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectAssessmentQuestions" />
     <NavigationProperty Name="ProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="Project" ToRole="ProjectBudgets" />
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="Project" ToRole="ProjectClassifications" />
+    <NavigationProperty Name="ProjectDocuments" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_Project_ProjectID" FromRole="Project" ToRole="ProjectDocuments" />
     <NavigationProperty Name="ProjectExemptReportingYears" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="Project" ToRole="ProjectExemptReportingYears" />
     <NavigationProperty Name="ProjectExternalLinks" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="Project" ToRole="ProjectExternalLinks" />
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceExpenditures" />
@@ -1333,6 +1344,19 @@
     <Property Name="ProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="ProjectClassifications" ToRole="Classification" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="ProjectClassifications" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="ProjectDocument">
+    <Key>
+      <PropertyRef Name="ProjectDocumentID" />
+    </Key>
+    <Property Name="ProjectDocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID" FromRole="ProjectDocuments" ToRole="FileResource" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_Project_ProjectID" FromRole="ProjectDocuments" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
@@ -2137,6 +2161,18 @@
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreTheLogoFileResource">
         <PropertyRef Name="LogoFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocument_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="ProjectDocuments" Type="ProjectFirma.Web.Models.ProjectDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ProjectDocuments">
+        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3048,6 +3084,18 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectClassifications">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocument_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectDocuments" Type="ProjectFirma.Web.Models.ProjectDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectDocuments">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>

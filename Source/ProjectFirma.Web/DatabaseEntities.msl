@@ -585,6 +585,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectDocument">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectDocument">
+        <MappingFragment StoreEntitySet="ProjectDocument">
+          <ScalarProperty Name="ProjectDocumentID" ColumnName="ProjectDocumentID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectExemptReportingYear">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectExemptReportingYear">
         <MappingFragment StoreEntitySet="ProjectExemptReportingYear">
