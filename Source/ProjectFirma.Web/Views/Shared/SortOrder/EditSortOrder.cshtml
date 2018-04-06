@@ -27,11 +27,15 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 </style>
 
-<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span><hr/>
+<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span> 
+<button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize()">Reset To Alphabetical</button>
+
+<hr/>
+
 <div id="sortables-list">
     @foreach (var sortable in ViewDataTyped.Sortables.OrderBy(x => x.SortOrder).ToArray())
     {
-        <div data-id="@sortable.ID" style="font-size: 14pt; margin-bottom: 2px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+        <div data-id="@sortable.ID" data-displayName="@sortable.DisplayName" style="font-size: 14pt; margin-bottom: 2px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
             @sortable.DisplayName
         </div>
     }
@@ -39,22 +43,31 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @using (Html.BeginForm())
 {
-    
+
 }
 
 <script>
-    jQuery(document).ready(function () {
+    var sortedSortables;// = null;
+
+    var alphabetize = function() {
+        var newWorldOrder = _.sortBy(sortedSortables.toArray(),
+            function(sortableId) {
+                var $el = jQuery("[data-id=" + sortableId + "]");
+                var x = $el.attr("data-displayName");
+                return x;
+            });
+        sortedSortables.sort(newWorldOrder);
+    }
+
+    jQuery(function() {
         var list = document.getElementById("sortables-list");
-        var sortedSortables = Sortable.create(list);/*,
-            {
-                handle: ".glyphicon-menu-hamburger"
-            });*/
+        sortedSortables = Sortable.create(list);
 
         jQuery('#ltinfo-modal-dialog-save-button-id').click(function() {
             var idArray = sortedSortables.toArray();
             var form = jQuery("form");
             for (var i = 0; i < idArray.length; i++) {
-                jQuery("<input type='hidden' name='@(Html.NameFor(m=>m.ReorderedSortableIDs))["+i+"]' value=" + idArray[i] + " />").appendTo(form);
+                jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" +i+"]' value=" + idArray[i] + " />").appendTo(form);
             }
         });
     })

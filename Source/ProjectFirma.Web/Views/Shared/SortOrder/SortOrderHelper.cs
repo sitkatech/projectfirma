@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
                 new List<string> {"btn", "btn-firma"}, null, null);
         }
 
-        public static IOrderedEnumerable<T> SortSortables<T>(this ICollection<T> sortableList) where T : IHaveASortOrder
+        public static IOrderedEnumerable<T> SortByOrderThenName<T>(this ICollection<T> sortableList) where T : IHaveASortOrder
         {
-            return sortableList.OrderBy(x => x.SortOrder);
+            return sortableList.OrderBy(x => x.SortOrder).ThenBy(x=>x.DisplayName);
         }
     }
 }

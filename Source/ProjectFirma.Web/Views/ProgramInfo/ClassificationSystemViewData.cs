@@ -26,6 +26,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.ProgramInfo
 {
@@ -39,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
-            Classifications = classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ToList();
+            Classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             ClassificationSystem = classificationSystem;
             ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, null).HasPermission;
             EditPageContentUrl = SitkaRoute<ClassificationSystemController>.BuildUrlFromExpression(t => t.EditInDialog(classificationSystem));

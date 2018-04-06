@@ -24,6 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ResultsByTaxonomyTierTwo
 
 @section JavascriptAndStylesContent
@@ -53,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThrees)
                 {
                     <optgroup label="@taxonomyTierThree.DisplayName">
-                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoSortOrder))
+                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.SortByOrderThenName())
                         {
                             <option value="@taxonomyTierTwo.TaxonomyTierTwoID" @((ViewDataTyped.SelectedTaxonomyTierTwo.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).ToSelectedOrEmpty())>@taxonomyTierTwo.DisplayName</option>
                         }

@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
-            var classifications = classificationSystem.Classifications.OrderBy(x=>x.ClassificationSortOrder).ToList();
+            var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 

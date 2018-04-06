@@ -28,6 +28,8 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
     public class EditSortOrderViewModel : FormViewModel
     {
+        const int _10 = 10;
+
         public List<int> ReorderedSortableIDs { get; set; }
 
         public EditSortOrderViewModel()
@@ -43,7 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
 
                 if (theGuy != null)
                 {
-                    theGuy.SortOrder = i;
+                    theGuy.SortOrder = i*_10; // magic number
                 }
             }
         }

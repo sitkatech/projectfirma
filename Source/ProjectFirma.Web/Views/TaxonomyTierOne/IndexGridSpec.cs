@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
             }    
             
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
-            Add("Sort Order", a => a.TaxonomyTierOneSortOrder + 1, 90, DhtmlxGridColumnFormatType.None);
+            Add("Sort Order", a => a.TaxonomyTierOneSortOrder, 90, DhtmlxGridColumnFormatType.None);
         }
     }
 }

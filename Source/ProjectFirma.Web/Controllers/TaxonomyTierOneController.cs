@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyTierOne> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(x => x.TaxonomyTierOneSortOrder).ToList();
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierOne>(taxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
         }

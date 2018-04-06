@@ -29,6 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyTierThree.Detail
 
 @section JavascriptAndStylesContent
@@ -87,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoSortOrder))
+                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.SortByOrderThenName())
                         {
                             <tr>
                                 <td>
@@ -117,7 +118,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.OrderBy(x=>x.TaxonomyTierOneSortOrder))
+                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.SortByOrderThenName())
                         {
                             <tr>
                                 <td>

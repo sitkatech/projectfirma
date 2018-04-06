@@ -27,6 +27,7 @@ using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             }
 
             Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTierTwoName), 240);
-            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.OrderBy(x=>x.TaxonomyTierOneSortOrder).Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyTierOnes.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
 
             if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
                         a.TaxonomyTierThree.TaxonomyTierThreeName), 210);
             }
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
-            Add("Sort Order", a => a.TaxonomyTierTwoSortOrder + 1, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
+            Add("Sort Order", a => a.TaxonomyTierTwoSortOrder, 90, DhtmlxGridColumnFormatType.None);
         }
     }
 }
