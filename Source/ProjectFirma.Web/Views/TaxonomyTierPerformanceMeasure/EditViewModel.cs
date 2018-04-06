@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
@@ -44,18 +45,20 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
             PrimaryTaxonomyBranchID = primaryTaxonomyBranchID;
         }
 
-        public void UpdateModel(List<Models.TaxonomyBranchPerformanceMeasure> currentTaxonomyBranchPerformanceMeasures, IList<Models.TaxonomyBranchPerformanceMeasure> allTaxonomyBranchPerformanceMeasures)
+        public void UpdateModel(List<TaxonomyLeafPerformanceMeasure> currentTaxonomyLeafPerformanceMeasures, IList<TaxonomyLeafPerformanceMeasure> allTaxonomyLeafPerformanceMeasures)
         {
-            var taxonomyBranchPerformanceMeasuresUpdated = new List<Models.TaxonomyBranchPerformanceMeasure>();
+            var taxonomyLeafPerformanceMeasuresUpdated = new List<TaxonomyLeafPerformanceMeasure>();
             if (TaxonomyBranchPerformanceMeasures != null)
             {
                 // Completely rebuild the list
-                taxonomyBranchPerformanceMeasuresUpdated = TaxonomyBranchPerformanceMeasures.Select(x => new Models.TaxonomyBranchPerformanceMeasure(x.TaxonomyBranchID, x.PerformanceMeasureID, false)).ToList();
+                var taxonomyBranchIDsSelected = TaxonomyBranchPerformanceMeasures.Select(x => x.TaxonomyBranchID).ToList();
+                var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => taxonomyBranchIDsSelected.Contains(x.TaxonomyBranchID)).ToLookup(x => x.TaxonomyBranchID);
+                taxonomyLeafPerformanceMeasuresUpdated = TaxonomyBranchPerformanceMeasures.SelectMany(tb => taxonomyBranches[tb.TaxonomyBranchID].Select(x => new TaxonomyLeafPerformanceMeasure(x.TaxonomyLeafID, tb.PerformanceMeasureID, tb.TaxonomyBranchID == PrimaryTaxonomyBranchID))).ToList();
             }
-            currentTaxonomyBranchPerformanceMeasures.Merge(taxonomyBranchPerformanceMeasuresUpdated,
-                allTaxonomyBranchPerformanceMeasures,
-                (x, y) => x.TaxonomyBranchID == y.TaxonomyBranchID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.IsPrimaryTaxonomyBranch = (PrimaryTaxonomyBranchID == x.TaxonomyBranchID));
+            currentTaxonomyLeafPerformanceMeasures.Merge(taxonomyLeafPerformanceMeasuresUpdated,
+                allTaxonomyLeafPerformanceMeasures,
+                (x, y) => x.TaxonomyLeafID == y.TaxonomyLeafID && x.PerformanceMeasureID == y.PerformanceMeasureID,
+                (x, y) => x.IsPrimaryTaxonomyLeaf = y.IsPrimaryTaxonomyLeaf);
         }
     }
 }

@@ -134,6 +134,11 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().TaxonomyLevel;
         }
 
+        public static TaxonomyLevel GetAssociatePerformanceMeasureTaxonomyLevel()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().AssociatePerfomanceMeasureTaxonomyLevel;
+        }
+
         public static bool IsTaxonomyLevelTrunk()
         {
             return GetTaxonomyLevel() == TaxonomyLevel.Trunk;

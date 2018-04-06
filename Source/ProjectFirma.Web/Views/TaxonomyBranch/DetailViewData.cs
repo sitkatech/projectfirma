@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
             TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
             EntityName = taxonomyBranchDisplayName;
-            PerformanceMeasures = taxonomyBranch.TaxonomyBranchPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
+            PerformanceMeasures = taxonomyBranch.GetPerformanceMeasures();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();

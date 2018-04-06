@@ -21,31 +21,34 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyLeaf : IAuditableEntity
+    public partial class TaxonomyLeaf : IAuditableEntity, ITaxonomyTier
     {
         public string DisplayName
         {
             get
             {
-                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyLeafCode) ? string.Empty : string.Format("{0}: ", TaxonomyLeafCode);
-                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyLeafName);
+                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyLeafCode) ? string.Empty : $"{TaxonomyLeafCode}: ";
+                return $"{taxonomyPrefix}{TaxonomyLeafName}";
             }
         }
 
-        public string CustomizedMapUrl
+        public HtmlString GetDisplayNameAsUrl()
         {
-            get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyLeaf, TaxonomyLeafID.ToString(), ProjectColorByType.ProjectStage); }
+            return TaxonomyLeafModelExtensions.GetDisplayNameAsUrl(this);
         }
 
-        public string ThemeColor
-        {
-            get { return TaxonomyBranch.ThemeColor; }
-        }
+
+        public string CustomizedMapUrl => ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyLeaf, TaxonomyLeafID.ToString(), ProjectColorByType.ProjectStage);
+
+        public int TaxonomyTierID => TaxonomyLeafID;
+
+        public string ThemeColor => TaxonomyBranch.ThemeColor;
 
         public static bool IsTaxonomyLeafNameUnique(IEnumerable<TaxonomyLeaf> taxonomyLeafs, string taxonomyLeafName, int currentTaxonomyLeafID)
         {
@@ -55,14 +58,11 @@ namespace ProjectFirma.Web.Models
             return taxonomyLeaf == null;
         }
 
-        public string AuditDescriptionString
-        {
-            get { return TaxonomyLeafName; }
-        }
+        public string AuditDescriptionString => TaxonomyLeafName;
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)), TaxonomyLeafID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)}", TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,

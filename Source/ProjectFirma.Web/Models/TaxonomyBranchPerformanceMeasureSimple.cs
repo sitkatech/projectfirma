@@ -32,25 +32,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyBranchPerformanceMeasureSimple(int taxonomyBranchPerformanceMeasureID, int taxonomyBranchID, int performanceMeasureID, bool isPrimaryTaxonomyBranch)
+        public TaxonomyBranchPerformanceMeasureSimple(int taxonomyBranchID, int performanceMeasureID, bool isPrimaryTaxonomyBranch)
             : this()
         {
-            TaxonomyBranchPerformanceMeasureID = taxonomyBranchPerformanceMeasureID;
             TaxonomyBranchID = taxonomyBranchID;
             PerformanceMeasureID = performanceMeasureID;
             IsPrimaryTaxonomyBranch = isPrimaryTaxonomyBranch;
-        }
-
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public TaxonomyBranchPerformanceMeasureSimple(TaxonomyBranchPerformanceMeasure programPerformanceMeasure)
-            : this()
-        {
-            TaxonomyBranchPerformanceMeasureID = programPerformanceMeasure.TaxonomyBranchPerformanceMeasureID;
-            TaxonomyBranchID = programPerformanceMeasure.TaxonomyBranchID;
-            PerformanceMeasureID = programPerformanceMeasure.PerformanceMeasureID;
-            IsPrimaryTaxonomyBranch = programPerformanceMeasure.IsPrimaryTaxonomyBranch;
         }
 
         public int TaxonomyBranchPerformanceMeasureID { get; set; }

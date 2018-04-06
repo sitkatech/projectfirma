@@ -134,36 +134,6 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [PerformanceMeasureManageFeature]
-        public PartialViewResult EditAccomplishmentsMetadata(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var viewModel = new EditAccomplishmentsMetadataViewModel(performanceMeasure);
-            return ViewEditAccomplishmentsMetadata(viewModel);
-        }
-
-        [HttpPost]
-        [PerformanceMeasureManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditAccomplishmentsMetadata(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditAccomplishmentsMetadataViewModel viewModel)
-        {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-
-            if (!ModelState.IsValid)
-            {
-                return ViewEditAccomplishmentsMetadata(viewModel);
-            }
-            viewModel.UpdateModel(performanceMeasure, CurrentPerson);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditAccomplishmentsMetadata(EditAccomplishmentsMetadataViewModel viewModel)
-        {
-            var viewData = new EditAccomplishmentsMetadataViewData();
-            return RazorPartialView<EditAccomplishmentsMetadata, EditAccomplishmentsMetadataViewData, EditAccomplishmentsMetadataViewModel>(viewData, viewModel);
-        }
-
-        [HttpGet]
-        [PerformanceMeasureManageFeature]
         public PartialViewResult EditPerformanceMeasureRichText(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
@@ -250,19 +220,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult InfoSheet(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var googleChartJsonDictionary = performanceMeasure.GetGoogleChartJsonDictionary(null);
-            var viewData = new InfoSheetViewData(CurrentPerson, performanceMeasure, googleChartJsonDictionary);
-            return RazorView<InfoSheet, InfoSheetViewData>(viewData);
-        }
-
-        [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasureReportedValue> PerformanceMeasureReportedValuesGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            PerformanceMeasureReportedValuesGridSpec gridSpec;
-            var performanceMeasureActuals = GetPerformanceMeasureReportedValuesAndGridSpec(out gridSpec, performanceMeasurePrimaryKey.EntityObject);
+            var performanceMeasureActuals = GetPerformanceMeasureReportedValuesAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureReportedValue>(performanceMeasureActuals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -276,8 +236,7 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasureExpected> PerformanceMeasureExpectedsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            PerformanceMeasureExpectedGridSpec gridSpec;
-            var performanceMeasureExpecteds = GetPerformanceMeasureExpectedsAndGridSpec(out gridSpec, performanceMeasurePrimaryKey.EntityObject);
+            var performanceMeasureExpecteds = GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureExpected>(performanceMeasureExpecteds, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -373,7 +332,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
             }
-            performanceMeasure.DeletePerformanceMeasureAndAllRelatedData();
+            performanceMeasure.DeleteFull();
             SetMessageForDisplay($"Successfully deleted {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.PerformanceMeasureDisplayName}'!");
             return new ModalDialogFormJsonResult();
         }

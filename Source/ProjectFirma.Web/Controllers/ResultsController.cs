@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
 
-            var taxonomyBranch =HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyBranchID);
+            var taxonomyBranch = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyBranchID);
 
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
             var performanceMeasures = taxonomyBranch.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();

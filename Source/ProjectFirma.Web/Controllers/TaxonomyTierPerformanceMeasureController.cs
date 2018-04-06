@@ -23,7 +23,6 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure;
@@ -37,8 +36,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var taxonomyBranchPerformanceMeasureSimples = performanceMeasure.TaxonomyBranchPerformanceMeasures.Select(x => new TaxonomyBranchPerformanceMeasureSimple(x)).ToList();
-            var primaryTaxonomyBranchID = performanceMeasure.PrimaryTaxonomyBranch != null ? performanceMeasure.PrimaryTaxonomyBranch.TaxonomyBranchID : (int?) null;
+            var taxonomyBranchPerformanceMeasureSimples = performanceMeasure.TaxonomyLeafPerformanceMeasures.GroupBy(x => x.TaxonomyLeaf.TaxonomyBranchID).Select(x => new TaxonomyBranchPerformanceMeasureSimple(x.Key, x.First().PerformanceMeasureID, x.First().IsPrimaryTaxonomyLeaf)).ToList();
+            var primaryTaxonomyBranchID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
             var viewModel = new EditViewModel(taxonomyBranchPerformanceMeasureSimples, primaryTaxonomyBranchID);
             return ViewEdit(viewModel, performanceMeasure);
         }
@@ -53,8 +52,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, performanceMeasure);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyBranchPerformanceMeasures.Load();
-            viewModel.UpdateModel(performanceMeasure.TaxonomyBranchPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyBranchPerformanceMeasures.Local);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafPerformanceMeasures.Load();
+            viewModel.UpdateModel(performanceMeasure.TaxonomyLeafPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafPerformanceMeasures.Local);
             return new ModalDialogFormJsonResult();
         }
 

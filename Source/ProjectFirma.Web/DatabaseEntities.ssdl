@@ -81,7 +81,6 @@
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyBranch" EntityType="ProjectFirma.Web.Models.Store.TaxonomyBranch" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyBranchPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyBranchPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
@@ -606,14 +605,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="TaxonomyTrunk" EntitySet="TaxonomyTrunk" />
       <End Role="TaxonomyBranches" EntitySet="TaxonomyBranch" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="TaxonomyBranchPerformanceMeasures" EntitySet="TaxonomyBranchPerformanceMeasure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyBranchPerformanceMeasure_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyBranchPerformanceMeasure_TaxonomyBranch_TaxonomyBranchID">
-      <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
-      <End Role="TaxonomyBranchPerformanceMeasures" EntitySet="TaxonomyBranchPerformanceMeasure" />
-    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID">
       <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
       <End Role="TaxonomyLeafs" EntitySet="TaxonomyLeaf" />
@@ -1036,7 +1027,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureNote_PerformanceMeasure_Per
 warning 6035: The relationship 'FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasure">
@@ -1764,7 +1754,6 @@ warning 6035: The relationship 'FK_ProjectTag_Tag_TagID_TenantID' has columns th
     <Property Name="TagDescription" Type="varchar" MaxLength="1000" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TaxonomyBranchPerformanceMeasure_TaxonomyBranch_TaxonomyBranchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyBranch">
@@ -1778,16 +1767,6 @@ warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_
     <Property Name="TaxonomyBranchDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyBranchCode" Type="varchar" MaxLength="10" />
-  </EntityType>
-  <EntityType Name="TaxonomyBranchPerformanceMeasure">
-    <Key>
-      <PropertyRef Name="TaxonomyBranchPerformanceMeasureID" />
-    </Key>
-    <Property Name="TaxonomyBranchPerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyBranchID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IsPrimaryTaxonomyBranch" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3403,30 +3382,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="TaxonomyBranches">
         <PropertyRef Name="TaxonomyTrunkID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyBranchPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
-    <End Role="TaxonomyBranchPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyBranchPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="TaxonomyBranchPerformanceMeasures">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyBranchPerformanceMeasure_TaxonomyBranch_TaxonomyBranchID">
-    <End Role="TaxonomyBranch" Type="ProjectFirma.Web.Models.Store.TaxonomyBranch" Multiplicity="1" />
-    <End Role="TaxonomyBranchPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyBranchPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyBranch">
-        <PropertyRef Name="TaxonomyBranchID" />
-      </Principal>
-      <Dependent Role="TaxonomyBranchPerformanceMeasures">
-        <PropertyRef Name="TaxonomyBranchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

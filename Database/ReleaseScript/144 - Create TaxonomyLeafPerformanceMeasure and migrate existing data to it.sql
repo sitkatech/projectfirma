@@ -14,3 +14,6 @@ insert into dbo.TaxonomyLeafPerformanceMeasure(TenantID, TaxonomyLeafID, Perform
 select tbpm.TenantID, tl.TaxonomyLeafID, tbpm.PerformanceMeasureID, tbpm.IsPrimaryTaxonomyBranch as IsPrimaryTaxonomyLeaf
 from dbo.TaxonomyBranchPerformanceMeasure tbpm
 join dbo.TaxonomyLeaf tl on tbpm.TaxonomyBranchID = tl.TaxonomyBranchID
+
+
+drop table dbo.TaxonomyBranchPerformanceMeasure

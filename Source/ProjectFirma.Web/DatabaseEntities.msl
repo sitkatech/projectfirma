@@ -1022,17 +1022,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyBranchPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyBranchPerformanceMeasure">
-        <MappingFragment StoreEntitySet="TaxonomyBranchPerformanceMeasure">
-          <ScalarProperty Name="TaxonomyBranchPerformanceMeasureID" ColumnName="TaxonomyBranchPerformanceMeasureID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TaxonomyBranchID" ColumnName="TaxonomyBranchID" />
-          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
-          <ScalarProperty Name="IsPrimaryTaxonomyBranch" ColumnName="IsPrimaryTaxonomyBranch" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TaxonomyLeaf">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyLeaf">
         <MappingFragment StoreEntitySet="TaxonomyLeaf">

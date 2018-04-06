@@ -188,8 +188,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Tag> Tags { get { return AllTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyBranch> AllTaxonomyBranches { get; set; }
         public virtual IQueryable<TaxonomyBranch> TaxonomyBranches { get { return AllTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyBranchPerformanceMeasure> AllTaxonomyBranchPerformanceMeasures { get; set; }
-        public virtual IQueryable<TaxonomyBranchPerformanceMeasure> TaxonomyBranchPerformanceMeasures { get { return AllTaxonomyBranchPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyLeafPerformanceMeasure> AllTaxonomyLeafPerformanceMeasures { get; set; }
         public virtual IQueryable<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get { return AllTaxonomyLeafPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyLeaf> AllTaxonomyLeafs { get; set; }
@@ -570,9 +568,6 @@ namespace ProjectFirma.Web.Models
 
                 case "TaxonomyBranch":
                     return TaxonomyBranches.GetTaxonomyBranch(primaryKey);
-
-                case "TaxonomyBranchPerformanceMeasure":
-                    return TaxonomyBranchPerformanceMeasures.GetTaxonomyBranchPerformanceMeasure(primaryKey);
 
                 case "TaxonomyLeafPerformanceMeasure":
                     return TaxonomyLeafPerformanceMeasures.GetTaxonomyLeafPerformanceMeasure(primaryKey);

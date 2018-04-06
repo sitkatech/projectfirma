@@ -25,6 +25,7 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -74,14 +75,11 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranch == null;
         }
 
-        public string AuditDescriptionString
-        {
-            get { return TaxonomyBranchName; }
-        }
+        public string AuditDescriptionString => TaxonomyBranchName;
 
         public List<PerformanceMeasure> GetPerformanceMeasures()
         {
-            return TaxonomyBranchPerformanceMeasures.Where(x => x.IsPrimaryTaxonomyBranch).OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName).Select(x => x.PerformanceMeasure).ToList();
+            return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures.Where(y => y.IsPrimaryTaxonomyLeaf).Select(y => y.PerformanceMeasure)).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
         }
 
         public FancyTreeNode ToFancyTreeNode()

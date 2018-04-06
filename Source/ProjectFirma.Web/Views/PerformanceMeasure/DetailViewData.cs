@@ -24,42 +24,35 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.PerformanceMeasure PerformanceMeasure;
-        public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
-        public readonly EntityNotesViewData EntityNotesViewData;
+        public Models.PerformanceMeasure PerformanceMeasure { get; }
+        public PerformanceMeasureChartViewData PerformanceMeasureChartViewData { get; }
+        public EntityNotesViewData EntityNotesViewData { get; }
 
-        public readonly bool UserHasPerformanceMeasureOverviewManagePermissions;
+        public bool UserHasPerformanceMeasureOverviewManagePermissions { get; }
 
-        public readonly string EditPerformanceMeasureUrl;
-        public readonly string EditSubcategoriesAndOptionsUrl;
-        public readonly string EditAccomplishmentsMetadataUrl;
-        public readonly string EditCriticalDefinitionsUrl;
-        public readonly string EditAccountingPeriodAndScaleUrl;
-        public readonly string EditProjectReportingUrl;
+        public string EditPerformanceMeasureUrl { get; }
+        public string EditSubcategoriesAndOptionsUrl { get; }
+        public string EditCriticalDefinitionsUrl { get; }
+        public string EditProjectReportingUrl { get; }
 
-        public readonly string IndexUrl;
+        public string IndexUrl { get; }
 
-        public readonly string EditMonitoringProgramsUrl;
+        public string EditTaxonomyTiersUrl { get; }
+        public bool UserHasTaxonomyTierPerformanceMeasureManagePermissions { get; }
+        public PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec { get; }
+        public string PerformanceMeasureReportedValuesGridName { get; }
+        public string PerformanceMeasureReportedValuesGridDataUrl { get; }
+        public PerformanceMeasureExpectedGridSpec PerformanceMeasureExpectedGridSpec { get; }
+        public string PerformanceMeasureExpectedsGridName { get; }
+        public string PerformanceMeasureExpectedsGridDataUrl { get; }
 
-        public readonly List<KeyValuePair<Models.TaxonomyBranch, bool>> TaxonomyBranchPerformanceMeasures;
-        public readonly string EditTaxonomyBranchesUrl;
-        public readonly bool UserHasTaxonomyBranchPerformanceMeasureManagePermissions;
-        public readonly PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec;
-        public readonly string PerformanceMeasureReportedValuesGridName;
-        public readonly string PerformanceMeasureReportedValuesGridDataUrl;
-        public readonly PerformanceMeasureExpectedGridSpec PerformanceMeasureExpectedGridSpec;
-        public readonly string PerformanceMeasureExpectedsGridName;
-        public readonly string PerformanceMeasureExpectedsGridDataUrl;
-
-        public readonly string TaxonomyBranchDisplayName;
-        public readonly string TaxonomyBranchDisplayNamePluralized;
+        public string TaxonomyTierDisplayNamePluralized { get; }
 
         public DetailViewData(Person currentPerson,
             Models.PerformanceMeasure performanceMeasure,
@@ -77,19 +70,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
-            EditAccomplishmentsMetadataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditAccomplishmentsMetadata(performanceMeasure));
-            EditMonitoringProgramsUrl = SitkaRoute<PerformanceMeasureMonitoringProgramController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureMonitoringPrograms(performanceMeasure));
                 
             EditCriticalDefinitionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions));
-            EditAccountingPeriodAndScaleUrl =
-                SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale));
             EditProjectReportingUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting));
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
-
-            UserHasTaxonomyBranchPerformanceMeasureManagePermissions = new TaxonomyBranchPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
-            EditTaxonomyBranchesUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
-            TaxonomyBranchPerformanceMeasures = performanceMeasure.GetTaxonomyBranches().OrderBy(x => x.Key.DisplayName).ToList();
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            TaxonomyTierDisplayNamePluralized = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabelPluralized();
+            UserHasTaxonomyTierPerformanceMeasureManagePermissions = new TaxonomyBranchPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
+            EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
+            RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
             {
@@ -110,8 +100,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
-            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
-            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
         }
+
+        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
     }
 }

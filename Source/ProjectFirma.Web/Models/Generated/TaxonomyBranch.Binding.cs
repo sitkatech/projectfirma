@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyBranch()
         {
-            this.TaxonomyBranchPerformanceMeasures = new HashSet<TaxonomyBranchPerformanceMeasure>();
             this.TaxonomyLeafs = new HashSet<TaxonomyLeaf>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
@@ -80,13 +79,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyBranchPerformanceMeasures.Any() || TaxonomyLeafs.Any();
+            return TaxonomyLeafs.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyBranch).Name, typeof(TaxonomyBranchPerformanceMeasure).Name, typeof(TaxonomyLeaf).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyBranch).Name, typeof(TaxonomyLeaf).Name};
 
 
         /// <summary>
@@ -94,11 +93,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-
-            foreach(var x in TaxonomyBranchPerformanceMeasures.ToList())
-            {
-                x.DeleteFull();
-            }
 
             foreach(var x in TaxonomyLeafs.ToList())
             {
@@ -118,7 +112,6 @@ namespace ProjectFirma.Web.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyBranchID; } set { TaxonomyBranchID = value; } }
 
-        public virtual ICollection<TaxonomyBranchPerformanceMeasure> TaxonomyBranchPerformanceMeasures { get; set; }
         public virtual ICollection<TaxonomyLeaf> TaxonomyLeafs { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyTrunk TaxonomyTrunk { get; set; }

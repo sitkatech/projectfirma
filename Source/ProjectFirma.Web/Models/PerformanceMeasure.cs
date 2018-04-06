@@ -24,7 +24,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,13 +39,34 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasureActuals.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }
         }
 
-        public TaxonomyBranch PrimaryTaxonomyBranch
+        public ITaxonomyTier GetPrimaryTaxonomyTier()
         {
-            get
+            var taxonomyBranchPerformanceMeasureGroupedByLevel = GetTaxonomyTiers();
+            return taxonomyBranchPerformanceMeasureGroupedByLevel
+                .Where(group => group.Any(x => x.IsPrimaryTaxonomyLeaf))
+                .Select(group => group.Key).FirstOrDefault();
+        }
+
+        public IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers()
+        {
+            Func<TaxonomyLeafPerformanceMeasure, ITaxonomyTier> groupingFunc;
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk)
             {
-                var taxonomyBranchPerformanceMeasure = TaxonomyBranchPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryTaxonomyBranch);
-                return taxonomyBranchPerformanceMeasure?.TaxonomyBranch;
+                groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
             }
+            else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
+            {
+                groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
+            }
+            else
+            {
+                groupingFunc = x => x.TaxonomyLeaf;
+            }
+
+            var taxonomyBranchPerformanceMeasureGroupedByLevel =
+                TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
+            return taxonomyBranchPerformanceMeasureGroupedByLevel;
         }
 
         public List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories()
@@ -81,13 +101,6 @@ namespace ProjectFirma.Web.Models
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActuals);
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
-        }
-
-        public Dictionary<TaxonomyBranch, bool> GetTaxonomyBranches()
-        {
-            return TaxonomyBranchPerformanceMeasures.Any()
-                ? TaxonomyBranchPerformanceMeasures.ToDictionary(x => x.TaxonomyBranch, x => x.IsPrimaryTaxonomyBranch, new HavePrimaryKeyComparer<TaxonomyBranch>())
-                : new Dictionary<TaxonomyBranch, bool>();
         }
 
         public decimal? TotalExpenditure()
@@ -181,26 +194,6 @@ namespace ProjectFirma.Web.Models
             }).ToList();
            
             return projectPerformanceMeasureReportingPeriodValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.Project.ProjectName).ToList();
-        }
-
-        public void DeletePerformanceMeasureAndAllRelatedData()
-        {
-            PerformanceMeasureActualSubcategoryOptions.ToList().ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOption());
-            PerformanceMeasureActuals.ToList().ForEach(x => x.DeletePerformanceMeasureActual());
-            PerformanceMeasureActualSubcategoryOptionUpdates.ToList().ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOptionUpdate());
-            PerformanceMeasureActualUpdates.ToList().ForEach(x => x.DeletePerformanceMeasureActualUpdate());
-            PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedSubcategoryOption());
-            PerformanceMeasureExpecteds.ToList().ForEach(x => x.DeletePerformanceMeasureExpected());
-            PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().ForEach(x => x.DeletePerformanceMeasureSubcategoryOption());
-            PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
-            PerformanceMeasureMonitoringPrograms.ToList().ForEach(x => x.DeletePerformanceMeasureMonitoringProgram());
-            ClassificationPerformanceMeasures.ToList().ForEach(x => x.DeleteClassificationPerformanceMeasure());
-            // TODO: We might want to consider removing the FKs to SnapshotPerformanceMeasure and SnapshotPerformanceMeasureSubcategoryOption since it's purpose it to track historical data
-            SnapshotPerformanceMeasureSubcategoryOptions.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasureSubcategoryOption());
-            SnapshotPerformanceMeasures.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasure());
-            TaxonomyBranchPerformanceMeasures.ToList().ForEach(x => x.DeleteTaxonomyBranchPerformanceMeasure());
-            PerformanceMeasureNotes.ToList().ForEach(x => x.DeletePerformanceMeasureNote());
-            this.DeletePerformanceMeasure();
         }
     }
 }

@@ -25,6 +25,7 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -81,6 +82,11 @@ namespace ProjectFirma.Web.Models
         public List<TaxonomyLeaf> TaxonomyLeafs
         {
             get { return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs).OrderBy(x => x.TaxonomyLeafName).ToList(); }
+        }
+
+        public List<PerformanceMeasure> GetPerformanceMeasures()
+        {
+            return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures.Where(y => y.IsPrimaryTaxonomyLeaf).Select(y => y.PerformanceMeasure)).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
         }
 
         public FancyTreeNode ToFancyTreeNode()

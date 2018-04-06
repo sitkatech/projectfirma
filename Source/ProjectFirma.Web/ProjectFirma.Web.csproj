@@ -336,9 +336,6 @@
     <Compile Include="Models\Generated\TagPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyBranch.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyBranch.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\TaxonomyBranchPerformanceMeasure.Binding.cs" />
-    <Compile Include="Models\Generated\TaxonomyBranchPerformanceMeasure.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\TaxonomyBranchPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyBranchPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyLeaf.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyLeaf.DatabaseContextExtensions.cs" />
@@ -360,6 +357,9 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\TaxonomyLevel.cs" />
+    <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cs" />
+    <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiersViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Models\CustomPageModelExtensions.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
@@ -778,7 +778,7 @@
     <Compile Include="Controllers\TaxonomyBranchController.cs" />
     <Compile Include="Controllers\TaxonomyLeafController.cs" />
     <Compile Include="Models\ProjectColorByType.cs" />
-    <Compile Include="Models\TaxonomyBranchPerformanceMeasure.cs" />
+    <Compile Include="Models\TaxonomyLeafPerformanceMeasure.cs" />
     <Compile Include="Models\TaxonomyBranchPerformanceMeasureSimple.cs" />
     <Compile Include="Models\TaxonomyTrunk.cs" />
     <Compile Include="Models\TaxonomyTrunkForReporting.cs" />
@@ -878,7 +878,7 @@
     <Compile Include="Security\ResultsByTaxonomyBranchViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
     <Compile Include="Security\SpendingByOrganizationTypeByOrganizationViewFeature.cs" />
-    <Compile Include="UnitTestCommon\TestTaxonomyBranchPerformanceMeasure.cs" />
+    <Compile Include="UnitTestCommon\TestTaxonomyLeafPerformanceMeasure.cs" />
     <Compile Include="UnitTestCommon\TestTaxonomyTrunk.cs" />
     <Compile Include="UnitTestCommon\TestTaxonomyLeaf.cs" />
     <Compile Include="UnitTestCommon\TestCostParameterSet.cs" />
@@ -951,11 +951,8 @@
     <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewData.cs" />
     <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModelTest.cs" />
-    <Compile Include="Views\PerformanceMeasure\IndexGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureExpectedGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportedValuesGridSpec.cs" />
-    <Compile Include="Views\PerformanceMeasure\InfoSheet.cs" />
-    <Compile Include="Views\PerformanceMeasure\InfoSheetViewData.cs" />
     <Compile Include="Views\FundingSource\Edit.cs" />
     <Compile Include="Views\FundingSource\EditViewData.cs" />
     <Compile Include="Views\FundingSource\EditViewModel.cs" />
@@ -1474,6 +1471,7 @@
     <Content Include="Views\Tenant\EditClassificationSystems.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
     <Content Include="Views\TaxonomyTierPerformanceMeasure\Edit.cshtml" />
+    <Content Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3278,7 +3276,6 @@
     <Content Include="Views\CostParameterSet\New.cshtml" />
     <Content Include="Views\CostParameterSet\Detail.cshtml" />
     <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
-    <Content Include="Views\PerformanceMeasure\InfoSheet.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />
     <Content Include="Views\FundingSource\Detail.cshtml" />
