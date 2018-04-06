@@ -233,5 +233,36 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
+
+        [TaxonomyTierTwoManageFeature]
+        public PartialViewResult EditChildrenSortOrder(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
+        {
+            var taxonomyTierOnes = taxonomyTierTwoPrimaryKey.EntityObject.TaxonomyTierOnes;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditChildrenSortOrder(taxonomyTierOnes, viewModel);
+        }
+
+        private PartialViewResult ViewEditChildrenSortOrder(ICollection<TaxonomyTierOne> taxonomyTierOness, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTierOness), FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyTierTwoManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditChildrenSortOrder(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey, EditSortOrderViewModel viewModel)
+        {
+            var taxonomyTierOnes = taxonomyTierTwoPrimaryKey.EntityObject.TaxonomyTierOnes;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditChildrenSortOrder(taxonomyTierOnes, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyTierOnes));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

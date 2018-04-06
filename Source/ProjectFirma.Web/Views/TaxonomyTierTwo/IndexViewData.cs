@@ -33,10 +33,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public string GridName{ get; }
         public string GridDataUrl{ get; }
         public string EditSortOrderUrl { get; }
+        public bool OfferEditSortOrder { get; }
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             var taxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyTierTwoDisplayNamePluralized;
+
+            // only let them sort tier two taxonomy if that's the highest level.
+            OfferEditSortOrder = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2;
 
             var hasTaxonomyTierTwoManagePermissions = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();

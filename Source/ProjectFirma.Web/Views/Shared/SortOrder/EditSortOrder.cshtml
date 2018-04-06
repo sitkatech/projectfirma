@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.Shared.SortOrder.EditSortOrder
 
 <script src="~/Content/Sortable.js"></script>
@@ -42,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <hr/>
 
 <div id="sortables-list">
-    @foreach (var sortable in ViewDataTyped.Sortables.OrderBy(x => x.SortOrder).ToArray())
+    @foreach (var sortable in ViewDataTyped.Sortables.SortByOrderThenName().ToArray())
     {
         <div data-id="@sortable.ID" data-displayName="@sortable.DisplayName" style="font-size: 11pt; margin-bottom: 4px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
             @sortable.DisplayName

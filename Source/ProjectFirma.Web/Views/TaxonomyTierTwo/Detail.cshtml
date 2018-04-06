@@ -103,6 +103,8 @@
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>

@@ -28,13 +28,6 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-@section RightOfPageTitle
-{
-<div class="pull-right">
-    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl)
-</div>
-}
-
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
