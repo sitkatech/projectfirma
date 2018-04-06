@@ -25,6 +25,15 @@ Source code is available upon request via <support@sitkatech.com>.
     .sortable-ghost {
         background-color: #E0E0E0;
     }
+
+    #sortables-list:hover{
+        cursor: move;
+        cursor: grab;
+    }
+
+    #sortables-list div:hover {
+        background-color: #E0E0E0;
+    }
 </style>
 
 <span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span> 
@@ -35,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="sortables-list">
     @foreach (var sortable in ViewDataTyped.Sortables.OrderBy(x => x.SortOrder).ToArray())
     {
-        <div data-id="@sortable.ID" data-displayName="@sortable.DisplayName" style="font-size: 14pt; margin-bottom: 2px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+        <div data-id="@sortable.ID" data-displayName="@sortable.DisplayName" style="font-size: 11pt; margin-bottom: 4px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
             @sortable.DisplayName
         </div>
     }
@@ -53,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var newWorldOrder = _.sortBy(sortedSortables.toArray(),
             function(sortableId) {
                 var $el = jQuery("[data-id=" + sortableId + "]");
-                var x = $el.attr("data-displayName");
+                var x = $el.attr("data-displayName").toLowerCase();
                 return x;
             });
         sortedSortables.sort(newWorldOrder);
