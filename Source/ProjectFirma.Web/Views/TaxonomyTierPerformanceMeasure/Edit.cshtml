@@ -25,62 +25,62 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure.Edit
 <script type="text/javascript">
     // <![CDATA[    
-    angular.module("EditAngularApp", []).controller("TaxonomyBranchPerformanceMeasureController", function($scope)
+    angular.module("EditAngularApp", []).controller("TaxonomyTierPerformanceMeasureController", function($scope)
     {
         $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
         $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
-        $scope.TaxonomyBranchToAdd = null;
+        $scope.TaxonomyTierToAdd = null;
 
-        $scope.filteredTaxonomyBranches = function()
+        $scope.filteredTaxonomyTiers = function()
         {
-            var usedTaxonomyBranchIDs = _.map($scope.AngularModel.TaxonomyBranchPerformanceMeasures, function(p) { return p.TaxonomyBranchID; });
-            var filter = _.filter($scope.AngularViewData.AllTaxonomyBranches, function(f) { return !_.contains(usedTaxonomyBranchIDs, f.TaxonomyBranchID); });
+            var usedTaxonomyTierIDs = _.map($scope.AngularModel.TaxonomyTierPerformanceMeasures, function(p) { return p.TaxonomyTierID; });
+            var filter = _.filter($scope.AngularViewData.AllTaxonomyTiers, function(f) { return !_.contains(usedTaxonomyTierIDs, f.TaxonomyTierID); });
             return filter;
         };
 
-        $scope.setPrimaryTaxonomyBranch = function(program)
+        $scope.setPrimaryTaxonomyTier = function(program)
         {
-            $scope.AngularModel.PrimaryTaxonomyBranchID = program.TaxonomyBranchID;
+            $scope.AngularModel.PrimaryTaxonomyTierID = program.TaxonomyTierID;
         };
 
-        $scope.getTaxonomyBranchName = function(programPerformanceMeasure)
+        $scope.getTaxonomyTierName = function(taxonomyTierPerformanceMeasure)
         {
-            var programToFind = $scope.getTaxonomyBranch(programPerformanceMeasure.TaxonomyBranchID);
+            var programToFind = $scope.getTaxonomyTier(taxonomyTierPerformanceMeasure.TaxonomyTierID);
             return programToFind.DisplayName;
         };
 
-        $scope.getTaxonomyBranch = function(programId) { return _.find($scope.AngularViewData.AllTaxonomyBranches, function(f) { return programId == f.TaxonomyBranchID; }); };
+        $scope.getTaxonomyTier = function(programId) { return _.find($scope.AngularViewData.AllTaxonomyTiers, function(f) { return programId == f.TaxonomyTierID; }); };
 
-        $scope.addTaxonomyBranch = function()
+        $scope.addTaxonomyTier = function()
         {
-            if ($scope.TaxonomyBranchToAdd != null)
+            if ($scope.TaxonomyTierToAdd != null)
             {
-                if ($scope.AngularModel.TaxonomyBranchPerformanceMeasures.length == 0)
+                if ($scope.AngularModel.TaxonomyTierPerformanceMeasures.length == 0)
                 {
-                    $scope.setPrimaryTaxonomyBranch($scope.TaxonomyBranchToAdd);
+                    $scope.setPrimaryTaxonomyTier($scope.TaxonomyTierToAdd);
                 }
-                var newTaxonomyBranchPerformanceMeasureJson = {
-                    TaxonomyBranchID: $scope.TaxonomyBranchToAdd.TaxonomyBranchID,
+                var newTaxonomyTierPerformanceMeasureJson = {
+                    TaxonomyTierID: $scope.TaxonomyTierToAdd.TaxonomyTierID,
                     PerformanceMeasureID: $scope.AngularViewData.PerformanceMeasure.PerformanceMeasureID,
-                    IsPrimaryTaxonomyBranch: false
+                    IsPrimaryTaxonomyTier: false
                 };
-                $scope.AngularModel.TaxonomyBranchPerformanceMeasures.push(newTaxonomyBranchPerformanceMeasureJson);
-                $scope.TaxonomyBranchToAdd = null;
+                $scope.AngularModel.TaxonomyTierPerformanceMeasures.push(newTaxonomyTierPerformanceMeasureJson);
+                $scope.TaxonomyTierToAdd = null;
             }
         };
 
-        $scope.deleteTaxonomyBranch = function(program)
+        $scope.deleteTaxonomyTier = function(program)
         {
-            var isTaxonomyBranchTheCurrentPrimary = program.TaxonomyBranchID == $scope.AngularModel.PrimaryTaxonomyBranchID;
-            Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyBranchPerformanceMeasures, program);
+            var isTaxonomyTierTheCurrentPrimary = program.TaxonomyTierID == $scope.AngularModel.PrimaryTaxonomyTierID;
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTierPerformanceMeasures, program);
 
-            if (isTaxonomyBranchTheCurrentPrimary && $scope.AngularModel.TaxonomyBranchPerformanceMeasures.length > 0)
+            if (isTaxonomyTierTheCurrentPrimary && $scope.AngularModel.TaxonomyTierPerformanceMeasures.length > 0)
             {
-                $scope.setPrimaryTaxonomyBranch($scope.AngularModel.TaxonomyBranchPerformanceMeasures[0]);
+                $scope.setPrimaryTaxonomyTier($scope.AngularModel.TaxonomyTierPerformanceMeasures[0]);
             }
         };
     });
-    angular.bootstrap(jQuery("#EditTaxonomyBranchesAngularApp"), ["EditAngularApp"]);
+    angular.bootstrap(jQuery("#EditTaxonomyTiersAngularApp"), ["EditAngularApp"]);
     // ]]>
 </script>
 
@@ -88,33 +88,33 @@ Source code is available upon request via <support@sitkatech.com>.
     @Html.ValidationSummary()
 </div>
 
-<div style="font-weight: bold; margin-bottom: 20px">@ViewDataTyped.TaxonomyBranchDisplayNamePluralized Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
-<div id="EditTaxonomyBranchesAngularApp" ng-controller="TaxonomyBranchPerformanceMeasureController">
-    @ViewDataTyped.TaxonomyBranchDisplayName to Add: <select ng-model="TaxonomyBranchToAdd" ng-options="program.DisplayName for program in filteredTaxonomyBranches()">
+<div style="font-weight: bold; margin-bottom: 20px">@ViewDataTyped.TaxonomyTierDisplayNamePluralized Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
+<div id="EditTaxonomyTiersAngularApp" ng-controller="TaxonomyTierPerformanceMeasureController">
+    @ViewDataTyped.TaxonomyTierDisplayName to Add: <select ng-model="TaxonomyTierToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTiers()">
     <option value="">Choose One</option>
 </select>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyBranch()">Add</button>
+    <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyTier()">Add</button>
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyBranchDisplayName))</th>
+            <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyTierDisplayName))</th>
         </tr>
-        <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures | orderBy:getTaxonomyBranchName">
+        <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures | orderBy:getTaxonomyTierName">
             <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyBranch(programPerformanceMeasure)" style="cursor: pointer"></span>
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyTier(programPerformanceMeasure)" style="cursor: pointer"></span>
             </td>
-            <td>{{getTaxonomyBranchName(programPerformanceMeasure)}}</td>
+            <td>{{getTaxonomyTierName(programPerformanceMeasure)}}</td>
             <td>
-                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyBranchID" ng-value="programPerformanceMeasure.TaxonomyBranchID" />
+                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyTierID" ng-value="programPerformanceMeasure.TaxonomyTierID" />
             </td>
 
         </tr>
     </table>
     @using (Html.BeginForm())
     {
-        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyBranchPerformanceMeasures[0].TaxonomyBranchID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyBranchID}}">
-        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyBranchPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyBranchPerformanceMeasures[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.PerformanceMeasureID}}">
-        <input type="hidden" name="@Html.NameFor(x => x.PrimaryTaxonomyBranchID)" value="{{AngularModel.PrimaryTaxonomyBranchID}}">
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierPerformanceMeasures[0].TaxonomyTierID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyTierID}}">
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierPerformanceMeasures[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.PerformanceMeasureID}}">
+        <input type="hidden" name="@Html.NameFor(x => x.PrimaryTaxonomyTierID)" value="{{AngularModel.PrimaryTaxonomyTierID}}">
     }
 </div>

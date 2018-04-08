@@ -26,11 +26,11 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} {1}", FieldDefinitionEnum.TaxonomyBranch, FieldDefinitionEnum.PerformanceMeasure)]
-    public class TaxonomyBranchPerformanceMeasureManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<PerformanceMeasure>
+    public class TaxonomyTierPerformanceMeasureManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<PerformanceMeasure>
     {
         private readonly FirmaFeatureWithContextImpl<PerformanceMeasure> _firmaFeatureWithContextImpl;
 
-        public TaxonomyBranchPerformanceMeasureManageFeature()
+        public TaxonomyTierPerformanceMeasureManageFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<PerformanceMeasure>(this);

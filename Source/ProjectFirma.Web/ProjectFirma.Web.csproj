@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -793,13 +793,13 @@
     <Compile Include="Controllers\TaxonomyLeafController.cs" />
     <Compile Include="Models\ProjectColorByType.cs" />
     <Compile Include="Models\TaxonomyLeafPerformanceMeasure.cs" />
-    <Compile Include="Models\TaxonomyBranchPerformanceMeasureSimple.cs" />
+    <Compile Include="Models\TaxonomyTierPerformanceMeasureSimple.cs" />
     <Compile Include="Models\TaxonomyTrunk.cs" />
     <Compile Include="Models\TaxonomyTrunkForReporting.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TaxonomyBranch.cs" />
     <Compile Include="Models\TaxonomyBranchOrganizationTypeExpenditure.cs" />
-    <Compile Include="Models\TaxonomyBranchSimple.cs" />
+    <Compile Include="Models\TaxonomyTier.cs" />
     <Compile Include="Models\TaxonomyLeaf.cs" />
     <Compile Include="Models\TaxonomyLeafModelExtensions.cs" />
     <Compile Include="Controllers\ProjectAssessmentQuestionController.cs" />
@@ -848,7 +848,7 @@
     <Compile Include="Models\AssessmentQuestion.cs" />
     <Compile Include="Models\AssessmentSubGoal.cs" />
     <Compile Include="Models\AssessmentSubGoalModelExtensions.cs" />
-    <Compile Include="Security\TaxonomyBranchPerformanceMeasureManageFeature.cs" />
+    <Compile Include="Security\TaxonomyTierPerformanceMeasureManageFeature.cs" />
     <Compile Include="Security\TaxonomyLeafViewFeature.cs" />
     <Compile Include="Security\TaxonomyLeafManageFeature.cs" />
     <Compile Include="Security\AssessmentManageFeature.cs" />

@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -32,18 +33,20 @@ namespace ProjectFirma.Web.Controllers
     public class TaxonomyTierPerformanceMeasureController : FirmaBaseController
     {
         [HttpGet]
-        [TaxonomyBranchPerformanceMeasureManageFeature]
+        [TaxonomyTierPerformanceMeasureManageFeature]
         public PartialViewResult Edit(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var taxonomyBranchPerformanceMeasureSimples = performanceMeasure.TaxonomyLeafPerformanceMeasures.GroupBy(x => x.TaxonomyLeaf.TaxonomyBranchID).Select(x => new TaxonomyBranchPerformanceMeasureSimple(x.Key, x.First().PerformanceMeasureID, x.First().IsPrimaryTaxonomyLeaf)).ToList();
-            var primaryTaxonomyBranchID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
-            var viewModel = new EditViewModel(taxonomyBranchPerformanceMeasureSimples, primaryTaxonomyBranchID);
+            var taxonomyTierPerformanceMeasureSimples = performanceMeasure.GetTaxonomyTiers().Select(x =>
+                    new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID,
+                        x.First().IsPrimaryTaxonomyLeaf)).ToList();
+            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
+            var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples, primaryTaxonomyTierID);
             return ViewEdit(viewModel, performanceMeasure);
         }
 
         [HttpPost]
-        [TaxonomyBranchPerformanceMeasureManageFeature]
+        [TaxonomyTierPerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditViewModel viewModel)
         {
@@ -52,15 +55,16 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, performanceMeasure);
             }
-            HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafPerformanceMeasures.Load();
+            HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Load();
             viewModel.UpdateModel(performanceMeasure.TaxonomyLeafPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafPerformanceMeasures.Local);
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, PerformanceMeasure performanceMeasure)
         {
-            var taxonomyBranchSimples = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyBranchSimple(x)).ToList();
-            var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyBranchSimples);
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            var taxonomyBranchSimples = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyTier(x)).ToList();
+            var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyBranchSimples, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }

@@ -20,29 +20,25 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Models
 {
-    public class TaxonomyBranchPerformanceMeasureSimple
+    public class TaxonomyTierPerformanceMeasureSimple
     {
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public TaxonomyBranchPerformanceMeasureSimple()
+        public TaxonomyTierPerformanceMeasureSimple()
         {
         }
 
-        /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public TaxonomyBranchPerformanceMeasureSimple(int taxonomyBranchID, int performanceMeasureID, bool isPrimaryTaxonomyBranch)
+        public TaxonomyTierPerformanceMeasureSimple(int taxonomyTierID, int performanceMeasureID, bool isPrimaryTaxonomyTier)
             : this()
         {
-            TaxonomyBranchID = taxonomyBranchID;
+            TaxonomyTierID = taxonomyTierID;
             PerformanceMeasureID = performanceMeasureID;
-            IsPrimaryTaxonomyBranch = isPrimaryTaxonomyBranch;
+            IsPrimaryTaxonomyTier = isPrimaryTaxonomyTier;
         }
 
-        public int TaxonomyBranchPerformanceMeasureID { get; set; }
-        public int TaxonomyBranchID { get; set; }
+        public int TaxonomyTierID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public bool IsPrimaryTaxonomyBranch { get; set; }
+        public bool IsPrimaryTaxonomyTier { get; set; }
     }
 }

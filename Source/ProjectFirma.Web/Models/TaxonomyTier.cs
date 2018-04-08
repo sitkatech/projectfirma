@@ -20,44 +20,26 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Models
 {
-    public class TaxonomyBranchSimple
+    public class TaxonomyTier
     {
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public TaxonomyBranchSimple()
+        public TaxonomyTier()
         {
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public TaxonomyBranchSimple(int taxonomyBranchID, int taxonomyTrunkID, string taxonomyBranchName, string taxonomyBranchDescription)
-            : this()
-        {
-            TaxonomyBranchID = taxonomyBranchID;
-            TaxonomyTrunkID = taxonomyTrunkID;
-            TaxonomyBranchName = taxonomyBranchName;
-            TaxonomyBranchDescription = taxonomyBranchDescription;
         }
 
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public TaxonomyBranchSimple(TaxonomyBranch taxonomyBranch)
+        public TaxonomyTier(ITaxonomyTier taxonomyTier)
             : this()
         {
-            TaxonomyBranchID = taxonomyBranch.TaxonomyBranchID;
-            TaxonomyTrunkID = taxonomyBranch.TaxonomyTrunkID;
-            TaxonomyBranchName = taxonomyBranch.TaxonomyBranchName;
-            TaxonomyBranchDescription = taxonomyBranch.TaxonomyBranchDescription;
-            DisplayName = taxonomyBranch.DisplayName;
+            TaxonomyTierID = taxonomyTier.TaxonomyTierID;
+            DisplayName = taxonomyTier.DisplayName;
         }
 
-        public int TaxonomyBranchID { get; set; }
-        public int TaxonomyTrunkID { get; set; }
-        public string TaxonomyBranchName { get; set; }
-        public string TaxonomyBranchDescription { get; set; }
+        public int TaxonomyTierID { get; set; }
         public string DisplayName { get; set; }
     }
 }
