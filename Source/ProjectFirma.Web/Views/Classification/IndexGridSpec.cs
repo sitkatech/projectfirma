@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
-using ProjectFirma.Web.Common;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -33,13 +33,14 @@ namespace ProjectFirma.Web.Views.Classification
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30);
+                    30,DhtmlxGridColumnFilterType.None);
             }
 
             Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
+            Add("Sort Order", a => a.ClassificationSortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }
     }
 }

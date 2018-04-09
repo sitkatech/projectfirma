@@ -30,13 +30,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierOne(int taxonomyTierOneID, int taxonomyTierTwoID, string taxonomyTierOneName, string taxonomyTierOneDescription, string taxonomyTierOneCode) : this()
+        public TaxonomyTierOne(int taxonomyTierOneID, int taxonomyTierTwoID, string taxonomyTierOneName, string taxonomyTierOneDescription, string taxonomyTierOneCode, int? taxonomyTierOneSortOrder) : this()
         {
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierOneName = taxonomyTierOneName;
             this.TaxonomyTierOneDescription = taxonomyTierOneDescription;
             this.TaxonomyTierOneCode = taxonomyTierOneCode;
+            this.TaxonomyTierOneSortOrder = taxonomyTierOneSortOrder;
         }
 
         /// <summary>
@@ -107,6 +108,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierOneName { get; set; }
         public string TaxonomyTierOneDescription { get; set; }
         public string TaxonomyTierOneCode { get; set; }
+        public int? TaxonomyTierOneSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 

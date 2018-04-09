@@ -29,6 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyTierThree.Detail
 
 @section JavascriptAndStylesContent
@@ -83,11 +84,13 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.DisplayName))
+                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.SortByOrderThenName())
                         {
                             <tr>
                                 <td>
@@ -117,7 +120,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes)
+                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.SortByOrderThenName())
                         {
                             <tr>
                                 <td>

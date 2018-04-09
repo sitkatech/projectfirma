@@ -716,6 +716,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
     <Property Name="ClassificationSystemID" Type="int" Nullable="false" />
+    <Property Name="ClassificationSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -1057,6 +1058,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_Performance
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
     <Property Name="SwapChartAxes" Type="bit" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />
+    <Property Name="PerformanceMeasureSortOrder" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1788,6 +1790,7 @@ warning 6035: The relationship 'FK_Project_TaxonomyTierOne_TaxonomyTierOneID_Ten
     <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierOneDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyTierOneSortOrder" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1802,6 +1805,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTie
     <Property Name="TaxonomyTierThreeDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyTierThreeSortOrder" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1818,6 +1822,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TaxonomyTierTwoDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyTierTwoSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
     <Key>

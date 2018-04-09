@@ -64,6 +64,7 @@
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
           <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
+          <ScalarProperty Name="ClassificationSortOrder" ColumnName="ClassificationSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -359,6 +360,7 @@
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
+          <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1030,6 +1032,7 @@
           <ScalarProperty Name="TaxonomyTierOneName" ColumnName="TaxonomyTierOneName" />
           <ScalarProperty Name="TaxonomyTierOneDescription" ColumnName="TaxonomyTierOneDescription" />
           <ScalarProperty Name="TaxonomyTierOneCode" ColumnName="TaxonomyTierOneCode" />
+          <ScalarProperty Name="TaxonomyTierOneSortOrder" ColumnName="TaxonomyTierOneSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1042,6 +1045,7 @@
           <ScalarProperty Name="TaxonomyTierThreeDescription" ColumnName="TaxonomyTierThreeDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTierThreeCode" ColumnName="TaxonomyTierThreeCode" />
+          <ScalarProperty Name="TaxonomyTierThreeSortOrder" ColumnName="TaxonomyTierThreeSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1055,6 +1059,7 @@
           <ScalarProperty Name="TaxonomyTierTwoDescription" ColumnName="TaxonomyTierTwoDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTierTwoCode" ColumnName="TaxonomyTierTwoCode" />
+          <ScalarProperty Name="TaxonomyTierTwoSortOrder" ColumnName="TaxonomyTierTwoSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

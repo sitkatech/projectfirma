@@ -26,7 +26,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyTierOne : IAuditableEntity
+    public partial class TaxonomyTierOne : IAuditableEntity, IHaveASortOrder
     {
         public string DisplayName
         {
@@ -36,6 +36,13 @@ namespace ProjectFirma.Web.Models
                 return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTierOneName);
             }
         }
+
+        public int? SortOrder
+        {
+            get => TaxonomyTierOneSortOrder;
+            set => TaxonomyTierOneSortOrder = value;
+        }
+        public int ID => TaxonomyTierOneID;
 
         public string CustomizedMapUrl
         {

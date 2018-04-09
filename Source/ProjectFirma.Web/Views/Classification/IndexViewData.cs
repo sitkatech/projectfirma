@@ -30,9 +30,10 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string EditSortOrderUrl { get; }
 
         public IndexViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
@@ -48,6 +49,7 @@ namespace ProjectFirma.Web.Views.Classification
 
             GridName = "classificationsGrid";
             GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(classificationSystem));
+            EditSortOrderUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.EditSortOrder(classificationSystem));
         }
     }
 }

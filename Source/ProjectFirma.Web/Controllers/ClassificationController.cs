@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
@@ -29,6 +29,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Classification;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using Index = ProjectFirma.Web.Views.Classification.Index;
@@ -52,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
-            var classifications = classificationSystem.Classifications.ToList();
+            var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 
@@ -167,6 +168,37 @@ namespace ProjectFirma.Web.Controllers
             var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectClassifications, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
+        {
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(classificationSystem, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(ClassificationSystem classificationSystem, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(classificationSystem.Classifications), classificationSystem.ClassificationSystemNamePluralized);
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditSortOrderViewModel viewModel)
+        {
+            
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(classificationSystem, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(classificationSystem.Classifications));
+            SetMessageForDisplay("Successfully Updated Classification Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

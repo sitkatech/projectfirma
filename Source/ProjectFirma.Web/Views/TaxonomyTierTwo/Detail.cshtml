@@ -32,6 +32,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyTierTwo.Detail
 
 @section JavascriptAndStylesContent
@@ -102,11 +103,13 @@
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
+                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.SortByOrderThenName())
                         {
                             <tr>
                                 <td>
@@ -135,7 +138,7 @@
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
                         </tr>
-                        @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName))
+                        @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.SortByOrderThenName())
                         {
                             <tr>
                                 <td>

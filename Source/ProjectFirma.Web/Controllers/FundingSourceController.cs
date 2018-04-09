@@ -34,6 +34,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
 using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
 using Edit = ProjectFirma.Web.Views.FundingSource.Edit;
@@ -137,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList().SortByOrderThenName().ToList();
 
             const string chartTitle = "Reported Expenditures";
             var chartContainerID = chartTitle.Replace(" ", "");

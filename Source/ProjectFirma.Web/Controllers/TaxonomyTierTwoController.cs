@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyTierTwo.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyTierTwo.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyTierTwo.EditViewData;
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyTierTwo> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.TaxonomyTierTwoName).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierTwo>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -200,6 +201,68 @@ namespace ProjectFirma.Web.Controllers
             var projectTaxonomyTierTwos = taxonomyTierTwoPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [TaxonomyTierTwoManageFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(taxonomyTierTwos, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IEnumerable<TaxonomyTierTwo> taxonomyTierTwos, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTierTwos), FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyTierTwoManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(taxonomyTierTwos, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyTierTwos));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
+
+        [TaxonomyTierTwoManageFeature]
+        public PartialViewResult EditChildrenSortOrder(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
+        {
+            var taxonomyTierOnes = taxonomyTierTwoPrimaryKey.EntityObject.TaxonomyTierOnes;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditChildrenSortOrder(taxonomyTierOnes, viewModel);
+        }
+
+        private PartialViewResult ViewEditChildrenSortOrder(ICollection<TaxonomyTierOne> taxonomyTierOness, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTierOness), FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyTierTwoManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditChildrenSortOrder(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey, EditSortOrderViewModel viewModel)
+        {
+            var taxonomyTierOnes = taxonomyTierTwoPrimaryKey.EntityObject.TaxonomyTierOnes;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditChildrenSortOrder(taxonomyTierOnes, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyTierOnes));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

@@ -33,6 +33,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyTierOne.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyTierOne.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyTierOne.EditViewData;
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyTierOne> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(x => x.TaxonomyTierOneName).ToList();
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierOne>(taxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -196,6 +197,37 @@ namespace ProjectFirma.Web.Controllers
             var projectTaxonomyTierOnes = taxonomyTierOnePrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [TaxonomyTierOneManageFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(taxonomyTierOnes, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IEnumerable<TaxonomyTierOne> taxonomyTierOnes, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTierOnes), FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyTierOneManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(taxonomyTierOnes, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyTierOnes));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

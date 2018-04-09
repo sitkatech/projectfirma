@@ -28,7 +28,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class PerformanceMeasure : IAuditableEntity
+    public partial class PerformanceMeasure : IAuditableEntity, IHaveASortOrder
     {
         public int ExpectedProjectsCount
         {
@@ -202,5 +202,9 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureNotes.ToList().ForEach(x => x.DeletePerformanceMeasureNote());
             this.DeletePerformanceMeasure();
         }
+
+        public string DisplayName => PerformanceMeasureDisplayName;
+        public int? SortOrder { get => PerformanceMeasureSortOrder; set => PerformanceMeasureSortOrder = value; }
+        public int ID => PerformanceMeasureID;
     }
 }

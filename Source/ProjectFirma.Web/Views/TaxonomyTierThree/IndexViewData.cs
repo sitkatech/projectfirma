@@ -28,9 +28,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string EditSortOrderUrl { get; set; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -47,6 +48,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
             GridName = "taxonomyTierThreesGrid";
             GridDataUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            EditSortOrderUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
         }
     }
 }

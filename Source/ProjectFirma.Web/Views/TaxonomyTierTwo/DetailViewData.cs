@@ -30,36 +30,39 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.TaxonomyTierTwo TaxonomyTierTwo;
-        public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
-        public readonly int PerformanceMeasuresEndOfFirstHalf;
+        public Models.TaxonomyTierTwo TaxonomyTierTwo { get; }
+        public List<Models.PerformanceMeasure> PerformanceMeasures { get; }
+        public int PerformanceMeasuresEndOfFirstHalf { get; }
 
-        public readonly bool UserHasTaxonomyTierTwoManagePermissions;
-        public readonly string EditTaxonomyTierTwoUrl;
-        public readonly string PerformanceMeasureUrl;
+        public bool UserHasTaxonomyTierTwoManagePermissions { get; }
+        public string EditTaxonomyTierTwoUrl { get; }
+        public string PerformanceMeasureUrl { get; }
 
-        public readonly string IndexUrl;
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoProjectGridName;
-        public readonly string BasicProjectInfoProjectGridDataUrl;
+        public string IndexUrl { get; }
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoProjectGridName { get; }
+        public string BasicProjectInfoProjectGridDataUrl { get; }
 
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public readonly List<Models.PerformanceMeasure> TaxonomyTierTwoPerformanceMeasures;
+        public List<Models.PerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; }
 
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string ProjectMapFilteredUrl;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public string ProjectMapFilteredUrl { get; }
 
-        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
-        public readonly string TaxonomyTierTwoDisplayName;
-        public readonly string TaxonomyTierTwoDisplayNamePluralized;
-        public readonly string TaxonomyTierOneDisplayNamePluralized;
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+        public string TaxonomyTierTwoDisplayName { get; }
+        public string TaxonomyTierTwoDisplayNamePluralized { get; }
+        public string TaxonomyTierOneDisplayNamePluralized { get; }
+
+        public string EditChildrenSortOrderUrl { get; set; }
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierTwo taxonomyTierTwo,
@@ -97,7 +100,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierTwo);
 
-            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SortByOrderThenName().ToList();
+
+            EditChildrenSortOrderUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x=>x.EditChildrenSortOrder(TaxonomyTierTwo));
         }
     }
 }

@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID) : this()
+        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID, int? classificationSortOrder) : this()
         {
             this.ClassificationID = classificationID;
             this.ClassificationDescription = classificationDescription;
@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Models
             this.GoalStatement = goalStatement;
             this.KeyImageFileResourceID = keyImageFileResourceID;
             this.ClassificationSystemID = classificationSystemID;
+            this.ClassificationSortOrder = classificationSortOrder;
         }
 
         /// <summary>
@@ -121,6 +122,7 @@ namespace ProjectFirma.Web.Models
         public string GoalStatement { get; set; }
         public int? KeyImageFileResourceID { get; set; }
         public int ClassificationSystemID { get; set; }
+        public int? ClassificationSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 

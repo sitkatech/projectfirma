@@ -32,27 +32,29 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.TaxonomyTierThree TaxonomyTierThree;
-        public readonly bool UserHasTaxonomyTierThreeManagePermissions;
-        public readonly bool UserHasProjectTaxonomyTierThreeExpenditureManagePermissions;
-        public readonly string EditTaxonomyTierThreeUrl;
-        public readonly string TaxonomyTierTwoIndexUrl;
+        public Models.TaxonomyTierThree TaxonomyTierThree { get; }
+        public bool UserHasTaxonomyTierThreeManagePermissions { get; }
+        public bool UserHasProjectTaxonomyTierThreeExpenditureManagePermissions { get; }
+        public string EditTaxonomyTierThreeUrl { get; }
+        public string TaxonomyTierTwoIndexUrl { get; }
 
-        public readonly string IndexUrl;
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
+        public string IndexUrl { get; }
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
 
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string ProjectMapFilteredUrl;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public string ProjectMapFilteredUrl { get; }
 
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public readonly string TaxonomyTierThreeDisplayName;
-        public readonly string TaxonomyTierThreeDisplayNamePluralized;
-        public readonly string TaxonomyTierTwoDisplayNamePluralized;
-        public readonly string TaxonomyTierOneDisplayNamePluralized;
+        public string TaxonomyTierThreeDisplayName { get; }
+        public string TaxonomyTierThreeDisplayNamePluralized { get; }
+        public string TaxonomyTierTwoDisplayNamePluralized { get; }
+        public string TaxonomyTierOneDisplayNamePluralized { get; }
+
+        public string EditChildrenSortOrderUrl { get; }
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierThree taxonomyTierThree,
@@ -89,6 +91,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierThree));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierThree);
+
+            EditChildrenSortOrderUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc=>tc.EditChildrenSortOrder(TaxonomyTierThree));
         }
     }
 }

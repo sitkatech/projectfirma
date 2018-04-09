@@ -25,22 +25,21 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceRequest.EditProjectFundingSourceRequests
 <script type="text/javascript">
     // <![CDATA[
-    jQuery(document).ready(function ()
-    {
+    jQuery(document).ready(function() {
         angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
             function() {
                 return {
                     AngularModel: @Html.Raw(JObject.FromObject(Model)),
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
-        };
-    });
-    angular.bootstrap(jQuery("#EditFundingSourceRequestsApp"), ["ProjectFirmaApp"]);
+                };
+            });
+        angular.bootstrap(jQuery("#EditFundingSourceRequestsApp"), ["ProjectFirmaApp"]);
 
-    jQuery(".selectpicker").selectpicker("refresh");
-    jQuery(".modal").on("hidden.bs.modal",
-        function () {
-            jQuery(".bootstrap-select.open").removeClass("open");
-        });
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
     })
     // ]]>
 </script>

@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Classification](
 	[GoalStatement] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[KeyImageFileResourceID] [int] NULL,
 	[ClassificationSystemID] [int] NOT NULL,
+	[ClassificationSortOrder] [int] NULL,
  CONSTRAINT [PK_Classification_ClassificationID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationID] ASC

@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[TaxonomyTierOne](
 	[TaxonomyTierOneName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierOneDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierOneCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaxonomyTierOneSortOrder] [int] NULL,
  CONSTRAINT [PK_TaxonomyTierOne_TaxonomyTierOneID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierOneID] ASC
