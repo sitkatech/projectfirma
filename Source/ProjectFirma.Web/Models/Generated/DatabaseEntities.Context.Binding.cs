@@ -120,6 +120,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
         public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectDocumentUpdate> AllProjectDocumentUpdates { get; set; }
+        public virtual IQueryable<ProjectDocumentUpdate> ProjectDocumentUpdates { get { return AllProjectDocumentUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -423,6 +425,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectDocument":
                     return ProjectDocuments.GetProjectDocument(primaryKey);
+
+                case "ProjectDocumentUpdate":
+                    return ProjectDocumentUpdates.GetProjectDocumentUpdate(primaryKey);
 
                 case "ProjectExemptReportingYear":
                     return ProjectExemptReportingYears.GetProjectExemptReportingYear(primaryKey);

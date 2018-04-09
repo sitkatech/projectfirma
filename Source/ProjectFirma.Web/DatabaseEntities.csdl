@@ -48,6 +48,7 @@
     <EntitySet Name="ProjectBudgetUpdate" EntityType="ProjectFirma.Web.Models.ProjectBudgetUpdate" />
     <EntitySet Name="ProjectClassification" EntityType="ProjectFirma.Web.Models.ProjectClassification" />
     <EntitySet Name="ProjectDocument" EntityType="ProjectFirma.Web.Models.ProjectDocument" />
+    <EntitySet Name="ProjectDocumentUpdate" EntityType="ProjectFirma.Web.Models.ProjectDocumentUpdate" />
     <EntitySet Name="ProjectExemptReportingYear" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYear" />
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
@@ -167,6 +168,10 @@
     <AssociationSet Name="FK_ProjectDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProjectDocuments" EntitySet="ProjectDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocumentUpdate_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="ProjectDocumentUpdates" EntitySet="ProjectDocumentUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -532,6 +537,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectDocumentUpdates" EntitySet="ProjectDocumentUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExemptReportingYearUpdates" EntitySet="ProjectExemptReportingYearUpdate" />
@@ -817,6 +826,7 @@
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
     <NavigationProperty Name="ProjectDocuments" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectDocuments" />
+    <NavigationProperty Name="ProjectDocumentUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectDocumentUpdates" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantBannerLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" />
@@ -1360,6 +1370,19 @@
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID" FromRole="ProjectDocuments" ToRole="FileResource" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_Project_ProjectID" FromRole="ProjectDocuments" ToRole="Project" />
   </EntityType>
+  <EntityType Name="ProjectDocumentUpdate">
+    <Key>
+      <PropertyRef Name="ProjectDocumentUpdateID" />
+    </Key>
+    <Property Name="ProjectDocumentUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_FileResource_FileResourceID" FromRole="ProjectDocumentUpdates" ToRole="FileResource" />
+    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectDocumentUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
       <PropertyRef Name="ProjectExemptReportingYearID" />
@@ -1665,6 +1688,7 @@
     <NavigationProperty Name="LastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" ToRole="LastUpdatePerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="ProjectUpdateBatches" ToRole="Project" />
     <NavigationProperty Name="ProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectBudgetUpdates" />
+    <NavigationProperty Name="ProjectDocumentUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectDocumentUpdates" />
     <NavigationProperty Name="ProjectExemptReportingYearUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExemptReportingYearUpdates" />
     <NavigationProperty Name="ProjectExternalLinkUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExternalLinkUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceExpenditureUpdates" />
@@ -2176,6 +2200,18 @@
         <PropertyRef Name="FileResourceID" />
       </Principal>
       <Dependent Role="ProjectDocuments">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocumentUpdate_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="ProjectDocumentUpdates" Type="ProjectFirma.Web.Models.ProjectDocumentUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ProjectDocumentUpdates">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3268,6 +3304,18 @@
         <PropertyRef Name="ProjectUpdateBatchID" />
       </Principal>
       <Dependent Role="ProjectBudgetUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectDocumentUpdates" Type="ProjectFirma.Web.Models.ProjectDocumentUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectDocumentUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>

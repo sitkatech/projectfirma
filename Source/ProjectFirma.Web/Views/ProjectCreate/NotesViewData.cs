@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectDocument;
+using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate

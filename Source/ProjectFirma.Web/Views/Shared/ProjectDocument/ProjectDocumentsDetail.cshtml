@@ -2,9 +2,8 @@
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
-@using ProjectFirma.Web.Views.ProjectDocument
 
-@inherits ProjectDocumentsDetail
+@inherits ProjectFirma.Web.Views.Shared.ProjectDocument.ProjectDocumentsDetail
 
 <div class="pull-right">
     @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Document", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.NewProjectDocumentUrl, "Upload New Document", null, ViewDataTyped.UserHasProjectManagePermissions)

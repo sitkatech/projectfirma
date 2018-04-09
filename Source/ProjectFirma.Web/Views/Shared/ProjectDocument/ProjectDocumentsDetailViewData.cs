@@ -4,7 +4,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
-namespace ProjectFirma.Web.Views.ProjectDocument
+namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
     public class ProjectDocumentsDetailViewData
     {

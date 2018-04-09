@@ -5,7 +5,7 @@ using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ProjectDocument
+namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
     public class NewViewModel
     {

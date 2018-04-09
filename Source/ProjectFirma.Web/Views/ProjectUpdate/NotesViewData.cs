@@ -38,8 +38,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
                 projectUpdateBatch.Project.DisplayName,
                 IsEditable);
+            //EntityDocumentsViewData = new EntityDocumentsViewData(EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates)),
+            //    SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
+            //    projectUpdateBatch.Project.DisplayName,
+            //    IsEditable);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotes(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
         }
+
+        //public EntityDocumentsViewData EntityDocumentsViewData { get; set; }
     }
 }

@@ -3,8 +3,8 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectDocument;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectDocument;
 
 namespace ProjectFirma.Web.Controllers
 {

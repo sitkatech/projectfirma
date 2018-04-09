@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProjectFirma.Web.Views.ProjectDocument
+namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
     public class EditViewModel
     {
