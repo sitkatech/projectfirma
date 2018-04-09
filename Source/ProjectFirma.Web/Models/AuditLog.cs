@@ -63,7 +63,8 @@ namespace ProjectFirma.Web.Models
             "ProjectUpdateHistory",
             "SupportRequestLog",
             "ProjectBudgetUpdate",
-            "ProjectFundingSourceRequestUpdate"
+            "ProjectFundingSourceRequestUpdate",
+            "ProjectDocumentUpdate"
         };
 
         public string AuditDescriptionDisplay

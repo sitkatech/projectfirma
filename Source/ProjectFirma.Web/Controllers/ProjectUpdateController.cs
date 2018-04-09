@@ -1357,6 +1357,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
+            var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1372,7 +1374,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectLocations,
                 allProjectWatersheds,
                 allProjectFundingSourceRequests,
-                allProjectOrganizations);
+                allProjectOrganizations,
+                allProjectDocuments);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 

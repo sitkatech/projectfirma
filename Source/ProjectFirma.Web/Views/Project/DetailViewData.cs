@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
@@ -298,7 +299,11 @@ namespace ProjectFirma.Web.Views.Project
 
             ClassificationSystems = classificationSystems;
 
-            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson, !project.IsProposal());
+            //ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson, !project.IsProposal());
+            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
+                EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
+                SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
+                new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission);
         }
     }
 }

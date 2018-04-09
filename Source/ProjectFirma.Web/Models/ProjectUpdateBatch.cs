@@ -132,6 +132,9 @@ namespace ProjectFirma.Web.Models
             // organizations
             ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
 
+            // Documents
+            ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
+
             return projectUpdateBatch;
         }
 
@@ -538,9 +541,18 @@ namespace ProjectFirma.Web.Models
             CreateNewTransitionRecord(this, ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
-        public void Approve(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        public void Approve( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //IList<ProjectBudget> projectBudgets, 
-            Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests, IList<ProjectOrganization> allProjectOrganizations)
+            Person currentPerson, DateTime transitionDate,
+            IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
+            IList<PerformanceMeasureActual> performanceMeasureActuals,
+            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
+            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
+            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
+            IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+            IList<ProjectOrganization> allProjectOrganizations,
+            IList<ProjectDocument> allProjectDocuments)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
@@ -555,7 +567,8 @@ namespace ProjectFirma.Web.Models
                 projectLocations,
                 projectWatersheds,
                 projectFundingSourceRequests,
-                allProjectOrganizations);
+                allProjectOrganizations,
+                allProjectDocuments);
             CreateNewTransitionRecord(this, ProjectUpdateState.Approved, currentPerson, transitionDate);
             PushTransitionRecordsToAuditLog();
         }
@@ -574,9 +587,19 @@ namespace ProjectFirma.Web.Models
                         projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID});
         }
 
-        private void CommitChangesToProject(// TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        private void
+            CommitChangesToProject( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            IList<ProjectBudget> projectBudgets,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests, IList<ProjectOrganization> allProjectOrganizations)
+                IList<ProjectExemptReportingYear> projectExemptReportingYears,
+                IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
+                IList<PerformanceMeasureActual> performanceMeasureActuals,
+                IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
+                IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
+                IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
+                IList<ProjectWatershed> projectWatersheds,
+                IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+                IList<ProjectOrganization> allProjectOrganizations,
+                IList<ProjectDocument> allProjectDocuments)
         {
             // basics
             ProjectUpdate.CommitChangesToProject(Project);
@@ -628,6 +651,9 @@ namespace ProjectFirma.Web.Models
 
             // Organizations
             ProjectOrganizationUpdate.CommitChangesToProject(this, allProjectOrganizations);
+
+            // Documents
+            ProjectDocumentUpdate.CommitChangesToProject(this, allProjectDocuments);
         }
 
         public void RejectSubmission(Person currentPerson, DateTime transitionDate)

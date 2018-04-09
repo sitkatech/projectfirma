@@ -6,14 +6,14 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectDocument.ProjectDocumentsDetail
 
 <div class="pull-right">
-    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Document", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.NewProjectDocumentUrl, "Upload New Document", null, ViewDataTyped.UserHasProjectManagePermissions)
+    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Document", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddDocumentUrl, "Upload New Document", null, ViewDataTyped.CanEditDocuments)
 </div>
 
-@if (!ViewDataTyped.Project.ProjectDocuments.Any())
+@if (!ViewDataTyped.Documents.Any())
 {
-    <p>No documents associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No documents associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
 }
-@foreach (var projectDocument in ViewDataTyped.Project.ProjectDocuments)
+@*@foreach (var projectDocument in ViewDataTyped.Project.ProjectDocuments)
 {
     if (ViewDataTyped.ProjectDocumentEditAsAdminFeature.HasPermission(ViewDataTyped.CurrentPerson, projectDocument).HasPermission)
     {
@@ -29,6 +29,33 @@
     </a>
 
     <dl class="dl-horizontal">
+        <dt>Uploaded On</dt>
+        <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
+
+        <dt>File Type</dt>
+        <dd>@projectDocument.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+
+        <dt>Description</dt>
+        <dd>@projectDocument.Description</dd>
+    </dl>
+}*@
+
+@foreach (var projectDocument in ViewDataTyped.Documents)
+{
+    if (ViewDataTyped.CanEditDocuments)
+    {
+        <span>
+            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.EditUrl, "Edit Document", null, true)&nbsp;
+            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.DeleteUrl, null, true)&nbsp;
+        </span>
+    }
+
+    <a href="@projectDocument.FileResource.FileResourceUrl">
+        @projectDocument.DisplayName
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+    </a>
+
+    <dl class=" dl-horizontal">
         <dt>Uploaded On</dt>
         <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
 
