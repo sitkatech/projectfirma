@@ -65,8 +65,6 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
-using Notes = ProjectFirma.Web.Views.ProjectUpdate.Notes;
-using NotesViewData = ProjectFirma.Web.Views.ProjectUpdate.NotesViewData;
 using PerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasures;
 using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewData;
 using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewModel;
@@ -1188,8 +1186,8 @@ namespace ProjectFirma.Web.Controllers
             }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotes(projectPrimaryKey));
-            var viewData = new NotesViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
-            return RazorView<Notes, NotesViewData>(viewData);
+            var viewData = new NotesAndDocumentsViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
+            return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
         }
 
         [HttpGet]

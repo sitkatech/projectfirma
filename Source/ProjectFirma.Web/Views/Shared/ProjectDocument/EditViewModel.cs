@@ -24,10 +24,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             Description = projectDocument.Description;
         }
 
+        public EditViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        {
+            DisplayName = projectDocumentUpdate.DisplayName;
+            Description = projectDocumentUpdate.Description;
+        }
+
         public void UpdateModel(Models.ProjectDocument projectDocument)
         {
             projectDocument.DisplayName = DisplayName;
             projectDocument.Description = Description;
+        }
+
+        public void UpdateModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        {
+            projectDocumentUpdate.DisplayName = DisplayName;
+            projectDocumentUpdate.Description = Description;
         }
     }
 }

@@ -46,6 +46,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
+    <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -361,7 +363,10 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\IEntityDocument.cs" />
     <Compile Include="Models\ProjectDocument.cs" />
+    <Compile Include="Security\ProjectDocumentUpdateEditFeature.cs" />
+    <Compile Include="Security\ProjectDocumentUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />
     <Compile Include="Views\Shared\ProjectDocument\Edit.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditViewData.cs" />
@@ -1202,8 +1207,8 @@
     <Compile Include="Views\ProjectUpdate\ManageViewData.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjects.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjectsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\Notes.cs" />
-    <Compile Include="Views\ProjectUpdate\NotesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\NotesAndDocuments.cs" />
+    <Compile Include="Views\ProjectUpdate\NotesAndDocumentsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PeopleReceivingReminderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\Photos.cs" />
     <Compile Include="Views\ProjectUpdate\PhotosViewData.cs" />
@@ -3332,7 +3337,7 @@
     <Content Include="Views\ProjectUpdate\LocationSimple.cshtml" />
     <Content Include="Views\ProjectUpdate\Manage.cshtml" />
     <Content Include="Views\ProjectUpdate\MyProjects.cshtml" />
-    <Content Include="Views\ProjectUpdate\Notes.cshtml" />
+    <Content Include="Views\ProjectUpdate\NotesAndDocuments.cshtml" />
     <Content Include="Views\ProjectUpdate\Photos.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateStatus.cshtml" />
