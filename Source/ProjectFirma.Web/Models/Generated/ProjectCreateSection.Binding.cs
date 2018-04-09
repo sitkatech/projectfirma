@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionClassifications Classifications = ProjectCreateSectionClassifications.Instance;
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
-        public static readonly ProjectCreateSectionNotes Notes = ProjectCreateSectionNotes.Instance;
+        public static readonly ProjectCreateSectionNotesAndDocuments NotesAndDocuments = ProjectCreateSectionNotesAndDocuments.Instance;
         public static readonly ProjectCreateSectionOrganizations Organizations = ProjectCreateSectionOrganizations.Instance;
 
         public static readonly List<ProjectCreateSection> All;
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, Notes, Organizations };
+            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -131,8 +131,8 @@ namespace ProjectFirma.Web.Models
                     return LocationDetailed;
                 case ProjectCreateSectionEnum.LocationSimple:
                     return LocationSimple;
-                case ProjectCreateSectionEnum.Notes:
-                    return Notes;
+                case ProjectCreateSectionEnum.NotesAndDocuments:
+                    return NotesAndDocuments;
                 case ProjectCreateSectionEnum.Organizations:
                     return Organizations;
                 case ProjectCreateSectionEnum.Photos:
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Models
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
-        Notes = 14,
+        NotesAndDocuments = 14,
         Organizations = 15
     }
 
@@ -239,10 +239,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionPhotos Instance = new ProjectCreateSectionPhotos(13, @"Photos", @"Photos", 130, false);
     }
 
-    public partial class ProjectCreateSectionNotes : ProjectCreateSection
+    public partial class ProjectCreateSectionNotesAndDocuments : ProjectCreateSection
     {
-        private ProjectCreateSectionNotes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectCreateSectionNotes Instance = new ProjectCreateSectionNotes(14, @"Notes", @"Notes", 140, false);
+        private ProjectCreateSectionNotesAndDocuments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
+        public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Notes and Documents", 140, false);
     }
 
     public partial class ProjectCreateSectionOrganizations : ProjectCreateSection

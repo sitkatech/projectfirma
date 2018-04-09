@@ -19,20 +19,25 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class NotesViewData : ProjectCreateViewData
     {
-        public readonly EntityNotesViewData EntityNotesViewData;
+        public EntityNotesViewData EntityNotesViewData { get; }
+
+        public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
 
         public NotesViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            EntityNotesViewData entityNotesViewData) : base(currentPerson, project, ProjectCreateSection.Notes, proposalSectionsStatus)
+            EntityNotesViewData entityNotesViewData,
+            ProjectDocumentsDetailViewData projectDocumentsDetailViewData) : base(currentPerson, project, ProjectCreateSection.NotesAndDocuments, proposalSectionsStatus)
         {
-            EntityNotesViewData = entityNotesViewData;            
+            EntityNotesViewData = entityNotesViewData;
+            ProjectDocumentsDetailViewData = projectDocumentsDetailViewData;
         }
     }
 }

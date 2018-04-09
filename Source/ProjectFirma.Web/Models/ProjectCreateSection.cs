@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectCreateSectionNotes
+    public partial class ProjectCreateSectionNotesAndDocuments
     {
         public override bool IsComplete(Project project)
         {
@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Models
 
         public override string GetSectionUrl(Project project)
         {
-            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Notes(project.ProjectID)) : null;
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NotesAndDocuments(project.ProjectID)) : null;
         }
     }
 

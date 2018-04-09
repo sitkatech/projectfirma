@@ -40,6 +40,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -854,7 +855,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult NotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
@@ -863,7 +864,8 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", canEditNotes);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
-            var viewData = new NotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData);
+            var projectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, CurrentPerson);
+            var viewData = new NotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
             return RazorView<Notes, NotesViewData>(viewData);
         }
 

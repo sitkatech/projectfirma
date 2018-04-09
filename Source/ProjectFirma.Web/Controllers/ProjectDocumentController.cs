@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectDocumentController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new NewViewModel();
@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectEditAsAdminRegardlessOfStageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
         {
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay($"Successfully created new document \"{viewModel.DisplayName}\" for {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.ProjectName}\".");
 
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Detail(project)));
+            return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewNew(NewViewModel viewModel)
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay($"Successfully update document \"{projectDocument.DisplayName}\".");
 
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Detail(projectDocument.Project)));
+            return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay($"Successfully deleted document \"{displayName}\".");
 
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Detail(project)));
+            return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewDelete(ProjectDocument projectDocument, ConfirmDialogFormViewModel viewModel)

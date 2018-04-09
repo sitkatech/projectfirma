@@ -298,7 +298,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ClassificationSystems = classificationSystems;
 
-            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson);
+            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson, !project.IsProposal());
         }
     }
 }

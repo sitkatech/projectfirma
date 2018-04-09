@@ -20,8 +20,15 @@ namespace ProjectFirma.Web.Views.ProjectDocument
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(c => c.Delete(UrlTemplate.Parameter1Int)));
 
             UserHasProjectManagePermissions =
-                new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
+                Project.IsProposal() ?
+                new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission
+                 : new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
             ProjectDocumentEditAsAdminFeature = new ProjectDocumentEditAsAdminFeature();
+        }
+
+        public ProjectDocumentsDetailViewData(Models.Project project, Person currentPerson, bool showNewButton) : this(project, currentPerson)
+        {
+            UserHasProjectManagePermissions = UserHasProjectManagePermissions && showNewButton;
         }
 
         public Models.Project Project { get; set; }
