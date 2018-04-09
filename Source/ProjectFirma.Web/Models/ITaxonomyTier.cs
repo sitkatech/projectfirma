@@ -11,5 +11,6 @@ namespace ProjectFirma.Web.Models
         string DisplayName { get; }
         HtmlString GetDisplayNameAsUrl();
         List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures();
+        string SummaryUrl { get; }
     }
 }

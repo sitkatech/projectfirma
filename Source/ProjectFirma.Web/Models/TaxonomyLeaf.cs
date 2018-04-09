@@ -24,7 +24,6 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -43,7 +42,7 @@ namespace ProjectFirma.Web.Models
         {
             return TaxonomyLeafModelExtensions.GetDisplayNameAsUrl(this);
         }
-
+        public string SummaryUrl => this.GetSummaryUrl();
 
         public string CustomizedMapUrl => ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyLeaf, TaxonomyLeafID.ToString(), ProjectColorByType.ProjectStage);
 
