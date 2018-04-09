@@ -1282,8 +1282,8 @@
     <Compile Include="Views\ProjectCreate\LocationSimple.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\Notes.cs" />
-    <Compile Include="Views\ProjectCreate\NotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\NotesAndDocuments.cs" />
+    <Compile Include="Views\ProjectCreate\NotesAndDocumentsViewData.cs" />
     <Compile Include="Views\ProjectCreate\Photos.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProposalSectionsStatus.cs" />
@@ -3354,7 +3354,7 @@
     <Content Include="Views\ProjectCreate\InstructionsProposal.cshtml" />
     <Content Include="Views\ProjectCreate\LocationDetailed.cshtml" />
     <Content Include="Views\ProjectCreate\LocationSimple.cshtml" />
-    <Content Include="Views\ProjectCreate\Notes.cshtml" />
+    <Content Include="Views\ProjectCreate\NotesAndDocuments.cshtml" />
     <Content Include="Views\ProjectCreate\Photos.cshtml" />
     <Content Include="Views\ProjectCreate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectCreate\_ViewStart.cshtml" />

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="NotesViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Notes.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,26 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.ProjectDocument;
-using ProjectFirma.Web.Views.Shared.TextControls;
-
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class NotesViewData : ProjectCreateViewData
+    public abstract class NotesAndDocuments : LtInfo.Common.Mvc.TypedWebViewPage<NotesAndDocumentsViewData>
     {
-        public EntityNotesViewData EntityNotesViewData { get; }
-
-        public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
-
-        public NotesViewData(Person currentPerson,
-            Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus,
-            EntityNotesViewData entityNotesViewData,
-            ProjectDocumentsDetailViewData projectDocumentsDetailViewData) : base(currentPerson, project, ProjectCreateSection.NotesAndDocuments, proposalSectionsStatus)
-        {
-            EntityNotesViewData = entityNotesViewData;
-            ProjectDocumentsDetailViewData = projectDocumentsDetailViewData;
-        }
     }
 }

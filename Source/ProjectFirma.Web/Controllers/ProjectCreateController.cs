@@ -868,8 +868,8 @@ namespace ProjectFirma.Web.Controllers
                 EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
                 canEditNotesAndDocuments);
-            var viewData = new NotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
-            return RazorView<Notes, NotesViewData>(viewData);
+            var viewData = new NotesAndDocumentsViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
+            return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
         }
 
         [HttpGet]
