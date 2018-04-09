@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -28,43 +27,41 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.TaxonomyBranch TaxonomyBranch;
-        public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
-        public readonly int PerformanceMeasuresEndOfFirstHalf;
+        public Models.TaxonomyBranch TaxonomyBranch { get; }
 
-        public readonly bool UserHasTaxonomyBranchManagePermissions;
-        public readonly string EditTaxonomyBranchUrl;
-        public readonly string PerformanceMeasureUrl;
+        public bool UserHasTaxonomyBranchManagePermissions { get; }
+        public string EditTaxonomyBranchUrl { get; }
 
-        public readonly string IndexUrl;
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoProjectGridName;
-        public readonly string BasicProjectInfoProjectGridDataUrl;
+        public string IndexUrl { get; }
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoProjectGridName { get; }
+        public string BasicProjectInfoProjectGridDataUrl { get; }
 
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public readonly List<Models.PerformanceMeasure> TaxonomyBranchPerformanceMeasures;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public string ProjectMapFilteredUrl { get; }
 
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string ProjectMapFilteredUrl;
+        public string TaxonomyBranchDisplayName { get; }
+        public string TaxonomyBranchDisplayNamePluralized { get; }
+        public string TaxonomyLeafDisplayNamePluralized { get; }
 
-        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
-        public readonly string TaxonomyBranchDisplayName;
-        public readonly string TaxonomyBranchDisplayNamePluralized;
-        public readonly string TaxonomyLeafDisplayNamePluralized;
+        public bool CanHaveAssociatedPerformanceMeasures { get; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+        public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures, RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
         {
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -75,15 +72,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
             TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
             EntityName = taxonomyBranchDisplayName;
-            PerformanceMeasures = taxonomyBranch.GetPerformanceMeasures();
-            PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
-            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
 
             UserHasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTaxonomyBranchUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.Edit(taxonomyBranch.TaxonomyBranchID));
-            PerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
@@ -97,7 +90,9 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyBranch));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyBranch);
 
-            TaxonomyBranchPerformanceMeasures = taxonomyBranch.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
+            RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;
+            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
         }
     }
 }

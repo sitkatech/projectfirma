@@ -24,6 +24,7 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -74,6 +75,11 @@ namespace ProjectFirma.Web.Models
         public List<Project> GetAssociatedProjects(Person currentPerson)
         {
             return Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
+        }
+
+        public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
+        {
+            return TaxonomyLeafPerformanceMeasures.GroupBy(x => x.PerformanceMeasure).ToList();
         }
     }
 }

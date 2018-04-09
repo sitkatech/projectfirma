@@ -25,11 +25,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.TaxonomyLeaf.Detail
 
 @section JavascriptAndStylesContent
@@ -51,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyLeafUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyLeafDisplayName, ViewDataTyped.TaxonomyLeaf.DisplayName), ViewDataTyped.UserHasTaxonomyLeafManagePermissions) Basics</h2>
@@ -71,9 +73,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-md-6">
         <div class="panel panelFirma" style="height: auto">
             <div class="panel-heading panelTitle">
                 <h2>@ViewDataTyped.TaxonomyLeafDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
@@ -86,7 +85,29 @@ Source code is available upon request via <support@sitkatech.com>.
                 Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
         </div>
+        @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
     </div>
+
+    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    {
+        <div class="col-md-6">
+            @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))
+            {
+                <div class="row">
+                    @foreach (var performanceMeasureChartViewData in batch)
+                    {
+                        <div class="col-md-4" style="width: 500px">
+                            <div class="panel panelFirma">
+                                <div class="panel-body">
+                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
 </div>
 <div class="row">
     <div class="col-md-12">

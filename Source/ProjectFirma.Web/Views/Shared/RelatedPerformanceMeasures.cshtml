@@ -1,0 +1,59 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="PerformanceMeasureChartPopup.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits RelatedPerformanceMeasures
+
+@if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures)
+{
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>
+                <a href="@ViewDataTyped.PerformanceMeasuresUrl">@ViewDataTyped.PerformanceMeasureDisplayNamePluralized</a>
+            </h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.TaxonomyTierPerformanceMeasures.Any())
+            {
+                <table class="summaryLayout">
+                    <tr>
+                        <th>@ViewDataTyped.PerformanceMeasureHeaderDisplayName</th>
+                        <th>@ViewDataTyped.IsPrimaryTaxonomyTierHeaderDisplayName</th>
+                    </tr>
+                    @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.PerformanceMeasureDisplayName))
+                    {
+                        <tr>
+                            <td>@taxonomyTierPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
+                            <td style="text-align: center">@taxonomyTierPerformanceMeasure.First().IsPrimaryTaxonomyLeaf.ToCheckboxImageOrEmpty()</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p class="systemText">No @ViewDataTyped.PerformanceMeasureDisplayNamePluralized set for this @ViewDataTyped.PerformanceMeasureDisplayName.</p>
+            }
+        </div>
+    </div>
+}
+

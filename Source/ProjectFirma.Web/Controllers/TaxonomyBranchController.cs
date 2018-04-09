@@ -83,15 +83,18 @@ namespace ProjectFirma.Web.Controllers
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyBranchProjectMap");
-
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals);
 
-            var performanceMeasureChartViewDatas = taxonomyBranch.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x,
-                    new List<int>(),
-                    CurrentPerson,
-                    false)).ToList();
-
-            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, performanceMeasureChartViewDatas);
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            var canHaveAssociatedPerformanceMeasures = associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch;
+            var taxonomyTierPerformanceMeasures = taxonomyBranch.GetTaxonomyTierPerformanceMeasures();
+            var relatedPerformanceMeasuresViewData = new RelatedPerformanceMeasuresViewData(associatePerformanceMeasureTaxonomyLevel, true, taxonomyTierPerformanceMeasures, canHaveAssociatedPerformanceMeasures);
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
+            if (canHaveAssociatedPerformanceMeasures)
+            {
+                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
+            }
+            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas);
             return RazorView<Summary, DetailViewData>(viewData);
         }
 

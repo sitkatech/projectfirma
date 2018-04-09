@@ -82,6 +82,12 @@ namespace ProjectFirma.Web.Models
             return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures.Where(y => y.IsPrimaryTaxonomyLeaf).Select(y => y.PerformanceMeasure)).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
         }
 
+        public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
+        {
+            return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(y => y.PerformanceMeasure).ToList();
+        }
+
+
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyBranchID.ToString(), false)

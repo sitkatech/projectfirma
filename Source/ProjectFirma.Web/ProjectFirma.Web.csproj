@@ -537,6 +537,8 @@
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
+    <Compile Include="Views\Shared\RelatedPerformanceMeasures.cs" />
+    <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
@@ -1489,6 +1491,7 @@
     <Content Include="Views\ProjectDocument\New.cshtml" />
     <Content Include="Views\ProjectDocument\Edit.cshtml" />
     <Content Include="Views\ProjectDocument\ProjectDocumentsDetail.cshtml" />
+    <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

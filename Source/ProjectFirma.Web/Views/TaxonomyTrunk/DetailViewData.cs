@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -25,39 +27,46 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.TaxonomyTrunk TaxonomyTrunk;
-        public readonly bool UserHasTaxonomyTrunkManagePermissions;
-        public readonly bool UserHasProjectTaxonomyTrunkExpenditureManagePermissions;
-        public readonly string EditTaxonomyTrunkUrl;
-        public readonly string TaxonomyBranchIndexUrl;
+        public Models.TaxonomyTrunk TaxonomyTrunk { get; }
+        public bool UserHasTaxonomyTrunkManagePermissions { get; }
+        public bool UserHasProjectTaxonomyTrunkExpenditureManagePermissions { get; }
+        public string EditTaxonomyTrunkUrl { get; }
+        public string TaxonomyBranchIndexUrl { get; }
 
-        public readonly string IndexUrl;
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
+        public string IndexUrl { get; }
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
 
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string ProjectMapFilteredUrl;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public string ProjectMapFilteredUrl { get; }
 
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public readonly string TaxonomyTrunkDisplayName;
-        public readonly string TaxonomyTrunkDisplayNamePluralized;
-        public readonly string TaxonomyBranchDisplayNamePluralized;
-        public readonly string TaxonomyLeafDisplayNamePluralized;
+        public string TaxonomyTrunkDisplayName { get; }
+        public string TaxonomyTrunkDisplayNamePluralized { get; }
+        public string TaxonomyBranchDisplayNamePluralized { get; }
+        public string TaxonomyLeafDisplayNamePluralized { get; }
+
+        public bool CanHaveAssociatedPerformanceMeasures { get; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+        public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTrunk taxonomyTrunk,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
+            RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
         {
             TaxonomyTrunk = taxonomyTrunk;
             TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
@@ -89,6 +98,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTrunk));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTrunk);
+
+            CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
+            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
+            RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;
         }
     }
 }

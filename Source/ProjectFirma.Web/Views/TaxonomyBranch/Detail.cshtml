@@ -60,7 +60,7 @@
 
 
 <div class="row">
-    <div class="col-md-@(ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
+    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -122,38 +122,10 @@
                 }
             </div>
         </div>
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>
-                    <a href="@ViewDataTyped.PerformanceMeasureUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
-                </h2>
-            </div>
-            <div class="panel-body">
-                @if (ViewDataTyped.TaxonomyBranchPerformanceMeasures.Any())
-                {
-                    <table class="summaryLayout">
-                        <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
-                        </tr>
-                        @foreach (var performanceMeasure in ViewDataTyped.TaxonomyBranchPerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName))
-                        {
-                            <tr>
-                                <td>
-                                    @performanceMeasure.GetDisplayNameAsUrl()
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                }
-                else
-                {
-                    <p class="systemText">No @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() set for this @ViewDataTyped.TaxonomyBranchDisplayName.</p>
-                }
-            </div>
-        </div>
+        @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
     </div>
 
-    @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
     {
         <div class="col-md-6">
             @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))

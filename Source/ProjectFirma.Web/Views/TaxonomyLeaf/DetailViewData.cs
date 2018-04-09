@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -26,35 +28,44 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.TaxonomyLeaf TaxonomyLeaf;
-        public readonly bool UserHasTaxonomyLeafManagePermissions;
-        public readonly string EditTaxonomyLeafUrl;
-        public readonly string IndexUrl;
+        public Models.TaxonomyLeaf TaxonomyLeaf { get; }
+        public bool UserHasTaxonomyLeafManagePermissions { get; }
+        public string EditTaxonomyLeafUrl { get; }
+        public string IndexUrl { get; }
 
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
-        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
+        public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string ProjectMapFilteredUrl;
-        public readonly string TaxonomyLeafDisplayName;
-        public readonly string TaxonomyLeafDisplayNamePluralized;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public string ProjectMapFilteredUrl { get; }
+        public string TaxonomyLeafDisplayName { get; }
+        public string TaxonomyLeafDisplayNamePluralized { get; }
+
+        public bool CanHaveAssociatedPerformanceMeasures { get; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+        public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyLeaf taxonomyLeaf,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
+            RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
         {
             TaxonomyLeaf = taxonomyLeaf;
             PageTitle = taxonomyLeaf.DisplayName;
-            var taxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
+            var fieldDefinitionTaxonomyLeaf = Models.FieldDefinition.TaxonomyLeaf;
+            var taxonomyLeafDisplayName = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabel();
             EntityName = taxonomyLeafDisplayName;
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -68,16 +79,20 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             BasicProjectInfoGridName = "taxonomyLeafProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", taxonomyLeafDisplayName),
-                ObjectNamePlural = string.Format("Projects with this {0}", taxonomyLeafDisplayName),
+                ObjectNameSingular = $"Project with this {taxonomyLeafDisplayName}",
+                ObjectNamePlural = $"Projects with this {taxonomyLeafDisplayName}",
                 SaveFiltersInCookie = true
             };
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyLeaf));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf);
 
-            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
-            TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
+            TaxonomyLeafDisplayNamePluralized = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+
+            CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
+            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
+            RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;
         }
     }
 }

@@ -24,14 +24,17 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.TaxonomyTrunk;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using Detail = ProjectFirma.Web.Views.TaxonomyTrunk.Detail;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyTrunk.DetailViewData;
+using Edit = ProjectFirma.Web.Views.TaxonomyTrunk.Edit;
+using EditViewData = ProjectFirma.Web.Views.TaxonomyTrunk.EditViewData;
+using EditViewModel = ProjectFirma.Web.Views.TaxonomyTrunk.EditViewModel;
 using Index = ProjectFirma.Web.Views.TaxonomyTrunk.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.TaxonomyTrunk.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.TaxonomyTrunk.IndexViewData;
@@ -81,7 +84,16 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals);
 
-            var viewData = new DetailViewData(CurrentPerson, taxonomyTrunk, projectLocationsMapInitJson, projectLocationsMapViewData);
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            var canHaveAssociatedPerformanceMeasures = associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk;
+            var taxonomyTierPerformanceMeasures = taxonomyTrunk.GetTaxonomyTierPerformanceMeasures();
+            var relatedPerformanceMeasuresViewData = new RelatedPerformanceMeasuresViewData(associatePerformanceMeasureTaxonomyLevel, true, taxonomyTierPerformanceMeasures, canHaveAssociatedPerformanceMeasures);
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
+            if (canHaveAssociatedPerformanceMeasures)
+            {
+                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
+            }
+            var viewData = new DetailViewData(CurrentPerson, taxonomyTrunk, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -27,8 +27,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.TaxonomyTrunk.Detail
 
 @section JavascriptAndStylesContent
@@ -49,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -71,6 +74,19 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div>
                     @ViewDataTyped.TaxonomyTrunk.TaxonomyTrunkDescription
                 </div>
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ViewDataTyped.TaxonomyTrunkDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
+            </div>
+            <div style="padding: 10px">
+                To zoom, hold down Shift and drag a rectangle.
+                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                </div>
+                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
         </div>
 
@@ -133,21 +149,29 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </div>
         </div>
+        @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
     </div>
-    <div class="col-md-6">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>@ViewDataTyped.TaxonomyTrunkDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
-            </div>
-            <div style="padding: 10px">
-                To zoom, hold down Shift and drag a rectangle.
-                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+
+    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    {
+        <div class="col-md-6">
+            @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))
+            {
+                <div class="row">
+                    @foreach (var performanceMeasureChartViewData in batch)
+                    {
+                        <div class="col-md-4" style="width: 500px">
+                            <div class="panel panelFirma">
+                                <div class="panel-body">
+                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
-            </div>
+            }
         </div>
-    </div>
+    }
 </div>
 
 <div class="panel panelFirma">
