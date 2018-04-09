@@ -49,8 +49,9 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().SortByOrderThenName().ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTierTwos);
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
 
@@ -59,8 +60,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().SortByOrderThenName().ToList();
-            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyTierTwos);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
+            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyBranches);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
                 SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
@@ -100,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public PartialViewResult OrganizationAccomplishments(int organizationID, int taxonomyTierTwoID)
+        public PartialViewResult OrganizationAccomplishments(int organizationID, int taxonomyTierID)
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
@@ -114,17 +115,27 @@ namespace ProjectFirma.Web.Controllers
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
 
-            var taxonomyTierTwo =HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID);
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            ITaxonomyTier taxonomyTier;
+            if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk)
+            {
+                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.GetTaxonomyTrunk(taxonomyTierID);
+            }
+            else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
+            {
+                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyTierID);
+            }
+            else
+            {
+                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(taxonomyTierID);
+            }
 
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
-            var performanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.GetTaxonomyTierPerformanceMeasures().Where(x => x.Any(y => y.IsPrimaryTaxonomyLeaf)).Select(x => x.Key).ToList();
+            var performanceMeasures = primaryPerformanceMeasuresForTaxonomyTier.SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
             var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
 
-            var projectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
-                ? FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
-                : "Lead Implementer";
-                       
-            var viewData = new OrganizationAccomplishmentsViewData(projectStewardOrLeadImplementorFieldDefinitionName, performanceMeasureChartViewDatas, taxonomyTierTwo);
+            var viewData = new OrganizationAccomplishmentsViewData(performanceMeasureChartViewDatas, taxonomyTier, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
         }
 
@@ -243,29 +254,29 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationFilterTypesAndValues =
                 new Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>>();
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
-                var taxonomyTierThreesAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierThree),
-                    taxonomyTierThreesAsSelectListItems);
+                var taxonomyTrunksAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.AsEnumerable().ToSelectList(
+                        x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTrunk),
+                    taxonomyTrunksAsSelectListItems);
             }
 
-            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+            if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
-                var taxonomyTierTwosAsSelectListItems =
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierTwo),
-                    taxonomyTierTwosAsSelectListItems);
+                var taxonomyBranchesAsSelectListItems =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.AsEnumerable().ToSelectList(
+                        x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyBranch),
+                    taxonomyBranchesAsSelectListItems);
             }
 
-            var taxonomyTierOnesAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.AsEnumerable().ToSelectList(
-                    x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTierOne),
-                taxonomyTierOnesAsSelectListItems);
+            var taxonomyLeafsAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.AsEnumerable().ToSelectList(
+                    x => x.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyLeaf),
+                taxonomyLeafsAsSelectListItems);
 
             var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.DisplayName}" : x.DisplayName);
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, string.Join(" & ", MultiTenantHelpers.GetClassificationSystems().Select(x => x.ClassificationSystemName).ToList())), classificationsAsSelectList);
@@ -322,26 +333,6 @@ namespace ProjectFirma.Web.Controllers
                     }));
 
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
-        }
-
-        [ResultsByTaxonomyTierTwoViewFeature]
-        public ViewResult ResultsByTaxonomyTierTwo(int? taxonomyTierTwoID)
-        {
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees
-                .OrderBy(x => x.TaxonomyTierThreeName).ToList();
-            var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue
-                ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value)
-                : taxonomyTierThrees.First().TaxonomyTierTwos.First();
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyTierTwo);
-            var performanceMeasureChartViewDatas = selectedTaxonomyTierTwo.GetPerformanceMeasures().ToList()
-                .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
-                    new PerformanceMeasureChartViewData(x,
-                        new List<int>(),
-                        CurrentPerson,
-                        false)).ToList();
-            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierThrees,
-                selectedTaxonomyTierTwo, performanceMeasureChartViewDatas);
-            return RazorView<ResultsByTaxonomyTierTwo, ResultsByTaxonomyTierTwoViewData>(viewData);
         }
 
         [SpendingByPerformanceMeasureByProjectViewFeature]

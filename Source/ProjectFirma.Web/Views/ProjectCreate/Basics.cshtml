@@ -37,18 +37,18 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.TaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.TaxonomyLeafID, 600, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject())</div>
         <div class="col-md-8">
             <div>
                 @if (ViewDataTyped.HasThreeTierTaxonomy)
                 {
-                    @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { @class = "form-control", style = "width: 100%;" })
+                    @Html.DropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, new { @class = "form-control", style = "width: 100%;" })
                 }
                 else
                 {
-                    @Html.SearchableDropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()))                
+                    @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))                
                 }
-                @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
+                @Html.ValidationMessageFor(m => m.TaxonomyLeafID)
             </div>
         </div>
     </div>
@@ -166,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
        
         // Bypass the "Could not parse a blank value" error
-        jQuery("#TaxonomyTierOneID option.bs-title-option").val(-1);
+        jQuery("#TaxonomyLeafID option.bs-title-option").val(-1);
     });
     // ]]>
 </script>

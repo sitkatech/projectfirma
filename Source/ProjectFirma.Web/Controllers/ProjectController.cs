@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures);
+            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.DisplayName, project.TotalExpenditures);
         }
 
         [HttpPost]
@@ -74,25 +74,25 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures);
+                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.DisplayName, project.TotalExpenditures);
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyLeafDisplayName, decimal? totalExpenditures)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var viewData = new EditProjectViewData(editProjectType,
-                taxonomyTierOneDisplayName,
+                taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), FundingType.All, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,
-                taxonomyTierOnes
+                taxonomyLeafs
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -557,8 +557,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
         {
             var gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -716,9 +716,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             var organization = CurrentPerson.Organization;
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
                                                                                                                         organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.DisplayName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

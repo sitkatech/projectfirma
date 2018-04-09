@@ -26,12 +26,14 @@ namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditBasicsViewData : FirmaViewData
     {
-        public readonly IEnumerable<SelectListItem> TenantPeople;
+        public IEnumerable<SelectListItem> TenantPeople { get; }
+        public IEnumerable<SelectListItem> TaxonomyLevels { get; }
 
-        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople)
+        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels)
             : base(currentPerson)
         {
             TenantPeople = tenantPeople;
+            TaxonomyLevels = taxonomyLevels;
         }
     }
 }

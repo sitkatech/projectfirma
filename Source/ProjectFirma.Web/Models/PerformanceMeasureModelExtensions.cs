@@ -41,22 +41,6 @@ namespace ProjectFirma.Web.Models
             return SummaryUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
         }
 
-        public static readonly UrlTemplate<int> InfoSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.InfoSheet(UrlTemplate.Parameter1Int)));
-        public static string GetInfoSheetUrl(this PerformanceMeasure performanceMeasure)
-        {
-            return InfoSheetUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
-        }
-
-        public static HtmlString GetDisplayNameAsInfoSheetUrl(this PerformanceMeasure performanceMeasure)
-        {
-            string infoSheetUrl = string.Empty;
-            if (performanceMeasure != null)
-            {
-                infoSheetUrl = performanceMeasure.GetInfoSheetUrl();
-            }
-            return UrlTemplate.MakeHrefString(infoSheetUrl, performanceMeasure.PerformanceMeasureDisplayName);
-        }
-
         private static readonly UrlTemplate<int> DefinitionAndGuidanceUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.DefinitionAndGuidance(UrlTemplate.Parameter1Int)));
         public static string GetDefinitionAndGuidanceUrl(this PerformanceMeasure performanceMeasure)
         {

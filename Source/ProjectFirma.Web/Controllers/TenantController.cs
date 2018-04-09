@@ -118,7 +118,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var adminFeature = new FirmaAdminFeature();
             var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLast);
-            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople);
+            var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
+            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
 

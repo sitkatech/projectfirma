@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
 
         public static IOrderedEnumerable<T> SortByOrderThenName<T>(this ICollection<T> sortableList) where T : IHaveASortOrder
         {
-            return sortableList.OrderBy(x => x.SortOrder).ThenBy(x=>x.DisplayName.ToLower());
+            return sortableList.OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase);
         }
     }
 }

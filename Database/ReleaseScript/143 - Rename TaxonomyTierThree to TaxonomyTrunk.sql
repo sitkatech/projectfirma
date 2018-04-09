@@ -1,0 +1,12 @@
+exec sp_rename 'dbo.AK_TaxonomyTierThree_TaxonomyTierThreeName_TenantID', 'AK_TaxonomyTrunk_TaxonomyTrunkName_TenantID', 'OBJECT';
+exec sp_rename 'dbo.PK_TaxonomyTierThree_TaxonomyTierThreeID', 'PK_TaxonomyTrunk_TaxonomyTrunkID', 'OBJECT';
+exec sp_rename 'dbo.AK_TaxonomyTierThree_TaxonomyTierThreeID_TenantID', 'AK_TaxonomyTrunk_TaxonomyTrunkID_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierThree_Tenant_TenantID', 'FK_TaxonomyTrunk_Tenant_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID', 'FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID_TenantID', 'OBJECT';
+exec sp_rename 'dbo.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID', 'FK_TaxonomyTierTwo_TaxonomyTrunk_TaxonomyTrunkID', 'OBJECT';
+exec sp_rename 'dbo.TaxonomyTierTwo.TaxonomyTierThreeID', 'TaxonomyTrunkID', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierThree.TaxonomyTierThreeCode', 'TaxonomyTrunkCode', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierThree.TaxonomyTierThreeDescription', 'TaxonomyTrunkDescription', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierThree.TaxonomyTierThreeID', 'TaxonomyTrunkID', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierThree.TaxonomyTierThreeName', 'TaxonomyTrunkName', 'COLUMN';
+exec sp_rename 'dbo.TaxonomyTierThree', 'TaxonomyTrunk';

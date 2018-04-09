@@ -39,19 +39,19 @@ namespace ProjectFirma.Web.Controllers
             
             
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes;
-            switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
+            switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
             {
-                case 3:
-                    var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList();
+                case TaxonomyLevelEnum.Trunk:
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().SortByOrderThenName().ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
-                case 2:
-                    var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
+                case TaxonomyLevelEnum.Branch:
+                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
-                case 1:
-                    var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList();
+                case TaxonomyLevelEnum.Leaf:
+                    var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().SortByOrderThenName().ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList();
                     break;
                 default:
                     throw new NotImplementedException("Only one, two, or three taxonomy tiers are supported.");

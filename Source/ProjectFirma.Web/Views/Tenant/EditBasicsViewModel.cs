@@ -55,8 +55,10 @@ namespace ProjectFirma.Web.Views.Tenant
 
         [DisplayName("Number Of Taxonomy Tiers To Use")]
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
-        [Range(1, 3, ErrorMessage = "Number Of Taxonomy Tiers To Use must be a number between 1 and 3.")]
-        public int? NumberOfTaxonomyTiersToUse { get; set; }
+        public int? TaxonomyLevelID { get; set; }
+
+        [DisplayName("Associate Performance Measures at Taxonomy Tier")]
+        public int? AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
 
         [DisplayName("Tenant Style Sheet")]
         [SitkaFileExtensions("css")]
@@ -81,7 +83,6 @@ namespace ProjectFirma.Web.Views.Tenant
         public bool ShowProposalsToThePublic { get; set; }
 
 
-
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -95,7 +96,8 @@ namespace ProjectFirma.Web.Views.Tenant
             TenantDisplayName = tenantAttribute.TenantDisplayName;
             ToolDisplayName = tenantAttribute.ToolDisplayName;
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
-            NumberOfTaxonomyTiersToUse = tenantAttribute.NumberOfTaxonomyTiersToUse;
+            TaxonomyLevelID = tenantAttribute.TaxonomyLevelID;
+            AssociatePerfomanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             WatershedLayerName = tenantAttribute.WatershedLayerName;
@@ -118,12 +120,9 @@ namespace ProjectFirma.Web.Views.Tenant
                 Check.Assert(new FirmaAdminFeature().HasPermissionByPerson(primaryContactPerson), $"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin. This should have been ensured by validation.");
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
-
-            Check.Assert(NumberOfTaxonomyTiersToUse != null, "Number Of Taxonomy Tiers To Use must not be null. This should have been ensured by validation.");
-            tenantAttribute.NumberOfTaxonomyTiersToUse = NumberOfTaxonomyTiersToUse ?? 0;
-
-            Check.Assert(MinimumYear != null, "Minimum Year must not be null. This should have been ensured by validation.");
-            tenantAttribute.MinimumYear = MinimumYear ?? 0;
+            tenantAttribute.TaxonomyLevelID = TaxonomyLevelID.Value;
+            tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
+            tenantAttribute.MinimumYear = MinimumYear.Value;
 
             tenantAttribute.MapServiceUrl = MapServiceUrl;
             tenantAttribute.WatershedLayerName = WatershedLayerName;
@@ -169,6 +168,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
                 }
+            }
+
+            if (TaxonomyLevelID.Value < AssociatePerfomanceMeasureTaxonomyLevelID.Value)
+            {
+                errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Cannot choose a Taxonomy Tier that does not exist!", m => m.AssociatePerfomanceMeasureTaxonomyLevelID));
             }
 
             return errors;

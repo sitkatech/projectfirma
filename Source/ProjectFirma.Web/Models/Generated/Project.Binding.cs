@@ -49,10 +49,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, string projectWatershedNotes, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, string projectWatershedNotes, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox) : this()
         {
             this.ProjectID = projectID;
-            this.TaxonomyTierOneID = taxonomyTierOneID;
+            this.TaxonomyLeafID = taxonomyLeafID;
             this.ProjectStageID = projectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -82,12 +82,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID, int projectApprovalStatusID) : this()
+        public Project(int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID, int projectApprovalStatusID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TaxonomyTierOneID = taxonomyTierOneID;
+            this.TaxonomyLeafID = taxonomyLeafID;
             this.ProjectStageID = projectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -100,13 +100,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus) : this()
+        public Project(TaxonomyLeaf taxonomyLeaf, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TaxonomyTierOneID = taxonomyTierOne.TaxonomyTierOneID;
-            this.TaxonomyTierOne = taxonomyTierOne;
-            taxonomyTierOne.Projects.Add(this);
+            this.TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
+            this.TaxonomyLeaf = taxonomyLeaf;
+            taxonomyLeaf.Projects.Add(this);
             this.ProjectStageID = projectStage.ProjectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -119,9 +119,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus)
+        public static Project CreateNewBlank(TaxonomyLeaf taxonomyLeaf, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProjectApprovalStatus projectApprovalStatus)
         {
-            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType, projectApprovalStatus);
+            return new Project(taxonomyLeaf, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType, projectApprovalStatus);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int ProjectID { get; set; }
         public int TenantID { get; private set; }
-        public int TaxonomyTierOneID { get; set; }
+        public int TaxonomyLeafID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
@@ -299,7 +299,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
+        public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }

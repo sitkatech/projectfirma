@@ -84,19 +84,19 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierOneList
+    public partial class FirmaPageTypeTaxonomyLeafList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierThreeList
+    public partial class FirmaPageTypeTaxonomyTrunkList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -116,11 +116,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierTwoList
+    public partial class FirmaPageTypeTaxonomyBranchList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -169,14 +169,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
-        }
-    }
-
-    public partial class FirmaPageTypeResultsByTaxonomyTierTwo
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyTierTwo(null));
         }
     }
 

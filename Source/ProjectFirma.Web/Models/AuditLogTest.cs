@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
     /// PerformanceMeasureActualSubcategoryOption
     /// PerformanceMeasureExpected
     /// PerformanceMeasureExpectedSubcategoryOption
-    /// TaxonomyTierTwoPerformanceMeasure
+    /// TaxonomyBranchPerformanceMeasure
     /// ProjectClassification
     /// PerformanceMeasureSubcategoryOption
     /// 
@@ -56,21 +56,21 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
             var objectContext = dbContext.GetObjectContext();
             var testProject = TestFramework.TestProject.Insert(dbContext);
-            var originalTaxonomyTierOneName = testProject.TaxonomyTierOne.TaxonomyTierOneName;
+            var originalTaxonomyLeafName = testProject.TaxonomyLeaf.TaxonomyLeafName;
             // Act
-            var newTaxonomyTierOne = TestFramework.TestTaxonomyTierOne.Create(dbContext);
+            var newTaxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            testProject.TaxonomyTierOneID = newTaxonomyTierOne.TaxonomyTierOneID;
+            testProject.TaxonomyLeafID = newTaxonomyLeaf.TaxonomyLeafID;
 
             var changeTracker = dbContext.ChangeTracker;
             changeTracker.DetectChanges();
             var modifiedEntries = changeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList();
             var dbEntry = modifiedEntries.First();
-            var result = AuditLog.GetAuditDescriptionStringIfAnyForProperty(objectContext, dbEntry, "TaxonomyTierOneID", AuditLogEventType.Modified);
+            var result = AuditLog.GetAuditDescriptionStringIfAnyForProperty(objectContext, dbEntry, "TaxonomyLeafID", AuditLogEventType.Modified);
 
             // Assert
-            Assert.That(result, Is.EqualTo(string.Format("TaxonomyTierOne: {0} changed to {1}", originalTaxonomyTierOneName, newTaxonomyTierOne.TaxonomyTierOneName)));
+            Assert.That(result, Is.EqualTo(string.Format("TaxonomyLeaf: {0} changed to {1}", originalTaxonomyLeafName, newTaxonomyLeaf.TaxonomyLeafName)));
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestTaxonomyTierOneAuditLogging()
+        public void TestTaxonomyLeafAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -172,33 +172,33 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             var dbContext = HttpRequestStorage.DatabaseEntities;
-            var testTaxonomyTierOne = TestFramework.TestTaxonomyTierOne.Create(dbContext);
+            var testTaxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this FundingSource
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTierOne named \"{0}\" in Audit Log database entries.", testTaxonomyTierOne.TaxonomyTierOneName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTierOne.TaxonomyTierOneName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyLeaf named \"{0}\" in Audit Log database entries.", testTaxonomyLeaf.TaxonomyLeafName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyLeaf.TaxonomyLeafName)));
 
             // Change audit logging
             // --------------------
 
-            var newTaxonomyTierOneName = TestFramework.MakeTestName("New TaxonomyTierOneName", TaxonomyTierOne.FieldLengths.TaxonomyTierOneName);
-            testTaxonomyTierOne.TaxonomyTierOneName = newTaxonomyTierOneName;
+            var newTaxonomyLeafName = TestFramework.MakeTestName("New TaxonomyLeafName", TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
+            testTaxonomyLeaf.TaxonomyLeafName = newTaxonomyLeafName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTierOneName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyLeafName)));
 
             // Delete audit logging
             // --------------------
 
-            testTaxonomyTierOne.DeleteTaxonomyTierOne();
+            testTaxonomyLeaf.DeleteTaxonomyLeaf();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this TaxonomyTierOneName as deleted
+            // Check that the audit log mentions this TaxonomyLeafName as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "TaxonomyTierOne" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTierOne.TaxonomyTierOneID) != null,
-                "Could not find deleted TaxonomyTierOne record");
+                    al => al.TableName == "TaxonomyLeaf" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyLeaf.TaxonomyLeafID) != null,
+                "Could not find deleted TaxonomyLeaf record");
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestTaxonomyTierThreeAuditLogging()
+        public void TestTaxonomyTrunkAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -255,34 +255,34 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testTaxonomyTierThree = TestFramework.TestTaxonomyTierThree.Create(dbContext);
+            var testTaxonomyTrunk = TestFramework.TestTaxonomyTrunk.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTierThree named \"{0}\" in Audit Log database entries.", testTaxonomyTierThree.TaxonomyTierThreeName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTierThree.TaxonomyTierThreeName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTrunk named \"{0}\" in Audit Log database entries.", testTaxonomyTrunk.TaxonomyTrunkName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTrunk.TaxonomyTrunkName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newTaxonomyTierThreeName = TestFramework.MakeTestName("New TaxonomyTierThree Name", TaxonomyTierThree.FieldLengths.TaxonomyTierThreeName);
-            testTaxonomyTierThree.TaxonomyTierThreeName = newTaxonomyTierThreeName;
+            var newTaxonomyTrunkName = TestFramework.MakeTestName("New TaxonomyTrunk Name", TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            testTaxonomyTrunk.TaxonomyTrunkName = newTaxonomyTrunkName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTierThreeName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTrunkName)));
 
             // Delete audit logging
             // --------------------
 
-            testTaxonomyTierThree.DeleteTaxonomyTierThree();
+            testTaxonomyTrunk.DeleteTaxonomyTrunk();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this TaxonomyTierThree name as deleted
+            // Check that the audit log mentions this TaxonomyTrunk name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "TaxonomyTierThree" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTierThree.TaxonomyTierThreeID) != null,
-                "Could not find deleted TaxonomyTierThree record");
+                    al => al.TableName == "TaxonomyTrunk" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTrunk.TaxonomyTrunkID) != null,
+                "Could not find deleted TaxonomyTrunk record");
         }
 
         [Test]
@@ -328,7 +328,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestTaxonomyTierTwoAuditLogging()
+        public void TestTaxonomyBranchAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -339,34 +339,34 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testTaxonomyTierTwo = TestFramework.TestTaxonomyTierTwo.Create(dbContext);
+            var testTaxonomyBranch = TestFramework.TestTaxonomyBranch.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyTierTwo named \"{0}\" in Audit Log database entries.", testTaxonomyTierTwo.TaxonomyTierTwoName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyTierTwo.TaxonomyTierTwoName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for TaxonomyBranch named \"{0}\" in Audit Log database entries.", testTaxonomyBranch.TaxonomyBranchName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testTaxonomyBranch.TaxonomyBranchName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newTaxonomyTierTwoName = TestFramework.MakeTestName("New TaxonomyTierTwo Name", TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoName);
-            testTaxonomyTierTwo.TaxonomyTierTwoName = newTaxonomyTierTwoName;
+            var newTaxonomyBranchName = TestFramework.MakeTestName("New TaxonomyBranch Name", TaxonomyBranch.FieldLengths.TaxonomyBranchName);
+            testTaxonomyBranch.TaxonomyBranchName = newTaxonomyBranchName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyTierTwoName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newTaxonomyBranchName)));
 
             // Delete audit logging
             // --------------------
 
-            testTaxonomyTierTwo.DeleteTaxonomyTierTwo();
+            testTaxonomyBranch.DeleteTaxonomyBranch();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this TaxonomyTierTwo name as deleted
+            // Check that the audit log mentions this TaxonomyBranch name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "TaxonomyTierTwo" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyTierTwo.TaxonomyTierTwoID) != null,
-                "Could not find deleted TaxonomyTierTwo record");
+                    al => al.TableName == "TaxonomyBranch" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testTaxonomyBranch.TaxonomyBranchID) != null,
+                "Could not find deleted TaxonomyBranch record");
         }
 
         [Test]

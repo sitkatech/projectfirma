@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         public void TestProjectLocationFilterTypesAddedAsProjectProperties()
         {
             var project = Project.CreateNewBlank(
-                TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
+                TaxonomyLeaf.CreateNewBlank(TaxonomyBranch.CreateNewBlank(TaxonomyTrunk.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
                 FundingType.Capital,

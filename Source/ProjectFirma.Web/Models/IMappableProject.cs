@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Models
 {
     public interface IMappableProject : IProject
     {
-        TaxonomyTierOne TaxonomyTierOne { get; }
+        TaxonomyLeaf TaxonomyLeaf { get; }
         ICollection<IEntityClassification> ProjectClassificationsForMap { get; }
         bool HasProjectWatersheds { get; }
         int FancyTreeNodeKey { get; }

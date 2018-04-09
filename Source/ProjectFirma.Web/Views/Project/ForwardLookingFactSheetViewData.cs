@@ -52,9 +52,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string FactSheetPdfUrl;
 
         public readonly string TaxonomyColor;
-        public readonly string TaxonomyTierOneDisplayName;
-        public readonly string TaxonomyTierOneName;
-        public readonly string TaxonomyTierTwoName;
+        public readonly string TaxonomyLeafDisplayName;
+        public readonly string TaxonomyLeafName;
+        public readonly string TaxonomyBranchName;
 
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
@@ -85,33 +85,27 @@ namespace ProjectFirma.Web.Views.Project
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
-            if (project.TaxonomyTierOne == null)
+            if (project.TaxonomyLeaf == null)
             {
                 TaxonomyColor = "blue";
             }
             else
             {
-                switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
+                switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
                 {
-                    case 1:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                    case TaxonomyLevelEnum.Leaf:
+                    case TaxonomyLevelEnum.Branch:
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
                         break;
-                    case 2:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                    case TaxonomyLevelEnum.Trunk:
+                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor;
                         break;
-                    case 3:
-                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
-                        break;
-                    // we don't support more than 3 so we should throw if that has more than 3
-                    default:
-                        throw new ArgumentException(
-                            $"ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {MultiTenantHelpers.GetNumberOfTaxonomyTiers()}");
                 }
             }
 
-            TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
-            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
-            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
+            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
+            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             
             SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
                 ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
