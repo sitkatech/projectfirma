@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 
@@ -29,14 +28,19 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec{ get; }
+        public string GridName{ get; }
+        public string GridDataUrl{ get; }
+        public string EditSortOrderUrl { get; }
+        public bool OfferEditSortOrder { get; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             var taxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyBranchDisplayNamePluralized;
+
+            // only let them sort tier two taxonomy if that's the highest level.
+            OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
             var hasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
@@ -54,6 +58,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
             GridName = "taxonomyBranchesGrid";
             GridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            EditSortOrderUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
         }
     }
 }

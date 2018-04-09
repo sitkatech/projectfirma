@@ -28,9 +28,10 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec{get;}
+        public string GridName{get;}
+        public string GridDataUrl{get;}
+        public string EditSortOrderUrl { get; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -53,6 +54,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             GridName = "taxonomyLeafsGrid";
             GridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            EditSortOrderUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
         }
     }
 }

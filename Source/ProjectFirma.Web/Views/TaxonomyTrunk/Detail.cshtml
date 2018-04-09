@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.TaxonomyTrunk.Detail
 
@@ -99,11 +99,13 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.OrderBy(x => x.DisplayName))
+                        @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.SortByOrderThenName())
                         {
                             <tr>
                                 <td>
@@ -133,7 +135,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTrunk.TaxonomyLeafs)
+                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTrunk.TaxonomyLeafs.SortByOrderThenName())
                         {
                             <tr>
                                 <td>

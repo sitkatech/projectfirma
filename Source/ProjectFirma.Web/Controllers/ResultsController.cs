@@ -36,6 +36,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().OrderBy(x => x.DisplayName).ToList();
+            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
             var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
@@ -59,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.OrderBy(x => x.TaxonomyBranchName).ToList();
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
             var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyBranches);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
                 SpendingByOrganizationTypeByOrganizationViewData>(viewData);

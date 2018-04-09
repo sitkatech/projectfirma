@@ -64,6 +64,7 @@
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
           <ScalarProperty Name="ClassificationSystemID" ColumnName="ClassificationSystemID" />
+          <ScalarProperty Name="ClassificationSortOrder" ColumnName="ClassificationSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -359,6 +360,7 @@
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
+          <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1031,6 +1033,7 @@
           <ScalarProperty Name="TaxonomyBranchDescription" ColumnName="TaxonomyBranchDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyBranchCode" ColumnName="TaxonomyBranchCode" />
+          <ScalarProperty Name="TaxonomyBranchSortOrder" ColumnName="TaxonomyBranchSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1043,6 +1046,7 @@
           <ScalarProperty Name="TaxonomyLeafName" ColumnName="TaxonomyLeafName" />
           <ScalarProperty Name="TaxonomyLeafDescription" ColumnName="TaxonomyLeafDescription" />
           <ScalarProperty Name="TaxonomyLeafCode" ColumnName="TaxonomyLeafCode" />
+          <ScalarProperty Name="TaxonomyLeafSortOrder" ColumnName="TaxonomyLeafSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1066,6 +1070,7 @@
           <ScalarProperty Name="TaxonomyTrunkDescription" ColumnName="TaxonomyTrunkDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTrunkCode" ColumnName="TaxonomyTrunkCode" />
+          <ScalarProperty Name="TaxonomyTrunkSortOrder" ColumnName="TaxonomyTrunkSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -699,6 +699,7 @@
     <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="KeyImageFileResourceID" Type="Int32" />
     <Property Name="ClassificationSystemID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationSortOrder" Type="Int32" />
     <NavigationProperty Name="ClassificationSystem" Relationship="ProjectFirma.Web.Models.FK_Classification_ClassificationSystem_ClassificationSystemID" FromRole="Classifications" ToRole="ClassificationSystem" />
     <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
@@ -1034,6 +1035,7 @@
     <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="SwapChartAxes" Type="Boolean" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="Boolean" Nullable="false" />
+    <Property Name="PerformanceMeasureSortOrder" Type="Int32" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptions" />
@@ -1842,6 +1844,7 @@
     <Property Name="TaxonomyBranchDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyBranchCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyBranchSortOrder" Type="Int32" />
     <NavigationProperty Name="TaxonomyTrunk" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" FromRole="TaxonomyBranches" ToRole="TaxonomyTrunk" />
     <NavigationProperty Name="TaxonomyLeafs" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" FromRole="TaxonomyBranch" ToRole="TaxonomyLeafs" />
   </EntityType>
@@ -1855,6 +1858,7 @@
     <Property Name="TaxonomyLeafName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyLeafSortOrder" Type="Int32" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyLeaf_TaxonomyLeafID" FromRole="TaxonomyLeaf" ToRole="Projects" />
     <NavigationProperty Name="TaxonomyBranch" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" FromRole="TaxonomyLeafs" ToRole="TaxonomyBranch" />
     <NavigationProperty Name="TaxonomyLeafPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" FromRole="TaxonomyLeaf" ToRole="TaxonomyLeafPerformanceMeasures" />
@@ -1881,6 +1885,7 @@
     <Property Name="TaxonomyTrunkDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTrunkCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTrunkSortOrder" Type="Int32" />
     <NavigationProperty Name="TaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" FromRole="TaxonomyTrunk" ToRole="TaxonomyBranches" />
   </EntityType>
   <EntityType Name="TenantAttribute">

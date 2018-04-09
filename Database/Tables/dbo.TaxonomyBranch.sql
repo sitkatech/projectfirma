@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[TaxonomyBranch](
 	[TaxonomyBranchDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyBranchCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaxonomyBranchSortOrder] [int] NULL,
  CONSTRAINT [PK_TaxonomyBranch_TaxonomyBranchID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyBranchID] ASC

@@ -26,6 +26,7 @@ using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
@@ -35,12 +36,13 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         {
             if (new TaxonomyTrunkManageFeature().HasPermissionByPerson(person))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
 
             Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTrunkName), 240);
             Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
+            Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, DhtmlxGridColumnFormatType.None);
         }
     }
 }

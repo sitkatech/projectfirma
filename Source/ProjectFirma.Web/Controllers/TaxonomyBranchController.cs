@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyBranch.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyBranch.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyBranch.EditViewData;
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyBranch> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(x => x.TaxonomyBranchName).ToList();
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyBranch>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -203,6 +204,68 @@ namespace ProjectFirma.Web.Controllers
             var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [TaxonomyBranchManageFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches;
+            var viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(taxonomyBranches, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IEnumerable<TaxonomyBranch> taxonomyBranches, EditSortOrderViewModel viewModel)
+        {
+            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyBranches), FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyBranchManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(taxonomyBranches, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyBranches));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
+
+        [TaxonomyBranchManageFeature]
+        public PartialViewResult EditChildrenSortOrder(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
+        {
+            var taxonomyLeafs = taxonomyBranchPrimaryKey.EntityObject.TaxonomyLeafs;
+            var viewModel = new EditSortOrderViewModel();
+            return ViewEditChildrenSortOrder(taxonomyLeafs, viewModel);
+        }
+
+        private PartialViewResult ViewEditChildrenSortOrder(ICollection<TaxonomyLeaf> taxonomyLeafss, EditSortOrderViewModel viewModel)
+        {
+            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyLeafss), FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyBranchManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditChildrenSortOrder(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey, EditSortOrderViewModel viewModel)
+        {
+            var taxonomyLeafs = taxonomyBranchPrimaryKey.EntityObject.TaxonomyLeafs;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditChildrenSortOrder(taxonomyLeafs, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyLeafs));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

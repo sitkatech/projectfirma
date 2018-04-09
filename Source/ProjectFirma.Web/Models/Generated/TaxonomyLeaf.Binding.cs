@@ -31,13 +31,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyBranchID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode) : this()
+        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyBranchID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode, int? taxonomyLeafSortOrder) : this()
         {
             this.TaxonomyLeafID = taxonomyLeafID;
             this.TaxonomyBranchID = taxonomyBranchID;
             this.TaxonomyLeafName = taxonomyLeafName;
             this.TaxonomyLeafDescription = taxonomyLeafDescription;
             this.TaxonomyLeafCode = taxonomyLeafCode;
+            this.TaxonomyLeafSortOrder = taxonomyLeafSortOrder;
         }
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyLeafName { get; set; }
         public string TaxonomyLeafDescription { get; set; }
         public string TaxonomyLeafCode { get; set; }
+        public int? TaxonomyLeafSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 

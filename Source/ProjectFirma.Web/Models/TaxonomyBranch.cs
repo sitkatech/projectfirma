@@ -29,8 +29,15 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier
+    public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
     {
+        public int? SortOrder
+        {
+            get => TaxonomyBranchSortOrder;
+            set => TaxonomyBranchSortOrder = value;
+        }
+        public int ID => TaxonomyBranchID;
+
         public string DeleteUrl
         {
             get { return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.DeleteTaxonomyBranch(TaxonomyBranchID)); }

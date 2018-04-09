@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[TaxonomyLeaf](
 	[TaxonomyLeafName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyLeafDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyLeafCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaxonomyLeafSortOrder] [int] NULL,
  CONSTRAINT [PK_TaxonomyLeaf_TaxonomyLeafID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyLeafID] ASC

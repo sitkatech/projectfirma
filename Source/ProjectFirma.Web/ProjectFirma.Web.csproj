@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -375,6 +375,9 @@
     <Compile Include="Views\ProjectDocument\ProjectDocumentsDetail.cs" />
     <Compile Include="Views\ProjectDocument\ProjectDocumentsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderViewModel.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrder.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderViewData.cs" />
     <Compile Include="Models\CustomPageModelExtensions.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
     <Compile Include="Controllers\CustomPageController.cs" />
@@ -537,6 +540,8 @@
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
     <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
+    <Compile Include="Models\IHaveASortOrder.cs" />
+    <Compile Include="Views\Shared\SortOrder\SortOrderHelper.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasures.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
@@ -642,6 +647,8 @@
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
     </Content>
+    <Content Include="Content\Sortable.js" />
+    <Content Include="Content\Sortable.min.js" />
     <Content Include="Content\spinjs\spin.min.js" />
     <Content Include="Content\typeahead\typeahead.js" />
     <Content Include="Content\typeahead\typeahead.min.js">
@@ -753,6 +760,7 @@
     <Content Include="Views\CustomPage\CustomPageDetails.cshtml" />
     <Content Include="Views\CustomPage\Index.cshtml" />
     <Content Include="Views\CustomPage\Edit.cshtml" />
+    <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />

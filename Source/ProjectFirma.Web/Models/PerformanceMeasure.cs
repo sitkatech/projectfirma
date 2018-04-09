@@ -27,7 +27,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class PerformanceMeasure : IAuditableEntity
+    public partial class PerformanceMeasure : IAuditableEntity, IHaveASortOrder
     {
         public int ExpectedProjectsCount
         {
@@ -195,5 +195,9 @@ namespace ProjectFirma.Web.Models
            
             return projectPerformanceMeasureReportingPeriodValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.Project.ProjectName).ToList();
         }
+
+        public string DisplayName => PerformanceMeasureDisplayName;
+        public int? SortOrder { get => PerformanceMeasureSortOrder; set => PerformanceMeasureSortOrder = value; }
+        public int ID => PerformanceMeasureID;
     }
 }

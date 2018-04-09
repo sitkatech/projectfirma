@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[TaxonomyTrunk](
 	[TaxonomyTrunkDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTrunkCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaxonomyTrunkSortOrder] [int] NULL,
  CONSTRAINT [PK_TaxonomyTrunk_TaxonomyTrunkID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTrunkID] ASC

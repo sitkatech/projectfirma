@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartTitle, string chartCaption, bool swapChartAxes, bool canCalculateTotal) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartTitle, string chartCaption, bool swapChartAxes, bool canCalculateTotal, int? performanceMeasureSortOrder) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -57,6 +57,7 @@ namespace ProjectFirma.Web.Models
             this.ChartCaption = chartCaption;
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
+            this.PerformanceMeasureSortOrder = performanceMeasureSortOrder;
         }
 
         /// <summary>
@@ -213,6 +214,7 @@ namespace ProjectFirma.Web.Models
         public string ChartCaption { get; set; }
         public bool SwapChartAxes { get; set; }
         public bool CanCalculateTotal { get; set; }
+        public int? PerformanceMeasureSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 

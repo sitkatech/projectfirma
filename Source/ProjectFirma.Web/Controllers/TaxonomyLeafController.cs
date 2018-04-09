@@ -34,6 +34,7 @@ using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyLeaf.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyLeaf.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyLeaf.EditViewData;
@@ -70,7 +71,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyLeaf> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(x => x.TaxonomyLeafName).ToList();
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList()
+                .OrderBy(x => x.TaxonomyLeafName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyLeaf>(taxonomyLeafs, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -83,22 +85,36 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafProjects = taxonomyLeaf.Projects.ToList();
             var projects = new List<IMappableProject>(taxonomyLeafProjects);
 
-            var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf, new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyLeafProjectMap");
+            var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
+                new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
+            var projectLocationsLayerGeoJson =
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
+                    Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1,
+                    LayerInitialVisibility.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
+                projectMapCustomization, "TaxonomyLeafProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
+                ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentPerson.CanViewProposals);
 
-            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            var associatePerformanceMeasureTaxonomyLevel =
+                MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var canHaveAssociatedPerformanceMeasures = associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Leaf;
             var taxonomyTierPerformanceMeasures = taxonomyLeaf.GetTaxonomyTierPerformanceMeasures();
-            var relatedPerformanceMeasuresViewData = new RelatedPerformanceMeasuresViewData(associatePerformanceMeasureTaxonomyLevel, true, taxonomyTierPerformanceMeasures, canHaveAssociatedPerformanceMeasures);
+            var relatedPerformanceMeasuresViewData = new RelatedPerformanceMeasuresViewData(
+                associatePerformanceMeasureTaxonomyLevel, true, taxonomyTierPerformanceMeasures,
+                canHaveAssociatedPerformanceMeasures);
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
             if (canHaveAssociatedPerformanceMeasures)
             {
-                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
+                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x =>
+                    new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
             }
-            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas);
+
+            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, projectLocationsMapInitJson,
+                projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData,
+                performanceMeasureChartViewDatas);
 
             return RazorView<Summary, DetailViewData>(viewData);
         }
@@ -120,12 +136,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
+
             var taxonomyLeaf = new TaxonomyLeaf(viewModel.TaxonomyBranchID, string.Empty);
             viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Add(taxonomyLeaf);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel(), taxonomyLeaf.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!",
+                FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel(), taxonomyLeaf.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -148,6 +166,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.DisplayName);
             }
+
             viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -159,7 +178,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyBranchDisplayName)
         {
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(x => x.DisplayName).ToSelectList(x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList()
+                .OrderBy(x => x.DisplayName)
+                .ToSelectList(x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             var viewData = new EditViewData(taxonomyBranches, taxonomyBranchDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -173,28 +194,35 @@ namespace ProjectFirma.Web.Controllers
             return ViewDeleteTaxonomyLeaf(taxonomyLeaf, viewModel);
         }
 
-        private PartialViewResult ViewDeleteTaxonomyLeaf(TaxonomyLeaf taxonomyLeaf, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteTaxonomyLeaf(TaxonomyLeaf taxonomyLeaf,
+            ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !taxonomyLeaf.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count() > 1;
+            var canDelete = !taxonomyLeaf.HasDependentObjects() &&
+                            HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count() > 1;
             var taxonomyLeafDisplayName = FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyLeafDisplayName, taxonomyLeaf.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyLeafDisplayName, SitkaRoute<TaxonomyLeafController>.BuildLinkFromExpression(x => x.Detail(taxonomyLeaf), "here"));
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyLeafDisplayName,
+                    taxonomyLeaf.DisplayName)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyLeafDisplayName,
+                    SitkaRoute<TaxonomyLeafController>.BuildLinkFromExpression(x => x.Detail(taxonomyLeaf), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
+                viewModel);
         }
 
         [HttpPost]
         [TaxonomyLeafManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteTaxonomyLeaf(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteTaxonomyLeaf(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey,
+            ConfirmDialogFormViewModel viewModel)
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTaxonomyLeaf(taxonomyLeaf, viewModel);
             }
+
             taxonomyLeaf.DeleteTaxonomyLeaf();
             return new ModalDialogFormJsonResult();
         }
@@ -206,6 +234,40 @@ namespace ProjectFirma.Web.Controllers
             var projectTaxonomyLeafs = taxonomyLeafPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [TaxonomyLeafManageFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(taxonomyLeafs, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IEnumerable<TaxonomyLeaf> taxonomyLeafs,
+            EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyLeafs),
+                FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyLeafManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(taxonomyLeafs, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyLeafs));
+            SetMessageForDisplay(
+                $"Successfully Updated {FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
         }
     }
 }

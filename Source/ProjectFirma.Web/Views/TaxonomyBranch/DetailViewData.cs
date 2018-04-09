@@ -58,6 +58,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
 
+        public string EditChildrenSortOrderUrl { get; }
+
         public DetailViewData(Person currentPerson,
             Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
@@ -93,6 +95,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
+
+            EditChildrenSortOrderUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.EditChildrenSortOrder(taxonomyBranch));
         }
     }
 }

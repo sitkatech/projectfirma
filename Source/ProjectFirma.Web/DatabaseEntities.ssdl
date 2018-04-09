@@ -716,6 +716,7 @@ warning 6035: The relationship 'FK_ProjectClassification_Classification_Classifi
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
     <Property Name="ClassificationSystemID" Type="int" Nullable="false" />
+    <Property Name="ClassificationSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -1057,6 +1058,7 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMea
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
     <Property Name="SwapChartAxes" Type="bit" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />
+    <Property Name="PerformanceMeasureSortOrder" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1789,6 +1791,7 @@ warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_
     <Property Name="TaxonomyBranchDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyBranchCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyBranchSortOrder" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1804,6 +1807,7 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_T
     <Property Name="TaxonomyLeafName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyLeafDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyLeafCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyLeafSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="TaxonomyLeafPerformanceMeasure">
     <Key>
@@ -1828,6 +1832,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TaxonomyTrunkDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTrunkCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyTrunkSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>

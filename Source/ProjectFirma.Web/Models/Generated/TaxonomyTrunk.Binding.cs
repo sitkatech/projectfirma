@@ -30,13 +30,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTrunk(int taxonomyTrunkID, string taxonomyTrunkName, string taxonomyTrunkDescription, string themeColor, string taxonomyTrunkCode) : this()
+        public TaxonomyTrunk(int taxonomyTrunkID, string taxonomyTrunkName, string taxonomyTrunkDescription, string themeColor, string taxonomyTrunkCode, int? taxonomyTrunkSortOrder) : this()
         {
             this.TaxonomyTrunkID = taxonomyTrunkID;
             this.TaxonomyTrunkName = taxonomyTrunkName;
             this.TaxonomyTrunkDescription = taxonomyTrunkDescription;
             this.ThemeColor = themeColor;
             this.TaxonomyTrunkCode = taxonomyTrunkCode;
+            this.TaxonomyTrunkSortOrder = taxonomyTrunkSortOrder;
         }
 
         /// <summary>
@@ -94,6 +95,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTrunkDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTrunkCode { get; set; }
+        public int? TaxonomyTrunkSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyTrunkID; } set { TaxonomyTrunkID = value; } }
 

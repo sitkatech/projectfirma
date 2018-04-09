@@ -40,7 +40,7 @@
                         <th>@ViewDataTyped.PerformanceMeasureHeaderDisplayName</th>
                         <th>@ViewDataTyped.IsPrimaryTaxonomyTierHeaderDisplayName</th>
                     </tr>
-                    @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.PerformanceMeasureDisplayName))
+                    @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.SortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName, StringComparer.InvariantCultureIgnoreCase))
                     {
                         <tr>
                             <td>@taxonomyTierPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>

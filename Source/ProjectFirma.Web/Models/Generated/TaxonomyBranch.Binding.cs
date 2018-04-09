@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyBranch(int taxonomyBranchID, int taxonomyTrunkID, string taxonomyBranchName, string taxonomyBranchDescription, string themeColor, string taxonomyBranchCode) : this()
+        public TaxonomyBranch(int taxonomyBranchID, int taxonomyTrunkID, string taxonomyBranchName, string taxonomyBranchDescription, string themeColor, string taxonomyBranchCode, int? taxonomyBranchSortOrder) : this()
         {
             this.TaxonomyBranchID = taxonomyBranchID;
             this.TaxonomyTrunkID = taxonomyTrunkID;
@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Models
             this.TaxonomyBranchDescription = taxonomyBranchDescription;
             this.ThemeColor = themeColor;
             this.TaxonomyBranchCode = taxonomyBranchCode;
+            this.TaxonomyBranchSortOrder = taxonomyBranchSortOrder;
         }
 
         /// <summary>
@@ -109,6 +110,7 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyBranchDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyBranchCode { get; set; }
+        public int? TaxonomyBranchSortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyBranchID; } set { TaxonomyBranchID = value; } }
 

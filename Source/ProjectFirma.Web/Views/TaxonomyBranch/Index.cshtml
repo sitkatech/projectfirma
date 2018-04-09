@@ -21,10 +21,22 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Index
+
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@if (ViewDataTyped.OfferEditSortOrder)
+{
+    @section RightOfPageTitle
+    {
+        <div class="pull-right">
+            @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl)
+        </div>
+    }
 }
 
 <div>

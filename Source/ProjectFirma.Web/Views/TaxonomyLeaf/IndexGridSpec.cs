@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30);
+                    30, DhtmlxGridColumnFilterType.None);
             }
 
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             }
             Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
+            Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, DhtmlxGridColumnFormatType.None);
         }
     }
 }

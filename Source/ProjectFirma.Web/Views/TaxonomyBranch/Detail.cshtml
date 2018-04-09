@@ -32,6 +32,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Detail
 
 @section JavascriptAndStylesContent
@@ -102,11 +103,13 @@
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyBranch.TaxonomyLeafs.Any())
                 {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
                     <table class="summaryLayout">
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyBranch.TaxonomyLeafs)
+                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyBranch.TaxonomyLeafs.SortByOrderThenName())
                         {
                             <tr>
                                 <td>

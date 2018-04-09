@@ -34,6 +34,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
 using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new PerformanceMeasureGridSpec(hasDeletePermission);
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasure>(performanceMeasures, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -354,7 +355,7 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var excelWorkbook = new XLWorkbook();
             var ws = excelWorkbook.Worksheets.Add($"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}");
 
@@ -415,6 +416,38 @@ namespace ProjectFirma.Web.Controllers
             return new ExcelResult(excelWorkbook,
                 string.Format("{1} as of {0}", DateTime.Now.ToStringDateTime(),
                     fieldDefinitionLabel));
+        }
+
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(performanceMeasures, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IQueryable<PerformanceMeasure> performanceMeasures, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(performanceMeasures), FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures;
+
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(performanceMeasures, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(performanceMeasures));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
         }
 
     }

@@ -27,8 +27,15 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyLeaf : IAuditableEntity, ITaxonomyTier
+    public partial class TaxonomyLeaf : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
     {
+        public int? SortOrder
+        {
+            get => TaxonomyLeafSortOrder;
+            set => TaxonomyLeafSortOrder = value;
+        }
+        public int ID => TaxonomyLeafID;
+
         public string DisplayName
         {
             get
