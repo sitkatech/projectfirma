@@ -365,6 +365,7 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\IEntityDocument.cs" />
     <Compile Include="Models\ProjectDocument.cs" />
+    <Compile Include="Models\ProjectDocumentUpdate.cs" />
     <Compile Include="Security\ProjectDocumentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectDocumentUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />

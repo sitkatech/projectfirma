@@ -23,14 +23,16 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.ProjectDocument;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class NotesAndDocumentsViewData : ProjectUpdateViewData
     {
-        public readonly EntityNotesViewData EntityNotesViewData;
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
+        public EntityNotesViewData EntityNotesViewData { get; }
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
+        public ProjectDocumentsDetailViewData ProjectDocumentsViewData { get; }
 
         public NotesAndDocumentsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Notes, updateStatus, new List<string>())
         {
@@ -38,10 +40,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
                 projectUpdateBatch.Project.DisplayName,
                 IsEditable);
-            //EntityDocumentsViewData = new EntityDocumentsViewData(EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates)),
-            //    SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
-            //    projectUpdateBatch.Project.DisplayName,
-            //    IsEditable);
+            ProjectDocumentsViewData = new ProjectDocumentsDetailViewData(EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates)),
+                SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
+                projectUpdateBatch.Project.DisplayName,
+                IsEditable);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotes(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
         }

@@ -1,4 +1,5 @@
-﻿using LtInfo.Common;
+﻿using System.Collections.Generic;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -31,11 +32,24 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             UserHasProjectManagePermissions = UserHasProjectManagePermissions && showNewButton;
         }
 
+        public List<EntityDocument> Documents { get; }
+        public string AddDocumentUrl { get; }
+        public string ProjectName { get; }
+        public bool CanEditDocuments { get; }
+
+        public ProjectDocumentsDetailViewData(List<EntityDocument> documents, string addDocumentUrl, string projectName, bool canEditDocuments)
+        {
+            Documents = documents;
+            AddDocumentUrl = addDocumentUrl;
+            ProjectName = projectName;
+            CanEditDocuments = canEditDocuments;
+        }
+
         public Models.Project Project { get; set; }
         public string NewProjectDocumentUrl { get; set; }
         public UrlTemplate<int> EditProjectDocumentUrlTemplate { get; set; }
         public UrlTemplate<int> DeleteProjectDocumentUrlTemplate { get; set; }
-        public Models.Person CurrentPerson { get; set; }
+        public Person CurrentPerson { get; set; }
         public bool UserHasProjectManagePermissions { get; set; }
         public ProjectDocumentEditAsAdminFeature ProjectDocumentEditAsAdminFeature { get; set; }
     }
