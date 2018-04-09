@@ -25,7 +25,6 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -68,7 +67,6 @@ namespace ProjectFirma.Web.Models
             get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyBranch, TaxonomyBranchID.ToString(), ProjectColorByType.ProjectStage); }
         }
 
-
         public static bool IsTaxonomyBranchNameUnique(IEnumerable<TaxonomyBranch> taxonomyBranches, string taxonomyBranchName, int currentTaxonomyBranchID)
         {
             var taxonomyBranch = taxonomyBranches.SingleOrDefault(x => x.TaxonomyBranchID != currentTaxonomyBranchID && String.Equals(x.TaxonomyBranchName, taxonomyBranchName, StringComparison.InvariantCultureIgnoreCase));
@@ -77,16 +75,10 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString => TaxonomyBranchName;
 
-        public List<PerformanceMeasure> GetPerformanceMeasures()
-        {
-            return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures.Where(y => y.IsPrimaryTaxonomyLeaf).Select(y => y.PerformanceMeasure)).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-        }
-
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
             return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(y => y.PerformanceMeasure).ToList();
         }
-
 
         public FancyTreeNode ToFancyTreeNode()
         {

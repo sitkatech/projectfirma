@@ -17,7 +17,6 @@ values
 (18, 'MyProjects', 'My Projects', 1),
 (20, 'ProjectResults', 'Project Results by Organization', 1),
 (22, 'ProjectMap', 'Project Map', 1),
-(23, 'ResultsByTaxonomyBranch', 'Results by Taxonomy Branch', 1),
 (24, 'HomeMapInfo', 'Home Page Map Info', 2),
 (25, 'HomeAdditionalInfo', 'Home Page Additional Info', 2),
 (26, 'FeaturedProjectList', 'Featured Project List', 1),

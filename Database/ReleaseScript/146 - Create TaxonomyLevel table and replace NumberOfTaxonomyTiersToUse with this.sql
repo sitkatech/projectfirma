@@ -28,3 +28,6 @@ alter table dbo.TenantAttribute alter column AssociatePerfomanceMeasureTaxonomyL
 alter table dbo.TenantAttribute drop column NumberOfTaxonomyTiersToUse
 
 alter table dbo.TenantAttribute add constraint CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID check (AssociatePerfomanceMeasureTaxonomyLevelID <= TaxonomyLevelID)
+
+
+delete from dbo.FirmaPage where FirmaPageTypeID = 23

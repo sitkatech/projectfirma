@@ -172,14 +172,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeResultsByTaxonomyBranch
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyBranch(null));
-        }
-    }
-
     public partial class FirmaPageTypeTaxonomy
     {
         public override string GetViewUrl()

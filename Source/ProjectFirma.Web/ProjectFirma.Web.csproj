@@ -920,8 +920,6 @@
     <Compile Include="Views\Shared\ViewPageContent.cs" />
     <Compile Include="Views\Shared\ViewPageContentViewData.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
-    <Compile Include="Views\Results\ResultsByTaxonomyBranch.cs" />
-    <Compile Include="Views\Results\ResultsByTaxonomyBranchViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\Edit.cs" />
     <Compile Include="Views\TaxonomyLeaf\EditViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\EditViewModel.cs" />
@@ -3387,7 +3385,6 @@
     <Content Include="Views\TaxonomyLeaf\Edit.cshtml" />
     <Content Include="Views\TaxonomyLeaf\Index.cshtml" />
     <Content Include="Views\TaxonomyLeaf\Detail.cshtml" />
-    <Content Include="Views\Results\ResultsByTaxonomyBranch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />

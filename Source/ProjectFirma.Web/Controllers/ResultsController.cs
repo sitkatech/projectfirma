@@ -334,26 +334,6 @@ namespace ProjectFirma.Web.Controllers
             return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
         }
 
-        [ResultsByTaxonomyBranchViewFeature]
-        public ViewResult ResultsByTaxonomyBranch(int? taxonomyBranchID)
-        {
-            var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks
-                .OrderBy(x => x.TaxonomyTrunkName).ToList();
-            var selectedTaxonomyBranch = taxonomyBranchID.HasValue
-                ? HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyBranchID.Value)
-                : taxonomyTrunks.First().TaxonomyBranches.First();
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyBranch);
-            var performanceMeasureChartViewDatas = selectedTaxonomyBranch.GetPerformanceMeasures().ToList()
-                .OrderBy(x => x.PerformanceMeasureDisplayName).Select(x =>
-                    new PerformanceMeasureChartViewData(x,
-                        new List<int>(),
-                        CurrentPerson,
-                        false)).ToList();
-            var viewData = new ResultsByTaxonomyBranchViewData(CurrentPerson, firmaPage, taxonomyTrunks,
-                selectedTaxonomyBranch, performanceMeasureChartViewDatas);
-            return RazorView<ResultsByTaxonomyBranch, ResultsByTaxonomyBranchViewData>(viewData);
-        }
-
         [SpendingByPerformanceMeasureByProjectViewFeature]
         public ViewResult SpendingByPerformanceMeasureByProject(int? performanceMeasureID)
         {

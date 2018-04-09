@@ -32,7 +32,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeMyProjects MyProjects = FirmaPageTypeMyProjects.Instance;
         public static readonly FirmaPageTypeProjectResults ProjectResults = FirmaPageTypeProjectResults.Instance;
         public static readonly FirmaPageTypeProjectMap ProjectMap = FirmaPageTypeProjectMap.Instance;
-        public static readonly FirmaPageTypeResultsByTaxonomyBranch ResultsByTaxonomyBranch = FirmaPageTypeResultsByTaxonomyBranch.Instance;
         public static readonly FirmaPageTypeHomeMapInfo HomeMapInfo = FirmaPageTypeHomeMapInfo.Instance;
         public static readonly FirmaPageTypeHomeAdditionalInfo HomeAdditionalInfo = FirmaPageTypeHomeAdditionalInfo.Instance;
         public static readonly FirmaPageTypeFeaturedProjectList FeaturedProjectList = FirmaPageTypeFeaturedProjectList.Instance;
@@ -60,7 +59,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, ResultsByTaxonomyBranch, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training };
+            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -180,8 +179,6 @@ namespace ProjectFirma.Web.Models
                     return Proposals;
                 case FirmaPageTypeEnum.ProposeProjectInstructions:
                     return ProposeProjectInstructions;
-                case FirmaPageTypeEnum.ResultsByTaxonomyBranch:
-                    return ResultsByTaxonomyBranch;
                 case FirmaPageTypeEnum.SpendingByPerformanceMeasureByProject:
                     return SpendingByPerformanceMeasureByProject;
                 case FirmaPageTypeEnum.TagList:
@@ -220,7 +217,6 @@ namespace ProjectFirma.Web.Models
         MyProjects = 18,
         ProjectResults = 20,
         ProjectMap = 22,
-        ResultsByTaxonomyBranch = 23,
         HomeMapInfo = 24,
         HomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
@@ -323,12 +319,6 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeProjectMap(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeProjectMap Instance = new FirmaPageTypeProjectMap(22, @"ProjectMap", @"Project Map", 1);
-    }
-
-    public partial class FirmaPageTypeResultsByTaxonomyBranch : FirmaPageType
-    {
-        private FirmaPageTypeResultsByTaxonomyBranch(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeResultsByTaxonomyBranch Instance = new FirmaPageTypeResultsByTaxonomyBranch(23, @"ResultsByTaxonomyBranch", @"Results by Taxonomy Branch", 1);
     }
 
     public partial class FirmaPageTypeHomeMapInfo : FirmaPageType
