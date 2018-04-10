@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -30,19 +31,20 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly string DetailLinkDescriptor;
 
-        public string TaxonomyTierThreeDisplayName { get; private set; }
-        public string TaxonomyTierTwoDisplayName { get; private set; }
-        public string TaxonomyTierOneDisplayName { get; private set; }
+        public string TaxonomyTrunkDisplayName { get; private set; }
+        public string TaxonomyBranchDisplayName { get; private set; }
+        public string TaxonomyLeafDisplayName { get; private set; }
         public string ClassificationDisplayNamePluralized { get; private set; }
 
         public string DisplayName { get; set; }
         public Models.ProjectImage KeyPhoto { get; set; }
         public string Duration { get; set; }
         public ProjectStage ProjectStage { get; set; }
-        public Models.TaxonomyTierOne TaxonomyTierOne { get; set; }
+        public Models.TaxonomyLeaf TaxonomyLeaf { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
         public Dictionary<Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string DetailUrl { get; set; }
+        public TaxonomyLevel TaxonomyLevel { get; }
 
         public ProjectMapPopupViewData(Models.Project project)
         {
@@ -51,7 +53,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             KeyPhoto = project.KeyPhoto;
             Duration = project.Duration;
             ProjectStage = project.ProjectStage;
-            TaxonomyTierOne = project.TaxonomyTierOne;
+            TaxonomyLeaf = project.TaxonomyLeaf;
             EstimatedTotalCost = project.EstimatedTotalCost;
             
             var dict = new Dictionary<Models.ClassificationSystem, string>();
@@ -62,13 +64,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             DetailUrl = project.GetDetailUrl();
             DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
             InitializeDisplayNames();
+            TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
         }
 
         private void InitializeDisplayNames()
         {
-            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }
     }

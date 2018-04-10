@@ -27,13 +27,13 @@ namespace ProjectFirma.Web.Views.Results
     {
         public List<OrganizationType> OrganizationTypes { get; }
         public List<Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
-        public List<Models.TaxonomyTierTwo> TaxonomyTierTwos { get; }
+        public List<Models.TaxonomyBranch> TaxonomyBranches { get; }
 
-        public SpendingByOrganizationTypeByOrganizationViewData(List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<Models.TaxonomyTierTwo> taxonomyTierTwos)
+        public SpendingByOrganizationTypeByOrganizationViewData(List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<Models.TaxonomyBranch> taxonomyBranches)
         {
             OrganizationTypes = organizationTypes;
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
-            TaxonomyTierTwos = taxonomyTierTwos;
+            TaxonomyBranches = taxonomyBranches;
         }
 
     }

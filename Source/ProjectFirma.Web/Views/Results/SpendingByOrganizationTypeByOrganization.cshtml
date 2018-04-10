@@ -25,22 +25,22 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <table class="table table-striped table-responsive">
     <tr>
-        <th>@FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()</th>
+        <th>@FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel()</th>
         @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
         {
             <th style="text-align: right">@organizationType.OrganizationTypeName</th>
         }
         <th style="text-align: right">Total</th>
     </tr>
-    @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierTwos.SortByOrderThenName())
+    @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyBranches.SortByOrderThenName())
     {
         <tr>
-            <td>@taxonomyTierTwo.GetDisplayNameAsUrl()</td>
+            <td>@taxonomyBranch.GetDisplayNameAsUrl()</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
-                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyBranchID == taxonomyBranch.TaxonomyBranchID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
             }
-            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyTierOne.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyBranchID == taxonomyBranch.TaxonomyBranchID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
         </tr>
     }
     <tr>

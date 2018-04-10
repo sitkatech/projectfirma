@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DetailViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="OrganizationAccomplishmentsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Views.Results
@@ -27,14 +28,21 @@ namespace ProjectFirma.Web.Views.Results
     public class OrganizationAccomplishmentsViewData
     {
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
-        public string ProjectStewardOrLeadImplementorFieldDefinitionName { get; }
-        public Models.TaxonomyTierTwo TaxonomyTierTwo { get; }
+        public ITaxonomyTier TaxonomyTier { get; }
+        public string PerformanceMeasureDisplayName { get; }
+        public string OrganizationDisplayName { get; }
+        public string PerformanceMeasureDisplayNamePluralized { get; }
+        public string TaxonomyTierDisplayName { get; }
 
-        public OrganizationAccomplishmentsViewData(string projectStewardOrLeadImplementorFieldDefinitionName, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, Models.TaxonomyTierTwo taxonomyTierTwo)
+        public OrganizationAccomplishmentsViewData(List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, ITaxonomyTier taxonomyTier, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
-            ProjectStewardOrLeadImplementorFieldDefinitionName = projectStewardOrLeadImplementorFieldDefinitionName;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
-            TaxonomyTierTwo = taxonomyTierTwo;
+            TaxonomyTier = taxonomyTier;
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
+            var fieldDefinitionForPerformanceMeasure = Models.FieldDefinition.PerformanceMeasure;
+            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel();
+            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
+            OrganizationDisplayName = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
         }
     }
 }

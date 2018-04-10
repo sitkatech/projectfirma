@@ -82,10 +82,10 @@
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.Store.StateProvince" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierOne" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierOne" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierThree" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyBranch" EntityType="ProjectFirma.Web.Models.Store.TaxonomyBranch" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
@@ -335,8 +335,8 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="ReviewedByPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreTheReviewedByPerson" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
+    <AssociationSet Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyLeaf_TaxonomyLeafID">
+      <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
       <End Role="Projects" EntitySet="Project" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
@@ -619,21 +619,21 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="RequestPerson" EntitySet="Person" />
       <End Role="SupportRequestLogsWhereYouAreTheRequestPerson" EntitySet="SupportRequestLog" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
-      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
-      <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
+    <AssociationSet Name="FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID">
+      <End Role="TaxonomyTrunk" EntitySet="TaxonomyTrunk" />
+      <End Role="TaxonomyBranches" EntitySet="TaxonomyBranch" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
-      <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
-      <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
+    <AssociationSet Name="FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID">
+      <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
+      <End Role="TaxonomyLeafs" EntitySet="TaxonomyLeaf" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
-      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
-      <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
+    <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+      <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
+      <End Role="TaxonomyLeafPerformanceMeasures" EntitySet="TaxonomyLeafPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID">
       <End Role="TenantBannerLogoFileResource" EntitySet="FileResource" />
@@ -1048,7 +1048,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureNote_PerformanceMeasure_Per
 warning 6035: The relationship 'FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -1276,7 +1276,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     </Key>
     <Property Name="ProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" />
     <Property Name="ProjectStageID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
@@ -1800,61 +1800,61 @@ warning 6035: The relationship 'FK_ProjectTag_Tag_TagID_TenantID' has columns th
     <Property Name="TagDescription" Type="varchar" MaxLength="1000" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
-  <EntityType Name="TaxonomyTierOne">
+  <EntityType Name="TaxonomyBranch">
     <Key>
-      <PropertyRef Name="TaxonomyTierOneID" />
+      <PropertyRef Name="TaxonomyBranchID" />
     </Key>
-    <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyBranchID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierOneDescription" Type="varchar" MaxLength="4000" />
-    <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
-    <Property Name="TaxonomyTierOneSortOrder" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="TaxonomyTierThree">
-    <Key>
-      <PropertyRef Name="TaxonomyTierThreeID" />
-    </Key>
-    <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierThreeName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierThreeDescription" Type="varchar" MaxLength="4000" />
-    <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
-    <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
-    <Property Name="TaxonomyTierThreeSortOrder" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="TaxonomyTierTwo">
-    <Key>
-      <PropertyRef Name="TaxonomyTierTwoID" />
-    </Key>
-    <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierTwoName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierTwoDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="TaxonomyTrunkID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyBranchName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyBranchDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
-    <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
-    <Property Name="TaxonomyTierTwoSortOrder" Type="int" />
+    <Property Name="TaxonomyBranchCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyBranchSortOrder" Type="int" />
   </EntityType>
-  <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="TaxonomyLeaf">
     <Key>
-      <PropertyRef Name="TaxonomyTierTwoPerformanceMeasureID" />
+      <PropertyRef Name="TaxonomyLeafID" />
     </Key>
-    <Property Name="TaxonomyTierTwoPerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyBranchID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyLeafName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyLeafDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="TaxonomyLeafCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyLeafSortOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="TaxonomyLeafPerformanceMeasure">
+    <Key>
+      <PropertyRef Name="TaxonomyLeafPerformanceMeasureID" />
+    </Key>
+    <Property Name="TaxonomyLeafPerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyLeafID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IsPrimaryTaxonomyTierTwo" Type="bit" Nullable="false" />
+    <Property Name="IsPrimaryTaxonomyLeaf" Type="bit" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="TaxonomyTrunk">
+    <Key>
+      <PropertyRef Name="TaxonomyTrunkID" />
+    </Key>
+    <Property Name="TaxonomyTrunkID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="TaxonomyTrunkName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyTrunkDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
+    <Property Name="TaxonomyTrunkCode" Type="varchar" MaxLength="10" />
+    <Property Name="TaxonomyTrunkSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>
@@ -1863,7 +1863,6 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TenantAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
-    <Property Name="NumberOfTaxonomyTiersToUse" Type="int" Nullable="false" />
     <Property Name="MinimumYear" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="TenantSquareLogoFileResourceID" Type="int" />
@@ -1876,6 +1875,8 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="MapServiceUrl" Type="varchar" MaxLength="255" />
     <Property Name="WatershedLayerName" Type="varchar" MaxLength="255" />
     <Property Name="ShowProposalsToThePublic" Type="bit" Nullable="false" />
+    <Property Name="TaxonomyLevelID" Type="int" Nullable="false" />
+    <Property Name="AssociatePerfomanceMeasureTaxonomyLevelID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2617,15 +2618,15 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="1" />
+  <Association Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID">
+    <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="1" />
     <End Role="Projects" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
+      <Principal Role="TaxonomyLeaf">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Principal>
       <Dependent Role="Projects">
-        <PropertyRef Name="TaxonomyTierOneID" />
+        <PropertyRef Name="TaxonomyLeafID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3469,51 +3470,51 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
-    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="1" />
-    <End Role="TaxonomyTierOnes" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="*" />
+  <Association Name="FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID">
+    <End Role="TaxonomyTrunk" Type="ProjectFirma.Web.Models.Store.TaxonomyTrunk" Multiplicity="1" />
+    <End Role="TaxonomyBranches" Type="ProjectFirma.Web.Models.Store.TaxonomyBranch" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TaxonomyTierTwo">
-        <PropertyRef Name="TaxonomyTierTwoID" />
+      <Principal Role="TaxonomyTrunk">
+        <PropertyRef Name="TaxonomyTrunkID" />
       </Principal>
-      <Dependent Role="TaxonomyTierOnes">
-        <PropertyRef Name="TaxonomyTierTwoID" />
+      <Dependent Role="TaxonomyBranches">
+        <PropertyRef Name="TaxonomyTrunkID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
-    <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThree" Multiplicity="1" />
-    <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="*" />
+  <Association Name="FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID">
+    <End Role="TaxonomyBranch" Type="ProjectFirma.Web.Models.Store.TaxonomyBranch" Multiplicity="1" />
+    <End Role="TaxonomyLeafs" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TaxonomyTierThree">
-        <PropertyRef Name="TaxonomyTierThreeID" />
+      <Principal Role="TaxonomyBranch">
+        <PropertyRef Name="TaxonomyBranchID" />
       </Principal>
-      <Dependent Role="TaxonomyTierTwos">
-        <PropertyRef Name="TaxonomyTierThreeID" />
+      <Dependent Role="TaxonomyLeafs">
+        <PropertyRef Name="TaxonomyBranchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PerformanceMeasure">
         <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
-      <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
         <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
-    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
+  <Association Name="FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID">
+    <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.Store.TaxonomyLeaf" Multiplicity="1" />
+    <End Role="TaxonomyLeafPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TaxonomyTierTwo">
-        <PropertyRef Name="TaxonomyTierTwoID" />
+      <Principal Role="TaxonomyLeaf">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Principal>
-      <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
-        <PropertyRef Name="TaxonomyTierTwoID" />
+      <Dependent Role="TaxonomyLeafPerformanceMeasures">
+        <PropertyRef Name="TaxonomyLeafID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class BasicsViewData : ProjectCreateViewData
     {
-        public IEnumerable<SelectListItem> TaxonomyTierOnes { get; private set; }
+        public IEnumerable<SelectListItem> TaxonomyLeafs { get; private set; }
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
         public IEnumerable<SelectListItem> StartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
@@ -49,31 +49,31 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public BasicsViewData(Person currentPerson,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, 
+            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, 
             bool showProjectStageDropDown,
             string instructionsPageUrl)
             : base(currentPerson, ProjectCreateSection.Basics, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
-            AssignParameters(taxonomyTierOnes, fundingTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes);
         }
 
         public BasicsViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes,
+            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes)
             : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.DisplayName;
-            AssignParameters(taxonomyTierOnes, fundingTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<FundingType> fundingTypes)
+        private void AssignParameters(IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, IEnumerable<FundingType> fundingTypes)
         {
-            TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
+            TaxonomyLeafs = taxonomyLeafs.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             StartYearRange =
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
-            HasThreeTierTaxonomy = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
+            HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
             var pagetitle = ShowProjectStageDropDown ? "Add Project" : "Propose Project";
             PageTitle = $"{pagetitle}";

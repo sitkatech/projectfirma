@@ -29,11 +29,11 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsRelevantToTenant { get; }
     }
 
-    public partial class ProjectColorByTypeTaxonomyTierThree
+    public partial class ProjectColorByTypeTaxonomyTrunk
     {
-        public override string DisplayName => FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
 
-        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3;
+        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelTrunk();
     }
 
     public partial class ProjectColorByTypeProjectStage
@@ -43,11 +43,11 @@ namespace ProjectFirma.Web.Models
         public override bool IsRelevantToTenant => true;
     }
 
-    public partial class ProjectColorByTypeTaxonomyTierTwo
+    public partial class ProjectColorByTypeTaxonomyBranch
     {
-        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
 
-        public override bool IsRelevantToTenant => MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2;
+        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelBranch();
     }
 
 }

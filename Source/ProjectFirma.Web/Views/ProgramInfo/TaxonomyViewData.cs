@@ -26,19 +26,21 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 {
     public class TaxonomyViewData : FirmaViewData
     {
-        public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
-        public readonly string TaxonomyTierThreeDisplayName;
-        public readonly string TaxonomyTierTwoDisplayName;
-        public readonly string TaxonomyTierOneDisplayName;
+        public List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes { get; }
+        public string TaxonomyTrunkDisplayName { get; }
+        public string TaxonomyBranchDisplayName { get; }
+        public string TaxonomyLeafDisplayName { get; }
+        public TaxonomyLevel TaxonomyLevel { get; }
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
-            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
-            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
-            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
+            TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
         }
     }
 }

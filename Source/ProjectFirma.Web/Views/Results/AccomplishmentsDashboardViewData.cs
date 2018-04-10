@@ -31,7 +31,6 @@ namespace ProjectFirma.Web.Views.Results
     {
         public string OrganizationDashboardSummaryUrl { get; }
         public string OrganizationAccomplishmentsUrl { get; }
-        public string TaxonomyTierTwoDetailUrl { get; }
         public string OrganizationDetailUrl { get; }
         public string SpendingByOrganizationTypeAndOrganizationUrl { get; }
         public string ParticipatingOrganizationsUrl { get; }
@@ -40,10 +39,13 @@ namespace ProjectFirma.Web.Views.Results
         public List<int> CalendarYears { get; }
         public int DefaultBeginYear { get; }
         public int DefaultEndYear { get; }
-        public List<Models.TaxonomyTierTwo> TaxonomyTierTwos { get; }
+        public List<ITaxonomyTier> TaxonomyTiers { get; }
         public string ProjectStewardOrganizationTypeName { get; }
+        public string TaxonomyTierDisplayName { get; }
 
-        public AccomplishmentsDashboardViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear, List<Models.TaxonomyTierTwo> taxonomyTierTwos) :
+        public AccomplishmentsDashboardViewData(Person currentPerson, Models.FirmaPage firmaPage,
+            List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
+            List<ITaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) :
             base(currentPerson, firmaPage)
         {
             var projectStewardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
@@ -53,14 +55,14 @@ namespace ProjectFirma.Web.Views.Results
             CalendarYears = calendarYears;
             DefaultBeginYear = defaultBeginYear;
             DefaultEndYear = defaultEndYear;
-            TaxonomyTierTwos = taxonomyTierTwos;
+            TaxonomyTiers = taxonomyTiers;
             ParticipatingOrganizationsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ParticipatingOrganizations(UrlTemplate.Parameter1Int));
             OrganizationDashboardSummaryUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationDashboardSummary(UrlTemplate.Parameter1Int));
             OrganizationAccomplishmentsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationAccomplishments(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
-            TaxonomyTierTwoDetailUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int));
             OrganizationDetailUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int));
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
             ProjectStewardOrganizationTypeName = projectStewardOrganizationTypeName;
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
         }
     }
 }

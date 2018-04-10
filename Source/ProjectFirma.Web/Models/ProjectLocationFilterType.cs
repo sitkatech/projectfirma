@@ -31,34 +31,34 @@ namespace ProjectFirma.Web.Models
         public abstract string DisplayName { get; }
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierThree
+    public partial class ProjectLocationFilterTypeTaxonomyTrunk
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
         }
 
-        public override string DisplayName => FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierTwo
+    public partial class ProjectLocationFilterTypeTaxonomyBranch
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwoID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranchID);
         }
 
-        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
     }
 
-    public partial class ProjectLocationFilterTypeTaxonomyTierOne
+    public partial class ProjectLocationFilterTypeTaxonomyLeaf
     {
         public override Expression<Func<IMappableProject, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierOneID);
+            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyLeafID);
         }
 
-        public override string DisplayName => FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+        public override string DisplayName => FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeClassification

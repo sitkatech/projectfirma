@@ -136,11 +136,11 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, bool newProjectIsHistoric)
         {
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var instructionsPageUrl = newProjectIsHistoric
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
-            var viewData = new BasicsViewData(CurrentPerson, FundingType.All, taxonomyTierOnes, newProjectIsHistoric, instructionsPageUrl);
+            var viewData = new BasicsViewData(CurrentPerson, FundingType.All, taxonomyLeafs, newProjectIsHistoric, instructionsPageUrl);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -159,8 +159,8 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyTierOnes, FundingType.All);
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs, FundingType.All);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -170,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult CreateAndEditBasics(bool newProjectIsProposal, BasicsViewModel viewModel)
         {
-            var project = new Project(viewModel.TaxonomyTierOneID,
+            var project = new Project(viewModel.TaxonomyLeafID,
                 viewModel.ProjectStageID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,

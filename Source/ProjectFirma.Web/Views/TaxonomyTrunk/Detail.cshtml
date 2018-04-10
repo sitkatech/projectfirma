@@ -1,0 +1,197 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectControls
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using MoreLinq
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@inherits ProjectFirma.Web.Views.TaxonomyTrunk.Detail
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    <style>
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 420px;
+        }
+    </style>
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.TaxonomyTrunkDisplayNamePluralized.</a>
+</div>
+
+<div class="row">
+    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTrunkUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyTrunkDisplayName, ViewDataTyped.TaxonomyTrunk.DisplayName), ViewDataTyped.UserHasTaxonomyTrunkManagePermissions) Basics
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div>
+                    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunkDescription)</h2>
+            </div>
+            <div class="panel-body">
+                <div>
+                    @ViewDataTyped.TaxonomyTrunk.TaxonomyTrunkDescription
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ViewDataTyped.TaxonomyTrunkDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
+            </div>
+            <div style="padding: 10px">
+                To zoom, hold down Shift and drag a rectangle.
+                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                </div>
+                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.TaxonomyBranchIndexUrl">@ViewDataTyped.TaxonomyBranchDisplayNamePluralized</a>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.Any())
+                {
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                        </tr>
+                        @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.SortByOrderThenName())
+                        {
+                            <tr>
+                                <td>
+                                    @taxonomyBranch.GetDisplayNameAsUrl()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No @ViewDataTyped.TaxonomyBranchDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTrunkDisplayName.</p>
+                }
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyLeafDisplayNamePluralized</a>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.TaxonomyTrunk.TaxonomyLeafs.Any())
+                {
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                        </tr>
+                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTrunk.TaxonomyLeafs.SortByOrderThenName())
+                        {
+                            <tr>
+                                <td>
+                                    @taxonomyLeaf.GetDisplayNameAsUrl()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No @ViewDataTyped.TaxonomyLeafDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTrunkDisplayName.</p>
+                }
+            </div>
+        </div>
+        @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
+    </div>
+
+    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    {
+        <div class="col-md-6">
+            @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))
+            {
+                <div class="row">
+                    @foreach (var performanceMeasureChartViewData in batch)
+                    {
+                        <div class="col-md-4" style="width: 500px">
+                            <div class="panel panelFirma">
+                                <div class="panel-body">
+                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>
+            <a href="@ViewDataTyped.FullProjectListUrl">@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
+        </h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+        map.initializeProjectLocations(projectLocationsMapInitJson);
+    })
+</script>

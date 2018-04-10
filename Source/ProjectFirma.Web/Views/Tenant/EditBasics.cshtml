@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Views.Tenant
@@ -50,14 +49,17 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.NumberOfTaxonomyTiersToUse)</div>
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TaxonomyLevelID)</div>
         <div class="col-md-8">
-            <select id="@Html.IdFor(m => m.NumberOfTaxonomyTiersToUse)" name="@Html.NameFor(m => m.NumberOfTaxonomyTiersToUse)" class="form-control" style="width: auto">
-                <option value="1" @((Model.NumberOfTaxonomyTiersToUse == 1).ToSelectedOrEmpty())>1</option>
-                <option value="2" @((Model.NumberOfTaxonomyTiersToUse == 2).ToSelectedOrEmpty())>2</option>
-                <option value="3" @((Model.NumberOfTaxonomyTiersToUse == 3).ToSelectedOrEmpty())>3</option>
-            </select>
-            @Html.ValidationMessageFor(m => m.NumberOfTaxonomyTiersToUse)
+            @Html.DropDownListFor(x => x.TaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+            @Html.ValidationMessageFor(m => m.TaxonomyLevelID)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
+        <div class="col-md-8">
+            @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+            @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
         </div>
     </div>
     <div class="form-group">

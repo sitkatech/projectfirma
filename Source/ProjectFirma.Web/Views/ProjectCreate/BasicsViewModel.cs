@@ -33,9 +33,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public int ProjectID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]
         [Required]
-        public int TaxonomyTierOneID { get; set; }
+        public int TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
         [Required]
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public BasicsViewModel(Models.Project project)
         {
-            TaxonomyTierOneID = project.TaxonomyTierOneID;
+            TaxonomyLeafID = project.TaxonomyLeafID;
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public void UpdateModel(Models.Project project, Person person)
         {
             project.ProposingPersonID = person.PersonID;
-            project.TaxonomyTierOneID = TaxonomyTierOneID;
+            project.TaxonomyLeafID = TaxonomyLeafID;
             project.ProjectID = ProjectID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
@@ -130,11 +130,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
 
-            if (TaxonomyTierOneID == -1)
+            if (TaxonomyLeafID == -1)
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int>(
-                    $"{MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()} is required.",
-                    m => m.TaxonomyTierOneID));
+                    $"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.",
+                    m => m.TaxonomyLeafID));
             }
             if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {

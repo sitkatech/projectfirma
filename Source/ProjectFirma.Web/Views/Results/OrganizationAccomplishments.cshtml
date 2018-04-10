@@ -20,14 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using MoreLinq
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Results.OrganizationAccomplishments
 
 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
 {
     <p>
-        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results for the @FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel() @ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl() within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+        The reported @ViewDataTyped.PerformanceMeasureDisplayName results for the @ViewDataTyped.TaxonomyTierDisplayName @ViewDataTyped.TaxonomyTier.GetDisplayNameAsUrl() within this @ViewDataTyped.OrganizationDisplayName are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @ViewDataTyped.PerformanceMeasureDisplayName, click the @ViewDataTyped.PerformanceMeasureDisplayName name in the chart title.
     </p>
     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
     {
@@ -52,7 +51,7 @@ else
     <div class="row">
         <div class="col-xs-12">
             <p class="text-center systemText">
-                There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Organization.GetFieldDefinitionLabel()
+                There are no @ViewDataTyped.PerformanceMeasureDisplayNamePluralized to report for this @ViewDataTyped.OrganizationDisplayName
             </p>
         </div>
     </div>
