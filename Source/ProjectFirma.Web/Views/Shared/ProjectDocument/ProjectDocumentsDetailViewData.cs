@@ -43,7 +43,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             AddDocumentUrl = addDocumentUrl;
             ProjectName = projectName;
             CanEditDocuments = canEditDocuments;
+            ShowDownload = true;
         }
+
+        public ProjectDocumentsDetailViewData(List<EntityDocument> documents, string addDocumentUrl, string projectName,
+            bool canEditDocuments, bool showDownload) : this(documents,addDocumentUrl,projectName,canEditDocuments)
+        {
+            ShowDownload = showDownload;
+        }
+
+        public bool ShowDownload { get; }
 
         public Models.Project Project { get; set; }
         public string NewProjectDocumentUrl { get; set; }

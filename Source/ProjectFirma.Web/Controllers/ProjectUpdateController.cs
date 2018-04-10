@@ -47,6 +47,7 @@ using MoreLinq;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
@@ -86,6 +87,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
+        public const string ProjectDocumentsPartialViewPath = "~/Views/Shared/ProjectDocument/ProjectDocumentsDetail.cshtml";
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult AllMyProjects()
@@ -1176,7 +1178,7 @@ namespace ProjectFirma.Web.Controllers
         }       
 
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult NotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -1185,36 +1187,38 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotes(projectPrimaryKey));
+            var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotesAndDocuments(projectPrimaryKey));
             var viewData = new NotesAndDocumentsViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
             return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
         }
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult RefreshNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshNotes(viewModel);
+            return ViewRefreshNotesAndDocuments(viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectNoteUpdates();
+            projectUpdateBatch.DeleteProjectDocumentUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewRefreshNotes(ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewRefreshNotesAndDocuments(ConfirmDialogFormViewModel viewModel)
         {
             var viewData =
                 new ConfirmDialogFormViewData(
@@ -2358,7 +2362,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult DiffNotes(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult DiffNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffNotesImpl(projectPrimaryKey);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
@@ -2371,9 +2375,16 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,$"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             var entityNotesOriginal = new List<IEntityNote>(project.ProjectNotes);
             var entityNotesUpdated = new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates);
+            var entityDocumentsOriginal = new List<IEntityDocument>(project.ProjectDocuments);
+            var entityDocumentsUpdated = new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates);
 
-            var originalHtml = GeneratePartialViewForOriginalNotes(entityNotesOriginal, entityNotesUpdated);
-            var updatedHtml = GeneratePartialViewForModifiedNotes(entityNotesOriginal, entityNotesUpdated);
+            var originalHtmlNotes = GeneratePartialViewForOriginalNotes(entityNotesOriginal, entityNotesUpdated);
+            var updatedHtmlNotes = GeneratePartialViewForModifiedNotes(entityNotesOriginal, entityNotesUpdated);
+            var originalHtmlDocuments = GeneratePartialViewForOriginalDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
+            var updatedHtmlDocuments = GeneratePartialViewForModifiedDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
+
+            var originalHtml = originalHtmlNotes + originalHtmlDocuments;
+            var updatedHtml = updatedHtmlNotes + updatedHtmlDocuments;
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
@@ -2419,6 +2430,48 @@ namespace ProjectFirma.Web.Controllers
             var partialViewToString = RenderPartialViewToString(EntityNotesPartialViewPath, viewData);
             return partialViewToString;
         }
+
+        private string GeneratePartialViewForOriginalDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
+        {
+            var fileResourceIDsInOriginal = entityDocumentsOriginal.Select(x=>x.FileResource.FileResourceID).ToList();
+            var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+            var urlsOnlyInOriginal = fileResourceIDsInOriginal.Where(x => !fileResourceIDsInModified.Contains(x)).ToList();
+
+            var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
+            var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
+            // find the ones that are only in the modified set and add them and mark them as "added"
+            externalLinksOriginal.AddRange(
+                externalLinksUpdated.Where(x => !fileResourceIDsInOriginal.Contains(x.FileResource.FileResourceID))
+                    .Select(x => new EntityDocument(x.DeleteUrl,x.EditUrl,x.FileResource,HtmlDiffContainer.DisplayCssClassAddedElement, x.DisplayName, x.Description))
+                    .ToList());
+            // find the ones only in original and mark them as "deleted"
+            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+            return GeneratePartialViewForDocuments(externalLinksOriginal);
+        }
+
+        private string GeneratePartialViewForModifiedDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
+        {
+            var fileResouceIDsInOriginal = entityDocumentsOriginal.Select(x => x.FileResource.FileResourceID).ToList();
+            var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+            var urlsOnlyInUpdated = fileResourceIDsInModified.Where(x => !fileResouceIDsInOriginal.Contains(x)).ToList();
+
+            var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
+            var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
+            // find the ones that are only in the original set and add them and mark them as "deleted"
+            externalLinksUpdated.AddRange(
+                externalLinksOriginal.Where(x => !fileResourceIDsInModified.Contains(x.FileResource.FileResourceID))
+                    .Select(x => new EntityDocument(x.DeleteUrl, x.EditUrl, x.FileResource, HtmlDiffContainer.DisplayCssClassDeletedElement, x.DisplayName, x.Description))
+                    .ToList());
+            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            return GeneratePartialViewForDocuments(externalLinksUpdated);
+        }
+        private string GeneratePartialViewForDocuments(List<EntityDocument> entityDocuments)
+        {
+            var viewData = new ProjectDocumentsDetailViewData(entityDocuments, null, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", false, false);
+            var partialViewToString = RenderPartialViewToString(ProjectDocumentsPartialViewPath, viewData);
+            return partialViewToString;
+        }
+
 
         [HttpGet]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]

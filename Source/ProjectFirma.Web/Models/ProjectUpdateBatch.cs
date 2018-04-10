@@ -195,6 +195,12 @@ namespace ProjectFirma.Web.Models
             ProjectNoteUpdates.DeleteProjectNoteUpdate();
             RefreshFromDatabase(ProjectNoteUpdates);
         }
+        
+        public void DeleteProjectDocumentUpdates()
+        {
+            ProjectDocumentUpdates.DeleteProjectDocumentUpdate();
+            RefreshFromDatabase(ProjectDocumentUpdates);
+        }
 
         public void DeleteProjectUpdateHistories()
         {

@@ -13,32 +13,6 @@
 {
     <p class="systemText">No documents associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
 }
-@*@foreach (var projectDocument in ViewDataTyped.Project.ProjectDocuments)
-{
-    if (ViewDataTyped.ProjectDocumentEditAsAdminFeature.HasPermission(ViewDataTyped.CurrentPerson, projectDocument).HasPermission)
-    {
-        <span>
-            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditProjectDocumentUrlTemplate.ParameterReplace(projectDocument.ProjectDocumentID), "Edit Document", null, true)&nbsp;
-            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteProjectDocumentUrlTemplate.ParameterReplace(projectDocument.ProjectDocumentID), null, true)&nbsp;
-        </span>
-    }
-
-    <a href="@projectDocument.FileResource.FileResourceUrl">
-        @projectDocument.DisplayName
-        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
-    </a>
-
-    <dl class="dl-horizontal">
-        <dt>Uploaded On</dt>
-        <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
-
-        <dt>File Type</dt>
-        <dd>@projectDocument.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
-
-        <dt>Description</dt>
-        <dd>@projectDocument.Description</dd>
-    </dl>
-}*@
 
 @foreach (var projectDocument in ViewDataTyped.Documents)
 {
@@ -50,12 +24,15 @@
         </span>
     }
 
-    <a href="@projectDocument.FileResource.FileResourceUrl">
-        @projectDocument.DisplayName
-        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
-    </a>
+    if (ViewDataTyped.ShowDownload)
+    {
+        <a href="@projectDocument.FileResource.FileResourceUrl">
+            @projectDocument.DisplayName
+            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+        </a>
+    }
 
-    <dl class=" dl-horizontal">
+    <dl class="dl-horizontal @projectDocument.DisplayCssClass">
         <dt>Uploaded On</dt>
         <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
 

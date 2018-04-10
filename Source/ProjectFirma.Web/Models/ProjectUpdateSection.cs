@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Notes(project)) : null;
+            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.NotesAndDocuments(project)) : null;
         }
 
         public override bool SectionIsUpdated(UpdateStatus updateStatus)

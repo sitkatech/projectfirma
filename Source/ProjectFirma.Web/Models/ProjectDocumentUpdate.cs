@@ -12,14 +12,14 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x =>
+                return SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x =>
                     x.Delete(ProjectDocumentUpdateID));
             }
         }
         public string EditUrl {
             get
             {
-                return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x =>
+                return SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x =>
                     x.Edit(ProjectDocumentUpdateID));
             }
         }

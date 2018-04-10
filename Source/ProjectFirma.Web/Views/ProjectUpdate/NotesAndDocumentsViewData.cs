@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
                 projectUpdateBatch.Project.DisplayName,
                 IsEditable);
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotes(projectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndDocuments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
         }
 
