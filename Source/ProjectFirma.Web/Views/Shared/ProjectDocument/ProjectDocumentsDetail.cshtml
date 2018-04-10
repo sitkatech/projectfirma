@@ -18,9 +18,11 @@
 {
     if (ViewDataTyped.CanEditDocuments)
     {
-        <span>
-            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.EditUrl, "Edit Document", null, true)&nbsp;
-            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.DeleteUrl, null, true)&nbsp;
+        <span style="margin-left: 7px;">
+            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.EditUrl, "Edit Document", null, true)
+        </span>
+        <span style="margin-left: 8px; margin-right: 8px;">
+            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.DeleteUrl, null, true)
         </span>
     }
 
