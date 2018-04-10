@@ -28,10 +28,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel);
             }
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
-            //var projectDocumentUpdate = ProjectDocumentUpdate.CreateNewBlank(projectUpdateBatch, null);
             viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            //HttpRequestStorage.DatabaseEntities.AllProjectDocumentUpdates.Add(projectDocumentUpdate);
             return new ModalDialogFormJsonResult();
         }
 
@@ -85,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !projectDocumentUpdate.HasDependentObjects();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this document for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectDocumentUpdate.ProjectUpdateBatch.Project.DisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Document"); // todo field definition
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Document");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
