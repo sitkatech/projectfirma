@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
-    public class EditViewModel
+    public class EditProjectDocumentsViewModel
     {
         [Required]
         [DisplayName("Display Name")]
@@ -14,17 +14,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         [MaxLength(Models.ProjectDocument.FieldLengths.Description)]
         public string Description { get; set; }
 
-        public EditViewModel()
+        public EditProjectDocumentsViewModel()
         {
         }
 
-        public EditViewModel(Models.ProjectDocument projectDocument)
+        public EditProjectDocumentsViewModel(Models.ProjectDocument projectDocument)
         {
             DisplayName = projectDocument.DisplayName;
             Description = projectDocument.Description;
         }
 
-        public EditViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        public EditProjectDocumentsViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
         {
             DisplayName = projectDocumentUpdate.DisplayName;
             Description = projectDocumentUpdate.Description;

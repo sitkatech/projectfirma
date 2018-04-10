@@ -1435,7 +1435,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExternalLinksDiffLogHtmlString = new HtmlString(externalLinksDiffHelper.Build());
             }
 
-            var notesDiffContainer = DiffNotesImpl(projectPrimaryKey);
+            var notesDiffContainer = DiffNotesAndDocumentsImpl(projectPrimaryKey);
             if (notesDiffContainer.HasChanged)
             {
                 var notesDiffHelper = new HtmlDiff.HtmlDiff(notesDiffContainer.OriginalHtml, notesDiffContainer.UpdatedHtml);
@@ -2364,12 +2364,12 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
-            var htmlDiffContainer = DiffNotesImpl(projectPrimaryKey);
+            var htmlDiffContainer = DiffNotesAndDocumentsImpl(projectPrimaryKey);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
         }
 
-        private HtmlDiffContainer DiffNotesImpl(ProjectPrimaryKey projectPrimaryKey)
+        private HtmlDiffContainer DiffNotesAndDocumentsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,$"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
@@ -2560,7 +2560,7 @@ namespace ProjectFirma.Web.Controllers
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isWatershedUpdated = IsWatershedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isNotesUpdated = DiffNotesImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isNotesUpdated = DiffNotesAndDocumentsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;

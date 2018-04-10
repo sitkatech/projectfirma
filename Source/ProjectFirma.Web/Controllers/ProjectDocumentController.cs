@@ -14,14 +14,14 @@ namespace ProjectFirma.Web.Controllers
         [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
-            var viewModel = new NewViewModel();
+            var viewModel = new NewProjectDocumentViewModel();
             return ViewNew(viewModel);
         }
 
         [HttpPost]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ProjectPrimaryKey projectPrimaryKey, NewViewModel viewModel)
+        public ActionResult New(ProjectPrimaryKey projectPrimaryKey, NewProjectDocumentViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -36,10 +36,10 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(NewViewModel viewModel)
+        private PartialViewResult ViewNew(NewProjectDocumentViewModel viewModel)
         {
-            var viewData = new NewViewData();
-            return RazorPartialView<New, NewViewData, NewViewModel>(viewData, viewModel);
+            var viewData = new NewProjectDocumentViewData();
+            return RazorPartialView<NewProjectDocument, NewProjectDocumentViewData, NewProjectDocumentViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -47,14 +47,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(projectDocument);
+            var viewModel = new EditProjectDocumentsViewModel(projectDocument);
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [ProjectDocumentEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, EditViewModel viewModel)
+        public ActionResult Edit(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, EditProjectDocumentsViewModel viewModel)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -69,10 +69,10 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        private PartialViewResult ViewEdit(EditProjectDocumentsViewModel viewModel)
         {
-            var viewData = new EditViewData();
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            var viewData = new EditProjectDocumentsViewData();
+            return RazorPartialView<EditProjectDocuments, EditProjectDocumentsViewData, EditProjectDocumentsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

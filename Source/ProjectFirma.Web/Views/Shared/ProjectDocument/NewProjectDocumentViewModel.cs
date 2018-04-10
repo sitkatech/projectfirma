@@ -7,7 +7,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
-    public class NewViewModel
+    public class NewProjectDocumentViewModel
     {
         [Required]
         [DisplayName("File")]
@@ -44,6 +44,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             };
             projectUpdateBatch.ProjectDocumentUpdates.Add(projectDocument);
         }
-
     }
 }

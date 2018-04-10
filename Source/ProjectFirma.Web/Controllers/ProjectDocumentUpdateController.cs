@@ -14,14 +14,14 @@ namespace ProjectFirma.Web.Controllers
         [ProjectDocumentUpdateNewFeature]
         public PartialViewResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
         {
-            var viewModel = new NewViewModel();
+            var viewModel = new NewProjectDocumentViewModel();
             return ViewNew(viewModel);
         }
 
         [HttpPost]
         [ProjectDocumentUpdateNewFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewViewModel viewModel)
+        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewProjectDocumentViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -38,14 +38,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey)
         {
             var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(projectDocumentUpdate);
+            var viewModel = new EditProjectDocumentsViewModel(projectDocumentUpdate);
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [ProjectDocumentUpdateEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, EditViewModel viewModel)
+        public ActionResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, EditProjectDocumentsViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -57,16 +57,16 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(NewViewModel viewModel)
+        private PartialViewResult ViewNew(NewProjectDocumentViewModel viewModel)
         {
-            var viewData = new NewViewData();
-            return RazorPartialView<New, NewViewData, NewViewModel>(viewData, viewModel);
+            var viewData = new NewProjectDocumentViewData();
+            return RazorPartialView<NewProjectDocument, NewProjectDocumentViewData, NewProjectDocumentViewModel>(viewData, viewModel);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        private PartialViewResult ViewEdit(EditProjectDocumentsViewModel viewModel)
         {
-            var viewData = new EditViewData();
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            var viewData = new EditProjectDocumentsViewData();
+            return RazorPartialView<EditProjectDocuments, EditProjectDocumentsViewData, EditProjectDocumentsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

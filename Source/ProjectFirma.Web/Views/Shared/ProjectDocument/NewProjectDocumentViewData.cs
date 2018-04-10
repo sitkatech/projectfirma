@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
-    public class EditViewData
+    public class NewProjectDocumentViewData
     {
     }
 }
