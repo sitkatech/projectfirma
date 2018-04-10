@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateLocationDetailedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(Project));
             ProjectUpdateWatershedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Watershed(Project));
             ProjectUpdateExternalLinksUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(Project));
-            ProjectUpdateNotesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Notes(Project));
+            ProjectUpdateNotesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.NotesAndDocuments(Project));
             ProjectUpdateHistoryUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.History(Project));
             DeleteProjectUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DeleteProjectUpdate(Project));
             SubmitUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Submit(Project));

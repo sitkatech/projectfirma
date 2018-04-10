@@ -42,6 +42,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
@@ -854,17 +855,21 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult NotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", canEditNotes);
+            var canEditNotesAndDocuments = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", canEditNotesAndDocuments);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
-            var viewData = new NotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData);
-            return RazorView<Notes, NotesViewData>(viewData);
+            var projectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
+                EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
+                SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
+                canEditNotesAndDocuments);
+            var viewData = new NotesAndDocumentsViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
+            return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
         }
 
         [HttpGet]

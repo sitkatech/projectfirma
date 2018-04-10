@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProjectFirma.Web.Views.ProjectDocument
+namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
     public class EditViewModel
     {
@@ -24,10 +24,22 @@ namespace ProjectFirma.Web.Views.ProjectDocument
             Description = projectDocument.Description;
         }
 
+        public EditViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        {
+            DisplayName = projectDocumentUpdate.DisplayName;
+            Description = projectDocumentUpdate.Description;
+        }
+
         public void UpdateModel(Models.ProjectDocument projectDocument)
         {
             projectDocument.DisplayName = DisplayName;
             projectDocument.Description = Description;
+        }
+
+        public void UpdateModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        {
+            projectDocumentUpdate.DisplayName = DisplayName;
+            projectDocumentUpdate.Description = Description;
         }
     }
 }

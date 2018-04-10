@@ -599,6 +599,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectDocumentUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectDocumentUpdate">
+        <MappingFragment StoreEntitySet="ProjectDocumentUpdate">
+          <ScalarProperty Name="ProjectDocumentUpdateID" ColumnName="ProjectDocumentUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectExemptReportingYear">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectExemptReportingYear">
         <MappingFragment StoreEntitySet="ProjectExemptReportingYear">
