@@ -16,32 +16,38 @@
 
 @foreach (var projectDocument in ViewDataTyped.Documents)
 {
-    if (ViewDataTyped.CanEditDocuments)
-    {
+    <div class="@projectDocument.DisplayCssClass">
+        @if (ViewDataTyped.CanEditDocuments)
+        {
         <span style="margin-left: 7px;">
             @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.EditUrl, "Edit Document", null, true)
         </span>
         <span style="margin-left: 8px; margin-right: 8px;">
             @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.DeleteUrl, null, true)
         </span>
-    }
+        }
 
-    if (ViewDataTyped.ShowDownload)
-    {
+        @if (ViewDataTyped.ShowDownload)
+        {
         <a href="@projectDocument.FileResource.FileResourceUrl">
             @projectDocument.DisplayName
             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
         </a>
-    }
+        }
+        else
+        {
+            <span>@projectDocument.DisplayName</span>
+        }
 
-    <dl class="dl-horizontal @projectDocument.DisplayCssClass">
-        <dt>Uploaded On</dt>
-        <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
+        <dl class="dl-horizontal">
+            <dt>Uploaded On</dt>
+            <dd title="@projectDocument.FileResource.CreateDate.ToLongDateString() @projectDocument.FileResource.CreateDate.ToLongTimeString()">@projectDocument.FileResource.CreateDate.ToShortDateString()</dd>
 
-        <dt>File Type</dt>
-        <dd>@projectDocument.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+            <dt>File Type</dt>
+            <dd>@projectDocument.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
 
-        <dt>Description</dt>
-        <dd>@projectDocument.Description</dd>
-    </dl>
+            <dt>Description</dt>
+            <dd>@projectDocument.Description</dd>
+        </dl>
+    </div>
 }
