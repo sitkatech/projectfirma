@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectUpdateSectionNotes
+    public partial class ProjectUpdateSectionNotesAndDocuments
     {
         public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
         {
