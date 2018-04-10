@@ -88,7 +88,6 @@ namespace ProjectFirma.Web.Views
             var homeMenuItem = LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Index()), currentPerson, "Home");
 
             TopLevelLtInfoMenuItems = new List<LtInfoMenuItem>();
-            TopLevelLtInfoMenuItems.Add(homeMenuItem);
             TopLevelLtInfoMenuItems.Add(BuildAboutMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProjectsMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProgramInfoMenu(currentPerson));
