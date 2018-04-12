@@ -1,36 +1,39 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Notes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Notes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @inherits ProjectFirma.Web.Views.ProjectCreate.NotesAndDocuments
 
-<p>Enter notes about this @FieldDefinition.Project.GetFieldDefinitionLabel() or upload related documents.</p>
-<hr/>
+<p>You may enter one or more @FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized() to convey additional information not covered by other parts of this @FieldDefinition.Project.GetFieldDefinitionLabel(). @FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized() and Documents will be publicly visible.</p>
 
-<div style="min-height: 150px">
-    @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
-</div>
-<hr/>
-<div style="min-height: 150px">
-    @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
+<hr />
+
+<div style="min-height: 300px">
+    <div>
+        @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
+    </div>
+    <hr />
+    <div>
+        @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
+    </div>
 </div>

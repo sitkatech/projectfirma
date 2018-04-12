@@ -14,14 +14,14 @@ namespace ProjectFirma.Web.Controllers
         [ProjectDocumentUpdateNewFeature]
         public PartialViewResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
         {
-            var viewModel = new NewProjectDocumentViewModel();
+            var viewModel = new NewProjectDocumentUpdateViewModel(projectUpdateBatchPrimaryKey.EntityObject);
             return ViewNew(viewModel);
         }
 
         [HttpPost]
         [ProjectDocumentUpdateNewFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewProjectDocumentViewModel viewModel)
+        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewProjectDocumentUpdateViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -38,14 +38,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey)
         {
             var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
-            var viewModel = new EditProjectDocumentsViewModel(projectDocumentUpdate);
+            var viewModel = new EditProjectDocumentUpdatesViewModel(projectDocumentUpdate);
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [ProjectDocumentUpdateEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, EditProjectDocumentsViewModel viewModel)
+        public ActionResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, EditProjectDocumentUpdatesViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectDocumentUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this document for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectDocumentUpdate.ProjectUpdateBatch.Project.DisplayName}'?"
+                ? $"Are you sure you want to delete \"{projectDocumentUpdate.DisplayName}\" from this {FieldDefinition.Project.GetFieldDefinitionLabel()}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Document");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
