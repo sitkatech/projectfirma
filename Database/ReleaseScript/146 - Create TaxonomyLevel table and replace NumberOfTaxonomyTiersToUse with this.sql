@@ -31,3 +31,30 @@ alter table dbo.TenantAttribute add constraint CK_TenantAttribute_AssociatedPerf
 
 
 delete from dbo.FirmaPage where FirmaPageTypeID = 23
+
+
+insert into dbo.TaxonomyTrunk(TenantID, TaxonomyTrunkName)
+values
+(1, 'Default Trunk'),
+(7, 'Default Trunk')
+
+
+insert into dbo.TaxonomyBranch(TenantID, TaxonomyTrunkID, TaxonomyBranchName, TaxonomyBranchDescription, ThemeColor)
+select 1 as TenantID, TaxonomyTrunkID, 'Default Branch', 'TBD', '#86cceb'
+from dbo.TaxonomyTrunk
+where TenantID = 1
+
+insert into dbo.TaxonomyBranch(TenantID, TaxonomyTrunkID, TaxonomyBranchName, TaxonomyBranchDescription, ThemeColor)
+select 7 as TenantID, TaxonomyTrunkID, 'Default Branch', 'TBD', '#86cceb'
+from dbo.TaxonomyTrunk
+where TenantID = 7
+
+insert into dbo.TaxonomyLeaf(TenantID, TaxonomyBranchID, TaxonomyLeafName, TaxonomyLeafDescription)
+select 1 as TenantID, TaxonomyBranchID, 'Default Leaf', 'TBD'
+from dbo.TaxonomyBranch
+where TenantID = 1
+
+insert into dbo.TaxonomyLeaf(TenantID, TaxonomyBranchID, TaxonomyLeafName, TaxonomyLeafDescription)
+select 7 as TenantID, TaxonomyBranchID, 'Default Leaf', 'TBD'
+from dbo.TaxonomyBranch
+where TenantID = 7

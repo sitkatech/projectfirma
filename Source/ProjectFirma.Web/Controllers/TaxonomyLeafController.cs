@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.PerformanceMeasure;
@@ -142,8 +143,29 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Add(taxonomyLeaf);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!",
-                FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel(), taxonomyLeaf.GetDisplayNameAsUrl()));
+
+            // we need to add this new leaf as a TaxonomyLeafPerformanceMeasure record if it's branch or trunk are currently associated to a PM
+            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+            if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
+            {
+                var leaves =
+                    HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x =>
+                        x.TaxonomyBranchID == taxonomyLeaf.TaxonomyBranchID).Select(x => x.TaxonomyLeafID).ToList();
+                var taxonomyLeafPerformanceMeasuresGroupedByPerformanceMeasure = HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures
+                    .Where(x => leaves.Contains(x.TaxonomyLeafID)).ToList().GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<PerformanceMeasure>());
+                var taxonomyLeafPerformanceMeasures = taxonomyLeafPerformanceMeasuresGroupedByPerformanceMeasure.Select(x =>
+                    new TaxonomyLeafPerformanceMeasure(taxonomyLeaf, x.Key, x.First().IsPrimaryTaxonomyLeaf));
+            }
+            else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk)
+            {
+                var taxonomyBranch = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyLeaf.TaxonomyBranchID);
+                var leaves = taxonomyBranch.TaxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.Select(y => y.TaxonomyLeafID)).ToList();
+                var taxonomyLeafPerformanceMeasuresGroupedByPerformanceMeasure = HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures
+                    .Where(x => leaves.Contains(x.TaxonomyLeafID)).ToList().GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<PerformanceMeasure>());
+                var taxonomyLeafPerformanceMeasures = taxonomyLeafPerformanceMeasuresGroupedByPerformanceMeasure.Select(x =>
+                    new TaxonomyLeafPerformanceMeasure(taxonomyLeaf, x.Key, x.First().IsPrimaryTaxonomyLeaf));
+            }
+            SetMessageForDisplay($"New {FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel()} {taxonomyLeaf.GetDisplayNameAsUrl()} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
