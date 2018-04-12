@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
         {
-            if (contextModelObject.Project.IsProposal())
+            if (contextModelObject.Project.IsProposal() || contextModelObject.Project.IsPendingProject())
             {
                 return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
             }
