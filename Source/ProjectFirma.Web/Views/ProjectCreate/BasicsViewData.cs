@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         private void AssignParameters(IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, IEnumerable<FundingType> fundingTypes)
         {
-            TaxonomyLeafs = taxonomyLeafs.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
+            TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             StartYearRange =
