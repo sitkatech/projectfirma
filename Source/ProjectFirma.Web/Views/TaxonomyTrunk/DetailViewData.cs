@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
-            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyTrunk = taxonomyTrunk;
             TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             };
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTrunk));
-            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTrunk);
+            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTrunk, taxonomyLevel);
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;

@@ -129,7 +129,8 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false);
             var mapFormID = GenerateEditProjectLocationFormID(project);
 
-            var projectBasicsViewData = new ProjectBasicsViewData(project, false);
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+            var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel);
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds));

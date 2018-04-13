@@ -95,7 +95,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
             }
-            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas);
+
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel);
             return RazorView<Summary, DetailViewData>(viewData);
         }
 

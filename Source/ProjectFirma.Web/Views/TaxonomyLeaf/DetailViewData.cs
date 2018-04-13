@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
-            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyLeaf = taxonomyLeaf;
             PageTitle = taxonomyLeaf.DisplayName;
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             };
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyLeaf));
-            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf);
+            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf, taxonomyLevel);
 
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
             TaxonomyLeafDisplayNamePluralized = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabelPluralized();

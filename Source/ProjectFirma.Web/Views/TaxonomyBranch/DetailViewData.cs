@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public DetailViewData(Person currentPerson,
             Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures, RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures, RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 SaveFiltersInCookie = true
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyBranch));
-            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyBranch);
+            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyBranch, taxonomyLevel);
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;

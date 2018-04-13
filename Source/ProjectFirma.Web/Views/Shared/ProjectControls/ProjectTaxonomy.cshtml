@@ -39,20 +39,20 @@ Source code is available upon request via <support@sitkatech.com>.
     int i = 0;
 
 
-    if (ViewDataTyped.TaxonomyTrunk != null)
-     {
-         <div class="row taxonomyRow">
-             <div class="col-sm-5">
-                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
-             </div>
-             <div class="col-sm-7">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.DisplayName) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
-             </div>
-         </div>
-         i++;
-     }
+    if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk && ViewDataTyped.TaxonomyTrunk != null)
+    {
+        <div class="row taxonomyRow">
+            <div class="col-sm-5">
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+            </div>
+            <div class="col-sm-7">
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.DisplayName) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
+            </div>
+        </div>
+        i++;
+    }
 
-    if (ViewDataTyped.TaxonomyBranch != null)
+    if ((ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk || ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch) && ViewDataTyped.TaxonomyBranch != null)
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++)">

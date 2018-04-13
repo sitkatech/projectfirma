@@ -20,38 +20,40 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectTaxonomyViewData : FirmaUserControlViewData
     {
-        public readonly Models.TaxonomyTrunk TaxonomyTrunk;
-        public readonly Models.TaxonomyBranch TaxonomyBranch;
-        public readonly Models.TaxonomyLeaf TaxonomyLeaf;
-        public readonly Models.Project Project;
+        public Models.TaxonomyTrunk TaxonomyTrunk { get; }
+        public Models.TaxonomyBranch TaxonomyBranch { get; }
+        public Models.TaxonomyLeaf TaxonomyLeaf { get; }
+        public Models.Project Project { get; }
 
-        public readonly bool IsProject;
-        public readonly bool IsTaxonomyLeaf;
-        public readonly bool IsTaxonomyBranch;
-        public readonly bool IsTaxonomyTrunk;
+        public bool IsProject { get; }
+        public bool IsTaxonomyLeaf { get; }
+        public bool IsTaxonomyBranch { get; }
+        public bool IsTaxonomyTrunk { get; }
+        public TaxonomyLevel TaxonomyLevel { get; }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk) : this(taxonomyTrunk, null, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, TaxonomyLevel taxonomyLevel) : this(taxonomyTrunk, null, null, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyBranch taxonomyBranch) : this(taxonomyBranch.TaxonomyTrunk, taxonomyBranch, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyBranch taxonomyBranch, TaxonomyLevel taxonomyLevel) : this(taxonomyBranch.TaxonomyTrunk, taxonomyBranch, null, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf) : this(taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, taxonomyLeaf.TaxonomyBranch, taxonomyLeaf, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf, TaxonomyLevel taxonomyLevel) : this(taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, taxonomyLeaf.TaxonomyBranch, taxonomyLeaf, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, project.TaxonomyLeaf.TaxonomyBranch, project.TaxonomyLeaf, project)
+        public ProjectTaxonomyViewData(Models.Project project, TaxonomyLevel taxonomyLevel) : this(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, project.TaxonomyLeaf.TaxonomyBranch, project.TaxonomyLeaf, project, taxonomyLevel)
         {
         }
 
-        private ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, Models.TaxonomyBranch taxonomyBranch, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project)
+        private ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, Models.TaxonomyBranch taxonomyBranch, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project, TaxonomyLevel taxonomyLevel)
         {
             TaxonomyLeaf = taxonomyLeaf;
             TaxonomyTrunk = taxonomyTrunk;
@@ -61,11 +63,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IsTaxonomyLeaf = TaxonomyLeaf != null && !IsProject;
             IsTaxonomyBranch = TaxonomyBranch != null && !IsTaxonomyLeaf && !IsProject;
             IsTaxonomyTrunk = TaxonomyTrunk != null && !IsTaxonomyBranch && !IsTaxonomyLeaf && !IsProject;
-
-            if (HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Count() <= 1 && !IsTaxonomyTrunk)
-            {
-                TaxonomyTrunk = null;
-            }
+            TaxonomyLevel = taxonomyLevel;
         }
     }
 }

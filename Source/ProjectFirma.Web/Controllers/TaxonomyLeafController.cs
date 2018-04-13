@@ -30,7 +30,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -113,9 +112,10 @@ namespace ProjectFirma.Web.Controllers
                     new PerformanceMeasureChartViewData(x.Key, new List<int>(), CurrentPerson, false)).ToList();
             }
 
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, projectLocationsMapInitJson,
                 projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData,
-                performanceMeasureChartViewDatas);
+                performanceMeasureChartViewDatas, taxonomyLevel);
 
             return RazorView<Summary, DetailViewData>(viewData);
         }

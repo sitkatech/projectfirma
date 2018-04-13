@@ -32,11 +32,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions)
+        public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
-            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project);
+            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
             ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);            
         }        
     }
