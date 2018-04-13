@@ -104,61 +104,48 @@ namespace ProjectFirma.Web.Views.Tenant
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
         }
 
-        public void UpdateModel(Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
         {
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == TenantID);
-
-            tenantAttribute.TenantDisplayName = TenantDisplayName;
-            tenantAttribute.ToolDisplayName = ToolDisplayName;
-            tenantAttribute.ShowProposalsToThePublic = ShowProposalsToThePublic;
+            attribute.TenantDisplayName = TenantDisplayName;
+            attribute.ToolDisplayName = ToolDisplayName;
+            attribute.ShowProposalsToThePublic = ShowProposalsToThePublic;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
             {
                 primaryContactPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
             }
-            tenantAttribute.PrimaryContactPerson = primaryContactPerson;
-            var clearOutTaxonomyLeafPerformanceMeasures = false;
-            if ((tenantAttribute.TaxonomyLevelID != TaxonomyLevelID.Value) || (tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID != AssociatePerfomanceMeasureTaxonomyLevelID.Value))
-            {
-                clearOutTaxonomyLeafPerformanceMeasures = true;
-            }
+            attribute.PrimaryContactPerson = primaryContactPerson;
+            attribute.TaxonomyLevelID = TaxonomyLevelID.Value;
+            attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
+            attribute.MinimumYear = MinimumYear.Value;
 
-            if (clearOutTaxonomyLeafPerformanceMeasures)
-            {
-                HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Select(x => x.TaxonomyLeafPerformanceMeasureID).ToList().DeleteTaxonomyLeafPerformanceMeasure();
-            }
-
-            tenantAttribute.TaxonomyLevelID = TaxonomyLevelID.Value;
-            tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
-            tenantAttribute.MinimumYear = MinimumYear.Value;
-
-            tenantAttribute.MapServiceUrl = MapServiceUrl;
-            tenantAttribute.WatershedLayerName = WatershedLayerName;
+            attribute.MapServiceUrl = MapServiceUrl;
+            attribute.WatershedLayerName = WatershedLayerName;
 
             if (TenantStyleSheetFileResourceData != null)
             {
-                if (tenantAttribute.TenantStyleSheetFileResource != null)
+                if (attribute.TenantStyleSheetFileResource != null)
                 {
-                    tenantAttribute.TenantStyleSheetFileResource.DeleteFileResource();
+                    attribute.TenantStyleSheetFileResource.DeleteFileResource();
                 }
-                tenantAttribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
+                attribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
             }
             if (TenantSquareLogoFileResourceData != null)
             {
-                if (tenantAttribute.TenantSquareLogoFileResource != null)
+                if (attribute.TenantSquareLogoFileResource != null)
                 {
-                    tenantAttribute.TenantSquareLogoFileResource.DeleteFileResource();
+                    attribute.TenantSquareLogoFileResource.DeleteFileResource();
                 }
-                tenantAttribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                if (tenantAttribute.TenantBannerLogoFileResource != null)
+                if (attribute.TenantBannerLogoFileResource != null)
                 {
-                    tenantAttribute.TenantBannerLogoFileResource.DeleteFileResource();
+                    attribute.TenantBannerLogoFileResource.DeleteFileResource();
                 }
-                tenantAttribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
             }
         }
 
