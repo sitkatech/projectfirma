@@ -115,11 +115,20 @@ namespace ProjectFirma.Web.Views.Tenant
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
             {
-                primaryContactPerson = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
-                Check.Assert(primaryContactPerson.TenantID == TenantID, $"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must belong to the tenant being edited. This should have been ensured by validation.");
-                Check.Assert(new FirmaAdminFeature().HasPermissionByPerson(primaryContactPerson), $"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin. This should have been ensured by validation.");
+                primaryContactPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
+            var clearOutTaxonomyLeafPerformanceMeasures = false;
+            if ((tenantAttribute.TaxonomyLevelID != TaxonomyLevelID.Value) || (tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID != AssociatePerfomanceMeasureTaxonomyLevelID.Value))
+            {
+                clearOutTaxonomyLeafPerformanceMeasures = true;
+            }
+
+            if (clearOutTaxonomyLeafPerformanceMeasures)
+            {
+                HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Select(x => x.TaxonomyLeafPerformanceMeasureID).ToList().DeleteTaxonomyLeafPerformanceMeasure();
+            }
+
             tenantAttribute.TaxonomyLevelID = TaxonomyLevelID.Value;
             tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
             tenantAttribute.MinimumYear = MinimumYear.Value;
@@ -159,11 +168,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
             if (PrimaryContactPersonID != null)
             {
-                var primaryContact = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
-                if (primaryContact.TenantID != TenantID)
-                {
-                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
-                }
+                var primaryContact = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
                 if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
