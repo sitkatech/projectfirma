@@ -34,6 +34,12 @@ namespace ProjectFirma.Web.Models
         public static readonly FileResourceMimeTypeWordDOC WordDOC = FileResourceMimeTypeWordDOC.Instance;
         public static readonly FileResourceMimeTypexExcelXLSX xExcelXLSX = FileResourceMimeTypexExcelXLSX.Instance;
         public static readonly FileResourceMimeTypeCSS CSS = FileResourceMimeTypeCSS.Instance;
+        public static readonly FileResourceMimeTypeXZIP XZIP = FileResourceMimeTypeXZIP.Instance;
+        public static readonly FileResourceMimeTypeGZIP GZIP = FileResourceMimeTypeGZIP.Instance;
+        public static readonly FileResourceMimeTypeXGZIP XGZIP = FileResourceMimeTypeXGZIP.Instance;
+        public static readonly FileResourceMimeTypeTGZ TGZ = FileResourceMimeTypeTGZ.Instance;
+        public static readonly FileResourceMimeTypeTAR TAR = FileResourceMimeTypeTAR.Instance;
+        public static readonly FileResourceMimeTypeZIP ZIP = FileResourceMimeTypeZIP.Instance;
 
         public static readonly List<FileResourceMimeType> All;
         public static readonly ReadOnlyDictionary<int, FileResourceMimeType> AllLookupDictionary;
@@ -43,7 +49,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FileResourceMimeType()
         {
-            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX, CSS };
+            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX, CSS, XZIP, GZIP, XGZIP, TGZ, TAR, ZIP };
             AllLookupDictionary = new ReadOnlyDictionary<int, FileResourceMimeType>(All.ToDictionary(x => x.FileResourceMimeTypeID));
         }
 
@@ -129,6 +135,8 @@ namespace ProjectFirma.Web.Models
                     return ExcelXLSX;
                 case FileResourceMimeTypeEnum.GIF:
                     return GIF;
+                case FileResourceMimeTypeEnum.GZIP:
+                    return GZIP;
                 case FileResourceMimeTypeEnum.JPEG:
                     return JPEG;
                 case FileResourceMimeTypeEnum.PDF:
@@ -141,6 +149,10 @@ namespace ProjectFirma.Web.Models
                     return PowerpointPPT;
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
                     return PowerpointPPTX;
+                case FileResourceMimeTypeEnum.TAR:
+                    return TAR;
+                case FileResourceMimeTypeEnum.TGZ:
+                    return TGZ;
                 case FileResourceMimeTypeEnum.TIFF:
                     return TIFF;
                 case FileResourceMimeTypeEnum.WordDOC:
@@ -149,8 +161,14 @@ namespace ProjectFirma.Web.Models
                     return WordDOCX;
                 case FileResourceMimeTypeEnum.xExcelXLSX:
                     return xExcelXLSX;
+                case FileResourceMimeTypeEnum.XGZIP:
+                    return XGZIP;
                 case FileResourceMimeTypeEnum.XPNG:
                     return XPNG;
+                case FileResourceMimeTypeEnum.XZIP:
+                    return XZIP;
+                case FileResourceMimeTypeEnum.ZIP:
+                    return ZIP;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -174,7 +192,13 @@ namespace ProjectFirma.Web.Models
         ExcelXLS = 13,
         WordDOC = 14,
         xExcelXLSX = 15,
-        CSS = 16
+        CSS = 16,
+        XZIP = 17,
+        GZIP = 18,
+        XGZIP = 19,
+        TGZ = 20,
+        TAR = 21,
+        ZIP = 22
     }
 
     public partial class FileResourceMimeTypePDF : FileResourceMimeType
@@ -271,5 +295,41 @@ namespace ProjectFirma.Web.Models
     {
         private FileResourceMimeTypeCSS(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
         public static readonly FileResourceMimeTypeCSS Instance = new FileResourceMimeTypeCSS(16, @"CSS", @"CSS", @"text/css", null, null);
+    }
+
+    public partial class FileResourceMimeTypeXZIP : FileResourceMimeType
+    {
+        private FileResourceMimeTypeXZIP(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeXZIP Instance = new FileResourceMimeTypeXZIP(17, @"X-ZIP", @"X-ZIP", @"application/x-zip-compressed", null, null);
+    }
+
+    public partial class FileResourceMimeTypeGZIP : FileResourceMimeType
+    {
+        private FileResourceMimeTypeGZIP(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeGZIP Instance = new FileResourceMimeTypeGZIP(18, @"GZIP", @"GZIP", @"application/gzip", null, null);
+    }
+
+    public partial class FileResourceMimeTypeXGZIP : FileResourceMimeType
+    {
+        private FileResourceMimeTypeXGZIP(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeXGZIP Instance = new FileResourceMimeTypeXGZIP(19, @"X-GZIP", @"X-GZIP", @"application/x-gzip", null, null);
+    }
+
+    public partial class FileResourceMimeTypeTGZ : FileResourceMimeType
+    {
+        private FileResourceMimeTypeTGZ(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeTGZ Instance = new FileResourceMimeTypeTGZ(20, @"TGZ", @"TGZ", @"application/x-compressed", null, null);
+    }
+
+    public partial class FileResourceMimeTypeTAR : FileResourceMimeType
+    {
+        private FileResourceMimeTypeTAR(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeTAR Instance = new FileResourceMimeTypeTAR(21, @"TAR", @"TAR", @"application/x-tar", null, null);
+    }
+
+    public partial class FileResourceMimeTypeZIP : FileResourceMimeType
+    {
+        private FileResourceMimeTypeZIP(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeZIP Instance = new FileResourceMimeTypeZIP(22, @"ZIP", @"ZIP", @"application/zip", null, null);
     }
 }

@@ -23,3 +23,13 @@ insert into dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTy
 insert into dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTypeContentTypeName, FileResourceMimeTypeName, FileResourceMimeTypeDisplayName, FileResourceMimeTypeIconSmallFilename,  FileResourceMimeTypeIconNormalFilename) values (14, 'application/msword', 'Word (DOC)', 'Word (DOC)', '/Content/img/MimeTypeIcons/word_20x20.png', '/Content/img/MimeTypeIcons/word_48x48.png')
 --
 insert into dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTypeContentTypeName, FileResourceMimeTypeName, FileResourceMimeTypeDisplayName, FileResourceMimeTypeIconSmallFilename,  FileResourceMimeTypeIconNormalFilename) values (16, 'text/css', 'CSS', 'CSS', null, null)
+
+INSERT INTO dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTypeContentTypeName, FileResourceMimeTypeName, FileResourceMimeTypeDisplayName, FileResourceMimeTypeIconSmallFilename, FileResourceMimeTypeIconNormalFilename) 
+values
+
+(22, 'application/zip', 'ZIP', 'ZIP', null, null),
+(17, 'application/x-zip-compressed', 'X-ZIP', 'X-ZIP', null, null),
+(18, 'application/gzip', 'GZIP', 'GZIP', null, null),
+(19, 'application/x-gzip', 'X-GZIP', 'X-GZIP', null, null),
+(20, 'application/x-compressed', 'TGZ', 'TGZ', null, null),
+(21, 'application/x-tar', 'TAR', 'TAR', null, null)
