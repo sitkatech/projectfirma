@@ -58,3 +58,6 @@ insert into dbo.TaxonomyLeaf(TenantID, TaxonomyBranchID, TaxonomyLeafName, Taxon
 select 7 as TenantID, TaxonomyBranchID, 'Default', 'TBD'
 from dbo.TaxonomyBranch
 where TenantID = 7
+
+
+alter table dbo.TaxonomyLeaf add ThemeColor varchar(7) null

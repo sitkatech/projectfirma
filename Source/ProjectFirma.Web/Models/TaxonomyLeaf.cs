@@ -55,8 +55,6 @@ namespace ProjectFirma.Web.Models
 
         public int TaxonomyTierID => TaxonomyLeafID;
 
-        public string ThemeColor => TaxonomyBranch.ThemeColor;
-
         public static bool IsTaxonomyLeafNameUnique(IEnumerable<TaxonomyLeaf> taxonomyLeafs, string taxonomyLeafName, int currentTaxonomyLeafID)
         {
             var taxonomyLeaf =
@@ -71,7 +69,7 @@ namespace ProjectFirma.Web.Models
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)}", TaxonomyLeafID.ToString(), false)
             {
-                ThemeColor = ThemeColor,
+                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyBranch.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,
                 Children = Projects.Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
             };

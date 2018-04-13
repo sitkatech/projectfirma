@@ -1829,6 +1829,7 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_T
     <Property Name="TaxonomyLeafName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyLeafDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyLeafCode" Type="varchar" MaxLength="10" />
+    <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyLeafSortOrder" Type="int" />
   </EntityType>
   <EntityType Name="TaxonomyLeafPerformanceMeasure">
