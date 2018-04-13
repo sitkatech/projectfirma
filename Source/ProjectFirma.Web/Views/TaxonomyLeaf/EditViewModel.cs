@@ -70,7 +70,10 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         {
             taxonomyLeaf.TaxonomyLeafName = TaxonomyLeafName;
             taxonomyLeaf.TaxonomyLeafDescription = TaxonomyLeafDescription;
-            taxonomyLeaf.TaxonomyBranchID = TaxonomyBranchID;
+            taxonomyLeaf.TaxonomyBranchID = !MultiTenantHelpers.IsTaxonomyLevelLeaf()
+                ? TaxonomyBranchID
+                : HttpRequestStorage.DatabaseEntities.TaxonomyBranches.First().TaxonomyBranchID; // really should only be one
+            ;
             taxonomyLeaf.ThemeColor = ThemeColor;
         }
 
