@@ -31,7 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
         </tr>
-        @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds.OrderBy(pm => pm.PerformanceMeasureID))
+        @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
         {
             <tr>
                 <td>@performanceMeasureExpected.PerformanceMeasure.GetDisplayNameAsUrl()</td>

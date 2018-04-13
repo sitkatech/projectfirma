@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }
 
         public ExpectedPerformanceMeasureValuesViewModel(Models.Project project)
-            : base(project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
+            : base(project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.SortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
             PerformanceMeasureNotes = project.PerformanceMeasureNotes;
         }

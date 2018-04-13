@@ -45,6 +45,7 @@ using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectCreate.BasicsViewModel;
@@ -280,7 +281,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditExpectedPerformanceMeasureValues(Project project, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
@@ -326,7 +327,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(project.ProjectID)));
             }
             var performanceMeasureActualSimples =
-                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasureID)
+                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName)
                     .ThenByDescending(x => x.CalendarYear)
                     .Select(x => new PerformanceMeasureActualSimple(x))
                     .ToList();
@@ -372,7 +373,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewPerformanceMeasures(Project project, PerformanceMeasuresViewModel viewModel)
         {
             var performanceMeasures =
-                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var showExemptYears = project.ProjectExemptReportingYears.Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
@@ -381,7 +382,7 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
             var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
-            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).ToList();
             var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
 
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();

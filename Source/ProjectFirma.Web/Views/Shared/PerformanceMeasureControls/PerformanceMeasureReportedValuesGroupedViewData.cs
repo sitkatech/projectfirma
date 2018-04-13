@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Views.Project;
 
 namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls

@@ -40,14 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.TaxonomyLeafID, 600, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject())</div>
         <div class="col-md-8">
             <div>
-                @if (ViewDataTyped.HasThreeTierTaxonomy)
-                {
-                    @Html.DropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, new { @class = "form-control", style = "width: 100%;" })
-                }
-                else
-                {
                     @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))                
-                }
                 @Html.ValidationMessageFor(m => m.TaxonomyLeafID)
             </div>
         </div>

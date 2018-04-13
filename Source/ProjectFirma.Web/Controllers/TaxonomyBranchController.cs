@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyBranch> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderTaxonomyBranches().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyBranch>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }
