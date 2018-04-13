@@ -57,7 +57,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     $scope.resetPerformanceMeasureToAdd = function () { $scope.PerformanceMeasureToAdd = null; };
    
     $scope.filteredPerformanceMeasures = function () {
-        return _($scope.AngularViewData.AllPerformanceMeasures).sortBy(function (x) { return x.DisplayName; }).value();
+        return _($scope.AngularViewData.AllPerformanceMeasures).value();
     };    
     
     $scope.getPerformanceMeasureName = function (performanceMeasureExpected) {
