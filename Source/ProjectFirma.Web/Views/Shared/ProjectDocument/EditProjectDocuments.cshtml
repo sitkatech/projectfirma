@@ -5,6 +5,7 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
+        @Html.HiddenFor(m=>m.ParentID)
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.DisplayName)

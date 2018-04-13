@@ -378,9 +378,11 @@
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocuments.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewData.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentUpdatesViewModel.cs" />
     <Compile Include="Views\Shared\ProjectDocument\NewProjectDocument.cs" />
     <Compile Include="Controllers\ProjectDocumentController.cs" />
     <Compile Include="Security\ProjectDocumentEditAsAdminFeature.cs" />
+    <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentUpdateViewModel.cs" />
     <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentViewData.cs" />
     <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentViewModel.cs" />
     <Compile Include="Views\Shared\ProjectDocument\ProjectDocumentsDetail.cs" />

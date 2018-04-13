@@ -329,6 +329,14 @@
                 </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
+                        <h3>Notes</h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                    </div>
+                </div>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
                         <h3>
                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
                             @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)
@@ -336,14 +344,6 @@
                     </div>
                     <div class="panel-body">
                         @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
-                    </div>
-                </div>
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h3>Notes</h3>
-                    </div>
-                    <div class="panel-body">
-                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
                     </div>
                 </div>
 

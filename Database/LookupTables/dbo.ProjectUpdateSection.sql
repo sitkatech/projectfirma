@@ -11,6 +11,6 @@ values
 (7, 'ExpectedFunding', 'Expected Funding', 70, 0),
 (8, 'Expenditures', 'Expenditures', 80, 1),
 (9, 'Photos', 'Photos', 100, 0),
-(10, 'ExternalLinks', 'External Links', 110, 0),
+(10, 'ExternalLinks', 'External Links', 125, 0),
 (11, 'NotesAndDocuments', 'Notes and Documents', 120, 0),
 (12, 'Organizations', 'Organizations', 55, 1)

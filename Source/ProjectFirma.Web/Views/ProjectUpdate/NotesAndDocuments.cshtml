@@ -24,17 +24,19 @@
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @inherits ProjectFirma.Web.Views.ProjectUpdate.NotesAndDocuments
 
-<p>You may enter one or more @FieldDefinition.ProjectNote.GetFieldDefinitionLabel() to convey additional information not covered by other parts of this project update. @FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized(), if/when approved, will be publicly visible.</p>
+<p>Add document and notes to the project. When approved, the documents and notes will be publicly visible.</p>
 <hr />
-<div style="min-height: 100px">
-    @{
-        EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData);
-    }
-</div><hr/>
-<div style="min-height: 100px">
-    @{
-        ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsViewData);
-    }
+<div style="min-height: 200px;">
+    <div>
+        @{
+            ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsViewData);
+        }
+    </div><hr />
+    <div>
+        @{
+            EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData);
+        }
+    </div>
 </div>
 
 @if (@ViewDataTyped.IsEditable)

@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
-            var viewModel = new NewProjectDocumentViewModel();
+            var viewModel = new NewProjectDocumentViewModel(projectPrimaryKey.EntityObject);
             return ViewNew(viewModel);
         }
 
@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ViewNew(viewModel);
+                return ViewNew(viewModel);
             }
             
             viewModel.UpdateModel(project, CurrentPerson);
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ViewEdit(viewModel);
+                return ViewEdit(viewModel);
             }
             
             viewModel.UpdateModel(projectDocument);

@@ -6,7 +6,7 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectDocument.ProjectDocumentsDetail
 
 <div class="pull-right">
-    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Document", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddDocumentUrl, "Upload New Document", null, ViewDataTyped.CanEditDocuments)
+    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Document", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddDocumentUrl, "Upload New Document", new List<string>{"btn", "btn-firma", "btn-sm"}, ViewDataTyped.CanEditDocuments)
 </div>
 
 @if (!ViewDataTyped.Documents.Any())

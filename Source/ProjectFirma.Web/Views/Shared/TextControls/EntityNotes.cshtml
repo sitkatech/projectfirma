@@ -27,14 +27,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.CanEditNotes)
 {
-    <div class="summaryLayoutUpdateControls"style="float: right">
-        <span style="display: inline-block">
-            @ModalDialogFormHelper.ModalDialogFormLink(FirmaDhtmlxGridHtmlHelpers.PlusIcon.ToString(), ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), new List<string>(), ViewDataTyped.CanEditNotes)
-        </span>
-        <span style="display: inline-block; vertical-align: top">
-            @ModalDialogFormHelper.ModalDialogFormLink("Add Note", ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), new List<string>(), ViewDataTyped.CanEditNotes)
-        </span>
-    </div>
+<div class="pull-right">
+    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Upload New Document", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
+</div>
 }
 @if (ViewDataTyped.Notes.Any())
 {
