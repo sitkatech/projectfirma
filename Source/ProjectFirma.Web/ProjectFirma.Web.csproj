@@ -1212,8 +1212,8 @@
     <Compile Include="Views\ProjectUpdate\ManageViewData.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjects.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjectsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\NotesAndDocuments.cs" />
-    <Compile Include="Views\ProjectUpdate\NotesAndDocumentsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\DocumentsAndNotes.cs" />
+    <Compile Include="Views\ProjectUpdate\DocumentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PeopleReceivingReminderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\Photos.cs" />
     <Compile Include="Views\ProjectUpdate\PhotosViewData.cs" />
@@ -1286,8 +1286,8 @@
     <Compile Include="Views\ProjectCreate\LocationSimple.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\NotesAndDocuments.cs" />
-    <Compile Include="Views\ProjectCreate\NotesAndDocumentsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\DocumentsAndNotes.cs" />
+    <Compile Include="Views\ProjectCreate\DocumentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectCreate\Photos.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProposalSectionsStatus.cs" />
@@ -3344,7 +3344,7 @@
     <Content Include="Views\ProjectUpdate\LocationSimple.cshtml" />
     <Content Include="Views\ProjectUpdate\Manage.cshtml" />
     <Content Include="Views\ProjectUpdate\MyProjects.cshtml" />
-    <Content Include="Views\ProjectUpdate\NotesAndDocuments.cshtml" />
+    <Content Include="Views\ProjectUpdate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\Photos.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateStatus.cshtml" />
@@ -3360,7 +3360,7 @@
     <Content Include="Views\ProjectCreate\InstructionsProposal.cshtml" />
     <Content Include="Views\ProjectCreate\LocationDetailed.cshtml" />
     <Content Include="Views\ProjectCreate\LocationSimple.cshtml" />
-    <Content Include="Views\ProjectCreate\NotesAndDocuments.cshtml" />
+    <Content Include="Views\ProjectCreate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectCreate\Photos.cshtml" />
     <Content Include="Views\ProjectCreate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectCreate\_ViewStart.cshtml" />

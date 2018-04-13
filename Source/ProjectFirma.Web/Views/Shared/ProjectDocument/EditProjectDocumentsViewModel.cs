@@ -21,6 +21,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         // can be the ID of a Project or a ProjectUpdateBatch depending on whether this ViewModel or its child type is invoked.
         public int? ParentID { get; set; }
 
+        // can be the ID of a ProjectDocument or a ProjectDocumentUpdate depending on whether this ViewModel or its child type is invoked.
+        public int? DocumentID { get; set; }
+
         public EditProjectDocumentsViewModel()
         {
         }
@@ -28,6 +31,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         public EditProjectDocumentsViewModel(Models.ProjectDocument projectDocument)
         {
             ParentID = projectDocument.ProjectID;
+            DocumentID = projectDocument.ProjectDocumentID;
             DisplayName = projectDocument.DisplayName;
             Description = projectDocument.Description;
         }
@@ -54,7 +58,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         {
             var validationResults = new List<ValidationResult>();
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectDocuments.Where(x => x.ProjectID == ParentID)
+            if (HttpRequestStorage.DatabaseEntities.ProjectDocuments.Where(x => x.ProjectID == ParentID && x.ProjectDocumentID != DocumentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
                 validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>("The Display Name must be unique for each Document attached to a Project", m => m.DisplayName));

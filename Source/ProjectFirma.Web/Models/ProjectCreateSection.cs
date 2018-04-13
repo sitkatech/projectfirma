@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Models
 
         public override string GetSectionUrl(Project project)
         {
-            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NotesAndDocuments(project.ProjectID)) : null;
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project.ProjectID)) : null;
         }
     }
 

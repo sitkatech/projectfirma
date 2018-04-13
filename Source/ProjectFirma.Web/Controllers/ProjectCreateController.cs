@@ -45,6 +45,30 @@ using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
+using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
+using BasicsViewModel = ProjectFirma.Web.Views.ProjectCreate.BasicsViewModel;
+using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
+using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewData;
+using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewModel;
+using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
+using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
+using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
+using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewData;
+using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewModel;
+using LocationSimple = ProjectFirma.Web.Views.ProjectCreate.LocationSimple;
+using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectCreate.LocationSimpleViewData;
+using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectCreate.LocationSimpleViewModel;
+using Organizations = ProjectFirma.Web.Views.ProjectCreate.Organizations;
+using OrganizationsViewData = ProjectFirma.Web.Views.ProjectCreate.OrganizationsViewData;
+using OrganizationsViewModel = ProjectFirma.Web.Views.ProjectCreate.OrganizationsViewModel;
+using PerformanceMeasures = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasures;
+using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewData;
+using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewModel;
+using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
+using WatershedViewData = ProjectFirma.Web.Views.ProjectCreate.WatershedViewData;
+using WatershedViewModel = ProjectFirma.Web.Views.ProjectCreate.WatershedViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -855,7 +879,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectCreateFeature]
-        public ViewResult NotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(project.ProjectNotes);
@@ -868,8 +892,8 @@ namespace ProjectFirma.Web.Controllers
                 EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
                 SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewDocument(project)), project.ProjectName,
                 canEditNotesAndDocuments);
-            var viewData = new NotesAndDocumentsViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
-            return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
+            var viewData = new DocumentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
+            return RazorView<DocumentsAndNotes, DocumentsAndNotesViewData>(viewData);
         }
 
         [HttpGet]

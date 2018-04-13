@@ -27,14 +27,14 @@ using ProjectFirma.Web.Views.Shared.ProjectDocument;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class NotesAndDocumentsViewData : ProjectUpdateViewData
+    public class DocumentsAndNotesViewData : ProjectUpdateViewData
     {
         public EntityNotesViewData EntityNotesViewData { get; }
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsViewData { get; }
 
-        public NotesAndDocumentsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.NotesAndDocuments, updateStatus, new List<string>())
+        public DocumentsAndNotesViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.NotesAndDocuments, updateStatus, new List<string>())
         {
             EntityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates)),
                 SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),

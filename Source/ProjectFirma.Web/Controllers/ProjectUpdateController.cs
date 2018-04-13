@@ -1178,7 +1178,7 @@ namespace ProjectFirma.Web.Controllers
         }       
 
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult NotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -1188,8 +1188,8 @@ namespace ProjectFirma.Web.Controllers
             }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotesAndDocuments(projectPrimaryKey));
-            var viewData = new NotesAndDocumentsViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
-            return RazorView<NotesAndDocuments, NotesAndDocumentsViewData>(viewData);
+            var viewData = new DocumentsAndNotesViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
+            return RazorView<DocumentsAndNotes, DocumentsAndNotesViewData>(viewData);
         }
 
         [HttpGet]

@@ -24,13 +24,13 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class NotesAndDocumentsViewData : ProjectCreateViewData
+    public class DocumentsAndNotesViewData : ProjectCreateViewData
     {
         public EntityNotesViewData EntityNotesViewData { get; }
 
         public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
 
-        public NotesAndDocumentsViewData(Person currentPerson,
+        public DocumentsAndNotesViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EntityNotesViewData entityNotesViewData,
