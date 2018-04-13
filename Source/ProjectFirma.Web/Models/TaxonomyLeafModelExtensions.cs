@@ -134,5 +134,22 @@ namespace ProjectFirma.Web.Models
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public static IEnumerable<TaxonomyBranch> OrderTaxonomyBranches(this List<TaxonomyBranch> taxonomyBranches)
+        {
+            switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
+            {
+                case TaxonomyLevelEnum.Trunk:
+                    return taxonomyBranches.OrderBy(x => x.TaxonomyTrunk.TaxonomyTrunkSortOrder)
+                        .ThenBy(x => x.TaxonomyTrunk.DisplayName)
+                        .ThenBy(x => x.TaxonomyBranchSortOrder).ThenBy(x => x.DisplayName);
+                case TaxonomyLevelEnum.Branch:
+                    return taxonomyBranches.OrderBy(x => x.TaxonomyBranchSortOrder)
+                        .ThenBy(x => x.DisplayName);
+                default:
+                    // why are u sorting taxonomy branches if the taxonomy level is leaf?
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

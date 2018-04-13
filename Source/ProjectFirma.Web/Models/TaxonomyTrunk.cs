@@ -26,6 +26,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Models
 {
@@ -101,7 +102,7 @@ namespace ProjectFirma.Web.Models
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,
-                Children = TaxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList()
+                Children = TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode()).ToList()
             };
             return fancyTreeNode;
         }
