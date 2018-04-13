@@ -48,6 +48,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyBranch)]
         public int TaxonomyBranchID { get; set; }
 
+        public string ThemeColor { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -61,6 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             TaxonomyLeafName = taxonomyLeaf.TaxonomyLeafName;
             TaxonomyLeafDescription = taxonomyLeaf.TaxonomyLeafDescription;
             TaxonomyBranchID = taxonomyLeaf.TaxonomyBranchID;
+            ThemeColor = taxonomyLeaf.ThemeColor;
         }
 
         public void UpdateModel(Models.TaxonomyLeaf taxonomyLeaf, Person currentPerson)
@@ -68,6 +71,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             taxonomyLeaf.TaxonomyLeafName = TaxonomyLeafName;
             taxonomyLeaf.TaxonomyLeafDescription = TaxonomyLeafDescription;
             taxonomyLeaf.TaxonomyBranchID = TaxonomyBranchID;
+            taxonomyLeaf.ThemeColor = ThemeColor;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

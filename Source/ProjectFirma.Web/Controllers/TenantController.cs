@@ -110,7 +110,54 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditBasics(viewModel);
             }
 
-            viewModel.UpdateModel(CurrentPerson);
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
+            var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
+            var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != viewModel.TaxonomyLevelID.Value || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel.TaxonomyLevelID != viewModel.AssociatePerfomanceMeasureTaxonomyLevelID.Value;
+
+            if (clearOutTaxonomyLeafPerformanceMeasures)
+            {
+                HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Select(x => x.TaxonomyLeafPerformanceMeasureID).ToList().DeleteTaxonomyLeafPerformanceMeasure();
+            }
+
+            // if we are shrinking the number of tiers, we need to collapse child records to hidden parent record(s) named "Default"
+            if (oldTenantAttributeTaxonomyLevel.TaxonomyLevelID > viewModel.TaxonomyLevelID.Value)
+            {
+                var newTaxonomyLevel = TaxonomyLevel.ToType(viewModel.TaxonomyLevelID.Value);
+                const string defaultTrunkOrBranchName = "Default";
+                if (newTaxonomyLevel == TaxonomyLevel.Branch)
+                {
+                    // create a new "Default" trunk to move all branches to
+                    // ensure that name does not already exist
+                    var newTaxonomyTrunkDefault = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.SingleOrDefault(x =>
+                                                      x.TaxonomyTrunkName == defaultTrunkOrBranchName) ?? new TaxonomyTrunk(defaultTrunkOrBranchName);
+
+                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
+                    foreach (var taxonomyBranch in taxonomyBranches)
+                    {
+                        taxonomyBranch.TaxonomyTrunk = newTaxonomyTrunkDefault;
+                    }
+                    HttpRequestStorage.DatabaseEntities.SaveChanges();
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                }
+                else if (newTaxonomyLevel == TaxonomyLevel.Leaf)
+                {
+                    var newTaxonomyTrunkDefault = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.SingleOrDefault(x =>
+                                                      x.TaxonomyTrunkName == defaultTrunkOrBranchName) ?? new TaxonomyTrunk(defaultTrunkOrBranchName);
+                    var newTaxonomyBranchDefault = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.SingleOrDefault(x =>
+                                                       x.TaxonomyBranchName == defaultTrunkOrBranchName) ?? new TaxonomyBranch(newTaxonomyTrunkDefault, defaultTrunkOrBranchName);
+                    var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
+                    foreach (var taxonomyLeaf in taxonomyLeaves)
+                    {
+                        taxonomyLeaf.TaxonomyBranch = newTaxonomyBranchDefault;
+                    }
+                    HttpRequestStorage.DatabaseEntities.SaveChanges();
+                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).Select(x => x.TaxonomyBranchID).ToList().DeleteTaxonomyBranch();
+                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                }
+            }
+
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 

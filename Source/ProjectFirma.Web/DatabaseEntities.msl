@@ -1058,6 +1058,7 @@
           <ScalarProperty Name="TaxonomyLeafName" ColumnName="TaxonomyLeafName" />
           <ScalarProperty Name="TaxonomyLeafDescription" ColumnName="TaxonomyLeafDescription" />
           <ScalarProperty Name="TaxonomyLeafCode" ColumnName="TaxonomyLeafCode" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyLeafSortOrder" ColumnName="TaxonomyLeafSortOrder" />
         </MappingFragment>
       </EntityTypeMapping>

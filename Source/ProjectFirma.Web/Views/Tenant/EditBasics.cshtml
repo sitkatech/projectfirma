@@ -48,18 +48,25 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(x => x.PrimaryContactPersonID)
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TaxonomyLevelID)</div>
+    <div class="row">
         <div class="col-md-8">
-            @Html.DropDownListFor(x => x.TaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
-            @Html.ValidationMessageFor(m => m.TaxonomyLevelID)
+            <div class="form-group">
+                <div class="col-md-7 text-right">@Html.LabelFor(m => m.TaxonomyLevelID)</div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.TaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+                    @Html.ValidationMessageFor(m => m.TaxonomyLevelID)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+                    @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
-        <div class="col-md-8">
-            @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
-            @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
+        <div class="col-md-4">
+            <span class="smallExplanationText">Changing the number of Taxonomy Tiers or which Taxonomy Tier to associate Performance Measures to will result in the deletion of any relationships to Performance Measures</span>
         </div>
     </div>
     <div class="form-group">
@@ -72,7 +79,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowProposalsToThePublic)</div>
         <div class="col-md-8">
-            @Html.CheckBoxFor(m=>m.ShowProposalsToThePublic)
+            @Html.CheckBoxFor(m => m.ShowProposalsToThePublic)
         </div>
     </div>
     <div class="form-group">

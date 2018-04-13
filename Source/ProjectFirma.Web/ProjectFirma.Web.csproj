@@ -365,6 +365,7 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
     <Compile Include="Models\EntityDocument.cs" />
+    <Compile Include="Models\TaxonomyLeafPerformanceMeasureTest.cs" />
     <Compile Include="Models\TaxonomyLevel.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiersViewData.cs" />
