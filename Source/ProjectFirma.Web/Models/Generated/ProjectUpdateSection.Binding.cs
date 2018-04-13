@@ -216,7 +216,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionExternalLinks : ProjectUpdateSection
     {
         private ProjectUpdateSectionExternalLinks(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectUpdateSectionExternalLinks Instance = new ProjectUpdateSectionExternalLinks(10, @"ExternalLinks", @"External Links", 110, false);
+        public static readonly ProjectUpdateSectionExternalLinks Instance = new ProjectUpdateSectionExternalLinks(10, @"ExternalLinks", @"External Links", 125, false);
     }
 
     public partial class ProjectUpdateSectionNotesAndDocuments : ProjectUpdateSection
