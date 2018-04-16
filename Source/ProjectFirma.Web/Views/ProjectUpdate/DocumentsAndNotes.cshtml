@@ -31,12 +31,13 @@
         @{
             ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsViewData);
         }
-    </div><hr />
-    <div>
-        @{
-            EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData);
-        }
-    </div>
+    </div>@*TODO: Commented out until such time as it's appropriate to take this feature live
+                  <hr />
+        <div>
+            @{
+                EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData);
+            }
+        </div>*@
 </div>
 
 @if (@ViewDataTyped.IsEditable)

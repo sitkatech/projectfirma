@@ -12,5 +12,5 @@ values
 (8, 'Expenditures', 'Expenditures', 80, 1),
 (9, 'Photos', 'Photos', 100, 0),
 (10, 'ExternalLinks', 'External Links', 125, 0),
-(11, 'NotesAndDocuments', 'Documents and Notes', 120, 0),
+(11, 'NotesAndDocuments', 'Notes', 120, 0),
 (12, 'Organizations', 'Organizations', 55, 1)

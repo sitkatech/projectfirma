@@ -2381,11 +2381,12 @@ namespace ProjectFirma.Web.Controllers
 
             var originalHtmlNotes = GeneratePartialViewForOriginalNotes(entityNotesOriginal, entityNotesUpdated);
             var updatedHtmlNotes = GeneratePartialViewForModifiedNotes(entityNotesOriginal, entityNotesUpdated);
-            var originalHtmlDocuments = GeneratePartialViewForOriginalDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
-            var updatedHtmlDocuments = GeneratePartialViewForModifiedDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
+            // TODO: Commented out until such time as it is appropriate to take this feature live
+            //var originalHtmlDocuments = GeneratePartialViewForOriginalDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
+            //var updatedHtmlDocuments = GeneratePartialViewForModifiedDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
 
-            var originalHtml = originalHtmlNotes + originalHtmlDocuments;
-            var updatedHtml = updatedHtmlNotes + updatedHtmlDocuments;
+            var originalHtml = originalHtmlNotes;//+ originalHtmlDocuments;
+            var updatedHtml = updatedHtmlNotes; //updatedHtmlDocuments;
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }

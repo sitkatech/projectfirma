@@ -32,8 +32,9 @@
     <div>
         @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
     </div>
-    <hr />
-    <div>
-        @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
-    </div>
+    @*TODO: Commented out until such time as it's appropriate to take this feature live
+        <hr />
+        <div>
+            @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
+        </div>*@
 </div>
