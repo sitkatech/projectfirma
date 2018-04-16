@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditPerformanceMeasureExpectedsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var performanceMeasureExpectedSimples = project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList();
+            var performanceMeasureExpectedSimples = project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList();
             var viewModel = new EditPerformanceMeasureExpectedViewModel(performanceMeasureExpectedSimples);
             return ViewEditPerformanceMeasureExpecteds(project, viewModel);
         }

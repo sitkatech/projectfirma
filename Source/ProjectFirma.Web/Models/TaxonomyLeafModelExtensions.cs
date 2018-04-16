@@ -28,6 +28,7 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Models
 {
@@ -62,13 +63,13 @@ namespace ProjectFirma.Web.Models
             else if (MultiTenantHelpers.IsTaxonomyLevelBranch())
             {
                 foreach (var taxonomyBranchGrouping in taxonomyLeafs.GroupBy(x => x.TaxonomyBranch)
-                    .OrderBy(x => x.Key.DisplayName))
+                    .OrderBy(x => x.Key.TaxonomyBranchSortOrder).ThenBy(x=>x.Key.DisplayName))
                 {
                     var taxonomyBranch = taxonomyBranchGrouping.Key;
                     var selectListGroup = new SelectListGroup {Name = taxonomyBranch.DisplayName};
                     groups.Add(taxonomyBranch.DisplayName, selectListGroup);
 
-                    foreach (var taxonomyLeaf in taxonomyBranchGrouping.OrderBy(x => x.DisplayName))
+                    foreach (var taxonomyLeaf in taxonomyBranchGrouping.OrderBy(x => x.TaxonomyLeafSortOrder).ThenBy(x=>x.DisplayName))
                     {
                         selectListItems.Add(new SelectListItem
                         {
@@ -81,7 +82,7 @@ namespace ProjectFirma.Web.Models
             }
             else
             {
-                return taxonomyLeafs.ToSelectListWithEmptyFirstRow(m => m.TaxonomyLeafID.ToString(), m => m.DisplayName,
+                return taxonomyLeafs.SortByOrderThenName().ToSelectListWithEmptyFirstRow(m => m.TaxonomyLeafID.ToString(), m => m.DisplayName,
                     $"Select the {MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()}");
             }
 

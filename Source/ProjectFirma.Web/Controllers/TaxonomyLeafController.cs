@@ -71,8 +71,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TaxonomyLeaf> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList()
-                .OrderBy(x => x.TaxonomyLeafName).ToList();
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyLeaf>(taxonomyLeafs, gridSpec);
             return gridJsonNetJObjectResult;
         }

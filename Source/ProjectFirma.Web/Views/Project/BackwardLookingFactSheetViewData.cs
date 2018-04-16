@@ -29,6 +29,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -83,7 +84,7 @@ namespace ProjectFirma.Web.Views.Project
                 .ThenBy(pma => pma.PerformanceMeasureReportingPeriod.PerformanceMeasure.PerformanceMeasureID)
                 .GroupBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasure,
                     new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-                .OrderBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
+                .OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x=>x.Key.PerformanceMeasureDisplayName).ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Views.Project
                     .OrderBy(x => x.Key.SortOrder)
                     .ToList();
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
-            Classifications = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
+            Classifications = project.ProjectClassifications.Select(x => x.Classification).ToList().SortByOrderThenName().ToList();
 
             GoogleChartJson = projectFactSheetGoogleChart;
 
