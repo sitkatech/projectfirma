@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Models
                         var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(organization.OrganizationBoundary);
                         feature.Properties.Add("Organization Name", UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.OrganizationName).ToHtmlString());
                         feature.Properties.Add("Short Name", UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.OrganizationShortName).ToHtmlString());
+                        feature.Properties.Add(organizationType.OrganizationTypeName, UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.OrganizationName).ToHtmlString());
                         return feature;
                     }).ToList()),
                     organizationType.LegendColor, 1,
