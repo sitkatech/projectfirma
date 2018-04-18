@@ -76,6 +76,12 @@ namespace ProjectFirma.Web.Models
             return ProjectMapPopuUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static readonly UrlTemplate<int> ProjectMapSimplePopuUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.ProjectSimpleMapPopup(UrlTemplate.Parameter1Int)));
+        public static string GetProjectSimpleMapPopupUrl(this Project project)
+        {
+            return ProjectMapSimplePopuUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
         {
             var startYear = projectUpdate?.ImplementationStartYear;

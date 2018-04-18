@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
             projectSimpleLocationsFeatureCollection.Features.AddRange(((IEnumerable<IMappableProject>) projectsAsSimpleLocations).Select(x =>
             {
-                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);
+                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
                 feature.Properties["FeatureColor"] = "#99b3ff";
                 return feature;
             }).ToList());

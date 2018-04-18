@@ -93,6 +93,9 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
             self.setMapBounds(mapInitJson);
         });
     }
+
+    this.map.on("click", function(e) { self.getFeatureInfo(e); });
+ 
     self.setMapBounds(mapInitJson);
 };
 
@@ -123,9 +126,7 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
     if (currentLayer.LayerInitialVisibility === 1) {
         layerGroup.addTo(this.map);
     }
-    if (!currentLayer.HasCustomPopups) {
-        layerGeoJson.on("click", function (e) { self.getFeatureInfo(e); });
-    }
+   
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(layerGeoJson);
 };
@@ -138,6 +139,7 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
     if (currentLayer.LayerInitialVisibility === 1) {
         layerGroup.addTo(this.map);
     }
+    wmsLayer.on("click", function (e) { self.getFeatureInfo(e); });
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(wmsLayer);
@@ -440,8 +442,10 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         for (var j = 0; j < wmsLayers.length; ++j) {
             var layer = wmsLayers[j];
             var query = layer._url + L.Util.getParamString(params, null, true);
-            ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
-                .then(function (response) { return self.formatWatershedResponse(response); }));
+            if (layer.options.layers.includes("Watershed")) {
+                ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
+                    .then(function (response) { return self.formatWatershedResponse(response); }));
+            }            
         }        
 
         this.carryOutPromises(ajaxCalls).then(
@@ -488,10 +492,11 @@ ProjectFirmaMaps.Map.prototype.carryOutPromises = function (deferreds) {
     ProjectFirmaMaps.Map.prototype.formatWatershedResponse = function (json) {
     var html = "";
 
-        if (json.features[0].properties.hasOwnProperty("WatershedName")) {
-            html += "<strong>Watershed: </strong>";
+        if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("WatershedName")) {
+            html += "<strong>Watershed:</strong>";
+            var atag = "<a href='/Watershed/Detail/" + json.features[0].properties.WatershedID +"'>" + json.features[0].properties.WatershedName + "</a>";
             var watershedName = json.features[0].properties.WatershedName;
-            html += "<span>&nbsp;" + watershedName + "</span></br>";
+            html += "<span>&nbsp;" + atag + "</span></br>";
         }
     return html;
 };

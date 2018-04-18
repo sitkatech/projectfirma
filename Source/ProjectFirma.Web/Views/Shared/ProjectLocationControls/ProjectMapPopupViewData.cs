@@ -46,7 +46,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string DetailUrl { get; set; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
-        public ProjectMapPopupViewData(Models.Project project)
+        public bool ShowDetailedInformation { get; }
+
+        public ProjectMapPopupViewData(Models.Project project, bool showDetailedInformation)
         {
             //Project = project;
             DisplayName = project.DisplayName;
@@ -65,6 +67,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+
+            ShowDetailedInformation = showDetailedInformation;
         }
 
         private void InitializeDisplayNames()

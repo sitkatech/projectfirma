@@ -102,7 +102,15 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectMapPopup(ProjectPrimaryKey primaryKeyProject)
         {
             var project = primaryKeyProject.EntityObject;
-            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project));
+            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project, true));
+        }
+
+        [CrossAreaRoute]
+        [ProjectViewFeature]
+        public PartialViewResult ProjectSimpleMapPopup(ProjectPrimaryKey primaryKeyProject)
+        {
+            var project = primaryKeyProject.EntityObject;
+            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project, false));
         }
 
         [ProjectViewFeature]

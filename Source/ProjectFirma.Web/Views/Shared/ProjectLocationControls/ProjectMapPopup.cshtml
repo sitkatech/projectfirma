@@ -28,58 +28,72 @@
         padding-left: 10px;
     }
 </style>
-<div>
-    <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
 
-    @if (ViewDataTyped.KeyPhoto != null)
-    {
-        <div style="float: right; padding: 8px 4px 4px 4px">
-            <img src="@ViewDataTyped.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
+@if (ViewDataTyped.ShowDetailedInformation)
+{
+    <div>
+        <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
+
+        @if (ViewDataTyped.KeyPhoto != null)
+        {
+            <div style="float: right; padding: 8px 4px 4px 4px">
+                <img src="@ViewDataTyped.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
+            </div>
+        }
+        <div>
+            <div class="row">
+                <div class="col-xs-5"><strong>Duration</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.Duration @ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
+            </div>
+            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
+            {
+                <div class="row">
+                    <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
+                    <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
+                    <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
+                </div>
+            }
+            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
+            {
+                <div class="row">
+                    <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
+                    <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-5"><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong></div>
+                <div class="col-xs-7">@ViewDataTyped.EstimatedTotalCost.ToStringCurrency()</div>
+            </div>
+
+            @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
+            {
+                <div class="row">
+                    <div class="col-xs-5"><strong>@classificationSystem.Key.ClassificationSystemNamePluralized</strong></div>
+                    <div class="col-xs-7">@classificationSystem.Value</div>
+                </div>
+            }
         </div>
-    }
+
+        <span class="alert">
+            @ViewDataTyped.DetailLinkDescriptor
+            <a href="@ViewDataTyped.DetailUrl">@ProjectFirma.Web.Models.FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
+        </span>
+    </div>
+}
+else
+{
     <div>
         <div class="row">
-            <div class="col-xs-5"><strong>Duration</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.Duration @ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
+            <div class="col-xs-5"><strong>Project</strong></div>
+            <div class="col-xs-7"><a href="@ViewDataTyped.DetailUrl">@ViewDataTyped.DisplayName</a></div>
         </div>
-        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
-            </div>
-        }
-        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
-            </div>
-        }
-        <div class="row">
-            <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</div>
-        </div>
-        <div class="row">
-            <div class="col-xs-5"><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.EstimatedTotalCost.ToStringCurrency()</div>
-        </div> 
-        
-        @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@classificationSystem.Key.ClassificationSystemNamePluralized</strong></div>
-                <div class="col-xs-7">@classificationSystem.Value</div>
-            </div>
-        }
     </div>
+}
 
-    <span class="alert">
-        @ViewDataTyped.DetailLinkDescriptor
-        <a href="@ViewDataTyped.DetailUrl">@ProjectFirma.Web.Models.FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
-    </span>
-</div>
