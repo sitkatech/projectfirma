@@ -309,24 +309,50 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         }
     };
 
-    ProjectFirmaMaps.Map.prototype.popupForVectorLayers = function(vecLayers, latlng) {
-        var html = "<div>";
+    ProjectFirmaMaps.Map.prototype.popupForVectorLayers = function (vecLayers, latlng) {
+        var allLayers = [];
+
         for (var j = 0; j < vecLayers.length; ++j) {
             var currentLayer = vecLayers[j];
-            html += this.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
+            var vectorLayerInfoHtmlForPopup = this.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
+            allLayers.push(vectorLayerInfoHtmlForPopup);            
         }
 
         var lat = L.Util.formatNum(latlng.lat, 4);
         var lon = L.Util.formatNum(latlng.lng, 4);
-        html += this.formatLayerProperty("Location", lat + ", " + lon);
-        html += "</div>";
+        allLayers.push({
+            label: "Location",
+            link: lat + ", " + lon
+        });
+    
         this.map.setView(latlng);
-        this.map.openPopup(L.popup({maxWidth: 200}).setLatLng(latlng).setContent(html).openOn(this.map)); 
+        this.map.openPopup(L.popup({ maxWidth: 200 }).setLatLng(latlng).setContent(this.htmlPopupContents(allLayers)).openOn(this.map)); 
     };
 
-    ProjectFirmaMaps.Map.prototype.getVectorLayerInfoHtmlForPopup = function(currentLayer, latlng) {
-        var html = "";
+ProjectFirmaMaps.Map.prototype.htmlPopupContents = function (allLayers) {
+    var self = this;
+        var uniqueArray = this.removeDuplicatesFromArray(allLayers, "label");
 
+        var html = "<div>";
+
+        _.forEach(uniqueArray,
+            function (layer) {
+                if (layer.label != null) {
+                    html += self.formatLayerProperty(layer.label, layer.link);
+                }
+                
+            });
+
+        html += "</div>";
+
+        return html;
+    };
+
+
+
+    ProjectFirmaMaps.Map.prototype.getVectorLayerInfoHtmlForPopup = function(currentLayer, latlng) {
+        var key = null,
+            value = null;
         var match = leafletPip.pointInLayer(
             // the clicked point
             latlng,
@@ -359,15 +385,17 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         for (var i = 0; i < propertiesGroupedByKey.length; i++) {
             var group = propertiesGroupedByKey[i];
             if (group.key !== "Hover Name") {
-                var key = group.values.length > 1
+                key = group.values.length > 1
                         ? group.key + "s" // pluralized
                         : group.key,
-                    value = group.values.join(", ");
-                html += this.formatLayerProperty(key, value);
+                value = group.values.join(", ");
             }
         }
         
-        return html;
+        return {
+            label: key,
+            link: value
+        };
     };
 
     ProjectFirmaMaps.Map.prototype.popupForWMSAndVectorLayers = function(wmsLayers, vecLayers, latlng) {
@@ -405,24 +433,30 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         }        
 
         this.carryOutPromises(ajaxCalls).then(
-            function(responses) {
-                var html = "<div>";
+            function (responses) {
+                var allLayers = [];
+                //vector layers
                 for (var j = 0; j < vecLayers.length; ++j) {
                     var currentLayer = vecLayers[j];
-                    html += self.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
-                }
-                _.forEach(responses,
-                    function(resp) {
-                        html += resp;
-                    });
 
+                    var vectorLayerInfoHtmlForPopup = self.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
+                    allLayers.push(vectorLayerInfoHtmlForPopup);
+                }
+                //wms layers
+                _.forEach(responses,
+                    function (resp) {
+                        allLayers.push(resp);
+                    });
+                //lat lon
                 var lat = L.Util.formatNum(latlng.lat, 4);
                 var lon = L.Util.formatNum(latlng.lng, 4);
-                html += self.formatLayerProperty("Location", lat+", "+lon);
+                allLayers.push({
+                    label: "Location",
+                    link: lat + ", " + lon
+                });
 
-                html += "</div>";
                 self.map.setView(latlng);
-                self.map.openPopup(L.popup({ maxWidth: 200 }).setLatLng(latlng).setContent(html).openOn(self.map));
+                self.map.openPopup(L.popup({ maxWidth: 200 }).setLatLng(latlng).setContent(self.htmlPopupContents(allLayers)).openOn(self.map));
             },
             function(responses) {
                 console.log("error getting wms feature info");
@@ -444,16 +478,31 @@ ProjectFirmaMaps.Map.prototype.carryOutPromises = function (deferreds) {
     return deferred;
 }
 
+ProjectFirmaMaps.Map.prototype.removeDuplicatesFromArray = function (originalArray, prop) {
+    var newArray = [];
+    var lookupObject = {};
+
+    for (var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+    }
+
+    for (i in lookupObject) {
+        newArray.push(lookupObject[i]);
+    }
+    return newArray;
+}
+
 
 
     ProjectFirmaMaps.Map.prototype.formatWatershedResponse = function (json) {
-    var html = "";
-
+        var vectorLayerInfoHtmlForPopup = null;
         if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("WatershedName")) {
-            html += "<strong>Watershed:</strong>";
-            var atag = "<a href='/Watershed/Detail/" + json.features[0].properties.WatershedID +"'>" + json.features[0].properties.WatershedName + "</a>";
-            var watershedName = json.features[0].properties.WatershedName;
-            html += "<span>&nbsp;" + atag + "</span></br>";
+
+            var atag = "<a title='' href='/Watershed/Detail/" + json.features[0].properties.WatershedID + "'>" + json.features[0].properties.WatershedName + "</a>";
+            vectorLayerInfoHtmlForPopup = {
+                label: "Watershed",
+                link: atag
+            }
         }
-    return html;
+    return vectorLayerInfoHtmlForPopup;
 };
