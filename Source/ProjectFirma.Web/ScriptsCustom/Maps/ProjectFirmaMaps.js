@@ -376,7 +376,7 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         var point = this.map.latLngToContainerPoint(latlng, this.map.getZoom()),
             size = this.map.getSize(),
 
-            params = {
+            watershedWMSParams = {
                 service: 'WMS',
                 version: "1.1.1",
                 request: 'GetFeatureInfo',
@@ -390,15 +390,15 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
                 info_format: 'application/json'
             };
 
-        params['x'] = point.x;
-        params['y'] = point.y;
+        watershedWMSParams['x'] = point.x;
+        watershedWMSParams['y'] = point.y;
 
         var ajaxCalls = [];
 
         for (var j = 0; j < wmsLayers.length; ++j) {
             var layer = wmsLayers[j];
-            var query = layer._url + L.Util.getParamString(params, null, true);
             if (layer.options.layers.includes("Watershed")) {
+                var query = layer._url + L.Util.getParamString(watershedWMSParams, null, true);            
                 ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
                     .then(function (response) { return self.formatWatershedResponse(response); }));
             }            
