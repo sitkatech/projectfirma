@@ -120,6 +120,7 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
         },
         onEachFeature: function(feature, layer) {
             self.bindPopupToFeature(layer, feature);
+            self.bindHoverToFeature(layer, feature);
         }
     }).addTo(layerGroup);
 
@@ -174,17 +175,37 @@ ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson) {
     ]);
 };
 
-ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
+ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
+    var self = this;
     if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
-        layer.bindPopup("Loading...", { maxWidth: 600 });
+        layer.bindPopup("Loading...");
         layer.on("click",
-            function() {
+            function(e) {
                 //var popup = e.target.getPopup();
+                self.map.setView(e.target.getLatLng());
                 jQuery.get(feature.properties.PopupUrl).done(function(data) {
                     layer.bindPopup(data).openPopup();
                 });
+
             });
     }
+};
+
+ProjectFirmaMaps.Map.prototype.bindHoverToFeature = function (layer, feature) {
+    if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties["Hover Name"])) {
+        layer.bindTooltip(feature.properties["Hover Name"], { direction: "auto", sticky: "true" });
+
+        var originalFillOpacity = layer.options.fillOpacity;
+        layer.on("mouseover",
+            function () {
+                layer.setStyle({ fillOpacity: Math.min(originalFillOpacity + 0.4, 1) });
+            });
+        layer.on("mouseout",
+            function () {
+                layer.setStyle({ fillOpacity: originalFillOpacity });
+            });
+    };
+    return layer;
 };
 
 ProjectFirmaMaps.Map.prototype.assignClickEventHandler = function(clickEventFunction) {
@@ -203,66 +224,6 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
     }
     this.map.off("click");
 };
-
-//ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
-//{
-//    var self = this,
-//        latlng = e.latlng,
-//        html = "<div>";
-
-//    var filter = _(this.vectorLayers)
-//        .filter(function (layer) {
-//            var layerDefined = typeof layer.eachLayer !== "undefined";
-//            var hasLayer = self.map.hasLayer(layer);
-//            return layerDefined && hasLayer;
-//        });
-
-//    var match = filter
-//        .map(function (currentLayer) {
-//            return leafletPip.pointInLayer(latlng, currentLayer, true);
-//        })
-//        .flatten()
-//        .value();
-
-//    var propertiesGroupedByKey = _(match)
-//        .map(function (x) {
-//            return _.keys(x.feature.properties);
-//        })
-//        .flatten()
-//        .uniq()
-//        .map(function (x) {
-//            return {
-//                key: x,
-//                values: _(match)
-//                    .map(function (y) {
-//                        return y.feature.properties[x];
-//                    })
-//                    .filter()
-//                    .value()
-//            };
-//        })
-//        .value();
-
-//    // if there's overlap, add some content to the popup: the layer name
-//    // and a table of attributes
-//    for (var i = 0; i < propertiesGroupedByKey.length; i++) {
-//        var group = propertiesGroupedByKey[i];
-//        if (group.key !== "Short Name" && group.key !== "Organization Name") {
-//            var key = group.values.length > 1
-//                    ? group.key + "s" // pluralized
-//                    : group.key,
-//                value = group.values.join(", ");
-//            html += this.formatLayerProperty(key, value);
-//        }
-//    }
-
-//    var lat = L.Util.formatNum(latlng.lat, 4);
-//    var lon = L.Util.formatNum(latlng.lng, 4);
-//    html += this.formatLayerProperty("Location", lat+", "+lon);
-//    html += "</div>";
-
-//    this.map.openPopup(L.popup({ minWidth: 200, maxWidth: 300 }).setLatLng(latlng).setContent(html).openOn(this.map));   
-//};
 
     ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, propertyValue)
     {
@@ -329,10 +290,6 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         jQuery("#" + this.MapDivId).unblock();
     };
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
     ProjectFirmaMaps.Map.prototype.getFeatureInfo = function(e) {
         var latlng = e.latlng;
         var self = this;
@@ -363,12 +320,11 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         var lon = L.Util.formatNum(latlng.lng, 4);
         html += this.formatLayerProperty("Location", lat + ", " + lon);
         html += "</div>";
-        this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));
+        this.map.setView(latlng);
+        this.map.openPopup(L.popup({maxWidth: 200}).setLatLng(latlng).setContent(html).openOn(this.map)); 
     };
 
     ProjectFirmaMaps.Map.prototype.getVectorLayerInfoHtmlForPopup = function(currentLayer, latlng) {
-        var excludedKeys = ["Organization Name", "Short Name"];
-
         var html = "";
 
         var match = leafletPip.pointInLayer(
@@ -402,7 +358,7 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         // and a table of attributes
         for (var i = 0; i < propertiesGroupedByKey.length; i++) {
             var group = propertiesGroupedByKey[i];
-            if (group.key !== "Short Name" && group.key !== "Organization Name") {
+            if (group.key !== "Hover Name") {
                 var key = group.values.length > 1
                         ? group.key + "s" // pluralized
                         : group.key,
@@ -465,7 +421,8 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
                 html += self.formatLayerProperty("Location", lat+", "+lon);
 
                 html += "</div>";
-                self.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(self.map));
+                self.map.setView(latlng);
+                self.map.openPopup(L.popup({ maxWidth: 200 }).setLatLng(latlng).setContent(html).openOn(self.map));
             },
             function(responses) {
                 console.log("error getting wms feature info");

@@ -227,21 +227,11 @@
                                                     var mapInitJson =
                                                         @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
                                                     var map = new ProjectFirmaMaps.Map(mapInitJson);
-
-                                                    var legend = new L.Control.Legend({
-                                                        position: 'topleft',
-                                                        collapsed: false,
-                                                        controlButton: {
-                                                            title: "Legend"
-                                                        }
-                                                    });
-
+                                                
                                                     jQuery("#overviewTab").on("shown.bs.tab", function() {
                                                         map.map.invalidateSize();
                                                     });
 
-                                                    map.map.addControl(legend);
-                                                    $(".legend-container").append($("#legend"));
                                                 });
                                             </script>
                                         }

@@ -133,12 +133,13 @@ namespace ProjectFirma.Web.Models
         public bool IsInKeystone => OrganizationGuid.HasValue;
 
         public bool IsUnknown => !String.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
-
-        public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
+      
+        public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {
-            DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
-        });
-
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary);
+            feature.Properties.Add(OrganizationType.OrganizationTypeName, OrganizationName);
+            return new FeatureCollection(new List<Feature> { feature });
+        }
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             var projectIDs = GetAllActiveProjectsAndProposals(currentPerson).Select(x => x.ProjectID).ToList();

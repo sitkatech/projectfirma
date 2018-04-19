@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 hasSpatialData = true;
                 layers.Add(new LayerGeoJson("Organization Boundary",
-                    organization.OrganizationBoundaryToFeatureCollection, organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
+                    organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
                     LayerInitialVisibility.Show));
             }
 
