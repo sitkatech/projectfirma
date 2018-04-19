@@ -27,59 +27,89 @@
         margin-bottom: 5px;
         padding-left: 10px;
     }
-</style>
-<div>
-    <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
 
-    @if (ViewDataTyped.KeyPhoto != null)
-    {
-        <div style="float: right; padding: 8px 4px 4px 4px">
-            <img src="@ViewDataTyped.KeyPhoto.PhotoUrlScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
-        </div>
+    dl.inline {
+        margin-bottom: 0;
     }
-    <div>
-        <div class="row">
-            <div class="col-xs-5"><strong>Duration</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.Duration @ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
-        </div>
-        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyTrunkDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
-            </div>
-        }
-        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyBranchDisplayName</strong></div>
-                <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</div>
-            </div>
-        }
-        <div class="row">
-            <div class="col-xs-5"><strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</div>
-        </div>
-        <div class="row">
-            <div class="col-xs-5"><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong></div>
-            <div class="col-xs-7">@ViewDataTyped.EstimatedTotalCost.ToStringCurrency()</div>
-        </div> 
-        
-        @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
-        {
-            <div class="row">
-                <div class="col-xs-5"><strong>@classificationSystem.Key.ClassificationSystemNamePluralized</strong></div>
-                <div class="col-xs-7">@classificationSystem.Value</div>
-            </div>
-        }
-    </div>
 
-    <span class="alert">
-        @ViewDataTyped.DetailLinkDescriptor
-        <a href="@ViewDataTyped.DetailUrl">@ProjectFirma.Web.Models.FieldDefinition.Project.GetFieldDefinitionLabel() Detail</a>
-    </span>
-</div>
+        dl.inline dd {
+            display: inline;
+            margin: 0;
+            max-width: 200px;
+            margin-bottom: 8px;
+        }
+
+            dl.inline dd:after {
+                display: block;
+                content: '';
+            }
+
+        dl.inline dt {
+            display: inline-block;
+        }
+</style>
+
+@if (ViewDataTyped.ShowDetailedInformation)
+{
+    <div style="max-width: 300px">
+        <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
+
+            @if (ViewDataTyped.KeyPhoto != null)
+            {
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <img class="img-responsive" style="margin: 0 auto" src="@ViewDataTyped.KeyPhoto.PhotoUrlLargeScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
+                    </div>
+                </div>
+                
+            }
+        <div class="row">
+            <div class="col-xs-12">
+                <dl class="inline">
+                    <dt><strong>Duration:</strong></dt>
+                    <dd>@ViewDataTyped.Duration</dd>
+                    <dt><strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel():</strong></dt>
+                    <dd>@ViewDataTyped.ProjectStage.ProjectStageDisplayName</dd>
+                    @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
+                    {
+                        <dt><strong>@ViewDataTyped.TaxonomyTrunkDisplayName:</strong></dt>
+                        <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName</dd>
+                        <dt><strong>@ViewDataTyped.TaxonomyBranchDisplayName:</strong></dt>
+                        <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</dd>
+                    }
+                    @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
+                    {
+                        <dt><strong>@ViewDataTyped.TaxonomyBranchDisplayName:</strong></dt>
+                        <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName</dd>
+                    }
+                    <dt><strong>@ViewDataTyped.TaxonomyLeafDisplayName:</strong></dt>
+                    <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</dd>
+                    <dt><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel():</strong></dt>
+                    <dd>@ViewDataTyped.EstimatedTotalCost</dd>
+                    @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
+                    {
+                        <dt><strong>@classificationSystem.Key.ClassificationSystemNamePluralized:</strong></dt>
+                        <dd>@classificationSystem.Value</dd>
+                    }
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <span>
+                    @ViewDataTyped.DetailLinkDescriptor
+                    <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div style="max-width: 200px">
+        <div class="text-center">
+            <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
+        </div>
+    </div>
+}
+

@@ -382,35 +382,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         jQuery(document).ready(function()
-        {
-            ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
-                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties["Organization Name"])) {
-                    layer.bindTooltip(feature.properties["Organization Name"], { direction: "auto", sticky: "true" });
-
-                    var originalFillOpacity = layer.options.fillOpacity;
-                    layer.on("mouseover",
-                        function () {
-                            layer.setStyle({ fillOpacity: Math.min(originalFillOpacity + 0.4, 1) });
-                        });
-                    layer.on("mouseout",
-                        function () {
-                            layer.setStyle({ fillOpacity: originalFillOpacity });
-                        });
-                };
-
-                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
-                    layer.bindPopup("Loading...", { maxWidth: 600 });
-                    layer.on("click",
-                        function() {
-                            //var popup = e.target.getPopup();
-                            jQuery.get(feature.properties.PopupUrl).done(function(data) {
-                                layer.bindPopup(data).openPopup();
-                            });
-                        });
-                }
-
-                return layer;
-            };
+        {           
             var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
                 projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);

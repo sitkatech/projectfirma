@@ -82,6 +82,7 @@ namespace ProjectFirma.Web.Models
         {
             if (MultiTenantHelpers.HasWatershedMapServiceUrl())
             {
+
                 return new List<LayerGeoJson>
                 {
                     new LayerGeoJson(watershed.DisplayName,
@@ -89,7 +90,7 @@ namespace ProjectFirma.Web.Models
                         LayerInitialVisibility.Show),
                     GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
                     new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
-                        Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true),
+                        Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
                         "#ffff00", 1, LayerInitialVisibility.Show)
                 };
             }

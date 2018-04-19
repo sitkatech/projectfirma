@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
 
             project.ProjectLocationPoint = DbGeometry.PointFromText("POINT(29.11 40.11)", 4326);
 
-            var feature = Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject> {project}, true).Features.First();
+            var feature = Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject> {project}, true, true).Features.First();
 
             foreach (var plft in ProjectLocationFilterType.All)
             {

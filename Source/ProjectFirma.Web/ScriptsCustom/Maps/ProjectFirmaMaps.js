@@ -93,6 +93,9 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
             self.setMapBounds(mapInitJson);
         });
     }
+
+    this.map.on("click", function(e) { self.getFeatureInfo(e); });
+ 
     self.setMapBounds(mapInitJson);
 };
 
@@ -117,15 +120,14 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
         },
         onEachFeature: function(feature, layer) {
             self.bindPopupToFeature(layer, feature);
+            self.bindHoverToFeature(layer, feature);
         }
     }).addTo(layerGroup);
 
     if (currentLayer.LayerInitialVisibility === 1) {
         layerGroup.addTo(this.map);
     }
-    if (!currentLayer.HasCustomPopups) {
-        layerGeoJson.on("click", function (e) { self.getFeatureInfo(e); });
-    }
+   
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(layerGeoJson);
 };
@@ -138,6 +140,7 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
     if (currentLayer.LayerInitialVisibility === 1) {
         layerGroup.addTo(this.map);
     }
+    wmsLayer.on("click", function (e) { self.getFeatureInfo(e); });
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(wmsLayer);
@@ -172,17 +175,37 @@ ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson) {
     ]);
 };
 
-ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
+ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
+    var self = this;
     if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
-        layer.bindPopup("Loading...", { maxWidth: 600 });
+        layer.bindPopup("Loading...");
         layer.on("click",
-            function() {
+            function(e) {
                 //var popup = e.target.getPopup();
+                self.map.setView(e.target.getLatLng());
                 jQuery.get(feature.properties.PopupUrl).done(function(data) {
                     layer.bindPopup(data).openPopup();
                 });
+
             });
     }
+};
+
+ProjectFirmaMaps.Map.prototype.bindHoverToFeature = function (layer, feature) {
+    if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties["Hover Name"])) {
+        layer.bindTooltip(feature.properties["Hover Name"], { direction: "auto", sticky: "true" });
+
+        var originalFillOpacity = layer.options.fillOpacity;
+        layer.on("mouseover",
+            function () {
+                layer.setStyle({ fillOpacity: Math.min(originalFillOpacity + 0.4, 1) });
+            });
+        layer.on("mouseout",
+            function () {
+                layer.setStyle({ fillOpacity: originalFillOpacity });
+            });
+    };
+    return layer;
 };
 
 ProjectFirmaMaps.Map.prototype.assignClickEventHandler = function(clickEventFunction) {
@@ -202,26 +225,117 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
     this.map.off("click");
 };
 
-ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
-{
-    var self = this,
-        latlng = e.latlng,
-        html = "<div>";
+    ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, propertyValue)
+    {
+        if (Sitka.Methods.isUndefinedNullOrEmpty(propertyValue))
+        {
+            propertyValue = "&nbsp";
+        }
+        return "<span><strong>" + propertyName + ":</strong> " + propertyValue + "</span></br>";
+    };
+    
+    ProjectFirmaMaps.Map.prototype.removeLayerFromMap = function (layerToRemove) {
+        if (!Sitka.Methods.isUndefinedNullOrEmpty(layerToRemove)) {
+            this.map.removeLayer(layerToRemove);
+        }
+    };
 
-    html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
-    html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
+    ProjectFirmaMaps.Map.prototype.addLayerToLayerControl = function(layer, layerName) {
+        this.layerControl.addOverlay(layer, layerName);
+    };
 
-    var match = _(this.vectorLayers)
-        .filter(function (layer) {
-            return typeof layer.eachLayer !== "undefined" && self.map.hasLayer(layer);
-        })
-        .map(function (currentLayer) {
-            return leafletPip.pointInLayer(latlng, currentLayer, true);
-        })
-        .flatten()
-        .value();
+    ProjectFirmaMaps.Map.prototype.disableUserInteraction = function() {
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.boxZoom.disable();
+        this.map.keyboard.disable();
+        this.map.attributionControl = false;
+        if (this.map.tap) this.map.tap.disable();
+        document.getElementById(this.MapDivId).style.cursor = 'default';
+        jQuery(".leaflet-control-zoom").css("visibility", "hidden");
+        jQuery(".leaflet-control-layers").css("visibility", "hidden");
+        this.removeClickEventHandler();
+    };
 
-    var propertiesGroupedByKey = _(match)
+    ProjectFirmaMaps.Map.prototype.blockMapImpl = function() {
+        this.map.dragging.disable();
+        this.map.scrollWheelZoom.disable();
+        jQuery("#" + this.MapDivId).block(
+            {
+                message:
+                    "<span style='font-weight: bold; font-size: 14px; margin: 0 2px'>Location Not Specified</span>",
+                css: {
+                    border: "none",
+                    cursor: "default"
+                },
+                overlayCSS: {
+                    backgroundColor: "#D3D3D3",
+                    cursor: "default"
+                },
+                baseZ: 999
+            });
+    };
+
+    ProjectFirmaMaps.Map.prototype.blockMap = function() {
+        var self = this;
+        this.blockMapImpl();
+        var modalDialog = jQuery(".modal");
+        modalDialog.on("shown.bs.modal", function() { self.blockMapImpl(); });
+    };
+
+    ProjectFirmaMaps.Map.prototype.unblockMap = function() {
+        this.map.dragging.enable();
+        jQuery("#" + this.MapDivId).unblock();
+    };
+
+    ProjectFirmaMaps.Map.prototype.getFeatureInfo = function(e) {
+        var latlng = e.latlng;
+        var self = this;
+
+        var wmsLayers = this.vectorLayers.filter(function(layer) {
+            return layer.hasOwnProperty('wmsParams') && self.map.hasLayer(layer);
+        });
+
+        var vecLayers = this.vectorLayers.filter(function(layer) {
+            return !layer.hasOwnProperty('wmsParams') && self.map.hasLayer(layer);
+        });
+
+        if (wmsLayers.length > 0) {
+            this.popupForWMSAndVectorLayers(wmsLayers, vecLayers, latlng);
+        } else {
+            this.popupForVectorLayers(vecLayers, latlng);
+        }
+    };
+
+    ProjectFirmaMaps.Map.prototype.popupForVectorLayers = function(vecLayers, latlng) {
+        var html = "<div>";
+        for (var j = 0; j < vecLayers.length; ++j) {
+            var currentLayer = vecLayers[j];
+            html += this.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
+        }
+
+        var lat = L.Util.formatNum(latlng.lat, 4);
+        var lon = L.Util.formatNum(latlng.lng, 4);
+        html += this.formatLayerProperty("Location", lat + ", " + lon);
+        html += "</div>";
+        this.map.setView(latlng);
+        this.map.openPopup(L.popup({maxWidth: 200}).setLatLng(latlng).setContent(html).openOn(this.map)); 
+    };
+
+    ProjectFirmaMaps.Map.prototype.getVectorLayerInfoHtmlForPopup = function(currentLayer, latlng) {
+        var html = "";
+
+        var match = leafletPip.pointInLayer(
+            // the clicked point
+            latlng,
+            // this layer
+            currentLayer,
+            // whether to stop at first match
+            true);
+
+        var propertiesGroupedByKey = _(match)
         .map(function (x) {
             return _.keys(x.feature.properties);
         })
@@ -240,85 +354,106 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
         })
         .value();
 
-    // if there's overlap, add some content to the popup: the layer name
-    // and a table of attributes
-    for (var i = 0; i < propertiesGroupedByKey.length; i++) {
-        var group = propertiesGroupedByKey[i];
-        if (group.key !== "Short Name") {
-            var key = group.values.length > 1
-                    ? group.key + "s" // pluralized
-                    : group.key,
-                value = group.values.join(", ");
-            html += this.formatLayerProperty(key, value);
+        // if there's overlap, add some content to the popup: the layer name
+        // and a table of attributes
+        for (var i = 0; i < propertiesGroupedByKey.length; i++) {
+            var group = propertiesGroupedByKey[i];
+            if (group.key !== "Hover Name") {
+                var key = group.values.length > 1
+                        ? group.key + "s" // pluralized
+                        : group.key,
+                    value = group.values.join(", ");
+                html += this.formatLayerProperty(key, value);
+            }
         }
-    }
+        
+        return html;
+    };
 
-    html += "</div>";
+    ProjectFirmaMaps.Map.prototype.popupForWMSAndVectorLayers = function(wmsLayers, vecLayers, latlng) {
+        var self = this;
 
-    this.map.openPopup(L.popup({minWidth: 200, maxWidth: 350}).setLatLng(latlng).setContent(html).openOn(this.map));   
-};
+        var point = this.map.latLngToContainerPoint(latlng, this.map.getZoom()),
+            size = this.map.getSize(),
 
-ProjectFirmaMaps.Map.prototype.formatLayerProperty = function (propertyName, propertyValue)
-{
-    if (Sitka.Methods.isUndefinedNullOrEmpty(propertyValue))
-    {
-        propertyValue = "&nbsp";
-    }
-    return "<div class=\"row\"><div class=\"col-xs-4\"><strong>" + propertyName + "</strong></div><div class=\"col-xs-8\">" + propertyValue + "</div></div>";
-};
+            watershedWMSParams = {
+                service: 'WMS',
+                version: "1.1.1",
+                request: 'GetFeatureInfo',
+                layers: "Watershed",
+                styles: "",
+                srs: 'EPSG:4326',
+                bbox: this.map.getBounds().toBBoxString(),
+                height: size.y,
+                width: size.x,
+                query_layers: "Watershed",
+                info_format: 'application/json'
+            };
 
-ProjectFirmaMaps.Map.prototype.removeLayerFromMap = function (layerToRemove) {
-    if (!Sitka.Methods.isUndefinedNullOrEmpty(layerToRemove)) {
-        this.map.removeLayer(layerToRemove);
-    }
-};
+        watershedWMSParams['x'] = point.x;
+        watershedWMSParams['y'] = point.y;
 
-ProjectFirmaMaps.Map.prototype.addLayerToLayerControl = function (layer, layerName) {
-    this.layerControl.addOverlay(layer, layerName);
-};
+        var ajaxCalls = [];
 
-ProjectFirmaMaps.Map.prototype.disableUserInteraction = function() {
-    this.map.dragging.disable();
-    this.map.touchZoom.disable();
-    this.map.doubleClickZoom.disable();
-    this.map.scrollWheelZoom.disable();
-    this.map.boxZoom.disable();
-    this.map.keyboard.disable();
-    this.map.attributionControl = false;
-    if (this.map.tap) this.map.tap.disable();
-    document.getElementById(this.MapDivId).style.cursor = 'default';
-    jQuery(".leaflet-control-zoom").css("visibility", "hidden");
-    jQuery(".leaflet-control-layers").css("visibility", "hidden");
-    this.removeClickEventHandler();
-};
+        for (var j = 0; j < wmsLayers.length; ++j) {
+            var layer = wmsLayers[j];
+            if (layer.options.layers.includes("Watershed")) {
+                var query = layer._url + L.Util.getParamString(watershedWMSParams, null, true);            
+                ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
+                    .then(function (response) { return self.formatWatershedResponse(response); }));
+            }            
+        }        
 
-ProjectFirmaMaps.Map.prototype.blockMapImpl = function() {
-    this.map.dragging.disable();
-    this.map.scrollWheelZoom.disable();
-    jQuery("#" + this.MapDivId).block(
-        {
-            message: "<span style='font-weight: bold; font-size: 14px; margin: 0 2px'>Location Not Specified</span>",
-            css: {
-                border: "none",
-                cursor: "default"
+        this.carryOutPromises(ajaxCalls).then(
+            function(responses) {
+                var html = "<div>";
+                for (var j = 0; j < vecLayers.length; ++j) {
+                    var currentLayer = vecLayers[j];
+                    html += self.getVectorLayerInfoHtmlForPopup(currentLayer, latlng);
+                }
+                _.forEach(responses,
+                    function(resp) {
+                        html += resp;
+                    });
+
+                var lat = L.Util.formatNum(latlng.lat, 4);
+                var lon = L.Util.formatNum(latlng.lng, 4);
+                html += self.formatLayerProperty("Location", lat+", "+lon);
+
+                html += "</div>";
+                self.map.setView(latlng);
+                self.map.openPopup(L.popup({ maxWidth: 200 }).setLatLng(latlng).setContent(html).openOn(self.map));
             },
-            overlayCSS: {
-                backgroundColor: "#D3D3D3",
-                cursor: "default"
-            },
-            baseZ: 999
+            function(responses) {
+                console.log("error getting wms feature info");
+            }
+        );
+};
+
+
+ProjectFirmaMaps.Map.prototype.carryOutPromises = function (deferreds) {
+    var deferred = new jQuery.Deferred();
+    $.when.apply(jQuery, deferreds).then(
+        function () {
+            deferred.resolve(Array.prototype.slice.call(arguments));
+        },
+        function () {
+            deferred.fail(Array.prototype.slice.call(arguments));
         });
-};
 
-ProjectFirmaMaps.Map.prototype.blockMap = function() {
-    var self = this;
-    this.blockMapImpl();
-    var modalDialog = jQuery(".modal");
-    modalDialog.on("shown.bs.modal", function() { self.blockMapImpl(); });
-};
+    return deferred;
+}
 
-ProjectFirmaMaps.Map.prototype.unblockMap = function() {
-    this.map.dragging.enable();
-    jQuery("#" + this.MapDivId).unblock();
-};
 
+
+    ProjectFirmaMaps.Map.prototype.formatWatershedResponse = function (json) {
+    var html = "";
+
+        if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("WatershedName")) {
+            html += "<strong>Watershed:</strong>";
+            var atag = "<a href='/Watershed/Detail/" + json.features[0].properties.WatershedID +"'>" + json.features[0].properties.WatershedName + "</a>";
+            var watershedName = json.features[0].properties.WatershedName;
+            html += "<span>&nbsp;" + atag + "</span></br>";
+        }
+    return html;
+};

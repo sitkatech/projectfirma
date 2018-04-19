@@ -31,6 +31,6 @@ namespace ProjectFirma.Web.Models
         bool HasProjectWatersheds { get; }
         int FancyTreeNodeKey { get; }
         bool HasProjectLocationPoint { get; }
-        Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties);
+        Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup);
     }
 }

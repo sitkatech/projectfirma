@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 hasSpatialData = true;
                 layers.Add(new LayerGeoJson("Organization Boundary",
-                    organization.OrganizationBoundaryToFeatureCollection, organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
+                    organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
                     LayerInitialVisibility.Show));
             }
 
@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
             projectSimpleLocationsFeatureCollection.Features.AddRange(((IEnumerable<IMappableProject>) projectsAsSimpleLocations).Select(x =>
             {
-                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);
+                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
                 feature.Properties["FeatureColor"] = "#99b3ff";
                 return feature;
             }).ToList());

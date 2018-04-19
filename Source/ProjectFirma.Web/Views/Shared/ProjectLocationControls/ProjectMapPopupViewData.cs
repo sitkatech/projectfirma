@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ApprovalUtilities.Utilities;
+using LtInfo.Common;
 using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -41,12 +43,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string Duration { get; set; }
         public ProjectStage ProjectStage { get; set; }
         public Models.TaxonomyLeaf TaxonomyLeaf { get; set; }
-        public decimal? EstimatedTotalCost { get; set; }
+        public string EstimatedTotalCost { get; set; }
         public Dictionary<Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
-        public string DetailUrl { get; set; }
+        public string FactSheetUrl { get; set; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
-        public ProjectMapPopupViewData(Models.Project project)
+        public bool ShowDetailedInformation { get; }
+
+        public ProjectMapPopupViewData(Models.Project project, bool showDetailedInformation)
         {
             //Project = project;
             DisplayName = project.DisplayName;
@@ -54,17 +58,18 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             Duration = project.Duration;
             ProjectStage = project.ProjectStage;
             TaxonomyLeaf = project.TaxonomyLeaf;
-            EstimatedTotalCost = project.EstimatedTotalCost;
+            EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<Models.ClassificationSystem, string>();
-            project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct().ForEach(
-                x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.DisplayName).ToList())));
+            MoreEnumerable.ForEach(project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(), x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.DisplayName).ToList())));
             ClassificationsBySystem = dict;
 
-            DetailUrl = project.GetDetailUrl();
-            DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see" : "For project expenditures & results, see";
+            FactSheetUrl = project.GetFactSheetUrl();
+            DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see the" : "For project expenditures & results, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+
+            ShowDetailedInformation = showDetailedInformation;
         }
 
         private void InitializeDisplayNames()

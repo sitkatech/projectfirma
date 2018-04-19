@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Models
 
             if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && HasProjectLocationPoint)
             {
-                featureCollection.Features.Add(MakePointFeatureWithRelevantProperties(ProjectLocationPoint, addProjectProperties));
+                featureCollection.Features.Add(MakePointFeatureWithRelevantProperties(ProjectLocationPoint, addProjectProperties, true));
             }
             return featureCollection;
         }
@@ -278,15 +278,15 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties)).ToList());
+            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
         }
 
-        public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
+        public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
             feature.Properties.Add("TaxonomyTrunkID", TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
@@ -301,8 +301,17 @@ namespace ProjectFirma.Web.Models
                 foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
                     feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
-                }                
-                feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
+                }
+
+                if (useDetailedCustomPopup)
+                {
+                    feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
+                }
+                else
+                {
+                    feature.Properties.Add("PopupUrl", this.GetProjectSimpleMapPopupUrl());
+                }
+                
             }
             return feature;
         }        
