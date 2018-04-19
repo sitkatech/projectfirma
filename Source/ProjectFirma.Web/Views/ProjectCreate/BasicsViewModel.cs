@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public int TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        [StringLength(Models.Project.FieldLengths.ProjectName)]
         [Required]
         public string ProjectName { get; set; }
 
