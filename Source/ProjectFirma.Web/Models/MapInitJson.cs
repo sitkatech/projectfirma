@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Models
         public List<LayerGeoJson> Layers;
         public readonly bool TurnOnFeatureIdentify;
         public bool AllowFullScreen = true;
+        public bool DisablePopups = false;
 
         public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {

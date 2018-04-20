@@ -93,9 +93,10 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
             self.setMapBounds(mapInitJson);
         });
     }
-
-    this.map.on("click", function(e) { self.getFeatureInfo(e); });
- 
+    if (!mapInitJson.DisablePopups) {
+        this.map.on("click", function (e) { self.getFeatureInfo(e); });
+    }
+     
     self.setMapBounds(mapInitJson);
 };
 
@@ -184,7 +185,7 @@ ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
                 //var popup = e.target.getPopup();
                 self.map.setView(e.target.getLatLng());
                 jQuery.get(feature.properties.PopupUrl).done(function(data) {
-                    layer.bindPopup(data).openPopup();
+                    layer.bindPopup(data).openPopup({});
                 });
 
             });
@@ -257,7 +258,7 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
         jQuery(".leaflet-control-zoom").css("visibility", "hidden");
         jQuery(".leaflet-control-layers").css("visibility", "hidden");
         this.removeClickEventHandler();
-    };
+};
 
     ProjectFirmaMaps.Map.prototype.blockMapImpl = function() {
         this.map.dragging.disable();

@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Controllers
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = project.GetExpenditureGooglePieChartSlices();
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
@@ -276,7 +276,7 @@ namespace ProjectFirma.Web.Controllers
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, true);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false);
 
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();

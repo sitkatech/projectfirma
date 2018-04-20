@@ -47,24 +47,24 @@
         dl.inline dt {
             display: inline-block;
         }
+
+    .leaflet-popup-content {
+        width: @(ViewDataTyped.KeyPhoto != null ? "425px": "300px") !important;
+    }
 </style>
 
 @if (ViewDataTyped.ShowDetailedInformation)
 {
-    <div style="max-width: 300px">
+    <div style="width:@(ViewDataTyped.KeyPhoto != null ? "425px": "300px")">
         <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
-
+        <div class="row">
             @if (ViewDataTyped.KeyPhoto != null)
             {
-                <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <img class="img-responsive" style="margin: 0 auto" src="@ViewDataTyped.KeyPhoto.PhotoUrlLargeScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
-                    </div>
+                <div class="col-xs-4 text-center" style="padding: 0 5px">
+                    <img class="img-responsive" style="margin: 0 auto" src="@ViewDataTyped.KeyPhoto.PhotoUrlLargeScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
                 </div>
-                
             }
-        <div class="row">
-            <div class="col-xs-12">
+            <div class="@(ViewDataTyped.KeyPhoto != null ? "col-xs-8" : "col-xs-12")">
                 <dl class="inline">
                     <dt><strong>Duration:</strong></dt>
                     <dd>@ViewDataTyped.Duration</dd>
@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 text-center">
                 <span>
                     @ViewDataTyped.DetailLinkDescriptor
                     <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet</a>
