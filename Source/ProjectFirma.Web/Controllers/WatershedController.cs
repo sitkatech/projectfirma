@@ -50,7 +50,17 @@ namespace ProjectFirma.Web.Controllers
                 {
                     Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
                 };
+            } else
+            {
+                var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
+                if (watersheds.Any())
+                {
+                    layerGeoJsons.Add(new LayerGeoJson("Watershed",
+                        watersheds.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
+                        LayerInitialVisibility.Show));
+                }
             }
+
             var mapInitJson = new MapInitJson("watershedIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
 
             var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);

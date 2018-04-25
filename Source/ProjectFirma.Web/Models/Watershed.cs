@@ -80,22 +80,31 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
         {
+            var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
+                Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
+                "#ffff00", 1, LayerInitialVisibility.Show);
+            var watershedLayerGeoJson = new LayerGeoJson(watershed.DisplayName,
+                new List<Watershed> { watershed }.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+                LayerInitialVisibility.Show);
+
+            var layerGeoJsons = new List<LayerGeoJson>{projectLayerGeoJson, watershedLayerGeoJson};
             if (MultiTenantHelpers.HasWatershedMapServiceUrl())
             {
 
-                return new List<LayerGeoJson>
-                {
-                    new LayerGeoJson(watershed.DisplayName,
-                        new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
-                        LayerInitialVisibility.Show),
-                    GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                    new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
-                        Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
-                        "#ffff00", 1, LayerInitialVisibility.Show)
-                };
+                layerGeoJsons.Add(GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show));
             }
-            return new List<LayerGeoJson>();
-        }
+            else
+            {
+                var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
+                if (watersheds.Any())
+                {
+                    layerGeoJsons.Add(new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(),
+                        watersheds.ToGeoJsonFeatureCollection(), "#59ACFF", 0.6m,
+                        LayerInitialVisibility.Show));
+                }
+            }
+            return layerGeoJsons;
+        }     
 
         public FancyTreeNode ToFancyTreeNode()
         {

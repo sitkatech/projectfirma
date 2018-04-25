@@ -57,14 +57,26 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetAllWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
+
+            var layerGeoJsons = new List<LayerGeoJson>();
             if (MultiTenantHelpers.HasWatershedMapServiceUrl())
             {
-                return new List<LayerGeoJson>
+                layerGeoJsons = new List<LayerGeoJson>
                 {
-                    Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)
+                    Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, layerInitialVisibility)
                 };
             }
-            return new List<LayerGeoJson>();
+            else
+            {
+                var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
+                if (watersheds.Any())
+                {
+                    layerGeoJsons.Add(new LayerGeoJson("Watershed",
+                        watersheds.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
+                        layerInitialVisibility));
+                }
+            }
+            return layerGeoJsons;
         }
 
         public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project)
