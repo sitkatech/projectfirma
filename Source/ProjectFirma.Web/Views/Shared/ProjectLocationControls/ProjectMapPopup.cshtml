@@ -32,29 +32,31 @@
         margin-bottom: 0;
     }
 
-        dl.inline dd {
-            display: inline;
-            margin: 0;
-            max-width: 200px;
-            margin-bottom: 8px;
-        }
-
-            dl.inline dd:after {
-                display: block;
-                content: '';
-            }
-
-        dl.inline dt {
-            display: inline-block;
-        }
-
-    .leaflet-popup-content {
-        width: @(ViewDataTyped.KeyPhoto != null ? "425px": "300px") !important;
+    dl.inline dd {
+        display: inline;
+        margin: 0;
+        max-width: 200px;
+        margin-bottom: 8px;
     }
+
+    dl.inline dd:after {
+        display: block;
+        content: '';
+    }
+
+    dl.inline dt {
+        display: inline-block;
+    }
+
 </style>
 
 @if (ViewDataTyped.ShowDetailedInformation)
 {
+    <style>
+        .leaflet-popup-content {
+            width: @(ViewDataTyped.KeyPhoto != null ? "425px": "300px") !important;
+        }
+    </style>
     <div style="width:@(ViewDataTyped.KeyPhoto != null ? "425px": "300px")">
         <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
         <div class="row">
