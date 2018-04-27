@@ -1107,6 +1107,7 @@
           <ScalarProperty Name="ShowProposalsToThePublic" ColumnName="ShowProposalsToThePublic" />
           <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
           <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

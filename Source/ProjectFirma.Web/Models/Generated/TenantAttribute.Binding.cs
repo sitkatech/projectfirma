@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -48,12 +48,13 @@ namespace ProjectFirma.Web.Models
             this.ShowProposalsToThePublic = showProposalsToThePublic;
             this.TaxonomyLevelID = taxonomyLevelID;
             this.AssociatePerfomanceMeasureTaxonomyLevelID = associatePerfomanceMeasureTaxonomyLevelID;
+            this.IsActive = isActive;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -65,12 +66,13 @@ namespace ProjectFirma.Web.Models
             this.ShowProposalsToThePublic = showProposalsToThePublic;
             this.TaxonomyLevelID = taxonomyLevelID;
             this.AssociatePerfomanceMeasureTaxonomyLevelID = associatePerfomanceMeasureTaxonomyLevelID;
+            this.IsActive = isActive;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -81,6 +83,7 @@ namespace ProjectFirma.Web.Models
             this.ShowProposalsToThePublic = showProposalsToThePublic;
             this.TaxonomyLevelID = taxonomyLevel.TaxonomyLevelID;
             this.AssociatePerfomanceMeasureTaxonomyLevelID = associatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelID;
+            this.IsActive = isActive;
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel)
         {
-            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel);
+            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool));
         }
 
         /// <summary>
@@ -132,6 +135,7 @@ namespace ProjectFirma.Web.Models
         public bool ShowProposalsToThePublic { get; set; }
         public int TaxonomyLevelID { get; set; }
         public int AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
+        public bool IsActive { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 

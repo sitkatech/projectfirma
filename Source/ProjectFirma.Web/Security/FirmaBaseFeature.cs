@@ -70,6 +70,10 @@ namespace ProjectFirma.Web.Security
 
         public virtual bool HasPermissionByPerson(Person person)
         {
+            if (!HttpRequestStorage.Tenant.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned)
+            {
+                return false;
+            }
             if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
             {
                 return true; 

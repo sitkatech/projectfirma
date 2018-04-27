@@ -56,6 +56,16 @@ namespace ProjectFirma.Web.Controllers
                     }
                 }
             }
+            else
+            {
+                if (!HttpRequestStorage.Tenant.GetTenantAttribute().IsActive)
+                {
+                    var defaultTenant = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Where(x => x.IsActive).OrderBy(x => x.TenantID).First().Tenant;
+                    var writeQueryString =
+                        $"http://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(defaultTenant)}";
+                    filterContext.Result = new RedirectResult(writeQueryString);
+                }
+            }
         }
 
         // use FAM to redirect to STS to initiate SSO - parameters come via <microsoft.identityModel> section in config
