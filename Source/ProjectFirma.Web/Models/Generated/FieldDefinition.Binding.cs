@@ -440,7 +440,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomyLeaf : FieldDefinition
     {
         private FieldDefinitionTaxonomyLeaf(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionTaxonomyLeaf Instance = new FieldDefinitionTaxonomyLeaf(1, @"TaxonomyLeaf", @"Taxonomy Tier One", @"<p>The highest level record in the hierarchical project taxonomy system.</p>", true);
+        public static readonly FieldDefinitionTaxonomyLeaf Instance = new FieldDefinitionTaxonomyLeaf(1, @"TaxonomyLeaf", @"Taxonomy Leaf", @"<p>The highest level record in the hierarchical project taxonomy system.</p>", true);
     }
 
     public partial class FieldDefinitionExpectedValue : FieldDefinition
@@ -452,7 +452,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomyTrunk : FieldDefinition
     {
         private FieldDefinitionTaxonomyTrunk(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionTaxonomyTrunk Instance = new FieldDefinitionTaxonomyTrunk(5, @"TaxonomyTrunk", @"Taxonomy Tier Three", @"<p>The lowest level record in the hierarchical project taxonomy system.</p>", true);
+        public static readonly FieldDefinitionTaxonomyTrunk Instance = new FieldDefinitionTaxonomyTrunk(5, @"TaxonomyTrunk", @"Taxonomy Trunk", @"<p>The lowest level record in the hierarchical project taxonomy system.</p>", true);
     }
 
     public partial class FieldDefinitionFundingSource : FieldDefinition

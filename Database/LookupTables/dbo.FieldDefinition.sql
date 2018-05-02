@@ -3,9 +3,9 @@ go
 
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName], [DefaultDefinition], CanCustomizeLabel) 
 VALUES 
-(1, N'TaxonomyLeaf', N'Taxonomy Tier One', N'<p>The highest level record in the hierarchical project taxonomy system.</p>', 1),
+(1, N'TaxonomyLeaf', N'Taxonomy Leaf', N'<p>The highest level record in the hierarchical project taxonomy system.</p>', 1),
 (4, N'ExpectedValue', N'Expected Value', N'<p>The estimated cumulative Performance Measure value that the project or program is projected to achieve after implementation.</p>', 1),
-(5, N'TaxonomyTrunk', N'Taxonomy Tier Three', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
+(5, N'TaxonomyTrunk', N'Taxonomy Trunk', N'<p>The lowest level record in the hierarchical project taxonomy system.</p>', 1),
 (8, N'FundingSource', N'Funding Source', N'<p>The institution, fund, legislation or bond from which funds for the project were provided.</p>', 1),
 (12, N'IsPrimaryContactOrganization', N'Is Primary Contact Organization', N'<p>The entity with primary responsibility for organizing, planning, and executing implementation activities for a project or program. This is usually the lead implementer.</p>', 1),
 (13, N'ProjectsStewardOrganizationRelationshipToProject', N'Projects Steward Organization Relationship To Project', N'<p>The relationship between a stewarding organization and a project.</p>', 1),
