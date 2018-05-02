@@ -1,1 +1,0 @@
-exec sp_rename 'dbo.Organization.OrganizationAbbreviation', 'OrganizationShortName', 'COLUMN'

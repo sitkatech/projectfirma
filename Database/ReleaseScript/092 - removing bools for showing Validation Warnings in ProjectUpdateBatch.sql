@@ -1,6 +1,0 @@
-
-alter table dbo.ProjectUpdateBatch drop column ShowBasicsValidationWarnings
-alter table dbo.ProjectUpdateBatch drop column ShowPerformanceMeasuresValidationWarnings
-alter table dbo.ProjectUpdateBatch drop column ShowExpendituresValidationWarnings
-alter table dbo.ProjectUpdateBatch drop column ShowBudgetsValidationWarnings
-alter table dbo.ProjectUpdateBatch drop column ShowLocationSimpleValidationWarnings

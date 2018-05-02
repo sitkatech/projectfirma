@@ -1,1 +1,0 @@
-delete from dbo.FirmaPage where FirmaPageTypeID in (21)
