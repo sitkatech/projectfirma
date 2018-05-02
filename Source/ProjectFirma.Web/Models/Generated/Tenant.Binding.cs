@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantRCDProjectTracker RCDProjectTracker = TenantRCDProjectTracker.Instance;
         public static readonly TenantInternationYearOfTheSalmon InternationYearOfTheSalmon = TenantInternationYearOfTheSalmon.Instance;
         public static readonly TenantDemoProjectFirma DemoProjectFirma = TenantDemoProjectFirma.Instance;
-        public static readonly TenantNationalForestFoundation NationalForestFoundation = TenantNationalForestFoundation.Instance;
+        public static readonly TenantPeaksToPeople PeaksToPeople = TenantPeaksToPeople.Instance;
         public static readonly TenantJohnDayPartnership JohnDayPartnership = TenantJohnDayPartnership.Instance;
         public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, NationalForestFoundation, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -120,8 +120,8 @@ namespace ProjectFirma.Web.Models
                     return InternationYearOfTheSalmon;
                 case TenantEnum.JohnDayPartnership:
                     return JohnDayPartnership;
-                case TenantEnum.NationalForestFoundation:
-                    return NationalForestFoundation;
+                case TenantEnum.PeaksToPeople:
+                    return PeaksToPeople;
                 case TenantEnum.RCDProjectTracker:
                     return RCDProjectTracker;
                 case TenantEnum.SitkaTechnologyGroup:
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Models
         RCDProjectTracker = 3,
         InternationYearOfTheSalmon = 4,
         DemoProjectFirma = 5,
-        NationalForestFoundation = 6,
+        PeaksToPeople = 6,
         JohnDayPartnership = 7,
         AshlandForestAllLandsRestorationInitiative = 8,
         IdahoAssociatonOfSoilConservationDistricts = 9
@@ -175,10 +175,10 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"projectfirma.com", @"demo");
     }
 
-    public partial class TenantNationalForestFoundation : Tenant
+    public partial class TenantPeaksToPeople : Tenant
     {
-        private TenantNationalForestFoundation(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantNationalForestFoundation Instance = new TenantNationalForestFoundation(6, @"NationalForestFoundation", @"projectfirma.com", @"nffdemo");
+        private TenantPeaksToPeople(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"projectfirma.com", @"peakstopeople");
     }
 
     public partial class TenantJohnDayPartnership : Tenant
