@@ -133,6 +133,22 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Project External Data Source Uri</div>
+                    <div class="col-xs-7" style="overflow-x: hidden;">
+                        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI != null)
+                        {
+                            <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI" target="_blank">
+                                @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
+                                @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI
+                            </a>
+                        }
+                        else
+                        {
+                            <em>Project External Data Source Uri is not set.</em>
+                        }
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
@@ -217,9 +233,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
-    {
-            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
-}
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                }
                 @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem)                
             </div>
             <div class="panel-body">

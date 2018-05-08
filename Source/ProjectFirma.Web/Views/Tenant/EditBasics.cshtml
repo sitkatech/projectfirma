@@ -97,6 +97,13 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.ProjectExternalDataSourceUri)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.ProjectExternalDataSourceUri, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.ProjectExternalDataSourceUri)
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantStyleSheetFileResourceData)</div>
         <div class="col-md-8">
             @Html.EditorFor(x => x.TenantStyleSheetFileResourceData)

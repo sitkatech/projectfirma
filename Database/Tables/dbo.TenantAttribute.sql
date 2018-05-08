@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TaxonomyLevelID] [int] NOT NULL,
 	[AssociatePerfomanceMeasureTaxonomyLevelID] [int] NOT NULL,
 	[IsActive] [bit] NOT NULL,
+	[ProjectExternalDataSourceURI] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
