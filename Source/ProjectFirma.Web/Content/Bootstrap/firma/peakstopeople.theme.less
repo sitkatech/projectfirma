@@ -52,7 +52,7 @@
 
 @firma-white: #fff;
 @firma-active-arrow-color: #AAB637;
-@firma-inactive-arrow-color: #bbb;
+@firma-inactive-arrow-color: darken(#bbb, 15%);
 
 @z-index-arrow: 900;
 
@@ -106,6 +106,10 @@ label, .modal-title {
 
 .form-control {
     font-size: 14px;
+}
+
+.factSheet .headerPanel {
+    border-left: none;
 }
 
 
@@ -269,7 +273,6 @@ table.summaryLayout th,
     color: @firma-white;
     font-size: 18px;
     font-weight: 600;
-    text-transform: uppercase;
 }
 
 .breadcrumbTitle a:hover {

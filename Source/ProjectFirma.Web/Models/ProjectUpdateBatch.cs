@@ -44,6 +44,9 @@ namespace ProjectFirma.Web.Models
 
         public bool IsCreated => ProjectUpdateState == ProjectUpdateState.Created;
 
+        public bool IsNew => ProjectUpdateState == ProjectUpdateState.Created &&
+                             !ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectUpdateBatchID);
+
         public ProjectUpdateHistory LatestProjectUpdateHistorySubmitted => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Submitted);
 
         public DateTime? LatestSubmittalDate => LatestProjectUpdateHistorySubmitted?.TransitionDate;
@@ -59,27 +62,25 @@ namespace ProjectFirma.Web.Models
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {
             
             ProjectUpdateBatch projectUpdateBatch;
             if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
                 projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-                isNewProjectUpdateBatch = false;
             }
             else
             {
                 projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentPerson);
-                isNewProjectUpdateBatch = true;
             }
 
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson, out bool isNewProjectUpdateBatch)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson)
         {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson, out isNewProjectUpdateBatch);
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges();

@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="SiteLayout.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="SiteLayout.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits SiteLayout
 
 @{
- // ReSharper disable once MustUseReturnValue
+    // ReSharper disable once MustUseReturnValue
     SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
 }
 
@@ -122,23 +122,29 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-9 col-md-9 col-xs-9" style="padding-left: 0; padding-bottom: 10px;">
             <div class="pull-left">
                 <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
-                @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> {"btn", "btn-xs", "btn-firma"}, null, null)
-                @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> {"btn btn-xs btn-firma"}, null)
+                @if (!ViewDataTyped.ProjectUpdateBatch.IsNew)
+                {
+                    <i></i>
+                    @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
+                    <i></i>
+                    @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> { "btn btn-xs btn-firma" }, null)
+                }
+
             </div>
         </div>
         <div class="col-sm-3 col-md-3 col-xs-3">
             <div class="pull-right">
                 @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                 }
                 else if (ViewDataTyped.ShowApproveAndReturnButton)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                     if (ViewDataTyped.IsReadyToApprove)
                     {
                         <span>
-                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
+                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                         </span>
                     }
                     else
