@@ -597,6 +597,12 @@
     <Content Include="Content\Bootstrap\firma\clackamas.min.css">
       <DependentUpon>clackamas.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\peakstopeople.theme.css">
+      <DependentUpon>peakstopeople.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\peakstopeople.theme.min.css">
+      <DependentUpon>peakstopeople.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\rcd.theme.css">
       <DependentUpon>rcd.theme.less</DependentUpon>
     </Content>
@@ -612,6 +618,32 @@
     <Content Include="Content\img\ClackamasPartnership\favicon-16x16.png" />
     <Content Include="Content\img\ClackamasPartnership\favicon-32x32.png" />
     <Content Include="Content\img\ClackamasPartnership\favicon-96x96.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-144x144.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-192x192.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-36x36.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-48x48.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-72x72.png" />
+    <Content Include="Content\img\PeaksToPeople\android-icon-96x96.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-114x114.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-120x120.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-144x144.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-152x152.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-180x180.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-57x57.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-60x60.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-72x72.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-76x76.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon-precomposed.png" />
+    <Content Include="Content\img\PeaksToPeople\apple-icon.png" />
+    <Content Include="Content\img\PeaksToPeople\browserconfig.xml" />
+    <Content Include="Content\img\PeaksToPeople\favicon-16x16.png" />
+    <Content Include="Content\img\PeaksToPeople\favicon-32x32.png" />
+    <Content Include="Content\img\PeaksToPeople\favicon-96x96.png" />
+    <Content Include="Content\img\PeaksToPeople\favicon.ico" />
+    <Content Include="Content\img\PeaksToPeople\ms-icon-144x144.png" />
+    <Content Include="Content\img\PeaksToPeople\ms-icon-150x150.png" />
+    <Content Include="Content\img\PeaksToPeople\ms-icon-310x310.png" />
+    <Content Include="Content\img\PeaksToPeople\ms-icon-70x70.png" />
     <Content Include="Content\img\RCDProjectTracker\android-chrome-144x144.png" />
     <Content Include="Content\img\RCDProjectTracker\android-chrome-192x192.png" />
     <Content Include="Content\img\RCDProjectTracker\android-chrome-256x256.png" />
@@ -704,6 +736,8 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\Bootstrap\firma\peakstopeople.theme.less" />
+    <Content Include="Content\img\PeaksToPeople\manifest.json" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
