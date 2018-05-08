@@ -18,17 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectTypeSelectionViewData : FirmaUserControlViewData
     {
-        public ProjectTypeSelectionViewData()
+        public ProjectTypeSelectionViewData(TenantAttribute tenantAttribute)
         {
-            // todo: what goes here?
+            TenantAttribute = tenantAttribute;
         }
+
+        public TenantAttribute TenantAttribute { get; set; }
     }
 }

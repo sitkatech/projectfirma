@@ -79,7 +79,8 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public PartialViewResult ProjectTypeSelection()
         {
-            var viewData = new ProjectTypeSelectionViewData();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
         }
@@ -88,18 +89,30 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
-            var viewData = new ProjectTypeSelectionViewData();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
             {
                 return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
             }
 
-            return viewModel.ProjectIsProposal.GetValueOrDefault() // a null value should have been caught by the model validation
-                ? new ModalDialogFormJsonResult(
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
-                : new ModalDialogFormJsonResult(
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)));
+            switch (viewModel.CreateType)
+            {
+                case ProjectTypeSelectionViewModel.ProjectCreateType.Proposal:
+                    return new ModalDialogFormJsonResult(
+                        SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)));
+                case ProjectTypeSelectionViewModel.ProjectCreateType.Existing:
+                    return new ModalDialogFormJsonResult(
+                        SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)));
+                case ProjectTypeSelectionViewModel.ProjectCreateType.ImportExternal:
+                    // TODO probably load the thing and either display a success or error growl dependent on how it went
+
+                    return new ModalDialogFormJsonResult(
+                        SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index()));
+                default:
+                    throw new ArgumentException();
+            }
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
