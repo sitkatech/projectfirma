@@ -173,9 +173,9 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson, out var isNewProjectUpdateBatch);
+            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new InstructionsViewData(CurrentPerson, projectUpdateBatch, updateStatus, isNewProjectUpdateBatch);
+            var viewData = new InstructionsViewData(CurrentPerson, projectUpdateBatch, updateStatus);
             return RazorView<Instructions, InstructionsViewData>(viewData);
         }
 
@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Controllers
         public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson, out var _);
+            ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
         }
 
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             if (projectUpdateBatch == null)
             {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));                
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var viewModel = new BasicsViewModel(projectUpdate, projectUpdateBatch.BasicsComment);

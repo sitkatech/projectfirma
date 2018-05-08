@@ -288,7 +288,7 @@
                         <div class="panel-heading panelTitle">
                             <h2>
                                 @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", classificationSystem.ClassificationSystemNamePluralized), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
-                                @Html.LabelWithSugarFor(classificationSystem, classificationSystem.ClassificationSystemNamePluralized)
+                                @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @classificationSystem.ClassificationSystemNamePluralized
                             </h2>
                         </div>
                         <div class="panel-body">
@@ -340,7 +340,7 @@
                     <div class="panel-heading panelTitle">
                         <h3>
                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
-                            @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)
+                            @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ExternalLinks.FieldDefinitionDisplayName
                         </h3>
                     </div>
                     <div class="panel-body">

@@ -47,6 +47,9 @@ label,
 .form-control {
   font-size: 14px;
 }
+.factSheet .headerPanel {
+  border-left: none;
+}
 .expandToFillScreen {
   min-height: 100%;
 }
@@ -184,7 +187,6 @@ table.summaryLayout th,
   color: #fff;
   font-size: 18px;
   font-weight: 600;
-  text-transform: uppercase;
 }
 .breadcrumbTitle a:hover {
   text-decoration: none;
@@ -201,8 +203,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .singleArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: #959595;
+  border-left-color: #959595;
   color: #fff;
 }
 /* First arrow */
@@ -216,8 +218,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .firstArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: #959595;
+  border-left-color: #959595;
   color: #fff;
 }
 .firstArrow:after {
@@ -244,8 +246,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .middleArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: #959595;
+  border-left-color: #959595;
   color: #fff;
 }
 .middleArrow:before {
@@ -290,8 +292,8 @@ table.summaryLayout th,
   color: #ebf1ec;
 }
 .lastArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: #959595;
+  border-left-color: #959595;
   color: #ebf1ec;
 }
 .lastArrow:before {
