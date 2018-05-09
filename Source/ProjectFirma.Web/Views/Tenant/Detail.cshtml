@@ -133,19 +133,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Project External Data Source Uri</div>
-                    <div class="col-xs-7" style="overflow-x: hidden;">
-                        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI != null)
-                        {
-                            <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI" target="_blank">
-                                @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
-                                @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceURI
-                            </a>
-                        }
-                        else
-                        {
-                            <em>Project External Data Source Uri is not set.</em>
-                        }
+                    <div class="col-xs-5 fieldLabel text-right">Project External Data Source Enabled</div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
                 <div class="row">

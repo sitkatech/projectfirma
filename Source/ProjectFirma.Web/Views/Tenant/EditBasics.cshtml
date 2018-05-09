@@ -97,10 +97,17 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.ProjectExternalDataSourceUri)</div>
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.ProjectExternalDataSourceEnabled)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ProjectExternalDataSourceUri, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.ProjectExternalDataSourceUri)
+            <div>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, true) Yes
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, false) No
+                </label>
+            </div>
+            @Html.ValidationMessageFor(m => m.ProjectExternalDataSourceEnabled)
         </div>
     </div>
     <div class="form-group">

@@ -77,9 +77,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Watershed Layer Name")]
         public string WatershedLayerName { get; set; }
 
-        [DisplayName("Project External Data Source Uri")]
-        [Url]
-        public string ProjectExternalDataSourceUri { get; set; }
+        [DisplayName("Project External Data Source Enabled")]
+        [Required]
+        public bool? ProjectExternalDataSourceEnabled { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         public bool ShowProposalsToThePublic { get; set; }
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Views.Tenant
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             WatershedLayerName = tenantAttribute.WatershedLayerName;
-            ProjectExternalDataSourceUri = tenantAttribute.ProjectExternalDataSourceURI;
+            ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
         }
 
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.MapServiceUrl = MapServiceUrl;
             attribute.WatershedLayerName = WatershedLayerName;
 
-            attribute.ProjectExternalDataSourceURI = ProjectExternalDataSourceUri;
+            attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
 
             if (TenantStyleSheetFileResourceData != null)
             {

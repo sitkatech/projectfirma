@@ -87,6 +87,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
@@ -106,7 +107,15 @@ namespace ProjectFirma.Web.Controllers
                     return new ModalDialogFormJsonResult(
                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)));
                 case ProjectTypeSelectionViewModel.ProjectCreateType.ImportExternal:
-                    // TODO probably load the thing and either display a success or error growl dependent on how it went
+                    try
+                    {
+                        new ProjectExternalImportDataRestClient().ImportProjects();
+                        SetMessageForDisplay("Projects were successfully imported.");
+                    }
+                    catch (ProjectExternalImportDataException)
+                    {
+                        SetErrorForDisplay("There was a problem importing projects from the provided external data source.");
+                    }
 
                     return new ModalDialogFormJsonResult(
                         SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index()));

@@ -1108,7 +1108,7 @@
           <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
           <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="ProjectExternalDataSourceURI" ColumnName="ProjectExternalDataSourceURI" />
+          <ScalarProperty Name="ProjectExternalDataSourceEnabled" ColumnName="ProjectExternalDataSourceEnabled" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
