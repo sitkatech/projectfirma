@@ -46,7 +46,7 @@
 @firma-buttonBackground-color: #0275de;
 @firma-buttonText-color: #ebf1ec;
 @firma-buttonBackground-color-hover: darken(#0275de, 15%);
-@firma-buttonText-color-hover:#ebf1ec;
+@firma-buttonText-color-hover: #ebf1ec;
 
 @firma-scrollSpyAccent-color: #3670c5;
 
@@ -122,6 +122,7 @@ label, .modal-title {
 .header {
     padding: 2px;
     background-color: @firma-logoHeaderBackground-color;
+
     img {
         margin: 10px;
         height: 50px;
@@ -154,6 +155,20 @@ label, .modal-title {
     border-radius: 0;
     border-bottom: 1px solid @firma-panel-headerBackground-color;
     min-height: 30px;
+    margin-bottom: 0;
+}
+
+ul.dropdown-menu {
+    li a {
+        color: @firma-navText-color !important;
+        font-family: @firma-menu-font;
+    }
+
+    li a:hover {
+        color: @firma-navItemText-color-hover !important;
+        font-family: @firma-menu-font;
+        background-color: @firma-navBackground-color;
+    }
 }
 
 .projectFirmaNavbar {
@@ -215,7 +230,7 @@ label, .modal-title {
 footer {
     position: relative;
     bottom: 0;
-    left:0;
+    left: 0;
     right: 0;
     width: 100%;
     height: 65px;
@@ -230,20 +245,20 @@ footer {
 
 // buttons
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
-  font-size: 14px;
-  color: @firma-buttonText-color;
-  background-color: @firma-buttonBackground-color;
-  border: 1px solid @firma-buttonText-color;
+    font-size: 14px;
+    color: @firma-buttonText-color;
+    background-color: @firma-buttonBackground-color;
+    border: 1px solid @firma-buttonText-color;
 }
 
 .btn-primary:hover {
-  color: @firma-buttonText-color-hover;
-  background-color: @firma-buttonBackground-color-hover;
+    color: @firma-buttonText-color-hover;
+    background-color: @firma-buttonBackground-color-hover;
 }
 
 .btn-firma:hover, .btn-primary:focus, .btn-primary.focus {
-  color: @firma-buttonText-color-hover;
-  background-color: @firma-buttonBackground-color-hover;
+    color: @firma-buttonText-color-hover;
+    background-color: @firma-buttonBackground-color-hover;
 }
 
 a.btn-firma {
@@ -256,11 +271,11 @@ a.btn-firma {
 // Summary Layout - Legacy LT Info styling
 table.summaryLayout th,
 .stylizeLikeTH {
-  text-align: left;
-  font-weight: bold;
-  padding: 2px 6px;
-  vertical-align: top;
-  color: @firma-text-color;
+    text-align: left;
+    font-weight: bold;
+    padding: 2px 6px;
+    vertical-align: top;
+    color: @firma-text-color;
 }
 
 // Breadcrumb
@@ -466,7 +481,7 @@ a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
 }
 
 a.gridButton.disabled {
-    background-color: @disabled-color;    
+    background-color: @disabled-color;
 }
 
 /* STANDARD */
@@ -487,86 +502,91 @@ a.gridButton:hover {
 
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
-  border: none;
-  color: @firma-text-color;
-  background-color: @firma-contentBackground-color;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0 0 0 5px;
+    border: none;
+    color: @firma-text-color;
+    background-color: @firma-contentBackground-color;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 0 0 5px;
     margin-bottom: 5px;
 }
+
 nav#tableOfContents ul.nav ul.nav {
-  border: none;
-  background-color: transparent;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0 0 0 5px;
+    border: none;
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 0 0 5px;
 }
+
 nav#tableOfContents ul.nav ul.nav li a {
-  padding: 0 0 0 15px ;
-  margin-top: 5px;
-  margin-bottom: 5px;
+    padding: 0 0 0 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 nav#tableOfContents ul.nav li ul.nav {
     max-height: 0;
-    padding: 0;    
+    padding: 0;
     -moz-transition: max-height 0.5s;
     -o-transition: max-height 0.5s;
     -webkit-transition: max-height 0.5s;
-    transition: max-height 0.5s;    
-    overflow: hidden;    
-}
-nav#tableOfContents ul.nav li.active ul.nav {    
-    max-height: 200px;    
+    transition: max-height 0.5s;
+    overflow: hidden;
 }
 
-nav#tableOfContents ul.nav li.active a
- {
-  color: @firma-scrollSpyAccent-color;
-  border-left: 4px solid @firma-scrollSpyAccent-color;
-  cursor: pointer;
+nav#tableOfContents ul.nav li.active ul.nav {
+    max-height: 200px;
 }
-nav#tableOfContents ul.nav li.active ul.nav li.active a
- {
-  color: @firma-scrollSpyAccent-color;
-  border-left: 2px solid @firma-scrollSpyAccent-color;
-  cursor: pointer;
+
+nav#tableOfContents ul.nav li.active a {
+    color: @firma-scrollSpyAccent-color;
+    border-left: 4px solid @firma-scrollSpyAccent-color;
+    cursor: pointer;
 }
+
+nav#tableOfContents ul.nav li.active ul.nav li.active a {
+    color: @firma-scrollSpyAccent-color;
+    border-left: 2px solid @firma-scrollSpyAccent-color;
+    cursor: pointer;
+}
+
 nav#tableOfContents ul.nav li.active ul.nav li a {
-  cursor: pointer;
-  text-decoration: none;
-  border: none;
-  color: @firma-text-color;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    color: @firma-text-color;
 }
-nav#tableOfContents ul.nav li a:hover
-{
-  color: @firma-scrollSpyAccent-color;
-  cursor: pointer;
-  text-decoration: none; 
-}
-nav#tableOfContents ul.nav li ul.nav li a:hover
-{
+
+nav#tableOfContents ul.nav li a:hover {
     color: @firma-scrollSpyAccent-color;
     cursor: pointer;
-    text-decoration: none;   
+    text-decoration: none;
+}
+
+nav#tableOfContents ul.nav li ul.nav li a:hover {
+    color: @firma-scrollSpyAccent-color;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 
 .scrollSpy {
-  width: 230px;
+    width: 230px;
 }
 
 #tableOfContentsAffixed.affix {
-  top: 0;
+    top: 0;
 }
+
 #tableOfContentsAffixed.affix-bottom {
-  position: relative;
+    position: relative;
 }
+
 h2.sectionHeader {
-  height: 0;
-  visibility: hidden;
-  margin: 0;
+    height: 0;
+    visibility: hidden;
+    margin: 0;
 }
 
 
@@ -574,12 +594,12 @@ h2.sectionHeader {
     color: @disabled-color;
 }
 
-    a.disabled {
-      cursor: not-allowed;
-      font-style: italic;
-      color: @disabled-color;
-      background-color: transparent;
-      }
+a.disabled {
+    cursor: not-allowed;
+    font-style: italic;
+    color: @disabled-color;
+    background-color: transparent;
+}
 
 
 //Project Wizard
@@ -595,4 +615,3 @@ h2.sectionHeader {
         font-size: 32px;
     }
 }
-
