@@ -37,7 +37,7 @@
     <add key="KeystoneRegisterUserUrl" value="${keystone-register-endpoint}"/>
     <add key="KeystoneUserProfileUrl" value="${keystone-user-profile-endpoint}"/>
     <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}"/>
-    <add key="KeystoneWebServiceApplicationGuid" value="3F675C06-1803-4A18-A0D2-8E660D7402E9"/>
+    <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
     <add key="DefaultModalDialogButtonCssClasses" value="btn-firma,btn-xs"/>
     <add key="WkhtmltopdfExecutable" value="${wkhtmltopdf-executable}"/>
   </appSettings>
