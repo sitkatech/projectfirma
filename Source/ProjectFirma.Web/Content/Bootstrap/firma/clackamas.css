@@ -1,3 +1,12 @@
 ﻿.header .headerText a {
   vertical-align: bottom;
 }
+.header .headerText a,
+.headerLogo {
+  vertical-align: middle;
+  color: #0071CE;
+}
+.header img {
+  height: 60px;
+  width: 60px;
+}
