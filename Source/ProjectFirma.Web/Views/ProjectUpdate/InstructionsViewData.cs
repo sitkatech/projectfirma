@@ -29,12 +29,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class InstructionsViewData : ProjectUpdateViewData
     {
         public readonly string PerformanceMeasuresUrl;
-        public readonly bool IsNewProjectUpdateBatch;
 
-        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, bool isNewProjectUpdateBatch) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Instructions, updateStatus, new List<string>())
+        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Instructions, updateStatus, new List<string>())
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
-            IsNewProjectUpdateBatch = isNewProjectUpdateBatch;
         }
     }
 }
