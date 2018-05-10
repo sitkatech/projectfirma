@@ -19,7 +19,6 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
@@ -30,7 +29,7 @@
 @using SitkaController = ProjectFirma.Web.Common.SitkaController
 @inherits Index
 @{
-    SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
 }
 
 @section JavascriptAndStylesContent

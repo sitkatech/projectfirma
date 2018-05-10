@@ -24,7 +24,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.MonitoringProgram;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using Index = ProjectFirma.Web.Views.MonitoringProgram.Index;

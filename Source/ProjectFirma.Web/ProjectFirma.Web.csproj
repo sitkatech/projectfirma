@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -363,6 +363,8 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
+    <Compile Include="Views\ProjectCreate\ImportExternal.cs" />
     <Compile Include="Models\ProjectExternalImportDataException.cs" />
     <Compile Include="Models\ProjectExternalImportDataRestClient.cs" />
     <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
@@ -377,6 +379,8 @@
     <Compile Include="Security\ProjectDocumentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectDocumentUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />
+    <Compile Include="Views\ProjectCreate\ImportExternalViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ImportExternalViewModel.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocuments.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewData.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewModel.cs" />
@@ -1513,6 +1517,7 @@
     <Content Include="Views\Shared\ProjectDocument\EditProjectDocuments.cshtml" />
     <Content Include="Views\Shared\ProjectDocument\ProjectDocumentsDetail.cshtml" />
     <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
+    <Content Include="Views\ProjectCreate\ImportExternal.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

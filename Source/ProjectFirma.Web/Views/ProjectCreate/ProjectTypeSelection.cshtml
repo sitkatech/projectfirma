@@ -42,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </label>
             <div class="radioExplanationText">This will create a new project record for an existing project. You will be asked to select the project stage (e.g. Planning/Design, Implementation, or Complete). An administrator will review the project before it becomes publicly visible.</div>
         </div>
-        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled != null)
+        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled)
         {
             <div class="radio">
                 <label>

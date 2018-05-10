@@ -1,0 +1,41 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.ProjectCreate
+@using ProjectFirma.Web.Views.Shared
+
+@inherits ImportExternal
+@{
+    @SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped)
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-horizontal">
+                        <div class="col-xs-12 col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(m => m.ProjectExternalImportDataUri)
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            @Html.TextBoxFor(m => m.ProjectExternalImportDataUri, new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <a href="@ViewDataTyped.FullProjectListUrl" class="btn btn-xs btn-firma">Cancel</a>
+                    <button type="submit" class="btn btn-xs btn-firma">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

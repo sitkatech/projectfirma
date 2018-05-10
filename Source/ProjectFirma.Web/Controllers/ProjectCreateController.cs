@@ -107,18 +107,8 @@ namespace ProjectFirma.Web.Controllers
                     return new ModalDialogFormJsonResult(
                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)));
                 case ProjectTypeSelectionViewModel.ProjectCreateType.ImportExternal:
-                    try
-                    {
-                        new ProjectExternalImportDataRestClient().ImportProjects();
-                        SetMessageForDisplay("Projects were successfully imported.");
-                    }
-                    catch (ProjectExternalImportDataException)
-                    {
-                        SetErrorForDisplay("There was a problem importing projects from the provided external data source.");
-                    }
-
                     return new ModalDialogFormJsonResult(
-                        SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index()));
+                        SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportExternal()));
                 default:
                     throw new ArgumentException();
             }
@@ -1395,6 +1385,73 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
+        }
+
+        [HttpGet]
+        [ProjectCreateNewFeature]
+        public ActionResult ImportExternal()
+        {
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            if (!tenantAttribute.ProjectExternalDataSourceEnabled)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            var viewModel = new ImportExternalViewModel();
+            return ViewImportExternal(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateNewFeature]
+        public ActionResult ImportExternal(ImportExternalViewModel viewModel)
+        {
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            if (!tenantAttribute.ProjectExternalDataSourceEnabled)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewImportExternal(viewModel);
+            }
+            
+            // More validation, but this time we're fetching from the URI
+            var projectExternalImportDataRestClient = new ProjectExternalImportDataRestClient(viewModel.ProjectExternalImportDataUri);
+            var projectExternalImportDataSimple = projectExternalImportDataRestClient.FetchData();
+            if (projectExternalImportDataSimple == null)
+            {
+                ModelState.AddModelError("ProjectExternalImportDataUri", $"Error retrieving data from endpoint {viewModel.ProjectExternalImportDataUri}.");
+            }
+            else
+            {
+                var context = new ValidationContext(projectExternalImportDataSimple, null, null);
+                var results = new List<ValidationResult>();
+                Validator.TryValidateObject(projectExternalImportDataSimple, context, results);
+                results.ForEach(x =>
+                {
+                    ModelState.AddModelError("ProjectExternalImportDataUri", $"Issue with retrieved data: {x.ErrorMessage}");
+                });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewImportExternal(viewModel);
+            }
+
+            var project = projectExternalImportDataSimple.PopulateNewProject();
+            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
+
+            // Save to materialize project and get an ID
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            return Redirect(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditBasics(project)));
+        }
+
+        private ViewResult ViewImportExternal(ImportExternalViewModel viewModel)
+        {
+            var viewData = new ImportExternalViewData(CurrentPerson, FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectCreateImportExternal));
+            return RazorView<ImportExternal, ImportExternalViewData, ImportExternalViewModel>(viewData, viewModel);
         }
     }
 }

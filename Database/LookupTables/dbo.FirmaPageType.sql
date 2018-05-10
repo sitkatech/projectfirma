@@ -34,4 +34,5 @@ values
 (46, 'ProjectStewardOrganizationList', 'ProjectStewardOrganizationList', 1),
 (47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2),
 (48, 'PendingProjects', 'Pending Projects', 1),
-(49, 'Training','Training',2)
+(49, 'Training','Training', 2),
+(50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1)
