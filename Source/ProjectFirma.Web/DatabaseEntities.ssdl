@@ -20,6 +20,7 @@
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.Store.FundingTypeData" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.Store.ImportExternalProjectStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" store:Type="Tables" Schema="dbo" />
@@ -166,6 +167,10 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_FundingSource_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_FundingSource_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="FundingSources" EntitySet="FundingSource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" EntitySet="ImportExternalProjectStaging" />
     </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramDocument_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -907,6 +912,21 @@ warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_FundingSour
     <Property Name="FundingTypeShortName" Type="varchar" Nullable="false" MaxLength="20" />
     <Property Name="SortOrder" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ImportExternalProjectStaging">
+    <Key>
+      <PropertyRef Name="ImportExternalProjectStagingID" />
+    </Key>
+    <Property Name="ImportExternalProjectStagingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="CreatePersonID" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="ProjectName" Type="varchar" MaxLength="140" />
+    <Property Name="Description" Type="varchar" MaxLength="4000" />
+    <Property Name="PlanningDesignStartYear" Type="smallint" />
+    <Property Name="ImplementationStartYear" Type="smallint" />
+    <Property Name="EndYear" Type="smallint" />
+    <Property Name="EstimatedCost" Type="float" />
+  </EntityType>
   <EntityType Name="MappedRegion">
     <Key>
       <PropertyRef Name="MappedRegionID" />
@@ -1209,6 +1229,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_AuditLog_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FileResource_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ImportExternalProjectStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Notification_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2114,6 +2135,18 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="FundingSources">
         <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
+    <End Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.ImportExternalProjectStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

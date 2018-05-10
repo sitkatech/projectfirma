@@ -72,6 +72,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required]
         public int FundingTypeID { get; set; }
 
+        public int? ImportExternalProjectStagingID { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -96,6 +98,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public void UpdateModel(Models.Project project, Person person)
         {
+            if (ImportExternalProjectStagingID.HasValue)
+            {
+                var importExternalProjectStagingToDelete = HttpRequestStorage.DatabaseEntities.ImportExternalProjectStagings.Single(x =>
+                    x.ImportExternalProjectStagingID == ImportExternalProjectStagingID);
+                HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Remove(importExternalProjectStagingToDelete);
+            }
+
             project.ProposingPersonID = person.PersonID;
             project.TaxonomyLeafID = TaxonomyLeafID;
             project.ProjectID = ProjectID;

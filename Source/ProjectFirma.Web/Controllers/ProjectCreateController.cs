@@ -171,6 +171,59 @@ namespace ProjectFirma.Web.Controllers
             return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
         }
 
+        [HttpPost]
+        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CreateAndEditBasics(bool newProjectIsProposal, BasicsViewModel viewModel)
+        {
+            return CreateAndEditBasicsPostImpl(viewModel);
+        }
+
+        [HttpGet]
+        [ProjectCreateNewFeature]
+        public ViewResult CreateBasicsFromExternalImport(ImportExternalProjectStagingPrimaryKey importExternalProjectStagingPrimaryKey)
+        {
+            var importExternalProjectStaging = importExternalProjectStagingPrimaryKey.EntityObject;
+            var viewModel = new BasicsViewModel
+            {
+                ImportExternalProjectStagingID = importExternalProjectStaging.ImportExternalProjectStagingID,
+                ProjectName = importExternalProjectStaging.ProjectName,
+                ProjectDescription = importExternalProjectStaging.Description,
+                PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
+                ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
+                CompletionYear = importExternalProjectStaging.EndYear,
+                EstimatedTotalCost = importExternalProjectStaging.EstimatedCost
+            };
+            return ViewCreateAndEditBasics(viewModel, false);
+        }
+
+        [HttpPost]
+        [ProjectCreateNewFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CreateBasicsFromExternalImport(ImportExternalProjectStagingPrimaryKey importExternalProjectStagingPrimaryKey,
+            BasicsViewModel viewModel)
+        {
+            return CreateAndEditBasicsPostImpl(viewModel);
+        }
+
+        private ActionResult CreateAndEditBasicsPostImpl(BasicsViewModel viewModel)
+        {
+            var project = new Project(viewModel.TaxonomyLeafID,
+                viewModel.ProjectStageID,
+                viewModel.ProjectName,
+                viewModel.ProjectDescription,
+                false,
+                ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
+                viewModel.FundingTypeID,
+                ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
+            {
+                ProposingPerson = CurrentPerson,
+                ProposingDate = DateTime.Now
+            };
+
+            return SaveProjectAndCreateAuditEntry(project, viewModel);
+        }
+
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel, bool newProjectIsHistoric)
         {
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
@@ -191,6 +244,15 @@ namespace ProjectFirma.Web.Controllers
             return ViewEditBasics(project, viewModel);
         }
 
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            return SaveProjectAndCreateAuditEntry(project, viewModel);
+        }
+
         private ViewResult ViewEditBasics(Project project, BasicsViewModel viewModel)
         {            
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
@@ -200,36 +262,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs, FundingType.All);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CreateAndEditBasics(bool newProjectIsProposal, BasicsViewModel viewModel)
-        {
-            var project = new Project(viewModel.TaxonomyLeafID,
-                viewModel.ProjectStageID,
-                viewModel.ProjectName,
-                viewModel.ProjectDescription,
-                false,
-                ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                viewModel.FundingTypeID,
-                ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
-            {
-                ProposingPerson = CurrentPerson,
-                ProposingDate = DateTime.Now
-            };
-
-            return SaveProjectAndCreateAuditEntry(project, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditBasics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            return SaveProjectAndCreateAuditEntry(project, viewModel);
         }
 
         private ActionResult SaveProjectAndCreateAuditEntry(Project project, BasicsViewModel viewModel)
@@ -1434,18 +1466,18 @@ namespace ProjectFirma.Web.Controllers
                 });
             }
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || projectExternalImportDataSimple == null)
             {
                 return ViewImportExternal(viewModel);
             }
 
-            var project = projectExternalImportDataSimple.PopulateNewProject();
-            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
+            var importExternalProjectStaging = projectExternalImportDataSimple.PopulateNewImportExternalProjectStaging();
+            HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Add(importExternalProjectStaging);
 
             // Save to materialize project and get an ID
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            return Redirect(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditBasics(project)));
+            return Redirect(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.CreateBasicsFromExternalImport(importExternalProjectStaging)));
         }
 
         private ViewResult ViewImportExternal(ImportExternalViewModel viewModel)
@@ -1453,5 +1485,14 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ImportExternalViewData(CurrentPerson, FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectCreateImportExternal));
             return RazorView<ImportExternal, ImportExternalViewData, ImportExternalViewModel>(viewData, viewModel);
         }
+    }
+}
+
+namespace ProjectFirma.Web.Models
+{
+    public partial class ImportExternalProjectStaging : IAuditableEntity
+    {
+        public string AuditDescriptionString =>
+            $"Import External Project Staging created by {CreatePerson?.FullNameFirstLast ?? "<Person not Found>"} on {CreateDate}";
     }
 }

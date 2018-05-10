@@ -20,6 +20,7 @@
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
     <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.FundingTypeData" />
+    <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.ImportExternalProjectStaging" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
     <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.MonitoringProgramDocument" />
@@ -224,6 +225,10 @@
     <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" EntitySet="ImportExternalProjectStaging" />
     </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID">
       <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
@@ -894,6 +899,22 @@
     <Property Name="FundingTypeShortName" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="SortOrder" Type="Int32" Nullable="false" />
   </EntityType>
+  <EntityType Name="ImportExternalProjectStaging">
+    <Key>
+      <PropertyRef Name="ImportExternalProjectStagingID" />
+    </Key>
+    <Property Name="ImportExternalProjectStagingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+    <Property Name="ProjectName" Type="String" MaxLength="140" Unicode="false" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="PlanningDesignStartYear" Type="Int16" />
+    <Property Name="ImplementationStartYear" Type="Int16" />
+    <Property Name="EndYear" Type="Int16" />
+    <Property Name="EstimatedCost" Type="Double" />
+    <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" FromRole="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
+  </EntityType>
   <EntityType Name="MappedRegion">
     <Key>
       <PropertyRef Name="MappedRegionID" />
@@ -1229,6 +1250,7 @@
     <Property Name="LoginName" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="AuditLogs" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="Person" ToRole="AuditLogs" />
     <NavigationProperty Name="FileResourcesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="FileResourcesWhereYouAreTheCreatePerson" />
+    <NavigationProperty Name="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="Notifications" Relationship="ProjectFirma.Web.Models.FK_Notification_Person_PersonID" FromRole="Person" ToRole="Notifications" />
     <NavigationProperty Name="OrganizationsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="OrganizationsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
@@ -2373,6 +2395,18 @@
       </Principal>
       <Dependent Role="ProjectFundingSourceRequestUpdates">
         <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.ImportExternalProjectStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
