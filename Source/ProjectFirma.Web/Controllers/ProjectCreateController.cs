@@ -23,7 +23,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
@@ -39,6 +42,8 @@ using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -1447,30 +1452,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewImportExternal(viewModel);
             }
-            
-            // More validation, but this time we're fetching from the URI
-            var projectExternalImportDataRestClient = new ProjectExternalImportDataRestClient(viewModel.ProjectExternalImportDataUri);
-            var projectExternalImportDataSimple = projectExternalImportDataRestClient.FetchData();
-            if (projectExternalImportDataSimple == null)
-            {
-                ModelState.AddModelError("ProjectExternalImportDataUri", $"Error retrieving data from endpoint {viewModel.ProjectExternalImportDataUri}.");
-            }
-            else
-            {
-                var context = new ValidationContext(projectExternalImportDataSimple, null, null);
-                var results = new List<ValidationResult>();
-                Validator.TryValidateObject(projectExternalImportDataSimple, context, results);
-                results.ForEach(x =>
-                {
-                    ModelState.AddModelError("ProjectExternalImportDataUri", $"Issue with retrieved data: {x.ErrorMessage}");
-                });
-            }
 
-            if (!ModelState.IsValid || projectExternalImportDataSimple == null)
-            {
-                return ViewImportExternal(viewModel);
-            }
-
+            var projectExternalImportDataSimple = JsonConvert.DeserializeObject<ProjectExternalImportDataSimple>(viewModel.ProjectExternalImportRawData);
             var importExternalProjectStaging = projectExternalImportDataSimple.PopulateNewImportExternalProjectStaging();
             HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Add(importExternalProjectStaging);
 
@@ -1485,14 +1468,53 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ImportExternalViewData(CurrentPerson, FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectCreateImportExternal));
             return RazorView<ImportExternal, ImportExternalViewData, ImportExternalViewModel>(viewData, viewModel);
         }
-    }
-}
 
-namespace ProjectFirma.Web.Models
-{
-    public partial class ImportExternalProjectStaging : IAuditableEntity
-    {
-        public string AuditDescriptionString =>
-            $"Import External Project Staging created by {CreatePerson?.FullNameFirstLast ?? "<Person not Found>"} on {CreateDate}";
+        [HttpGet]
+        [ProjectCreateNewFeature]
+        public ContentResult ValidateImportExternalProjectData()
+        {
+            return Content("Use POST.");
+        }
+
+        [HttpPost]
+        [ProjectCreateNewFeature]
+        public ActionResult ValidateImportExternalProjectData(ValidateImportExternalProjectDataViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+
+            ProjectExternalImportDataSimple simple;
+            try
+            {
+                var webRequest = (HttpWebRequest) WebRequest.Create(viewModel.RequestUri);
+                webRequest.Method = "GET";
+
+                var webResponse = (HttpWebResponse) webRequest.GetResponse();
+                Check.Assert(webResponse.StatusCode == HttpStatusCode.OK,
+                    $"Request to Project External Import Data Uri {viewModel.RequestUri} should resolve 200.");
+
+                var responseStream = webResponse.GetResponseStream();
+
+                Check.RequireNotNull(responseStream, "Some exception");
+                // ReSharper disable once AssignNullToNotNullAttribute
+                var responseReader = new StreamReader(responseStream);
+                var data = responseReader.ReadToEnd();
+
+                // We need to massage because the data they gave us is lame-o
+                data = Regex.Unescape(data);                // TODO remove: This should probably be resolved upstream so it's not stupid to decode this
+                data = data.Trim();                         // TODO remove:
+                data = data.Substring(1, data.Length - 2);  // TODO remove: Also need to strip off leading and trailing quotes
+
+                simple = JsonConvert.DeserializeObject<ProjectExternalImportDataSimple>(data);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+            
+            return Content(JsonConvert.SerializeObject(simple, Formatting.Indented));
+        }
     }
 }

@@ -1,10 +1,55 @@
-﻿@using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Views.ProjectCreate
+﻿@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
 
 @inherits ImportExternal
 @{
     @SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped)
+}
+
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery("#fetchUri").on("input", function(event) {
+                var value = jQuery(event.target).val();
+                if (value && value.trim() !== "") {
+                    jQuery("#fetchButton").prop("disabled", false);
+                } else {
+                    jQuery("#fetchButton").prop("disabled", true);
+                }
+            });
+            jQuery("#fetchUri").trigger("input");
+
+            jQuery("#fetchButton").click(function(event) {
+                jQuery(event.target).prop("disabled", true);
+                jQuery("#fetchProgressBar").show();
+                jQuery("#fetchJsonDataAlert").hide();
+                jQuery("#fetchJsonErrorAlert").hide();
+
+                var uri = jQuery("#fetchUri").val();
+                jQuery.ajax("@ViewDataTyped.ValidateImportExternalProjectDataUrl",
+                    {
+                        method: "POST",
+                        data: { "RequestUri": uri },
+                        success: function(data) {
+                            jQuery("#@Html.IdFor(m => m.ProjectExternalImportRawData)").val(data);
+                            jQuery("#fetchJsonData").html(data);
+                            jQuery("#fetchJsonDataAlert").show();
+                            jQuery("#fetchJsonDataSubmit").prop("disabled", false);
+                        },
+                        error: function () {
+                            console.error("Bad URI: " + uri);
+                            jQuery("#fetchJsonErrorAlert").show();
+                            jQuery("#fetchJsonDataSubmit").prop("disabled", true);
+                        },
+                        complete: function() {
+                            jQuery(event.target).prop("disabled", false);
+                            jQuery("#fetchProgressBar").hide();
+                        }
+                    });
+            });
+        });
+    </script>
 }
 
 <div class="row">
@@ -14,26 +59,46 @@
 </div>
 @using (Html.BeginForm())
 {
-    <div class="panel panel-default">
-        <div class="panel-body">
-            @Html.ValidationSummary()
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-horizontal">
-                        <div class="col-xs-12 col-sm-4 control-label">
-                            @Html.LabelWithSugarFor(m => m.ProjectExternalImportDataUri)
-                        </div>
-                        <div class="col-xs-12 col-sm-8">
-                            @Html.TextBoxFor(m => m.ProjectExternalImportDataUri, new {@class = "form-control"})
+    @Html.HiddenFor(m => m.ProjectExternalImportRawData)
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">    <div class="panel panel-default">
+                <div class="panel-body">
+                    @Html.ValidationSummary()
+                    <div class="alert alert-info" role="alert" style="display: none;" id="fetchJsonDataAlert">
+                        <strong>Preview JSON Data</strong>
+                        <pre style="max-height: 200px; overflow-y: auto; margin-top: 10px;" id="fetchJsonData"></pre>
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="display: none;" id="fetchJsonErrorAlert">
+                        There was a problem loading the provided URI.
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form">
+                                <label class="control-label">Project Data URI</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="fetchUri" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-firma" id="fetchButton" disabled>Fetch Data</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <hr/>
-            <div class="row">
-                <div class="col-xs-12 text-right">
-                    <a href="@ViewDataTyped.FullProjectListUrl" class="btn btn-xs btn-firma">Cancel</a>
-                    <button type="submit" class="btn btn-xs btn-firma">Continue</button>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="progress" id="fetchProgressBar" style="display: none; margin-top: 10px;">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <a href="@ViewDataTyped.FullProjectListUrl" class="btn btn-xs btn-firma">Cancel</a>
+                            <button type="submit" class="btn btn-xs btn-firma" disabled id="fetchJsonDataSubmit">Continue</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

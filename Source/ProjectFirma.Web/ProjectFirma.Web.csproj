@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,6 +46,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
+    <Compile Include="Models\ImportExternalProjectStaging.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -369,7 +371,6 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternal.cs" />
     <Compile Include="Models\ProjectExternalImportDataException.cs" />
-    <Compile Include="Models\ProjectExternalImportDataRestClient.cs" />
     <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\TaxonomyLeafPerformanceMeasureTest.cs" />
