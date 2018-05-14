@@ -142,11 +142,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             if (TaxonomyLeafID == -1)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int>(
-                    $"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.",
-                    m => m.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID));
+                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID));
             }
-            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID ?? ModelObjectHelpers.NotYetAssignedID))
+            if (ProjectID.HasValue && !Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID.Value))
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
             }
