@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
                 CompletionYear = importExternalProjectStaging.EndYear,
                 EstimatedTotalCost = importExternalProjectStaging.EstimatedCost
             };
-            return ViewCreateAndEditBasics(viewModel, false);
+            return ViewCreateAndEditBasics(viewModel, true);
         }
 
         [HttpPost]
@@ -213,8 +213,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult CreateAndEditBasicsPostImpl(BasicsViewModel viewModel)
         {
-            var project = new Project(viewModel.TaxonomyLeafID,
-                viewModel.ProjectStageID,
+            var project = new Project(viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID,
+                viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,

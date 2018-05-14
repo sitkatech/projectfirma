@@ -31,11 +31,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
-        public int ProjectID { get; set; }
+        public int? ProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]
         [Required]
-        public int TaxonomyLeafID { get; set; }
+        public int? TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
         [StringLength(Models.Project.FieldLengths.ProjectName)]
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
         [Required]
-        public int ProjectStageID { get; set; }
+        public int? ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
         [Required]
@@ -106,11 +106,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             project.ProposingPersonID = person.PersonID;
-            project.TaxonomyLeafID = TaxonomyLeafID;
-            project.ProjectID = ProjectID;
+            project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.ProjectStageID = ProjectStageID;
+            project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
             project.FundingTypeID = FundingTypeID;
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
@@ -144,9 +144,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, int>(
                     $"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.",
-                    m => m.TaxonomyLeafID));
+                    m => m.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID));
             }
-            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
+            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID ?? ModelObjectHelpers.NotYetAssignedID))
             {
                 errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
             }
