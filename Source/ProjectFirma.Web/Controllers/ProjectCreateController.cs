@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
                 CompletionYear = importExternalProjectStaging.EndYear,
                 EstimatedTotalCost = importExternalProjectStaging.EstimatedCost
             };
-            return ViewCreateAndEditBasics(viewModel, false);
+            return ViewCreateAndEditBasics(viewModel, true);
         }
 
         [HttpPost]
