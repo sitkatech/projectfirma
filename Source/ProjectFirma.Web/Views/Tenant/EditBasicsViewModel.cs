@@ -21,10 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
@@ -79,6 +77,10 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Watershed Layer Name")]
         public string WatershedLayerName { get; set; }
 
+        [DisplayName("Project External Data Source Enabled")]
+        [Required]
+        public bool? ProjectExternalDataSourceEnabled { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         public bool ShowProposalsToThePublic { get; set; }
 
@@ -101,6 +103,7 @@ namespace ProjectFirma.Web.Views.Tenant
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             WatershedLayerName = tenantAttribute.WatershedLayerName;
+            ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
         }
 
@@ -116,35 +119,28 @@ namespace ProjectFirma.Web.Views.Tenant
                 primaryContactPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
             }
             attribute.PrimaryContactPerson = primaryContactPerson;
-            attribute.TaxonomyLevelID = TaxonomyLevelID.Value;
-            attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID.Value;
-            attribute.MinimumYear = MinimumYear.Value;
+            attribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+            attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+            attribute.MinimumYear = MinimumYear ?? 0;
 
             attribute.MapServiceUrl = MapServiceUrl;
             attribute.WatershedLayerName = WatershedLayerName;
 
+            attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+
             if (TenantStyleSheetFileResourceData != null)
             {
-                if (attribute.TenantStyleSheetFileResource != null)
-                {
-                    attribute.TenantStyleSheetFileResource.DeleteFileResource();
-                }
+                attribute.TenantStyleSheetFileResource?.DeleteFileResource();
                 attribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
             }
             if (TenantSquareLogoFileResourceData != null)
             {
-                if (attribute.TenantSquareLogoFileResource != null)
-                {
-                    attribute.TenantSquareLogoFileResource.DeleteFileResource();
-                }
+                attribute.TenantSquareLogoFileResource?.DeleteFileResource();
                 attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                if (attribute.TenantBannerLogoFileResource != null)
-                {
-                    attribute.TenantBannerLogoFileResource.DeleteFileResource();
-                }
+                attribute.TenantBannerLogoFileResource?.DeleteFileResource();
                 attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
             }
         }

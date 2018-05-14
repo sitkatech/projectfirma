@@ -226,6 +226,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ImportExternalProjectStaging">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ImportExternalProjectStaging">
+        <MappingFragment StoreEntitySet="ImportExternalProjectStaging">
+          <ScalarProperty Name="ImportExternalProjectStagingID" ColumnName="ImportExternalProjectStagingID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
+          <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
+          <ScalarProperty Name="EndYear" ColumnName="EndYear" />
+          <ScalarProperty Name="EstimatedCost" ColumnName="EstimatedCost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="MappedRegion">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.MappedRegion">
         <MappingFragment StoreEntitySet="MappedRegion">
@@ -1108,6 +1124,7 @@
           <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
           <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ProjectExternalDataSourceEnabled" ColumnName="ProjectExternalDataSourceEnabled" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

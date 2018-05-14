@@ -133,6 +133,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Project External Data Source Enabled</div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
@@ -217,6 +223,10 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                }
+                @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem)                
                 {
                     @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }

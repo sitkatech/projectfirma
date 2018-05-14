@@ -281,4 +281,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }
     }
+
+    public partial class FirmaPageTypeProjectCreateImportExternal
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportExternal());
+        }
+    }
 }

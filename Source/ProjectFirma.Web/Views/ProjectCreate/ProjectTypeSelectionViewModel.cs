@@ -22,28 +22,34 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectTypeSelectionViewModel : FormViewModel, IValidatableObject
     {
-        public bool? ProjectIsProposal { get; set; }
-
-        /// <summary>
-        /// Needed by the ModelBinder
-        /// </summary>
-        public ProjectTypeSelectionViewModel()
+        public enum ProjectCreateType
         {
+            Proposal,
+            Existing,
+            ImportExternal
         }
+        
+        [DisplayName("Project Create Type")]
+        [Required(ErrorMessage = "You must select an option in order to proceed.")]
+        public ProjectCreateType? CreateType { get; set; }
 
-        // Chose this validation pattern instead of the RequiredAttribute because the qtip validation message is unfriendly
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            if (ProjectIsProposal == null)
+
+            // Should only be able to import external when project external data source is set on tenant attribute
+            if (CreateType == ProjectCreateType.ImportExternal &&
+                !HttpRequestStorage.Tenant.GetTenantAttribute().ProjectExternalDataSourceEnabled)
             {
-                errors.Add(new ValidationResult("You must select an option in order to proceed."));
+                errors.Add(new SitkaValidationResult<ProjectTypeSelectionViewModel, ProjectCreateType?>("Invalid option.", m => m.CreateType));
             }
 
             return errors;

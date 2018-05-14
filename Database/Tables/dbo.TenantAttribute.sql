@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TaxonomyLevelID] [int] NOT NULL,
 	[AssociatePerfomanceMeasureTaxonomyLevelID] [int] NOT NULL,
 	[IsActive] [bit] NOT NULL,
+	[ProjectExternalDataSourceEnabled] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

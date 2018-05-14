@@ -50,6 +50,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeEnterHistoricProjectInstructions EnterHistoricProjectInstructions = FirmaPageTypeEnterHistoricProjectInstructions.Instance;
         public static readonly FirmaPageTypePendingProjects PendingProjects = FirmaPageTypePendingProjects.Instance;
         public static readonly FirmaPageTypeTraining Training = FirmaPageTypeTraining.Instance;
+        public static readonly FirmaPageTypeProjectCreateImportExternal ProjectCreateImportExternal = FirmaPageTypeProjectCreateImportExternal.Instance;
 
         public static readonly List<FirmaPageType> All;
         public static readonly ReadOnlyDictionary<int, FirmaPageType> AllLookupDictionary;
@@ -59,7 +60,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training };
+            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -167,6 +168,8 @@ namespace ProjectFirma.Web.Models
                     return PendingProjects;
                 case FirmaPageTypeEnum.PerformanceMeasuresList:
                     return PerformanceMeasuresList;
+                case FirmaPageTypeEnum.ProjectCreateImportExternal:
+                    return ProjectCreateImportExternal;
                 case FirmaPageTypeEnum.ProjectMap:
                     return ProjectMap;
                 case FirmaPageTypeEnum.ProjectResults:
@@ -234,7 +237,8 @@ namespace ProjectFirma.Web.Models
         ProjectStewardOrganizationList = 46,
         EnterHistoricProjectInstructions = 47,
         PendingProjects = 48,
-        Training = 49
+        Training = 49,
+        ProjectCreateImportExternal = 50
     }
 
     public partial class FirmaPageTypeHomePage : FirmaPageType
@@ -427,5 +431,11 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeTraining(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeTraining Instance = new FirmaPageTypeTraining(49, @"Training", @"Training", 2);
+    }
+
+    public partial class FirmaPageTypeProjectCreateImportExternal : FirmaPageType
+    {
+        private FirmaPageTypeProjectCreateImportExternal(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeProjectCreateImportExternal Instance = new FirmaPageTypeProjectCreateImportExternal(50, @"ProjectCreateImportExternal", @"ProjectCreateImportExternal", 1);
     }
 }
