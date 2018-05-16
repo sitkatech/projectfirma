@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.User
             GridName = "UserGrid";
             GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             KeystoneUrl = FirmaWebConfiguration.KeystoneUrl;
-            KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUserUrl;
+            KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUrl;
 
             PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
