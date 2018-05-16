@@ -58,11 +58,5 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
         }
-
-        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        {
-            filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
-            base.HandleUnauthorizedRequest(filterContext);
-        }
     }
 }

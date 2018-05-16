@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
-using AuthorizationContext = System.Web.Mvc.AuthorizationContext;
 
 namespace ProjectFirma.Web.Controllers
 {

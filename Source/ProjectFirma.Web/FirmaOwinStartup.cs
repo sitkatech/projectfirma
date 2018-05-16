@@ -133,9 +133,7 @@ namespace ProjectFirma.Web
 
         public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity)
         {
-            SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
-                userIdentity.Name,
-                userIdentity.IsAuthenticated);
+            SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'", userIdentity.Name, userIdentity.IsAuthenticated);
 
             var sendNewUserNotification = false;
             var sendNewOrganizationNotification = false;

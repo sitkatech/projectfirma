@@ -1604,8 +1604,8 @@
       <HintPath>..\NuGetPackages\htmldiff.net.1.3\lib\net35\HtmlDiff.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Keystone.Common.OpenID, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.5\lib\net45\Keystone.Common.OpenID.dll</HintPath>
+    <Reference Include="Keystone.Common.OpenID, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.6\lib\net45\Keystone.Common.OpenID.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
