@@ -163,7 +163,7 @@
                 <h2>
                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
                              MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()))
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">

@@ -40,22 +40,31 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div id="EditFeaturedProjectsApp" ng-controller="FeaturedProjectController">
-    @FieldDefinition.Project.GetFieldDefinitionLabel() to Add:
-    <input type="text" ng-model="ProjectToAdd" typeahead-append-to-body="true" typeahead="project as project.DisplayName for project in filteredProjects() | filter:{DisplayName: $viewValue} | limitTo:8" style="width: 700px" placeholder="Search for a @FieldDefinition.ProjectName.GetFieldDefinitionLabel()"/>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
-    <table class="dialogFormLayout">
-        <tr>
-            <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Project)</th>
-        </tr>
-        <tr ng-repeat="project in AngularModel.ProjectIDList | orderBy:[getProjectName]">
-            <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(project)" style="cursor: pointer"></span></td>
-            <td ng-bind="getProjectName(project)"></td>
-        </tr>
-    </table>
-    @using (Html.BeginForm())
-    {
-        <input ng-repeat="project in AngularModel.ProjectIDList" type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="{{project}}">
-    }
-</div>
+    <div class="form-group">
+        <label class="control-label">
+            @FieldDefinition.Project.GetFieldDefinitionLabel() to Add:
+        </label>
+        <div class="input-group">
+            <input class="form-control" type="text" ng-model="ProjectToAdd" typeahead-append-to-body="true" typeahead="project as project.DisplayName for project in filteredProjects() | filter:{DisplayName: $viewValue} | limitTo:8" style="width: 700px" placeholder="Search for a @FieldDefinition.ProjectName.GetFieldDefinitionLabel()" />
+            <span class="input-group-btn">
+                <button class="btn btn-firma" type="button" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span> Add</button>
+            </span>
+        </div>
+        <hr/>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3" style="white-space: nowrap">@Html.Label("Feature Projects")</div>
+            </div>
+            <div class="form-group" ng-repeat="project in AngularModel.ProjectIDList | orderBy:[getProjectName]">
+                <div class="col-xs-12 col-sm-9">
+                    <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(project)" style="cursor: pointer"></span>
+                    <span ng-bind="getProjectName(project)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+        @using (Html.BeginForm())
+        {
+            <input ng-repeat="project in AngularModel.ProjectIDList" type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="{{project}}">
+        }
+    </div>

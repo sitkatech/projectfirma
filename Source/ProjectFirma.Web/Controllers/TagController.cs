@@ -82,6 +82,8 @@ namespace ProjectFirma.Web.Controllers
             var tag = new Tag(string.Empty);
             viewModel.UpdateModel(tag, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"Tag {tag.DisplayNameAsUrl} succesfully created.");
             return new ModalDialogFormJsonResult();
         }
 

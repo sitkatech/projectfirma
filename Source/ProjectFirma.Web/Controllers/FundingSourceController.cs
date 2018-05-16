@@ -74,7 +74,8 @@ namespace ProjectFirma.Web.Controllers
                 // If the person is not an admin, we want to default the Funding Source organization to their own Organization
                 OrganizationID = new List<Role> {Role.Admin, Role.SitkaAdmin}.Any(x => x.RoleID == CurrentPerson.RoleID)
                     ? (int?) null
-                    : CurrentPerson.OrganizationID
+                    : CurrentPerson.OrganizationID,
+                IsActive = true
             };
 
             return ViewEdit(viewModel);

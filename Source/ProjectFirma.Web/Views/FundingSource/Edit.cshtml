@@ -32,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
                @Html.LabelWithSugarFor(m => m.FundingSourceName)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextBoxFor(m => m.FundingSourceName, new { style = "width:100%" })
+                @Html.TextBoxFor(m => m.FundingSourceName, new { @class="form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.FundingSourceName)
             </div>
         </div>
@@ -41,7 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.FundingSourceDescription)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.FundingSourceDescription)
             </div>
         </div>

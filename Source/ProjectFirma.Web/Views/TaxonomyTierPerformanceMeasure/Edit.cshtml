@@ -1,30 +1,30 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure.Edit
 <script type="text/javascript">
-    // <![CDATA[    
+    // <![CDATA[
     angular.module("EditAngularApp", []).controller("TaxonomyTierPerformanceMeasureController", function($scope)
     {
         $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
@@ -90,27 +90,40 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div style="font-weight: bold; margin-bottom: 20px">@ViewDataTyped.TaxonomyTierDisplayNamePluralized Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
 <div id="EditTaxonomyTiersAngularApp" ng-controller="TaxonomyTierPerformanceMeasureController">
-    @ViewDataTyped.TaxonomyTierDisplayName to Add: <select ng-model="TaxonomyTierToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTiers()">
-    <option value="">Choose One</option>
-</select>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyTier()">Add</button>
-    <table class="dialogFormLayout">
-        <tr>
-            <th></th>
-            <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyTierDisplayName))</th>
-        </tr>
-        <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures | orderBy:getTaxonomyTierName">
-            <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyTier(programPerformanceMeasure)" style="cursor: pointer"></span>
-            </td>
-            <td>{{getTaxonomyTierName(programPerformanceMeasure)}}</td>
-            <td>
-                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyTierID" ng-value="programPerformanceMeasure.TaxonomyTierID" />
-            </td>
+    <div class="form-group">
+        <label class="control-label">
+            @ViewDataTyped.TaxonomyTierDisplayName to Add:
+        </label>
+        <div class="input-group">
+            <select class="form-control" ng-model="TaxonomyTierToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTiers()">
+                <option value="">Choose One</option>
+            </select>
+            <span class="input-group-btn">
+                <button class="btn btn-firma" type="button" ng-click="addTaxonomyTier()"><span class="glyphicon glyphicon-plus"></span> Add</button>
+            </span>
+        </div>
+    </div>
 
-        </tr>
-    </table>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3">
+                @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                @Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Primary {0}?", ViewDataTyped.TaxonomyTierDisplayName))
+            </div>
+        </div>
+        <div class="form-group" ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures | orderBy:getTaxonomyTierName">
+            <div class="col-xs-12 col-sm-3">
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyTier(programPerformanceMeasure)" style="cursor: pointer"></span>
+                {{getTaxonomyTierName(programPerformanceMeasure)}}
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyTierID" ng-value="programPerformanceMeasure.TaxonomyTierID" />
+            </div>
+
+        </div>
+    </div>
     @using (Html.BeginForm())
     {
         <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierPerformanceMeasures[0].TaxonomyTierID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyTierID}}">

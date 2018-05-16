@@ -22,21 +22,25 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.Tag.Edit
 @using (Html.BeginForm())
 {
-    <table class="dialogFormLayout">
-        <tr>
-            <th>@Html.LabelWithSugarFor(m => m.TagName)</th>
-            <td>
-                @Html.TextBoxFor(m => m.TagName, new {style = "width:522px"})
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.TagName)
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.TagName, new { style = "width:522px" })
                 @Html.ValidationMessageFor(m => m.TagName)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithSugarFor(m => m.TagDescription)</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.TagDescription)
+            </div>
+            <div class="col-xs-12 col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.TagDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
                 @Html.ValidationMessageFor(m => m.TagDescription)
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
     @Html.HiddenFor(m => m.TagID)
 }

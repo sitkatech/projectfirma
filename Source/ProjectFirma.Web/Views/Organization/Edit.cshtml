@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @Html.TextBoxFor(m => m.OrganizationName, new { style = "width:100%" })
+                    @Html.TextBoxFor(m => m.OrganizationName, new { @class="form-control", style = "width:100%" })
                     @Html.ValidationMessageFor(m => m.OrganizationName)
                 }
             </div>
@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationShortName)
             </div>
             <div class="col-sm-9">
-               @Html.TextBoxFor(m => m.OrganizationShortName, new { style = "width:100%" })
+               @Html.TextBoxFor(m => m.OrganizationShortName, new { @class="form-control", style = "width:100%" })
             @Html.ValidationMessageFor(m => m.OrganizationShortName)
             </div>
         </div>
@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { style = "width:100%" })
+                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { @class="form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationTypeID)
             </div>
         </div>
@@ -71,7 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
             </div>
             <div class="col-sm-9">
-                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)                
+                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
                 @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
             </div>
         </div>
@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationUrl)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.OrganizationUrl, new { style = "width:100%" })
+                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationUrl)
             </div>
         </div>
@@ -114,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.LabelWithSugarFor(m => m.OrganizationGuid)
                 </div>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.OrganizationGuid, new {style="width:100%"})
+                    @Html.TextBoxFor(m => m.OrganizationGuid, new { @class="form-control", style="width:100%"})
                     @Html.ValidationMessageFor(m => m.OrganizationGuid)
                 </div>
             </div>
