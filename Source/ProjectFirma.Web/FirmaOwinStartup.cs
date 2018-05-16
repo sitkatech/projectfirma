@@ -46,7 +46,7 @@ namespace ProjectFirma.Web
                 var branch = app.New();
                 System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
-                var tenant = Tenant.All.First(p => ctx.Request.Uri.Host.EndsWith(p.TenantDomain, StringComparison.InvariantCultureIgnoreCase));
+                var tenant = Tenant.All.First(p => ctx.Request.Uri.Host.EndsWith(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p), StringComparison.InvariantCultureIgnoreCase));
 
                 branch.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
@@ -55,7 +55,6 @@ namespace ProjectFirma.Web
                     CookieDomain = $".{tenant.TenantDomain}",
                     CookieName = $"{tenant.KeystoneOpenIDClientIdentifier}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
                 });
-
 
                 branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
