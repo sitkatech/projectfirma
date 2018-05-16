@@ -21,4 +21,5 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (18, 'PeriphytonBiomassIndex', 'PBI', 'PBI', 'Periphyton biomass index', 0),
 (19, 'AcreFeet', 'acre-feet', 'acre-ft', 'Acre-Foot', 0),
 (20, 'Gallon', 'gallons', 'gallons', 'Gallon', 0),
-(21, 'CubicYards', 'cubic yards', 'cubic yards', 'Cubic Yard', 0)
+(21, 'CubicYards', 'cubic yards', 'cubic yards', 'Cubic Yard', 0),
+(22, 'MetricTons', 'metric tons', 'metric tons', 'Metric Ton', 0)
