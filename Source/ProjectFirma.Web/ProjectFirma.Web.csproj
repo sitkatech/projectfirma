@@ -647,6 +647,7 @@
     <Content Include="Content\img\PeaksToPeople\apple-icon-76x76.png" />
     <Content Include="Content\img\PeaksToPeople\apple-icon-precomposed.png" />
     <Content Include="Content\img\PeaksToPeople\apple-icon.png" />
+    <Content Include="Content\img\PeaksToPeople\bottom-curve.png" />
     <Content Include="Content\img\PeaksToPeople\browserconfig.xml" />
     <Content Include="Content\img\PeaksToPeople\favicon-16x16.png" />
     <Content Include="Content\img\PeaksToPeople\favicon-32x32.png" />
