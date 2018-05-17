@@ -48,11 +48,12 @@ namespace ProjectFirma.Web
 
                 var tenant = Tenant.All.First(p => ctx.Request.Uri.Host.EndsWith(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p), StringComparison.InvariantCultureIgnoreCase));
 
+                var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                 branch.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
                     AuthenticationType = "Cookies",
                     CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager(),
-                    CookieDomain = $".{tenant.TenantDomain}",
+                    CookieDomain = canonicalHostNameForEnvironment,
                     CookieName = $"{tenant.KeystoneOpenIDClientIdentifier}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
                 });
 
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web
                     ClientId = tenant.KeystoneOpenIDClientIdentifier,
                     Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
                     RedirectUri = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn()), // this has to match the keystone client redirect uri
-                    PostLogoutRedirectUri = $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+                    PostLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
                     ResponseType = "id_token token",
                     Scope = "openid all_claims keystone",
                     UseTokenLifetime = false,
