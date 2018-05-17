@@ -1,6 +1,4 @@
-﻿@import url(https://fonts.googleapis.com/css?family=Basic);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
-@import url('https://fonts.googleapis.com/css?family=Archivo');
+﻿@import url('https://fonts.googleapis.com/css?family=Archivo');
 html,
 body {
   height: 100%;
@@ -78,6 +76,20 @@ label,
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
+}
+.homepageCarouselFullWidthColumn {
+  height: 450px;
+}
+.carousel-caption {
+  bottom: 200px;
+}
+.afterHomepageCarousel {
+  background-image: url("/Content/img/PeaksToPeople/bottom-curve.png");
+  background-position: center;
+  background-repeat: round;
+  position: relative;
+  top: -150px;
+  height: 150px;
 }
 .navbar {
   background: #deeffb;

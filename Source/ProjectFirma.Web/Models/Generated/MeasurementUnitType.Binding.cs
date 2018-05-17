@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Models
         public static readonly MeasurementUnitTypeAcreFeet AcreFeet = MeasurementUnitTypeAcreFeet.Instance;
         public static readonly MeasurementUnitTypeGallon Gallon = MeasurementUnitTypeGallon.Instance;
         public static readonly MeasurementUnitTypeCubicYards CubicYards = MeasurementUnitTypeCubicYards.Instance;
+        public static readonly MeasurementUnitTypeMetricTons MetricTons = MeasurementUnitTypeMetricTons.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -48,7 +49,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -140,6 +141,8 @@ namespace ProjectFirma.Web.Models
                     return LinearFeet;
                 case MeasurementUnitTypeEnum.Meters:
                     return Meters;
+                case MeasurementUnitTypeEnum.MetricTons:
+                    return MetricTons;
                 case MeasurementUnitTypeEnum.Miles:
                     return Miles;
                 case MeasurementUnitTypeEnum.MilligamsPerLiter:
@@ -194,7 +197,8 @@ namespace ProjectFirma.Web.Models
         PeriphytonBiomassIndex = 18,
         AcreFeet = 19,
         Gallon = 20,
-        CubicYards = 21
+        CubicYards = 21,
+        MetricTons = 22
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -321,5 +325,11 @@ namespace ProjectFirma.Web.Models
     {
         private MeasurementUnitTypeCubicYards(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypeCubicYards Instance = new MeasurementUnitTypeCubicYards(21, @"CubicYards", @"cubic yards", @"cubic yards", @"Cubic Yard", 0);
+    }
+
+    public partial class MeasurementUnitTypeMetricTons : MeasurementUnitType
+    {
+        private MeasurementUnitTypeMetricTons(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeMetricTons Instance = new MeasurementUnitTypeMetricTons(22, @"MetricTons", @"metric tons", @"metric tons", @"Metric Ton", 0);
     }
 }
