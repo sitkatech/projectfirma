@@ -47,35 +47,7 @@ namespace ProjectFirma.Web.Common
 
         public static Person Person
         {
-            get => GetValueOrDefault(PersonKey, () =>
-            {
-                var principal = GetHttpContextUserThroughOwin();
-                var anonymousSitkaUser = Person.GetAnonymousSitkaUser();
-                if (!principal.Identity.IsAuthenticated)
-                {
-                    return anonymousSitkaUser;
-                }
-
-                // calls to the account provisioning service from keystone are authenticated calls, but not by forms auth tickets.  they come in with the user identity of the
-                // application pool that keystone runs under and have an authentication type of "Kerberos". these particular invokations need to be treated the same way as the
-                // unauthenticated calls over basic bindings - that is they do not map to a MM user and should be considered "anonymous".
-
-                //These are OpenID AuthenticationTypes, WIF ones include "Keberos" and "Federation"
-                if (principal.Identity.AuthenticationType == "JWT" || principal.Identity.AuthenticationType == "Cookies")
-                {
-                    // otherwise remap claims from principal
-                    var keystoneUserClaims = KeystoneClaimsHelpers.ParseOpenIDClaims(principal.Identity);
-                    var user = DatabaseEntities.People.GetPersonByPersonGuid(keystoneUserClaims.UserGuid);
-                    user.SetKeystoneUserClaims(keystoneUserClaims);
-
-                    return user;
-                }
-                return anonymousSitkaUser;
-
-
-                //return KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(),
-                //        Person.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid);
-            });
+            get => GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(), Person.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid));
             set => SetValue(PersonKey, value);
         }
 
