@@ -27,12 +27,13 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
     public class IndexViewData : FirmaViewData
-    {
+    {        
         public IndexGridSpec GridSpec{ get; }
         public string GridName{ get; }
         public string GridDataUrl{ get; }
         public string EditSortOrderUrl { get; }
         public bool OfferEditSortOrder { get; }
+        public bool HasTaxonomyBranchManagePermissions { get; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             // only let them sort tier two taxonomy if that's the highest level.
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
-            var hasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
+            HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson)
             {
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 SaveFiltersInCookie = true
             };
 
-            if (hasTaxonomyBranchManagePermissions)
+            if (HasTaxonomyBranchManagePermissions)
             {
                 GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New()), string.Format("Create a new {0}", taxonomyBranchDisplayName));
             }

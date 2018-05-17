@@ -61,7 +61,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="header">
             
             <div class="headerText">
-                <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" /><a href="@ViewDataTyped.FirmaHomeUrl">@MultiTenantHelpers.GetTenantDisplayName()</a>
+                <a href="@ViewDataTyped.FirmaHomeUrl">
+                    <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" /><span id="headerTenantDisplayName">@MultiTenantHelpers.GetTenantDisplayName()</span>
+                </a>
             </div>
 
             @*<div class="col-sm-6">

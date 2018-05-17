@@ -27,21 +27,22 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
     public class IndexViewData : FirmaViewData
-    {
+    {        
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
-        public string EditSortOrderUrl { get; set; }
+        public string EditSortOrderUrl { get; }
+        public bool HasTaxonomyTrunkManagePermissions { get; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             var taxonomyTrunkPluralized = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyTrunkPluralized;
 
-            var hasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
+            HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
             var taxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
-            if (hasTaxonomyTrunkManagePermissions)
+            if (HasTaxonomyTrunkManagePermissions)
             {
                 GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(t => t.New()), $"Create a new {taxonomyTrunkDisplayName}");
             }

@@ -30,11 +30,10 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
     public static class SortOrderHelper
     {
-        public static HtmlString SortOrderModalLink(string url)
+        public static HtmlString SortOrderModalLink(string url, bool hasPermission)
         {
             return ModalDialogFormHelper.ModalDialogFormLink("Edit Sort Order", url,
-                "Edit sort order", 700, "Save", "Cancel",
-                new List<string> {"btn", "btn-firma"}, null, null);
+                "Edit sort order", new List<string> {"btn", "btn-firma"}, hasPermission);
         }
 
         public static IOrderedEnumerable<T> SortByOrderThenName<T>(this ICollection<T> sortableList) where T : IHaveASortOrder
