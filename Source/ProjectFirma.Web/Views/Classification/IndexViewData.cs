@@ -34,12 +34,14 @@ namespace ProjectFirma.Web.Views.Classification
         public string GridName { get; }
         public string GridDataUrl { get; }
         public string EditSortOrderUrl { get; }
+        public bool HasClassificationManagePermissions { get; }
 
         public IndexViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
 
-            GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem)
+            HasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
+            GridSpec = new IndexGridSpec(HasClassificationManagePermissions, classificationSystem)
             {
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,
                 ObjectNamePlural = classificationSystem.ClassificationSystemNamePluralized,

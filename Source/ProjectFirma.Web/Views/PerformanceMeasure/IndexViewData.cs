@@ -27,11 +27,12 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class IndexViewData : FirmaViewData
-    {
+    {        
         public PerformanceMeasureGridSpec PerformanceMeasureGridSpec{ get; }
         public string PerformanceMeasureGridName{ get; }
         public string PerformanceMeasureGridDataUrl{ get; }
-        public string EditSortOrderUrl { get; set; }
+        public string EditSortOrderUrl { get; }
+        public bool HasPerformanceMeasureManagePermissions { get; }
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -39,13 +40,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
 
-            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec (hasPerformanceMeasureManagePermissions) {
+            HasPerformanceMeasureManagePermissions = hasPerformanceMeasureManagePermissions;
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec (HasPerformanceMeasureManagePermissions) {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true
             };
 
-            if (hasPerformanceMeasureManagePermissions)
+            if (HasPerformanceMeasureManagePermissions)
             {
                 var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
                 PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");

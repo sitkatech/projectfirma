@@ -102,7 +102,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.Any())
                 {
-                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl, ViewDataTyped.UserHasTaxonomyTrunkManagePermissions)</div>
 
                     <table class="summaryLayout">
                         <tr>

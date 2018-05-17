@@ -106,7 +106,7 @@
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyBranch.TaxonomyLeafs.Any())
                 {
-                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl)</div>
+                    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditChildrenSortOrderUrl, ViewDataTyped.UserHasTaxonomyBranchManagePermissions)</div>
 
                     <table class="summaryLayout">
                         <tr>
