@@ -77,6 +77,9 @@ label,
 .header .headerText a:active {
   text-decoration: none;
 }
+#headerTenantDisplayName {
+  display: none;
+}
 .homepageCarouselFullWidthColumn {
   height: 450px;
 }
@@ -85,8 +88,8 @@ label,
 }
 .afterHomepageCarousel {
   background-image: url("/Content/img/PeaksToPeople/bottom-curve.png");
-  background-position: center;
-  background-repeat: round;
+  background-position: left center;
+  background-size: auto 150px;
   position: relative;
   top: -150px;
   height: 150px;
