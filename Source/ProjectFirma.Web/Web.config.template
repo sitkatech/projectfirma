@@ -292,6 +292,16 @@
           </security>
         </binding>
       </basicHttpBinding>
+      <wsHttpBinding>
+        <binding name="WSHttpBinding_IKeystoneData" closeTimeout="00:01:00" openTimeout="00:01:00" receiveTimeout="00:10:00" sendTimeout="00:01:00" bypassProxyOnLocal="false" transactionFlow="false" hostNameComparisonMode="StrongWildcard" maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647" messageEncoding="Text" textEncoding="utf-8" useDefaultWebProxy="true" allowCookies="false">
+          <readerQuotas maxDepth="32" maxStringContentLength="2147483647" maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647"/>
+          <reliableSession ordered="true" inactivityTimeout="00:10:00" enabled="false"/>
+          <security mode="Message">
+            <transport clientCredentialType="Windows" proxyCredentialType="None" realm=""/>
+            <message clientCredentialType="Windows" negotiateServiceCredential="true" algorithmSuite="Default"/>
+          </security>
+        </binding>
+      </wsHttpBinding>
     </bindings>
     <client>
       <endpoint address="${keystone-services-host}/KeystoneData.svc/wsHttpEndpoint" binding="wsHttpBinding" bindingConfiguration="WSHttpBinding_IKeystoneData" contract="KeystoneDataService.IKeystoneData" name="WSHttpBinding_IKeystoneData">
