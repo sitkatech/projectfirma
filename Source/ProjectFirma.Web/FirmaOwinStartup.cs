@@ -134,9 +134,9 @@ namespace ProjectFirma.Web
                 UseTokenLifetime = false,
                 SignInAsAuthenticationType = "Cookies",
                 CallbackPath = new PathString("/Account/LogOn"),
-                ClientId = "SitkaProjectFirma",
-                ClientSecret = "6C0D5ACB-EF45-4081-AFDA-754DA37A87BD", 
-               
+                ClientId = FirmaWebConfiguration.KeystoneOpenIDClientId,
+                ClientSecret = FirmaWebConfiguration.KeystoneOpenIDClientSecret,
+
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     SecurityTokenValidated = n =>
@@ -170,8 +170,6 @@ namespace ProjectFirma.Web
                         var tenant = GetTenantFromUrl(n.Request);
                         var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
 
-                        //n.ProtocolMessage.ClientId = tenant.KeystoneOpenIDClientIdentifier;
-                        //n.ProtocolMessage.ClientSecret = tenant.KeystoneOpenIDClientSecret;
                         n.ProtocolMessage.RedirectUri =
                             $"https://{canonicalHostNameForEnvironment}/Account/LogOn"; // this has to match the keystone client redirect uri
                         n.ProtocolMessage.PostLogoutRedirectUri =

@@ -41,7 +41,7 @@
     <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}" />
     <add key="KeystoneRegisterUrl" value="${keystone-register-endpoint}" />
     <add key="KeystoneOpenIDUrl" value="${keystone-openid-endpoint}" />
-    <add key="KeystoneOpenIDClientId" value="ProjectFirma" />
+    <add key="KeystoneOpenIDClientId" value="SitkaProjectFirma" />
     <add key="KeystoneOpenIDClientSecret" value="6C0D5ACB-EF45-4081-AFDA-754DA37A87BD" />
   </appSettings>
   <system.net>
