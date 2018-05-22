@@ -24,6 +24,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Account;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -76,6 +77,13 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult SignoutCleanup(string sid)
         {
             return Content(string.Empty);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult Landing()
+        {
+            var viewData = new LandingViewData(HttpRequestStorage.Person);
+            return RazorView<Landing, LandingViewData>(viewData);
         }
     }
 }

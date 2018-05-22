@@ -368,6 +368,8 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
     <Compile Include="FirmaOwinStartup.cs" />
+    <Compile Include="Views\Account\Landing.cs" />
+    <Compile Include="Views\Account\LandingViewData.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
@@ -821,6 +823,7 @@
     <Content Include="Views\CustomPage\Index.cshtml" />
     <Content Include="Views\CustomPage\Edit.cshtml" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
+    <Content Include="Views\Account\Landing.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />

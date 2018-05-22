@@ -15,8 +15,8 @@ using LtInfo.Common;
 using LtInfo.Common.Email;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
-using Microsoft.Owin.Builder;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security.Provider;
 using Owin;
@@ -41,89 +41,283 @@ namespace ProjectFirma.Web
         {
             SitkaHttpApplication.Logger.Info("Owin Startup");
 
-            app.Use((ctx, next) =>
+            System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                var branch = app.New();
-                System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
-
-                var tenant = Tenant.All.First(p => ctx.Request.Uri.Host.EndsWith(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p), StringComparison.InvariantCultureIgnoreCase));
-
-                var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
-                branch.UseCookieAuthentication(new CookieAuthenticationOptions
-                {
-                    AuthenticationType = "Cookies",
-                    CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager(),
-                    CookieDomain = canonicalHostNameForEnvironment,
-                    CookieName = $"{tenant.KeystoneOpenIDClientIdentifier}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
-                });
-
-                branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
-                {
-                    ClientId = tenant.KeystoneOpenIDClientIdentifier,
-                    Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
-                    RedirectUri = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn()), // this has to match the keystone client redirect uri
-                    PostLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
-                    ResponseType = "id_token token",
-                    Scope = "openid all_claims keystone",
-                    UseTokenLifetime = false,
-                    SignInAsAuthenticationType = "Cookies",
-                    ClientSecret = tenant.KeystoneOpenIDClientSecret,
-                    CallbackPath = new PathString("/Account/LogOn"),
-
-                    Notifications = new OpenIdConnectAuthenticationNotifications
-                    {
-                        SecurityTokenValidated = n =>
-                        {
-                            var claimsIdentity = n.AuthenticationTicket.Identity;
-                            claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
-
-                            if (n.ProtocolMessage.Code != null)
-                                claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
-
-                            if (n.ProtocolMessage.AccessToken != null)
-                                claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
-
-                            //map name claim to default name type
-                            claimsIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
-
-                            if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
-                            {
-                                KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
-                            }
-
-                            return Task.FromResult(0);
-                        },
-                        RedirectToIdentityProvider = n =>
-                        {
-                            //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
-                            //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
-                            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
-                            {
-                                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
-
-                                if (idTokenHint != null)
-                                {
-                                    n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
-                                }
-                            }
-                            else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
-                            {
-                                var httpContextBase = GetHttpContext(n);
-                                var referrer = httpContextBase.Request.UrlReferrer;
-                                if (referrer != null && referrer.Host == FirmaWebConfiguration.CanonicalHostName)
-                                {
-                                    n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
-                                }
-                            }
-
-
-                            return Task.FromResult(0);
-                        }
-                    }
-                });
-
-                return branch.Build()(ctx.Environment);
+                AuthenticationType = "Cookies",
+                CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager()
             });
+            //var tenant = Tenant.RCDProjectTracker;
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+            //{
+            //    Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
+            //    ResponseType = "id_token token",
+            //    Scope = "openid all_claims keystone",
+            //    UseTokenLifetime = false,
+            //    SignInAsAuthenticationType = "Cookies",
+            //    CallbackPath = new PathString("/Account/LogOn"),
+            //    ClientId = tenant.KeystoneOpenIDClientIdentifier,
+            //    ClientSecret = tenant.KeystoneOpenIDClientSecret,
+            //    RedirectUri =
+            //    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/Account/LogOn", // this has to match the keystone client redirect uri
+            //    PostLogoutRedirectUri =
+            //    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+
+            //Notifications = new OpenIdConnectAuthenticationNotifications
+            //    {
+            //        SecurityTokenReceived = n =>
+            //        {
+
+            //            return Task.FromResult(0);
+            //        },
+
+            //        SecurityTokenValidated = n =>
+            //        {
+            //            HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
+            //            SitkaHttpApplication.Logger.Debug(
+            //                $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
+
+            //            var claimsIdentity = n.AuthenticationTicket.Identity;
+            //            claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+            //            if (n.ProtocolMessage.Code != null)
+            //                claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+
+            //            if (n.ProtocolMessage.AccessToken != null)
+            //                claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+
+            //            //map name claim to default name type
+            //            claimsIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            //                claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
+
+            //            if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
+            //            {
+            //                KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
+            //            }
+
+            //            return Task.FromResult(0);
+            //        },
+            //        RedirectToIdentityProvider = n =>
+            //        {
+            //            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+            //            {
+            //                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+            //                if (idTokenHint != null)
+            //                {
+            //                    n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+            //                }
+            //            }
+            //            else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
+            //            {
+            //                var context = (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
+
+            //                var referrer = context.Request.UrlReferrer;
+            //                if (referrer != null && referrer.Host == FirmaWebConfiguration.CanonicalHostName)
+            //                {
+            //                    n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+            //                }
+            //            }
+
+            //            return Task.FromResult(0);
+            //        }
+            //    }
+            //});
+
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+            {
+                Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
+                ResponseType = "id_token token",
+                Scope = "openid all_claims keystone",
+                UseTokenLifetime = false,
+                SignInAsAuthenticationType = "Cookies",
+                CallbackPath = new PathString("/Account/LogOn"),
+                ClientId = "SitkaProjectFirma",
+                ClientSecret = "6C0D5ACB-EF45-4081-AFDA-754DA37A87BD", 
+               
+                Notifications = new OpenIdConnectAuthenticationNotifications
+                {
+                    SecurityTokenValidated = n =>
+                    {
+                        HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
+                        SitkaHttpApplication.Logger.Debug(
+                            $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
+
+                        var claimsIdentity = n.AuthenticationTicket.Identity;
+                        claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+                        if (n.ProtocolMessage.Code != null)
+                            claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+
+                        if (n.ProtocolMessage.AccessToken != null)
+                            claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+
+                        //map name claim to default name type
+                        claimsIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                            claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
+
+                        if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
+                        {
+                            KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
+                        }
+
+                        return Task.FromResult(0);
+                    },
+                    RedirectToIdentityProvider = n =>
+                    {
+                        var tenant = GetTenantFromUrl(n.Request);
+                        var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
+
+                        //n.ProtocolMessage.ClientId = tenant.KeystoneOpenIDClientIdentifier;
+                        //n.ProtocolMessage.ClientSecret = tenant.KeystoneOpenIDClientSecret;
+                        n.ProtocolMessage.RedirectUri =
+                            $"https://{canonicalHostNameForEnvironment}/Account/LogOn"; // this has to match the keystone client redirect uri
+                        n.ProtocolMessage.PostLogoutRedirectUri =
+                            $"https://{canonicalHostNameForEnvironment}/"; // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+                        n.ProtocolMessage.AcrValues = "tenant:" + canonicalHostNameForEnvironment;
+                        if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                        {
+                            var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+                            if (idTokenHint != null)
+                            {
+                                n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                            }
+                        }
+                        else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
+                        {
+                            var context = (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
+
+                            var referrer = context.Request.UrlReferrer;
+                            if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
+                            {
+                                n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+                            }
+                        }
+
+                        return Task.FromResult(0);
+                    }
+                }
+            });
+
+
+            ////foreach (var tenant in Tenant.All)
+            ////{
+            ////    app.Use((ctx, next) =>
+            ////    {
+            ////        System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap =
+            ////            new Dictionary<string, string>();
+
+            ////        var tenant = Tenant.All.First(p =>
+            ////            ctx.Request.Uri.Host.EndsWith(
+            ////                FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p),
+            ////                StringComparison.InvariantCultureIgnoreCase));
+
+            ////        HttpRequestStorage.Tenant = tenant;
+            ////        SitkaHttpApplication.Logger.Debug($"In App.Use: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {ctx.Request.Uri.ToString()}");
+
+            ////        var canonicalHostNameForEnvironment =
+            ////            FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
+            ////        branch.UseCookieAuthentication(new CookieAuthenticationOptions
+            ////        {
+            ////            AuthenticationType = "Cookies",
+            ////            CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager(),
+            ////            CookieDomain = canonicalHostNameForEnvironment,
+            ////            CookieName =
+            ////                $"{tenant.KeystoneOpenIDClientIdentifier}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
+            ////        });
+
+            ////        branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+            ////        {
+            ////            ClientId = tenant.KeystoneOpenIDClientIdentifier,
+            ////            Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
+            ////            RedirectUri =
+            ////                SitkaRoute<AccountController>
+            ////                    .BuildAbsoluteUrlHttpsFromExpression(c =>
+            ////                        c.LogOn()), // this has to match the keystone client redirect uri
+            ////            PostLogoutRedirectUri =
+            ////                $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+            ////            ResponseType = "id_token token",
+            ////            Scope = "openid all_claims keystone",
+            ////            UseTokenLifetime = false,
+            ////            SignInAsAuthenticationType = "Cookies",
+            ////            ClientSecret = tenant.KeystoneOpenIDClientSecret,
+            ////            CallbackPath = new PathString("/Account/LogOn"),
+
+            ////            Notifications = new OpenIdConnectAuthenticationNotifications
+            ////            {
+            ////                SecurityTokenValidated = n =>
+            ////                {
+            ////                    HttpRequestStorage.Tenant = Tenant.All.First(p =>
+            ////                        ctx.Request.Uri.Host.EndsWith(
+            ////                            FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p),
+            ////                            StringComparison.InvariantCultureIgnoreCase));
+
+            ////                    SitkaHttpApplication.Logger.Debug($"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {ctx.Request.Uri.ToString()}");
+
+            ////                    var claimsIdentity = n.AuthenticationTicket.Identity;
+            ////                    claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+            ////                    if (n.ProtocolMessage.Code != null)
+            ////                        claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+
+            ////                    if (n.ProtocolMessage.AccessToken != null)
+            ////                        claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+
+            ////                    //map name claim to default name type
+            ////                    claimsIdentity.AddClaim(new Claim(
+            ////                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            ////                        claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
+
+            ////                    if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
+            ////                    {
+            ////                        KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
+            ////                    }
+
+            ////                    return Task.FromResult(0);
+            ////                },
+            ////                RedirectToIdentityProvider = n =>
+            ////                {
+            ////                    //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
+            ////                    //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
+            ////                    if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+            ////                    {
+            ////                        var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+            ////                        if (idTokenHint != null)
+            ////                        {
+            ////                            n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+            ////                        }
+            ////                    }
+            ////                    else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
+            ////                    {
+            ////                        var httpContextBase = GetHttpContext(n);
+            ////                        var referrer = httpContextBase.Request.UrlReferrer;
+            ////                        if (referrer != null && referrer.Host == FirmaWebConfiguration.CanonicalHostName)
+            ////                        {
+            ////                            n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+            ////                        }
+            ////                    }
+
+            ////                    return Task.FromResult(0);
+            ////                }
+            ////            }
+            ////        });
+
+            ////        return branch.Build()(ctx.Environment);
+            ////    });
+
+            //}
+        }
+
+        private static Tenant GetTenantFromUrl(IOwinRequest owinRequest)
+        {
+            return Tenant.All.First(p =>
+                owinRequest.Uri.Host.EndsWith(
+                    FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p),
+                    StringComparison.InvariantCultureIgnoreCase));
         }
 
         private static HttpContextBase GetHttpContext(BaseContext<OpenIdConnectAuthenticationOptions> n)
@@ -131,9 +325,9 @@ namespace ProjectFirma.Web
             return (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
         }
 
-        public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity)
+        private static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity)
         {
-            SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'", userIdentity.Name, userIdentity.IsAuthenticated);
+            SitkaHttpApplication.Logger.Debug($"In SyncLocalAccountStore - User '{userIdentity.Name} ({keystoneUserClaims.UserGuid})' for TenantID {HttpRequestStorage.Tenant.TenantID}, Authenticated = '{userIdentity.IsAuthenticated}'");
 
             var sendNewUserNotification = false;
             var sendNewOrganizationNotification = false;
@@ -142,7 +336,7 @@ namespace ProjectFirma.Web
             if (person == null)
             {
                 // new user - provision with limited role
-                SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - creating local profile for User '{0}'", keystoneUserClaims.UserGuid);
+                SitkaHttpApplication.Logger.Debug($"In SyncLocalAccountStore - creating local profile for User '{userIdentity.Name} ({keystoneUserClaims.UserGuid})' for TenantID {HttpRequestStorage.Tenant.TenantID}");
                 var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
                 person = new Person(keystoneUserClaims.UserGuid,
                     keystoneUserClaims.FirstName,
@@ -160,7 +354,7 @@ namespace ProjectFirma.Web
             else
             {
                 // existing user - sync values
-                SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - syncing local profile for User '{0}'", keystoneUserClaims.UserGuid);
+                SitkaHttpApplication.Logger.Debug($"In SyncLocalAccountStore - syncing local profile for User '{userIdentity.Name} ({keystoneUserClaims.UserGuid})' for TenantID {HttpRequestStorage.Tenant.TenantID}");
             }
 
             person.FirstName = keystoneUserClaims.FirstName;

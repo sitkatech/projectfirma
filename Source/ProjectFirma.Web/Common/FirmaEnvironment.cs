@@ -69,6 +69,21 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        private class FirmaEnvironmentQa : FirmaEnvironment
+        {
+            // Not OK in QA, no unit testing here
+            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
+
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
+            public override string DomainPrefix => "qa";
+
+            public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
+            {
+                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
+                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
+                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+            }
+        }
 
         private class FirmaEnvironmentProd : FirmaEnvironment
         {
@@ -82,22 +97,6 @@ namespace ProjectFirma.Web.Common
             {
                 var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
                 var environmentPrefix = string.IsNullOrWhiteSpace(subdomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
-            }
-        }
-
-        private class FirmaEnvironmentQa : FirmaEnvironment
-        {
-            // Not OK in QA, no unit testing here
-            public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
-
-            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
-            public override string DomainPrefix => "qa";
-
-            public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
-            {
-                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
                 return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
             }
         }

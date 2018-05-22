@@ -101,7 +101,6 @@ namespace ProjectFirma.Web
             UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
             RedirectToCanonicalHostnameIfNeeded();
             Response.TrySkipIisCustomErrors = true;
-
         }
 
         /// <summary>

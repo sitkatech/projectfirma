@@ -43,14 +43,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected Tenant(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret)
+        protected Tenant(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain)
         {
             TenantID = tenantID;
             TenantName = tenantName;
             TenantDomain = tenantDomain;
             TenantSubdomain = tenantSubdomain;
-            KeystoneOpenIDClientIdentifier = keystoneOpenIDClientIdentifier;
-            KeystoneOpenIDClientSecret = keystoneOpenIDClientSecret;
         }
 
         [Key]
@@ -58,8 +56,6 @@ namespace ProjectFirma.Web.Models
         public string TenantName { get; private set; }
         public string TenantDomain { get; private set; }
         public string TenantSubdomain { get; private set; }
-        public string KeystoneOpenIDClientIdentifier { get; private set; }
-        public string KeystoneOpenIDClientSecret { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantID; } }
 
@@ -151,55 +147,55 @@ namespace ProjectFirma.Web.Models
 
     public partial class TenantSitkaTechnologyGroup : Tenant
     {
-        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"projectfirma.com", @"sitka", @"SitkaProjectFirma", @"6C0D5ACB-EF45-4081-AFDA-754DA37A87BD");
+        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"projectfirma.com", @"sitka");
     }
 
     public partial class TenantClackamasPartnership : Tenant
     {
-        private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org", null, @"ClackamasPartnership", @"2F404371-D118-4C17-9F5E-C94713CAA1FB");
+        private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org", null);
     }
 
     public partial class TenantRCDProjectTracker : Tenant
     {
-        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org", null, @"RCDProjectTracker", @"1C2E2422-2376-4F83-B75B-7DA2A4B3A106");
+        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org", null);
     }
 
     public partial class TenantInternationYearOfTheSalmon : Tenant
     {
-        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"projectfirma.com", @"iysdemo", @"InternationYearOfTheSalmon", @"D3BAE523-0D42-471B-BBDD-54342AF22E54");
+        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"projectfirma.com", @"iysdemo");
     }
 
     public partial class TenantDemoProjectFirma : Tenant
     {
-        private TenantDemoProjectFirma(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"projectfirma.com", @"demo", @"DemoProjectFirma", @"4A6D4335-4925-4BAF-A0A1-BB87E2C44096");
+        private TenantDemoProjectFirma(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"projectfirma.com", @"demo");
     }
 
     public partial class TenantPeaksToPeople : Tenant
     {
-        private TenantPeaksToPeople(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"projectfirma.com", @"peakstopeople", @"PeaksToPeople", @"A187BEF6-EE69-4113-9FBE-7CB1B39463D2");
+        private TenantPeaksToPeople(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"projectfirma.com", @"peakstopeople");
     }
 
     public partial class TenantJohnDayPartnership : Tenant
     {
-        private TenantJohnDayPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"projectfirma.com", @"johndaydemo", @"JohnDayPartnership", @"6237EFB8-D605-47E1-9719-8D1CD1FEDA60");
+        private TenantJohnDayPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"projectfirma.com", @"johndaydemo");
     }
 
     public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
     {
-        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"projectfirma.com", @"ashlanddemo", @"AshlandForestAllLandsRestorationInitiative", @"0A6AA4FC-A29A-44FA-8F61-F064D31BB5EE");
+        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"projectfirma.com", @"ashlanddemo");
     }
 
     public partial class TenantIdahoAssociatonOfSoilConservationDistricts : Tenant
     {
-        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : base(tenantID, tenantName, tenantDomain, tenantSubdomain, keystoneOpenIDClientIdentifier, keystoneOpenIDClientSecret) {}
-        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"projectfirma.com", @"swcdemo", @"IdahoAssociatonOfSoilConservationDistricts", @"ABC8A0C7-EFDC-4DD8-9540-33C926ECC804");
+        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
+        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"projectfirma.com", @"swcdemo");
     }
 }

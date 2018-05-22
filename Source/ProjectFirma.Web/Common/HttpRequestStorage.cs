@@ -26,6 +26,7 @@ using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Models;
 using Keystone.Common.OpenID;
+using log4net;
 using LtInfo.Common.DesignByContract;
 using Person = ProjectFirma.Web.Models.Person;
 
@@ -33,6 +34,8 @@ namespace ProjectFirma.Web.Common
 {
     public class HttpRequestStorage : SitkaHttpRequestStorage
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(HttpRequestStorage));
+
         static HttpRequestStorage()
         {
             LtInfoEntityTypeLoaderFactoryFunction = () => MakeNewContext(false);
@@ -59,19 +62,18 @@ namespace ProjectFirma.Web.Common
                     () =>
                     {
                         var httpContext = HttpContext.Current;
-                        if (httpContext != null)
+                        if (httpContext == null)
                         {
-                            var urlHost = httpContext.Request.Url.Host;
-                            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
-                            Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
-                            return tenant;
-                        }
-                        else
-                        {
+                            Logger.Warn($"HttpContext.Current is null, can't determine tenant from HttpContext.Current.Request.Url. Using default tenant {nameof(Tenant.SitkaTechnologyGroup.TenantID)}: {Tenant.SitkaTechnologyGroup.TenantID}");
                             return Tenant.SitkaTechnologyGroup;
                         }
+                        var urlHost = httpContext.Request.Url.Host;
+                        var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+                        Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
+                        return tenant;
                     });
             }
+            set => SetValue(TenantKey, value);
         }
 
         public static DatabaseEntities DatabaseEntities => (DatabaseEntities) LtInfoEntityTypeLoader;
