@@ -47,7 +47,8 @@ namespace ProjectFirma.Web
                 var branch = app.New();
                 System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
-                var tenant = Tenant.All.First(p => ctx.Request.Uri.Host.EndsWith(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(p), StringComparison.InvariantCultureIgnoreCase));
+                var tenant = GetTenantFromUrl(ctx.Request);
+                HttpRequestStorage.Tenant = tenant;
 
                 branch.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
@@ -67,10 +68,8 @@ namespace ProjectFirma.Web
                     CallbackPath = new PathString("/Account/LogOn"),
                     ClientId = tenant.KeystoneOpenIDClientIdentifier,
                     ClientSecret = tenant.KeystoneOpenIDClientSecret,
-                    RedirectUri =
-                    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/Account/LogOn", // this has to match the keystone client redirect uri
-                    PostLogoutRedirectUri =
-                    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+                    RedirectUri = $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/Account/LogOn", // this has to match the keystone client redirect uri
+                    PostLogoutRedirectUri = $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
 
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
