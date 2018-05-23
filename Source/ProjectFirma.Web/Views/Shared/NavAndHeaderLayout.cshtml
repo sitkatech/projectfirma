@@ -139,28 +139,28 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                @if (Request.IsAuthenticated)
-                                {
-                                    <p class="navbar-text">
-                                        Welcome
-                                        <a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">@ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
-                                    </p>
-                                }
-
-                            </li>
-                            @ViewDataTyped.HelpMenu.RenderMenu()
-                            <li>
-                                @if (Request.IsAuthenticated)
-                                {
-                                    <a href="@ViewDataTyped.LogOutUrl" title="Log Out">Log Out</a>
-                                }
-                                else
-                                {
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentPerson.FullNameFirstLast</span>
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">View Account</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
                                     <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
-                                }
-                            </li>
-                        </ul>
+                                </li>
+                            }
+                            @ViewDataTyped.HelpMenu.RenderMenu()
+                        </ul>                                                
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>

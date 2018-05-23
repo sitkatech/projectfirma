@@ -101,9 +101,12 @@ namespace ProjectFirma.Web.Views
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
 
             HelpMenu = new LtInfoMenuItem("Help");
-            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Request Support", ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).ToString()));
-            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentPerson, "Training"));
-            HelpMenu.AddMenuItem(new LtInfoMenuItem(@"http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/", "About ProjectFirma", true, false, null));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Request Support",
+                ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800,
+                    "Submit Request", "Cancel", new List<string>(), null, null).ToString(), "ToolHelp"));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentPerson, "Training", "ToolHelp"));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("About ProjectFirma",
+                @"<a href='http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/' target='_blank'>About ProjectFirma <span class='glyphicon glyphicon-new-window'></span></a>", "ExternalHelp"));
         }
 
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)

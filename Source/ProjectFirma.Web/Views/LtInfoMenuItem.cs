@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,6 +36,14 @@ namespace ProjectFirma.Web.Views
     {
         private const string Indent = "    ";
         public List<string> ExtraTopLevelMenuCssClasses = new List<string>();
+
+        public readonly string MenuGroupName;
+        public readonly string MenuItemName;
+        public readonly string UrlString;
+        public readonly bool ShouldShow;
+        public readonly bool IsTopLevelMenuItem;
+        public readonly List<LtInfoMenuItem> ChildMenus;
+        public readonly string RawString;
 
         /// <summary>
         /// Make a ProjectFirmaMenuItem from a route. A feature is required on the Route and will be used to check access for the menu item.
@@ -71,7 +81,11 @@ namespace ProjectFirma.Web.Views
 
         public static LtInfoMenuItem MakeItem(string menuItemName, string rawstring)
         {
-            return new LtInfoMenuItem(menuItemName, rawstring);
+            return MakeItem(menuItemName, rawstring, String.Empty);
+        }
+        public static LtInfoMenuItem MakeItem(string menuItemName, string rawstring, string menuGroupName)
+        {
+            return new LtInfoMenuItem(menuItemName, rawstring, menuGroupName);
         }
 
         /// <summary>
@@ -173,20 +187,13 @@ namespace ProjectFirma.Web.Views
         {
             return string.Format("{0}<li class=\"divider\"></li>", indent);
         }
-
-        public readonly string MenuGroupName;
-        public readonly string MenuItemName;
-        public readonly string UrlString;
-        public readonly bool ShouldShow;
-        public readonly bool IsTopLevelMenuItem;
-        public readonly List<LtInfoMenuItem> ChildMenus;
-        public readonly string RawString;
-
-        private LtInfoMenuItem(string menuItemName, string rawstring)
+        
+        private LtInfoMenuItem(string menuItemName, string rawstring, string menuGroupName)
         {
             MenuItemName = menuItemName;
             RawString = rawstring;
             ShouldShow = true;
+            MenuGroupName = menuGroupName;
         }
     }
 }
