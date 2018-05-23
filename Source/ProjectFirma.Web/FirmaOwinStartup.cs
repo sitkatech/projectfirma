@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Builder;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security.Provider;
 using Owin;
@@ -49,13 +48,12 @@ namespace ProjectFirma.Web
 
                 var tenant = GetTenantFromUrl(ctx.Request);
                 HttpRequestStorage.Tenant = tenant;
+                var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
 
                 branch.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
                     AuthenticationType = "Cookies",
-                    CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager(),
-                    CookieDomain = $".{tenant.TenantDomain}",
-                    CookieName = $"{tenant.KeystoneOpenIDClientIdentifier}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
+                    CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager()
                 });
 
                 branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
@@ -68,8 +66,8 @@ namespace ProjectFirma.Web
                     CallbackPath = new PathString("/Account/LogOn"),
                     ClientId = tenant.KeystoneOpenIDClientIdentifier,
                     ClientSecret = tenant.KeystoneOpenIDClientSecret,
-                    RedirectUri = $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/Account/LogOn", // this has to match the keystone client redirect uri
-                    PostLogoutRedirectUri = $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+                    RedirectUri = $"https://{canonicalHostNameForEnvironment}/Account/LogOn", // this has to match the keystone client redirect uri
+                    PostLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
 
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
@@ -115,7 +113,7 @@ namespace ProjectFirma.Web
                                 var context = (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
 
                                 var referrer = context.Request.UrlReferrer;
-                                if (referrer != null && referrer.Host == FirmaWebConfiguration.CanonicalHostName)
+                                if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
                                 {
                                     n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
                                 }
@@ -128,21 +126,39 @@ namespace ProjectFirma.Web
 
                 return branch.Build()(ctx.Environment);
             });
-
+            //System.IdentityModel.Tokens.JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AuthenticationType = "Cookies",
+            //    CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebChunkingCookieManager()
+            //});
 
             //app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
-            //{
+            //{                
             //    Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
             //    ResponseType = "id_token token",
             //    Scope = "openid all_claims keystone",
             //    UseTokenLifetime = false,
             //    SignInAsAuthenticationType = "Cookies",
-            //    CallbackPath = new PathString("/Account/LogOn"),
-            //    ClientId = FirmaWebConfiguration.KeystoneOpenIDClientId,
-            //    ClientSecret = FirmaWebConfiguration.KeystoneOpenIDClientSecret,
 
             //    Notifications = new OpenIdConnectAuthenticationNotifications
             //    {
+            //        AuthenticationFailed = n =>
+            //        {
+            //            return Task.FromResult(0);
+            //        },
+            //        MessageReceived = n =>
+            //        {
+            //            return Task.FromResult(0);
+            //        },
+            //        AuthorizationCodeReceived = n =>
+            //        {
+            //            return Task.FromResult(0);
+            //        },
+            //        SecurityTokenReceived = n =>
+            //        {
+            //            return Task.FromResult(0);
+            //        },
             //        SecurityTokenValidated = n =>
             //        {
             //            HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
@@ -174,11 +190,10 @@ namespace ProjectFirma.Web
             //            var tenant = GetTenantFromUrl(n.Request);
             //            var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
 
-            //            n.ProtocolMessage.RedirectUri =
-            //                $"https://{canonicalHostNameForEnvironment}/Account/LogOn"; // this has to match the keystone client redirect uri
-            //            n.ProtocolMessage.PostLogoutRedirectUri =
-            //                $"https://{canonicalHostNameForEnvironment}/"; // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
-            //            n.ProtocolMessage.AcrValues = "tenant:" + canonicalHostNameForEnvironment;
+            //            n.ProtocolMessage.ClientId = tenant.KeystoneOpenIDClientIdentifier;
+            //            n.ProtocolMessage.ClientSecret = tenant.KeystoneOpenIDClientSecret;
+            //            n.ProtocolMessage.RedirectUri = $"https://{canonicalHostNameForEnvironment}/Account/LogOn"; // this has to match the keystone client redirect uri
+            //            n.ProtocolMessage.PostLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/"; // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
             //            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
             //            {
             //                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
