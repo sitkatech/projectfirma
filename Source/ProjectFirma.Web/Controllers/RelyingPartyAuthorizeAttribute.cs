@@ -19,9 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
+using Keystone.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
@@ -35,8 +37,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var attributeType = typeof(AnonymousUnclassifiedFeature);
             var skipAuthorization = filterContext.ActionDescriptor.IsDefined(attributeType, true)
-                                    || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(attributeType,
-                                        true);
+                                    || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(attributeType, true);
 
             if (!skipAuthorization)
             {
@@ -44,7 +45,15 @@ namespace ProjectFirma.Web.Controllers
                 var firmaBaseFeatureAttribute = filterContext.ActionDescriptor.GetCustomAttributes(firmaBaseFeatureType, true).SingleOrDefault();
                 if (firmaBaseFeatureAttribute != null && ((FirmaBaseFeature) firmaBaseFeatureAttribute).GrantedRoles.Any())
                 {
-                    base.OnAuthorization(filterContext);
+
+                    if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        AuthenticateUser(filterContext);
+                    }
+                    else
+                    {
+                        base.OnAuthorization(filterContext);
+                    }
                 }
             }
             else
@@ -56,6 +65,21 @@ namespace ProjectFirma.Web.Controllers
                         $"http://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(defaultTenant)}";
                     filterContext.Result = new RedirectResult(writeQueryString);
                 }
+            }
+        }
+
+        // use FAM to redirect to STS to initiate SSO - parameters come via <microsoft.identityModel> section in config
+        protected void AuthenticateUser(AuthorizationContext filterContext)
+        {
+            var requestContext = filterContext.RequestContext;
+            if (requestContext.HttpContext.Request.IsAjaxRequest())
+            {
+                filterContext.Result = new ContentResult() {Content = "<!-- This is the SitkaIfInPartialPageRedirectToLoginPage (marker for Javascript ajax login redirect handling) -->"};
+            }
+            else
+            {
+                var writeQueryString = KeystoneUtilities.GetSignInRedirectUrlWithReturnUrl(requestContext, SitkaRoute<AccountController>.BuildUrlFromExpression(x => x.LogOn()), HttpContext.Current.Request.Url.ToString());
+                filterContext.Result = new RedirectResult(writeQueryString);                
             }
         }
     }

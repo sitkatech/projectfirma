@@ -7,8 +7,6 @@ CREATE TABLE [dbo].[Tenant](
 	[TenantName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TenantDomain] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TenantSubdomain] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[KeystoneOpenIDClientIdentifier] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[KeystoneOpenIDClientSecret] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Tenant_TenantID] PRIMARY KEY CLUSTERED 
 (
 	[TenantID] ASC

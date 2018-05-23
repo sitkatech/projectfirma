@@ -7,11 +7,16 @@ using ProjectFirma.Web.Common;
 using FluentValidation.Mvc;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
+using Keystone.Common;
 using log4net.Config;
 using LtInfo.Common.LoggingFilters;
 using LtInfo.Common.Mvc;
+using Microsoft.IdentityModel.Web;
+using Microsoft.IdentityModel.Web.Configuration;
+using ProjectFirma.Web.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 using SitkaRouteTableEntry = ProjectFirma.Web.Common.SitkaRouteTableEntry;
+using System.Web;
 
 namespace ProjectFirma.Web
 {
@@ -32,9 +37,9 @@ namespace ProjectFirma.Web
             var defaultRoutes =
                 AreasDictionary.Select(
                     keyValuePair =>
-                        new SitkaRouteTableEntry($"{keyValuePair.Key}_Default",
+                        new SitkaRouteTableEntry(string.Format("{0}_Default", keyValuePair.Key),
                             String.Empty,
-                            $"ProjectFirma.Web{(!string.IsNullOrWhiteSpace(keyValuePair.Key) ? $".Areas.{keyValuePair.Key}" : string.Empty)}.Controllers",
+                            string.Format("ProjectFirma.Web{0}.Controllers", !string.IsNullOrWhiteSpace(keyValuePair.Key) ? string.Format(".Areas.{0}", keyValuePair.Key) : string.Empty),
                             SitkaController.DefaultController,
                             SitkaController.DefaultAction,
                             keyValuePair.Key,
@@ -71,7 +76,23 @@ namespace ProjectFirma.Web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
+
+            FederatedAuthentication.ServiceConfigurationCreated += FederatedAuthentication_ServiceConfigurationCreated;
         }
+
+        // ReSharper disable InconsistentNaming
+        protected static void FederatedAuthentication_ServiceConfigurationCreated(object sender, ServiceConfigurationCreatedEventArgs e)
+        // ReSharper restore InconsistentNaming
+        {
+            foreach (var tenant in Tenant.All.OrderBy(x => x.TenantID))
+            {
+                e.ServiceConfiguration.AudienceRestriction.AllowedAudienceUris.Add(new Uri(
+                    $"https://{FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant)}"));
+            }
+            var sessionHandler = new KeystoneSessionSecurityTokenHandler();
+            e.ServiceConfiguration.SecurityTokenHandlers.AddOrReplace(sessionHandler);
+        }
+
 
         // ReSharper disable InconsistentNaming
         protected void Session_Start(object sender, EventArgs e)
@@ -94,6 +115,8 @@ namespace ProjectFirma.Web
         protected void Application_BeginRequest(object sender, EventArgs e)
         // ReSharper restore InconsistentNaming
         {
+            KeystoneUtilities.SignOutOnBadCookie(Request, Response);
+
             // Call this in Application_BeginRequest because later on it can be too late to be mucking with the Response HTTP Headers
             AddCachingHeaders(Response, Request, SitkaWebConfiguration.CacheStaticContentTimeSpan);
 
@@ -101,6 +124,7 @@ namespace ProjectFirma.Web
             UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
             RedirectToCanonicalHostnameIfNeeded();
             Response.TrySkipIisCustomErrors = true;
+
         }
 
         /// <summary>
@@ -141,7 +165,6 @@ namespace ProjectFirma.Web
         {
             // Require SSL from this point forward
             filters.Add(new RequireHttpsAttribute());
-            filters.Add(new OpenIDFirmaAuthorizeAttribute());
         }
 
         public override string ErrorUrl
@@ -154,8 +177,14 @@ namespace ProjectFirma.Web
             get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound()); }
         }
 
-        public override string ErrorHtml => "<h2>Aw Shucks!</h2><p>An error has occurred.   The development staff has been notified and will be working to fix this problem in a jiffy!</p>";
+        public override string ErrorHtml
+        {
+            get { return "<h2>Aw Shucks!</h2><p>An error has occurred.   The development staff has been notified and will be working to fix this problem in a jiffy!</p>"; }
+        }
 
-        public override string NotFoundHtml => "<h2>Aw Shucks!</h2><p>Sorry, the page or item you requested does not exist.</p>";
+        public override string NotFoundHtml
+        {
+            get { return "<h2>Aw Shucks!</h2><p>Sorry, the page or item you requested does not exist.</p>"; }
+        }
     }
 }

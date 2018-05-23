@@ -18,32 +18,36 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Keystone.Common.OpenID;
-using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Models;
+using Keystone.Common;
 
 namespace ProjectFirma.Web.Security
 {
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public abstract class FirmaBaseFeature : RelyingPartyAuthorizeAttribute
     {
-        public IList<IRole> GrantedRoles { get; }
+        private readonly IList<IRole> _grantedRoles;
+
+        public IList<IRole> GrantedRoles => _grantedRoles;
 
         protected FirmaBaseFeature(IList<IRole> grantedRoles) // params
         {
             // Force user to pass us empty lists to make life simpler
             Check.RequireNotNull(grantedRoles, "Can\'t pass null for Granted Roles.");
 
-            GrantedRoles = grantedRoles;
+            // At least one of these must be set
+            //Check.Ensure(grantedRoles.Any(), "Must set at least one Role");
+
+            _grantedRoles = grantedRoles;
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
@@ -51,7 +55,7 @@ namespace ProjectFirma.Web.Security
             Roles = CalculateRoleNameStringFromFeature();
 
             // MR #321 - force reload of user roles onto IClaimsIdentity
-            KeystoneOpenIDUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
+            KeystoneUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
@@ -70,11 +74,11 @@ namespace ProjectFirma.Web.Security
             {
                 return false;
             }
-            if (!GrantedRoles.Any()) // AnonymousUnclassifiedFeature case
+            if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
             {
                 return true; 
             }
-            return person != null && GrantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+            return person != null && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -84,9 +88,10 @@ namespace ProjectFirma.Web.Security
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
+            var redirectToLogin = new RedirectResult(FirmaHelpers.GenerateLogInUrlWithReturnUrl());
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                filterContext.Result = new RedirectResult(FirmaHelpers.GenerateLogInUrlWithReturnUrl());
+                filterContext.Result = redirectToLogin;
                 return;
             }
             throw new SitkaRecordNotAuthorizedException($"You are not authorized for feature \"{FeatureName}\". Log out and log in as a different user or request additional permissions.");
