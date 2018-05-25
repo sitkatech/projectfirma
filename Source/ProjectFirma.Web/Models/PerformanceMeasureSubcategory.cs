@@ -57,13 +57,22 @@ namespace ProjectFirma.Web.Models
                 var chartColumns = performanceMeasure.HasRealSubcategories ? subcategoryOptions : new List<string> { performanceMeasure.ChartTitle };
                 var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.ChartTitle;
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
-                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
+                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
+                    x.SaveChartConfiguration(performanceMeasure,
+                        performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
+                var resetConfigurationUrl =
+                    SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
+                        x.ResetChartConfiguration(performanceMeasure,
+                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
                 var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
                 if (performanceMeasureSubcategory.PerformanceMeasure.CanCalculateTotal && !performanceMeasure.SwapChartAxes)
                 {
                     chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                 }
-                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, performanceMeasureSubcategory.GoogleChartType, googleChartDataTable, saveConfigurationUrl, chartColumns);
+                
+                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration,
+                    performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
+                    chartColumns, saveConfigurationUrl, resetConfigurationUrl);
                 googleChartJsons.Add(googleChartJson);
             }
             return googleChartJsons;

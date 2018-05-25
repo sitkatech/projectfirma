@@ -39,10 +39,10 @@ namespace ProjectFirma.Web.Views.Shared
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
-            var perfomanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
+            var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             var googleChartType = ConverChartTypeStringToGoogleChartType();
-            perfomanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : (int?)null;
-            perfomanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
+            performanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : (int?)null;
+            performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
         }
 
         public string CleanAndSerializeChartJsonString(string json)

@@ -101,7 +101,8 @@ namespace ProjectFirma.Web.Models
                 googleChartDataTable,
                 new GoogleChartAxis("Year", null, null),
                 new List<GoogleChartAxis> { googleChartAxis });
-            var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration, googleChartType, googleChartDataTable, string.Empty, null);
+            var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration,
+                googleChartType, googleChartDataTable, null);
             return googleChart;
         }
 

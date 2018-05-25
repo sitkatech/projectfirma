@@ -266,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
                 MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType,
                 googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
-                googleChartType, googleChartDataTable, null, null);
+                googleChartType, googleChartDataTable, null);
             var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
@@ -286,8 +286,9 @@ namespace ProjectFirma.Web.Controllers
             var googleChartType = GoogleChartType.PieChart;
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitTypeEnum.Dollars,
                 fundingSourceRequestAmountGooglePieChartSlices, googleChartType, googleChartDataTable) {PieSliceText = "value"};
-            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration, googleChartType,
-                googleChartDataTable, null, null);
+            var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
+                googleChartType,
+                googleChartDataTable, null);
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);

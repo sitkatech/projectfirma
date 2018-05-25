@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             // Avoid scrolling the legend if it can be displayed on two lines
             performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
             {
-                if (x.GoogleChartConfiguration.Legend.MaxLines == null)
+                if (x.GoogleChartConfiguration.Legend != null && x.GoogleChartConfiguration.Legend.MaxLines == null)
                 {
                     x.GoogleChartConfiguration.Legend.MaxLines = 2;
                 }
@@ -212,6 +212,46 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
         }
 
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(performanceMeasure.PerformanceMeasureID);
+            return ViewResetChartConfiguration(performanceMeasure, viewModel);
+        }
+
+        private PartialViewResult ViewResetChartConfiguration(PerformanceMeasure performanceMeasure, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage = $"Are you sure you want to reset the chart configuration to the default?";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, ConfirmDialogFormViewModel viewModel)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                SetErrorForDisplay("Error resetting chart configuration.");
+                return ViewResetChartConfiguration(performanceMeasure, viewModel);
+            }
+
+            var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
+            var defaultSubcategoryChartConfigurationJson =
+                DefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            performanceMeasureSubcategory.ChartConfigurationJson =
+                JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+            performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+
+            return new ModalDialogFormJsonResult();
+        }
+
+
         [PerformanceMeasureViewFeature]
         public PartialViewResult DefinitionAndGuidance(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
@@ -268,11 +308,8 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty, false, false);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
-            var googleChartType = GoogleChartType.ColumnChart;
-            var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = googleChartType.GoogleChartTypeID };
-            var googleChartAxisHorizontal = new GoogleChartAxis("Date", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxisVerticals = new List<GoogleChartAxis>();
-            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal, googleChartAxisVerticals);
+            var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
+            var defaultSubcategoryChartConfigurationJson = DefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
             defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
 
@@ -281,6 +318,19 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"New {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.GetDisplayNameAsUrl()}' successfully created!");
             return new ModalDialogFormJsonResult();
+        }
+
+        private static GoogleChartConfiguration DefaultPerformanceMeasureChartConfigurationJson(
+            PerformanceMeasure performanceMeasure)
+        {
+            var googleChartType = GoogleChartType.ColumnChart;
+            var googleChartAxisHorizontal =
+                new GoogleChartAxis("Date", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
+                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
+                googleChartAxisVerticals);
+            return defaultSubcategoryChartConfigurationJson;
         }
 
         [HttpGet]

@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Views.Shared
         public GoogleChartDataTable GoogleChartDataTable { get; set; }
 
         public string SaveConfigurationUrl { get; set; }
+        public string OptionalResetConfigurationUrl { get; set; }
 
         public List<string> ChartColumns { get; set; }
 
@@ -55,13 +56,15 @@ namespace ProjectFirma.Web.Views.Shared
         }
 
         //Used where chartConfiguration comes as a GoogleChartConfiguration object
+        //Use this constructor when the chart is not configurable - currently only PM charts
         public GoogleChartJson(string legendTitle,
             string chartContainerID,
             GoogleChartConfiguration googleChartConfiguration,
             GoogleChartType googleChartType,
             GoogleChartDataTable googleChartDataTable,
+            List<string> chartColumns,
             string optionalSaveConfigurationUrl,
-            List<string> chartColumns)
+            string optionalResetConfigurationUrl)
         {
             LegendTitle = legendTitle;
             ChartContainerID = chartContainerID;
@@ -71,6 +74,18 @@ namespace ProjectFirma.Web.Views.Shared
             ChartType = googleChartType.GoogleChartTypeDisplayName;
             GoogleChartDataTable = googleChartDataTable;
             SaveConfigurationUrl = optionalSaveConfigurationUrl;
+            OptionalResetConfigurationUrl = optionalResetConfigurationUrl;
+        }
+
+        //Use this constructor when the chart display is not user-configurable
+        public GoogleChartJson(string legendTitle,
+            string chartContainerID,
+            GoogleChartConfiguration googleChartConfiguration,
+            GoogleChartType googleChartType,
+            GoogleChartDataTable googleChartDataTable,
+            List<string> chartColumns) : this(legendTitle, chartContainerID, googleChartConfiguration, googleChartType,
+            googleChartDataTable, chartColumns, null, null)
+        {
         }
 
         public static string GetFormattedValue(double? value, MeasurementUnitType measurementUnitType)

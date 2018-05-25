@@ -21,6 +21,7 @@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Converters
@@ -120,6 +121,12 @@
                                     </a>
                                 </li>
                             }
+                            @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.OptionalResetConfigurationUrl))
+                            {
+                                <li>
+                                    @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-refresh' style='margin-right: 5px'></span>Reset Chart", @googleChartJson.OptionalResetConfigurationUrl, "Reset Chart Configuration?", 600, "Reset", "Cancel", null, null, null)
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -169,3 +176,4 @@
         jQuery(window).resize(function() { GoogleCharts.drawCharts(googleCharts); });
     });
 </script>
+    
