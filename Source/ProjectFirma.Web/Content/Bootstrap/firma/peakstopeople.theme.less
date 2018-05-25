@@ -150,13 +150,22 @@ label, .modal-title {
 #headerTenantDisplayName {
     display: none;
 }
+
 .homepageCarouselFullWidthColumn {
     height: 450px;
+
+    .main-text h1 {
+        color: #9cdbf8;
+        font-size: 48px;
+    }
+
+    .carousel-caption {
+        color: #ffdf4f;
+        bottom: 140px;
+        font-size: 18px;
+    }
 }
 
-.carousel-caption {
-    bottom: 200px;
-}
 .afterHomepageCarousel {
     background-image: url("/Content/img/PeaksToPeople/bottom-curve.png");
     background-position: left center;
@@ -164,7 +173,6 @@ label, .modal-title {
     position: relative;
     top: -150px;
     height: 150px;
-
 }
 
 .navbar {
@@ -631,5 +639,29 @@ a.disabled {
 @media only screen and (min-width: 768px) {
     .main-text h1 {
         font-size: 32px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .afterHomepageCarousel {
+        display: none;
+    }
+
+    .homepageCarouselFullWidthColumn {
+        height: 300px;
+
+        #homepageCarousel, #homepageCarousel .carousel-inner .item {
+            height: 300px;
+        }
+
+        .carousel-caption {
+            bottom: 20px;
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .carousel-caption {
+        display: none;
     }
 }
