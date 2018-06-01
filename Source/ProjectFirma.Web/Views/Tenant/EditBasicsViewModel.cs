@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase TenantBannerLogoFileResourceData { get; set; }
 
-        [DisplayName("Fact Sheet Logo")]
+        [DisplayName("Square Logo")]
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase TenantSquareLogoFileResourceData { get; set; }
 

@@ -74,6 +74,13 @@ namespace ProjectFirma.Web.Common
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
+        public static string GetTenantSquareLogScaledAsIconoUrl()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource.FileResourceUrlScaledThumbnail(64)
+                : "/Content/img/ProjectFirma_Logo_Square.png";
+        }
+
         public static string GetTenantBannerLogoUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource != null

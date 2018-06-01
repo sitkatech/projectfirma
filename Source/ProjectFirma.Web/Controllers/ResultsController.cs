@@ -45,13 +45,19 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
+            var projectResultsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
+            var accomplishmentsButtonAccomplishmentsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.AccomplishmentsDashboardButtonAccomplishments);
+            var accomplishmentsButtonExpendituressFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.AccomplishmentsDashboardButtonExpenditures);
+            var accomplishmentsButtonOrganizationsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.AccomplishmentsDashboardButtonOrganizations);
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, projectResultsFirmaPage, organizations,
+                FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear,
+                taxonomyTiers, associatePerformanceMeasureTaxonomyLevel, accomplishmentsButtonAccomplishmentsFirmaPage,
+                accomplishmentsButtonExpendituressFirmaPage, accomplishmentsButtonOrganizationsFirmaPage);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
 

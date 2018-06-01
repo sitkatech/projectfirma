@@ -27,13 +27,13 @@
 @section JavascriptAndStylesContent
 {
 <style>
-        .pageTitle {
-            display: none;
-        }
+    .pageTitle {
+        display: none;
+    }
 
-            div.star-primary:after {
-                content: url("@MultiTenantHelpers.GetTenantBannerLogoScaledAsIconUrl()");
-            }
+    div.star-primary:after {
+        content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+    }
 </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
@@ -200,7 +200,7 @@
                 <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
             </div>
             <div id="counterNumbers">
-                <span id="projectCount" class="counter"></span> Projects
+                <span id="projectCount" class="counter"></span> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
                 <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
                 <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
                 <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
@@ -211,13 +211,26 @@
 
     <div class="row resultsQuestions">
         <div class="col-xs-12 col-sm-4 text-center">
-            <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab" class="btn btn-lg btn-block btn-firma questionButton">What type of work do<br />RCDs do?</a>
+            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#accomplishmentsTab').tab('show')">
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonAccomplishmentsPageContentViewData); }
+            </button>
         </div>
         <div class="col-xs-12 col-sm-4 text-center">
-            <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab" class="btn btn-lg btn-block btn-firma questionButton">Where does RCD funding<br />come from?</a>
+            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#expendituresTab').tab('show')">
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonExpendituressPageContentViewData); }
+            </button>
         </div>
         <div class="col-xs-12 col-sm-4 text-center">
-            <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab" class="btn btn-lg btn-block btn-firma questionButton">Who do RCDs<br />work with?</a>
+            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#organizationsTab').tab('show')">
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonOrganizationsPageContentViewData); }
+            </button>
+        </div>
+        <div style="display: none;">
+            @*We need to put content into the tab buttons that can't exist in an anchor tag (i.e. edit firma page content), but bootstrap doesn't
+            support tabs triggered by buttons, so we're using the buttons above as a proxy for toggling the tab content*@
+            <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab"></a>
+            <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab"></a>
+            <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab"></a>
         </div>
     </div>
     <div class="row">
