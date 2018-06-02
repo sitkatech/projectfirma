@@ -53,6 +53,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
+        [DisplayName("Report In Accomplishments Dashboard?")]
+        public bool? ReportInAccomplishments { get; set; }
+
+        [Required]
         [DisplayName("Must be related to a project once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
@@ -77,6 +81,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 .ToList();
             CanStewardProjects = relationshipType.CanStewardProjects;
             IsPrimaryContact = relationshipType.IsPrimaryContact;
+            ReportInAccomplishments = relationshipType.ReportInAccomplishmentsDashboard;
             CanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
             RelationshipTypeDescription = relationshipType.RelationshipTypeDescription;
         }
@@ -99,26 +104,28 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var errors = new List<ValidationResult>();
             var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
             if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.", x => x.RelationshipTypeName));
+                yield return new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.",
+                    x => x.RelationshipTypeName);
             }
 
             if (CanStewardProjects == true &&
                 existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanStewardProjects))
             {
-                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\"."));
+                yield return new SitkaValidationResult<EditRelationshipTypeViewModel, bool?>(
+                    $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
+                    m => m.CanStewardProjects);
             }
 
             if (IsPrimaryContact == true &&
                 existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
             {
-                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\"."));
+                yield return new SitkaValidationResult<EditRelationshipTypeViewModel, bool?>(
+                    $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
+                    m => m.IsPrimaryContact);
             }
-           
-            return errors;
         }
     }
 }

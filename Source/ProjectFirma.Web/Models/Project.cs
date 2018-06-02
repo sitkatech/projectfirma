@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
-            var project = projects.SingleOrDefault(x => x.ProjectID != currentProjectID && String.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
+            var project = projects.SingleOrDefault(x => x.ProjectID != currentProjectID && string.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
             return project == null;
         }
 
@@ -68,6 +68,12 @@ namespace ProjectFirma.Web.Models
         {
             var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
             return organization;
+        }
+
+        public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
+        {
+            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+                .Select(x => x.Organization).ToList();
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
@@ -297,7 +303,7 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyBranchID", TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
+                feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
                 foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
                     feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
@@ -320,7 +326,16 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact).ThenByDescending(x => x.RelationshipType.CanStewardProjects).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName).Distinct()) : String.Empty; }
+            get
+            {
+                return ProjectOrganizations.Any()
+                    ? string.Join(", ",
+                        ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                            .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+                            .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
+                            .Distinct())
+                    : string.Empty;
+            }
         }
 
         public string AssocatedOrganizationNames(Organization organization)

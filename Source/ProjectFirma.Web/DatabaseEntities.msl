@@ -952,6 +952,7 @@
           <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
           <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
           <ScalarProperty Name="RelationshipTypeDescription" ColumnName="RelationshipTypeDescription" />
+          <ScalarProperty Name="ReportInAccomplishmentsDashboard" ColumnName="ReportInAccomplishmentsDashboard" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -128,6 +128,15 @@ namespace ProjectFirma.Web.Models
             return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == this).ToList();
         }
 
+        public List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationReportsInAccomplishments(Person person)
+        {
+            var allActiveProjectsAndProposals = ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+
+            return MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishments()
+                ? allActiveProjectsAndProposals.Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == OrganizationID)).ToList()
+                : allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == this).ToList();
+        }
+
         public string AuditDescriptionString => OrganizationName;
 
         public bool IsInKeystone => OrganizationGuid.HasValue;

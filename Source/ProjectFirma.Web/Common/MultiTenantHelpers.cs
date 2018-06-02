@@ -161,18 +161,28 @@ namespace ProjectFirma.Web.Common
             return GetTaxonomyLevel() == TaxonomyLevel.Leaf;
         }
 
-        public static bool HasCanStewardProjectsOrganizationRelationship()
-        {
-            return GetCanStewardProjectsOrganizationRelationship() != null;
-        }
         public static bool HasIsPrimaryContactOrganizationRelationship()
         {
             return GetIsPrimaryContactOrganizationRelationship() != null;
+        }
+        public static bool HasCanStewardProjectsOrganizationRelationship()
+        {
+            return GetCanStewardProjectsOrganizationRelationship() != null;
         }
         public static RelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
+
+        public static bool HasRelationshipTypesToReportInAccomplishments()
+        {
+            return GetRelationshipTypesToReportInAccomplishments().Any();
+        }
+        public static IEnumerable<RelationshipType> GetRelationshipTypesToReportInAccomplishments()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.ReportInAccomplishmentsDashboard).ToList();
+        }
+
         public static RelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);

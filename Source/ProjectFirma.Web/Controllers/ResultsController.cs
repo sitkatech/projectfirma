@@ -75,9 +75,11 @@ namespace ProjectFirma.Web.Controllers
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int organizationID, int beginYear, int endYear)
         {
             var projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Where(x => x.CalendarYear >= beginYear && x.CalendarYear <= endYear).ToList();
-            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishments())
             {
-                return projectFundingSourceExpenditures.Where(x => x.Project.GetCanStewardProjectsOrganization().OrganizationID == organizationID).OrderBy(x => x.Project.ProjectName).ToList();
+                return projectFundingSourceExpenditures.Where(x => x.Project.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == organizationID))
+                    .OrderBy(x => x.Project.ProjectName)
+                    .ToList();
             }
 
             return projectFundingSourceExpenditures.OrderBy(x => x.Project.ProjectName).ToList();
@@ -88,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishments())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
@@ -111,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishments())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
@@ -159,22 +161,25 @@ namespace ProjectFirma.Web.Controllers
             List<Project> projects;
             List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishments())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson);
+                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationReportsInAccomplishments(CurrentPerson);
                 partnerOrganizations = projects
-                    .SelectMany(x => x.ProjectOrganizations.Where(y =>
-                        y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
-                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                    .SelectMany(x => x.ProjectOrganizations.Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
+                    .ToList();
             }
             else
             {
-                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
+                    .ToList();
                 partnerOrganizations = projects
                     .SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType))
                     .Where(x => !x.Organization.CanBeAnApprovingOrganization())
-                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
+                    .ToList();
             }
 
             return partnerOrganizations;
