@@ -114,6 +114,8 @@ namespace ProjectFirma.Web.Views.Project
                 switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
                 {
                     case TaxonomyLevelEnum.Leaf:
+                        TaxonomyColor = project.TaxonomyLeaf.ThemeColor;
+                        break;
                     case TaxonomyLevelEnum.Branch:
                         TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
                         break;

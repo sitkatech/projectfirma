@@ -78,89 +78,93 @@
 </div>
 
 <div class="container factSheet">
-<div class="row section">
-    <div class="col-sm-2 col-md-2">
-        <img style="max-height: 200px; margin: 20px auto" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()"/>
+    <div class="row section">
+        <div class="col-sm-2 col-md-2">
+            <img style="max-height: 200px; margin: 20px auto" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
+        </div>
+        <div class="col-sm-10 col-md-10 headerPanel">
+            <h2>@ViewDataTyped.Project.ProjectName</h2>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @ViewDataTyped.TaxonomyLeafName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Implementers</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @ViewDataTyped.Project.ProjectOrganizationNamesAndTypes
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Supporting Agencies</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @ViewDataTyped.SupportingAgenciesForDisplay
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Primary Contact</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @if (ViewDataTyped.Project.PrimaryContactPerson != null)
+                    {
+                        <span>
+                            @ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast (@ViewDataTyped.Project.PrimaryContactPerson.Email)
+                        </span>
+                    }
+                    else
+                    {
+                        <span>@ViewUtilities.NoneString</span>
+                    }
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Duration</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.Project.Duration
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.EstimatedTotalCost
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Funding Request</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.FundingRequest
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-10 col-md-10 headerPanel">
-        <h2>@ViewDataTyped.Project.ProjectName</h2>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-9">
-                @ViewDataTyped.TaxonomyLeafName
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>Implementers</strong>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-9">
-                @ViewDataTyped.Project.ProjectOrganizationNamesAndTypes
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>Supporting Agencies</strong>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-9">
-                @ViewDataTyped.SupportingAgenciesForDisplay
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>Primary Contact</strong>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-9">
-                @if (ViewDataTyped.Project.PrimaryContactPerson != null)
-                {
-                    <span>
-                        @ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast (@ViewDataTyped.Project.PrimaryContactPerson.Email)
-                    </span>
-                }
-                else
-                {
-                    <span>@ViewUtilities.NoneString</span>
-                }
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel()</strong>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>Duration</strong>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                @ViewDataTyped.Project.Duration
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                @ViewDataTyped.EstimatedTotalCost
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <strong>Funding Request</strong>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                @ViewDataTyped.FundingRequest
-            </div>
-        </div>
-    </div>
-</div>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="projectTaxonomy">
-                @ViewDataTyped.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                @if (MultiTenantHelpers.GetTaxonomyLevel() != TaxonomyLevel.Leaf)
+                {
+                    @ViewDataTyped.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                }
                 @ViewDataTyped.Project.TaxonomyLeaf.TaxonomyLeafName
             </div>
         </div>
@@ -222,80 +226,80 @@
             else
             {
                 <div class="text-center">
-                    <p class="systemText">No Key Photo provided</p>                    
+                    <p class="systemText">No Key Photo provided</p>
                 </div>
             }
         </div>
     </div>
-<div class="row section">
-    <div class="col-sm-12 col-md-6">
-        <div style="margin-left: auto; margin-right: auto;">
-            <h4>Location</h4>
-            <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
-            <script type="text/javascript">
+    <div class="row section">
+        <div class="col-sm-12 col-md-6">
+            <div style="margin-left: auto; margin-right: auto;">
+                <h4>Location</h4>
+                <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+                <script type="text/javascript">
                 jQuery(document).ready(function()
                 {
                     var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                     var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
                 });
-            </script>
-        </div>
-    </div>
-    <div class="col-sm-12 col-md-6">
-        <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-            <h4>Targeted Funding</h4>
-            <div class="chartPanel">
-                @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
-                {                   
-                    <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
-                    <div class="captionText">
-                        @Html.Raw(ViewDataTyped.LegendHtml)
-                    </div>
-                }
-                else
-                {
-                    <div class="text-center">
-                        <p class="systemText">No Targeted Funding Sources identified</p>                    
-                    </div>
-                }
+                </script>
             </div>
         </div>
-    </div>
-</div>
-<div class="row section" style="page-break-before: always">
-    <div class="col-xs-12">
-        <h4>Photos</h4>
-    </div>
-    @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
-    {
-        foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
-        {
-            <div class="col-xs-12">
-                <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
-            </div>
-            <div class="col-xs-12" style="margin: 0 15px;">
-                @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
-                {
-                <div class="row">
-                    @foreach (var projectImage in projectImageBatch)
+        <div class="col-sm-12 col-md-6">
+            <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
+                <h4>Targeted Funding</h4>
+                <div class="chartPanel">
+                    @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
                     {
-                        <div class="col-sm-12 col-md-6">
-                            <img class="img-responsive"src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
-                            <div class="captionText">@projectImage.Caption</div>
+                        <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
+                        <div class="captionText">
+                            @Html.Raw(ViewDataTyped.LegendHtml)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <p class="systemText">No Targeted Funding Sources identified</p>
                         </div>
                     }
                 </div>
-                }
             </div>
+        </div>
+    </div>
+    <div class="row section" style="page-break-before: always">
+        <div class="col-xs-12">
+            <h4>Photos</h4>
+        </div>
+        @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
+        {
+            foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
+            {
+                <div class="col-xs-12">
+                    <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
+                </div>
+                <div class="col-xs-12" style="margin: 0 15px;">
+                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+                    {
+                        <div class="row">
+                            @foreach (var projectImage in projectImageBatch)
+                            {
+                                <div class="col-sm-12 col-md-6">
+                                    <img class="img-responsive" src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                                    <div class="captionText">@projectImage.Caption</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
         }
-    }
-    else
-    {
+        else
+        {
             <div class="col-xs-12">
                 <p class="systemText">No additional photos provided</p>
             </div>
-    }
-</div>
+        }
+    </div>
 
 
     <div class="pull-right onlyOnPrint"><hr />Project Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
