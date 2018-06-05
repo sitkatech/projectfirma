@@ -51,9 +51,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypePendingProjects PendingProjects = FirmaPageTypePendingProjects.Instance;
         public static readonly FirmaPageTypeTraining Training = FirmaPageTypeTraining.Instance;
         public static readonly FirmaPageTypeProjectCreateImportExternal ProjectCreateImportExternal = FirmaPageTypeProjectCreateImportExternal.Instance;
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments AccomplishmentsDashboardButtonAccomplishments = FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments.Instance;
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonExpenditures AccomplishmentsDashboardButtonExpenditures = FirmaPageTypeAccomplishmentsDashboardButtonExpenditures.Instance;
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonOrganizations AccomplishmentsDashboardButtonOrganizations = FirmaPageTypeAccomplishmentsDashboardButtonOrganizations.Instance;
 
         public static readonly List<FirmaPageType> All;
         public static readonly ReadOnlyDictionary<int, FirmaPageType> AllLookupDictionary;
@@ -63,7 +60,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal, AccomplishmentsDashboardButtonAccomplishments, AccomplishmentsDashboardButtonExpenditures, AccomplishmentsDashboardButtonOrganizations };
+            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -135,12 +132,6 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case FirmaPageTypeEnum.AccomplishmentsDashboardButtonAccomplishments:
-                    return AccomplishmentsDashboardButtonAccomplishments;
-                case FirmaPageTypeEnum.AccomplishmentsDashboardButtonExpenditures:
-                    return AccomplishmentsDashboardButtonExpenditures;
-                case FirmaPageTypeEnum.AccomplishmentsDashboardButtonOrganizations:
-                    return AccomplishmentsDashboardButtonOrganizations;
                 case FirmaPageTypeEnum.CostParameterSet:
                     return CostParameterSet;
                 case FirmaPageTypeEnum.DemoScript:
@@ -247,10 +238,7 @@ namespace ProjectFirma.Web.Models
         EnterHistoricProjectInstructions = 47,
         PendingProjects = 48,
         Training = 49,
-        ProjectCreateImportExternal = 50,
-        AccomplishmentsDashboardButtonAccomplishments = 51,
-        AccomplishmentsDashboardButtonExpenditures = 52,
-        AccomplishmentsDashboardButtonOrganizations = 53
+        ProjectCreateImportExternal = 50
     }
 
     public partial class FirmaPageTypeHomePage : FirmaPageType
@@ -449,23 +437,5 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeProjectCreateImportExternal(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeProjectCreateImportExternal Instance = new FirmaPageTypeProjectCreateImportExternal(50, @"ProjectCreateImportExternal", @"ProjectCreateImportExternal", 1);
-    }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments : FirmaPageType
-    {
-        private FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments Instance = new FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments(51, @"AccomplishmentsDashboardButtonAccomplishments", @"Accomplishments Dashboard Button Accomplishments", 1);
-    }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonExpenditures : FirmaPageType
-    {
-        private FirmaPageTypeAccomplishmentsDashboardButtonExpenditures(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonExpenditures Instance = new FirmaPageTypeAccomplishmentsDashboardButtonExpenditures(52, @"AccomplishmentsDashboardButtonExpenditures", @"Accomplishments Dashboard Button Expenditures", 1);
-    }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonOrganizations : FirmaPageType
-    {
-        private FirmaPageTypeAccomplishmentsDashboardButtonOrganizations(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeAccomplishmentsDashboardButtonOrganizations Instance = new FirmaPageTypeAccomplishmentsDashboardButtonOrganizations(53, @"AccomplishmentsDashboardButtonOrganizations", @"Accomplishments Dashboard Button Organizations", 1);
     }
 }

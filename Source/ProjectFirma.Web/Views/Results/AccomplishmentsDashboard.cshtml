@@ -21,12 +21,13 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
 @section JavascriptAndStylesContent
 {
-<style>
+    <style>
     .pageTitle {
         display: none;
     }
@@ -34,7 +35,7 @@
     div.star-primary:after {
         content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
     }
-</style>
+    </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
     <script type="text/javascript">
@@ -52,7 +53,7 @@
 
                 jQuery("#counterLoader").hide();
                 jQuery("#counterNumbers").show();
-                if (countUp) {                    
+                if (countUp) {
                     jQuery('.counter').counterUp({
                         delay: 10,
                         time: 1000
@@ -100,7 +101,7 @@
             jQuery("#counterNumbers").hide();
 
             var organizationID = jQuery("#organizationDropdown").val();
-            
+
             if (organizationID == -1) {
                 jQuery("#orgLink").hide();
             } else {
@@ -156,6 +157,15 @@
         // ]]>
     </script>
 }
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.HasSitkaAdminPermissions)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-edit\"></span> Configure", ViewDataTyped.ConfigureAccomplishmentsDashboardUrl, "Configure Accomplishments Dashboard", new List<string>(), true)
+    }
+}
+
 <div id="accomplishmentsDashboard">
     <div class="homepageHeader">
         <div class="row">
@@ -181,7 +191,7 @@
                 {
                     <option value="@organization.OrganizationID">@organization.OrganizationName</option>
                 }
-            </select>            
+            </select>
         </div>
         <div class="col-xs-12 col-sm-2">
             <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
@@ -201,9 +211,9 @@
             </div>
             <div id="counterNumbers">
                 <span id="projectCount" class="counter"></span> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
-                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
                 <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
-                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
                 <span id="partnerCount" class="counter"></span> Partners
             </div>
         </div>
@@ -212,22 +222,22 @@
     <div class="row resultsQuestions">
         <div class="col-xs-12 col-sm-4 text-center">
             <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#accomplishmentsTab').tab('show')">
-                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonAccomplishmentsPageContentViewData); }
+                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString
             </button>
         </div>
         <div class="col-xs-12 col-sm-4 text-center">
             <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#expendituresTab').tab('show')">
-                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonExpendituressPageContentViewData); }
+                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString
             </button>
         </div>
         <div class="col-xs-12 col-sm-4 text-center">
             <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#organizationsTab').tab('show')">
-                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AccomplishmentsButtonOrganizationsPageContentViewData); }
+                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString
             </button>
         </div>
         <div style="display: none;">
             @*We need to put content into the tab buttons that can't exist in an anchor tag (i.e. edit firma page content), but bootstrap doesn't
-            support tabs triggered by buttons, so we're using the buttons above as a proxy for toggling the tab content*@
+                support tabs triggered by buttons, so we're using the buttons above as a proxy for toggling the tab content*@
             <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab"></a>
             <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab"></a>
             <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab"></a>
@@ -252,7 +262,7 @@
                                 {
                                     <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.SummaryUrl">@taxonomyTier.DisplayName</option>
                                 }
-                            </select>                            
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-2">
                             <a id="taxonomyTierLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @ViewDataTyped.TaxonomyTierDisplayName Details</a>

@@ -289,22 +289,4 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportExternal());
         }
     }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonAccomplishments
-    {
-        public override string GetViewUrl() =>
-            SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.AccomplishmentsDashboard());
-    }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonExpenditures
-    {
-        public override string GetViewUrl() =>
-            SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.AccomplishmentsDashboard());
-    }
-
-    public partial class FirmaPageTypeAccomplishmentsDashboardButtonOrganizations
-    {
-        public override string GetViewUrl() =>
-            SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.AccomplishmentsDashboard());
-    }
 }

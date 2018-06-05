@@ -98,6 +98,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             relationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
+            relationshipType.ReportInAccomplishmentsDashboard = ReportInAccomplishments ?? false; // Should never be null due to required validation attribute
             relationshipType.CanOnlyBeRelatedOnceToAProject = relationshipType.CanStewardProjects || relationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can steward projects and isprimarycontact can only related once to a project
             relationshipType.RelationshipTypeDescription = RelationshipTypeDescription;
         }

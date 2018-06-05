@@ -22,6 +22,11 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[AssociatePerfomanceMeasureTaxonomyLevelID] [int] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[ProjectExternalDataSourceEnabled] [bit] NOT NULL,
+	[AccomplishmentsDashboardFundingDisplayTypeID] [int] NOT NULL,
+	[AccomplishmentsDashboardAccomplishmentsButtonText] [dbo].[html] NULL,
+	[AccomplishmentsDashboardExpendituresButtonText] [dbo].[html] NULL,
+	[AccomplishmentsDashboardOrganizationsButtonText] [dbo].[html] NULL,
+	[AccomplishmentsDashboardIncludeReportingOrganizationType] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -36,6 +41,11 @@ CREATE TABLE [dbo].[TenantAttribute](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID] FOREIGN KEY([AccomplishmentsDashboardFundingDisplayTypeID])
+REFERENCES [dbo].[AccomplishmentsDashboardFundingDisplayType] ([AccomplishmentsDashboardFundingDisplayTypeID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantBannerLogoFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])

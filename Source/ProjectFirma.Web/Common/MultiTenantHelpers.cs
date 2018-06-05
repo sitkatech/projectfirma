@@ -174,7 +174,12 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
 
-        public static bool HasRelationshipTypesToReportInAccomplishments()
+        public static RelationshipType GetCanReportedInAccomplishmentsDashboardOrganizationRelationship()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.ReportInAccomplishmentsDashboard);
+        }
+
+        public static bool HasRelationshipTypesToReportInAccomplishmentDashboard()
         {
             return GetRelationshipTypesToReportInAccomplishments().Any();
         }
@@ -203,6 +208,16 @@ namespace ProjectFirma.Web.Common
         public static List<CustomPage> GetCustomPages()
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
+        }
+
+        public static AccomplishmentsDashboardFundingDisplayType GetAccomplishmentsDashboardFundingDisplayType()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardFundingDisplayType;
+        }
+
+        public static bool GetIncludeReportingOrganizationType()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
     }
 }

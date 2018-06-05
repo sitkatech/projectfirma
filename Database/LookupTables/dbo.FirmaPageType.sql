@@ -35,8 +35,5 @@ values
 (47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2),
 (48, 'PendingProjects', 'Pending Projects', 1),
 (49, 'Training','Training', 2),
-(50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1),
-(51, 'AccomplishmentsDashboardButtonAccomplishments', 'Accomplishments Dashboard Button Accomplishments', 1),
-(52, 'AccomplishmentsDashboardButtonExpenditures', 'Accomplishments Dashboard Button Expenditures', 1),
-(53, 'AccomplishmentsDashboardButtonOrganizations', 'Accomplishments Dashboard Button Organizations', 1)
+(50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1)
 
