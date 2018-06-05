@@ -188,7 +188,7 @@ namespace ProjectFirma.Web.Controllers
             
             List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
 
-            var includeReportingOrganizationType = MultiTenantHelpers.GetIncludeReportingOrganizationType();
+            var includeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardIncludeReportingOrganizationType();
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
                 MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {

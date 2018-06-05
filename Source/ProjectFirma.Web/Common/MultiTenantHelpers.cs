@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardFundingDisplayType;
         }
 
-        public static bool GetIncludeReportingOrganizationType()
+        public static bool GetAccomplishmentsDashboardIncludeReportingOrganizationType()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
