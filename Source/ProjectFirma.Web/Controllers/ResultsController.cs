@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
-            var projectResultsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
 
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, projectResultsFirmaPage, tenantAttribute,
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, tenantAttribute,
                 organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear,
                 defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
@@ -69,8 +69,9 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
 
-            IEnumerable<ITaxonomyTier> taxonomyTiers;
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+
+            IEnumerable<ITaxonomyTier> taxonomyTiers;
             switch (tenantAttribute.TaxonomyLevel.ToEnum)
             {
                 case TaxonomyLevelEnum.Trunk:
@@ -185,7 +186,6 @@ namespace ProjectFirma.Web.Controllers
 
         private List<IGrouping<Organization, ProjectOrganization>> GetPartnerOrganizations(int organizationID)
         {
-            
             List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
 
             var includeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardIncludeReportingOrganizationType();
