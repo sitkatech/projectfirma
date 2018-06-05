@@ -30,9 +30,6 @@ namespace ProjectFirma.Web.Common
     public abstract class FirmaEnvironment
     {
         public abstract bool IsUnitTestWebServiceTokenOkInThisEnvironment { get; }
-        public abstract FirmaEnvironmentType FirmaEnvironmentType { get; }
-
-        public abstract string DomainPrefix { get; }
 
         public abstract string GetCanonicalHostNameForEnvironment(Tenant tenant);
 
@@ -58,14 +55,9 @@ namespace ProjectFirma.Web.Common
             // OK in local because this is where we run unit tests
             public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Local;
-            public override string DomainPrefix => "localhost";
-
             public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
             {
-                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
-                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+                return tenant.CanonicalHostNameLocal;
             }
         }
 
@@ -75,14 +67,9 @@ namespace ProjectFirma.Web.Common
             // Definitely not OK in Prod, no unit testing here would be a security hole
             public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => false;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Prod;
-            public override string DomainPrefix => "www";
-
             public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
             {
-                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
-                var environmentPrefix = string.IsNullOrWhiteSpace(subdomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+                return tenant.CanonicalHostNameProd;
             }
         }
 
@@ -91,14 +78,9 @@ namespace ProjectFirma.Web.Common
             // Not OK in QA, no unit testing here
             public override bool IsUnitTestWebServiceTokenOkInThisEnvironment => true;
 
-            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
-            public override string DomainPrefix => "qa";
-
             public override string GetCanonicalHostNameForEnvironment(Tenant tenant)
             {
-                var environmentPrefix = !string.IsNullOrWhiteSpace(DomainPrefix) ? $"{DomainPrefix}." : string.Empty;
-                var subdomainPrefix = !string.IsNullOrWhiteSpace(tenant.TenantSubdomain) ? $"{tenant.TenantSubdomain}." : string.Empty;
-                return $"{subdomainPrefix}{environmentPrefix}{tenant.TenantDomain}";
+                return tenant.CanonicalHostNameQa;
             }
         }
     }

@@ -43,19 +43,21 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected Tenant(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain)
+        protected Tenant(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd)
         {
             TenantID = tenantID;
             TenantName = tenantName;
-            TenantDomain = tenantDomain;
-            TenantSubdomain = tenantSubdomain;
+            CanonicalHostNameLocal = canonicalHostNameLocal;
+            CanonicalHostNameQa = canonicalHostNameQa;
+            CanonicalHostNameProd = canonicalHostNameProd;
         }
 
         [Key]
         public int TenantID { get; private set; }
         public string TenantName { get; private set; }
-        public string TenantDomain { get; private set; }
-        public string TenantSubdomain { get; private set; }
+        public string CanonicalHostNameLocal { get; private set; }
+        public string CanonicalHostNameQa { get; private set; }
+        public string CanonicalHostNameProd { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantID; } }
 
@@ -147,55 +149,55 @@ namespace ProjectFirma.Web.Models
 
     public partial class TenantSitkaTechnologyGroup : Tenant
     {
-        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"projectfirma.com", @"sitka");
+        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"sitka.localhost.projectfirma.com", @"sitka.qa.projectfirma.com", @"sitka.projectfirma.com");
     }
 
     public partial class TenantClackamasPartnership : Tenant
     {
-        private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org", null);
+        private TenantClackamasPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"localhost.clackamaspartnership.org", @"qa.clackamaspartnership.org", @"www.clackamaspartnership.org");
     }
 
     public partial class TenantRCDProjectTracker : Tenant
     {
-        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org", null);
+        private TenantRCDProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"localhost.rcdprojects.org", @"qa.rcdprojects.org", @"www.rcdprojects.org");
     }
 
     public partial class TenantInternationYearOfTheSalmon : Tenant
     {
-        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"projectfirma.com", @"iysdemo");
+        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"iysdemo.localhost.projectfirma.com", @"iysdemo.qa.projectfirma.com", @"iysdemo.projectfirma.com");
     }
 
     public partial class TenantDemoProjectFirma : Tenant
     {
-        private TenantDemoProjectFirma(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"projectfirma.com", @"demo");
+        private TenantDemoProjectFirma(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"demo.localhost.projectfirma.com", @"demo.qa.projectfirma.com", @"demo.projectfirma.com");
     }
 
     public partial class TenantPeaksToPeople : Tenant
     {
-        private TenantPeaksToPeople(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"projectfirma.com", @"peakstopeople");
+        private TenantPeaksToPeople(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"peakstopeople.qa.projectfirma.com", @"outcomes.peakstopeople.org");
     }
 
     public partial class TenantJohnDayPartnership : Tenant
     {
-        private TenantJohnDayPartnership(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"projectfirma.com", @"johndaydemo");
+        private TenantJohnDayPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"johndaydemo.localhost.projectfirma.com", @"johndaydemo.qa.projectfirma.com", @"johndaydemo.projectfirma.com");
     }
 
     public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
     {
-        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"projectfirma.com", @"ashlanddemo");
+        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"ashlanddemo.localhost.projectfirma.com", @"ashlanddemo.qa.projectfirma.com", @"ashlanddemo.projectfirma.com");
     }
 
     public partial class TenantIdahoAssociatonOfSoilConservationDistricts : Tenant
     {
-        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string tenantDomain, string tenantSubdomain) : base(tenantID, tenantName, tenantDomain, tenantSubdomain) {}
-        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"projectfirma.com", @"swcdemo");
+        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
+        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"swcdemo.localhost.projectfirma.com", @"swcdemo.qa.projectfirma.com", @"swcdemo.projectfirma.com");
     }
 }
