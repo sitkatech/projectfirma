@@ -33,7 +33,7 @@ where TenantID = 5
 
 update dbo.Tenant
 set CanonicalHostNameLocal = 'peakstopeople.localhost.projectfirma.com',
-	CanonicalHostNameQa = 'peakstopeople.qa.projectfirma.com',
+	CanonicalHostNameQa = 'qa-outcomes.peakstopeople.org',
 	CanonicalHostNameProd = 'outcomes.peakstopeople.org'
 where TenantID = 6
 
