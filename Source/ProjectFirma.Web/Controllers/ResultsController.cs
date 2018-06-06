@@ -70,24 +70,9 @@ namespace ProjectFirma.Web.Controllers
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
 
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var taxonomyTiers = tenantAttribute.TaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
 
-            IEnumerable<ITaxonomyTier> taxonomyTiers;
-            switch (tenantAttribute.TaxonomyLevel.ToEnum)
-            {
-                case TaxonomyLevelEnum.Trunk:
-                    taxonomyTiers = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
-                    break;
-                case TaxonomyLevelEnum.Branch:
-                    taxonomyTiers = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-                    break;
-                case TaxonomyLevelEnum.Leaf:
-                    taxonomyTiers = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
-                    break;
-                default:
-                    throw new ArgumentException();
-            }
-
-            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(tenantAttribute, organizationTypes, projectFundingSourceExpenditures, taxonomyTiers.SortByOrderThenName().ToList());
+            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(tenantAttribute, organizationTypes, projectFundingSourceExpenditures, taxonomyTiers);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
                 SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
