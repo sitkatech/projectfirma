@@ -71,8 +71,14 @@
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ToolDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Domain</div>
-                    <div class="col-xs-7">@ViewDataTyped.Tenant.TenantDomain</div>
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Domains</div>
+                    <div class="col-xs-7">
+                        <ul>
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameLocal</li>
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameQa</li>
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameProd</li>
+                        </ul>                        
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Primary Contact</div>
