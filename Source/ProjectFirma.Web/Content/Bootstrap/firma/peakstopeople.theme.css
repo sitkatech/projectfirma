@@ -78,14 +78,16 @@ label,
   text-decoration: none;
 }
 #headerTenantDisplayName {
+  margin-left: 30px;
+}
+.headerLogo {
   display: none;
 }
 .homepageCarouselFullWidthColumn {
   height: 450px;
 }
 .homepageCarouselFullWidthColumn .main-text h1 {
-  color: #9cdbf8;
-  font-size: 48px;
+  display: none;
 }
 .homepageCarouselFullWidthColumn .carousel-caption {
   color: #ffdf4f;
@@ -489,11 +491,6 @@ a.disabled {
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
   background-color: LightGray;
-}
-@media only screen and (min-width: 768px) {
-  .main-text h1 {
-    font-size: 32px;
-  }
 }
 @media only screen and (max-width: 768px) {
   .afterHomepageCarousel {
