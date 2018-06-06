@@ -1770,6 +1770,7 @@
     <Property Name="IsPrimaryContact" Type="Boolean" Nullable="false" />
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="Boolean" Nullable="false" />
     <Property Name="RelationshipTypeDescription" Type="String" MaxLength="360" Unicode="false" FixedLength="false" />
+    <Property Name="ReportInAccomplishmentsDashboard" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="OrganizationTypeRelationshipTypes" />
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectOrganizationUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizationUpdates" />
@@ -1958,6 +1959,11 @@
     <Property Name="AssociatePerfomanceMeasureTaxonomyLevelID" Type="Int32" Nullable="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="ProjectExternalDataSourceEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccomplishmentsDashboardFundingDisplayTypeID" Type="Int32" Nullable="false" />
+    <Property Name="AccomplishmentsDashboardAccomplishmentsButtonText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="AccomplishmentsDashboardExpendituresButtonText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="AccomplishmentsDashboardOrganizationsButtonText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />

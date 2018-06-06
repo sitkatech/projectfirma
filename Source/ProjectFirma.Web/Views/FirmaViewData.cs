@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views
             TopLevelLtInfoMenuItems.Add(BuildAboutMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProjectsMenu(currentPerson));
             TopLevelLtInfoMenuItems.Add(BuildProgramInfoMenu(currentPerson));
-            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            if (MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
             }

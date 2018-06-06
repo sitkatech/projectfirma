@@ -60,36 +60,30 @@ namespace ProjectFirma.Web.Views.User
 
         public void UpdateModel(Person person, Person currentPerson)
         {
-            person.RoleID = RoleID.Value;
+            person.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(person.PersonID))
             {
-                // Existing person
-                person.UpdateDate = DateTime.Now;
+                person.UpdateDate = DateTime.Now; // Existing person
             }
             else
             {
-                // New person
-                person.CreateDate = DateTime.Now;
+                person.CreateDate = DateTime.Now; // New person
             }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var errors = new List<ValidationResult>();
-
             var person = HttpRequestStorage.DatabaseEntities.People.GetPerson(PersonID);
             if (RoleID == Models.Role.ProjectSteward.RoleID && !person.Organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipType.CanStewardProjects))
             {
-                var projectStewardLabel = Models.Role.ProjectSteward.RoleDisplayName;
-                var organizationLabel = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
-                var projectLabelPlural = Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
-
-                errors.Add(new SitkaValidationResult<EditRolesViewModel, int?>($"Cannot assign role {projectStewardLabel} to a person whose {organizationLabel} cannot steward {projectLabelPlural}.", m => m.RoleID));
+                yield return new SitkaValidationResult<EditRolesViewModel, int?>(
+                    $"Cannot assign role {Models.Role.ProjectSteward.RoleDisplayName} to a person " +
+                    $"whose {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} cannot " +
+                    $"steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}.",
+                    m => m.RoleID);
             }
-
-            return errors;
         }
     }
 }

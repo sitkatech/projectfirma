@@ -25,22 +25,40 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <table class="table table-striped table-responsive">
     <tr>
-        <th>@FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel()</th>
+        <th>@ViewDataTyped.TaxonomyTierDisplayName</th>
         @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
         {
             <th style="text-align: right">@organizationType.OrganizationTypeName</th>
         }
         <th style="text-align: right">Total</th>
     </tr>
-    @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyBranches.SortByOrderThenName())
+    @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers.SortByOrderThenName())
     {
         <tr>
-            <td>@taxonomyBranch.GetDisplayNameAsUrl()</td>
+            <td>@taxonomyTier.GetDisplayNameAsUrl()</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
-                <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyBranchID == taxonomyBranch.TaxonomyBranchID && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+            <td style="text-align: right">
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
+                {
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                }
+                else
+                {
+                    @(0.ToStringCurrency())
+                }
+            </td>
             }
-            <td style="text-align: right">@ViewDataTyped.ProjectFundingSourceExpenditures.Where(x => x.Project.TaxonomyLeaf.TaxonomyBranchID == taxonomyBranch.TaxonomyBranchID).Sum(x => x.ExpenditureAmount).ToStringCurrency()</td>
+            <td style="text-align: right">
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
+                {
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                }
+                else
+                {
+                    @(0.ToStringCurrency())
+                }
+            </td>
         </tr>
     }
     <tr>

@@ -18,7 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Results
@@ -27,13 +32,31 @@ namespace ProjectFirma.Web.Views.Results
     {
         public List<OrganizationType> OrganizationTypes { get; }
         public List<Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
-        public List<Models.TaxonomyBranch> TaxonomyBranches { get; }
+        public List<ITaxonomyTier> TaxonomyTiers { get; }
+        public string TaxonomyTierDisplayName { get; }
+        public Dictionary<int, IEnumerable<Models.ProjectFundingSourceExpenditure>> ProjectFundingSourceExpendituresByTaxonomyTierID { get; }
 
-        public SpendingByOrganizationTypeByOrganizationViewData(List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<Models.TaxonomyBranch> taxonomyBranches)
+        public SpendingByOrganizationTypeByOrganizationViewData(TenantAttribute tenantAttribute, List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<ITaxonomyTier> taxonomyTiers)
         {
             OrganizationTypes = organizationTypes;
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
-            TaxonomyBranches = taxonomyBranches;
+            TaxonomyTiers = taxonomyTiers;
+            TaxonomyTierDisplayName = TaxonomyTierHelpers.GetFieldDefinitionForTaxonomyLevel(tenantAttribute.TaxonomyLevel).GetFieldDefinitionLabel();
+
+            ProjectFundingSourceExpendituresByTaxonomyTierID = ProjectFundingSourceExpenditures.GroupBy(x => {
+                    switch (tenantAttribute.TaxonomyLevel.ToEnum)
+                    {
+                        case TaxonomyLevelEnum.Trunk:
+                            return x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID;
+                        case TaxonomyLevelEnum.Branch:
+                            return x.Project.TaxonomyLeaf.TaxonomyBranchID;
+                        case TaxonomyLevelEnum.Leaf:
+                            return x.Project.TaxonomyLeafID;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                })
+                .ToDictionary(x => x.Key, x => x.ToList() as IEnumerable<Models.ProjectFundingSourceExpenditure>);
         }
 
     }

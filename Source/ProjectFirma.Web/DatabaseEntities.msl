@@ -952,6 +952,7 @@
           <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
           <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
           <ScalarProperty Name="RelationshipTypeDescription" ColumnName="RelationshipTypeDescription" />
+          <ScalarProperty Name="ReportInAccomplishmentsDashboard" ColumnName="ReportInAccomplishmentsDashboard" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1125,6 +1126,11 @@
           <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="ProjectExternalDataSourceEnabled" ColumnName="ProjectExternalDataSourceEnabled" />
+          <ScalarProperty Name="AccomplishmentsDashboardFundingDisplayTypeID" ColumnName="AccomplishmentsDashboardFundingDisplayTypeID" />
+          <ScalarProperty Name="AccomplishmentsDashboardAccomplishmentsButtonText" ColumnName="AccomplishmentsDashboardAccomplishmentsButtonText" />
+          <ScalarProperty Name="AccomplishmentsDashboardExpendituresButtonText" ColumnName="AccomplishmentsDashboardExpendituresButtonText" />
+          <ScalarProperty Name="AccomplishmentsDashboardOrganizationsButtonText" ColumnName="AccomplishmentsDashboardOrganizationsButtonText" />
+          <ScalarProperty Name="AccomplishmentsDashboardIncludeReportingOrganizationType" ColumnName="AccomplishmentsDashboardIncludeReportingOrganizationType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

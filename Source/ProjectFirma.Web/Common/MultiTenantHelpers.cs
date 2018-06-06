@@ -74,6 +74,13 @@ namespace ProjectFirma.Web.Common
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
+        public static string GetTenantSquareLogScaledAsIconoUrl()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource.FileResourceUrlScaledThumbnail(64)
+                : "/Content/img/ProjectFirma_Logo_Square.png";
+        }
+
         public static string GetTenantBannerLogoUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource != null
@@ -154,18 +161,33 @@ namespace ProjectFirma.Web.Common
             return GetTaxonomyLevel() == TaxonomyLevel.Leaf;
         }
 
-        public static bool HasCanStewardProjectsOrganizationRelationship()
-        {
-            return GetCanStewardProjectsOrganizationRelationship() != null;
-        }
         public static bool HasIsPrimaryContactOrganizationRelationship()
         {
             return GetIsPrimaryContactOrganizationRelationship() != null;
+        }
+        public static bool HasCanStewardProjectsOrganizationRelationship()
+        {
+            return GetCanStewardProjectsOrganizationRelationship() != null;
         }
         public static RelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
+
+        public static RelationshipType GetCanReportedInAccomplishmentsDashboardOrganizationRelationship()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.ReportInAccomplishmentsDashboard);
+        }
+
+        public static bool HasRelationshipTypesToReportInAccomplishmentDashboard()
+        {
+            return GetRelationshipTypesToReportInAccomplishments().Any();
+        }
+        public static IEnumerable<RelationshipType> GetRelationshipTypesToReportInAccomplishments()
+        {
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.ReportInAccomplishmentsDashboard).ToList();
+        }
+
         public static RelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
@@ -186,6 +208,16 @@ namespace ProjectFirma.Web.Common
         public static List<CustomPage> GetCustomPages()
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
+        }
+
+        public static AccomplishmentsDashboardFundingDisplayType GetAccomplishmentsDashboardFundingDisplayType()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardFundingDisplayType;
+        }
+
+        public static bool GetAccomplishmentsDashboardIncludeReportingOrganizationType()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
     }
 }

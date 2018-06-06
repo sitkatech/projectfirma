@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string relationshipTypeDescription) : this()
+        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string relationshipTypeDescription, bool reportInAccomplishmentsDashboard) : this()
         {
             this.RelationshipTypeID = relationshipTypeID;
             this.RelationshipTypeName = relationshipTypeName;
@@ -40,12 +40,13 @@ namespace ProjectFirma.Web.Models
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
             this.RelationshipTypeDescription = relationshipTypeDescription;
+            this.ReportInAccomplishmentsDashboard = reportInAccomplishmentsDashboard;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject) : this()
+        public RelationshipType(string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, bool reportInAccomplishmentsDashboard) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.RelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -54,6 +55,7 @@ namespace ProjectFirma.Web.Models
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.ReportInAccomplishmentsDashboard = reportInAccomplishmentsDashboard;
         }
 
 
@@ -62,7 +64,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static RelationshipType CreateNewBlank()
         {
-            return new RelationshipType(default(string), default(bool), default(bool), default(bool));
+            return new RelationshipType(default(string), default(bool), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -111,6 +113,7 @@ namespace ProjectFirma.Web.Models
         public bool IsPrimaryContact { get; set; }
         public bool CanOnlyBeRelatedOnceToAProject { get; set; }
         public string RelationshipTypeDescription { get; set; }
+        public bool ReportInAccomplishmentsDashboard { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
 

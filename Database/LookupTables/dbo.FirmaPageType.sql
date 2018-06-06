@@ -36,3 +36,4 @@ values
 (48, 'PendingProjects', 'Pending Projects', 1),
 (49, 'Training','Training', 2),
 (50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1)
+
