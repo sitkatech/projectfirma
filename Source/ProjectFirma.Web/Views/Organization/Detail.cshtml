@@ -248,7 +248,29 @@
                                 @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
-                                <p></p>
+                                <p>
+                                    @ViewDataTyped.Organization.OrganizationName is:
+                                </p>
+                                <ul>
+                                    @if (ViewDataTyped.TenantHasCanStewardProjectsOrganizationRelationship)
+                                    {
+                                    <li>
+                                        the <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong> for
+                                        <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
+                                        @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                    </li>
+                                    }
+                                    <li>
+                                        the <strong>Lead Implementer</strong> for
+                                        <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
+                                        @(ViewDataTyped.NumberOfLeadImplementedProjects  == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                    </li>
+                                    <li>
+                                        a contributor to
+                                        <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
+                                        @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                    </li>
+                                </ul>
                                 @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>

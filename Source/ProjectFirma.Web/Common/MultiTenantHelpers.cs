@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
 
-        public static RelationshipType GetCanReportedInAccomplishmentsDashboardOrganizationRelationship()
+        public static RelationshipType GetCanReportInAccomplishmentsDashboardOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.ReportInAccomplishmentsDashboard);
         }

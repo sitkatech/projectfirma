@@ -73,6 +73,11 @@ namespace ProjectFirma.Web.Views.Organization
 
         public readonly bool ShowPendingProjects;
 
+        public bool TenantHasCanStewardProjectsOrganizationRelationship { get; }
+        public int NumberOfStewardedProjects { get; }
+        public int NumberOfLeadImplementedProjects { get; }
+        public int NumberOfProjectsContributedTo { get; }
+
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
             MapInitJson mapInitJson,
@@ -169,7 +174,15 @@ namespace ProjectFirma.Web.Views.Organization
             PendingProjectsGridDataUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     tc => tc.PendingProjectsGridJsonData(organization));
-        }
 
+            TenantHasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
+            NumberOfStewardedProjects = Organization.ProjectOrganizations.Select(x => x.Project)
+                .Distinct()
+                .Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
+            NumberOfLeadImplementedProjects = Organization.ProjectOrganizations.Select(x => x.Project)
+                .Distinct()
+                .Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
+            NumberOfProjectsContributedTo = Organization.ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetActiveProjects().Count;
+        }
     }
 }

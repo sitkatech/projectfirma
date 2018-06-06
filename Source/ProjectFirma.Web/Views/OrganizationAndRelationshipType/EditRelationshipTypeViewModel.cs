@@ -127,6 +127,14 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                     $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
                     m => m.IsPrimaryContact);
             }
+
+            if (ReportInAccomplishments == true && existingRelationshipType.Any(x =>
+                    x.RelationshipTypeID != RelationshipTypeID && x.ReportInAccomplishmentsDashboard))
+            {
+                yield return new SitkaValidationResult<EditRelationshipTypeViewModel, bool?>(
+                    $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Report In Accomplishments Dashboard?\" is set to \"Yes\".",
+                    m => m.ReportInAccomplishments);
+            }
         }
     }
 }

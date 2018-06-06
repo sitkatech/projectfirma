@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                         UrlTemplate.MakeHrefString(SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(a)),
                             DhtmlxGridHtmlHelpers.EditIconBootstrap.ToString(),
                             new Dictionary<string, string> {{"target", "_blank"}}),
-                    30);
+                    30, DhtmlxGridColumnFilterType.None);
             }
             Add("Custom Label", a => a.HasCustomFieldLabel() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
             Add("Default Label", a => a.FieldDefinitionDisplayName, 200);
