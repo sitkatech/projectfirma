@@ -210,6 +210,11 @@ namespace ProjectFirma.Web.Models
         {
             switch (type.Name)
             {
+                case "AccomplishmentsDashboardFundingDisplayType":
+                    var accomplishmentsDashboardFundingDisplayType = AccomplishmentsDashboardFundingDisplayType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(accomplishmentsDashboardFundingDisplayType, "AccomplishmentsDashboardFundingDisplayType", primaryKey);
+                    return accomplishmentsDashboardFundingDisplayType;
+
                 case "AssessmentGoal":
                     return AssessmentGoals.GetAssessmentGoal(primaryKey);
 

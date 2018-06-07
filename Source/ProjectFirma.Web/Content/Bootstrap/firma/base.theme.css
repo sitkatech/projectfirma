@@ -1160,12 +1160,12 @@ td.stage {
   border: none;
   border-top: solid 5px;
   text-align: center;
-  margin: 25px auto 0px;
+  margin: 41px auto 0px;
 }
 #accomplishmentsDashboard div.star-primary:after {
   display: inline-block;
   position: relative;
-  top: -0.6em;
+  top: -32px;
   font-size: 2em;
   padding: 0 0.25em;
 }

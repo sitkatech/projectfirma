@@ -46,6 +46,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
+    <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -366,6 +368,9 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
+    <Compile Include="Models\TaxonomyTierHelpers.cs" />
+    <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
@@ -385,6 +390,8 @@
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewData.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewModel.cs" />
+    <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewData.cs" />
+    <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewModel.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocuments.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewData.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewModel.cs" />
@@ -1557,6 +1564,7 @@
     <Content Include="Views\Shared\ProjectDocument\ProjectDocumentsDetail.cshtml" />
     <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ImportExternal.cshtml" />
+    <Content Include="Views\Results\ConfigureAccomplishmentsDashboard.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

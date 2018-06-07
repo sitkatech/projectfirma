@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewRelationshipType(viewModel);
             }
-            var relationshipType = new RelationshipType(viewModel.RelationshipTypeName, false, false, false);
+            var relationshipType = new RelationshipType(viewModel.RelationshipTypeName, false, false, false, false);
             HttpRequestStorage.DatabaseEntities.AllRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 

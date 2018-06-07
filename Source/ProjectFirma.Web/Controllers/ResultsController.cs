@@ -46,12 +46,20 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult AccomplishmentsDashboard()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.OrganizationName).ToList();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
+                .Where(x => x.CanBeReportedInAccomplishmentsDashboard())
+                .OrderBy(x => x.OrganizationName)
+                .ToList();
+
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear, defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
+            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, tenantAttribute,
+                organizations, FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures(), defaultBeginYear,
+                defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
         }
 
@@ -60,8 +68,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
-            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(organizationTypes, projectFundingSourceExpenditures, taxonomyBranches);
+
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var taxonomyTiers = tenantAttribute.TaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
+
+            var viewData = new SpendingByOrganizationTypeByOrganizationViewData(tenantAttribute, organizationTypes, projectFundingSourceExpenditures, taxonomyTiers);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
                 SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
@@ -69,9 +80,11 @@ namespace ProjectFirma.Web.Controllers
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int organizationID, int beginYear, int endYear)
         {
             var projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Where(x => x.CalendarYear >= beginYear && x.CalendarYear <= endYear).ToList();
-            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
-                return projectFundingSourceExpenditures.Where(x => x.Project.GetCanStewardProjectsOrganization().OrganizationID == organizationID).OrderBy(x => x.Project.ProjectName).ToList();
+                return projectFundingSourceExpenditures.Where(x => x.Project.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == organizationID))
+                    .OrderBy(x => x.Project.ProjectName)
+                    .ToList();
             }
 
             return projectFundingSourceExpenditures.OrderBy(x => x.Project.ProjectName).ToList();
@@ -81,22 +94,30 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult OrganizationDashboardSummary(int organizationID)
         {
             List<Project> projects;
+            Organization organization = null;
+
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
+                organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+                projects = organization.GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard();
             }
             else
             {
-                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
             }
+
+            var projectCount = projects.Count;
+            var partnerCount = GetPartnerOrganizations(organizationID).Count;
+            var totalInvestment = MultiTenantHelpers.GetAccomplishmentsDashboardFundingDisplayType()
+                .GetInvestmentAmount(organization, projects.SelectMany(x => x.ProjectFundingSourceExpenditures));
 
             return new JsonNetJObjectResult(new
             {
-                ProjectCount = projects.Count,
-                PartnerCount = GetPartnerOrganizations(organizationID).Count,
-                TotalInvestment = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Sum(x => x.ExpenditureAmount).ToGroupedNumeric()
+                ProjectCount = projectCount,
+                PartnerCount = partnerCount,
+                TotalInvestment = totalInvestment.ToGroupedNumeric()
             });
         }
 
@@ -105,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
@@ -150,25 +171,26 @@ namespace ProjectFirma.Web.Controllers
 
         private List<IGrouping<Organization, ProjectOrganization>> GetPartnerOrganizations(int organizationID)
         {
-            List<Project> projects;
             List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
+
+            var includeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardIncludeReportingOrganizationType();
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson);
-                partnerOrganizations = projects
-                    .SelectMany(x => x.ProjectOrganizations.Where(y =>
-                        y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
-                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
+                    .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
+                    .SelectMany(x => x.ProjectOrganizations.Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
+                    .ToList();
             }
             else
             {
-                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
-                partnerOrganizations = projects
+                partnerOrganizations = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
                     .SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType))
-                    .Where(x => !x.Organization.CanBeAnApprovingOrganization())
-                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>()).ToList();
+                    .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard())
+                    .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
+                    .ToList();
             }
 
             return partnerOrganizations;
@@ -372,6 +394,37 @@ namespace ProjectFirma.Web.Controllers
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
             return performanceMeasure.SubcategoriesTotalReportedValues();
+        }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult ConfigureAccomplishmentsDashboard()
+        {
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var viewModel = new ConfigureAccomplishmentsDashboardViewModel(tenantAttribute);
+            return ViewConfigureAccomplishmentsDashboard(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ConfigureAccomplishmentsDashboard(ConfigureAccomplishmentsDashboardViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewConfigureAccomplishmentsDashboard(viewModel);
+            }
+
+            viewModel.UpdateModel();
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewConfigureAccomplishmentsDashboard(ConfigureAccomplishmentsDashboardViewModel viewModel)
+        {
+            var viewData = new ConfigureAccomplishmentsDashboardViewData();
+            return RazorPartialView<ConfigureAccomplishmentsDashboard, ConfigureAccomplishmentsDashboardViewData,
+                ConfigureAccomplishmentsDashboardViewModel>(viewData, viewModel);
         }
     }
 }

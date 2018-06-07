@@ -50,22 +50,22 @@ namespace ProjectFirma.Web.Models
         public IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers()
         {
             Func<TaxonomyLeafPerformanceMeasure, ITaxonomyTier> groupingFunc;
-            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk)
+            switch (MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().ToEnum)
             {
-                groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
-            }
-            else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
-            {
-                groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
-            }
-            else
-            {
-                groupingFunc = x => x.TaxonomyLeaf;
+                case TaxonomyLevelEnum.Trunk:
+                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+                    break;
+                case TaxonomyLevelEnum.Branch:
+                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
+                    break;
+                case TaxonomyLevelEnum.Leaf:
+                    groupingFunc = x => x.TaxonomyLeaf;
+                    break;
+                default:
+                    throw new ArgumentException();
             }
 
-            var taxonomyBranchPerformanceMeasureGroupedByLevel =
-                TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
+            var taxonomyBranchPerformanceMeasureGroupedByLevel = TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
             return taxonomyBranchPerformanceMeasureGroupedByLevel;
         }
 

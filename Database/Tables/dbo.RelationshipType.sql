@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[RelationshipType](
 	[IsPrimaryContact] [bit] NOT NULL,
 	[CanOnlyBeRelatedOnceToAProject] [bit] NOT NULL,
 	[RelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReportInAccomplishmentsDashboard] [bit] NOT NULL,
  CONSTRAINT [PK_RelationshipType_RelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
 	[RelationshipTypeID] ASC

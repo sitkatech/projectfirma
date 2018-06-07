@@ -1,0 +1,59 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Results
+
+@inherits ConfigureAccomplishmentsDashboard
+
+<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelWithSugarFor(m => m.FundingDisplayTypeID)
+        @foreach (var fundingDisplayType in ViewDataTyped.AccomplishmentsDashboardFundingDisplayTypes)
+        {
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.FundingDisplayTypeID, fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeID)
+                    @fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeDisplayName
+                </label>
+            </div>
+        }
+        @Html.ValidationMessageFor(m => m.FundingDisplayTypeID)
+    </div>
+    <div class="form-group">
+        @Html.LabelWithSugarFor(m => m.IncludeReportingOrganizationType)
+        <div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.IncludeReportingOrganizationType, true)
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.IncludeReportingOrganizationType, false)
+                    No
+                </label>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.IncludeReportingOrganizationType)
+    </div>
+    <div class="form">
+        <div class="form-group">
+            @Html.LabelWithSugarFor(m => m.AccomplishmentsButtonTextHtmlString)
+            @Html.CkEditorFor(m => m.AccomplishmentsButtonTextHtmlString, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
+            @Html.ValidationMessageFor(m => m.AccomplishmentsButtonTextHtmlString)
+        </div>
+        <div class="form-group">
+            @Html.LabelWithSugarFor(m => m.ExpendituresButtonTextHtmlString)
+            @Html.CkEditorFor(m => m.ExpendituresButtonTextHtmlString, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
+            @Html.ValidationMessageFor(m => m.ExpendituresButtonTextHtmlString)
+        </div>
+        <div class="form-group">
+            @Html.LabelWithSugarFor(m => m.OrganizationsButtonTextHtmlString)
+            @Html.CkEditorFor(m => m.OrganizationsButtonTextHtmlString, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
+            @Html.ValidationMessageFor(m => m.OrganizationsButtonTextHtmlString)
+        </div>
+    </div>
+}

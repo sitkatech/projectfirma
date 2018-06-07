@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Models
     public partial class TenantPeaksToPeople : Tenant
     {
         private TenantPeaksToPeople(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd) {}
-        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"peakstopeople.qa.projectfirma.com", @"outcomes.peakstopeople.org");
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org");
     }
 
     public partial class TenantJohnDayPartnership : Tenant

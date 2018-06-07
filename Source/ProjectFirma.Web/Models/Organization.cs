@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -128,6 +129,15 @@ namespace ProjectFirma.Web.Models
             return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == this).ToList();
         }
 
+        public List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
+        {
+            Check.Assert(MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard());
+            return ProjectOrganizations.Select(x => x.Project).ToList()
+                .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
+                .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == this))
+                .ToList();
+        }
+
         public string AuditDescriptionString => OrganizationName;
 
         public bool IsInKeystone => OrganizationGuid.HasValue;
@@ -149,6 +159,13 @@ namespace ProjectFirma.Web.Models
         public bool CanBeAnApprovingOrganization()
         {
             return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public bool CanBeReportedInAccomplishmentsDashboard()
+        {
+            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
+                x.RelationshipTypeID == MultiTenantHelpers
+                    .GetCanReportInAccomplishmentsDashboardOrganizationRelationship()?.RelationshipTypeID);
         }
 
         public bool CanBeAPrimaryContactOrganization()
