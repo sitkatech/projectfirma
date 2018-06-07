@@ -77,6 +77,9 @@ label,
 .header .headerText a:active {
   text-decoration: none;
 }
+#accomplishmentsDashboard div.star-primary:after {
+  background-color: #ebf1ec;
+}
 #headerTenantDisplayName {
   margin-left: 30px;
 }
