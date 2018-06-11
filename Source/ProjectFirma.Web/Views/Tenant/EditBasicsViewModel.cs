@@ -84,6 +84,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         public bool ShowProposalsToThePublic { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
+        public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
+
 
         /// <summary>
         /// Needed by ModelBinder
@@ -105,6 +108,7 @@ namespace ProjectFirma.Web.Views.Tenant
             WatershedLayerName = tenantAttribute.WatershedLayerName;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
+            ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -112,6 +116,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.TenantDisplayName = TenantDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;
             attribute.ShowProposalsToThePublic = ShowProposalsToThePublic;
+            attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
