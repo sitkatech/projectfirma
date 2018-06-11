@@ -35,5 +35,5 @@ values
 (47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2),
 (48, 'PendingProjects', 'Pending Projects', 1),
 (49, 'Training','Training', 2),
-(50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1)
-
+(50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1),
+(51, 'CustomFooter', 'Custom Footer', 1)

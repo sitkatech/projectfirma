@@ -289,4 +289,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportExternal());
         }
     }
+
+    public partial class FirmaPageTypeCustomFooter
+    {
+        public override string GetViewUrl()
+        {
+            return string.Empty;
+        }
+    }
 }
