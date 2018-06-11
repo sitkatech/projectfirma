@@ -27,6 +27,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[AccomplishmentsDashboardExpendituresButtonText] [dbo].[html] NULL,
 	[AccomplishmentsDashboardOrganizationsButtonText] [dbo].[html] NULL,
 	[AccomplishmentsDashboardIncludeReportingOrganizationType] [bit] NOT NULL,
+	[ShowLeadImplementerLogoOnFactSheet] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

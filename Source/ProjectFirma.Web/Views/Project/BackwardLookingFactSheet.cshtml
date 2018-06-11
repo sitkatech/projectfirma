@@ -80,6 +80,10 @@
     <div class="row section">
         <div class="col-sm-2 col-md-2">
             <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
+            @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganization().LogoFileResource != null)
+            {
+                <img style="max-height: 200px; margin: 20px auto" class="img-responsive" src="@ViewDataTyped.Project.GetPrimaryContactOrganization().LogoFileResource.FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().DisplayNameWithoutAbbreviation" />
+            }
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
             <h2>@ViewDataTyped.Project.ProjectName</h2>
