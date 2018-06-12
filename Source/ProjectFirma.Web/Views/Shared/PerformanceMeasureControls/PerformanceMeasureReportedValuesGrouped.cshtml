@@ -24,18 +24,21 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesGrouped
 
+@{ const string fixedWidthStyleForYearTotalAndUnits = "width: 105px;";}
+
 @if (ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
 {
     <div style="overflow:auto;">
     @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues)
     {
         var isLast = ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Last() == performanceMeasureCalendarYearReportedValue;
-        var theYearsForThisPerformanceMeasure = performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.SelectMany(x=>x.CalendarYearReportedValue.Keys).Distinct().OrderBy(x=>x).ToList();
+        var theYearsForThisPerformanceMeasure = ViewDataTyped.CalendarYearsForPerformanceMeasures;
+        //performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.SelectMany(x=>x.CalendarYearReportedValue.Keys).Distinct().OrderBy(x=>x).ToList();
         var showTotalColumn = theYearsForThisPerformanceMeasure.Count > 1;
         var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
         var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty;
         var colspanForPerformanceMeasureDisplayName = showTotalColumn ? subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 2 : subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 1;
-        <table class="summaryLayout performanceMeasureTable table table-responsive table-striped" style="width: auto; margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle();">
+        <table class="summaryLayout performanceMeasureTable table table-responsive table-striped" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle();">
             <tr style="">
                 <th colspan="@(colspanForPerformanceMeasureDisplayName)">
                     @performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl
@@ -43,58 +46,57 @@
             </tr>
             @if (!performanceMeasureCalendarYearReportedValue.HasRealSubcategories)
             {
-                <tr>
-                    <th></th>
-                    @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
-                    {
-                        <th style="text-align: center; vertical-align: bottom;">
-                            @calendarYear
-                        </th>
-                    }
-                    @if(showTotalColumn)
-                    {
-                        <th style="text-align: center; vertical-align: bottom">Total</th>
-                    }
-                    <th style="text-align: center; vertical-align: bottom">Units</th>
-                </tr>
+            <tr>
+                <th></th>
+                @if (showTotalColumn)
+                {
+                    <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom">Total</th>
+                }
+                @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
+                {
+                    <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom;">
+                        @calendarYear
+                    </th>
+                }
+                <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom">Units</th>
+            </tr>
                 foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
-                    <tr>
-                        <th></th>
-                        @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
-                        {
-                            <td style="text-align: center">
-                                @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
-                            </td>
-                        }
-                        @if (showTotalColumn)
-                        {
-                            <th style="text-align: center">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
-                        }
-                        <th style="text-align: center">@pmUnits</th>
-                    </tr>
-                }
-                <tr style="border-top: 1px solid">
-                    <th style="text-align: center">Total</th>
-                    @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
-                    {
-                        <th style="text-align: center">
-                            @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear]))
-                        </th>
-                    }
+                <tr>
+                    <th></th>
                     @if (showTotalColumn)
                     {
-                        <th style="text-align: center">
-                            @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)))
-                        </th>
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
                     }
-                    <th style="text-align: center">@pmUnits</th>
+                    @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
+                    {
+                        <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
+                        </td>
+                    }
+                    <th style="@fixedWidthStyleForYearTotalAndUnits @fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
                 </tr>
+                }
+                    <tr style="border-top: 1px solid">
+                        <th style="text-align: right">Total</th>
+                        @if (showTotalColumn)
+                        {
+                            <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                                @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)))
+                            </th>
+                        }
+                        @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
+                        {
+                            <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                                @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear]))
+                            </th>
+                        }
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
+                    </tr>
             }
             else
             {
                 <tr>
-
                     @if (performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Any())
                     {
                         foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Select(x => x.PerformanceMeasureSubcategoryDisplayName))
@@ -104,71 +106,72 @@
                             </th>
                         }
                     }
+                    @if (showTotalColumn)
+                    {
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom;">Total</th>
+                    }
                     @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
                     {
-                        <th style="text-align: center; vertical-align: bottom;">
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom;">
                             @calendarYear
                         </th>
                     }
-                    @if (showTotalColumn)
-                    {
-                        <th style="text-align: center; vertical-align: bottom;">Total</th>
-                    }
-                    <th style="text-align: center; vertical-align: bottom;">Units</th>
+                    <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center; vertical-align: bottom;">Units</th>
                 </tr>
 
 
                 foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
-                    <tr>
-                        @if (!subcategoriesReportedValue.SubcategoryNames.Any())
+                <tr>
+                    @if (!subcategoriesReportedValue.SubcategoryNames.Any())
+                    {
+                        <td colspan="@subcategoryCount"></td>
+                    }
+                    else
+                    {
+                        foreach (var subategory in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
                         {
-                            <td colspan="@subcategoryCount"></td>
-                        }
-                        else
-                        {
-                            foreach (var subategory in performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories)
                             {
-                                {
-                                    var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == subategory.PerformanceMeasureSubcategoryID);
-                                    var subcategoryOptionName = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
-                                
-                                    <td>@subcategoryOptionName</td>
-                                }
+                                var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == subategory.PerformanceMeasureSubcategoryID);
+                                var subcategoryOptionName = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
+
+                                <td>@subcategoryOptionName</td>
                             }
                         }
+                    }
 
-                        @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
-                        {
-                            <td style="text-align: center">
-                                @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
-                            </td>
-                        }
-                        @if (showTotalColumn)
-                        {
-                            <th style="text-align: center">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
-                        }
-                        <th style="text-align: center">@pmUnits</th>
-                    </tr>
+                    @if (showTotalColumn)
+                    {
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</th>
+                    }
+
+                    @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
+                    {
+                        <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue[calendarYear]) : string.Empty)
+                        </td>
+                    }
+                    <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
+                </tr>
                 }
 
 
-                <tr style="">
-                    <th colspan="@subcategoryCount" style="text-align: center">Total</th>
-                    @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
-                    {
-                        <th style="text-align: center">
-                            @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear]))
-                        </th>
-                    }
-                    @if (showTotalColumn)
-                    {
-                        <th style="text-align: center">
-                            @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)))
-                        </th>
-                    }
-                    <th style="text-align: center">@pmUnits</th>
-                </tr>
+                    <tr style="">
+                        <th colspan="@subcategoryCount" style="text-align: right">Total</th>
+                        @if (showTotalColumn)
+                        {
+                            <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                                @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)))
+                            </th>
+                        }
+                        @foreach (var calendarYear in theYearsForThisPerformanceMeasure)
+                        {
+                            <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
+                                @performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear]))
+                            </th>
+                        }
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
+                    </tr>
             }
         </table>
         if (!isLast)
