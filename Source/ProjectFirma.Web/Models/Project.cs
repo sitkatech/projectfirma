@@ -322,7 +322,19 @@ namespace ProjectFirma.Web.Models
             return feature;
         }        
 
-        public string Duration => $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
+        public string Duration
+        {
+            get
+            {
+                if (ImplementationStartYear == CompletionYear && ImplementationStartYear.HasValue)
+                {
+                    return ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture);
+                }
+
+                return
+                    $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
+            }
+        }
 
         public string ProjectOrganizationNamesAndTypes
         {
