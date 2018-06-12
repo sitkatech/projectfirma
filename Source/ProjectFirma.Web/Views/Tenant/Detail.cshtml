@@ -48,7 +48,7 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7 col-lg-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
@@ -59,21 +59,21 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.Tenant.TenantName</div>
+                    <div class="col-sm-5 fieldLabel text-right">Tenant Name</div>
+                    <div class="col-sm-7">@ViewDataTyped.Tenant.TenantName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Display Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantDisplayName</div>
+                    <div class="col-sm-5 fieldLabel text-right">Tenant Display Name</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TenantDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tool Display Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ToolDisplayName</div>
+                    <div class="col-sm-5 fieldLabel text-right">Tool Display Name</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ToolDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Domains</div>
-                    <div class="col-xs-7">
-                        <ul>
+                    <div class="col-sm-5 fieldLabel text-right">Tenant Domains</div>
+                    <div class="col-sm-7">
+                        <ul class="list-unstyled">
                             <li>@ViewDataTyped.Tenant.CanonicalHostNameLocal</li>
                             <li>@ViewDataTyped.Tenant.CanonicalHostNameQa</li>
                             <li>@ViewDataTyped.Tenant.CanonicalHostNameProd</li>
@@ -81,8 +81,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Primary Contact</div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-5 fieldLabel text-right">Primary Contact</div>
+                    <div class="col-sm-7">
                         @if (ViewDataTyped.PrimaryContactRoute != null)
                         {
                             @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.FullNameFirstLast)))
@@ -94,24 +94,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TaxonomyLevel.TaxonomyLevelDisplayName</div>
+                    <div class="col-sm-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TaxonomyLevel.TaxonomyLevelDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Associate Performance Measures to Taxonomy Tier</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName</div>
+                    <div class="col-sm-5 fieldLabel text-right">Associate Performance Measures to Taxonomy Tier</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Minimum Year</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
+                    <div class="col-sm-5 fieldLabel text-right">Minimum Year</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic)</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic)</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Map Service Url</div>
-                    <div class="col-xs-7" style="overflow-x: hidden;">
+                    <div class="col-sm-5 fieldLabel text-right">Map Service Url</div>
+                    <div class="col-sm-7" style="overflow-x: hidden;">
                         @if (ViewDataTyped.TenantAttribute.MapServiceUrl != null)
                         {
                             <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
@@ -126,8 +126,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Watershed Layer Name</div>
-                    <div class="col-xs-7" style="overflow-x: hidden;">
+                    <div class="col-sm-5 fieldLabel text-right">Watershed Layer Name</div>
+                    <div class="col-sm-7" style="overflow-x: hidden;">
                         @if (ViewDataTyped.TenantAttribute.WatershedLayerName != null)
                         {
                             @ViewDataTyped.TenantAttribute.WatershedLayerName
@@ -139,20 +139,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Project External Data Source Enabled</div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-5 fieldLabel text-right">Project External Data Source Enabled</div>
+                    <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">
+                    <div class="col-sm-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
                             @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Tenant Style Sheet
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-7">
                         @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
                             <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.FileResourceUrl" target="_blank">
@@ -166,14 +166,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">
+                    <div class="col-sm-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                         {
                             @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Square Logo
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-7">
                         @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                         {
                             <div style="margin-bottom: 15px;">
@@ -187,14 +187,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">
+                    <div class="col-sm-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                         {
                             @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Tenant Banner Logo
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-7">
                         @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                         {
                             <div style="margin-bottom: 15px;">
@@ -208,17 +208,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">
+                    <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(FieldDefinition.ShowLeadImplementerLogoOnFactSheet)
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ShowLeadImplementerLogoOnFactSheet.ToYesNo()
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5 col-lg-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)

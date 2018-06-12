@@ -48,7 +48,6 @@ h6 {
 .firmaContent {
   background-color: #fff;
   border: 1px solid #e7e7e7;
-  padding-bottom: 20px;
   padding-top: 10px;
 }
 .rightFloatingInfo {
@@ -925,6 +924,9 @@ hr.navMenu {
   width: 90%;
   margin-top: 0;
   margin-bottom: 0;
+}
+hr {
+  color: #333;
 }
 #hidden-save-button {
   display: none;
