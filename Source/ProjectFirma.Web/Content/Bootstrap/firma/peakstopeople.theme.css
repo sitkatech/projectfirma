@@ -33,7 +33,6 @@ h4 {
 .firmaContent {
   background-color: #ebf1ec;
   border: 1px solid #ebf1ec;
-  padding-bottom: 20px;
 }
 label,
 .modal-title {
@@ -47,6 +46,9 @@ label,
 }
 .factSheet .headerPanel {
   border-left: none;
+}
+hr {
+  border-top-color: #ccc;
 }
 .expandToFillScreen {
   min-height: 100%;
