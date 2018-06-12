@@ -32,22 +32,24 @@ namespace ProjectFirma.Web.Views
 {
     public abstract class FirmaViewData
     {
-        public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
+        public List<LtInfoMenuItem> TopLevelLtInfoMenuItems { get; set; }
 
-        public readonly string FullProjectListUrl;
-        public readonly string ProjectSearchUrl;
-        public readonly string ProjectFindUrl;
-        public string PageTitle;
-        public string HtmlPageTitle;
-        public string BreadCrumbTitle;
-        public string EntityName;
-        public readonly Models.FirmaPage FirmaPage;
-        public readonly Person CurrentPerson;
-        public readonly string FirmaHomeUrl;
-        public readonly string LogInUrl;
-        public readonly string LogOutUrl;
-        public readonly string RequestSupportUrl;
-        public readonly ViewPageContentViewData ViewPageContentViewData;
+    public string FullProjectListUrl { get; }
+    public string ProjectSearchUrl { get; }
+    public string ProjectFindUrl { get; }
+    public string PageTitle { get; set; }
+    public string HtmlPageTitle { get; set; }
+    public string BreadCrumbTitle { get; set; }
+    public string EntityName { get; set; }
+    public Models.FirmaPage FirmaPage { get; }
+    public Person CurrentPerson { get; }
+    public string FirmaHomeUrl { get; }
+    public string LogInUrl { get; }
+    public string LogOutUrl { get; }
+    public string RequestSupportUrl { get; }
+    public ViewPageContentViewData ViewPageContentViewData { get; }
+        public LtInfoMenuItem HelpMenu { get; private set; }
+        public ViewPageContentViewData CustomFooterViewData { get; }
 
         /// <summary>
         /// Call for page without associated FirmaPage
@@ -77,20 +79,22 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission) : null;
+            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
+            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPersonCanManage) : null;
+            CustomFooterViewData =
+                new ViewPageContentViewData(Models.FirmaPage.GetFirmaPageByPageType(FirmaPageType.CustomFooter),
+                    currentPersonCanManage);
         }
-
-        public LtInfoMenuItem HelpMenu { get; set; }
 
 
         private void MakeFirmaMenu(Person currentPerson)
         {
-            var homeMenuItem = LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Index()), currentPerson, "Home");
-
-            TopLevelLtInfoMenuItems = new List<LtInfoMenuItem>();
-            TopLevelLtInfoMenuItems.Add(BuildAboutMenu(currentPerson));
-            TopLevelLtInfoMenuItems.Add(BuildProjectsMenu(currentPerson));
-            TopLevelLtInfoMenuItems.Add(BuildProgramInfoMenu(currentPerson));
+            TopLevelLtInfoMenuItems = new List<LtInfoMenuItem>
+            {
+                BuildAboutMenu(currentPerson),
+                BuildProjectsMenu(currentPerson),
+                BuildProgramInfoMenu(currentPerson)
+            };
             if (MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
