@@ -26,7 +26,7 @@
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
 {
     <div style="overflow-x: auto">
-        <table class="table table-striped table-condensed table-hover table-bordered">
+        <table class="table table-striped table-condensed table-hover">
             <tr>
                 <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears)
