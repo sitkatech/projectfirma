@@ -64,6 +64,11 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
+        public FileResource GetPrimaryContactOrganizationLogo()
+        {
+            return GetPrimaryContactOrganization()?.LogoFileResource;
+        }
+
         public Organization GetCanStewardProjectsOrganization()
         {
             var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
