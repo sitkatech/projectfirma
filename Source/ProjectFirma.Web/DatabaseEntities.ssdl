@@ -1457,8 +1457,8 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
-    <Property Name="SecuredAmount" Type="money" Nullable="false" />
-    <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
+    <Property Name="SecuredAmount" Type="money" />
+    <Property Name="UnsecuredAmount" Type="money" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceRequestUpdate">
     <Key>
@@ -1468,8 +1468,8 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
-    <Property Name="SecuredAmount" Type="money" Nullable="false" />
-    <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
+    <Property Name="SecuredAmount" Type="money" />
+    <Property Name="UnsecuredAmount" Type="money" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
