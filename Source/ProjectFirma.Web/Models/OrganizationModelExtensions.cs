@@ -25,6 +25,7 @@ using System.Web;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 
@@ -86,6 +87,56 @@ namespace ProjectFirma.Web.Models
                     organizationType.LegendColor, 1,
                     organizationType.ShowOnProjectMaps ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide);
             }).ToList();
+        }
+
+        public static List<Project> GetAllAssociatedProjects(this Organization organization)
+        {
+            return organization.FundingSources.SelectMany(x => x.ProjectFundingSourceRequests).Select(x => x.Project)
+                .Union(organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures)
+                    .Select(x => x.Project))
+                .Union(organization.ProjectOrganizations.Select(x => x.Project))
+                .Distinct().ToList();
+        }
+
+        public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
+        {
+            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals);
+        }
+
+        public static List<Project> GetAllActiveProjects(this Organization organization, Person person)
+        {
+            return organization.GetAllAssociatedProjects().GetActiveProjects();
+        }
+
+        public static List<Project> GetProposalsVisibleToUser(this Organization organization, Person person)
+        {
+            return organization.GetAllAssociatedProjects().GetProposalsVisibleToUser(person);
+        }
+
+        public static List<Project> GetAllPendingProjects(this Organization organization, Person person)
+        {
+            return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects);
+        }
+
+        public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, Person person)
+        {
+            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals);
+
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            {
+                return allActiveProjectsAndProposals.Where(x => x.GetCanStewardProjectsOrganization() == organization).ToList();
+            }
+
+            return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == organization).ToList();
+        }
+
+        public static List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(this Organization organization)
+        {
+            Check.Assert(MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard());
+            return organization.GetAllAssociatedProjects()
+                .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
+                .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == organization))
+                .ToList();
         }
     }
 }

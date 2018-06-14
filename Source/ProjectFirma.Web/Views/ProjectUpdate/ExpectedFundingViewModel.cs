@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestUpdatesUpdated = ProjectFundingSourceRequests.Where(x => x.UnsecuredAmount.HasValue || x.SecuredAmount.HasValue).Select(x => x.ToProjectFundingSourceRequestUpdate()).ToList();
+                projectFundingSourceRequestUpdatesUpdated = ProjectFundingSourceRequests.Select(x => x.ToProjectFundingSourceRequestUpdate()).ToList();
             }
 
             currentProjectFundingSourceRequestUpdates.Merge(projectFundingSourceRequestUpdatesUpdated,
@@ -81,11 +81,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
                 {
                     validationResults.Add(new ValidationResult("Each funding source can only be used once."));
-                }
-
-                if (ProjectFundingSourceRequests.Any(x => x.AreBothValuesZeroOrEmpty()))
-                {
-                    validationResults.Add(new ValidationResult(FirmaValidationMessages.ExpectedFundingValuesCannotBothBeZeroOrEmpty));
                 }
             }
 

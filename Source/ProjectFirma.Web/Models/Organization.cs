@@ -97,47 +97,6 @@ namespace ProjectFirma.Web.Models
             return existingOrganization == null;
         }
 
-        public List<Project> GetAllActiveProjectsAndProposals(Person person)
-        {
-            return ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
-        }
-
-        public List<Project> GetAllActiveProjects(Person person)
-        {
-            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetActiveProjects();
-        }
-
-        public List<Project> GetProposalsVisibleToUser(Person person)
-        {
-            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetProposalsVisibleToUser(person);
-        }
-
-        public List<Project> GetAllPendingProjects(Person person)
-        {
-            return ProjectOrganizations.Select(x => x.Project).Distinct().ToList().GetPendingProjects(person.CanViewPendingProjects);
-        }
-
-        public List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(Person person)
-        {
-            var allActiveProjectsAndProposals = ProjectOrganizations.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
-
-            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
-            {
-                return allActiveProjectsAndProposals.Where(x => x.GetCanStewardProjectsOrganization() == this).ToList();
-            }
-
-            return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == this).ToList();
-        }
-
-        public List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-        {
-            Check.Assert(MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard());
-            return ProjectOrganizations.Select(x => x.Project).ToList()
-                .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
-                .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == this))
-                .ToList();
-        }
-
         public string AuditDescriptionString => OrganizationName;
 
         public bool IsInKeystone => OrganizationGuid.HasValue;
@@ -152,7 +111,7 @@ namespace ProjectFirma.Web.Models
         }
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            var projectIDs = GetAllActiveProjectsAndProposals(currentPerson).Select(x => x.ProjectID).ToList();
+            var projectIDs = this.GetAllActiveProjectsAndProposals(currentPerson).Select(x => x.ProjectID).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
         }
 
