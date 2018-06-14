@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return GetAssociatedOrganizations().SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
         public FileResource GetPrimaryContactOrganizationLogo()
@@ -71,13 +71,13 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            var organization = GetAssociatedOrganizations().SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
             return organization;
         }
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+            return GetAssociatedOrganizations().Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
                 .Select(x => x.Organization).ToList();
         }
 
@@ -91,12 +91,12 @@ namespace ProjectFirma.Web.Models
 
         public decimal? GetSecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal GetUnsecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
 
 
@@ -309,9 +309,9 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyBranchID", TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
-                foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                foreach (var type in GetAssociatedOrganizations().Select(x => x.RelationshipType).Distinct())
                 {
-                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", GetAssociatedOrganizations().Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
                 }
 
                 if (useDetailedCustomPopup)
@@ -345,9 +345,9 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ProjectOrganizations.Any()
+                return GetAssociatedOrganizations().Any()
                     ? string.Join(", ",
-                        ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                        GetAssociatedOrganizations().OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
                             .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
                             .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
                             .Distinct())
@@ -358,7 +358,7 @@ namespace ProjectFirma.Web.Models
         public string AssocatedOrganizationNames(Organization organization)
         {
             var projectOrganizationAssocationNames = new List<string>();
-            ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
+            GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
             return string.Join(", ", projectOrganizationAssocationNames);
         }
 
@@ -590,6 +590,25 @@ namespace ProjectFirma.Web.Models
             }
 
             return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
+        }
+
+        /// <summary>
+        /// Returns the organizations that appear in this project's Expected Funding or Reported Funding
+        /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ProjectOrganization> GetFundingOrganizations()
+        {
+            var funderType = new RelationshipType("Funder", false, false, false, true);
+            var fundingOrganizations = ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+                .Union(ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization)).Distinct()
+                .Select(x => new ProjectOrganization(this, x, funderType));
+            return fundingOrganizations;
+        }
+
+        public IEnumerable<ProjectOrganization> GetAssociatedOrganizations()
+        {
+            return  ProjectOrganizations.AsEnumerable().Concat(GetFundingOrganizations());
         }
     }
 }

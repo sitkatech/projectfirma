@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditOrganizationsViewModel(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
+            var viewModel = new EditOrganizationsViewModel(project, project.GetAssociatedOrganizations().OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
             return ViewEditOrganizations(viewModel, project);
         }
 

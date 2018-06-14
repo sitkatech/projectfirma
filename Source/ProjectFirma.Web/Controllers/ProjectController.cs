@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.ProjectOrganizations, project.GetPrimaryContact());
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(project.GetAssociatedOrganizations(), project.GetPrimaryContact());
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
@@ -364,7 +364,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentPerson.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
-                        x.ProjectOrganizations.Select(y => y.Organization).Contains(CurrentPerson.Organization))
+                        x.GetAssociatedOrganizations().Select(y => y.Organization).Contains(CurrentPerson.Organization))
                     .ToList();
             }
             else
@@ -417,7 +417,7 @@ namespace ProjectFirma.Web.Controllers
             workSheets.Add(wsProjectDescriptions);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
-            var projectOrganizations = projects.SelectMany(p => p.ProjectOrganizations).ToList();
+            var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizations()).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 

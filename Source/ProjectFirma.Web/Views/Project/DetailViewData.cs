@@ -246,7 +246,7 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectBoundingBoxUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
             EditProjectBoundingBoxFormID = editProjectBoundingBoxFormID;
 
-            AllProjectOrganizations = project.ProjectOrganizations.ToList();
+            AllProjectOrganizations = project.GetAssociatedOrganizations().ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
 
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
