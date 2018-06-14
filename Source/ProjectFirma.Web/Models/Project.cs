@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return GetAssociatedOrganizations().SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
         public FileResource GetPrimaryContactOrganizationLogo()
@@ -71,13 +71,13 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            var organization = GetAssociatedOrganizations().SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
             return organization;
         }
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            return GetAssociatedOrganizations().Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
                 .Select(x => x.Organization).ToList();
         }
 
@@ -309,9 +309,10 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyBranchID", TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
-                foreach (var type in GetAssociatedOrganizations().Select(x => x.RelationshipType).Distinct())
+                var associatedOrganizations = this.GetAssociatedOrganizations();
+                foreach (var type in associatedOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
-                    feature.Properties.Add($"{type.RelationshipTypeName}ID", GetAssociatedOrganizations().Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
                 }
 
                 if (useDetailedCustomPopup)
@@ -345,9 +346,10 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return GetAssociatedOrganizations().Any()
+                var associatedOrganizations = this.GetAssociatedOrganizations();
+                return associatedOrganizations.Any()
                     ? string.Join(", ",
-                        GetAssociatedOrganizations().OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                        associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
                             .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
                             .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
                             .Distinct())
@@ -358,7 +360,7 @@ namespace ProjectFirma.Web.Models
         public string AssocatedOrganizationNames(Organization organization)
         {
             var projectOrganizationAssocationNames = new List<string>();
-            GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
+            this.GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
             return string.Join(", ", projectOrganizationAssocationNames);
         }
 
@@ -590,25 +592,6 @@ namespace ProjectFirma.Web.Models
             }
 
             return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
-        }
-
-        /// <summary>
-        /// Returns the organizations that appear in this project's Expected Funding or Reported Funding
-        /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<ProjectOrganization> GetFundingOrganizations()
-        {
-            var funderType = new RelationshipType("Funder", false, false, false, true);
-            var fundingOrganizations = ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization)).Distinct()
-                .Select(x => new ProjectOrganization(this, x, funderType));
-            return fundingOrganizations;
-        }
-
-        public IEnumerable<ProjectOrganization> GetAssociatedOrganizations()
-        {
-            return  ProjectOrganizations.AsEnumerable().Concat(GetFundingOrganizations());
         }
     }
 }

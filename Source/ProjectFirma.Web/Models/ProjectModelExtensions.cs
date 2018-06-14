@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
@@ -124,5 +125,26 @@ namespace ProjectFirma.Web.Models
                 currentYearToUse);
         }
 
+        /// <summary>
+        /// Returns the organizations that appear in this project's Expected Funding or Reported Funding
+        /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType, which lives as a static property of the RelationshipType class
+        /// </summary>
+        /// <returns></returns>
+        public static List<ProjectOrganization> GetFundingOrganizations(this Project project)
+        {
+            var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+                .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization)).Distinct()
+                .Select(x => new ProjectOrganization(project, x, RelationshipType.Funder));
+            return fundingOrganizations.ToList();
+        }
+
+        public static List<ProjectOrganization> GetAssociatedOrganizations(this Project project)
+        {
+            var explicitOrganizations = project.ProjectOrganizations.ToList();
+
+            explicitOrganizations.AddRange(project.GetFundingOrganizations());
+
+            return explicitOrganizations;
+        }
     }
 }
