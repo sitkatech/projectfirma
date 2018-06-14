@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartTitle, string chartCaption, bool swapChartAxes, bool canCalculateTotal, int? performanceMeasureSortOrder) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, bool canCalculateTotal, int? performanceMeasureSortOrder) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -53,7 +53,6 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureDefinition = performanceMeasureDefinition;
             this.DataSourceText = dataSourceText;
             this.ExternalDataSourceUrl = externalDataSourceUrl;
-            this.ChartTitle = chartTitle;
             this.ChartCaption = chartCaption;
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
@@ -63,7 +62,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string chartTitle, bool swapChartAxes, bool canCalculateTotal) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, bool swapChartAxes, bool canCalculateTotal) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -71,7 +70,6 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureTypeID;
-            this.ChartTitle = chartTitle;
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
         }
@@ -79,14 +77,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, string chartTitle, bool swapChartAxes, bool canCalculateTotal) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, bool swapChartAxes, bool canCalculateTotal) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
-            this.ChartTitle = chartTitle;
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
         }
@@ -96,7 +93,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType)
         {
-            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(string), default(bool), default(bool));
+            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(bool), default(bool));
         }
 
         /// <summary>
@@ -210,7 +207,6 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureDefinition { get; set; }
         public string DataSourceText { get; set; }
         public string ExternalDataSourceUrl { get; set; }
-        public string ChartTitle { get; set; }
         public string ChartCaption { get; set; }
         public bool SwapChartAxes { get; set; }
         public bool CanCalculateTotal { get; set; }
@@ -240,7 +236,6 @@ namespace ProjectFirma.Web.Models
             public const int PerformanceMeasureDisplayName = 200;
             public const int DataSourceText = 200;
             public const int ExternalDataSourceUrl = 200;
-            public const int ChartTitle = 500;
             public const int ChartCaption = 1000;
         }
     }

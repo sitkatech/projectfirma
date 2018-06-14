@@ -1062,7 +1062,6 @@
     <Property Name="PerformanceMeasureDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="DataSourceText" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ExternalDataSourceUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="SwapChartAxes" Type="Boolean" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="Boolean" Nullable="false" />

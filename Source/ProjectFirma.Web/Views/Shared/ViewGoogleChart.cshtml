@@ -42,17 +42,12 @@
         @if (ViewDataTyped.ShowChartTitle)
         {
             <div class="chartTitle">
-                @if (ViewDataTyped.PerformanceMeasure != null)
+                @if (ViewDataTyped.PerformanceMeasure != null && ViewDataTyped.HyperlinkPerformanceMeasureName)
                 {
-                    if (ViewDataTyped.HyperlinkPerformanceMeasureName)
-                    {
-                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
-                        <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
-                    }
-                    else
-                    {
-                        <b>@ViewDataTyped.PerformanceMeasure.ChartTitle</b>
-                    }
+                    <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
+                          onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)">
+                    </span>
+                    <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
                 }
                 else
                 {
@@ -164,6 +159,7 @@
             {
                 jQuery(".chartGroup" + chartName).css("display", "none");
                 jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
+                @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
                 GoogleCharts.drawCharts(googleCharts);
             });
             templateDropdown.trigger("change");
@@ -172,7 +168,9 @@
         {
             jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
         }
+        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
         GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
+        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
         jQuery(window).resize(function() { GoogleCharts.drawCharts(googleCharts); });
     });
 </script>

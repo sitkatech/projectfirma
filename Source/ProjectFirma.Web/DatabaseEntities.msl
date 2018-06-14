@@ -372,7 +372,6 @@
           <ScalarProperty Name="PerformanceMeasureDefinition" ColumnName="PerformanceMeasureDefinition" />
           <ScalarProperty Name="DataSourceText" ColumnName="DataSourceText" />
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
-          <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
