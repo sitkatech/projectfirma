@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -1120,11 +1120,8 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureActualUpdate.cs" />
     <Compile Include="Views\PerformanceMeasure\DefinitionAndGuidance.cs" />
     <Compile Include="Views\PerformanceMeasure\DefinitionAndGuidanceViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditAccomplishmentsMetadata.cs" />
     <Compile Include="Views\PerformanceMeasure\Edit.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditAccomplishmentsMetadataViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditAccomplishmentsMetadataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\EditViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\Index.cs" />
     <Compile Include="Views\PerformanceMeasure\IndexViewData.cs" />
@@ -3346,7 +3343,6 @@
     <Content Include="Views\PerformanceMeasure\PerformanceMeasureChart.cshtml" />
     <Content Include="Views\PerformanceMeasure\PerformanceMeasureChartPopup.cshtml" />
     <Content Include="Views\PerformanceMeasure\Detail.cshtml" />
-    <Content Include="Views\PerformanceMeasure\EditAccomplishmentsMetadata.cshtml" />
     <Content Include="Views\MonitoringProgram\Edit.cshtml" />
     <Content Include="Views\MonitoringProgram\Index.cshtml" />
     <Content Include="Views\MonitoringProgram\Detail.cshtml" />
