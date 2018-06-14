@@ -34,8 +34,6 @@ EXCEPT
 union select distinct p.ProjectID, fs.OrganizationID, p.TenantID from dbo.Project p join dbo.ProjectFundingSourceExpenditure r on p.ProjectID = r.ProjectID join dbo.FundingSource fs on r.FundingSourceID = fs.FundingSourceID))
 e
 
-select distinct OrganizationID, TenantID from #MissingFundingRelationships
-
 -- Identify all Organizations currently used in a "Funder" relationship that aren't backed by the PFS Request/Expenditure tables and create "Unspecified" FundingSources for those organizations
 Insert into dbo.FundingSource ([TenantID], [OrganizationID], [FundingSourceName], [IsActive], [FundingSourceDescription])
 select distinct
