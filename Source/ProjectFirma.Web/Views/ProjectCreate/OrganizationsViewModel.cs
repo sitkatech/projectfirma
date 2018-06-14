@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public OrganizationsViewModel(Models.Project project, Person currentPerson) : base(project, project.GetAssociatedOrganizations().OrderBy(x => x.Organization.OrganizationName).ToList(), currentPerson)
+        public OrganizationsViewModel(Models.Project project, Person currentPerson) : base(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), currentPerson)
         {
             
         }
