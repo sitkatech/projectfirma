@@ -1084,7 +1084,6 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMea
     <Property Name="PerformanceMeasureDefinition" Type="varchar(max)" />
     <Property Name="DataSourceText" Type="varchar" MaxLength="200" />
     <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
-    <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
     <Property Name="SwapChartAxes" Type="bit" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />

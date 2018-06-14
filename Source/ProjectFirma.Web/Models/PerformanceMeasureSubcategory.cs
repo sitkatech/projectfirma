@@ -54,8 +54,8 @@ namespace ProjectFirma.Web.Models
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
                     : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, subcategoryOptions, performanceMeasure.CanCalculateTotal);
-                var chartColumns = performanceMeasure.HasRealSubcategories ? subcategoryOptions : new List<string> { performanceMeasure.ChartTitle };
-                var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.ChartTitle;
+                var chartColumns = performanceMeasure.HasRealSubcategories ? subcategoryOptions : new List<string> { performanceMeasure.DisplayName };
+                var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.DisplayName;
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                     x.SaveChartConfiguration(performanceMeasure,
@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Models
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.ChartTitle, GoogleChartColumnDataType.String) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.DisplayName, GoogleChartColumnDataType.String) };
             googleChartColumns.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate).Select(x =>
                 new GoogleChartColumn(x.PerformanceMeasureReportingPeriodID.ToString(), x.PerformanceMeasureReportingPeriodLabel, GoogleChartColumnDataType.Number.ColumnDataType)));
 
