@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -144,7 +145,7 @@ namespace ProjectFirma.Web.Models
 
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
 
-            return explicitOrganizations;
+            return explicitOrganizations.DistinctBy(x=>new {x.ProjectID, x.OrganizationID}).ToList();
         }
     }
 }

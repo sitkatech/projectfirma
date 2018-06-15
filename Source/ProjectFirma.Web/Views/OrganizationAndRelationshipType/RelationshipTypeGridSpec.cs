@@ -48,7 +48,6 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
             Add($"Can Steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add("Reported In Accomplishments Dashboard?", a => a.ReportInAccomplishmentsDashboard.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Must be related to a project once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)

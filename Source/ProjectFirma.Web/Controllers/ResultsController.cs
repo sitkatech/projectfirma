@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.ProjectOrganizations.Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Projects.ToList()
                     .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
-                    .SelectMany(x => x.ProjectOrganizations.Where(y => y.Organization.OrganizationType.IsFundingType))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType))
                     .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard())
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
@@ -429,14 +429,20 @@ namespace ProjectFirma.Web.Controllers
                 return ViewConfigureAccomplishmentsDashboard(viewModel);
             }
 
-            viewModel.UpdateModel();
+            var relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes;
+
+            viewModel.UpdateModel(relationshipTypes);
 
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewConfigureAccomplishmentsDashboard(ConfigureAccomplishmentsDashboardViewModel viewModel)
         {
-            var viewData = new ConfigureAccomplishmentsDashboardViewData();
+            IEnumerable<SelectListItem> relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes
+                .ToList().ToSelectListWithEmptyFirstRow(
+                    x => x.RelationshipTypeID.ToString(CultureInfo.InvariantCulture),
+                    x => x.RelationshipTypeName.ToString(CultureInfo.InvariantCulture), "Funding Organization");
+            var viewData = new ConfigureAccomplishmentsDashboardViewData(relationshipTypes);
             return RazorPartialView<ConfigureAccomplishmentsDashboard, ConfigureAccomplishmentsDashboardViewData,
                 ConfigureAccomplishmentsDashboardViewModel>(viewData, viewModel);
         }

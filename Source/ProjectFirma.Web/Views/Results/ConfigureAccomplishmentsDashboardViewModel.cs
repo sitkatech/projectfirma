@@ -32,6 +32,9 @@ namespace ProjectFirma.Web.Views.Results
         [DisplayName("Include Reporting Organization in Accomplishments Dashboard?")]
         public bool? IncludeReportingOrganizationType { get; set; }
 
+        [DisplayName("Project-Organization Relationship to Report?")]
+        public int? RelationshipTypetoIncludeID { get; set; }
+
         public ConfigureAccomplishmentsDashboardViewModel()
         {
         }
@@ -47,9 +50,11 @@ namespace ProjectFirma.Web.Views.Results
             FundingDisplayTypeID =
                 tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID;
             IncludeReportingOrganizationType = tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType;
+            RelationshipTypetoIncludeID = MultiTenantHelpers
+                .GetCanReportInAccomplishmentsDashboardOrganizationRelationship()?.RelationshipTypeID;
         }
 
-        public void UpdateModel()
+        public void UpdateModel(IQueryable<RelationshipType> relationshipTypes)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
@@ -63,6 +68,12 @@ namespace ProjectFirma.Web.Views.Results
                 ModelObjectHelpers.NotYetAssignedID; // Should never be null due to Required validation
             tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType =
                 IncludeReportingOrganizationType ?? false; // Should never be null due to Required validation
+
+            foreach (var relationshipType in relationshipTypes)
+            {
+                relationshipType.ReportInAccomplishmentsDashboard =
+                    relationshipType.RelationshipTypeID == RelationshipTypetoIncludeID;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

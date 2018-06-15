@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Models
                 .Union(organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures)
                     .Select(x => x.Project))
                 .Union(organization.ProjectOrganizations.Select(x => x.Project))
-                .Distinct().ToList();
+                .ToList();
         }
 
         public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
