@@ -77,8 +77,16 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
-                .Select(x => x.Organization).ToList();
+            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() == null)
+            {
+                return ProjectOrganizations.Where(x => x.Organization.FundingSources.Any()).Select(x => x.Organization)
+                    .ToList();
+            }
+            else
+            {
+                return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+                    .Select(x => x.Organization).ToList();
+            }
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??

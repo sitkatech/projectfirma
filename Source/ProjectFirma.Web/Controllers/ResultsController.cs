@@ -48,10 +48,24 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
 
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
-                .Where(x => x.CanBeReportedInAccomplishmentsDashboard())
-                .OrderBy(x => x.OrganizationName)
-                .ToList();
+            List<Organization> organizations;
+            // default to Funding Organizations if no relationship type is selected to report in the dashboard.
+            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() != null)
+            {
+                organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
+                    .Where(x => x.CanBeReportedInAccomplishmentsDashboard())
+                    .OrderBy(x => x.OrganizationName)
+                    .ToList();
+            }
+            else
+            {
+                //organizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests
+                //    .Select(x => x.FundingSource.Organization).Union(
+                //        HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Select(x =>
+                //            x.FundingSource.Organization)).OrderBy(x => x.OrganizationName).ToList();
+                organizations = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => x.Organization)
+                    .Distinct().ToList();
+            }
 
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
