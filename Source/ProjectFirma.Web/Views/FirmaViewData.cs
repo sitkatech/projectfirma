@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
-            if (MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
             }

@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int organizationID, int beginYear, int endYear)
         {
             var projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Where(x => x.CalendarYear >= beginYear && x.CalendarYear <= endYear).ToList();
-            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 return projectFundingSourceExpenditures.Where(x => x.Project.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == organizationID))
                     .OrderBy(x => x.Project.ProjectName)
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
             Organization organization = null;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+                MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard();
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
         {
             List<Project> projects;
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+                MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Controllers
 
             var includeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardIncludeReportingOrganizationType();
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
-                MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+                MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()

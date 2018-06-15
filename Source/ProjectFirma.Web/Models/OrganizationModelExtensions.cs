@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(this Organization organization)
         {
-            Check.Assert(MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard());
+            Check.Assert(MultiTenantHelpers.DisplayAccomplishmentDashboard());
             return organization.GetAllAssociatedProjects()
                 .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
                 .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == organization))
