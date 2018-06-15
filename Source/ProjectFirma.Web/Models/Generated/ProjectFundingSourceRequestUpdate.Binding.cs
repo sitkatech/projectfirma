@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequestUpdate(int projectFundingSourceRequestUpdateID, int projectUpdateBatchID, int fundingSourceID, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequestUpdate(int projectFundingSourceRequestUpdateID, int projectUpdateBatchID, int fundingSourceID, decimal? securedAmount, decimal? unsecuredAmount) : this()
         {
             this.ProjectFundingSourceRequestUpdateID = projectFundingSourceRequestUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -42,21 +42,19 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequestUpdate(int projectUpdateBatchID, int fundingSourceID, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequestUpdate(int projectUpdateBatchID, int fundingSourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceRequestUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
-            this.SecuredAmount = securedAmount;
-            this.UnsecuredAmount = unsecuredAmount;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectFundingSourceRequestUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequestUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceRequestUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,8 +64,6 @@ namespace ProjectFirma.Web.Models
             this.FundingSourceID = fundingSource.FundingSourceID;
             this.FundingSource = fundingSource;
             fundingSource.ProjectFundingSourceRequestUpdates.Add(this);
-            this.SecuredAmount = securedAmount;
-            this.UnsecuredAmount = unsecuredAmount;
         }
 
         /// <summary>
@@ -75,7 +71,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ProjectFundingSourceRequestUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource)
         {
-            return new ProjectFundingSourceRequestUpdate(projectUpdateBatch, fundingSource, default(decimal), default(decimal));
+            return new ProjectFundingSourceRequestUpdate(projectUpdateBatch, fundingSource);
         }
 
         /// <summary>
@@ -106,8 +102,8 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
-        public decimal SecuredAmount { get; set; }
-        public decimal UnsecuredAmount { get; set; }
+        public decimal? SecuredAmount { get; set; }
+        public decimal? UnsecuredAmount { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectFundingSourceRequestUpdateID; } set { ProjectFundingSourceRequestUpdateID = value; } }
 

@@ -81,11 +81,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 {
                     validationResults.Add(new ValidationResult("Each funding source can only be used once."));
                 }
-
-                if (ProjectFundingSourceRequests.Any(x => x.AreBothValuesZeroOrEmpty()))
-                {
-                    validationResults.Add(new ValidationResult(FirmaValidationMessages.ExpectedFundingValuesCannotBothBeZeroOrEmpty));
-                }
             }
             return validationResults;
         }

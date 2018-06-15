@@ -88,14 +88,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 ProjectOrganizationSimples = new List<ProjectOrganizationSimple>();
             }
 
-            // todo: rewrite this
-            //if (projectOrganizations.Any(x => x.OrganizationID == null))
-            //{
-            //    errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
-            //    return errors;
-            //}
-            
-            // todo: is this the right linq? 90% sure it is.
             if (ProjectOrganizationSimples.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
@@ -103,7 +95,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             
             var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
 
-            // no more than one todo right linq?
             var projectOrganizationsGroupedByRelationshipTypeID =
                 ProjectOrganizationSimples.GroupBy(x => x.RelationshipTypeID).ToList();
 
@@ -112,13 +103,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 .Select(relationshipType => new ValidationResult(
                     $"Cannot have more than one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
-            // not zero todo right linq?
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
                     $"Must have one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
-            // todo right linq?
             var allValidRelationshipTypes = ProjectOrganizationSimples.All(x =>
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);

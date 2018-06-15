@@ -77,8 +77,16 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
-                .Select(x => x.Organization).ToList();
+            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() == null)
+            {
+                return ProjectOrganizations.Where(x => x.Organization.FundingSources.Any()).Select(x => x.Organization)
+                    .ToList();
+            }
+            else
+            {
+                return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+                    .Select(x => x.Organization).ToList();
+            }
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
@@ -91,12 +99,12 @@ namespace ProjectFirma.Web.Models
 
         public decimal? GetSecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal GetUnsecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
 
 
@@ -309,9 +317,10 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyBranchID", TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
-                foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                var associatedOrganizations = this.GetAssociatedOrganizations();
+                foreach (var type in associatedOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
-                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
                 }
 
                 if (useDetailedCustomPopup)
@@ -345,9 +354,10 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ProjectOrganizations.Any()
+                var associatedOrganizations = this.GetAssociatedOrganizations();
+                return associatedOrganizations.Any()
                     ? string.Join(", ",
-                        ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                        associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
                             .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
                             .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
                             .Distinct())
@@ -358,7 +368,7 @@ namespace ProjectFirma.Web.Models
         public string AssocatedOrganizationNames(Organization organization)
         {
             var projectOrganizationAssocationNames = new List<string>();
-            ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
+            this.GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
             return string.Join(", ", projectOrganizationAssocationNames);
         }
 

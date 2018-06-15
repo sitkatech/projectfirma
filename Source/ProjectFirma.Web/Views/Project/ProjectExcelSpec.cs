@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn($"Non-Lead Implementing {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
-                x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
+                x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
                 {

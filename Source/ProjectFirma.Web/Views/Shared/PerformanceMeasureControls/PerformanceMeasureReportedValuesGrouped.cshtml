@@ -24,7 +24,7 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesGrouped
 
-@{ const string fixedWidthStyleForYearTotalAndUnits = "width: 105px;";}
+@{ const string fixedWidthStyleForYearTotalAndUnits = "min-width:75px; width:75px; max-width: 75px;";}
 
 @if (ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
 {
@@ -135,7 +135,7 @@
                                 var pmvso = subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == subategory.PerformanceMeasureSubcategoryID);
                                 var subcategoryOptionName = pmvso != null ? pmvso.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : "Unknown";
 
-                                <td>@subcategoryOptionName</td>
+                        <td style="overflow-x: auto">@subcategoryOptionName</td>
                             }
                         }
                     }

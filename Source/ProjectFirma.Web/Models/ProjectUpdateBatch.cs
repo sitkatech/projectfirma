@@ -399,11 +399,6 @@ namespace ProjectFirma.Web.Models
 
         public ExpectedFundingValidationResult ValidateExpectedFunding(List<ProjectFundingSourceRequestSimple> newProjectFundingSourceRequests)
         {
-            // get distinct Funding Sources
-            if (newProjectFundingSourceRequests.Any(x => x.AreBothValuesZeroOrEmpty()))
-            {
-                return new ExpectedFundingValidationResult(FirmaValidationMessages.ExpectedFundingValuesCannotBothBeZeroOrEmpty);
-            }
             return new ExpectedFundingValidationResult();
         }
 

@@ -1480,8 +1480,8 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
-    <Property Name="SecuredAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="UnsecuredAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="SecuredAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UnsecuredAmount" Type="Decimal" Precision="19" Scale="4" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequest_FundingSource_FundingSourceID" FromRole="ProjectFundingSourceRequests" ToRole="FundingSource" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequest_Project_ProjectID" FromRole="ProjectFundingSourceRequests" ToRole="Project" />
   </EntityType>
@@ -1493,8 +1493,8 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
-    <Property Name="SecuredAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="UnsecuredAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="SecuredAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UnsecuredAmount" Type="Decimal" Precision="19" Scale="4" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" FromRole="ProjectFundingSourceRequestUpdates" ToRole="FundingSource" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectFundingSourceRequestUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
@@ -1964,6 +1964,7 @@
     <Property Name="AccomplishmentsDashboardOrganizationsButtonText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="Boolean" Nullable="false" />
     <Property Name="ShowLeadImplementerLogoOnFactSheet" Type="Boolean" Nullable="false" />
+    <Property Name="EnableAccomplishmentsDashboard" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />

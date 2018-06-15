@@ -68,7 +68,6 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
 
         public List<ProjectStage> ProjectStages { get; }
-        public List<ProjectOrganization> AllProjectOrganizations { get; }
         public string MapFormID { get; }
 
         public ProjectUpdateBatchGridSpec ProjectUpdateBatchGridSpec { get; }
@@ -246,7 +245,6 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectBoundingBoxUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
             EditProjectBoundingBoxFormID = editProjectBoundingBoxFormID;
 
-            AllProjectOrganizations = project.ProjectOrganizations.ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
 
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;

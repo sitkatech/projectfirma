@@ -8,11 +8,11 @@ namespace ProjectFirma.Web.Views.Project
         public Models.FundingSource FundingSource { get; }
         public int FundingSourceID => FundingSource?.FundingSourceID ?? ModelObjectHelpers.NotYetAssignedID;
 
-        public decimal SecuredAmount { get; set; }
-        public decimal UnsecuredAmount { get; set;  }
+        public decimal? SecuredAmount { get; set; }
+        public decimal? UnsecuredAmount { get; set;  }
         public string DisplayCssClass;
 
-        public FundingSourceRequestAmount(Models.FundingSource fundingSource, decimal securedAmount, decimal unsecuredAmount, string displayCssClass)
+        public FundingSourceRequestAmount(Models.FundingSource fundingSource, decimal? securedAmount, decimal? unsecuredAmount, string displayCssClass)
         {
             FundingSource = fundingSource;
             SecuredAmount = securedAmount;

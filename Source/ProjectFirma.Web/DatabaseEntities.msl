@@ -1131,6 +1131,7 @@
           <ScalarProperty Name="AccomplishmentsDashboardOrganizationsButtonText" ColumnName="AccomplishmentsDashboardOrganizationsButtonText" />
           <ScalarProperty Name="AccomplishmentsDashboardIncludeReportingOrganizationType" ColumnName="AccomplishmentsDashboardIncludeReportingOrganizationType" />
           <ScalarProperty Name="ShowLeadImplementerLogoOnFactSheet" ColumnName="ShowLeadImplementerLogoOnFactSheet" />
+          <ScalarProperty Name="EnableAccomplishmentsDashboard" ColumnName="EnableAccomplishmentsDashboard" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
