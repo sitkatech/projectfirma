@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
-using System.Threading;
 using Microsoft.IdentityModel.Claims;
 using Microsoft.IdentityModel.Web;
 using log4net;
@@ -11,132 +12,89 @@ namespace Keystone.Common
     {
         public static readonly ILog Logger = LogManager.GetLogger(typeof(KeystoneClaimsHelpers));
 
-        public static IKeystoneUserClaims ParseClaims()
+        public static IKeystoneUserClaims ParseClaims(IIdentity userIdentity)
         {
+            if (userIdentity == null)
+            {
+                throw new NullReferenceException($"Should have {nameof(IIdentity)}");
+            }
+
             var keystoneUserClaims = new KeystoneUserClaims();
-
-            // core claims always supplied
-            keystoneUserClaims.UserGuid = GetGuidClaimValue(ClaimTypes.NameIdentifier);
-            keystoneUserClaims.DisplayName = GetStringClaimValue(ClaimTypes.Name);
-            keystoneUserClaims.LastName = GetStringClaimValue(ClaimTypes.Surname);
-            keystoneUserClaims.FirstName = GetStringClaimValue(ClaimTypes.GivenName);
-            keystoneUserClaims.Email = GetStringClaimValue(ClaimTypes.Email);
-            keystoneUserClaims.LoginName = GetStringOptionalClaimValue(KeystoneClaimTypes.LoginName);
-
-            // optional claims may or may not be supplied
-            keystoneUserClaims.OrganizationGuid = GetGuidOptionalClaimValue(KeystoneClaimTypes.OrganizationIdentifier);
-            keystoneUserClaims.OrganizationName = GetStringOptionalClaimValue(KeystoneClaimTypes.OrganizationName);
-            keystoneUserClaims.OrganizationShortName = GetStringOptionalClaimValue(KeystoneClaimTypes.OrganizationShortName);
-            keystoneUserClaims.Address1 = GetStringOptionalClaimValue(ClaimTypes.StreetAddress);
-            keystoneUserClaims.City = GetStringOptionalClaimValue(ClaimTypes.Locality);
-            keystoneUserClaims.StateName = GetStringOptionalClaimValue(ClaimTypes.StateOrProvince);
-            keystoneUserClaims.PostalCode = GetStringOptionalClaimValue(ClaimTypes.PostalCode);
-            keystoneUserClaims.CountryName = GetStringOptionalClaimValue(ClaimTypes.Country);
-            keystoneUserClaims.PrimaryPhone = GetStringOptionalClaimValue(ClaimTypes.OtherPhone);
-            keystoneUserClaims.PersonalURL = GetStringOptionalClaimValue(ClaimTypes.Webpage);
-            keystoneUserClaims.TimeZoneInfo = GetTimeZoneInfoClaimValue(KeystoneClaimTypes.TimeZone);
-            keystoneUserClaims.TimeZoneIana = GetStringOptionalClaimValue(KeystoneClaimTypes.TimeZoneIana);
+            if (userIdentity is ClaimsIdentity claimsIdentity)
+            {
+                var claimsDictionary = claimsIdentity.Claims.ToList().GroupBy(x => x.ClaimType, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.First().Value);
+                // core claims always supplied
+                keystoneUserClaims.UserGuid = GetGuidClaimValue(claimsDictionary, ClaimTypes.NameIdentifier);
+                keystoneUserClaims.DisplayName = GetStringClaimValue(claimsDictionary, ClaimTypes.Name);
+                keystoneUserClaims.LastName = GetStringClaimValue(claimsDictionary, ClaimTypes.Surname);
+                keystoneUserClaims.FirstName = GetStringClaimValue(claimsDictionary, ClaimTypes.GivenName);
+                keystoneUserClaims.Email = GetStringClaimValue(claimsDictionary, ClaimTypes.Email);
+                // optional claims may or may not be supplied
+                keystoneUserClaims.LoginName = GetStringOptionalClaimValue(claimsDictionary, KeystoneClaimTypes.LoginName);
+                keystoneUserClaims.OrganizationGuid = GetGuidOptionalClaimValue(claimsDictionary, KeystoneClaimTypes.OrganizationIdentifier);
+                keystoneUserClaims.OrganizationName = GetStringOptionalClaimValue(claimsDictionary, KeystoneClaimTypes.OrganizationName);
+                keystoneUserClaims.OrganizationShortName = GetStringOptionalClaimValue(claimsDictionary, KeystoneClaimTypes.OrganizationShortName);
+                keystoneUserClaims.Address1 = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.StreetAddress);
+                keystoneUserClaims.City = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.Locality);
+                keystoneUserClaims.StateName = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.StateOrProvince);
+                keystoneUserClaims.PostalCode = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.PostalCode);
+                keystoneUserClaims.CountryName = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.Country);
+                keystoneUserClaims.PrimaryPhone = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.OtherPhone);
+                keystoneUserClaims.PersonalURL = GetStringOptionalClaimValue(claimsDictionary, ClaimTypes.Webpage);
+                keystoneUserClaims.TimeZoneInfo = GetTimeZoneInfoClaimValue(claimsDictionary, KeystoneClaimTypes.TimeZone);
+                keystoneUserClaims.TimeZoneIana = GetStringOptionalClaimValue(claimsDictionary, KeystoneClaimTypes.TimeZoneIana);
+            }
+            else
+            {
+                throw new KeystoneClaimNotFoundException($"The {nameof(IIdentity)} is not expected type {nameof(ClaimsIdentity)}. {nameof(IIdentity.Name)}: {userIdentity.Name}");
+            }
 
             return keystoneUserClaims;
         }
 
-        public static Guid GetUserGuidClaim()
+        private static void EnsureClaimTypeExists(System.Collections.Generic.IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
         {
-            return GetGuidClaimValue(ClaimTypes.NameIdentifier);
-        }
-
-        public static Guid GetUserGuidClaim(IClaimsIdentity claimsIdentity)
-        {
-            return GetGuidClaimValue(claimsIdentity, ClaimTypes.NameIdentifier);
-        }
-
-        private static string GetStringClaimValue(string claimType)
-        {
-            var claimValue = string.Empty;
-
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
+            if (!claimsDictionary.ContainsKey(claimType))
             {
-                claimValue = claimsIdentity.GetClaimValue(claimType);
+                throw new KeystoneClaimNotFoundException(claimType);
             }
+        }
 
+        private static Guid GetGuidClaimValue(IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
+        {
+            EnsureClaimTypeExists(claimsDictionary, claimType);
+            Guid.TryParse(claimsDictionary[claimType], out var claimValue);
             return claimValue;
         }
 
-        private static string GetStringOptionalClaimValue(string claimType)
+        private static Guid? GetGuidOptionalClaimValue(IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
         {
-            var claimValue = string.Empty;
-
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
+            if (claimsDictionary.ContainsKey(claimType) && Guid.TryParse(claimsDictionary[claimType], out var claimValue))
             {
-                claimsIdentity.TryGetClaimValue(claimType, out claimValue);
+                return claimValue;
             }
-
-            return claimValue;
-        }
-
-        private static Guid GetGuidClaimValue(string claimType)
-        {
-            var claimValue = Guid.Empty;
-
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
-            {
-                var claim = claimsIdentity.GetClaimValue(claimType);
-                var validClaim = Guid.TryParse(claim, out claimValue);
-                if (validClaim)
-                    return claimValue;
-            }
-
-            return claimValue;
-        }
-
-        private static Guid GetGuidClaimValue(IClaimsIdentity claimsIdentity, string claimType)
-        {
-            var claimValue = Guid.Empty;
-
-            if (claimsIdentity != null)
-            {
-                var claim = claimsIdentity.GetClaimValue(claimType);
-                var validClaim = Guid.TryParse(claim, out claimValue);
-                if (validClaim)
-                    return claimValue;
-            }
-
-            return claimValue;
-        }
-
-        private static Guid? GetGuidOptionalClaimValue(string claimType)
-        {
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
-            {
-                string claim;
-                var claimFound = claimsIdentity.TryGetClaimValue(claimType, out claim);
-                if (claimFound)
-                {
-                    Guid claimValue;
-                    var validClaim = Guid.TryParse(claim, out claimValue);
-                    if (validClaim)
-                        return claimValue;
-                }
-            }
-
             return null;
         }
 
-        private static TimeZoneInfo GetTimeZoneInfoClaimValue(string claimType)
+        private static string GetStringClaimValue(IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
+        {
+            EnsureClaimTypeExists(claimsDictionary, claimType);
+            return claimsDictionary[claimType];
+        }
+
+        private static string GetStringOptionalClaimValue(IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
+        {
+            return claimsDictionary.ContainsKey(claimType) ? claimsDictionary[claimType] : null;
+        }
+
+        private static TimeZoneInfo GetTimeZoneInfoClaimValue(IReadOnlyDictionary<string, string> claimsDictionary, string claimType)
         {
             var claimValue = TimeZoneInfo.Local;
-
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
+            if (claimsDictionary.ContainsKey(claimType))
             {
-                var claim = claimsIdentity.GetClaimValue(claimType);
                 try
                 {
-                    return TimeZoneInfo.FromSerializedString(claim);
+                    return TimeZoneInfo.FromSerializedString(claimsDictionary[claimType]);
                 }
                 catch
                 {
@@ -163,8 +121,8 @@ namespace Keystone.Common
                 return anonymousSitkaUser;
             }
 
-            var userGuid = GetUserGuidClaim();
-            var user = getUserByGuid(userGuid);
+            var keystoneUserClaims = ParseClaims(principal.Identity);
+            var user = getUserByGuid(keystoneUserClaims.UserGuid);
 
             if (user == null)
             {
@@ -172,14 +130,13 @@ namespace Keystone.Common
                 // we'll force a signout which will delete the FedAuth cookie... but other RPs and Keystome will still consider the user as authenticated
                 // if the user attempts to access a protected resource, they'll be sent thru the SSO flow again...and since they're still authenticated at tKeystone
                 // we'll do a local sync again                
-                Logger.ErrorFormat("Could not find authenticated user with UserGuid='{0}' in database - reverting to anonymous user", userGuid);
+                Logger.ErrorFormat("Could not find authenticated user with UserGuid='{0}' in database - reverting to anonymous user", keystoneUserClaims.UserGuid);
                 var fam = FederatedAuthentication.WSFederationAuthenticationModule;
                 fam.SignOut(false);
                 user = anonymousSitkaUser;
             }
 
             // otherwise remap claims from principal
-            var keystoneUserClaims = ParseClaims();
             user.SetKeystoneUserClaims(keystoneUserClaims);
 
             return user;

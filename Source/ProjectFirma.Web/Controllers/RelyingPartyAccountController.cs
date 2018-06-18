@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Security.Principal;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
@@ -63,6 +65,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         // RP specific logic to sync or on-the-fly provision of local user account - claims are parsed into IKeystoneUserClaims provided object
-        protected abstract IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims);
+        protected abstract IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity);
     }
 }

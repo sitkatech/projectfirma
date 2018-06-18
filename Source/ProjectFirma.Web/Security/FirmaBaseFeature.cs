@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -55,7 +56,7 @@ namespace ProjectFirma.Web.Security
             Roles = CalculateRoleNameStringFromFeature();
 
             // MR #321 - force reload of user roles onto IClaimsIdentity
-            KeystoneUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person);
+            KeystoneUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, Thread.CurrentPrincipal.Identity);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
