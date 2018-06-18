@@ -98,10 +98,26 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Lead Implementer</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>Funders</strong>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    @ViewDataTyped.Project.FundingOrganizationNamesForFactSheet
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
                     <strong>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.ProjectOrganizationNamesAndTypes
+                    @ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet
                 </div>
             </div>
             <div class="row">

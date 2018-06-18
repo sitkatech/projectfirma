@@ -350,18 +350,32 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public string ProjectOrganizationNamesAndTypes
+        /// <summary>
+        /// Returns a commma-separated list of organizations that doesn't include the lead implementer or the funders and only includes the relationships that are configured to show on the fact sheet
+        /// </summary>
+        public string ProjectOrganizationNamesForFactSheet
         {
             get
             {
-                var associatedOrganizations = this.GetAssociatedOrganizations();
-                return associatedOrganizations.Any()
+                // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
+                var associatedOrganizations = ProjectOrganizations.Where(x=>x.RelationshipType.ShowOnFactSheet).ToList();
+                associatedOrganizations.RemoveAll(x=>x.OrganizationID == GetPrimaryContactOrganization()?.OrganizationID);
+                var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                    .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+                    .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
+                    .Distinct().ToList();
+                return organizationNames.Any()
                     ? string.Join(", ",
-                        associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
-                            .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
-                            .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
-                            .Distinct())
+                        organizationNames)
                     : string.Empty;
+            }
+        }
+
+        public string FundingOrganizationNamesForFactSheet
+        {
+            get
+            {
+                return string.Join(", ", this.GetFundingOrganizations().Select(x => x.Organization.OrganizationName));
             }
         }
 

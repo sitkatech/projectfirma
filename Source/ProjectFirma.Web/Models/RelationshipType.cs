@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class RelationshipType : IAuditableEntity
     {
-        public static RelationshipType Funder = new RelationshipType(ModelObjectHelpers.NotYetAssignedID, "Funder", false, false, false, string.Empty, true);
+        public static RelationshipType Funder = new RelationshipType(ModelObjectHelpers.NotYetAssignedID, "Funder", false, false, false, string.Empty, true, true);
 
         public bool CanDelete()
         {
