@@ -357,8 +357,10 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
+                // get the list of funders so we can exclude any that have other project associations
+                var fundingOrganizations = this.GetFundingOrganizations().Select(x => x.Organization);
                 // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
-                var associatedOrganizations = ProjectOrganizations.Where(x=>x.RelationshipType.ShowOnFactSheet).ToList();
+                var associatedOrganizations = ProjectOrganizations.Where(x=>x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.Organization)).ToList();
                 associatedOrganizations.RemoveAll(x=>x.OrganizationID == GetPrimaryContactOrganization()?.OrganizationID);
                 var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
                     .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
@@ -375,7 +377,9 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return string.Join(", ", this.GetFundingOrganizations().Select(x => x.Organization.OrganizationName));
+                return string.Join(", ", this.GetFundingOrganizations().OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                    .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+                    .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName));
             }
         }
 

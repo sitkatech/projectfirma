@@ -96,30 +96,49 @@
                     @ViewDataTyped.TaxonomyLeafName
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>Lead Implementer</strong>
+            @{
+                var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
+            }
+            @if(primaryContactOrganization != null)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Lead Implementer</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+            }
+            @{
+                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.FundingOrganizationNamesForFactSheet;
+            }
+            @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Funders</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @projectFundingOrganizationNamesForFactSheet
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>Funders</strong>
+            }
+
+            @{
+                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet;
+            }
+            @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @projectOtherOrganizationNamesForFactSheet
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.FundingOrganizationNamesForFactSheet
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet
-                </div>
-            </div>
+            }
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <strong>Primary Contact</strong>
