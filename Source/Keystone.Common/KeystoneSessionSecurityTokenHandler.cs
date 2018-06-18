@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Web;
 using log4net;
+using SessionSecurityToken = Microsoft.IdentityModel.Tokens.SessionSecurityToken;
+using SessionSecurityTokenHandler = Microsoft.IdentityModel.Tokens.SessionSecurityTokenHandler;
 
 namespace Keystone.Common
 {

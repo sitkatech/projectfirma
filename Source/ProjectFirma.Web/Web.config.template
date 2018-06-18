@@ -67,9 +67,9 @@
     </compilation>
     <!-- ASP.NET session cookie should be httponly and secure -->
     <httpCookies httpOnlyCookies="true" requireSSL="true" lockItem="true"/>
-    <sessionState mode="InProc" customProvider="DefaultSessionProvider">
+    <sessionState mode="Custom" customProvider="InMemorySessionStateStore" timeout="720">
       <providers>
-        <add name="DefaultSessionProvider" type="System.Web.Providers.DefaultSessionStateProvider, System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" connectionStringName="DefaultConnection"/>
+        <add name="InMemorySessionStateStore" type="LtInfo.Common.Mvc.InMemorySessionStateStore"/>
       </providers>
     </sessionState>
     <!-- authc delegated to Keystone - see <microsoft.identityModel> config section below -->

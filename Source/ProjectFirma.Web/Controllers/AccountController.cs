@@ -19,9 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Linq;
 using System.Net.Mail;
-using System.Threading;
+using System.Security.Principal;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -48,11 +47,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         // also need to decide how to handle account verification status and also implement hash on db row to avoid unnecessary updates
-        protected override IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims)
+        protected override IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity)
         {
             SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
-                Thread.CurrentPrincipal.Identity.Name,
-                Thread.CurrentPrincipal.Identity.IsAuthenticated);
+                userIdentity.Name,
+                userIdentity.IsAuthenticated);
 
             var sendNewUserNotification = false;
             var sendNewOrganizationNotification = false;
