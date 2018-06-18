@@ -46,7 +46,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly int ProjectImagesPerTimingGroup;
         public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
-        public readonly string SupportingAgenciesForDisplay;
         public readonly string EstimatedTotalCost;
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
@@ -109,10 +108,6 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
-            
-            SupportingAgenciesForDisplay = project.ProjectFundingSourceRequests.Any()
-                ? string.Join(", ", project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization.DisplayName).OrderBy(x => x))
-                : ViewUtilities.Unknown;
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : ViewUtilities.Unknown;
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
         }

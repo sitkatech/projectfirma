@@ -87,6 +87,22 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnFactSheet)</div>
+                <div class="col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ShowOnFactSheet)
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.RelationshipTypeDescription)</div>
