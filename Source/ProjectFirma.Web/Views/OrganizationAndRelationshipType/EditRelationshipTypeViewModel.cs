@@ -53,12 +53,16 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
-        [DisplayName("Must be related to a project once?")]
+        [DisplayName("Must be Related to a Project Once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
         public string RelationshipTypeDescription { get; set; }
+
+        [Required]
+        [DisplayName("Show on Project Fact Sheet?")]
+        public bool? ShowOnFactSheet { get; set; }
 
 
         /// <summary>
@@ -79,6 +83,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             IsPrimaryContact = relationshipType.IsPrimaryContact;
             CanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
             RelationshipTypeDescription = relationshipType.RelationshipTypeDescription;
+            ShowOnFactSheet = relationshipType.ShowOnFactSheet;
         }
 
         public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
@@ -94,6 +99,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             relationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
             relationshipType.CanOnlyBeRelatedOnceToAProject = relationshipType.CanStewardProjects || relationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can steward projects and isprimarycontact can only related once to a project
+            relationshipType.ShowOnFactSheet = ShowOnFactSheet ?? false; // sShould never be null due to required validation attribute
             relationshipType.RelationshipTypeDescription = RelationshipTypeDescription;
         }
 

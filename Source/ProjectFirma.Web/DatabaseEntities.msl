@@ -987,6 +987,7 @@
           <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
           <ScalarProperty Name="RelationshipTypeDescription" ColumnName="RelationshipTypeDescription" />
           <ScalarProperty Name="ReportInAccomplishmentsDashboard" ColumnName="ReportInAccomplishmentsDashboard" />
+          <ScalarProperty Name="ShowOnFactSheet" ColumnName="ShowOnFactSheet" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

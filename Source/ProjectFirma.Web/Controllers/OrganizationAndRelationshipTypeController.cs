@@ -26,7 +26,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.OrganizationAndRelationshipType;
 
@@ -145,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteOrganizationType(OrganizationType organizationType, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !organizationType.HasDependentObjects(); //TODO
+            var canDelete = !organizationType.HasDependentObjects();
             var fieldDefinitionLabel = FieldDefinition.OrganizationType.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this {fieldDefinitionLabel} '{organizationType.OrganizationTypeName}'?"
@@ -186,7 +185,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewRelationshipType(viewModel);
             }
-            var relationshipType = new RelationshipType(viewModel.RelationshipTypeName, false, false, false, false);
+            var relationshipType = new RelationshipType(viewModel.RelationshipTypeName, false, false, false, false, false);
             HttpRequestStorage.DatabaseEntities.AllRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
