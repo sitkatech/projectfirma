@@ -1,0 +1,24 @@
+﻿@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Manage
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.HasManagePermissions)
+    {
+        <a class="btn btn-neptune headerButtonText customAttributeTypeButton" href="@ViewDataTyped.NewProjectCustomAttributeTypeUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus") Add Custom Attribute Type</a>
+    }
+}
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
+<div style="margin-top: 10px;">
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>

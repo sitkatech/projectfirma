@@ -1,0 +1,79 @@
+﻿@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Security
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Detail
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+    {
+        <a class="btn btn-neptune headerButtonText customAttributeTypeButton" href="@ViewDataTyped.ProjectCustomAttributeType.GetEditUrl()">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Edit Attribute</a>
+    }
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div class="panel panelNeptune">
+            <div class="panel-heading panelTitle">
+                Basics
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Name")</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.ProjectCustomAttributeTypeName</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinition.ProjectCustomAttributeDataType)</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName</div>
+                </div>
+                @if (ViewDataTyped.ProjectCustomAttributeType.MeasurementUnitTypeID != null)
+                {
+                    <div class="row">
+                        <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit)</label>
+                        <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.GetMeasurementUnitDisplayName()</div>
+                    </div>
+                }
+                @if (ViewDataTyped.ProjectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema != null)
+                {
+                    <div class="row">
+                        <label class="col-sm-3 control-label text-right">@Html.Label("Options")</label>
+                        <div class="col-sm-9">@string.Join(", ", ViewDataTyped.ProjectCustomAttributeType.GetOptionsSchemaAsListOfString())</div>
+                    </div>
+                }
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Required?")</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.IsRequired.ToYesNo()</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinition.ProjectCustomAttributeTypePurpose)</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.ProjectCustomAttributeTypePurpose.ProjectCustomAttributeTypePurposeDisplayName</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Description")</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.ProjectCustomAttributeTypeDescription</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div class="panel panelNeptune">
+            <div class="panel-heading panelTitle">
+                Treatment BMP Types Using this Attribute
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ProjectTypeGridSpec, ViewDataTyped.ProjectTypeGridName, ViewDataTyped.ProjectTypeGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>*@

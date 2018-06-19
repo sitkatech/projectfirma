@@ -56,3 +56,28 @@ create table dbo.ProjectCustomAttributeValue(
 	AttributeValue varchar(1000) not null,
 	constraint FK_ProjectCustomAttributeValue_ProjectCustomAttribute_ProjectCustomAttributeID_TenantID foreign key(ProjectCustomAttributeID, TenantID) references dbo.ProjectCustomAttribute (ProjectCustomAttributeID, TenantID)
 )
+
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values
+(52, 'ManageProjectCustomAttributeTypeInstructions', 'Manage Project Custom Attribute Type Instructions', 2),
+(53, 'ManageProjectCustomAttributeInstructions', 'Manage Project Custom Attribute Instructions', 2),
+(54, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2)
+
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+select
+	TenantID,
+	FirmaPageType = 52,
+	FirmaPageContent = null
+from dbo.Tenant
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+select
+	TenantID,
+	FirmaPageType = 53,
+	FirmaPageContent = null
+from dbo.Tenant
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+select
+	TenantID,
+	FirmaPageType = 54,
+	FirmaPageContent = null
+from dbo.Tenant
