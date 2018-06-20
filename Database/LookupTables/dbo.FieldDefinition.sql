@@ -84,6 +84,6 @@ VALUES
 (256, N'TaxonomyLeafDescription', N'Taxonomy Leaf Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>', 1),
 (257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>', 1),
 (258, N'ShowLeadImplementerLogoOnFactSheet', N'Show Lead Implementer Logo on Project Fact Sheet?', N'<p>When this option is set, project fact sheets will include the lead implementer''s logo under the website logo. When not set, only the website logo will be shown on fact sheets.', 1),
-(259, N'ProjectCustomAttributeType', N'Project Custom Attribute Type', N'', 1),
-(260, N'ProjectCustomAttributeDataType', N'Project Custom Attribute Data Type', N'', 1),
-(261, N'ProjectCustomAttributeTypePurpose', N'Project Custom Attribute Type Purpose', N'How the attribute type will be used for analysis and reporting', 1)
+(259, N'ProjectCustomAttributeType', N'Custom Attribute Type', N'', 1),
+(260, N'ProjectCustomAttributeDataType', N'Data Type', N'', 1),
+(261, N'ProjectCustomAttributeTypePurpose', N'Purpose', N'How the attribute type will be used for analysis and reporting', 1)

@@ -2,27 +2,27 @@
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-    $scope.getCustomAttributeDataType = function (idToFind) {
-        return Sitka.Methods.findElementInJsonArray($scope.AngularViewData.CustomAttributeDataTypes, "ID", idToFind);
+    $scope.getProjectCustomAttributeDataType = function (idToFind) {
+        return Sitka.Methods.findElementInJsonArray($scope.AngularViewData.ProjectCustomAttributeDataTypes, "ID", idToFind);
     }
 
-    $scope.updateCustomAttributeDataType = function () {
-        var customAttributeDataType = $scope.getCustomAttributeDataType($scope.CustomAttributeDataTypeID);
-        $scope.CustomAttributeDataTypeSelected = customAttributeDataType;
+    $scope.updateProjectCustomAttributeDataType = function () {
+        var customAttributeDataType = $scope.getProjectCustomAttributeDataType($scope.ProjectCustomAttributeDataTypeID);
+        $scope.ProjectCustomAttributeDataTypeSelected = customAttributeDataType;
 
         if ($scope.OptionsSchema.length == 0) {
             $scope.addInput();
         }
     }
 
-    $scope.selectedCustomAttributeDataTypeHasMeasurementUnit = function () {
-        return $scope.CustomAttributeDataTypeSelected != null &&
-            $scope.CustomAttributeDataTypeSelected.HasMeasurementUnit;
+    $scope.selectedProjectCustomAttributeDataTypeHasMeasurementUnit = function () {
+        return $scope.ProjectCustomAttributeDataTypeSelected != null &&
+            $scope.ProjectCustomAttributeDataTypeSelected.HasMeasurementUnit;
     }
 
-    $scope.selectedCustomAttributeDataTypeHasOptions = function () {
-        return $scope.CustomAttributeDataTypeSelected != null &&
-            $scope.CustomAttributeDataTypeSelected.HasOptions;
+    $scope.selectedProjectCustomAttributeDataTypeHasOptions = function () {
+        return $scope.ProjectCustomAttributeDataTypeSelected != null &&
+            $scope.ProjectCustomAttributeDataTypeSelected.HasOptions;
     }
 
     $scope.addInput = function () {
@@ -34,13 +34,13 @@
     }
 
     $scope.submit = function () {
-        $scope.AngularModel.CustomAttributeTypeOptionsSchema = JSON.stringify($scope.OptionsSchema);
+        $scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema = JSON.stringify($scope.OptionsSchema);
     }
 
-    $scope.OptionsSchema = JSON.parse($scope.AngularModel.CustomAttributeTypeOptionsSchema) == undefined ? [] : JSON.parse($scope.AngularModel.CustomAttributeTypeOptionsSchema);
-    $scope.CustomAttributeDataTypeSelected = $scope.AngularModel.CustomAttributeDataTypeID != null
-        ? Sitka.Methods.findElementInJsonArray($scope.AngularViewData.CustomAttributeDataTypes,
+    $scope.OptionsSchema = JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema) == undefined ? [] : JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema);
+    $scope.ProjectCustomAttributeDataTypeSelected = $scope.AngularModel.ProjectCustomAttributeDataTypeID != null
+        ? Sitka.Methods.findElementInJsonArray($scope.AngularViewData.ProjectCustomAttributeDataTypes,
             "ID",
-            $scope.AngularModel.CustomAttributeDataTypeID)
+            $scope.AngularModel.ProjectCustomAttributeDataTypeID)
         : null;
 });

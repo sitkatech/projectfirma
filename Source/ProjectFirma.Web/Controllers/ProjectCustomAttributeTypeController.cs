@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ViewResult New()
+        public PartialViewResult New()
         {
             var viewModel = new EditViewModel();
             return ViewEdit(viewModel, null);
@@ -66,12 +66,12 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Custom Attribute Type {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
 
-            return RedirectToAction(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
         }
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ViewResult Edit(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
+        public PartialViewResult Edit(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
         {
             var projectCustomAttributeType = projectCustomAttributeTypePrimaryKey.EntityObject;
             var viewModel = new EditViewModel(projectCustomAttributeType);
@@ -90,17 +90,17 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
 
-            return RedirectToAction(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
         }
 
-        private ViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeType projectCustomAttributeType)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeType projectCustomAttributeType)
         {
             var instructionsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeTypeInstructions);
             var projectCustomAttributeInstructionsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeInstructions);
 
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID) ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID)) : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
             var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, submitUrl, instructionsFirmaPage, projectCustomAttributeInstructionsFirmaPage, projectCustomAttributeType);
-            return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
         [FirmaAdminFeature]

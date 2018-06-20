@@ -390,6 +390,7 @@
     <Compile Include="Controllers\ProjectCustomAttributeTypeController.cs" />
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
     <Compile Include="Models\ProjectCustomAttribute.cs" />
+    <Compile Include="Models\ProjectOrganizationRelationship.cs" />
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\DetailViewData.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Edit.cs" />

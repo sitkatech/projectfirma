@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views
     public abstract class FirmaViewData
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems { get; set; }
-
         public string FullProjectListUrl { get; }
         public string ProjectSearchUrl { get; }
         public string ProjectFindUrl { get; }
@@ -208,6 +207,7 @@ namespace ProjectFirma.Web.Views
             }
 
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Detail()), currentPerson, "Cost Parameters", "Group5"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentPerson, "Custom Attributes", "Group5"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationAndRelationshipTypeController>(c => c.Index()), currentPerson, Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized(), "Group5"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentPerson, "Tenant Configuration", "Group5"));
            

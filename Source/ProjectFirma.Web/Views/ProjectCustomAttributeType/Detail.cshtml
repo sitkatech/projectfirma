@@ -1,10 +1,9 @@
 ﻿@using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Security
-@using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Detail
 @section JavascriptAndStylesContent
@@ -16,13 +15,20 @@
 {
     @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
     {
-        <a class="btn btn-neptune headerButtonText customAttributeTypeButton" href="@ViewDataTyped.ProjectCustomAttributeType.GetEditUrl()">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Edit Attribute</a>
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Attribute", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.ProjectCustomAttributeType.GetEditUrl(), "Edit Attribute", new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
     }
 }
 
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.ManageUrl">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        Back to all @FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabelPluralized()
+    </a>
+</div>
+
 <div class="row">
     <div class="col-xs-12 col-sm-12">
-        <div class="panel panelNeptune">
+        <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 Basics
             </div>
@@ -66,14 +72,14 @@
     </div>
 </div>
 @*<div class="row">
-    <div class="col-xs-12 col-sm-12">
-        <div class="panel panelNeptune">
-            <div class="panel-heading panelTitle">
-                Treatment BMP Types Using this Attribute
-            </div>
-            <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ProjectTypeGridSpec, ViewDataTyped.ProjectTypeGridName, ViewDataTyped.ProjectTypeGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        <div class="col-xs-12 col-sm-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    Treatment BMP Types Using this Attribute
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.ProjectTypeGridSpec, ViewDataTyped.ProjectTypeGridName, ViewDataTyped.ProjectTypeGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@

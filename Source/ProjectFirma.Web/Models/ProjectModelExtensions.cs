@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
 
@@ -131,21 +132,21 @@ namespace ProjectFirma.Web.Models
         /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType, which lives as a static property of the RelationshipType class
         /// </summary>
         /// <returns></returns>
-        public static List<ProjectOrganization> GetFundingOrganizations(this Project project)
+        public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project)
         {
+            var relationshipTypeFunder = new RelationshipType(ModelObjectHelpers.NotYetAssignedID, "Funder", false, false, false, string.Empty, true, true);
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
                 .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization)).Distinct()
-                .Select(x => new ProjectOrganization(project, x, RelationshipType.Funder));
+                .Select(x => new ProjectOrganizationRelationship(project, x, relationshipTypeFunder));
             return fundingOrganizations.ToList();
         }
 
-        public static List<ProjectOrganization> GetAssociatedOrganizations(this Project project)
+        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizations(this Project project)
         {
-            var explicitOrganizations = project.ProjectOrganizations.ToList();
-
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
-
-            return explicitOrganizations.DistinctBy(x=>new {x.ProjectID, x.OrganizationID}).ToList();
+            return explicitOrganizations.DistinctBy(x => new {x.Project.ProjectID, x.Organization.OrganizationID})
+                .ToList();
         }
     }
 }

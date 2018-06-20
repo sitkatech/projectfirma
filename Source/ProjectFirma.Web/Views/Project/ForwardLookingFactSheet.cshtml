@@ -98,6 +98,20 @@
                 </div>
             </div>
             @{
+                var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
+            }
+            @if (stewardingOrganization != null)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+                    </div>
+                </div>
+            }
+            @{
                 var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
             }
             @if (primaryContactOrganization != null)

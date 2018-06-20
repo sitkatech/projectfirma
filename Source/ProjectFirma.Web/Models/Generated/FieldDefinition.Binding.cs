@@ -942,18 +942,18 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionProjectCustomAttributeType : FieldDefinition
     {
         private FieldDefinitionProjectCustomAttributeType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProjectCustomAttributeType Instance = new FieldDefinitionProjectCustomAttributeType(259, @"ProjectCustomAttributeType", @"Project Custom Attribute Type", @"", true);
+        public static readonly FieldDefinitionProjectCustomAttributeType Instance = new FieldDefinitionProjectCustomAttributeType(259, @"ProjectCustomAttributeType", @"Custom Attribute Type", @"", true);
     }
 
     public partial class FieldDefinitionProjectCustomAttributeDataType : FieldDefinition
     {
         private FieldDefinitionProjectCustomAttributeDataType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProjectCustomAttributeDataType Instance = new FieldDefinitionProjectCustomAttributeDataType(260, @"ProjectCustomAttributeDataType", @"Project Custom Attribute Data Type", @"", true);
+        public static readonly FieldDefinitionProjectCustomAttributeDataType Instance = new FieldDefinitionProjectCustomAttributeDataType(260, @"ProjectCustomAttributeDataType", @"Data Type", @"", true);
     }
 
     public partial class FieldDefinitionProjectCustomAttributeTypePurpose : FieldDefinition
     {
         private FieldDefinitionProjectCustomAttributeTypePurpose(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProjectCustomAttributeTypePurpose Instance = new FieldDefinitionProjectCustomAttributeTypePurpose(261, @"ProjectCustomAttributeTypePurpose", @"Project Custom Attribute Type Purpose", @"How the attribute type will be used for analysis and reporting", true);
+        public static readonly FieldDefinitionProjectCustomAttributeTypePurpose Instance = new FieldDefinitionProjectCustomAttributeTypePurpose(261, @"ProjectCustomAttributeTypePurpose", @"Purpose", @"How the attribute type will be used for analysis and reporting", true);
     }
 }

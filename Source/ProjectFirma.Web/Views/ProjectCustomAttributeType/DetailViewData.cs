@@ -12,6 +12,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         //public ProjectTypeGridSpec ProjectTypeGridSpec { get; }
         public string ProjectTypeGridName { get; }
         public string ProjectTypeGridDataUrl { get; }
+        public string ManageUrl { get; }
 
         public DetailViewData(Person currentPerson,
             Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentPerson)
@@ -19,6 +20,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeType = projectCustomAttributeType;
             EntityName = Models.FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabelPluralized();
             PageTitle = projectCustomAttributeType.ProjectCustomAttributeTypeName;
+            ManageUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 
             UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
 
