@@ -19,6 +19,9 @@ Source code is available upon request via<support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
@@ -27,7 +30,36 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class EditProjectUpdateConfigurationViewModel :FormViewModel
     {
-        
+        [DisplayName("Kick-Off Date")]
+        public DateTime? ProjectUpdateKickOffDate { get; set; }
+
+        [DisplayName("Close-Out Date")]
+        public DateTime? ProjectUpdateCloseOutDate { get; set; }
+
+        [DisplayName("Reminder Interval (days)")]
+        public int? ProjectUpdateReminderInterval { get; set; }
+
+        [Required]
+        [DisplayName("Enable Project Update Reminders?")]
+        public bool? EnableProjectUpdateReminders { get; set; }
+
+        [Required]
+        [DisplayName("Send Periodic Reminders?")]
+        public bool? SendPeriodicReminders { get; set; }
+
+        [Required]
+        [DisplayName("Send Close-Out Notification?")]
+        public bool? SendCloseOutNotification { get; set; }
+
+        [DisplayName("Project Update Kick-Off Email Content")]
+        public string ProjectUpdateKickOffIntroContent { get; set; }
+
+        [DisplayName("Project Update Remidner Email Content")]
+        public string ProjectUpdateReminderIntroContent { get; set; }
+
+        [DisplayName("Project Update Close-Out Email Content")]
+        public string ProjectUpdateCloseOutIntroContent { get; set; }
+
     }
     public class EditProjectUpdateConfigurationViewData : FirmaViewData
     {
