@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<Models.ProjectOrganization>
+    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<Models.ProjectOrganizationRelationship>
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {

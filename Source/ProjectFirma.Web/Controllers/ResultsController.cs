@@ -183,9 +183,9 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
         }
 
-        private List<IGrouping<Organization, ProjectOrganization>> GetPartnerOrganizations(int organizationID)
+        private List<IGrouping<Organization, ProjectOrganizationRelationship>> GetPartnerOrganizations(int organizationID)
         {
-            List<IGrouping<Organization, ProjectOrganization>> partnerOrganizations;
+            List<IGrouping<Organization, ProjectOrganizationRelationship>> partnerOrganizations;
 
             var includeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardIncludeReportingOrganizationType();
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }

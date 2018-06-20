@@ -26,9 +26,9 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class ParticipatingOrganizationsViewData : FirmaUserControlViewData
     {
-        public List<IGrouping<Models.Organization, ProjectOrganization>> Organizations { get; }
+        public List<IGrouping<Models.Organization, ProjectOrganizationRelationship>> Organizations { get; }
 
-        public ParticipatingOrganizationsViewData(List<IGrouping<Models.Organization, ProjectOrganization>> organizations)
+        public ParticipatingOrganizationsViewData(List<IGrouping<Models.Organization, ProjectOrganizationRelationship>> organizations)
         {
             Organizations = organizations;
         }
