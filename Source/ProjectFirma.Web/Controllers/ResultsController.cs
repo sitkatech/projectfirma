@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType && y.Organization.IsActive))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Projects.ToList()
                     .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType && y.Organization.IsActive))
                     .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard())
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
