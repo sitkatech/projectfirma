@@ -169,6 +169,24 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
+        [ProjectUpdateAdminFeature]
+        public PartialViewResult EditProjectUpdateConfiguration()
+        {
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
+            EditProjectUpdateConfigurationViewModel viewModel = new EditProjectUpdateConfigurationViewModel();
+            return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
+        {
+            SetMessageForDisplay("Nothing happened, successfully.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {

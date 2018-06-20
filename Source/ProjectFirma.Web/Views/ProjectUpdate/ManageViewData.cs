@@ -22,22 +22,24 @@ using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ManageViewData : FirmaViewData
     {
-        public readonly int ReportingYear;
+        public int ReportingYear { get; }
 
-        public readonly ProjectUpdateStatusGridSpec ProjectsRequiringUpdateGridSpec;
-        public readonly string ProjectsRequiringUpdateGridName;
-        public readonly string ProjectsRequiringUpdateGridDataUrl;
+        public ProjectUpdateStatusGridSpec ProjectsRequiringUpdateGridSpec { get; }
+        public string ProjectsRequiringUpdateGridName { get; }
+        public string ProjectsRequiringUpdateGridDataUrl { get; }
 
-        public readonly PeopleReceivingReminderGridSpec PeopleReceivingReminderGridSpec;
-        public readonly string PeopleReceivingReminderGridName;
-        public readonly string PeopleReceivingReminderGridDataUrl;
+        public PeopleReceivingReminderGridSpec PeopleReceivingReminderGridSpec { get; }
+        public string PeopleReceivingReminderGridName { get; }
+        public string PeopleReceivingReminderGridDataUrl { get; }
 
-        public readonly int ProjectsWithNoContactCount;
+        public int ProjectsWithNoContactCount { get; }
+        public string EditProjectUpdateConfigurationUrl { get; }
 
         public ManageViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -73,6 +75,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 getPersonIDFunctionString);
 
             PeopleReceivingReminderGridSpec.ArbitraryHtml = new List<string> {modalDialogFormLink.ToString()};
+
+            EditProjectUpdateConfigurationUrl =
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.EditProjectUpdateConfiguration());
         }
     }
 }

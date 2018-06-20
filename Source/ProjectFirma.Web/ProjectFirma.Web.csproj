@@ -371,6 +371,7 @@
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
     <Compile Include="Models\ProjectOrganizationRelationship.cs" />
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
@@ -1563,6 +1564,7 @@
     <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ImportExternal.cshtml" />
     <Content Include="Views\Results\ConfigureAccomplishmentsDashboard.cshtml" />
+    <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
