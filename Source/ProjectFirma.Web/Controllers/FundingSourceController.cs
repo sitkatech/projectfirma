@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {fundingSource.DisplayName} succesfully created.");
+            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {fundingSource.DisplayName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -193,11 +193,13 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
+            var name = fundingSource.DisplayName;
             if (!ModelState.IsValid)
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);
             }
             fundingSource.DeleteFundingSource();
+            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {name} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
 
