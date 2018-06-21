@@ -30,26 +30,20 @@ namespace ProjectFirma.Web.Models
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
-        /// </summary>
-        //public ProjectOrganizationSimple()
-        //    : this()
-        //{
-        //}
-
-        /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
         public ProjectOrganizationSimple(ProjectOrganization projectOrganization)
             : this()
         {
             OrganizationID = projectOrganization.OrganizationID;
+            OrganizationName = projectOrganization.Organization.OrganizationName;
             RelationshipTypeID = projectOrganization.RelationshipTypeID;
         }
 
         public ProjectOrganizationSimple(ProjectOrganizationUpdate projectOrganization)
         {
             OrganizationID = projectOrganization.OrganizationID;
+            OrganizationName = projectOrganization.Organization.OrganizationName;
             RelationshipTypeID = projectOrganization.RelationshipTypeID;
         }
 
@@ -61,6 +55,7 @@ namespace ProjectFirma.Web.Models
 
         public int OrganizationID { get; set; }
         public int RelationshipTypeID { get; set; }
+        public string OrganizationName { get; private set; }
 
         public ProjectOrganizationUpdate ToProjectOrganizationUpdate(ProjectUpdateBatch projectUpdateBatch)
         {

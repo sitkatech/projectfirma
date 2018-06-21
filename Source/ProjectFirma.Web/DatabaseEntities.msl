@@ -372,7 +372,6 @@
           <ScalarProperty Name="PerformanceMeasureDefinition" ColumnName="PerformanceMeasureDefinition" />
           <ScalarProperty Name="DataSourceText" ColumnName="DataSourceText" />
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
-          <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
@@ -953,6 +952,7 @@
           <ScalarProperty Name="CanOnlyBeRelatedOnceToAProject" ColumnName="CanOnlyBeRelatedOnceToAProject" />
           <ScalarProperty Name="RelationshipTypeDescription" ColumnName="RelationshipTypeDescription" />
           <ScalarProperty Name="ReportInAccomplishmentsDashboard" ColumnName="ReportInAccomplishmentsDashboard" />
+          <ScalarProperty Name="ShowOnFactSheet" ColumnName="ShowOnFactSheet" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1132,6 +1132,7 @@
           <ScalarProperty Name="AccomplishmentsDashboardOrganizationsButtonText" ColumnName="AccomplishmentsDashboardOrganizationsButtonText" />
           <ScalarProperty Name="AccomplishmentsDashboardIncludeReportingOrganizationType" ColumnName="AccomplishmentsDashboardIncludeReportingOrganizationType" />
           <ScalarProperty Name="ShowLeadImplementerLogoOnFactSheet" ColumnName="ShowLeadImplementerLogoOnFactSheet" />
+          <ScalarProperty Name="EnableAccomplishmentsDashboard" ColumnName="EnableAccomplishmentsDashboard" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

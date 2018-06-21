@@ -17,7 +17,7 @@ namespace Keystone.Common
     {
         public static readonly ILog Logger = LogManager.GetLogger(typeof(KeystoneUtilities));
 
-        public static string LogOnActionResult(HttpRequest httpRequest, string homeUrl, Func<IKeystoneUserClaims, IKeystoneUser> syncLocalAccountStore)
+        public static string LogOnActionResult(HttpRequest httpRequest, string homeUrl, Func<IKeystoneUserClaims, IIdentity, IKeystoneUser> syncLocalAccountStore)
         {
             Logger.DebugFormat("FAM about to parse SignIn response");
 
@@ -30,7 +30,7 @@ namespace Keystone.Common
                 Logger.DebugFormat("FAM successfully parsed SignIn response");
                 try
                 {
-                    ClaimHandler(syncLocalAccountStore);
+                    ClaimHandler(syncLocalAccountStore, Thread.CurrentPrincipal.Identity);
 
                     return response.Context;
                 }
@@ -45,26 +45,25 @@ namespace Keystone.Common
             return homeUrl;
         }
 
-        public static void ClaimHandler(Func<IKeystoneUserClaims, IKeystoneUser> syncLocalAccountStore)
+        public static void ClaimHandler(Func<IKeystoneUserClaims, IIdentity, IKeystoneUser> syncLocalAccountStore, IIdentity userIdentity)
         {
             Logger.DebugFormat("Before call to ParseClaims");
-            var keystoneUser = KeystoneClaimsHelpers.ParseClaims();
+            var keystoneUser = KeystoneClaimsHelpers.ParseClaims(userIdentity);
             Logger.DebugFormat("After call to ParseClaims");
 
             Logger.DebugFormat("Before call to SyncLocalAccountStore");
-            var localUserAccount = syncLocalAccountStore(keystoneUser);
+            var localUserAccount = syncLocalAccountStore(keystoneUser, userIdentity);
             Logger.DebugFormat("After call to SyncLocalAccountStore");
 
             Logger.DebugFormat("Before mapping of Roles to claims");
-            AddLocalUserAccountRolesToClaims(localUserAccount);
+            AddLocalUserAccountRolesToClaims(localUserAccount, userIdentity);
             Logger.DebugFormat("After mapping of Roles to claims");
         }
         
         // add local RP-specific roles to the list of claims
-        public static void AddLocalUserAccountRolesToClaims(IKeystoneUser user)
+        public static void AddLocalUserAccountRolesToClaims(IKeystoneUser user, IIdentity userIdentity)
         {
-            var claimsIdentity = Thread.CurrentPrincipal.Identity as IClaimsIdentity;
-            if (claimsIdentity != null)
+            if (userIdentity is ClaimsIdentity claimsIdentity)
             {
                 user.RoleNames.ToList().ForEach(role => claimsIdentity.Claims.Add(new Claim(ClaimTypes.Role, role)));
             }

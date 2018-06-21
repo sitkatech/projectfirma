@@ -49,7 +49,6 @@ namespace ProjectFirma.Web.Common
         public const string LettersOnly = "Only letters are allowed.";
         public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress.";
         public const string EmailAlreadyUsed = "Email already exists.";
-        public const string ExpectedFundingValuesCannotBothBeZeroOrEmpty = "Enter a Secured or Unsecured amount for each Funding Source, or remove Funding Sources with no funding amounts.";
         public static readonly string ImplementationYearMustBePastOrPresentForImplementationProjects = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the Implementation stage cannot have an {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} in the future.";
     }
 }

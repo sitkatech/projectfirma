@@ -34,20 +34,20 @@ namespace ProjectFirma.Web.Views
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems { get; set; }
 
-    public string FullProjectListUrl { get; }
-    public string ProjectSearchUrl { get; }
-    public string ProjectFindUrl { get; }
-    public string PageTitle { get; set; }
-    public string HtmlPageTitle { get; set; }
-    public string BreadCrumbTitle { get; set; }
-    public string EntityName { get; set; }
-    public Models.FirmaPage FirmaPage { get; }
-    public Person CurrentPerson { get; }
-    public string FirmaHomeUrl { get; }
-    public string LogInUrl { get; }
-    public string LogOutUrl { get; }
-    public string RequestSupportUrl { get; }
-    public ViewPageContentViewData ViewPageContentViewData { get; }
+        public string FullProjectListUrl { get; }
+        public string ProjectSearchUrl { get; }
+        public string ProjectFindUrl { get; }
+        public string PageTitle { get; set; }
+        public string HtmlPageTitle { get; set; }
+        public string BreadCrumbTitle { get; set; }
+        public string EntityName { get; set; }
+        public Models.FirmaPage FirmaPage { get; }
+        public Person CurrentPerson { get; }
+        public string FirmaHomeUrl { get; }
+        public string LogInUrl { get; }
+        public string LogOutUrl { get; }
+        public string RequestSupportUrl { get; }
+        public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
         public ViewPageContentViewData CustomFooterViewData { get; }
 
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
-            if (MultiTenantHelpers.HasRelationshipTypesToReportInAccomplishmentDashboard())
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
             }

@@ -305,7 +305,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty, false, false);
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };

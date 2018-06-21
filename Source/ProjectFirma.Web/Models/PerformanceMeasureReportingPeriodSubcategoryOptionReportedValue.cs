@@ -26,10 +26,7 @@ namespace ProjectFirma.Web.Models
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName,
-                performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasure
-                    .HasRealSubcategories
-                    ? performanceMeasureSubcategoryOption.ChartName
-                    : performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasure.ChartTitle)
+                performanceMeasureSubcategoryOption.ChartName)
         {
         }
 

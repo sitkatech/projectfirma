@@ -80,9 +80,10 @@
     <div class="row section">
         <div class="col-sm-2 col-md-2">
             <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
-            @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganization().LogoFileResource != null)
+			@if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
-                <img style="max-height: 200px; margin: 20px auto" class="img-responsive" src="@ViewDataTyped.Project.GetPrimaryContactOrganization().LogoFileResource.FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().DisplayNameWithoutAbbreviation" />
+                @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
+                <img style="max-height: 200px; margin: 20px auto" class="img-responsive" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().DisplayNameWithoutAbbreviation" />
             }
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
@@ -95,14 +96,63 @@
                     @ViewDataTyped.TaxonomyLeafName
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
+            @{
+                var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
+            }
+            @if(stewardingOrganization != null)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.ProjectOrganizationNamesAndTypes
+            }
+            @{
+                var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
+            }
+            @if(primaryContactOrganization != null)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Lead Implementer</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+                    </div>
                 </div>
-            </div>
+            }
+            @{
+                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.FundingOrganizationNamesForFactSheet;
+            }
+            @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Funders</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @projectFundingOrganizationNamesForFactSheet
+                    </div>
+                </div>
+            }
+
+            @{
+                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet;
+            }
+            @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <strong>Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        @projectOtherOrganizationNamesForFactSheet
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <strong>Primary Contact</strong>

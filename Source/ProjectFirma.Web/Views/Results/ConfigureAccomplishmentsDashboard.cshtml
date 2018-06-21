@@ -9,6 +9,12 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
+        @Html.LabelWithSugarFor(m => m.RelationshipTypetoIncludeID)
+        <div>
+            @Html.DropDownListFor(m=>m.RelationshipTypetoIncludeID, ViewDataTyped.RelationshipTypes, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelWithSugarFor(m => m.FundingDisplayTypeID)
         @foreach (var fundingDisplayType in ViewDataTyped.AccomplishmentsDashboardFundingDisplayTypes)
         {

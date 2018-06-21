@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequest(int projectFundingSourceRequestID, int projectID, int fundingSourceID, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequest(int projectFundingSourceRequestID, int projectID, int fundingSourceID, decimal? securedAmount, decimal? unsecuredAmount) : this()
         {
             this.ProjectFundingSourceRequestID = projectFundingSourceRequestID;
             this.ProjectID = projectID;
@@ -42,21 +42,19 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequest(int projectID, int fundingSourceID, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequest(int projectID, int fundingSourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
-            this.SecuredAmount = securedAmount;
-            this.UnsecuredAmount = unsecuredAmount;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectFundingSourceRequest(Project project, FundingSource fundingSource, decimal securedAmount, decimal unsecuredAmount) : this()
+        public ProjectFundingSourceRequest(Project project, FundingSource fundingSource) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,8 +64,6 @@ namespace ProjectFirma.Web.Models
             this.FundingSourceID = fundingSource.FundingSourceID;
             this.FundingSource = fundingSource;
             fundingSource.ProjectFundingSourceRequests.Add(this);
-            this.SecuredAmount = securedAmount;
-            this.UnsecuredAmount = unsecuredAmount;
         }
 
         /// <summary>
@@ -75,7 +71,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ProjectFundingSourceRequest CreateNewBlank(Project project, FundingSource fundingSource)
         {
-            return new ProjectFundingSourceRequest(project, fundingSource, default(decimal), default(decimal));
+            return new ProjectFundingSourceRequest(project, fundingSource);
         }
 
         /// <summary>
@@ -106,8 +102,8 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
-        public decimal SecuredAmount { get; set; }
-        public decimal UnsecuredAmount { get; set; }
+        public decimal? SecuredAmount { get; set; }
+        public decimal? UnsecuredAmount { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectFundingSourceRequestID; } set { ProjectFundingSourceRequestID = value; } }
 

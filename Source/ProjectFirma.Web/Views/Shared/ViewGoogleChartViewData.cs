@@ -57,20 +57,6 @@ namespace ProjectFirma.Web.Views.Shared
         {
         }
 
-        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle, Models.PerformanceMeasure performanceMeasure, bool hyperlinkPerformanceMeasureName) : this(new List<GoogleChartJson> {googleChartJson},
-            chartTitle,
-            chartHeight,
-            null,
-            chartTitle.Replace(" ", ""),
-            false,
-            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
-            showChartTitle,
-            true,
-            performanceMeasure,
-            hyperlinkPerformanceMeasureName)
-        {
-        }
-
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,
             string chartTitle,
             int chartHeight,

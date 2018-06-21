@@ -87,6 +87,8 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
         public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
 
+        [DisplayName("Enable Accomplishments Dashboard")]
+        public bool EnableAccomplishmentsDashboard { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -109,6 +111,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
+            EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -117,6 +120,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.ToolDisplayName = ToolDisplayName;
             attribute.ShowProposalsToThePublic = ShowProposalsToThePublic;
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
+            attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

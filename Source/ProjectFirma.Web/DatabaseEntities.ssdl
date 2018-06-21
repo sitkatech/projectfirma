@@ -1084,7 +1084,6 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMea
     <Property Name="PerformanceMeasureDefinition" Type="varchar(max)" />
     <Property Name="DataSourceText" Type="varchar" MaxLength="200" />
     <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
-    <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
     <Property Name="SwapChartAxes" Type="bit" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />
@@ -1457,8 +1456,8 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
-    <Property Name="SecuredAmount" Type="money" Nullable="false" />
-    <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
+    <Property Name="SecuredAmount" Type="money" />
+    <Property Name="UnsecuredAmount" Type="money" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceRequestUpdate">
     <Key>
@@ -1468,8 +1467,8 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
-    <Property Name="SecuredAmount" Type="money" Nullable="false" />
-    <Property Name="UnsecuredAmount" Type="money" Nullable="false" />
+    <Property Name="SecuredAmount" Type="money" />
+    <Property Name="UnsecuredAmount" Type="money" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1717,6 +1716,7 @@ warning 6035: The relationship 'FK_ProjectOrganizationUpdate_RelationshipType_Re
     <Property Name="CanOnlyBeRelatedOnceToAProject" Type="bit" Nullable="false" />
     <Property Name="RelationshipTypeDescription" Type="varchar" MaxLength="360" />
     <Property Name="ReportInAccomplishmentsDashboard" Type="bit" Nullable="false" />
+    <Property Name="ShowOnFactSheet" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1908,6 +1908,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="AccomplishmentsDashboardOrganizationsButtonText" Type="varchar(max)" />
     <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="bit" Nullable="false" />
     <Property Name="ShowLeadImplementerLogoOnFactSheet" Type="bit" Nullable="false" />
+    <Property Name="EnableAccomplishmentsDashboard" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

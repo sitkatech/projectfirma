@@ -20,6 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 
@@ -32,7 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.Photos, proposalSectionsStatus)
         {
-            var selectKeyImageUrl = string.Empty;
+            var selectKeyImageUrl =
+                SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>
+                    x.SetKeyPhoto(UrlTemplate.Parameter1Int));
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        
         }        
     }

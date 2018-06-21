@@ -13,7 +13,6 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[PerformanceMeasureDefinition] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[DataSourceText] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExternalDataSourceUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ChartTitle] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ChartCaption] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SwapChartAxes] [bit] NOT NULL,
 	[CanCalculateTotal] [bit] NOT NULL,

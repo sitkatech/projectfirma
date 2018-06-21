@@ -21,34 +21,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
     public class ProjectOrganizationsDetailViewData : FirmaUserControlViewData
     {
-        public List<Models.ProjectOrganization> AllProjectOrganizations { get; }
+        public List<ProjectOrganizationRelationship> AllProjectOrganizations { get; }
         public List<RelationshipType> SetRelationshipTypes { get; }
         public Person PrimaryContactPerson { get; }
 
-        public ProjectOrganizationsDetailViewData(IEnumerable<Models.ProjectOrganization> allProjectOrganizations, Person primaryContactPerson)
+        public ProjectOrganizationsDetailViewData(List<ProjectOrganizationRelationship> allProjectOrganizations, Person primaryContactPerson)
         {
-            AllProjectOrganizations = allProjectOrganizations.ToList();
+            AllProjectOrganizations = allProjectOrganizations;
             SetRelationshipTypes = AllProjectOrganizations.Select(x=>x.RelationshipType).Distinct().ToList();
             PrimaryContactPerson = primaryContactPerson;
-        }
-    }
-
-    public static class AHtmlHelper
-    {
-        public static HtmlString WrapWithSpan(this string wrappee, string cssClass)
-        {
-            if (cssClass != null)
-            {
-                return new HtmlString($"<span class=\"{cssClass}\">{wrappee}</span>");
-            }
-            return new HtmlString($"<span>{wrappee}</span>");
         }
     }
 }

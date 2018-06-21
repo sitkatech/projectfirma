@@ -29,7 +29,7 @@
 
         public ProjectFundingSourceRequest ToProjectFundingSourceRequest()
         {
-            return new ProjectFundingSourceRequest(ProjectID, FundingSourceID, SecuredAmount ?? 0, UnsecuredAmount ?? 0);
+            return new ProjectFundingSourceRequest(ProjectID, FundingSourceID){SecuredAmount = SecuredAmount, UnsecuredAmount = UnsecuredAmount};
         }
 
         public int ProjectID { get; set; }
@@ -39,7 +39,7 @@
 
         public ProjectFundingSourceRequestUpdate ToProjectFundingSourceRequestUpdate()
         {
-            return new ProjectFundingSourceRequestUpdate(ProjectID, FundingSourceID, SecuredAmount ?? 0, UnsecuredAmount ?? 0);
+            return new ProjectFundingSourceRequestUpdate(ProjectID, FundingSourceID){SecuredAmount = SecuredAmount, UnsecuredAmount = UnsecuredAmount};
         }
 
         public bool AreBothValuesZeroOrEmpty()

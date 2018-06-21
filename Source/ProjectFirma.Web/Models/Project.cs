@@ -64,6 +64,11 @@ namespace ProjectFirma.Web.Models
             return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
 
+        public FileResource GetPrimaryContactOrganizationLogo()
+        {
+            return GetPrimaryContactOrganization()?.LogoFileResource;
+        }
+
         public Organization GetCanStewardProjectsOrganization()
         {
             var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
@@ -72,8 +77,16 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
-                .Select(x => x.Organization).ToList();
+            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() == null)
+            {
+                return ProjectOrganizations.Where(x => x.Organization.FundingSources.Any()).Select(x => x.Organization)
+                    .ToList();
+            }
+            else
+            {
+                return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+                    .Select(x => x.Organization).ToList();
+            }
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
@@ -86,12 +99,12 @@ namespace ProjectFirma.Web.Models
 
         public decimal? GetSecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal GetUnsecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount) : 0;
+            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
 
 
@@ -304,9 +317,10 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyBranchID", TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
-                foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                var associatedOrganizations = this.GetAssociatedOrganizations();
+                foreach (var type in associatedOrganizations.Select(x => x.RelationshipType).Distinct())
                 {
-                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipType == type).Select(z => z.Organization.OrganizationID));
                 }
 
                 if (useDetailedCustomPopup)
@@ -322,26 +336,52 @@ namespace ProjectFirma.Web.Models
             return feature;
         }        
 
-        public string Duration => $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
-
-        public string ProjectOrganizationNamesAndTypes
+        public string Duration
         {
             get
             {
-                return ProjectOrganizations.Any()
-                    ? string.Join(", ",
-                        ProjectOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
-                            .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
-                            .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
-                            .Distinct())
-                    : string.Empty;
+                if (ImplementationStartYear == CompletionYear && ImplementationStartYear.HasValue)
+                {
+                    return ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture);
+                }
+
+                return
+                    $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
+            }
+        }
+
+        /// <summary>
+        /// Returns a commma-separated list of organizations that doesn't include the lead implementer or the funders and only includes the relationships that are configured to show on the fact sheet
+        /// </summary>
+        public string ProjectOrganizationNamesForFactSheet
+        {
+            get
+            {
+                // get the list of funders so we can exclude any that have other project associations
+                var fundingOrganizations = this.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
+                // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
+                var associatedOrganizations = ProjectOrganizations.Where(x=>x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
+                associatedOrganizations.RemoveAll(x=>x.OrganizationID == GetPrimaryContactOrganization()?.OrganizationID);
+                var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                    .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+                    .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
+                    .Distinct().ToList();
+                return organizationNames.Any() ? string.Join(", ", organizationNames) : string.Empty;
+            }
+        }
+
+        public string FundingOrganizationNamesForFactSheet
+        {
+            get
+            {
+                return string.Join(", ", this.GetFundingOrganizations().OrderBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName));
             }
         }
 
         public string AssocatedOrganizationNames(Organization organization)
         {
             var projectOrganizationAssocationNames = new List<string>();
-            ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
+            this.GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
             return string.Join(", ", projectOrganizationAssocationNames);
         }
 

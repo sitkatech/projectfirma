@@ -30,18 +30,29 @@ namespace ProjectFirma.Web.Models
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectFundingSourceRequestUpdates = project.ProjectFundingSourceRequests.Select(projectFundingSourceRequest =>
-                new ProjectFundingSourceRequestUpdate(projectUpdateBatch,
-                    projectFundingSourceRequest.FundingSource,
-                    projectFundingSourceRequest.SecuredAmount,
-                    projectFundingSourceRequest.UnsecuredAmount)).ToList();
+            projectUpdateBatch.ProjectFundingSourceRequestUpdates = project.ProjectFundingSourceRequests.Select(
+                projectFundingSourceRequest =>
+                    new ProjectFundingSourceRequestUpdate(projectUpdateBatch,
+                        projectFundingSourceRequest.FundingSource)
+                    {
+                        SecuredAmount = projectFundingSourceRequest.SecuredAmount,
+                        UnsecuredAmount = projectFundingSourceRequest.UnsecuredAmount
+                    }
+            ).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
+            IList<ProjectFundingSourceRequest> allProjectFundingSourceRequests)
         {
             var project = projectUpdateBatch.Project;
-            var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch.ProjectFundingSourceRequestUpdates
-                .Select(x => new ProjectFundingSourceRequest(project.ProjectID, x.FundingSource.FundingSourceID, x.SecuredAmount, x.UnsecuredAmount)).ToList();
+            var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
+                .ProjectFundingSourceRequestUpdates
+                .Select(x => new ProjectFundingSourceRequest(project.ProjectID, x.FundingSource.FundingSourceID)
+                    {
+                        SecuredAmount = x.SecuredAmount,
+                        UnsecuredAmount = x.UnsecuredAmount
+                    }
+                ).ToList();
             project.ProjectFundingSourceRequests.Merge(projectFundingSourceExpectedFundingFromProjectUpdate,
                 allProjectFundingSourceRequests,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,

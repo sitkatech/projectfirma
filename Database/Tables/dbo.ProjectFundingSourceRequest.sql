@@ -7,8 +7,8 @@ CREATE TABLE [dbo].[ProjectFundingSourceRequest](
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[FundingSourceID] [int] NOT NULL,
-	[SecuredAmount] [money] NOT NULL,
-	[UnsecuredAmount] [money] NOT NULL,
+	[SecuredAmount] [money] NULL,
+	[UnsecuredAmount] [money] NULL,
  CONSTRAINT [PK_ProjectFundingSourceRequest_ProjectFundingSourceRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectFundingSourceRequestID] ASC

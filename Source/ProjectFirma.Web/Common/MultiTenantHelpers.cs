@@ -179,13 +179,9 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.ReportInAccomplishmentsDashboard);
         }
 
-        public static bool HasRelationshipTypesToReportInAccomplishmentDashboard()
+        public static bool DisplayAccomplishmentDashboard()
         {
-            return GetRelationshipTypesToReportInAccomplishments().Any();
-        }
-        public static IEnumerable<RelationshipType> GetRelationshipTypesToReportInAccomplishments()
-        {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.ReportInAccomplishmentsDashboard).ToList();
+            return HttpRequestStorage.Tenant.GetTenantAttribute().EnableAccomplishmentsDashboard;
         }
 
         public static RelationshipType GetIsPrimaryContactOrganizationRelationship()

@@ -20,8 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.Models;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -124,5 +127,26 @@ namespace ProjectFirma.Web.Models
                 currentYearToUse);
         }
 
+        /// <summary>
+        /// Returns the organizations that appear in this project's Expected Funding or Reported Funding
+        /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType, which lives as a static property of the RelationshipType class
+        /// </summary>
+        /// <returns></returns>
+        public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project)
+        {
+            var relationshipTypeFunder = new RelationshipType(ModelObjectHelpers.NotYetAssignedID, "Funder", false, false, false, string.Empty, true, true);
+            var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+                .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization)).Distinct()
+                .Select(x => new ProjectOrganizationRelationship(project, x, relationshipTypeFunder));
+            return fundingOrganizations.ToList();
+        }
+
+        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizations(this Project project)
+        {
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            explicitOrganizations.AddRange(project.GetFundingOrganizations());
+            return explicitOrganizations.DistinctBy(x => new {x.Project.ProjectID, x.Organization.OrganizationID})
+                .ToList();
+        }
     }
 }
