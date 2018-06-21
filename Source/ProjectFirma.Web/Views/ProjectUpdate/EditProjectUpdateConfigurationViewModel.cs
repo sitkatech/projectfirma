@@ -59,7 +59,26 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         [DisplayName("Project Update Close-Out Email Content")]
         public string ProjectUpdateCloseOutIntroContent { get; set; }
+        
+        /// <summary>
+        /// Needed by ModelBinder
+        /// </summary>
+        public EditProjectUpdateConfigurationViewModel()
+        {
+        }
 
+        public EditProjectUpdateConfigurationViewModel(ProjectUpdateConfiguration projectUpdateConfiguration)
+        {
+            ProjectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
+            ProjectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
+            ProjectUpdateReminderInterval = projectUpdateConfiguration.ProjectUpdateReminderInterval;
+            EnableProjectUpdateReminders = projectUpdateConfiguration.EnableProjectUpdateReminders;
+            SendPeriodicReminders = projectUpdateConfiguration.SendPeriodicReminders;
+            SendCloseOutNotification = projectUpdateConfiguration.SendCloseOutNotification;
+            ProjectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
+            ProjectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
+            ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
+        }
     }
     public class EditProjectUpdateConfigurationViewData : FirmaViewData
     {
