@@ -172,8 +172,13 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateAdminFeature]
         public PartialViewResult EditProjectUpdateConfiguration()
         {
-            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
             EditProjectUpdateConfigurationViewModel viewModel = new EditProjectUpdateConfigurationViewModel();
+            return ViewEditProjectUpdateConfiguration(viewModel);
+        }
+
+        private PartialViewResult ViewEditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
+        {
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
             return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
         }
 
@@ -182,6 +187,11 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProjectUpdateConfiguration(viewModel);
+            }
+
             SetMessageForDisplay("Nothing happened, successfully.");
             return new ModalDialogFormJsonResult();
         }
