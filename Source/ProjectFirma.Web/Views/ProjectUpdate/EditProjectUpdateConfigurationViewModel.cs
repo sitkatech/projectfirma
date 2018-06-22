@@ -20,6 +20,7 @@ Source code is available upon request via<support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
@@ -28,13 +29,11 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class EditProjectUpdateConfigurationViewModel :FormViewModel
+    public class EditProjectUpdateConfigurationViewModel : FormViewModel, IValidatableObject
     {
-        [DisplayName("Kick-Off Date")]
-        public DateTime? ProjectUpdateKickOffDate { get; set; }
+        [DisplayName("Kick-Off Date")] public DateTime? ProjectUpdateKickOffDate { get; set; }
 
-        [DisplayName("Close-Out Date")]
-        public DateTime? ProjectUpdateCloseOutDate { get; set; }
+        [DisplayName("Close-Out Date")] public DateTime? ProjectUpdateCloseOutDate { get; set; }
 
         [DisplayName("Reminder Interval (days)")]
         public int? ProjectUpdateReminderInterval { get; set; }
@@ -54,12 +53,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [DisplayName("Project Update Kick-Off Email Content")]
         public string ProjectUpdateKickOffIntroContent { get; set; }
 
-        [DisplayName("Project Update Remidner Email Content")]
+        [DisplayName("Project Update Reminder Email Content")]
         public string ProjectUpdateReminderIntroContent { get; set; }
 
         [DisplayName("Project Update Close-Out Email Content")]
         public string ProjectUpdateCloseOutIntroContent { get; set; }
-        
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -79,7 +78,42 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
             ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            // these bools will never be null due to RequiredAttribute
+            if (EnableProjectUpdateReminders.GetValueOrDefault())
+            {
+                if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent))
+                    yield return new ValidationResult(
+                        "You must provide Project Update Kick-Off Email Content if Project Update Reminders are enabled.");
+                if (!ProjectUpdateKickOffDate.HasValue)
+                    yield return new ValidationResult(
+                        "You must provide a Project Update Kick-Off Date if Project Update Remidners are enabled");
+            }
+
+            if (SendPeriodicReminders.GetValueOrDefault())
+            {
+                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent))
+                    yield return new ValidationResult(
+                        "You must provide Project Update Reminder Email Content if Periodic Reminders are enabled.");
+                if (!ProjectUpdateReminderInterval.HasValue)
+                    yield return new ValidationResult(
+                        "You must provide a Project Update Reminder Interval if Periodic Remidners are enabled");
+            }
+
+            if (SendCloseOutNotification.GetValueOrDefault())
+            {
+                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent))
+                    yield return new ValidationResult(
+                        "You must provide Project Update Close-Out Email Content if Project Update Close-Out Notifications are enabled.");
+                if (!ProjectUpdateCloseOutDate.HasValue)
+                    yield return new ValidationResult(
+                        "You must provide a Project Update Close-Out Date if Project Update Close-Out Notifications are enabled");
+            }
+        }
     }
+
     public class EditProjectUpdateConfigurationViewData : FirmaViewData
     {
         public EditProjectUpdateConfigurationViewData(Person currentPerson) : base(currentPerson)
@@ -87,9 +121,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
     }
 
-    public abstract class EditProjectUpdateConfiguration : TypedWebPartialViewPage<EditProjectUpdateConfigurationViewData,
+    public abstract class EditProjectUpdateConfiguration : TypedWebPartialViewPage<
+        EditProjectUpdateConfigurationViewData,
         EditProjectUpdateConfigurationViewModel>
     {
-
     }
 }

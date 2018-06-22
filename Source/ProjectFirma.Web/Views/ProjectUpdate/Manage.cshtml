@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -60,7 +61,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>Enable Project Update Reminders?</label>
                     </div>
                     <div class="col-xs-7">
-                        NOPE
+                        @ViewDataTyped.ProjectUpdateConfiguration.EnableProjectUpdateReminders.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
@@ -68,74 +69,68 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>Project Update Kick-Off Date</label>
                     </div>
                     <div class="col-xs-7">
-                        January 1, 1900
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Project Update Kick-Off Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        "It's time to update your projects!!!!!!!!!!!!!'"
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffIntroContent
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Send Periodic Reminders?</label>
                     </div>
                     <div class="col-xs-7">
-                        NOPE.
+                        @ViewDataTyped.ProjectUpdateConfiguration.SendPeriodicReminders.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Project Update Reminder Interval</label>
                     </div>
                     <div class="col-xs-7">
-                        N/A
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Project Update Reminder Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        N/A
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderIntroContent
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Send Close Out Notification?</label>
                     </div>
                     <div class="col-xs-7">
-                        NOPE
+                        @ViewDataTyped.ProjectUpdateConfiguration.SendCloseOutNotification.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Project Update Close Out Date</label>
                     </div>
                     <div class="col-xs-7">
-                        January 19, 9001
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-xs-5">
                         <label>Project Update Close Out Notification Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        N/A
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutIntroContent
                     </div>
                 </div>
             </div>
-        </div>    </div>
+        </div>
+    </div>
 </div>
 
 <div class="panel panelFirma">

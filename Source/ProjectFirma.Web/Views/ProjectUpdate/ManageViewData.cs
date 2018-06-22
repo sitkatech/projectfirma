@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public int ProjectsWithNoContactCount { get; }
         public string EditProjectUpdateConfigurationUrl { get; }
+        public ProjectUpdateConfiguration ProjectUpdateConfiguration { get; }
 
         public ManageViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
             string projectsRequiringUpdateGridDataUrl,
             PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
-            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount) : base(currentPerson, firmaPage)
+            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount, ProjectUpdateConfiguration projectUpdateConfiguration) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             PageTitle = "Manage Project Updates";
@@ -59,6 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             PeopleReceivingReminderGridDataUrl = peopleReceivingReminderGridDataUrl;
             ProjectsWithNoContactCount = projectsWithNoContactCount;
+            ProjectUpdateConfiguration = projectUpdateConfiguration;
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 
