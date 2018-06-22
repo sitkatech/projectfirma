@@ -80,6 +80,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
         }
 
+        public void UpdateModel(ProjectUpdateConfiguration projectUpdateConfiguration)
+        {
+            projectUpdateConfiguration.ProjectUpdateKickOffDate = ProjectUpdateKickOffDate;
+            projectUpdateConfiguration.ProjectUpdateCloseOutDate = ProjectUpdateCloseOutDate;
+            projectUpdateConfiguration.ProjectUpdateReminderInterval = ProjectUpdateReminderInterval;
+            projectUpdateConfiguration.EnableProjectUpdateReminders = EnableProjectUpdateReminders;
+            projectUpdateConfiguration.SendPeriodicReminders = SendPeriodicReminders;
+            projectUpdateConfiguration.SendCloseOutNotification = SendCloseOutNotification;
+            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent;
+            projectUpdateConfiguration.ProjectUpdateReminderIntroContent = ProjectUpdateReminderIntroContent;
+            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent = ProjectUpdateCloseOutIntroContent;
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             // these bools will never be null due to RequiredAttribute
