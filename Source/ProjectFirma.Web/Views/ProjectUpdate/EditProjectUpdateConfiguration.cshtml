@@ -22,8 +22,10 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectUpdate.EditProjectUpdateConfiguration
 
+
+<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
 <script>
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         $('.datepicker').datepicker();
     });
 </script>
@@ -45,21 +47,18 @@
                         @Html.RadioButtonFor(m => m.EnableProjectUpdateReminders, false) No
                     </label>
                 </div>
-                @Html.ValidationMessageFor(m => m.EnableProjectUpdateReminders)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffDate)</div>
             <div class="col-xs-8">
-                @Html.EditorFor(m=>m.ProjectUpdateKickOffDate)
-                @Html.ValidationMessageFor(m=>m.ProjectUpdateKickOffDate)
+                @Html.EditorFor(m => m.ProjectUpdateKickOffDate)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffIntroContent)</div>
             <div class="col-xs-8">
                 @Html.CkEditorFor(m => m.ProjectUpdateKickOffIntroContent, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
-                @Html.ValidationMessageFor(m => m.ProjectUpdateKickOffIntroContent)
             </div>
         </div>
         <div class="form-group">
@@ -75,21 +74,18 @@
                         @Html.RadioButtonFor(m => m.SendPeriodicReminders, false) No
                     </label>
                 </div>
-                @Html.ValidationMessageFor(m => m.SendPeriodicReminders)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateReminderInterval)</div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m=>m.ProjectUpdateReminderInterval, new {@class="form-control", style="width:185px;"})
-                @Html.ValidationMessageFor(m=>m.ProjectUpdateReminderInterval)
+                @Html.TextBoxFor(m => m.ProjectUpdateReminderInterval, new { @class = "form-control", style = "width:185px;" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateReminderIntroContent)</div>
             <div class="col-xs-8">
                 @Html.CkEditorFor(m => m.ProjectUpdateReminderIntroContent, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
-                @Html.ValidationMessageFor(m => m.ProjectUpdateReminderIntroContent)
             </div>
         </div>
         <div class="form-group">
@@ -105,21 +101,18 @@
                         @Html.RadioButtonFor(m => m.SendCloseOutNotification, false) No
                     </label>
                 </div>
-                @Html.ValidationMessageFor(m => m.SendCloseOutNotification)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateCloseOutDate)</div>
             <div class="col-xs-8">
                 @Html.EditorFor(m => m.ProjectUpdateCloseOutDate)
-                @Html.ValidationMessageFor(m => m.ProjectUpdateCloseOutDate)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateCloseOutIntroContent)</div>
             <div class="col-xs-8">
                 @Html.CkEditorFor(m => m.ProjectUpdateCloseOutIntroContent, CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize, true, true, null)
-                @Html.ValidationMessageFor(m=>m.ProjectUpdateCloseOutIntroContent)
             </div>
         </div>
     </div>

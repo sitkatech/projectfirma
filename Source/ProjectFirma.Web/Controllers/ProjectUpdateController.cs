@@ -192,7 +192,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditProjectUpdateConfiguration(viewModel);
             }
 
-            SetMessageForDisplay("Nothing happened, successfully.");
+            viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
+            SetMessageForDisplay("Something happened. Successfully??");
+
             return new ModalDialogFormJsonResult();
         }
 
