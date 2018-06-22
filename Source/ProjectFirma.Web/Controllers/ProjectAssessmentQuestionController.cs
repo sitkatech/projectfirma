@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project);
-            SetMessageForDisplay(" Assessment succesfully saved.");
+            SetMessageForDisplay(" Assessment successfully saved.");
             return new ModalDialogFormJsonResult();
         }
 
