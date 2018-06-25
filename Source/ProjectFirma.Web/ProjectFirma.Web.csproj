@@ -761,6 +761,7 @@
     </None>
     <Content Include="Content\Bootstrap\firma\peakstopeople.theme.less" />
     <Content Include="Content\img\PeaksToPeople\manifest.json" />
+    <Compile Include="FirmaOwinStartup.cs" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
