@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Models
@@ -68,6 +69,13 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
         {
             return showPendingProjects? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+        }
+
+        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
+        {
+            return projects.Where(x => x.IsUpdateMandatory && x.GetLatestUpdateState() != ProjectUpdateState.Submitted
+                                                           // todo: do we need this code and what's the equivalent for it? && x.CreationDate < FirmaDateUtilities.CalculateCurrentReportingCycleStartDate()
+                                                           ).ToList();
         }
     }
 }
