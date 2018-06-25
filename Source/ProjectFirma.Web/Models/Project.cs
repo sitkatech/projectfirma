@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
-            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() == null)
+            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
             {
                 return ProjectOrganizations.Where(x => x.Organization.FundingSources.Any()).Select(x => x.Organization)
                     .ToList();

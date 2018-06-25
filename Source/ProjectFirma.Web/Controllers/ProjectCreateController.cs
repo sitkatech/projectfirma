@@ -314,7 +314,7 @@ namespace ProjectFirma.Web.Controllers
                 AuditDescription = $"Project: created {project.DisplayName}"
             };
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} successfully saved.");
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.Basics);
         }
@@ -362,7 +362,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(performanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions, project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
             return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures);
         }
 
@@ -489,7 +489,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
-            SetMessageForDisplay("Proposed Project Performance Measures successfully saved.");
+            SetMessageForDisplay("Expected Funding successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
         }
 
@@ -616,7 +616,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectClassifications.Load();
             viewModel.UpdateModel(project, currentProjectClassifications);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications);
         }
 
@@ -659,7 +659,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project);
-            SetMessageForDisplay("Assessment succesfully saved.");
+            SetMessageForDisplay("Assessment successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment);
         }
 
@@ -712,7 +712,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.LocationSimple);
         }
 
@@ -919,7 +919,7 @@ namespace ProjectFirma.Web.Controllers
             var currentProjectWatersheds = project.ProjectWatersheds.ToList();
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Watershed);
         }
 
@@ -1169,7 +1169,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
+            var message = $"Project \"{project.DisplayName}\" successfully deleted.";
             project.DeleteFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
@@ -1196,7 +1196,7 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
             NotificationProject.SendSubmittedMessage(project);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} succesfully submitted for review.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
@@ -1240,7 +1240,7 @@ namespace ProjectFirma.Web.Controllers
 
             NotificationProject.SendApprovalMessage(project);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the {project.ProjectStage.ProjectStageDisplayName} stage.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" successfully approved.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
@@ -1420,7 +1420,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, allProjectOrganizations);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
         }
 

@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Results
                 tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID;
             IncludeReportingOrganizationType = tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType;
             RelationshipTypetoIncludeID = MultiTenantHelpers
-                .GetCanReportInAccomplishmentsDashboardOrganizationRelationship()?.RelationshipTypeID;
+                .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID;
         }
 
         public void UpdateModel(IQueryable<RelationshipType> relationshipTypes)

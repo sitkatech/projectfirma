@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Organization {organization.DisplayName} succesfully created.");
+            SetMessageForDisplay($"Organization {organization.DisplayName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -266,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganization(organization, viewModel);
             }
-            var message = $"Organization \"{organization.OrganizationName}\" succesfully deleted.";
+            var message = $"Organization \"{organization.OrganizationName}\" successfully deleted.";
             organization.DeleteFull();
             SetMessageForDisplay(message);
 

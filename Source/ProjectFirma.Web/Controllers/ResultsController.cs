@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
 
             List<Organization> organizations;
             // default to Funding Organizations if no relationship type is selected to report in the dashboard.
-            if (MultiTenantHelpers.GetCanReportInAccomplishmentsDashboardOrganizationRelationship() != null)
+            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() != null)
             {
                 organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
                     .Where(x => x.CanBeReportedInAccomplishmentsDashboard())
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
                 //        HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Select(x =>
                 //            x.FundingSource.Organization)).OrderBy(x => x.OrganizationName).ToList();
                 organizations = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => x.Organization)
-                    .Distinct().ToList();
+                    .Distinct().OrderBy(x => x.OrganizationName).ToList();
             }
 
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();

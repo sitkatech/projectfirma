@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(customPage, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' succesfully created.");
+            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -204,7 +204,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteCustomPage(customPage, viewModel);
             }
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' succesfully removed.");
+            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
             customPage.CustomPageImages.DeleteCustomPageImage();
             customPage.DeleteCustomPage();
