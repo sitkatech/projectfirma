@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using Hangfire;
 using Hangfire.SqlServer;
 using Hangfire.Storage;
-using Microsoft.Owin;
 using Owin;
 using ProjectFirma.Web.Common;
 
@@ -17,7 +16,7 @@ namespace ProjectFirma.Web.ScheduledJobs
     public class ScheduledBackgroundJobBootstrapper
     {
         /// <summary>
-        /// Configuration entry point for <see cref="FirmaOwinStartup"/> via the <see cref="OwinStartupAttribute"/>
+        /// Configuration entry point for <see cref="FirmaOwinStartup"/> via the <see cref="Microsoft.Owin.OwinStartupAttribute"/>
         /// </summary>
         public static void ConfigureHangfireAndScheduledBackgroundJobs(IAppBuilder app)
         {
@@ -61,7 +60,14 @@ namespace ProjectFirma.Web.ScheduledJobs
         private static void ConfigureScheduledBackgroundJobs()
         {
             var recurringJobIds = new List<string>();
-            
+            // todo: come correct
+            DateTime reportingCycleStartDate = DateTime.Now;
+
+            AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.Instance.JobName,
+                () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
+                MakeYearlyUtcCronJobStringFromLocalTime(reportingCycleStartDate.Month, reportingCycleStartDate.Day, 1, 0),
+                recurringJobIds);
+
             // Remove any jobs we haven't explicity scheduled
             RemoveExtraneousJobs(recurringJobIds);
         }
@@ -95,6 +101,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// problems won't hang around for too long since AddOrUpdate will adjust the time to be the correct one
         /// after a DST change. -- SLG 03/16/2015
         /// </summary>
+        // ReSharper disable once UnusedMember.Local
         private static string MakeDailyUtcCronJobStringFromLocalTime(int hour, int minute)
         {
             var utcCronTime = MakeUtcCronTime(hour, minute);
