@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
         {
             return OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
                 x.RelationshipTypeID == MultiTenantHelpers
-                    .GetCanReportInAccomplishmentsDashboardOrganizationRelationship()?.RelationshipTypeID);
+                    .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID);
         }
 
         public bool CanBeAPrimaryContactOrganization()
