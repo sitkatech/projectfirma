@@ -60,12 +60,11 @@ namespace ProjectFirma.Web.ScheduledJobs
         private static void ConfigureScheduledBackgroundJobs()
         {
             var recurringJobIds = new List<string>();
-            // todo: come correct
-            DateTime reportingCycleStartDate = DateTime.Now;
 
+            // because the reminder configurations are tenant-specific and user-configurable, just schedule the job to run nightly and have it check whether it's time to send a remind for each tenant.
             AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.Instance.JobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
-                MakeYearlyUtcCronJobStringFromLocalTime(reportingCycleStartDate.Month, reportingCycleStartDate.Day, 1, 0),
+                MakeDailyUtcCronJobStringFromLocalTime(1,23),
                 recurringJobIds);
 
             // Remove any jobs we haven't explicity scheduled

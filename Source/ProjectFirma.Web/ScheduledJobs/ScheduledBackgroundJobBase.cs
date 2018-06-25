@@ -13,8 +13,8 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// </summary>
         public static readonly object ScheduledBackgroundJobLock = new object();
 
-        public readonly string JobName;
-        protected readonly ILog Logger;
+        public string JobName { get; }
+        protected ILog Logger { get; }
         protected DatabaseEntities DbContext;
 
         /// <summary> 
