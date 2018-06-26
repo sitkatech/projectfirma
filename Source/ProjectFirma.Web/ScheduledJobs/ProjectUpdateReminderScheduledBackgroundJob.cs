@@ -48,41 +48,44 @@ namespace ProjectFirma.Web.ScheduledJobs
         {
             Logger.Info($"Processing '{JobName}' notifications.");
 
-            var projectUpdateConfigurations = HttpRequestStorage.DatabaseEntities.AllProjectUpdateConfigurations;
-
-            var allProjects = HttpRequestStorage.DatabaseEntities.AllProjects;
+            // we're "tenant-agnostic" right now
+            var projectUpdateConfigurations = DbContext.AllProjectUpdateConfigurations;
+            var allProjects = DbContext.AllProjects;
 
             foreach (var projectUpdateConfiguration in projectUpdateConfigurations)
             {
+                var tenant = projectUpdateConfiguration.Tenant;
+
                 if (projectUpdateConfiguration.EnableProjectUpdateReminders)
                 {
                     var projectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
                         var projectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
-                        
-                        var updatableProjectsThatHaveNotBeenSubmitted = allProjects.GetUpdatableProjectsThatHaveNotBeenSubmitted();
-                        var primaryContactPeople = updatableProjectsThatHaveNotBeenSubmitted.GetPrimaryContactPeople();
-                        // create a notification entry per primary contact reminder
-                        string reminderSubject = string.Empty; // TODO
-                        var notifications = primaryContactPeople.SelectMany(primaryContactPerson => SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject)).ToList();
-                        HttpRequestStorage.DatabaseEntities.AllNotifications.AddRange(notifications);
-                        //todo: ???
-                        //HttpRequestStorage.DetectChangesAndSave();
-                        var message = $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {updatableProjectsThatHaveNotBeenSubmitted.Count} projects requiring an update.";
-
-                        Logger.Info(message);
+                        string reminderSubject = "Kick Off"; // TODO
+                        RunNotifications(allProjects, reminderSubject, projectUpdateKickOffIntroContent, tenant);
                     }
                 }
 
                 if (projectUpdateConfiguration.SendPeriodicReminders)
                 {
-                    // todo: periodic notifications
+                    if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
+                    {
+                        var projectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
+                        string reminderSubject = "Periodic"; // TODO
+                        RunNotifications(allProjects, reminderSubject, projectUpdateReminderIntroContent, tenant);
+                    }
                 }
 
                 if (projectUpdateConfiguration.SendCloseOutNotification)
                 {
-                    // todo: close-out notification
+                    var projectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
+                    if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
+                    {
+                        var projectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
+                        string reminderSubject = "Close Out"; // TODO
+                        RunNotifications(allProjects, reminderSubject, projectUpdateCloseOutIntroContent, tenant);
+                    }
                 }
             }
 
@@ -90,64 +93,102 @@ namespace ProjectFirma.Web.ScheduledJobs
             //Logger.Info(resultMessage);
         }
 
-        // todo: below here, probably refactor into a helper class for better delegation
-
-        public static Person GetAnnualReportingContactPerson()
+        private static bool TodayIsReminderDayForProjectUpdateConfiguration(ProjectUpdateConfiguration projectUpdateConfiguration)
         {
-            // todo: probably needs to be tenant-specific
-            return HttpRequestStorage.DatabaseEntities.People.GetPerson(FirmaWebConfiguration.AnnualReportingContactPersonID);
+            return (DateTime.Today - projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
+                   .Days % projectUpdateConfiguration.ProjectUpdateReminderInterval == 0;
         }
 
-        public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject)
+        // todo: extract class for delegation
+
+        /// <summary>
+        /// Sends a notification to all the primary contacts for the given tenant's projects.
+        /// The caller is only responsible for making sure that allProjects is really all projects in the database; tenant bounds are ensured in this method.
+        /// </summary>
+        /// <param name="allProjects"></param>
+        /// <param name="reminderSubject"></param>
+        /// <param name="introContent"></param>
+        /// <param name="tenant"></param>
+        private void RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant)
         {
-            // todo: I'm not happy with pCP.GPCP(pCP) and I'm not happy with all the AsQueryable()
-            var updatableProjectsThatHaveNotBeenSubmitted = primaryContactPerson.GetPrimaryContactProjects(primaryContactPerson).AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+            // Constrain to tenant boundaries.
+            var toolDisplayName = tenant.GetTenantAttribute().ToolDisplayName;
+            var tenantProjects = allProjects.Where(x => x.Tenant == tenant).ToList();
 
-            var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject);
+            var updatableProjectsThatHaveNotBeenSubmitted =
+                tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+            var primaryContactPeople = updatableProjectsThatHaveNotBeenSubmitted.GetPrimaryContactPeople();
 
-            List<Notification> sendProjectUpdateReminderMessage = new List<Notification>() ;
-            //sendProjectUpdateReminderMessage = NotificationProject.SendMessageAndLogNotification(mailMessage,
-            //    new List<string> { primaryContactPerson.Email },
-            //    new List<string> { GetAnnualReportingContactPerson().Email },
-            //    new List<string>(),
-            //    new List<Person> { primaryContactPerson },
-            //    DateTime.Now,
-            //    updatableProjectsThatHaveNotBeenSubmitted,
-            //    NotificationType.ProjectUpdateReminder);
+            // create a notification entry per primary contact reminder
+            var notifications = primaryContactPeople.SelectMany(primaryContactPerson =>
+                SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject, toolDisplayName,
+                    introContent, tenant.GetTenantAttribute().TenantSquareLogoFileResource)).ToList();
+
+            DbContext.AllNotifications.AddRange(notifications);
+            DbContext.SaveChanges();
+
+            var message =
+                $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {updatableProjectsThatHaveNotBeenSubmitted.Count} projects requiring an update.";
+            Logger.Info(message);
+        }
+
+        public Person GetAnnualReportingContactPerson()
+        {
+            // todo: probably needs to be tenant-specific
+            return DbContext.People.GetPerson(FirmaWebConfiguration.AnnualReportingContactPersonID);
+        }
+
+        public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
+            string toolName, string introContent, LinkedResource logo)
+        {
+            var updatableProjectsThatHaveNotBeenSubmitted = GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
+            var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName, introContent, logo);
+
+            var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
+                new List<string> {primaryContactPerson.Email},
+                new List<string> {GetAnnualReportingContactPerson().Email},
+                new List<string>(),
+                new List<Person> {primaryContactPerson},
+                DateTime.Now, updatableProjectsThatHaveNotBeenSubmitted,
+                NotificationType.ProjectUpdateReminder);
             return sendProjectUpdateReminderMessage;
         }
 
-        public MailMessage GenerateReminderForPerson(Person primaryContactPerson, string reminderSubject)
+        private List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(Person primaryContactPerson)
         {
-            var projectListAsHtmlStrings = GenerateProjectListAsHtmlStrings(primaryContactPerson.GetPrimaryContactProjects(primaryContactPerson).AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted());
+            // todo: I'm not happy with pCP.GPCP(pCP)
+            return primaryContactPerson
+                .GetPrimaryContactProjects(primaryContactPerson).AsQueryable()
+                .GetUpdatableProjectsThatHaveNotBeenSubmitted();
+        }
 
-            var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+        public MailMessage GenerateReminderForPerson(Person primaryContactPerson, string reminderSubject,
+            string toolName, string introContent, FileResource logo)
+        {
+            var projectListAsHtmlStrings = GenerateProjectListAsHtmlStrings(GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson));
             var projectsRequiringAnUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            // todo: ??
-            //var projectFeatureUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(null));
+            
+            var body = String.Format(ReminderMessageTemplate,
+                primaryContactPerson.FullNameFirstLast,
+                introContent,
+                projectsRequiringAnUpdateUrl,
+                String.Join("\r\n", projectListAsHtmlStrings));
+            var signature = String.Format(ReminderMessageSignatureTemplate, toolName, GetAnnualReportingContactPerson().Email);
 
-            // todo: build body better 
-            var body = string.Empty;
-            //var body = String.Format(GetReminderMessageTemplate(),
-            //    primaryContactPerson.FullNameFirstLast,
-            //    reportingYear,
-            //    String.Join("\r\n", projectListAsHtmlStrings),
-            //    projectsRequiringAnUpdateUrl,
-            //    //projectFeatureUrl,
-            //    string.Empty,
-            //    reportingYear + 1);
-            var signature = String.Format(ReminderMessageSignatureTemplate, GetAnnualReportingContactPerson().Email);
-
-            // todo ?? 
-            LinkedResource logo = null;
-            //logo = new LinkedResource(Path.GetFullPath(HostingEnvironment.MapPath(@"~/Content/img/eip-logo-factsheet.png"))) { ContentId = "eip-logo" };
             var htmlView = AlternateView.CreateAlternateViewFromString($"{body}\r\n{signature}", null, "text/html");
-            htmlView.LinkedResources.Add(logo);
-
+            htmlView.LinkedResources.Add(new LinkedResource(logo.FileResourceUrl){ContentId = "tool-logo"});
             var mailMessage = new MailMessage { Subject = reminderSubject, IsBodyHtml = true };
             mailMessage.AlternateViews.Add(htmlView);
+
             return mailMessage;
         }
+
+        private static string ReminderMessageTemplate = @"Hello, {0},
+{1}
+<div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
+<div style=""margin-left: 15px"">
+    {3}
+</div>";
 
         private static List<string> GenerateProjectListAsHtmlStrings(List<Project> updatableProjectsThatHaveNotBeenSubmitted)
         {
@@ -163,9 +204,9 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         private const string ReminderMessageSignatureTemplate = @"
 Thank you,<br />
-Lake Tahoe EIP Project Tracker team<br/><br/><img src=""cid:eip-logo"" width=""160"" />
+{0} team<br/><br/><img src=""cid:eip-logo"" width=""160"" />
 <p>
-P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{0}"">contact support</a>.
+P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{1}"">contact support</a>.
 </p>";
     }
 }
