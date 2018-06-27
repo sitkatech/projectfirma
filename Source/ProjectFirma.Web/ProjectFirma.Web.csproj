@@ -374,6 +374,7 @@
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
     <Compile Include="Models\ProjectOrganizationRelationship.cs" />
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
+    <Compile Include="ScheduledJobs\HangfireFirmaWebAuthorizationFilter.cs" />
     <Compile Include="ScheduledJobs\ProjectUpdateReminderScheduledBackgroundJob.cs" />
     <Compile Include="ScheduledJobs\ScheduledBackgroundJobBase.cs" />
     <Compile Include="ScheduledJobs\ScheduledBackgroundJobBootstrapper.cs" />

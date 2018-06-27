@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [HangFire].[Server](
-	[Id] [nvarchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Id] [nvarchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Data] [nvarchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LastHeartbeat] [datetime] NOT NULL,
  CONSTRAINT [PK_Server_Id] PRIMARY KEY CLUSTERED 

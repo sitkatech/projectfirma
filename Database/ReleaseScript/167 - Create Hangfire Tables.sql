@@ -92,7 +92,7 @@ CREATE TABLE HangFire.[Schema](
 
 
 CREATE TABLE HangFire.[Server](
-	Id nvarchar(50) NOT NULL CONSTRAINT PK_Server_Id PRIMARY KEY ,
+	Id nvarchar(100) NOT NULL CONSTRAINT PK_Server_Id PRIMARY KEY ,
 	Data nvarchar(max) NULL,
 	LastHeartbeat datetime NOT NULL
 )

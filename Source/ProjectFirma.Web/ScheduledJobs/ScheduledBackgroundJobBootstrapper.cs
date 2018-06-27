@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using Hangfire;
 using Hangfire.SqlServer;
 using Hangfire.Storage;
@@ -29,6 +30,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// </summary>
         private static void ConfigureHangfire(IAppBuilder app)
         {
+            Thread.Sleep(1000);
             var sqlServerStorageOptions = new SqlServerStorageOptions
             {
                 // We have scripted out the Hangfire tables, so we tell Hangfire not to insert them. 
@@ -37,22 +39,23 @@ namespace ProjectFirma.Web.ScheduledJobs
             };
             GlobalConfiguration.Configuration.UseSqlServerStorage(FirmaWebConfiguration.DatabaseConnectionString,
                 sqlServerStorageOptions);
-            app.UseHangfireDashboard();
-            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            //{
-            //    AuthorizationFilters = new[] { new HangfireCorralWebAuthorizationFilter() }
-            //});
             app.UseHangfireServer(new BackgroundJobServerOptions
             {
-                WorkerCount = 1
+                WorkerCount = 1,
+                Queues = new[] {"critical","default"},
+                ServerName = "ProjectFirma:1337"
             }); // 11/03/2015 MF - limit the number of worker threads, we really don't need that many - in fact we try to have each job run serially for the time being because we're not sure how concurrent the different jobs could really be.
 
             // Hangfire defaults to 10 retries for failed jobs; this disables that behavior by doing no automatic retries.
             // http://hangfire.readthedocs.org/en/latest/background-processing/dealing-with-exceptions.html
             // Note that specific jobs may override this; look for uses of the AutomaticRetry symbol on specific job start functions.
-            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute {Attempts = 0});
-        }
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 0 });
 
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireFirmaWebAuthorizationFilter() }
+            });
+        }
 
         /// <summary>
         /// Set up the jobs particular to this application
@@ -64,7 +67,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             // because the reminder configurations are tenant-specific and user-configurable, just schedule the job to run nightly and have it check whether it's time to send a remind for each tenant.
             AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.Instance.JobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
-                MakeDailyUtcCronJobStringFromLocalTime(1,23),
+                MakeDailyUtcCronJobStringFromLocalTime(14,15),
                 recurringJobIds);
 
             // Remove any jobs we haven't explicity scheduled
@@ -100,7 +103,6 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// problems won't hang around for too long since AddOrUpdate will adjust the time to be the correct one
         /// after a DST change. -- SLG 03/16/2015
         /// </summary>
-        // ReSharper disable once UnusedMember.Local
         private static string MakeDailyUtcCronJobStringFromLocalTime(int hour, int minute)
         {
             var utcCronTime = MakeUtcCronTime(hour, minute);

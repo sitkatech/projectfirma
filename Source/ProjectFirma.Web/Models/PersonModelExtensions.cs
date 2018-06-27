@@ -77,11 +77,12 @@ namespace ProjectFirma.Web.Models
         public static bool IsSitkaAdministrator(this Person person)
         {
             return person != null && person.Role == Role.SitkaAdmin;
+
         }
 
         public static bool IsAdministrator(this Person person)
         {
-            return person != null && person.Role == Role.Admin && IsSitkaAdministrator(person);
+            return person != null && (person.Role == Role.Admin || IsSitkaAdministrator(person));
         }
 
         public static bool IsApprover(this Person person)

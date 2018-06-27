@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Web.Hosting;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -112,8 +111,9 @@ namespace ProjectFirma.Web.ScheduledJobs
         private void RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant)
         {
             // Constrain to tenant boundaries.
-            var toolDisplayName = tenant.GetTenantAttribute().ToolDisplayName;
-            var tenantProjects = allProjects.Where(x => x.Tenant == tenant).ToList();
+            var tenantProjects = allProjects.Where(x => x.TenantID == tenant.TenantID).ToList();
+            var tenantAttribute = DbContext.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var toolDisplayName = tenantAttribute.ToolDisplayName;
 
             var updatableProjectsThatHaveNotBeenSubmitted =
                 tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
@@ -122,10 +122,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             // create a notification entry per primary contact reminder
             var notifications = primaryContactPeople.SelectMany(primaryContactPerson =>
                 SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject, toolDisplayName,
-                    introContent, tenant.GetTenantAttribute().TenantSquareLogoFileResource)).ToList();
+                    introContent, tenantAttribute.TenantSquareLogoFileResource)).ToList();
 
             DbContext.AllNotifications.AddRange(notifications);
-            DbContext.SaveChanges();
+            // NP 6/26/18 We have to step back outside of tenant boundaries to persist. The existence of this method is a necessary evil, albeit one I'm not happy with
+            // TODO: check with Ray to make sure this is a necessary evil that we can stomach.
+            DbContext.SaveChangesOverridingTenantBounds();
 
             var message =
                 $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {updatableProjectsThatHaveNotBeenSubmitted.Count} projects requiring an update.";
@@ -139,19 +141,24 @@ namespace ProjectFirma.Web.ScheduledJobs
         }
 
         public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
-            string toolName, string introContent, LinkedResource logo)
+            string toolName, string introContent, FileResource logo)
         {
             var updatableProjectsThatHaveNotBeenSubmitted = GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
-            var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName, introContent, logo);
+            if (updatableProjectsThatHaveNotBeenSubmitted.Count > 0)
+            {
 
-            var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
-                new List<string> {primaryContactPerson.Email},
-                new List<string> {GetAnnualReportingContactPerson().Email},
-                new List<string>(),
-                new List<Person> {primaryContactPerson},
-                DateTime.Now, updatableProjectsThatHaveNotBeenSubmitted,
-                NotificationType.ProjectUpdateReminder);
-            return sendProjectUpdateReminderMessage;
+                var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName, introContent, logo);
+
+                var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
+                    new List<string> { primaryContactPerson.Email },
+                    new List<string>(),
+                    new List<string>(),
+                    new List<Person> { primaryContactPerson },
+                    DateTime.Now, updatableProjectsThatHaveNotBeenSubmitted,
+                    NotificationType.ProjectUpdateReminder);
+                return sendProjectUpdateReminderMessage;
+            }
+            else return new List<Notification>();
         }
 
         private List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(Person primaryContactPerson)
@@ -173,22 +180,22 @@ namespace ProjectFirma.Web.ScheduledJobs
                 introContent,
                 projectsRequiringAnUpdateUrl,
                 String.Join("\r\n", projectListAsHtmlStrings));
-            var signature = String.Format(ReminderMessageSignatureTemplate, toolName, GetAnnualReportingContactPerson().Email);
+            var signature = String.Format(ReminderMessageSignatureTemplate, toolName, "");
 
             var htmlView = AlternateView.CreateAlternateViewFromString($"{body}\r\n{signature}", null, "text/html");
-            htmlView.LinkedResources.Add(new LinkedResource(logo.FileResourceUrl){ContentId = "tool-logo"});
+            htmlView.LinkedResources.Add(new LinkedResource(new MemoryStream(logo.FileResourceData),"img/jpeg"){ContentId = "tool-logo"});
             var mailMessage = new MailMessage { Subject = reminderSubject, IsBodyHtml = true };
             mailMessage.AlternateViews.Add(htmlView);
 
             return mailMessage;
         }
 
-        private static string ReminderMessageTemplate = @"Hello, {0},
+        private const string ReminderMessageTemplate = @"Hello, {0},
 {1}
 <div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
 <div style=""margin-left: 15px"">
     {3}
-</div>";
+</div><br />";
 
         private static List<string> GenerateProjectListAsHtmlStrings(List<Project> updatableProjectsThatHaveNotBeenSubmitted)
         {
