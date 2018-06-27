@@ -108,16 +108,16 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="reminderSubject"></param>
         /// <param name="introContent"></param>
         /// <param name="tenant"></param>
-        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant)
+        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant, bool notifyOnAll)
         {
             // Constrain to tenant boundaries.
             var tenantProjects = allProjects.Where(x => x.TenantID == tenant.TenantID).ToList();
             var tenantAttribute = DbContext.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var toolDisplayName = tenantAttribute.ToolDisplayName;
 
-            var updatableProjectsThatHaveNotBeenSubmitted =
+            var projectsToNotifyOn = notifyOnAll ? tenantProjects.AsQueryable().GetUpdatableProjects() :
                 tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
-            var primaryContactPeople = updatableProjectsThatHaveNotBeenSubmitted.GetPrimaryContactPeople();
+            var primaryContactPeople = projectsToNotifyOn.GetPrimaryContactPeople();
 
             // create a notification entry per primary contact reminder
             var notifications = primaryContactPeople.SelectMany(primaryContactPerson =>
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     introContent, tenantAttribute.TenantSquareLogoFileResource)).ToList();
 
             var message =
-                $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {updatableProjectsThatHaveNotBeenSubmitted.Count} projects requiring an update.";
+                $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {projectsToNotifyOn.Count} projects requiring an update.";
             Logger.Info(message);
 
             return notifications;
