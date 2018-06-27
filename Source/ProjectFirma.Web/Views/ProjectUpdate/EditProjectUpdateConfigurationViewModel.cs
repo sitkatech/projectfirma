@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
@@ -52,13 +53,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool SendCloseOutNotification { get; set; }
 
         [DisplayName("Project Update Kick-Off Email Content")]
-        public string ProjectUpdateKickOffIntroContent { get; set; }
+        public HtmlString ProjectUpdateKickOffIntroContent { get; set; }
 
         [DisplayName("Project Update Reminder Email Content")]
-        public string ProjectUpdateReminderIntroContent { get; set; }
+        public HtmlString ProjectUpdateReminderIntroContent { get; set; }
 
         [DisplayName("Project Update Close-Out Email Content")]
-        public string ProjectUpdateCloseOutIntroContent { get; set; }
+        public HtmlString ProjectUpdateCloseOutIntroContent { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -75,9 +76,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EnableProjectUpdateReminders = projectUpdateConfiguration.EnableProjectUpdateReminders;
             SendPeriodicReminders = projectUpdateConfiguration.SendPeriodicReminders;
             SendCloseOutNotification = projectUpdateConfiguration.SendCloseOutNotification;
-            ProjectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
-            ProjectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
-            ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
+            ProjectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContentHtmlString;
+            ProjectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContentHtmlString;
+            ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContentHtmlString;
         }
 
         public void UpdateModel(ProjectUpdateConfiguration projectUpdateConfiguration)
@@ -88,9 +89,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdateConfiguration.EnableProjectUpdateReminders = EnableProjectUpdateReminders;
             projectUpdateConfiguration.SendPeriodicReminders = SendPeriodicReminders;
             projectUpdateConfiguration.SendCloseOutNotification = SendCloseOutNotification;
-            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent;
-            projectUpdateConfiguration.ProjectUpdateReminderIntroContent = ProjectUpdateReminderIntroContent;
-            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent = ProjectUpdateCloseOutIntroContent;
+            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent.ToString();
+            projectUpdateConfiguration.ProjectUpdateReminderIntroContent = ProjectUpdateReminderIntroContent.ToString();
+            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent = ProjectUpdateCloseOutIntroContent.ToString();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -98,8 +99,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             // these bools will never be null due to RequiredAttribute
             if (EnableProjectUpdateReminders)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent))
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, string>(
+                if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent.ToString()))
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
                         "You must provide Project Update Kick-Off Email Content if Project Update Reminders are enabled.", m=>m.ProjectUpdateKickOffIntroContent);
                 if (!ProjectUpdateKickOffDate.HasValue)
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,DateTime?>(
@@ -108,8 +109,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (SendPeriodicReminders)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent))
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,string>(
+                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent.ToString()))
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,HtmlString>(
                         "You must provide Project Update Reminder Email Content if Periodic Reminders are enabled.", m=>m.ProjectUpdateReminderIntroContent);
 
                 if (!ProjectUpdateReminderInterval.HasValue)
@@ -125,8 +126,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (SendCloseOutNotification)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent))
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,string>(
+                if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent.ToString()))
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,HtmlString>(
                         "You must provide Project Update Close-Out Email Content if Project Update Close-Out Notifications are enabled.",m=>m.ProjectUpdateCloseOutIntroContent);
                 if (!ProjectUpdateCloseOutDate.HasValue)
                 {

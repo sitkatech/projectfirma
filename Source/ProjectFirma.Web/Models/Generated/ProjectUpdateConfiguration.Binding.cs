@@ -99,8 +99,26 @@ namespace ProjectFirma.Web.Models
         public bool SendPeriodicReminders { get; set; }
         public bool SendCloseOutNotification { get; set; }
         public string ProjectUpdateKickOffIntroContent { get; set; }
+        [NotMapped]
+        public HtmlString ProjectUpdateKickOffIntroContentHtmlString
+        { 
+            get { return ProjectUpdateKickOffIntroContent == null ? null : new HtmlString(ProjectUpdateKickOffIntroContent); }
+            set { ProjectUpdateKickOffIntroContent = value?.ToString(); }
+        }
         public string ProjectUpdateReminderIntroContent { get; set; }
+        [NotMapped]
+        public HtmlString ProjectUpdateReminderIntroContentHtmlString
+        { 
+            get { return ProjectUpdateReminderIntroContent == null ? null : new HtmlString(ProjectUpdateReminderIntroContent); }
+            set { ProjectUpdateReminderIntroContent = value?.ToString(); }
+        }
         public string ProjectUpdateCloseOutIntroContent { get; set; }
+        [NotMapped]
+        public HtmlString ProjectUpdateCloseOutIntroContentHtmlString
+        { 
+            get { return ProjectUpdateCloseOutIntroContent == null ? null : new HtmlString(ProjectUpdateCloseOutIntroContent); }
+            set { ProjectUpdateCloseOutIntroContent = value?.ToString(); }
+        }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateConfigurationID; } set { ProjectUpdateConfigurationID = value; } }
 

@@ -11,9 +11,9 @@ CREATE TABLE [dbo].[ProjectUpdateConfiguration](
 	[EnableProjectUpdateReminders] [bit] NOT NULL,
 	[SendPeriodicReminders] [bit] NOT NULL,
 	[SendCloseOutNotification] [bit] NOT NULL,
-	[ProjectUpdateKickOffIntroContent] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ProjectUpdateReminderIntroContent] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ProjectUpdateCloseOutIntroContent] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectUpdateKickOffIntroContent] [dbo].[html] NULL,
+	[ProjectUpdateReminderIntroContent] [dbo].[html] NULL,
+	[ProjectUpdateCloseOutIntroContent] [dbo].[html] NULL,
  CONSTRAINT [PK_ProjectUpdateConfiguration_ProjectUpdateConfigurationID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateConfigurationID] ASC

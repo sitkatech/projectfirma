@@ -41,6 +41,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public int ProjectsWithNoContactCount { get; }
         public string EditProjectUpdateConfigurationUrl { get; }
         public ProjectUpdateConfiguration ProjectUpdateConfiguration { get; }
+        public string KickOffIntroPreviewUrl { get; set; }
+        public string ReminderIntroPreviewUrl { get; set; }
+        public string CloseOutIntroPreviewUrl { get; set; }
 
         public ManageViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -63,6 +66,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateConfiguration = projectUpdateConfiguration;
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
+
+            KickOffIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.KickOffIntroPreview());
+            ReminderIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReminderIntroPreview());
+            CloseOutIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
 
             var getPersonIDFunctionString = $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, \'PersonID\', \'PersonIDList\'); }}";
 

@@ -101,8 +101,6 @@ namespace ProjectFirma.Web.ScheduledJobs
                    .Days % projectUpdateConfiguration.ProjectUpdateReminderInterval == 0;
         }
 
-        // todo: extract class for delegation
-
         /// <summary>
         /// Sends a notification to all the primary contacts for the given tenant's projects.
         /// </summary>
@@ -133,12 +131,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             return notifications;
         }
 
-        public Person GetAnnualReportingContactPerson()
-        {
-            // todo: probably needs to be tenant-specific
-            return DbContext.People.GetPerson(FirmaWebConfiguration.AnnualReportingContactPersonID);
-        }
-
         public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
             string toolName, string introContent, FileResource logo)
         {
@@ -162,7 +154,6 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         private List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(Person primaryContactPerson)
         {
-            // todo: I'm not happy with pCP.GPCP(pCP)
             return primaryContactPerson
                 .GetPrimaryContactProjects(primaryContactPerson).AsQueryable()
                 .GetUpdatableProjectsThatHaveNotBeenSubmitted();

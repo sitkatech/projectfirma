@@ -172,7 +172,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateAdminFeature]
         public PartialViewResult EditProjectUpdateConfiguration()
         {
-            EditProjectUpdateConfigurationViewModel viewModel = new EditProjectUpdateConfigurationViewModel();
+            EditProjectUpdateConfigurationViewModel viewModel = new EditProjectUpdateConfigurationViewModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
             return ViewEditProjectUpdateConfiguration(viewModel);
         }
 
@@ -2775,6 +2775,32 @@ namespace ProjectFirma.Web.Controllers
             public ProjectOrganizationEqualityComparer(Func<IProjectOrganization, object> f) : base(f)
             {
             }
+        }
+
+        // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
+
+        public ContentResult KickOffIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent
+            };
+        }
+
+        public ContentResult ReminderIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent
+            };
+        }
+
+        public ContentResult CloseOutIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent
+            };
         }
     }
 }

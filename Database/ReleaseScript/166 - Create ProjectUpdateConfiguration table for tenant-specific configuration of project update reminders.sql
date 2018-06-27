@@ -7,9 +7,9 @@ ProjectUpdateReminderInterval int null,
 EnableProjectUpdateReminders bit not null,
 SendPeriodicReminders bit not null,
 SendCloseOutNotification bit not null,
-ProjectUpdateKickOffIntroContent varchar(max) null,
-ProjectUpdateReminderIntroContent varchar(max) null,
-ProjectUpdateCloseOutIntroContent varchar(max) null,
+ProjectUpdateKickOffIntroContent dbo.html null,
+ProjectUpdateReminderIntroContent dbo.html null,
+ProjectUpdateCloseOutIntroContent dbo.html null,
 
 constraint AK_ProjectUpdateConfiguration_Tenant unique(TenantID)
 )
