@@ -19,6 +19,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         //    ReminderMessageType = reminderMessageType;
         //}
 
+
         public static ProjectUpdateReminderScheduledBackgroundJob Instance { get; set; }
 
         static ProjectUpdateReminderScheduledBackgroundJob()
@@ -48,12 +49,16 @@ namespace ProjectFirma.Web.ScheduledJobs
             Logger.Info($"Processing '{JobName}' notifications.");
 
             // we're "tenant-agnostic" right now
-            var projectUpdateConfigurations = DbContext.AllProjectUpdateConfigurations;
-            var allProjects = DbContext.AllProjects;
+            var projectUpdateConfigurations = DbContext.AllProjectUpdateConfigurations.ToList();
+            var reminderSubject = "Time to update your Projects";
 
             foreach (var projectUpdateConfiguration in projectUpdateConfigurations)
             {
+                List<Notification> notifications = new List<Notification>();
                 var tenant = projectUpdateConfiguration.Tenant;
+                HttpRequestStorage.SetTenantForHangfire(tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
+                // now that HRS.Tenant is set to the one we want, this is just that tenant's projects.
+                var projects = DbContext.Projects;
 
                 if (projectUpdateConfiguration.EnableProjectUpdateReminders)
                 {
@@ -61,8 +66,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
                         var projectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
-                        string reminderSubject = "Kick Off"; // TODO
-                        RunNotifications(allProjects, reminderSubject, projectUpdateKickOffIntroContent, tenant);
+                        notifications.AddRange(RunNotifications(projects, reminderSubject,
+                            projectUpdateKickOffIntroContent, tenant));
                     }
                 }
 
@@ -71,8 +76,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
                     {
                         var projectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
-                        string reminderSubject = "Periodic"; // TODO
-                        RunNotifications(allProjects, reminderSubject, projectUpdateReminderIntroContent, tenant);
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateReminderIntroContent, tenant));
                     }
                 }
 
@@ -82,14 +86,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
                         var projectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
-                        string reminderSubject = "Close Out"; // TODO
-                        RunNotifications(allProjects, reminderSubject, projectUpdateCloseOutIntroContent, tenant);
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateCloseOutIntroContent, tenant));
                     }
                 }
-            }
 
-            //var resultMessage = ReminderMessageType.SendReminderEmails();
-            //Logger.Info(resultMessage);
+                DbContext.AllNotifications.AddRange(notifications);
+                DbContext.SaveChangesOverridingTenantBounds();
+            }
         }
 
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(ProjectUpdateConfiguration projectUpdateConfiguration)
@@ -102,13 +105,12 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         /// <summary>
         /// Sends a notification to all the primary contacts for the given tenant's projects.
-        /// The caller is only responsible for making sure that allProjects is really all projects in the database; tenant bounds are ensured in this method.
         /// </summary>
         /// <param name="allProjects"></param>
         /// <param name="reminderSubject"></param>
         /// <param name="introContent"></param>
         /// <param name="tenant"></param>
-        private void RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant)
+        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant)
         {
             // Constrain to tenant boundaries.
             var tenantProjects = allProjects.Where(x => x.TenantID == tenant.TenantID).ToList();
@@ -124,14 +126,11 @@ namespace ProjectFirma.Web.ScheduledJobs
                 SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject, toolDisplayName,
                     introContent, tenantAttribute.TenantSquareLogoFileResource)).ToList();
 
-            DbContext.AllNotifications.AddRange(notifications);
-            // NP 6/26/18 We have to step back outside of tenant boundaries to persist. The existence of this method is a necessary evil, albeit one I'm not happy with
-            // TODO: check with Ray to make sure this is a necessary evil that we can stomach.
-            DbContext.SaveChangesOverridingTenantBounds();
-
             var message =
                 $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {updatableProjectsThatHaveNotBeenSubmitted.Count} projects requiring an update.";
             Logger.Info(message);
+
+            return notifications;
         }
 
         public Person GetAnnualReportingContactPerson()
