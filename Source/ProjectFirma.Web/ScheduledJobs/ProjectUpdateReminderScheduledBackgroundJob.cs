@@ -11,15 +11,6 @@ namespace ProjectFirma.Web.ScheduledJobs
 {
     public class ProjectUpdateReminderScheduledBackgroundJob : ScheduledBackgroundJobBase
     {
-        //public readonly ReminderMessageType ReminderMessageType;
-
-        //protected ProjectUpdateReminderScheduledBackgroundJobBase(ReminderMessageType reminderMessageType)
-        //    : base($"Project Update - {reminderMessageType.ReminderMessageTypeDisplayName}")
-        //{
-        //    ReminderMessageType = reminderMessageType;
-        //}
-
-
         public static ProjectUpdateReminderScheduledBackgroundJob Instance { get; set; }
 
         static ProjectUpdateReminderScheduledBackgroundJob()
@@ -29,7 +20,6 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         protected ProjectUpdateReminderScheduledBackgroundJob(string jobName) : base(jobName)
         {
-            
         }
 
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
@@ -56,7 +46,9 @@ namespace ProjectFirma.Web.ScheduledJobs
             {
                 List<Notification> notifications = new List<Notification>();
                 var tenant = projectUpdateConfiguration.Tenant;
-                HttpRequestStorage.SetTenantForHangfire(tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
+                HttpRequestStorage
+                    .SetTenantForHangfire(
+                        tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
                 // now that HRS.Tenant is set to the one we want, this is just that tenant's projects.
                 var projects = DbContext.Projects;
 
@@ -65,7 +57,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     var projectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
-                        var projectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
+                        var projectUpdateKickOffIntroContent =
+                            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
                             projectUpdateKickOffIntroContent, tenant, true));
                     }
@@ -75,8 +68,10 @@ namespace ProjectFirma.Web.ScheduledJobs
                 {
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
                     {
-                        var projectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateReminderIntroContent, tenant, false));
+                        var projectUpdateReminderIntroContent =
+                            projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
+                        notifications.AddRange(RunNotifications(projects, reminderSubject,
+                            projectUpdateReminderIntroContent, tenant, false));
                         // note that we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
@@ -86,8 +81,10 @@ namespace ProjectFirma.Web.ScheduledJobs
                     var projectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
-                        var projectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateCloseOutIntroContent, tenant, true));
+                        var projectUpdateCloseOutIntroContent =
+                            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
+                        notifications.AddRange(RunNotifications(projects, reminderSubject,
+                            projectUpdateCloseOutIntroContent, tenant, true));
                     }
                 }
 
@@ -96,7 +93,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             }
         }
 
-        private static bool TodayIsReminderDayForProjectUpdateConfiguration(ProjectUpdateConfiguration projectUpdateConfiguration)
+        private static bool TodayIsReminderDayForProjectUpdateConfiguration(
+            ProjectUpdateConfiguration projectUpdateConfiguration)
         {
             return (DateTime.Today - projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
                    .Days % projectUpdateConfiguration.ProjectUpdateReminderInterval == 0;
@@ -110,15 +108,17 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="introContent"></param>
         /// <param name="tenant"></param>
         /// <param name="notifyOnAll"></param>
-        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant, bool notifyOnAll)
+        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject,
+            string introContent, Tenant tenant, bool notifyOnAll)
         {
             // Constrain to tenant boundaries.
             var tenantProjects = allProjects.Where(x => x.TenantID == tenant.TenantID).ToList();
             var tenantAttribute = DbContext.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var toolDisplayName = tenantAttribute.ToolDisplayName;
 
-            var projectsToNotifyOn = notifyOnAll ? tenantProjects.AsQueryable().GetUpdatableProjects() :
-                tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+            var projectsToNotifyOn = notifyOnAll
+                ? tenantProjects.AsQueryable().GetUpdatableProjects()
+                : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
             var primaryContactPeople = projectsToNotifyOn.GetPrimaryContactPeople();
 
             // create a notification entry per primary contact reminder
@@ -136,16 +136,18 @@ namespace ProjectFirma.Web.ScheduledJobs
         public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
             string toolName, string introContent, FileResource logo)
         {
-            var updatableProjectsThatHaveNotBeenSubmitted = GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
+            var updatableProjectsThatHaveNotBeenSubmitted =
+                GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
             if (updatableProjectsThatHaveNotBeenSubmitted.Count > 0)
             {
-                var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName, introContent, logo);
+                var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName,
+                    introContent, logo);
 
                 var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
-                    new List<string> { primaryContactPerson.Email },
+                    new List<string> {primaryContactPerson.Email},
                     new List<string>(),
                     new List<string>(),
-                    new List<Person> { primaryContactPerson },
+                    new List<Person> {primaryContactPerson},
                     DateTime.Now, updatableProjectsThatHaveNotBeenSubmitted,
                     NotificationType.ProjectUpdateReminder);
                 return sendProjectUpdateReminderMessage;
@@ -164,9 +166,13 @@ namespace ProjectFirma.Web.ScheduledJobs
         public MailMessage GenerateReminderForPerson(Person primaryContactPerson, string reminderSubject,
             string toolName, string introContent, FileResource logo)
         {
-            var projectListAsHtmlStrings = GenerateProjectListAsHtmlStrings(GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson));
-            var projectsRequiringAnUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            
+            var projectListAsHtmlStrings =
+                GenerateProjectListAsHtmlStrings(
+                    GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson));
+            var projectsRequiringAnUpdateUrl =
+                SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
+                    x.MyProjectsRequiringAnUpdate());
+
             var body = String.Format(ReminderMessageTemplate,
                 primaryContactPerson.FullNameFirstLast,
                 introContent,
@@ -175,8 +181,9 @@ namespace ProjectFirma.Web.ScheduledJobs
             var signature = String.Format(ReminderMessageSignatureTemplate, toolName, "");
 
             var htmlView = AlternateView.CreateAlternateViewFromString($"{body}\r\n{signature}", null, "text/html");
-            htmlView.LinkedResources.Add(new LinkedResource(new MemoryStream(logo.FileResourceData),"img/jpeg"){ContentId = "tool-logo"});
-            var mailMessage = new MailMessage { Subject = reminderSubject, IsBodyHtml = true };
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(logo.FileResourceData), "img/jpeg") {ContentId = "tool-logo"});
+            var mailMessage = new MailMessage {Subject = reminderSubject, IsBodyHtml = true};
             mailMessage.AlternateViews.Add(htmlView);
 
             return mailMessage;
@@ -189,14 +196,17 @@ namespace ProjectFirma.Web.ScheduledJobs
     {3}
 </div><br />";
 
-        public static List<string> GenerateProjectListAsHtmlStrings(List<Project> updatableProjectsThatHaveNotBeenSubmitted)
+        public static List<string> GenerateProjectListAsHtmlStrings(
+            List<Project> updatableProjectsThatHaveNotBeenSubmitted)
         {
             var projectsRemaining = updatableProjectsThatHaveNotBeenSubmitted;
-            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project=>project.DisplayName).Select(project =>
-                {
-                    var projectUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller => controller.Detail(project));
-                    return $@"<div style=""font-size:smaller""><a href=""{projectUrl}"">{project.ProjectName}</a></div>";
-                }).ToList();
+            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.DisplayName).Select(project =>
+            {
+                var projectUrl =
+                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>
+                        controller.Detail(project));
+                return $@"<div style=""font-size:smaller""><a href=""{projectUrl}"">{project.ProjectName}</a></div>";
+            }).ToList();
 
             return projectListAsHtmlStrings;
         }

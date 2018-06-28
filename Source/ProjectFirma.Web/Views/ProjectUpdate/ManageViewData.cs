@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -41,9 +42,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public int ProjectsWithNoContactCount { get; }
         public string EditProjectUpdateConfigurationUrl { get; }
         public ProjectUpdateConfiguration ProjectUpdateConfiguration { get; }
-        public string KickOffIntroPreviewUrl { get; set; }
-        public string ReminderIntroPreviewUrl { get; set; }
-        public string CloseOutIntroPreviewUrl { get; set; }
+        public string KickOffIntroPreviewUrl { get; }
+        public string ReminderIntroPreviewUrl { get; }
+        public string CloseOutIntroPreviewUrl { get; }
 
         public ManageViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -51,7 +52,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
             string projectsRequiringUpdateGridDataUrl,
             PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
-            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount, ProjectUpdateConfiguration projectUpdateConfiguration) : base(currentPerson, firmaPage)
+            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount,
+            ProjectUpdateConfiguration projectUpdateConfiguration) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             PageTitle = "Manage Project Updates";
@@ -67,13 +69,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 
-            KickOffIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.KickOffIntroPreview());
-            ReminderIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReminderIntroPreview());
-            CloseOutIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
+            KickOffIntroPreviewUrl =
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.KickOffIntroPreview());
+            ReminderIntroPreviewUrl =
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReminderIntroPreview());
+            CloseOutIntroPreviewUrl =
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
 
-            var getPersonIDFunctionString = $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, \'PersonID\', \'PersonIDList\'); }}";
+            var getPersonIDFunctionString =
+                $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, \'PersonID\', \'PersonIDList\'); }}";
 
-            var modalDialogFormLink = ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-envelope\" style=\"margin-right:5px\"></span>Send Notification to Selected People",
+            var modalDialogFormLink = ModalDialogFormHelper.ModalDialogFormLink(
+                "<span class=\"glyphicon glyphicon-envelope\" style=\"margin-right:5px\"></span>Send Notification to Selected People",
                 customNotificationUrl,
                 "Send Notification to Selected People",
                 700,

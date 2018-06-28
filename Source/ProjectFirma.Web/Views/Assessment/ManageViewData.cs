@@ -29,10 +29,10 @@ namespace ProjectFirma.Web.Views.Assessment
 {
     public class ManageViewData : FirmaViewData
     {
-        public readonly bool HasEditPermissions;
-        public readonly List<AssessmentGoal> AssessmentGoals;
-        public readonly string AddQuestionUrl;
-        public readonly string DownloadAllAssessmentsUrl;
+        public bool HasEditPermissions { get; }
+        public List<AssessmentGoal> AssessmentGoals { get; }
+        public string AddQuestionUrl { get; }
+        public string DownloadAllAssessmentsUrl { get; }
 
         public ManageViewData(Person currentPerson, List<AssessmentGoal> assessmentGoals)
             : base(currentPerson)

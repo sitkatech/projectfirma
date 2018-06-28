@@ -77,7 +77,8 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantSquareLogScaledAsIconoUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null
-                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource.FileResourceUrlScaledThumbnail(64)
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource
+                    .FileResourceUrlScaledThumbnail(64)
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
@@ -91,17 +92,19 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantBannerLogoScaledAsIconUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource != null
-                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource.FileResourceUrlScaledThumbnail(32)
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource
+                    .FileResourceUrlScaledThumbnail(32)
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantStyleSheetUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantStyleSheetFileResource != null
-                ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName)).BuildUrlFromExpression()
+                ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName))
+                    .BuildUrlFromExpression()
                 : "~/Content/Bootstrap/firma/default.theme.min.css";
         }
-        
+
         public static DbGeometry GetDefaultBoundingBox()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().DefaultBoundingBox;
@@ -124,15 +127,17 @@ namespace ProjectFirma.Web.Common
 
         public static List<ITaxonomyTier> GetTopLevelTaxonomyTiers()
         {
-            var taxonomyLevel = GetTaxonomyLevel();            
+            var taxonomyLevel = GetTaxonomyLevel();
             if (taxonomyLevel == TaxonomyLevel.Trunk)
             {
                 return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList());
             }
+
             if (taxonomyLevel == TaxonomyLevel.Branch)
             {
                 return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList());
             }
+
             return new List<ITaxonomyTier>();
         }
 
@@ -165,10 +170,12 @@ namespace ProjectFirma.Web.Common
         {
             return GetIsPrimaryContactOrganizationRelationship() != null;
         }
+
         public static bool HasCanStewardProjectsOrganizationRelationship()
         {
             return GetCanStewardProjectsOrganizationRelationship() != null;
         }
+
         public static RelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
@@ -176,7 +183,8 @@ namespace ProjectFirma.Web.Common
 
         public static RelationshipType GetRelationshipTypeToReportInAccomplishmentsDashboard()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.ReportInAccomplishmentsDashboard);
+            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x =>
+                x.ReportInAccomplishmentsDashboard);
         }
 
         public static bool DisplayAccomplishmentDashboard()
@@ -188,6 +196,7 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
         }
+
         public static bool ShowProposalsToThePublic()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().ShowProposalsToThePublic;
@@ -202,6 +211,7 @@ namespace ProjectFirma.Web.Common
         {
             return !string.IsNullOrWhiteSpace(HttpRequestStorage.Tenant.GetTenantAttribute().MapServiceUrl);
         }
+
         public static List<ClassificationSystem> GetClassificationSystems()
         {
             return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -219,12 +229,14 @@ namespace ProjectFirma.Web.Common
 
         public static bool GetAccomplishmentsDashboardIncludeReportingOrganizationType()
         {
-            return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardIncludeReportingOrganizationType;
+            return HttpRequestStorage.Tenant.GetTenantAttribute()
+                .AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
 
         public static ProjectUpdateConfiguration GetProjectUpdateConfiguration()
         {
-            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.Single(x=>x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.Single(x =>
+                x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
     }
 }
