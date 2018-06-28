@@ -221,5 +221,10 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
+
+        public static ProjectUpdateConfiguration GetProjectUpdateConfiguration()
+        {
+            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.Single(x=>x.TenantID == HttpRequestStorage.Tenant.TenantID);
+        }
     }
 }

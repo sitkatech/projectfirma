@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))
             {
-                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope);
+                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope, false);
             }
         }
 
@@ -59,8 +59,29 @@ namespace ProjectFirma.Web.Models
         {
             return base.SaveChanges();
         }
+        
+        /// <summary>
+        /// This will allow persisting even when multiple tenants have been touched in the same context.
+        /// DO NOT USE THIS UNLESS YOU KNOW EXACTLY WHAT YOU'RE DOING AND EXACTLY WHY YOU'RE DOING IT.
+        /// The literal only use case for this should be that we're running a scheduled job that has to run for all tenants.
+        /// If that's not your use case, you should probably reconsider.
+        /// </summary>
+        public int SaveChangesOverridingTenantBounds()
+        {
+            var person = HttpRequestStorage.Person;
+            return SaveChangesOverridingTenantBounds(person);
+        }
 
-        private int SaveChangesImpl(Person person, Tenant tenant, TransactionScope scope)
+        // private so I didn't have to write the warning above twice.
+        private int SaveChangesOverridingTenantBounds(Person userPerson)
+        {
+            using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))
+            {
+                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope, true);
+            }
+        }
+
+        private int SaveChangesImpl(Person person, Tenant tenant, TransactionScope scope, bool overrideTenantBounds)
         {
             ChangeTracker.DetectChanges();
 
@@ -75,11 +96,15 @@ namespace ProjectFirma.Web.Models
              * This is an aggressive check to make sure we're not accidentally doing something like, e.g.,
              * HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
              */
-            foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
+            if (!overrideTenantBounds)
             {
-                var haveATenantID = entry.Entity as IHaveATenantID;
-                var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;
-                Check.Assert(editingCurrentTenant, "Editing or accessing an entity across tenant boundaries: " + entry.Entity);
+                foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
+                {
+                    var haveATenantID = entry.Entity as IHaveATenantID;
+                    var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;
+                    Check.Assert(editingCurrentTenant,
+                        "Editing or accessing an entity across tenant boundaries: " + entry.Entity);
+                }
             }
 
             foreach (var entry in modifiedEntries)

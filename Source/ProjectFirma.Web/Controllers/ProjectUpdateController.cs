@@ -44,6 +44,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.ScheduledJobs;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -166,6 +167,38 @@ namespace ProjectFirma.Web.Controllers
             }
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects.OrderBy(x => x.DisplayName).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        [HttpGet]
+        [ProjectUpdateAdminFeature]
+        public PartialViewResult EditProjectUpdateConfiguration()
+        {
+            EditProjectUpdateConfigurationViewModel viewModel = new EditProjectUpdateConfigurationViewModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
+            return ViewEditProjectUpdateConfiguration(viewModel);
+        }
+
+        private PartialViewResult ViewEditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
+        {
+            var sampleProjectList = ProjectUpdateReminderScheduledBackgroundJob.GenerateProjectListAsHtmlStrings(HttpRequestStorage
+                .DatabaseEntities.Projects.ToList().AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted().Take(5).ToList());
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson, sampleProjectList);
+            return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProjectUpdateConfiguration(viewModel);
+            }
+
+            viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
+            SetMessageForDisplay("Something happened. Successfully??");
+
+            return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
@@ -1613,7 +1646,8 @@ namespace ProjectFirma.Web.Controllers
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ProjectsRequiringUpdateGridJsonData()),
                 contactsReceivingReminderGridSpec,
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(true)),
-                projectsWithNoContactCount);
+                projectsWithNoContactCount,
+                MultiTenantHelpers.GetProjectUpdateConfiguration());
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -2744,6 +2778,32 @@ namespace ProjectFirma.Web.Controllers
             public ProjectOrganizationEqualityComparer(Func<IProjectOrganization, object> f) : base(f)
             {
             }
+        }
+
+        // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
+
+        public ContentResult KickOffIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent
+            };
+        }
+
+        public ContentResult ReminderIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent
+            };
+        }
+
+        public ContentResult CloseOutIntroPreview()
+        {
+            return new ContentResult
+            {
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent
+            };
         }
     }
 }

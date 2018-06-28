@@ -298,6 +298,9 @@
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateConfiguration.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateConfigurationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistoryPrimaryKey.Binding.cs" />
@@ -371,6 +374,15 @@
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
     <Compile Include="Models\ProjectOrganizationRelationship.cs" />
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
+    <Compile Include="ScheduledJobs\HangfireFirmaWebAuthorizationFilter.cs" />
+    <Compile Include="ScheduledJobs\ProjectUpdateReminderScheduledBackgroundJob.cs" />
+    <Compile Include="ScheduledJobs\ScheduledBackgroundJobBase.cs" />
+    <Compile Include="ScheduledJobs\ScheduledBackgroundJobBootstrapper.cs" />
+    <Compile Include="ScheduledJobs\ScheduledBackgroundJobException.cs" />
+    <Compile Include="ScheduledJobs\ScheduledBackgroundJobLaunchHelper.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
@@ -757,6 +769,7 @@
     </None>
     <Content Include="Content\Bootstrap\firma\peakstopeople.theme.less" />
     <Content Include="Content\img\PeaksToPeople\manifest.json" />
+    <Compile Include="FirmaOwinStartup.cs" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -1563,6 +1576,7 @@
     <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ImportExternal.cshtml" />
     <Content Include="Views\Results\ConfigureAccomplishmentsDashboard.cshtml" />
+    <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1609,6 +1623,12 @@
       <HintPath>..\NuGetPackages\GeoJSON.Net.0.1.47\lib\portable-net40+sl5+wp80+win8+wpa81\GeoJSON.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Hangfire.Core.1.6.19\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Hangfire.SqlServer.1.6.19\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlDiff, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\htmldiff.net.1.3\lib\net35\HtmlDiff.dll</HintPath>
       <Private>True</Private>
@@ -1620,6 +1640,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -1643,6 +1669,9 @@
     </Reference>
     <Reference Include="OpenExcel">
       <HintPath>..\Libraries\DhtmlxGrid\OpenExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

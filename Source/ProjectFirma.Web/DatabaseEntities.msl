@@ -909,6 +909,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectUpdateConfiguration">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateConfiguration">
+        <MappingFragment StoreEntitySet="ProjectUpdateConfiguration">
+          <ScalarProperty Name="ProjectUpdateConfigurationID" ColumnName="ProjectUpdateConfigurationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateKickOffDate" ColumnName="ProjectUpdateKickOffDate" />
+          <ScalarProperty Name="ProjectUpdateCloseOutDate" ColumnName="ProjectUpdateCloseOutDate" />
+          <ScalarProperty Name="ProjectUpdateReminderInterval" ColumnName="ProjectUpdateReminderInterval" />
+          <ScalarProperty Name="EnableProjectUpdateReminders" ColumnName="EnableProjectUpdateReminders" />
+          <ScalarProperty Name="SendPeriodicReminders" ColumnName="SendPeriodicReminders" />
+          <ScalarProperty Name="SendCloseOutNotification" ColumnName="SendCloseOutNotification" />
+          <ScalarProperty Name="ProjectUpdateKickOffIntroContent" ColumnName="ProjectUpdateKickOffIntroContent" />
+          <ScalarProperty Name="ProjectUpdateReminderIntroContent" ColumnName="ProjectUpdateReminderIntroContent" />
+          <ScalarProperty Name="ProjectUpdateCloseOutIntroContent" ColumnName="ProjectUpdateCloseOutIntroContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectUpdateHistory">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateHistory">
         <MappingFragment StoreEntitySet="ProjectUpdateHistory">
