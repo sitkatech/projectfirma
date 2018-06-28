@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.Instance.JobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
-                MakeDailyUtcCronJobStringFromLocalTime(14,15),
+                MakeDailyUtcCronJobStringFromLocalTime(1,23),
                 recurringJobIds);
 
             // Remove any jobs we haven't explicity scheduled
