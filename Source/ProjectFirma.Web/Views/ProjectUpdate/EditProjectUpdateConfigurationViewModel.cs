@@ -26,7 +26,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -143,18 +142,5 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
         }
-    }
-
-    public class EditProjectUpdateConfigurationViewData : FirmaViewData
-    {
-        public EditProjectUpdateConfigurationViewData(Person currentPerson) : base(currentPerson)
-        {
-        }
-    }
-
-    public abstract class EditProjectUpdateConfiguration : TypedWebPartialViewPage<
-        EditProjectUpdateConfigurationViewData,
-        EditProjectUpdateConfigurationViewModel>
-    {
     }
 }

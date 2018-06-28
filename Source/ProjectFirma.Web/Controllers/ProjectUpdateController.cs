@@ -44,6 +44,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.ScheduledJobs;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -178,7 +179,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
         {
-            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
+            var sampleProjectList = ProjectUpdateReminderScheduledBackgroundJob.GenerateProjectListAsHtmlStrings(HttpRequestStorage
+                .DatabaseEntities.Projects.ToList().AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted().Take(5).ToList());
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson, sampleProjectList);
             return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
         }
 

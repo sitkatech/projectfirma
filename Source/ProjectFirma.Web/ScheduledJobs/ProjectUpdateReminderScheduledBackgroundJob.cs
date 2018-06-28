@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         var projectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateKickOffIntroContent, tenant));
+                            projectUpdateKickOffIntroContent, tenant, true));
                     }
                 }
 
@@ -76,7 +76,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
                     {
                         var projectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateReminderIntroContent, tenant));
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateReminderIntroContent, tenant, false));
+                        // note that we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
                         var projectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateCloseOutIntroContent, tenant));
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateCloseOutIntroContent, tenant, true));
                     }
                 }
 
@@ -108,6 +109,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="reminderSubject"></param>
         /// <param name="introContent"></param>
         /// <param name="tenant"></param>
+        /// <param name="notifyOnAll"></param>
         private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject, string introContent, Tenant tenant, bool notifyOnAll)
         {
             // Constrain to tenant boundaries.
@@ -137,7 +139,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             var updatableProjectsThatHaveNotBeenSubmitted = GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
             if (updatableProjectsThatHaveNotBeenSubmitted.Count > 0)
             {
-
                 var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName, introContent, logo);
 
                 var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
@@ -149,7 +150,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     NotificationType.ProjectUpdateReminder);
                 return sendProjectUpdateReminderMessage;
             }
-            else return new List<Notification>();
+
+            return new List<Notification>();
         }
 
         private List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(Person primaryContactPerson)
@@ -187,7 +189,7 @@ namespace ProjectFirma.Web.ScheduledJobs
     {3}
 </div><br />";
 
-        private static List<string> GenerateProjectListAsHtmlStrings(List<Project> updatableProjectsThatHaveNotBeenSubmitted)
+        public static List<string> GenerateProjectListAsHtmlStrings(List<Project> updatableProjectsThatHaveNotBeenSubmitted)
         {
             var projectsRemaining = updatableProjectsThatHaveNotBeenSubmitted;
             var projectListAsHtmlStrings = projectsRemaining.OrderBy(project=>project.DisplayName).Select(project =>

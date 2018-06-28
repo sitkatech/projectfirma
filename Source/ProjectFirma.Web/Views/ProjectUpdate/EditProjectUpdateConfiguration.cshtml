@@ -59,6 +59,9 @@
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffIntroContent)</div>
             <div class="col-xs-8">
                 @Html.CkEditorFor(m => m.ProjectUpdateKickOffIntroContent, CkEditorExtension.CkEditorToolbar.All, true, true, null)
+                <br/>>
+                <p>The reminder email will include a list of the recipients projects that require an update and do not have an update submitted yet. The list will look similar to the following, but with projects that depend on the user receiving the email.</p>
+                @ViewDataTyped.SampleProjectList
             </div>
         </div>
         <div class="form-group">

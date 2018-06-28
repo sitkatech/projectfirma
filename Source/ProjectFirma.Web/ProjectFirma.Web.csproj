@@ -380,6 +380,8 @@
     <Compile Include="ScheduledJobs\ScheduledBackgroundJobBootstrapper.cs" />
     <Compile Include="ScheduledJobs\ScheduledBackgroundJobException.cs" />
     <Compile Include="ScheduledJobs\ScheduledBackgroundJobLaunchHelper.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewData.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
