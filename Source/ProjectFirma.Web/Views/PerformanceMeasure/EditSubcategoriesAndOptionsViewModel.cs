@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -67,6 +68,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                 ShortName = y.ShortName,
                                 SortOrder = index + 1
                             }).ToList();
+                var chartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
+                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
                 return performanceMeasureSubcategory;
             }).ToList();
 

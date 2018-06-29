@@ -25,6 +25,7 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Models
         {
             var performanceMeasure =
                 performanceMeasures.SingleOrDefault(
-                    x => x.PerformanceMeasureID != currentPerformanceMeasureID && string.Equals(x.PerformanceMeasureDisplayName, performanceMeasureDisplayName, StringComparison.InvariantCultureIgnoreCase));
+                    x => x.PerformanceMeasureID != currentPerformanceMeasureID && String.Equals(x.PerformanceMeasureDisplayName, performanceMeasureDisplayName, StringComparison.InvariantCultureIgnoreCase));
             return performanceMeasure == null;
         }
 
@@ -73,6 +74,19 @@ namespace ProjectFirma.Web.Models
         public static string GetJavascriptSafeChartUniqueName(this PerformanceMeasure performanceMeasure)
         {
             return $"PerformanceMeasure{performanceMeasure.PerformanceMeasureID}";
+        }
+
+        public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(
+            PerformanceMeasure performanceMeasure)
+        {
+            var googleChartType = GoogleChartType.ColumnChart;
+            var googleChartAxisHorizontal =
+                new GoogleChartAxis("Date", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
+                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
+                googleChartAxisVerticals);
+            return defaultSubcategoryChartConfigurationJson;
         }
     }
 }

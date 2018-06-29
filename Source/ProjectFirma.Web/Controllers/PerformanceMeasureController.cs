@@ -242,8 +242,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
-            var defaultSubcategoryChartConfigurationJson =
-                DefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
             performanceMeasureSubcategory.ChartConfigurationJson =
                 JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
             performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
@@ -309,28 +308,13 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
-            var defaultSubcategoryChartConfigurationJson = DefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
             defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
-
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
-
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"New {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.GetDisplayNameAsUrl()}' successfully created!");
             return new ModalDialogFormJsonResult();
-        }
-
-        private static GoogleChartConfiguration DefaultPerformanceMeasureChartConfigurationJson(
-            PerformanceMeasure performanceMeasure)
-        {
-            var googleChartType = GoogleChartType.ColumnChart;
-            var googleChartAxisHorizontal =
-                new GoogleChartAxis("Date", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
-            var googleChartAxisVerticals = new List<GoogleChartAxis>();
-            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
-                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
-                googleChartAxisVerticals);
-            return defaultSubcategoryChartConfigurationJson;
         }
 
         [HttpGet]
