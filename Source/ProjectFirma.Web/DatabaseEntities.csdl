@@ -74,6 +74,7 @@
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.ProjectTag" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.ProjectUpdate" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
+    <EntitySet Name="ProjectUpdateConfiguration" EntityType="ProjectFirma.Web.Models.ProjectUpdateConfiguration" />
     <EntitySet Name="ProjectUpdateCustomAttribute" EntityType="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute" />
     <EntitySet Name="ProjectUpdateCustomAttributeValue" EntityType="ProjectFirma.Web.Models.ProjectUpdateCustomAttributeValue" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
@@ -1790,6 +1791,22 @@
     <NavigationProperty Name="ProjectUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdates" />
     <NavigationProperty Name="ProjectUpdateHistories" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdateHistories" />
     <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectWatershedUpdates" />
+  </EntityType>
+  <EntityType Name="ProjectUpdateConfiguration">
+    <Key>
+      <PropertyRef Name="ProjectUpdateConfigurationID" />
+    </Key>
+    <Property Name="ProjectUpdateConfigurationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateKickOffDate" Type="DateTime" />
+    <Property Name="ProjectUpdateCloseOutDate" Type="DateTime" />
+    <Property Name="ProjectUpdateReminderInterval" Type="Int32" />
+    <Property Name="EnableProjectUpdateReminders" Type="Boolean" Nullable="false" />
+    <Property Name="SendPeriodicReminders" Type="Boolean" Nullable="false" />
+    <Property Name="SendCloseOutNotification" Type="Boolean" Nullable="false" />
+    <Property Name="ProjectUpdateKickOffIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ProjectUpdateReminderIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ProjectUpdateCloseOutIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
   </EntityType>
   <EntityType Name="ProjectUpdateCustomAttribute">
     <Key>

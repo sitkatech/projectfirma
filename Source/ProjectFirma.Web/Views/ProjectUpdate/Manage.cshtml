@@ -18,10 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @inherits Manage
 
@@ -32,13 +35,106 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <style>
+        .firma-modal-dialog { max-width: 950px !important; }
+    </style>
 }
+
 @if (ViewDataTyped.ProjectsWithNoContactCount > 0)
 {
     <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() which require an update but do not have a @FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel(). No reminders will be sent for these @FieldDefinition.Project.GetFieldDefinitionLabelPluralized().</p>
 }
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, "Edit Project Update Configuration", 950, true)
+            Configure Notifications
+        </h2>
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Enable Project Update Reminders?</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.EnableProjectUpdateReminders.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Kick-Off Date</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Kick-Off Intro Content</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.KickOffIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview", new List<string>(), null)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Send Periodic Reminders?</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.SendPeriodicReminders.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Reminder Interval</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Reminder Intro Content</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ReminderIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview", new List<string>(), null)
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Send Close Out Notification?</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.SendCloseOutNotification.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Close Out Date</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Project Update Close Out Notification Intro Content</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.CloseOutIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview", new List<string>(), null)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="panel panelFirma">

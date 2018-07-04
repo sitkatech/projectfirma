@@ -74,6 +74,7 @@
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.Store.ProjectTag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectUpdateConfiguration" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateConfiguration" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateCustomAttribute" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateCustomAttributeValue" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttributeValue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateHistory" store:Type="Tables" Schema="dbo" />
@@ -1740,6 +1741,22 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
     <Property Name="ExpectedFundingDiffLog" Type="varchar(max)" />
     <Property Name="OrganizationsComment" Type="varchar" MaxLength="1000" />
     <Property Name="OrganizationsDiffLog" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="ProjectUpdateConfiguration">
+    <Key>
+      <PropertyRef Name="ProjectUpdateConfigurationID" />
+    </Key>
+    <Property Name="ProjectUpdateConfigurationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateKickOffDate" Type="datetime" />
+    <Property Name="ProjectUpdateCloseOutDate" Type="datetime" />
+    <Property Name="ProjectUpdateReminderInterval" Type="int" />
+    <Property Name="EnableProjectUpdateReminders" Type="bit" Nullable="false" />
+    <Property Name="SendPeriodicReminders" Type="bit" Nullable="false" />
+    <Property Name="SendCloseOutNotification" Type="bit" Nullable="false" />
+    <Property Name="ProjectUpdateKickOffIntroContent" Type="varchar(max)" />
+    <Property Name="ProjectUpdateReminderIntroContent" Type="varchar(max)" />
+    <Property Name="ProjectUpdateCloseOutIntroContent" Type="varchar(max)" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

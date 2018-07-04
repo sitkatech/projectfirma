@@ -172,6 +172,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
         public virtual IQueryable<ProjectUpdateBatch> ProjectUpdateBatches { get { return AllProjectUpdateBatches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectUpdateConfiguration> AllProjectUpdateConfigurations { get; set; }
+        public virtual IQueryable<ProjectUpdateConfiguration> ProjectUpdateConfigurations { get { return AllProjectUpdateConfigurations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateCustomAttribute> AllProjectUpdateCustomAttributes { get; set; }
         public virtual IQueryable<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get { return AllProjectUpdateCustomAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateCustomAttributeValue> AllProjectUpdateCustomAttributeValues { get; set; }
@@ -545,6 +547,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
+
+                case "ProjectUpdateConfiguration":
+                    return ProjectUpdateConfigurations.GetProjectUpdateConfiguration(primaryKey);
 
                 case "ProjectUpdateCustomAttribute":
                     return ProjectUpdateCustomAttributes.GetProjectUpdateCustomAttribute(primaryKey);

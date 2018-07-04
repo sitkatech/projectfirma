@@ -33,6 +33,8 @@ namespace ProjectFirma.Web.Common
 
         public abstract string GetCanonicalHostNameForEnvironment(Tenant tenant);
 
+        public abstract FirmaEnvironmentType FirmaEnvironmentType { get; }
+
         public static FirmaEnvironment MakeFirmaEnvironment(string firmaEnvironmentSetting)
         {
             var firmaEnvironmentType = firmaEnvironmentSetting.ParseAsEnum<FirmaEnvironmentType>();
@@ -59,6 +61,8 @@ namespace ProjectFirma.Web.Common
             {
                 return tenant.CanonicalHostNameLocal;
             }
+
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Local;
         }
 
 
@@ -71,6 +75,8 @@ namespace ProjectFirma.Web.Common
             {
                 return tenant.CanonicalHostNameProd;
             }
+
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Prod;
         }
 
         private class FirmaEnvironmentQa : FirmaEnvironment
@@ -82,6 +88,8 @@ namespace ProjectFirma.Web.Common
             {
                 return tenant.CanonicalHostNameQa;
             }
+
+            public override FirmaEnvironmentType FirmaEnvironmentType => FirmaEnvironmentType.Qa;
         }
     }
 

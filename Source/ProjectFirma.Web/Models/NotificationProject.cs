@@ -248,7 +248,7 @@ Thank you,<br />
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectReturned);
         }
 
-        private static List<Notification> SendMessageAndLogNotification(Project project,
+        internal static List<Notification> SendMessageAndLogNotification(Project project,
             MailMessage mailMessage,
             List<string> emailsToSendTo,
             List<string> emailsToReplyTo,
