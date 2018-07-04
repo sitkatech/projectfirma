@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var sampleProjectList = ProjectUpdateReminderScheduledBackgroundJob.GenerateProjectListAsHtmlStrings(HttpRequestStorage
                 .DatabaseEntities.Projects.ToList().AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted().Take(5).ToList());
-            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson, sampleProjectList);
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
             return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
         }
 
