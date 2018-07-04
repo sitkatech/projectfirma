@@ -10,7 +10,6 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 	[MeasurementUnitTypeID] [int] NULL,
 	[IsRequired] [bit] NOT NULL,
 	[ProjectCustomAttributeTypeDescription] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ProjectCustomAttributeTypePurposeID] [int] NOT NULL,
 	[ProjectCustomAttributeTypeOptionsSchema] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] PRIMARY KEY CLUSTERED 
 (
@@ -37,11 +36,6 @@ ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_P
 REFERENCES [dbo].[ProjectCustomAttributeDataType] ([ProjectCustomAttributeDataTypeID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeDataType_ProjectCustomAttributeDataTypeID]
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeTypePurpose_ProjectCustomAttributeTypePurposeID] FOREIGN KEY([ProjectCustomAttributeTypePurposeID])
-REFERENCES [dbo].[ProjectCustomAttributeTypePurpose] ([ProjectCustomAttributeTypePurposeID])
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeTypePurpose_ProjectCustomAttributeTypePurposeID]
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

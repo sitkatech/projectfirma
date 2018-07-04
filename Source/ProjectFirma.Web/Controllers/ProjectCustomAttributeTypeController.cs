@@ -58,13 +58,11 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, null);
             }
 
-            var projectCustomAttributeTypePurpose = ProjectCustomAttributeTypePurpose.AllLookupDictionary[viewModel.ProjectCustomAttributeTypePurposeID.GetValueOrDefault()];
-
-            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false, projectCustomAttributeTypePurpose);
+            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false);
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Custom Attribute Type {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
+            SetMessageForDisplay($"{FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
 
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
         }
@@ -123,26 +121,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProjectCustomAttributeType(ProjectCustomAttributeType projectCustomAttributeType, ConfirmDialogFormViewModel viewModel)
         {
-            //var projectTypeLabel = projectCustomAttributeType.ProjectTypeProjectCustomAttributeTypes.Count == 1 ? FieldDefinition.ProjectType.GetFieldDefinitionLabel() : FieldDefinition.ProjectType.GetFieldDefinitionLabelPluralized();
-            //var projectLabel = projectCustomAttributeType.ProjectCustomAttributes.Count == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
-            //string confirmMessage;
-            string confirmMessage = "";
-            //if (projectCustomAttributeType.ProjectCustomAttributeTypePurpose != ProjectCustomAttributeTypePurpose.Maintenance)
-            //{
-            //    confirmMessage =
-            //        $"Attribute Type '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' is associated with {projectCustomAttributeType.ProjectTypeProjectCustomAttributeTypes.Count} {projectTypeLabel} and {projectCustomAttributeType.ProjectCustomAttributes.Count} {projectLabel}.<br /><br />Are you sure you want to delete this {FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()}?";
-            //}
-            //else
-            //{
-
-            //    var maintenanceRecordCount = projectCustomAttributeType.MaintenanceRecordObservations.Select(x => x.MaintenanceRecord).Count();
-            //    var maintenanceRecordLabel = maintenanceRecordCount == 1
-            //        ? FieldDefinition.MaintenanceRecord.GetFieldDefinitionLabel()
-            //        : FieldDefinition.MaintenanceRecord.GetFieldDefinitionLabelPluralized();
-            //    confirmMessage =
-            //        $"Attribute Type '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' is associated with {projectCustomAttributeType.ProjectTypeProjectCustomAttributeTypes.Count} {projectTypeLabel} and {maintenanceRecordCount} {maintenanceRecordLabel}.<br /><br />Are you sure you want to delete this {FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()}?";
-            //}
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} \"{projectCustomAttributeType.ProjectCustomAttributeTypeName}\"?", true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

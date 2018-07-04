@@ -107,6 +107,12 @@ namespace ProjectFirma.Web.Models
 
         public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
+        public IEnumerable<IProjectCustomAttribute> ProjectCustomAttributes
+        {
+            get => ProjectUpdateCustomAttributes;
+            set => ProjectUpdateCustomAttributes = (ICollection<ProjectUpdateCustomAttribute>) value;
+        }
+
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return null;

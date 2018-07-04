@@ -74,6 +74,8 @@
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.ProjectTag" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.ProjectUpdate" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
+    <EntitySet Name="ProjectUpdateCustomAttribute" EntityType="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute" />
+    <EntitySet Name="ProjectUpdateCustomAttributeValue" EntityType="ProjectFirma.Web.Models.ProjectUpdateCustomAttributeValue" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
     <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.ProjectWatershedUpdate" />
@@ -557,6 +559,10 @@
       <End Role="ProjectCustomAttribute" EntitySet="ProjectCustomAttribute" />
       <End Role="ProjectCustomAttributeValues" EntitySet="ProjectCustomAttributeValue" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
+      <End Role="ProjectCustomAttributeType" EntitySet="ProjectCustomAttributeType" />
+      <End Role="ProjectUpdateCustomAttributes" EntitySet="ProjectUpdateCustomAttribute" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectDocumentUpdates" EntitySet="ProjectDocumentUpdate" />
@@ -617,6 +623,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID">
+      <End Role="ProjectUpdate" EntitySet="ProjectUpdate" />
+      <End Role="ProjectUpdateCustomAttributes" EntitySet="ProjectUpdateCustomAttribute" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
@@ -624,6 +634,10 @@
     <AssociationSet Name="FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID">
+      <End Role="ProjectUpdateCustomAttribute" EntitySet="ProjectUpdateCustomAttribute" />
+      <End Role="ProjectUpdateCustomAttributeValues" EntitySet="ProjectUpdateCustomAttributeValue" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID">
       <End Role="Watershed" EntitySet="Watershed" />
@@ -1417,9 +1431,9 @@
     <Property Name="MeasurementUnitTypeID" Type="Int32" />
     <Property Name="IsRequired" Type="Boolean" Nullable="false" />
     <Property Name="ProjectCustomAttributeTypeDescription" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectCustomAttributeTypePurposeID" Type="Int32" Nullable="false" />
     <Property Name="ProjectCustomAttributeTypeOptionsSchema" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectCustomAttributes" Relationship="ProjectFirma.Web.Models.FK_ProjectCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" FromRole="ProjectCustomAttributeType" ToRole="ProjectCustomAttributes" />
+    <NavigationProperty Name="ProjectUpdateCustomAttributes" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" FromRole="ProjectCustomAttributeType" ToRole="ProjectUpdateCustomAttributes" />
   </EntityType>
   <EntityType Name="ProjectCustomAttributeValue">
     <Key>
@@ -1728,6 +1742,7 @@
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectUpdatesWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
+    <NavigationProperty Name="ProjectUpdateCustomAttributes" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID" FromRole="ProjectUpdate" ToRole="ProjectUpdateCustomAttributes" />
   </EntityType>
   <EntityType Name="ProjectUpdateBatch">
     <Key>
@@ -1775,6 +1790,28 @@
     <NavigationProperty Name="ProjectUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdates" />
     <NavigationProperty Name="ProjectUpdateHistories" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdateHistories" />
     <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectWatershedUpdates" />
+  </EntityType>
+  <EntityType Name="ProjectUpdateCustomAttribute">
+    <Key>
+      <PropertyRef Name="ProjectUpdateCustomAttributeID" />
+    </Key>
+    <Property Name="ProjectUpdateCustomAttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectCustomAttributeTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProjectCustomAttributeType" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" FromRole="ProjectUpdateCustomAttributes" ToRole="ProjectCustomAttributeType" />
+    <NavigationProperty Name="ProjectUpdate" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID" FromRole="ProjectUpdateCustomAttributes" ToRole="ProjectUpdate" />
+    <NavigationProperty Name="ProjectUpdateCustomAttributeValues" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID" FromRole="ProjectUpdateCustomAttribute" ToRole="ProjectUpdateCustomAttributeValues" />
+  </EntityType>
+  <EntityType Name="ProjectUpdateCustomAttributeValue">
+    <Key>
+      <PropertyRef Name="ProjectUpdateCustomAttributeValueID" />
+    </Key>
+    <Property Name="ProjectUpdateCustomAttributeValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateCustomAttributeID" Type="Int32" Nullable="false" />
+    <Property Name="AttributeValue" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="ProjectUpdateCustomAttribute" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID" FromRole="ProjectUpdateCustomAttributeValues" ToRole="ProjectUpdateCustomAttribute" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
@@ -3443,6 +3480,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
+    <End Role="ProjectCustomAttributeType" Type="ProjectFirma.Web.Models.ProjectCustomAttributeType" Multiplicity="1" />
+    <End Role="ProjectUpdateCustomAttributes" Type="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectCustomAttributeType">
+        <PropertyRef Name="ProjectCustomAttributeTypeID" />
+      </Principal>
+      <Dependent Role="ProjectUpdateCustomAttributes">
+        <PropertyRef Name="ProjectCustomAttributeTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectDocumentUpdates" Type="ProjectFirma.Web.Models.ProjectDocumentUpdate" Multiplicity="*" />
@@ -3623,6 +3672,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID">
+    <End Role="ProjectUpdate" Type="ProjectFirma.Web.Models.ProjectUpdate" Multiplicity="1" />
+    <End Role="ProjectUpdateCustomAttributes" Type="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdate">
+        <PropertyRef Name="ProjectUpdateID" />
+      </Principal>
+      <Dependent Role="ProjectUpdateCustomAttributes">
+        <PropertyRef Name="ProjectUpdateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectUpdateHistories" Type="ProjectFirma.Web.Models.ProjectUpdateHistory" Multiplicity="*" />
@@ -3644,6 +3705,18 @@
       </Principal>
       <Dependent Role="ProjectWatershedUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID">
+    <End Role="ProjectUpdateCustomAttribute" Type="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute" Multiplicity="1" />
+    <End Role="ProjectUpdateCustomAttributeValues" Type="ProjectFirma.Web.Models.ProjectUpdateCustomAttributeValue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateCustomAttribute">
+        <PropertyRef Name="ProjectUpdateCustomAttributeID" />
+      </Principal>
+      <Dependent Role="ProjectUpdateCustomAttributeValues">
+        <PropertyRef Name="ProjectUpdateCustomAttributeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

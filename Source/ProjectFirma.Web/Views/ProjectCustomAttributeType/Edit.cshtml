@@ -1,5 +1,4 @@
-﻿@using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.HtmlHelperExtensions
+﻿@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
@@ -28,6 +27,7 @@
 
 <form method="POST" action="@ViewDataTyped.SubmitUrl" id="EditProjectCustomAttributeTypeControllerApp" name="customAttributeTypeForm"
       ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomAttributeTypeController" ng-submit="submit()" ng-cloak>
+    @Html.HiddenFor(m => m.ProjectCustomAttributeTypeID)
     <div class="row">
         <div class="col-xs-12">
             <div class="validationError">
@@ -43,7 +43,7 @@
                         @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeName)
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ProjectCustomAttributeTypeName, new { @class = "form-control", style = "width:100%" })
+                        @Html.TextBoxFor(m => m.ProjectCustomAttributeTypeName, new {@class = "form-control", style = "width:100%"})
                         @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeName)
                     </div>
                 </div>
@@ -52,26 +52,8 @@
                         @Html.LabelWithSugarFor(m => m.IsRequired)
                     </div>
                     <div class="col-sm-9">
-                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object> {{"style", "width: auto"}, {"class", "form-control"}})
                         @Html.ValidationMessageFor(m => m.IsRequired)
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-3 control-label">
-                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypePurposeID)
-                    </div>
-                    <div class="col-sm-9">
-                        @Html.DropDownListFor(m => m.ProjectCustomAttributeTypePurposeID, ViewDataTyped.ProjectCustomAttributeTypePurposes, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
-                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypePurposeID)
-                        <p class="systemText" style="margin-top: 10px;">
-
-                            The attribute purpose controls where the attribute is used:
-                            <ul>
-                                <li class="systemText">Performance / Modeling Attributes are properties of a BMP; these attributes can be used to quantify performance of the BMP for hydraulic/hydrologic modeling and pollutant load estimation</li>
-                                <li class="systemText">Other Design Attributes are properties of a BMP; these attributes hold other interesting information about a BMP that is not related to modeling or pollutant load estimation</li>
-                                <li class="systemText">Maintenance Attributes are properties of a Maintenance Activity; these attributes are used to track specific details of the maintenance activity, such as pounds of trash removed from a trash capture device</li>
-                            </ul>
-                        </p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -79,8 +61,8 @@
                         @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeDesription)
                     </div>
                     <div class="col-sm-9">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
-                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypePurposeID)
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeDesription)
                     </div>
                 </div>
                 <div class="form-group">
@@ -105,8 +87,7 @@
                     </div>
                 </div>
                 <div ng-if="ProjectCustomAttributeDataTypeSelected == null">
-                    <hr />
-                    <div class="help-block">
+                    <div class="alert alert-warning" role="alert">
                         Select a @FieldDefinition.ProjectCustomAttributeDataType.GetFieldDefinitionLabel() to enter the required information
                     </div>
                 </div>
@@ -118,7 +99,7 @@
                                 @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, true)
                             </div>
                             <div class="col-sm-9">
-                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { style = "width: auto;", @class = "form-control" })
+                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {style = "width: auto;", @class = "form-control"})
                                 @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
                             </div>
                         </div>
@@ -146,22 +127,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="row">
-                <hr />
-                <div class="col-xs-12 col-sm-2">
-                    <div><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</div>
-                </div>
-                <div class="col-xs-12 col-sm-10" style="text-align: right">
-                    <button type="submit" class="btn btn-firma">Save</button>
-                    <a href="@ViewDataTyped.ProjectCustomAttributeTypeIndexUrl" class="btn btn-firma">Cancel</a>
-                </div>
-                @Html.HiddenFor(m => m.ProjectCustomAttributeTypeID)
-                <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomAttributeTypeOptionsSchema)" ng-value="AngularModel.ProjectCustomAttributeTypeOptionsSchema" />
             </div>
         </div>
     </div>

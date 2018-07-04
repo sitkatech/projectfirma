@@ -24,13 +24,14 @@ namespace ProjectFirma.Web.Models
         protected ProjectCustomAttributeType()
         {
             this.ProjectCustomAttributes = new HashSet<ProjectCustomAttribute>();
+            this.ProjectUpdateCustomAttributes = new HashSet<ProjectUpdateCustomAttribute>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, int projectCustomAttributeTypePurposeID, string projectCustomAttributeTypeOptionsSchema) : this()
+        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema) : this()
         {
             this.ProjectCustomAttributeTypeID = projectCustomAttributeTypeID;
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
@@ -38,14 +39,13 @@ namespace ProjectFirma.Web.Models
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.IsRequired = isRequired;
             this.ProjectCustomAttributeTypeDescription = projectCustomAttributeTypeDescription;
-            this.ProjectCustomAttributeTypePurposeID = projectCustomAttributeTypePurposeID;
             this.ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeTypeOptionsSchema;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired, int projectCustomAttributeTypePurposeID) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -53,28 +53,26 @@ namespace ProjectFirma.Web.Models
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
-            this.ProjectCustomAttributeTypePurposeID = projectCustomAttributeTypePurposeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired, ProjectCustomAttributeTypePurpose projectCustomAttributeTypePurpose) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataType.ProjectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
-            this.ProjectCustomAttributeTypePurposeID = projectCustomAttributeTypePurpose.ProjectCustomAttributeTypePurposeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectCustomAttributeType CreateNewBlank(ProjectCustomAttributeDataType projectCustomAttributeDataType, ProjectCustomAttributeTypePurpose projectCustomAttributeTypePurpose)
+        public static ProjectCustomAttributeType CreateNewBlank(ProjectCustomAttributeDataType projectCustomAttributeDataType)
         {
-            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool), projectCustomAttributeTypePurpose);
+            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool));
         }
 
         /// <summary>
@@ -83,13 +81,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectCustomAttributes.Any();
+            return ProjectCustomAttributes.Any() || ProjectUpdateCustomAttributes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectUpdateCustomAttribute).Name};
 
 
         /// <summary>
@@ -99,6 +97,11 @@ namespace ProjectFirma.Web.Models
         {
 
             foreach(var x in ProjectCustomAttributes.ToList())
+            {
+                x.DeleteFull();
+            }
+
+            foreach(var x in ProjectUpdateCustomAttributes.ToList())
             {
                 x.DeleteFull();
             }
@@ -113,16 +116,15 @@ namespace ProjectFirma.Web.Models
         public int? MeasurementUnitTypeID { get; set; }
         public bool IsRequired { get; set; }
         public string ProjectCustomAttributeTypeDescription { get; set; }
-        public int ProjectCustomAttributeTypePurposeID { get; set; }
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 
         public virtual ICollection<ProjectCustomAttribute> ProjectCustomAttributes { get; set; }
+        public virtual ICollection<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ProjectCustomAttributeDataType ProjectCustomAttributeDataType { get { return ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitTypeID.HasValue ? MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID.Value] : null; } }
-        public ProjectCustomAttributeTypePurpose ProjectCustomAttributeTypePurpose { get { return ProjectCustomAttributeTypePurpose.AllLookupDictionary[ProjectCustomAttributeTypePurposeID]; } }
 
         public static class FieldLengths
         {

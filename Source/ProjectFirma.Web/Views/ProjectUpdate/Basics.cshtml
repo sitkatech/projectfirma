@@ -45,169 +45,171 @@ Source code is available upon request via <support@sitkatech.com>.
 <hr />
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <div class="row form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.ProjectDescription, true)
-            </div>
-            <div class="col-sm-8" style="padding-left: 10px;">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null, new List<string> { "form-control" })
-                    @Html.ValidationMessageFor(m => m.ProjectDescription)
-                }
-                else
-                {
-                    <div style="width: 464px">
-                        @Html.Raw(ViewDataTyped.ProjectUpdate.ProjectDescription.HtmlEncodeWithBreaks())
-                    </div>
-                }
-            </div>
+<div class="form-horizontal">
+    <div class="row form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(m => m.ProjectDescription, true)
         </div>
-        <div class="row form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
-            </div>
-            <div class="col-sm-8" style="padding-left: 10px;">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
-                    @Html.ValidationMessageFor(m => m.ProjectStageID)
-                }
-                else
-                {
-                    @ViewDataTyped.ProjectUpdate.ProjectStage.ProjectStageDisplayName
-                }
-                <div>
-                    <p class="systemText">To change the project stage to a stage not listed, @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).</p>
+        <div class="col-sm-8" style="padding-left: 10px;">
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null, new List<string> { "form-control" })
+                @Html.ValidationMessageFor(m => m.ProjectDescription)
+            }
+            else
+            {
+                <div style="width: 464px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdate.ProjectDescription.HtmlEncodeWithBreaks())
                 </div>
+            }
+        </div>
+    </div>
+    <div class="row form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
+        </div>
+        <div class="col-sm-8" style="padding-left: 10px;">
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.ProjectStageID)
+            }
+            else
+            {
+                @ViewDataTyped.ProjectUpdate.ProjectStage.ProjectStageDisplayName
+            }
+            <div>
+                <p class="systemText">To change the project stage to a stage not listed, @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).</p>
             </div>
         </div>
+    </div>
+    <div class="form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
+        </div>
+        <div class="col-sm-8">
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
+            }
+            else
+            {
+                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.PlanningDesignStartYear</p>
+            }
+        </div>
+    </div>
+    <div class="form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
+        </div>
+        <div class="col-sm-8">
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.ImplementationStartYear)
+            }
+            else
+            {
+                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.ImplementationStartYear</p>
+            }
+        </div>
+    </div>
+    <div class="form-group form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(m => m.CompletionYear)
+        </div>
+        <div class="col-sm-8">
+            @if (ViewDataTyped.IsEditable)
+            {
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.CompletionYear)
+            }
+            else
+            {
+                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.CompletionYear</p>
+            }
+        </div>
+    </div>
+    <div class="row form-group-condensed">
+        <div class="col-sm-4 control-label">
+            @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf)
+        </div>
+        <div class="col-sm-8">
+            @ViewDataTyped.TaxonomyLeafDisplayName
+        </div>
+    </div>
+    @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)
+    {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
+                @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
             </div>
             <div class="col-sm-8">
                 @if (ViewDataTyped.IsEditable)
                 {
-                    @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
-                    @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
+                    @Html.EditorFor(m => m.EstimatedTotalCost)
+                    @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
                 }
                 else
                 {
-                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.PlanningDesignStartYear</p>
+                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</p>
                 }
             </div>
         </div>
-        <div class="form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
-            </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
-                    @Html.ValidationMessageFor(m => m.ImplementationStartYear)
-                }
-                else
-                {
-                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.ImplementationStartYear</p>
-                }
-            </div>
-        </div>
-        <div class="form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.CompletionYear)
-            </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
-                    @Html.ValidationMessageFor(m => m.CompletionYear)
-                }
-                else
-                {
-                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.CompletionYear</p>
-                }
-            </div>
-        </div>
-        <div class="row form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf)
-            </div>
-            <div class="col-sm-8">
-                @ViewDataTyped.TaxonomyLeafDisplayName
-            </div>
-        </div>
-        @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)
+        if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
         {
             <div class="form-group form-group-condensed">
                 <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
+                    @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
                 </div>
                 <div class="col-sm-8">
-                    @if (ViewDataTyped.IsEditable)
-                    {
-                        @Html.EditorFor(m => m.EstimatedTotalCost)
-                        @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-                    }
-                    else
-                    {
-                        <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</p>
-                    }
+                    <p class="form-control-static">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency() (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
                 </div>
             </div>
-            if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
-            {
-                <div class="form-group form-group-condensed">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
-                    </div>
-                    <div class="col-sm-8">
-                        <p class="form-control-static">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency() (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
-                    </div>
-                </div>
-            }
         }
-        else if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
+    }
+    else if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
+    {
+        <div class="form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.IsEditable)
+                {
+                    @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
+                    @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
+                }
+                else
+                {
+                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</p>
+                }
+            </div>
+        </div>
+        <div class="form-group form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinition.LifecycleOperatingCost)
+            </div>
+            <div class="col-sm-8">
+                <p class="form-control-static">@CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()</p>
+            </div>
+        </div>
+        if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
         {
             <div class="form-group form-group-condensed">
                 <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
+                    @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
                 </div>
                 <div class="col-sm-8">
-                    @if (ViewDataTyped.IsEditable)
-                    {
-                        @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
-                        @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-                    }
-                    else
-                    {
-                        <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</p>
-                    }
+                    <p class="form-control-static">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency() (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
                 </div>
             </div>
-            <div class="form-group form-group-condensed">
-                <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinition.LifecycleOperatingCost)
-                </div>
-                <div class="col-sm-8">
-                    <p class="form-control-static">@CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()</p>
-                </div>
-            </div>
-            if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
-            {
-                <div class="form-group form-group-condensed">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
-                    </div>
-                    <div class="col-sm-8">
-                        <p class="form-control-static">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency() (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
-                    </div>
-                </div>
-            }
         }
-    </div>    
+    }
+
+    @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8})
+</div>
 
     if (ViewDataTyped.IsEditable)
     {
@@ -217,7 +219,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="row form-group">
                 <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
                 <div class="col-sm-8">
-                    @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
+                    @Html.TextAreaFor(x => x.Comments, new {style = "width: 100%", @class = "form-control"})
                     @Html.Hidden("Section", ViewDataTyped.CurrentSection)
                 </div>
             </div>

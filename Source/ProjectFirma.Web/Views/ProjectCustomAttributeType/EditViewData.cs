@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common;
@@ -16,13 +15,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
     {
         public string ProjectCustomAttributeTypeIndexUrl { get; }
         public string SubmitUrl { get; }
-
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
         public ViewPageContentViewData ViewProjectCustomAttributeInstructionsFirmaPage { get; }
-
         public IEnumerable<SelectListItem> ProjectCustomAttributeDataTypes { get; }
         public IEnumerable<SelectListItem> MeasurementUnitTypes { get; }
-        public IEnumerable<SelectListItem> ProjectCustomAttributeTypePurposes { get; }
         public IEnumerable<SelectListItem> YesNos { get; }
         public EditViewDataForAngular ViewDataForAngular { get; }
 
@@ -32,26 +28,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentPerson)
         {
             EntityName = "Attribute Type";
-            //EntityUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             PageTitle =
                 $"{(projectCustomAttributeType != null ? "Edit" : "New")} Attribute Type";
-
-            //if (projectCustomAttributeType != null)
-            //{
-            //    SubEntityName = projectCustomAttributeType.ProjectCustomAttributeTypeName;
-            //    SubEntityUrl = projectCustomAttributeType.GetDetailUrl();
-            //}
-
             YesNos = BooleanFormats.GetYesNoSelectList();
             ProjectCustomAttributeDataTypes = projectCustomAttributeDataTypes.ToSelectListWithEmptyFirstRow(
                 x => x.ProjectCustomAttributeDataTypeID.ToString(), x => x.ProjectCustomAttributeDataTypeDisplayName);
             MeasurementUnitTypes = measurementUnitTypes.OrderBy(x => x.MeasurementUnitTypeDisplayName).ToSelectListWithEmptyFirstRow(
                 x => x.MeasurementUnitTypeID.ToString(), x => x.MeasurementUnitTypeDisplayName, ViewUtilities.NoneString);
-            ProjectCustomAttributeTypePurposes =
-                ProjectCustomAttributeTypePurpose.All.ToSelectListWithEmptyFirstRow(
-                    x => x.ProjectCustomAttributeTypePurposeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.ProjectCustomAttributeTypePurposeDisplayName);
-
             ProjectCustomAttributeTypeIndexUrl =
                 SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;

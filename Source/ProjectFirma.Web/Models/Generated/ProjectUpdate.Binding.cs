@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectUpdate()
         {
-
+            this.ProjectUpdateCustomAttributes = new HashSet<ProjectUpdateCustomAttribute>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -90,13 +90,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return ProjectUpdateCustomAttributes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdate).Name, typeof(ProjectUpdateCustomAttribute).Name};
 
 
         /// <summary>
@@ -104,6 +104,11 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+
+            foreach(var x in ProjectUpdateCustomAttributes.ToList())
+            {
+                x.DeleteFull();
+            }
             HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Remove(this);                
         }
 
@@ -126,6 +131,7 @@ namespace ProjectFirma.Web.Models
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
+        public virtual ICollection<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }

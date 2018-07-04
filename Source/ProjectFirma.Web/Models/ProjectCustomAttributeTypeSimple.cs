@@ -8,7 +8,6 @@
         public string MeasurementUnitDisplayName { get; set; }
         public bool IsRequired { get; set; }
         public string Description { get; set; }
-        public string Purpose { get; set; }
         public int? CustomAttributeTypeSortOrder { get; set; }
 
         public ProjectCustomAttributeTypeSimple(ProjectCustomAttributeType projectCustomAttributeType)
@@ -19,8 +18,6 @@
             MeasurementUnitDisplayName = projectCustomAttributeType.GetMeasurementUnitDisplayName();
             IsRequired = projectCustomAttributeType.IsRequired;
             Description = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
-            Purpose = projectCustomAttributeType.ProjectCustomAttributeTypePurpose
-                .ProjectCustomAttributeTypePurposeDisplayName;
         }
     }
 }

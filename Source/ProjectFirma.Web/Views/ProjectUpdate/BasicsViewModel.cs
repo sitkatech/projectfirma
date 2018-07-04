@@ -59,6 +59,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
 
+        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -76,11 +78,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EstimatedTotalCost = projectUpdate.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = projectUpdate.EstimatedAnnualOperatingCost;
             Comments = comments;
+            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
         }
 
-        public void UpdateModel(Models.ProjectUpdate projectUpdate)
-        {            
-            
+        public void UpdateModel(Models.ProjectUpdate projectUpdate, Person currentPerson)
+        {
             projectUpdate.ProjectDescription = ProjectDescription;
             projectUpdate.ProjectStageID = ProjectStageID;
             projectUpdate.PlanningDesignStartYear = PlanningDesignStartYear;
@@ -88,29 +90,32 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.CompletionYear = CompletionYear;
             projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
             projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+            ProjectCustomAttributes.UpdateModel(projectUpdate, currentPerson);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var errors = new List<ValidationResult>();
-
             if (ImplementationStartYear < PlanningDesignStartYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(
+                    FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear,
+                    m => m.ImplementationStartYear);
             }
 
             if (CompletionYear < ImplementationStartYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(
+                    FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear,
+                    m => m.CompletionYear);
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>("Since project is in Completed or Post-Implementation stage, the Completion Year needs to be less than or equal to the current year", m => m.CompletionYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(
+                    "Since project is in Completed or Post-Implementation stage, the Completion Year needs to be less than or equal to the current year",
+                    m => m.CompletionYear);
             }
-
-            return errors;
         }
     }
 }

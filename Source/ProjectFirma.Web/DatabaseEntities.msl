@@ -622,7 +622,6 @@
           <ScalarProperty Name="MeasurementUnitTypeID" ColumnName="MeasurementUnitTypeID" />
           <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
           <ScalarProperty Name="ProjectCustomAttributeTypeDescription" ColumnName="ProjectCustomAttributeTypeDescription" />
-          <ScalarProperty Name="ProjectCustomAttributeTypePurposeID" ColumnName="ProjectCustomAttributeTypePurposeID" />
           <ScalarProperty Name="ProjectCustomAttributeTypeOptionsSchema" ColumnName="ProjectCustomAttributeTypeOptionsSchema" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -941,6 +940,26 @@
           <ScalarProperty Name="ExpectedFundingDiffLog" ColumnName="ExpectedFundingDiffLog" />
           <ScalarProperty Name="OrganizationsComment" ColumnName="OrganizationsComment" />
           <ScalarProperty Name="OrganizationsDiffLog" ColumnName="OrganizationsDiffLog" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectUpdateCustomAttribute">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateCustomAttribute">
+        <MappingFragment StoreEntitySet="ProjectUpdateCustomAttribute">
+          <ScalarProperty Name="ProjectUpdateCustomAttributeID" ColumnName="ProjectUpdateCustomAttributeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateID" ColumnName="ProjectUpdateID" />
+          <ScalarProperty Name="ProjectCustomAttributeTypeID" ColumnName="ProjectCustomAttributeTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectUpdateCustomAttributeValue">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateCustomAttributeValue">
+        <MappingFragment StoreEntitySet="ProjectUpdateCustomAttributeValue">
+          <ScalarProperty Name="ProjectUpdateCustomAttributeValueID" ColumnName="ProjectUpdateCustomAttributeValueID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateCustomAttributeID" ColumnName="ProjectUpdateCustomAttributeID" />
+          <ScalarProperty Name="AttributeValue" ColumnName="AttributeValue" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

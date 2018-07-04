@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -229,8 +229,6 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeTypePurpose.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeTypePurposePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValue.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValue.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValuePrimaryKey.Binding.cs" />
@@ -311,6 +309,12 @@
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttribute.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttribute.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttributePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistoryPrimaryKey.Binding.cs" />
@@ -381,11 +385,15 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\IProjectCustomAttribute.cs" />
+    <Compile Include="Models\IProjectCustomAttributeValue.cs" />
     <Compile Include="Models\ProjectCustomAttributeDataType.cs" />
     <Compile Include="Models\ProjectCustomAttributeSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeType.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeValue.cs" />
+    <Compile Include="Models\ProjectUpdateCustomAttribute.cs" />
+    <Compile Include="Models\ProjectUpdateCustomAttributeValue.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeTypeController.cs" />
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
@@ -421,6 +429,7 @@
     <Compile Include="Views\ProjectCreate\ImportExternalViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewModel.cs" />
+    <Compile Include="Models\ProjectCustomAttributes.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocuments.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewData.cs" />
     <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewModel.cs" />
@@ -819,6 +828,7 @@
     <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.min.js" />
     <Content Include="ScriptsCustom\unsavedChanges.js" />
     <Content Include="ScriptsCustom\unsavedChanges.min.js" />
+    <Content Include="Scripts\autonumeric\autonumeric-4.2.15.min.js" />
     <Content Include="Scripts\jquery.counterup.min.js" />
     <Content Include="Scripts\waypoints.min.js" />
     <Content Include="Service References\KeystoneDataService\ProjectFirma.Web.KeystoneDataService.Organization.datasource">
@@ -1595,6 +1605,7 @@
     <Content Include="Views\ProjectCustomAttributeType\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeType\Detail.cshtml" />
     <Content Include="Views\ProjectCustomAttributeType\Manage.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProjectCustomAttributes.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

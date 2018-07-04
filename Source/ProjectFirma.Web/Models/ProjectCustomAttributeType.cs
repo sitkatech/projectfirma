@@ -10,7 +10,7 @@ using ProjectFirma.Web.Controllers;
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectCustomAttributeType : IAuditableEntity {
-        public string AuditDescriptionString => $"Project Custom Attribute Type: {ProjectCustomAttributeTypeName}";
+        public string AuditDescriptionString => $"{FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()}: {ProjectCustomAttributeTypeName}";
 
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.DeleteProjectCustomAttributeType(UrlTemplate.Parameter1Int)));

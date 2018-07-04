@@ -172,6 +172,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
         public virtual IQueryable<ProjectUpdateBatch> ProjectUpdateBatches { get { return AllProjectUpdateBatches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectUpdateCustomAttribute> AllProjectUpdateCustomAttributes { get; set; }
+        public virtual IQueryable<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get { return AllProjectUpdateCustomAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectUpdateCustomAttributeValue> AllProjectUpdateCustomAttributeValues { get; set; }
+        public virtual IQueryable<ProjectUpdateCustomAttributeValue> ProjectUpdateCustomAttributeValues { get { return AllProjectUpdateCustomAttributeValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateHistory> AllProjectUpdateHistories { get; set; }
         public virtual IQueryable<ProjectUpdateHistory> ProjectUpdateHistories { get { return AllProjectUpdateHistories.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdate> AllProjectUpdates { get; set; }
@@ -447,11 +451,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectCustomAttribute":
                     return ProjectCustomAttributes.GetProjectCustomAttribute(primaryKey);
 
-                case "ProjectCustomAttributeTypePurpose":
-                    var projectCustomAttributeTypePurpose = ProjectCustomAttributeTypePurpose.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectCustomAttributeTypePurpose, "ProjectCustomAttributeTypePurpose", primaryKey);
-                    return projectCustomAttributeTypePurpose;
-
                 case "ProjectCustomAttributeType":
                     return ProjectCustomAttributeTypes.GetProjectCustomAttributeType(primaryKey);
 
@@ -546,6 +545,12 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
+
+                case "ProjectUpdateCustomAttribute":
+                    return ProjectUpdateCustomAttributes.GetProjectUpdateCustomAttribute(primaryKey);
+
+                case "ProjectUpdateCustomAttributeValue":
+                    return ProjectUpdateCustomAttributeValues.GetProjectUpdateCustomAttributeValue(primaryKey);
 
                 case "ProjectUpdateHistory":
                     return ProjectUpdateHistories.GetProjectUpdateHistory(primaryKey);

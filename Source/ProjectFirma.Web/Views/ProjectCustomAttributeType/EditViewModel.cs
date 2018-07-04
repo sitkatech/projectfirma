@@ -28,15 +28,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
         [DisplayName("Options")]
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
-
-        // backing fields for drop-down lists have to be nullable in order to get the "default option" behavior that we want
+        
         [Required]
         [DisplayName("Required?")]
         public bool? IsRequired { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCustomAttributeTypePurpose)]
-        public int? ProjectCustomAttributeTypePurposeID { get; set; }
 
         [DisplayName("Description")]
         [StringLength(Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
@@ -57,7 +52,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             MeasurementUnitTypeID = projectCustomAttributeType.MeasurementUnitTypeID;
             ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema;
             IsRequired = projectCustomAttributeType.IsRequired;
-            ProjectCustomAttributeTypePurposeID = projectCustomAttributeType.ProjectCustomAttributeTypePurposeID;
             ProjectCustomAttributeTypeDesription = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
         }
 
@@ -68,13 +62,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.ProjectCustomAttributeDataTypeID = ProjectCustomAttributeDataTypeID ?? ModelObjectHelpers.NotYetAssignedID;
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
-            projectCustomAttributeType.ProjectCustomAttributeTypePurposeID = ProjectCustomAttributeTypePurposeID.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]
                 : null;
-            if (projectCustomAttributeDataType.HasOptions())
+            if (projectCustomAttributeDataType != null && projectCustomAttributeDataType.HasOptions())
             {
                 projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema = ProjectCustomAttributeTypeOptionsSchema;
             }
@@ -90,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 .Where(x => x.ProjectCustomAttributeTypeName == ProjectCustomAttributeTypeName)
                 .Any(x => x.ProjectCustomAttributeTypeID != ProjectCustomAttributeTypeID))
             {
-                yield return new ValidationResult("A Custom Attribute Type with this name already exists");
+                yield return new ValidationResult($"A {Models.FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} with this name already exists.");
             }
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectCustomAttributeTypeID))
@@ -99,7 +92,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 var isStringType = type.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.String;
                 if (!isStringType && type.ProjectCustomAttributeDataTypeID != ProjectCustomAttributeDataTypeID)
                 {
-                    yield return new ValidationResult("You cannot change the type of attribute");
+                    yield return new ValidationResult("You cannot change the type of attribute.");
                 }
 
                 var updatedTypeIsStringPickFromListOrMultiselect = ProjectCustomAttributeDataTypeID == ProjectCustomAttributeDataType.String.ProjectCustomAttributeDataTypeID ||
@@ -107,14 +100,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                                                                    ProjectCustomAttributeDataTypeID == ProjectCustomAttributeDataType.MultiSelect.ProjectCustomAttributeDataTypeID;
                 if (isStringType && !updatedTypeIsStringPickFromListOrMultiselect)
                 {
-                    yield return new ValidationResult("You cannot change a String attribute to any other than a single or multi select list");
+                    yield return new ValidationResult("You cannot change a String attribute to any other than a single or multi select list.");
                 }
             }
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]
                 : null;
-            if (projectCustomAttributeDataType.HasOptions())
+            if (projectCustomAttributeDataType != null && projectCustomAttributeDataType.HasOptions())
             {
                 List<string> options = null;
                 try
@@ -125,28 +118,28 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
                 if (options == null)
                 {
-                    yield return new ValidationResult("Options cannot be saved");
+                    yield return new ValidationResult("Options cannot be saved.");
                     yield break;
                 }
 
                 if (options.Any(string.IsNullOrEmpty))
                 {
-                    yield return new ValidationResult("Options cannot be empty");
+                    yield return new ValidationResult("Options cannot be empty.");
                 }
 
                 if (options.Count.Equals(0))
                 {
-                    yield return new ValidationResult("This type of attribute must have options defined");
+                    yield return new ValidationResult("This type of attribute must have options defined.");
                 }
 
                 if (projectCustomAttributeDataType == ProjectCustomAttributeDataType.MultiSelect && options.Count == 1)
                 {
-                    yield return new ValidationResult("This type of attribute must have more than one option defined");
+                    yield return new ValidationResult("This type of attribute must have more than one option defined.");
                 }
 
                 if (options.Select(x => x.ToLower()).HasDuplicates())
                 {
-                    yield return new ValidationResult("Options must be unique, remove duplicates");
+                    yield return new ValidationResult("Options must be unique, remove duplicates.");
                 }
             }
         }

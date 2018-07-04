@@ -1,5 +1,7 @@
 ﻿@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Manage
@@ -13,10 +15,7 @@
 {
     @if (ViewDataTyped.HasManagePermissions)
     {
-        <a class="btn btn-firma headerButtonText customAttributeTypeButton" href="@ViewDataTyped.NewProjectCustomAttributeTypeUrl">
-            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")
-            Project Custom Attribute Type
-        </a>
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectCustomAttributeTypeUrl, string.Format("Create New {0} Custom Attribute", FieldDefinition.Project.GetFieldDefinitionLabel()), new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
     }
 }
 

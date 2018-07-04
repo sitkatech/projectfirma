@@ -3,16 +3,16 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class ProjectCustomAttributeValue : IAuditableEntity, IProjectCustomAttributeValue
+    public partial class ProjectUpdateCustomAttributeValue : IAuditableEntity, IProjectCustomAttributeValue
     {
         public string AuditDescriptionString
         {
             get
             {
-                var projectCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.GetProjectCustomAttribute(ProjectCustomAttributeID);
-                var project = projectCustomAttribute?.Project ??
-                              HttpRequestStorage.DatabaseEntities.Projects.GetProject(
-                                  projectCustomAttribute?.ProjectID ?? ModelObjectHelpers.NotYetAssignedID);
+                var projectCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectUpdateCustomAttributes.GetProjectUpdateCustomAttribute(ProjectUpdateCustomAttributeID);
+                var projectUpdate = projectCustomAttribute?.ProjectUpdate ??
+                              HttpRequestStorage.DatabaseEntities.ProjectUpdates.GetProjectUpdate(
+                                  projectCustomAttribute?.ProjectUpdateID ?? ModelObjectHelpers.NotYetAssignedID);
                 var projectCustomAttributeType = projectCustomAttribute?.ProjectCustomAttributeType ??
                                                  HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes
                                                      .GetProjectCustomAttributeType(
@@ -20,21 +20,21 @@ namespace ProjectFirma.Web.Models
                                                          ModelObjectHelpers.NotYetAssignedID);
                 return
                     $"Custom Attribute Value (type: {projectCustomAttributeType?.ProjectCustomAttributeTypeName ?? "<Type Not Found>"}, " +
-                    $"project: {project?.ProjectName ?? "<Project Not Found>"}, " +
+                    $"project update: {projectUpdate?.DisplayName ?? "<Project Update Not Found>"}, " +
                     $"value = \"{AttributeValue}\")";
             }
         }
 
         public int IProjectCustomAttributeValueID
         {
-            get => ProjectCustomAttributeValueID;
-            set => ProjectCustomAttributeValueID = value;
+            get => ProjectUpdateCustomAttributeValueID;
+            set => ProjectUpdateCustomAttributeValueID = value;
         }
 
         public int IProjectCustomAttributeID
         {
-            get => ProjectCustomAttributeID;
-            set => ProjectCustomAttributeID = value;
+            get => ProjectUpdateCustomAttributeID;
+            set => ProjectUpdateCustomAttributeID = value;
         }
     }
 }
