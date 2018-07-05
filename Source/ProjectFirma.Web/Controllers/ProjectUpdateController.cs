@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
-            SetMessageForDisplay("Something happened. Successfully??");
+            SetMessageForDisplay("Notifications configured successfully.");
 
             return new ModalDialogFormJsonResult();
         }
