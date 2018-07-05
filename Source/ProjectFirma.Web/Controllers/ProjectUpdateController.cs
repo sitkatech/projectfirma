@@ -2795,9 +2795,14 @@ namespace ProjectFirma.Web.Controllers
 
         public ContentResult ReminderIntroPreview()
         {
+            var signature = ProjectUpdateReminderScheduledBackgroundJob.GetReminderMessageSignature(
+                MultiTenantHelpers.GetToolDisplayName(), MultiTenantHelpers.GetTenantSquareLogoUrl(), HttpRequestStorage.Tenant.GetTenantAttribute().PrimaryContactPerson.Email);
+            var emailContentPreview = ProjectUpdateReminderScheduledBackgroundJob.GetEmailContent(MultiTenantHelpers.GetToolDisplayName(),
+                MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent, "fart",
+                "<em>Organization Primary Contact</em>", PreviewNote, signature);
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent + PreviewNote
+                Content = emailContentPreview //MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent + PreviewNote
             };
         }
 

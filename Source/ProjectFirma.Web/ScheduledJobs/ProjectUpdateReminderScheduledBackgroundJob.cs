@@ -173,14 +173,9 @@ namespace ProjectFirma.Web.ScheduledJobs
                 SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
                     x.MyProjectsRequiringAnUpdate());
 
-            var body = String.Format(ReminderMessageTemplate,
-                primaryContactPerson.FullNameFirstLast,
-                introContent,
-                projectsRequiringAnUpdateUrl,
-                String.Join("\r\n", projectListAsHtmlStrings));
-            var signature = String.Format(ReminderMessageSignatureTemplate, toolName, "");
+            var emailContent = GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, primaryContactPerson.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings));
 
-            var htmlView = AlternateView.CreateAlternateViewFromString($"{body}\r\n{signature}", null, "text/html");
+            var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
                 new LinkedResource(new MemoryStream(logo.FileResourceData), "img/jpeg") {ContentId = "tool-logo"});
             var mailMessage = new MailMessage {Subject = reminderSubject, IsBodyHtml = true};
@@ -189,12 +184,30 @@ namespace ProjectFirma.Web.ScheduledJobs
             return mailMessage;
         }
 
-        private const string ReminderMessageTemplate = @"Hello, {0},
+        public static string GetEmailContent(string toolName, string introContent,
+            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated)
+        {
+            return GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, fullNameFirstLast,
+                projectListConcatenated, GetReminderMessageSignature(toolName, "cid:tool-logo", ""));
+        }
+        public static string GetEmailContent(string toolName, string introContent,
+            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated, string signature)
+        {
+            var body = String.Format(ReminderMessageTemplate,
+                fullNameFirstLast,
+                introContent,
+                projectsRequiringAnUpdateUrl,
+                projectListConcatenated);
+            var emailContent = $"{body}<br/>{signature}";
+            return emailContent;
+        }
+
+        private const string ReminderMessageTemplate = @"Hello, {0},<br/><br/>
 {1}
 <div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
 <div style=""margin-left: 15px"">
     {3}
-</div><br />";
+</div>";
 
         public static List<string> GenerateProjectListAsHtmlStrings(
             List<Project> updatableProjectsThatHaveNotBeenSubmitted)
@@ -211,11 +224,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             return projectListAsHtmlStrings;
         }
 
-        private const string ReminderMessageSignatureTemplate = @"
+        public static string GetReminderMessageSignature(string toolName, string logoUrl, string contactSupportEmail) =>
+            $@"
 Thank you,<br />
-{0} team<br/><br/><img src=""cid:eip-logo"" width=""160"" />
+{toolName} team<br/><br/><img src=""{logoUrl}"" width=""160"" />
 <p>
-P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{1}"">contact support</a>.
+P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{contactSupportEmail}"">contact support</a>.
 </p>";
     }
 }
