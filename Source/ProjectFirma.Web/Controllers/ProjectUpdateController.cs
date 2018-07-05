@@ -2782,11 +2782,14 @@ namespace ProjectFirma.Web.Controllers
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
+        private const string PreviewNote =
+            "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>";
+
         public ContentResult KickOffIntroPreview()
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent + PreviewNote
             };
         }
 
@@ -2794,7 +2797,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent + PreviewNote
             };
         }
 
@@ -2802,7 +2805,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent
+                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent + PreviewNote
             };
         }
     }

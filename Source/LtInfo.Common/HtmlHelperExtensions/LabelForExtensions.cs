@@ -300,6 +300,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
             var requiredAsterisk = hasRequiredAttribute ? string.Format("<sup>{0}</sup>", BootstrapHtmlHelpers.RequiredIcon) : string.Empty;
 
+            if (!hasRequiredAttribute)
+            {
+                tag.Attributes.Add("style","padding-right: 12px;");
+            }
+
 
             tag.InnerHtml = string.Format("{0} {1}", resolvedLabelText, requiredAsterisk);
             tag.MergeAttributes(htmlAttributes, true);
