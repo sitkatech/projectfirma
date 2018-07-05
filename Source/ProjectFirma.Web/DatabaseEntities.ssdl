@@ -50,6 +50,8 @@
     <EntitySet Name="ProjectClassification" EntityType="ProjectFirma.Web.Models.Store.ProjectClassification" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectCustomAttribute" EntityType="ProjectFirma.Web.Models.Store.ProjectCustomAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectCustomAttributeType" EntityType="ProjectFirma.Web.Models.Store.ProjectCustomAttributeType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectCustomAttributeUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdate" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectCustomAttributeUpdateValue" EntityType="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdateValue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectCustomAttributeValue" EntityType="ProjectFirma.Web.Models.Store.ProjectCustomAttributeValue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectDocument" EntityType="ProjectFirma.Web.Models.Store.ProjectDocument" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectDocumentUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectDocumentUpdate" store:Type="Tables" Schema="dbo" />
@@ -75,8 +77,6 @@
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateConfiguration" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateConfiguration" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectUpdateCustomAttribute" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttribute" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectUpdateCustomAttributeValue" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttributeValue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateHistory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.Store.ProjectWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectWatershedUpdate" store:Type="Tables" Schema="dbo" />
@@ -390,6 +390,18 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="ProjectCustomAttributeType" EntitySet="ProjectCustomAttributeType" />
       <End Role="ProjectCustomAttributes" EntitySet="ProjectCustomAttribute" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
+      <End Role="ProjectCustomAttributeType" EntitySet="ProjectCustomAttributeType" />
+      <End Role="ProjectCustomAttributeUpdates" EntitySet="ProjectCustomAttributeUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectCustomAttributeUpdates" EntitySet="ProjectCustomAttributeUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID" Association="ProjectFirma.Web.Models.Store.FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID">
+      <End Role="ProjectCustomAttributeUpdate" EntitySet="ProjectCustomAttributeUpdate" />
+      <End Role="ProjectCustomAttributeUpdateValues" EntitySet="ProjectCustomAttributeUpdateValue" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectCustomAttributeValue_ProjectCustomAttribute_ProjectCustomAttributeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectCustomAttributeValue_ProjectCustomAttribute_ProjectCustomAttributeID">
       <End Role="ProjectCustomAttribute" EntitySet="ProjectCustomAttribute" />
       <End Role="ProjectCustomAttributeValues" EntitySet="ProjectCustomAttributeValue" />
@@ -573,18 +585,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_ProjectUpdateBatch_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateBatch_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
-      <End Role="ProjectCustomAttributeType" EntitySet="ProjectCustomAttributeType" />
-      <End Role="ProjectUpdateCustomAttributes" EntitySet="ProjectUpdateCustomAttribute" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID">
-      <End Role="ProjectUpdate" EntitySet="ProjectUpdate" />
-      <End Role="ProjectUpdateCustomAttributes" EntitySet="ProjectUpdateCustomAttribute" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID">
-      <End Role="ProjectUpdateCustomAttribute" EntitySet="ProjectUpdateCustomAttribute" />
-      <End Role="ProjectUpdateCustomAttributeValues" EntitySet="ProjectUpdateCustomAttributeValue" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID">
       <End Role="UpdatePerson" EntitySet="Person" />
@@ -1411,7 +1411,7 @@ warning 6035: The relationship 'FK_ProjectCustomAttributeValue_ProjectCustomAttr
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="ProjectCustomAttributeType">
     <Key>
@@ -1425,6 +1425,27 @@ warning 6035: The relationship 'FK_ProjectUpdateCustomAttribute_ProjectCustomAtt
     <Property Name="IsRequired" Type="bit" Nullable="false" />
     <Property Name="ProjectCustomAttributeTypeDescription" Type="varchar" MaxLength="200" />
     <Property Name="ProjectCustomAttributeTypeOptionsSchema" Type="varchar(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="ProjectCustomAttributeUpdate">
+    <Key>
+      <PropertyRef Name="ProjectCustomAttributeUpdateID" />
+    </Key>
+    <Property Name="ProjectCustomAttributeUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
+    <Property Name="ProjectCustomAttributeTypeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProjectCustomAttributeUpdateValue">
+    <Key>
+      <PropertyRef Name="ProjectCustomAttributeUpdateValueID" />
+    </Key>
+    <Property Name="ProjectCustomAttributeUpdateValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectCustomAttributeUpdateID" Type="int" Nullable="false" />
+    <Property Name="AttributeValue" Type="varchar" Nullable="false" MaxLength="1000" />
   </EntityType>
   <EntityType Name="ProjectCustomAttributeValue">
     <Key>
@@ -1672,9 +1693,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="TagID" Type="int" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
   <EntityType Name="ProjectUpdate">
     <Key>
       <PropertyRef Name="ProjectUpdateID" />
@@ -1698,6 +1716,7 @@ warning 6035: The relationship 'FK_ProjectUpdateCustomAttribute_ProjectUpdate_Pr
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectCustomAttributeUpdate_ProjectUpdate_ProjectUpdateID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectDocumentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1757,27 +1776,6 @@ warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_Pro
     <Property Name="ProjectUpdateKickOffIntroContent" Type="varchar(max)" />
     <Property Name="ProjectUpdateReminderIntroContent" Type="varchar(max)" />
     <Property Name="ProjectUpdateCloseOutIntroContent" Type="varchar(max)" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="ProjectUpdateCustomAttribute">
-    <Key>
-      <PropertyRef Name="ProjectUpdateCustomAttributeID" />
-    </Key>
-    <Property Name="ProjectUpdateCustomAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectUpdateID" Type="int" Nullable="false" />
-    <Property Name="ProjectCustomAttributeTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProjectUpdateCustomAttributeValue">
-    <Key>
-      <PropertyRef Name="ProjectUpdateCustomAttributeValueID" />
-    </Key>
-    <Property Name="ProjectUpdateCustomAttributeValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectUpdateCustomAttributeID" Type="int" Nullable="false" />
-    <Property Name="AttributeValue" Type="varchar" Nullable="false" MaxLength="1000" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
@@ -2903,6 +2901,42 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
+    <End Role="ProjectCustomAttributeType" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeType" Multiplicity="1" />
+    <End Role="ProjectCustomAttributeUpdates" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectCustomAttributeType">
+        <PropertyRef Name="ProjectCustomAttributeTypeID" />
+      </Principal>
+      <Dependent Role="ProjectCustomAttributeUpdates">
+        <PropertyRef Name="ProjectCustomAttributeTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectCustomAttributeUpdates" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectCustomAttributeUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID">
+    <End Role="ProjectCustomAttributeUpdate" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdate" Multiplicity="1" />
+    <End Role="ProjectCustomAttributeUpdateValues" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeUpdateValue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectCustomAttributeUpdate">
+        <PropertyRef Name="ProjectCustomAttributeUpdateID" />
+      </Principal>
+      <Dependent Role="ProjectCustomAttributeUpdateValues">
+        <PropertyRef Name="ProjectCustomAttributeUpdateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectCustomAttributeValue_ProjectCustomAttribute_ProjectCustomAttributeID">
     <End Role="ProjectCustomAttribute" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttribute" Multiplicity="1" />
     <End Role="ProjectCustomAttributeValues" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeValue" Multiplicity="*" />
@@ -3452,42 +3486,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectUpdateBatches">
         <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID">
-    <End Role="ProjectCustomAttributeType" Type="ProjectFirma.Web.Models.Store.ProjectCustomAttributeType" Multiplicity="1" />
-    <End Role="ProjectUpdateCustomAttributes" Type="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttribute" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectCustomAttributeType">
-        <PropertyRef Name="ProjectCustomAttributeTypeID" />
-      </Principal>
-      <Dependent Role="ProjectUpdateCustomAttributes">
-        <PropertyRef Name="ProjectCustomAttributeTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID">
-    <End Role="ProjectUpdate" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="1" />
-    <End Role="ProjectUpdateCustomAttributes" Type="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttribute" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectUpdate">
-        <PropertyRef Name="ProjectUpdateID" />
-      </Principal>
-      <Dependent Role="ProjectUpdateCustomAttributes">
-        <PropertyRef Name="ProjectUpdateID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID">
-    <End Role="ProjectUpdateCustomAttribute" Type="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttribute" Multiplicity="1" />
-    <End Role="ProjectUpdateCustomAttributeValues" Type="ProjectFirma.Web.Models.Store.ProjectUpdateCustomAttributeValue" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectUpdateCustomAttribute">
-        <PropertyRef Name="ProjectUpdateCustomAttributeID" />
-      </Principal>
-      <Dependent Role="ProjectUpdateCustomAttributeValues">
-        <PropertyRef Name="ProjectUpdateCustomAttributeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

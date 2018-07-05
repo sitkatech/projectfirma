@@ -109,8 +109,8 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<IProjectCustomAttribute> ProjectCustomAttributes
         {
-            get => ProjectUpdateCustomAttributes;
-            set => ProjectUpdateCustomAttributes = (ICollection<ProjectUpdateCustomAttribute>) value;
+            get => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
+            set => ProjectUpdateBatch.ProjectCustomAttributeUpdates = (ICollection<ProjectCustomAttributeUpdate>) value;
         }
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()

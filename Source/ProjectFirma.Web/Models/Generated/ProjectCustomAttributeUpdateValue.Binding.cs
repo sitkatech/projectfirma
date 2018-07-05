@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectUpdateCustomAttributeValue]
+//  Source Table: [dbo].[ProjectCustomAttributeUpdateValue]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[ProjectUpdateCustomAttributeValue]")]
-    public partial class ProjectUpdateCustomAttributeValue : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[ProjectCustomAttributeUpdateValue]")]
+    public partial class ProjectCustomAttributeUpdateValue : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectUpdateCustomAttributeValue()
+        protected ProjectCustomAttributeUpdateValue()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,44 +30,44 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateCustomAttributeValue(int projectUpdateCustomAttributeValueID, int projectUpdateCustomAttributeID, string attributeValue) : this()
+        public ProjectCustomAttributeUpdateValue(int projectCustomAttributeUpdateValueID, int projectCustomAttributeUpdateID, string attributeValue) : this()
         {
-            this.ProjectUpdateCustomAttributeValueID = projectUpdateCustomAttributeValueID;
-            this.ProjectUpdateCustomAttributeID = projectUpdateCustomAttributeID;
+            this.ProjectCustomAttributeUpdateValueID = projectCustomAttributeUpdateValueID;
+            this.ProjectCustomAttributeUpdateID = projectCustomAttributeUpdateID;
             this.AttributeValue = attributeValue;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateCustomAttributeValue(int projectUpdateCustomAttributeID, string attributeValue) : this()
+        public ProjectCustomAttributeUpdateValue(int projectCustomAttributeUpdateID, string attributeValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectUpdateCustomAttributeValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectCustomAttributeUpdateValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectUpdateCustomAttributeID = projectUpdateCustomAttributeID;
+            this.ProjectCustomAttributeUpdateID = projectCustomAttributeUpdateID;
             this.AttributeValue = attributeValue;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectUpdateCustomAttributeValue(ProjectUpdateCustomAttribute projectUpdateCustomAttribute, string attributeValue) : this()
+        public ProjectCustomAttributeUpdateValue(ProjectCustomAttributeUpdate projectCustomAttributeUpdate, string attributeValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectUpdateCustomAttributeValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectUpdateCustomAttributeID = projectUpdateCustomAttribute.ProjectUpdateCustomAttributeID;
-            this.ProjectUpdateCustomAttribute = projectUpdateCustomAttribute;
-            projectUpdateCustomAttribute.ProjectUpdateCustomAttributeValues.Add(this);
+            this.ProjectCustomAttributeUpdateValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectCustomAttributeUpdateID = projectCustomAttributeUpdate.ProjectCustomAttributeUpdateID;
+            this.ProjectCustomAttributeUpdate = projectCustomAttributeUpdate;
+            projectCustomAttributeUpdate.ProjectCustomAttributeUpdateValues.Add(this);
             this.AttributeValue = attributeValue;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectUpdateCustomAttributeValue CreateNewBlank(ProjectUpdateCustomAttribute projectUpdateCustomAttribute)
+        public static ProjectCustomAttributeUpdateValue CreateNewBlank(ProjectCustomAttributeUpdate projectCustomAttributeUpdate)
         {
-            return new ProjectUpdateCustomAttributeValue(projectUpdateCustomAttribute, default(string));
+            return new ProjectCustomAttributeUpdateValue(projectCustomAttributeUpdate, default(string));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateCustomAttributeValue).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeUpdateValue).Name};
 
 
         /// <summary>
@@ -90,19 +90,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            HttpRequestStorage.DatabaseEntities.AllProjectUpdateCustomAttributeValues.Remove(this);                
+            HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeUpdateValues.Remove(this);                
         }
 
         [Key]
-        public int ProjectUpdateCustomAttributeValueID { get; set; }
+        public int ProjectCustomAttributeUpdateValueID { get; set; }
         public int TenantID { get; private set; }
-        public int ProjectUpdateCustomAttributeID { get; set; }
+        public int ProjectCustomAttributeUpdateID { get; set; }
         public string AttributeValue { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectUpdateCustomAttributeValueID; } set { ProjectUpdateCustomAttributeValueID = value; } }
+        public int PrimaryKey { get { return ProjectCustomAttributeUpdateValueID; } set { ProjectCustomAttributeUpdateValueID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual ProjectUpdateCustomAttribute ProjectUpdateCustomAttribute { get; set; }
+        public virtual ProjectCustomAttributeUpdate ProjectCustomAttributeUpdate { get; set; }
 
         public static class FieldLengths
         {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -229,6 +229,12 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValue.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValue.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValuePrimaryKey.Binding.cs" />
@@ -312,12 +318,6 @@
     <Compile Include="Models\Generated\ProjectUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateConfiguration.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateConfigurationPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttribute.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttribute.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttributePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValue.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValue.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectUpdateCustomAttributeValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateHistoryPrimaryKey.Binding.cs" />
@@ -395,8 +395,8 @@
     <Compile Include="Models\ProjectCustomAttributeType.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeValue.cs" />
-    <Compile Include="Models\ProjectUpdateCustomAttribute.cs" />
-    <Compile Include="Models\ProjectUpdateCustomAttributeValue.cs" />
+    <Compile Include="Models\ProjectCustomAttributeUpdate.cs" />
+    <Compile Include="Models\ProjectCustomAttributeUpdateValue.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeTypeController.cs" />
     <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />

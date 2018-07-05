@@ -124,6 +124,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectCustomAttributeType> AllProjectCustomAttributeTypes { get; set; }
         public virtual IQueryable<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get { return AllProjectCustomAttributeTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeUpdate> AllProjectCustomAttributeUpdates { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeUpdate> ProjectCustomAttributeUpdates { get { return AllProjectCustomAttributeUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeUpdateValue> AllProjectCustomAttributeUpdateValues { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
@@ -174,10 +178,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectUpdateBatch> ProjectUpdateBatches { get { return AllProjectUpdateBatches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateConfiguration> AllProjectUpdateConfigurations { get; set; }
         public virtual IQueryable<ProjectUpdateConfiguration> ProjectUpdateConfigurations { get { return AllProjectUpdateConfigurations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectUpdateCustomAttribute> AllProjectUpdateCustomAttributes { get; set; }
-        public virtual IQueryable<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get { return AllProjectUpdateCustomAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectUpdateCustomAttributeValue> AllProjectUpdateCustomAttributeValues { get; set; }
-        public virtual IQueryable<ProjectUpdateCustomAttributeValue> ProjectUpdateCustomAttributeValues { get { return AllProjectUpdateCustomAttributeValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdateHistory> AllProjectUpdateHistories { get; set; }
         public virtual IQueryable<ProjectUpdateHistory> ProjectUpdateHistories { get { return AllProjectUpdateHistories.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdate> AllProjectUpdates { get; set; }
@@ -456,6 +456,12 @@ namespace ProjectFirma.Web.Models
                 case "ProjectCustomAttributeType":
                     return ProjectCustomAttributeTypes.GetProjectCustomAttributeType(primaryKey);
 
+                case "ProjectCustomAttributeUpdate":
+                    return ProjectCustomAttributeUpdates.GetProjectCustomAttributeUpdate(primaryKey);
+
+                case "ProjectCustomAttributeUpdateValue":
+                    return ProjectCustomAttributeUpdateValues.GetProjectCustomAttributeUpdateValue(primaryKey);
+
                 case "ProjectCustomAttributeValue":
                     return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
 
@@ -550,12 +556,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectUpdateConfiguration":
                     return ProjectUpdateConfigurations.GetProjectUpdateConfiguration(primaryKey);
-
-                case "ProjectUpdateCustomAttribute":
-                    return ProjectUpdateCustomAttributes.GetProjectUpdateCustomAttribute(primaryKey);
-
-                case "ProjectUpdateCustomAttributeValue":
-                    return ProjectUpdateCustomAttributeValues.GetProjectUpdateCustomAttributeValue(primaryKey);
 
                 case "ProjectUpdateHistory":
                     return ProjectUpdateHistories.GetProjectUpdateHistory(primaryKey);

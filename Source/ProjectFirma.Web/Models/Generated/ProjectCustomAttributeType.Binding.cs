@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectCustomAttributeType()
         {
             this.ProjectCustomAttributes = new HashSet<ProjectCustomAttribute>();
-            this.ProjectUpdateCustomAttributes = new HashSet<ProjectUpdateCustomAttribute>();
+            this.ProjectCustomAttributeUpdates = new HashSet<ProjectCustomAttributeUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -81,13 +81,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectCustomAttributes.Any() || ProjectUpdateCustomAttributes.Any();
+            return ProjectCustomAttributes.Any() || ProjectCustomAttributeUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectUpdateCustomAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectCustomAttributeUpdate).Name};
 
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Models
                 x.DeleteFull();
             }
 
-            foreach(var x in ProjectUpdateCustomAttributes.ToList())
+            foreach(var x in ProjectCustomAttributeUpdates.ToList())
             {
                 x.DeleteFull();
             }
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 
         public virtual ICollection<ProjectCustomAttribute> ProjectCustomAttributes { get; set; }
-        public virtual ICollection<ProjectUpdateCustomAttribute> ProjectUpdateCustomAttributes { get; set; }
+        public virtual ICollection<ProjectCustomAttributeUpdate> ProjectCustomAttributeUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ProjectCustomAttributeDataType ProjectCustomAttributeDataType { get { return ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitTypeID.HasValue ? MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID.Value] : null; } }

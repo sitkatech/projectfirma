@@ -33,16 +33,16 @@ create table dbo.ProjectCustomAttribute(
 
 alter table dbo.ProjectUpdate add constraint AK_ProjectUpdate_ProjectUpdateID_TenantID unique (ProjectUpdateID, TenantID)
 
-create table dbo.ProjectUpdateCustomAttribute(
-	ProjectUpdateCustomAttributeID int identity(1,1) not null constraint PK_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID primary key,
-	TenantID int not null constraint FK_ProjectUpdateCustomAttribute_Tenant_TenantID foreign key references dbo.Tenant (TenantID),
-	ProjectUpdateID int not null constraint FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID foreign key references dbo.ProjectUpdate (ProjectUpdateID),
+create table dbo.ProjectCustomAttributeUpdate(
+	ProjectCustomAttributeUpdateID int identity(1,1) not null constraint PK_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID primary key,
+	TenantID int not null constraint FK_ProjectCustomAttributeUpdate_Tenant_TenantID foreign key references dbo.Tenant (TenantID),
+	ProjectUpdateBatchID int not null constraint FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID foreign key references dbo.ProjectUpdateBatch (ProjectUpdateBatchID),
 	
-	ProjectCustomAttributeTypeID int not null constraint FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID foreign key references dbo.ProjectCustomAttributeType (ProjectCustomAttributeTypeID),
-	constraint AK_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID_TenantID unique (ProjectUpdateCustomAttributeID, TenantID),
+	ProjectCustomAttributeTypeID int not null constraint FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID foreign key references dbo.ProjectCustomAttributeType (ProjectCustomAttributeTypeID),
+	constraint AK_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID_TenantID unique (ProjectCustomAttributeUpdateID, TenantID),
 	
-	constraint FK_ProjectUpdateCustomAttribute_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID foreign key(ProjectCustomAttributeTypeID, TenantID) references dbo.ProjectCustomAttributeType (ProjectCustomAttributeTypeID, TenantID),
-	constraint FK_ProjectUpdateCustomAttribute_ProjectUpdate_ProjectUpdateID_TenantID foreign key(ProjectUpdateID, TenantID) references dbo.ProjectUpdate (ProjectUpdateID, TenantID),
+	constraint FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID foreign key(ProjectCustomAttributeTypeID, TenantID) references dbo.ProjectCustomAttributeType (ProjectCustomAttributeTypeID, TenantID),
+	constraint FK_ProjectCustomAttributeUpdate_ProjectUpdate_ProjectUpdateID_TenantID foreign key(ProjectUpdateBatchID, TenantID) references dbo.ProjectUpdateBatch (ProjectUpdateBatchID, TenantID),
 )
 
 create table dbo.ProjectCustomAttributeValue(
@@ -53,12 +53,12 @@ create table dbo.ProjectCustomAttributeValue(
 	constraint FK_ProjectCustomAttributeValue_ProjectCustomAttribute_ProjectCustomAttributeID_TenantID foreign key(ProjectCustomAttributeID, TenantID) references dbo.ProjectCustomAttribute (ProjectCustomAttributeID, TenantID)
 )
 
-create table dbo.ProjectUpdateCustomAttributeValue(
-	ProjectUpdateCustomAttributeValueID int identity(1,1) not null constraint PK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttributeValueID primary key,
-	TenantID int not null constraint FK_ProjectUpdateCustomAttributeValue_Tenant_TenantID foreign key references dbo.Tenant (TenantID),
-	ProjectUpdateCustomAttributeID int not null constraint FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID foreign key references dbo.ProjectUpdateCustomAttribute (ProjectUpdateCustomAttributeID),
+create table dbo.ProjectCustomAttributeUpdateValue(
+	ProjectCustomAttributeUpdateValueID int identity(1,1) not null constraint PK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdateValueID primary key,
+	TenantID int not null constraint FK_ProjectCustomAttributeUpdateValue_Tenant_TenantID foreign key references dbo.Tenant (TenantID),
+	ProjectCustomAttributeUpdateID int not null constraint FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID foreign key references dbo.ProjectCustomAttributeUpdate (ProjectCustomAttributeUpdateID),
 	AttributeValue varchar(1000) not null,
-	constraint FK_ProjectUpdateCustomAttributeValue_ProjectUpdateCustomAttribute_ProjectUpdateCustomAttributeID_TenantID foreign key(ProjectUpdateCustomAttributeID, TenantID) references dbo.ProjectUpdateCustomAttribute (ProjectUpdateCustomAttributeID, TenantID)
+	constraint FK_ProjectCustomAttributeUpdateValue_ProjectCustomAttributeUpdate_ProjectCustomAttributeUpdateID_TenantID foreign key(ProjectCustomAttributeUpdateID, TenantID) references dbo.ProjectCustomAttributeUpdate (ProjectCustomAttributeUpdateID, TenantID)
 )
 
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)

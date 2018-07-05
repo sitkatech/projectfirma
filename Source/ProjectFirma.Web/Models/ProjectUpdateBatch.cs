@@ -136,6 +136,9 @@ namespace ProjectFirma.Web.Models
             // Documents
             ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
 
+            // Custom attributes
+            ProjectCustomAttributeUpdate.CreateFromProject(projectUpdateBatch);
+
             return projectUpdateBatch;
         }
 

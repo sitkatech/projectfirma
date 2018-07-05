@@ -79,7 +79,7 @@
                         break;
                     case ProjectCustomAttributeDataTypeEnum.PickFromList:
                         <select class="form-control" style="width: auto;"
-                                name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues[0]).ToString().Replace("0", indexOfAttribute.ToString()))">
+                                name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))">
                             <option value=""></option>
                             @foreach (var option in attribute.GetOptionsSchemaAsListOfString())
                             {
