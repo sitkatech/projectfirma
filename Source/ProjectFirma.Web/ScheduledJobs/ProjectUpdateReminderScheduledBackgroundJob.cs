@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             // create a notification entry per primary contact reminder
             var notifications = primaryContactPeople.SelectMany(primaryContactPerson =>
                 SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject, toolDisplayName,
-                    introContent, tenantAttribute.TenantSquareLogoFileResource)).ToList();
+                    introContent, tenantAttribute.TenantSquareLogoFileResource, tenantAttribute.PrimaryContactPerson.Email)).ToList();
 
             var message =
                 $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {projectsToNotifyOn.Count} projects requiring an update.";
@@ -134,14 +134,14 @@ namespace ProjectFirma.Web.ScheduledJobs
         }
 
         public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
-            string toolName, string introContent, FileResource logo)
+            string toolName, string introContent, FileResource logo, string contactSupportEmail)
         {
             var updatableProjectsThatHaveNotBeenSubmitted =
                 GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
             if (updatableProjectsThatHaveNotBeenSubmitted.Count > 0)
             {
                 var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName,
-                    introContent, logo);
+                    introContent, logo, contactSupportEmail);
 
                 var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
                     new List<string> {primaryContactPerson.Email},
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         }
 
         public MailMessage GenerateReminderForPerson(Person primaryContactPerson, string reminderSubject,
-            string toolName, string introContent, FileResource logo)
+            string toolName, string introContent, FileResource logo, string contactSupportEmail)
         {
             var projectListAsHtmlStrings =
                 GenerateProjectListAsHtmlStrings(
@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
                     x.MyProjectsRequiringAnUpdate());
 
-            var emailContent = GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, primaryContactPerson.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings));
+            var emailContent = GetEmailContentWithGeneratedSignature(toolName, introContent, projectsRequiringAnUpdateUrl, primaryContactPerson.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings), contactSupportEmail);
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
@@ -184,11 +184,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             return mailMessage;
         }
 
-        public static string GetEmailContent(string toolName, string introContent,
-            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated)
+        public static string GetEmailContentWithGeneratedSignature(string toolName, string introContent,
+            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated,
+            string contactSupportEmail)
         {
             return GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, fullNameFirstLast,
-                projectListConcatenated, GetReminderMessageSignature(toolName, "cid:tool-logo", ""));
+                projectListConcatenated, GetReminderMessageSignature(toolName, "cid:tool-logo", contactSupportEmail));
         }
         public static string GetEmailContent(string toolName, string introContent,
             string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated, string signature)

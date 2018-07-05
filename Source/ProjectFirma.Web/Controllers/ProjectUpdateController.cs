@@ -2782,27 +2782,19 @@ namespace ProjectFirma.Web.Controllers
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
-        private const string PreviewNote =
-            "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>";
-
         public ContentResult KickOffIntroPreview()
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent + PreviewNote
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent)
             };
         }
 
         public ContentResult ReminderIntroPreview()
         {
-            var signature = ProjectUpdateReminderScheduledBackgroundJob.GetReminderMessageSignature(
-                MultiTenantHelpers.GetToolDisplayName(), MultiTenantHelpers.GetTenantSquareLogoUrl(), HttpRequestStorage.Tenant.GetTenantAttribute().PrimaryContactPerson.Email);
-            var emailContentPreview = ProjectUpdateReminderScheduledBackgroundJob.GetEmailContent(MultiTenantHelpers.GetToolDisplayName(),
-                MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent, "fart",
-                "<em>Organization Primary Contact</em>", PreviewNote, signature);
             return new ContentResult
             {
-                Content = emailContentPreview //MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent + PreviewNote
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent) 
             };
         }
 
@@ -2810,8 +2802,25 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent + PreviewNote
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent)
             };
+        }
+
+        private static string EmailContentPreview(string introContent)
+        {
+            var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+
+            var signature = ProjectUpdateReminderScheduledBackgroundJob.GetReminderMessageSignature(
+                toolDisplayName, MultiTenantHelpers.GetTenantSquareLogoUrl(),
+                HttpRequestStorage.Tenant.GetTenantAttribute().PrimaryContactPerson.Email);
+
+            var emailContentPreview = ProjectUpdateReminderScheduledBackgroundJob.GetEmailContent(
+                toolDisplayName,
+                introContent,
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
+                "<em>Organization Primary Contact</em>", "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>", signature);
+
+            return emailContentPreview;
         }
     }
 }
