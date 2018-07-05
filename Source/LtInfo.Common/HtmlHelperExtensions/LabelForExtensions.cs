@@ -298,18 +298,10 @@ namespace LtInfo.Common.HtmlHelperExtensions
             TagBuilder tag = new TagBuilder("label");
             tag.Attributes.Add("for", TagBuilder.CreateSanitizedId(html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName)));
 
-            var requiredAsterisk = hasRequiredAttribute ? string.Format("<sup>{0}</sup>", BootstrapHtmlHelpers.RequiredIcon) : string.Empty;
-
-            if (!hasRequiredAttribute)
-            {
-                tag.Attributes.Add("style","padding-right: 12px;");
-            }
-
+            var requiredAsterisk = BuildRequiredAsterisk(hasRequiredAttribute, tag);
 
             tag.InnerHtml = string.Format("{0} {1}", resolvedLabelText, requiredAsterisk);
             tag.MergeAttributes(htmlAttributes, true);
-
-
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
         }
@@ -350,12 +342,25 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 case DisplayStyle.HelpIconOnly:
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
-                    var requiredAsterisk = hasRequiredAttribute ? " <sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
+                    var requiredAsterisk = BuildRequiredAsterisk(hasRequiredAttribute, labelTag);
                     labelTag.InnerHtml = string.Format("{0}{1}{2}", helpIconImgTag, labelText, requiredAsterisk);
                     return MvcHtmlString.Create(labelTag.ToString(TagRenderMode.Normal));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
             }
+        }
+
+        private static string BuildRequiredAsterisk(bool hasRequiredAttribute, TagBuilder labelTag)
+        {
+            var requiredAsterisk =
+                hasRequiredAttribute ? " <sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
+            // pad on the right if not required, such that the ends of the labels' texts line up with required icons floating to the right if present.
+            if (!hasRequiredAttribute)
+            {
+                labelTag.Attributes.Add("style", "padding-right: 12px;");
+            }
+
+            return requiredAsterisk;
         }
 
         public static string GenerateHelpIconImgTag(string labelText, HtmlString fieldDefinitionDefinition, string urlToContent, int popupWidth, DisplayStyle displayStyle)
