@@ -24,6 +24,11 @@ namespace ProjectFirma.Web.Models
             SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(UrlTemplate.Parameter1Int)));
         public string GetDetailUrl() => DetailUrlTemplate.ParameterReplace(ProjectCustomAttributeTypeID);
 
+        public static readonly UrlTemplate<int> DescriptionUrlTemplate = new UrlTemplate<int>(
+            SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Description(UrlTemplate.Parameter1Int)));
+
+        public string GetDescriptionUrl() => DescriptionUrlTemplate.ParameterReplace(ProjectCustomAttributeTypeID);
+
         public HtmlString GetDisplayNameAsUrl() => UrlTemplate.MakeHrefString(GetDeleteUrl(), ProjectCustomAttributeTypeName);
 
         public string GetMeasurementUnitDisplayName()

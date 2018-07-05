@@ -6,6 +6,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomAttributeType;
 using ProjectFirma.Web.Views.Shared;
 
@@ -30,15 +31,12 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        //[FirmaAdminFeature]
-        //public GridJsonNetJObjectResult<ProjectType> ProjectTypeGridJsonData(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
-        //{
-        //    var gridSpec = new ProjectTypeGridSpec(CurrentPerson);
-        //    var projectCustomAttributeType = projectCustomAttributeTypePrimaryKey.EntityObject;
-        //    var projectTypes = projectCustomAttributeType.ProjectTypeProjectCustomAttributeTypes.Select(x => x.ProjectType).OrderBy(x => x.ProjectTypeName).ToList();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectType>(projectTypes, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //}
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ContentResult Description(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
+        {
+            return Content(projectCustomAttributeTypePrimaryKey.EntityObject.ProjectCustomAttributeTypeDescription);
+        }
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -64,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
 
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
+            return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
@@ -88,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
 
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Detail(projectCustomAttributeType.PrimaryKey)));
+            return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeType projectCustomAttributeType)

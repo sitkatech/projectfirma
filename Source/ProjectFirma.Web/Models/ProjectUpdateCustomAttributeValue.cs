@@ -36,5 +36,11 @@ namespace ProjectFirma.Web.Models
             get => ProjectUpdateCustomAttributeID;
             set => ProjectUpdateCustomAttributeID = value;
         }
+
+        public IProjectCustomAttribute IProjectCustomAttribute
+        {
+            get => ProjectUpdateCustomAttribute;
+            set => ProjectUpdateCustomAttribute = (ProjectUpdateCustomAttribute) value;
+        }
     }
 }

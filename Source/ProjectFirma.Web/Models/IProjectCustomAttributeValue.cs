@@ -5,5 +5,6 @@
         int IProjectCustomAttributeValueID { get; set; }
         int IProjectCustomAttributeID { get; set; }
         string AttributeValue { get; set; }
+        IProjectCustomAttribute IProjectCustomAttribute { get; set; }
     }
 }

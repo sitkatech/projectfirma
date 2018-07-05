@@ -21,10 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
 @inherits EditProject
 
 @Html.Raw(ViewDataTyped.EditProjectType.IntroductoryText)
+
+@Html.ValidationSummary()
 
 @using (Html.BeginForm())
 {
@@ -120,6 +121,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
+        
+        @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8 })
     </div>
     @Html.HiddenFor(m => m.ProjectID)
     @Html.HiddenFor(m => m.HasExistingProjectUpdate)

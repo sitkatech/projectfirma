@@ -1,5 +1,7 @@
 ﻿@using System.ComponentModel
+@using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 
 @model ProjectCustomAttributes
@@ -12,14 +14,6 @@
     var colRight = ViewData.ContainsKey("colRight") && ViewData["colRight"] is int ? ViewData["colRight"] : 8;
 }
 
-<script>
-    // <![CDATA[
-    jQuery(function () {
-        window.HookupCheckIfFormIsDirtyNoDisable(undefined);
-    });
-    // ]]>
-</script>
-
 @for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypes.Count; indexOfAttribute++)
 {
     var attribute = projectCustomAttributeTypes[indexOfAttribute];
@@ -27,6 +21,10 @@
     var indexOfAttributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.IndexOf(attributeSimple) : (int?) null;
     <div class="form-group">
         <label class="col-sm-@colLeft control-label">
+            @if (!string.IsNullOrWhiteSpace(attribute.ProjectCustomAttributeTypeDescription))
+            {
+                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.ProjectCustomAttributeTypeName, attribute.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), attribute.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+            }
             @(attribute != null ? attribute.ProjectCustomAttributeTypeName : null)
             @if (attribute != null && attribute.IsRequired)
             {
@@ -135,7 +133,6 @@
                         throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.ProjectCustomAttributeDataType.ToEnum.ToString()));
                 }
             }
-            <p class="help-block">@(attribute != null ? attribute.ProjectCustomAttributeTypeDescription : null)</p>
         </div>
     </div>
 }

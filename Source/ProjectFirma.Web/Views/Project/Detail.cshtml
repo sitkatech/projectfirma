@@ -140,12 +140,56 @@
                                 @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
                             </div>
                         </div>
+                        @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
+                        {
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h3>
+                                        @FieldDefinition.Project.FieldDefinitionDisplayName Attributes
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <dl class="dl-horizontal">
+                                        @foreach (var projectCustomAttributeType in ViewDataTyped.ProjectCustomAttributeTypes)
+                                        {
+                                            var projectCustomAttribute = ViewDataTyped.Project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+                                        <dt style="white-space: normal;">
+                                            @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
+                                            {
+                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                                            }
+                                            @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                                        </dt>
+                                            <dd>
+                                                @if (projectCustomAttribute != null)
+                                                {
+                                                    @* ReSharper disable once ConvertIfStatementToConditionalTernaryExpression *@
+                                                    if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                                    {
+                                                        @(StringToDateString(projectCustomAttribute.Values.Single().AttributeValue))
+                                                    }
+                                                    else
+                                                    {
+                                                        @(string.Join(", ", projectCustomAttribute.Values.Select(x => x.AttributeValue)))
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <em class="text-muted">None</em>
+                                                }
+                                            </dd>
+                                        }
+                                    </dl>
+                                </div>
+                            </div>
+                        }
+
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 @if (ViewDataTyped.UserHasEditProjectPermissions)
-                                {
+                                                {
                                     <a id="editLocationDropdownButton" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
                                         <h3>
                                             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")
@@ -163,14 +207,14 @@
                                 else
                                 {
                                     <h3>Location</h3>
-                                }
+                                        }
                             </div>
                             <div class="panel-body">
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
                             </div>
                         </div>
                         @if (ViewDataTyped.UserHasProjectAdminPermissions)
-                        {
+                                        {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>Tags</h3>
@@ -215,7 +259,7 @@
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.IsProposal())
-                        {
+                                        {
                             <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
                         }
                         else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
@@ -250,7 +294,7 @@
                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
                             @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
-                            {
+                                        {
                                 <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))</div>
                             }
                         </div>
@@ -270,7 +314,7 @@
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.IsProposal())
-                        {
+                                        {
                             <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
                         }
                         else
@@ -281,7 +325,7 @@
                 </div>
 
                 @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-                {
+                                        {
                     <h2 data-toc-skip class="sectionHeader">@classificationSystem.ClassificationSystemNamePluralized</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
@@ -293,9 +337,9 @@
                         <div class="panel-body">
                             @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
                             @if (projectClassifications.Count > 0)
-                            {
-                                foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x=>x.Classification.DisplayName).Batch(3))
-                                {
+                                        {
+                                            foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x=>x.Classification.DisplayName).Batch(3))
+                                            {
                                     <div class="row" style="padding-top: 10px;">
                                         @foreach (var projectClassification in projectClassificationBatch)
                                         {

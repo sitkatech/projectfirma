@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
@@ -23,9 +24,13 @@ namespace ProjectFirma.Web.Models
             Attributes = project.ProjectCustomAttributes
                 .Select(x => new ProjectCustomAttributeSimple
                 {
-                    ProjectCustomAttributeTypeID = x.IProjectCustomAttributeID,
+                    ProjectCustomAttributeTypeID = x.ProjectCustomAttributeTypeID,
                     ProjectCustomAttributeValues = x.Values
-                        .Select(y => y.AttributeValue)
+                        .Select(y =>
+                            y.IProjectCustomAttribute.ProjectCustomAttributeType.ProjectCustomAttributeDataType ==
+                            ProjectCustomAttributeDataType.DateTime
+                                ? DateTime.Parse(y.AttributeValue).ToShortDateString()
+                                : y.AttributeValue)
                         .ToList()
                 })
                 .ToList();

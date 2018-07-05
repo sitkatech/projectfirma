@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
         public List<Models.ClassificationSystem> ClassificationSystems { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
+        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
 
 
         public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
@@ -117,7 +118,8 @@ namespace ProjectFirma.Web.Views.Project
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems,
-            string editProjectBoundingBoxFormID)
+            string editProjectBoundingBoxFormID,
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -244,6 +246,7 @@ namespace ProjectFirma.Web.Views.Project
 
             EditProjectBoundingBoxUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
             EditProjectBoundingBoxFormID = editProjectBoundingBoxFormID;
+            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
 
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
 
