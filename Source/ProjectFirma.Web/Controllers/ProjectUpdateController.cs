@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var sampleProjectList = ProjectUpdateReminderScheduledBackgroundJob.GenerateProjectListAsHtmlStrings(HttpRequestStorage
                 .DatabaseEntities.Projects.ToList().AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted().Take(5).ToList());
-            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson, sampleProjectList);
+            var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
             return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
         }
 
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
-            SetMessageForDisplay("Something happened. Successfully??");
+            SetMessageForDisplay("Notifications configured successfully.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -2786,7 +2786,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffIntroContent)
             };
         }
 
@@ -2794,7 +2794,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateReminderIntroContent) 
             };
         }
 
@@ -2802,8 +2802,25 @@ namespace ProjectFirma.Web.Controllers
         {
             return new ContentResult
             {
-                Content = MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent
+                Content = EmailContentPreview(MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateCloseOutIntroContent)
             };
+        }
+
+        private static string EmailContentPreview(string introContent)
+        {
+            var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+
+            var signature = ProjectUpdateReminderScheduledBackgroundJob.GetReminderMessageSignature(
+                toolDisplayName, MultiTenantHelpers.GetTenantSquareLogoUrl(),
+                HttpRequestStorage.Tenant.GetTenantAttribute().PrimaryContactPerson.Email);
+
+            var emailContentPreview = ProjectUpdateReminderScheduledBackgroundJob.GetEmailContent(
+                toolDisplayName,
+                introContent,
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
+                "<em>Organization Primary Contact</em>", "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>", signature);
+
+            return emailContentPreview;
         }
     }
 }

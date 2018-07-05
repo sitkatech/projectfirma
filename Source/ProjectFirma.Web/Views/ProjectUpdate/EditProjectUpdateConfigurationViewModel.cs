@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         "You must provide Project Update Kick-Off Email Content if Project Update Reminders are enabled.", m=>m.ProjectUpdateKickOffIntroContent);
                 if (!ProjectUpdateKickOffDate.HasValue)
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,DateTime?>(
-                        "You must provide a Project Update Kick-Off Date if Project Update Remidners are enabled", m=>m.ProjectUpdateKickOffDate);
+                        "You must provide a Project Update Kick-Off Date if Project Update Reminders are enabled", m=>m.ProjectUpdateKickOffDate);
             }
 
             if (SendPeriodicReminders)
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 if (!ProjectUpdateReminderInterval.HasValue)
                 {
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,int?>(
-                        "You must provide a Project Update Reminder Interval if Periodic Remidners are enabled", m=>m.ProjectUpdateReminderInterval);
+                        "You must provide a Project Update Reminder Interval if Periodic Reminders are enabled", m=>m.ProjectUpdateReminderInterval);
                 }
                 else if (ProjectUpdateReminderInterval.Value < 7)
                 {
