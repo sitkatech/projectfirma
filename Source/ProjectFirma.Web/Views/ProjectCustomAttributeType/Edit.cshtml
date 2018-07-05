@@ -28,6 +28,7 @@
 <form method="POST" action="@ViewDataTyped.SubmitUrl" id="EditProjectCustomAttributeTypeControllerApp" name="customAttributeTypeForm"
       ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomAttributeTypeController" ng-submit="submit()" ng-cloak>
     @Html.HiddenFor(m => m.ProjectCustomAttributeTypeID)
+    <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomAttributeTypeOptionsSchema)" ng-value="AngularModel.ProjectCustomAttributeTypeOptionsSchema" />
     <div class="row">
         <div class="col-xs-12">
             <div class="validationError">
@@ -92,7 +93,6 @@
                     </div>
                 </div>
                 <div ng-if="ProjectCustomAttributeDataTypeSelected != null">
-
                     <div ng-if="selectedProjectCustomAttributeDataTypeHasMeasurementUnit()">
                         <div class="form-group">
                             <div class="col-sm-3 control-label">
@@ -112,16 +112,24 @@
                             <div class="col-sm-9">
                                 <div class="row">
                                     <div ng-repeat="item in OptionsSchema track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4">
-                                        <input class="form-control"
-                                               ng-model="OptionsSchema[$index]"
-                                               style="width: 85%"
-                                               type="text"
-                                               value="{{OptionsSchema[$index]}}"
-                                               placeholder="e.g. Sand, Compost">
-                                        <a class="btn" style="padding-left: 4px"><span class="glyphicon glyphicon-remove" ng-click="removeInput($index)"></span></a>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control"
+                                                   ng-model="OptionsSchema[$index]"
+                                                   type="text"
+                                                   value="{{OptionsSchema[$index]}}"
+                                                   placeholder="e.g. Sand, Compost">
+                                            <div class="input-group-btn">
+                                                <a class="btn btn-firma"><span class="glyphicon glyphicon-remove" ng-click="removeInput($index)"></span></a>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xs-12 col-sm-4">
-                                        <button class="btn btn-firma" type="button" ng-click="addInput()"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                                        <button class="btn btn-firma btn-sm" type="button" ng-click="addInput()">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add
+                                        </button>
                                     </div>
                                 </div>
                             </div>
