@@ -38,5 +38,4 @@ values
 (50, 'ProjectCreateImportExternal', 'ProjectCreateImportExternal', 1),
 (51, 'CustomFooter', 'Custom Footer', 1),
 (52, 'ManageProjectCustomAttributeTypeInstructions', 'Manage Project Custom Attribute Type Instructions', 2),
-(53, 'ManageProjectCustomAttributeInstructions', 'Manage Project Custom Attribute Instructions', 2),
-(54, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2)
+(53, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2)

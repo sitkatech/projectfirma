@@ -53,7 +53,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeProjectCreateImportExternal ProjectCreateImportExternal = FirmaPageTypeProjectCreateImportExternal.Instance;
         public static readonly FirmaPageTypeCustomFooter CustomFooter = FirmaPageTypeCustomFooter.Instance;
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypeInstructions ManageProjectCustomAttributeTypeInstructions = FirmaPageTypeManageProjectCustomAttributeTypeInstructions.Instance;
-        public static readonly FirmaPageTypeManageProjectCustomAttributeInstructions ManageProjectCustomAttributeInstructions = FirmaPageTypeManageProjectCustomAttributeInstructions.Instance;
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypesList ManageProjectCustomAttributeTypesList = FirmaPageTypeManageProjectCustomAttributeTypesList.Instance;
 
         public static readonly List<FirmaPageType> All;
@@ -64,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal, CustomFooter, ManageProjectCustomAttributeTypeInstructions, ManageProjectCustomAttributeInstructions, ManageProjectCustomAttributeTypesList };
+            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal, CustomFooter, ManageProjectCustomAttributeTypeInstructions, ManageProjectCustomAttributeTypesList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -160,8 +159,6 @@ namespace ProjectFirma.Web.Models
                     return HomePage;
                 case FirmaPageTypeEnum.InternalSetupNotes:
                     return InternalSetupNotes;
-                case FirmaPageTypeEnum.ManageProjectCustomAttributeInstructions:
-                    return ManageProjectCustomAttributeInstructions;
                 case FirmaPageTypeEnum.ManageProjectCustomAttributeTypeInstructions:
                     return ManageProjectCustomAttributeTypeInstructions;
                 case FirmaPageTypeEnum.ManageProjectCustomAttributeTypesList:
@@ -253,8 +250,7 @@ namespace ProjectFirma.Web.Models
         ProjectCreateImportExternal = 50,
         CustomFooter = 51,
         ManageProjectCustomAttributeTypeInstructions = 52,
-        ManageProjectCustomAttributeInstructions = 53,
-        ManageProjectCustomAttributeTypesList = 54
+        ManageProjectCustomAttributeTypesList = 53
     }
 
     public partial class FirmaPageTypeHomePage : FirmaPageType
@@ -467,15 +463,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypeInstructions Instance = new FirmaPageTypeManageProjectCustomAttributeTypeInstructions(52, @"ManageProjectCustomAttributeTypeInstructions", @"Manage Project Custom Attribute Type Instructions", 2);
     }
 
-    public partial class FirmaPageTypeManageProjectCustomAttributeInstructions : FirmaPageType
-    {
-        private FirmaPageTypeManageProjectCustomAttributeInstructions(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeManageProjectCustomAttributeInstructions Instance = new FirmaPageTypeManageProjectCustomAttributeInstructions(53, @"ManageProjectCustomAttributeInstructions", @"Manage Project Custom Attribute Instructions", 2);
-    }
-
     public partial class FirmaPageTypeManageProjectCustomAttributeTypesList : FirmaPageType
     {
         private FirmaPageTypeManageProjectCustomAttributeTypesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeManageProjectCustomAttributeTypesList Instance = new FirmaPageTypeManageProjectCustomAttributeTypesList(54, @"ManageProjectCustomAttributeTypesList", @"Manage Project Custom Attribute Types List", 2);
+        public static readonly FirmaPageTypeManageProjectCustomAttributeTypesList Instance = new FirmaPageTypeManageProjectCustomAttributeTypesList(53, @"ManageProjectCustomAttributeTypesList", @"Manage Project Custom Attribute Types List", 2);
     }
 }

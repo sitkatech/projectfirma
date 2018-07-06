@@ -198,16 +198,11 @@ namespace ProjectFirma.Web.Models
 
     public partial class FirmaPageTypeManageProjectCustomAttributeTypeInstructions
     {
-        public override string GetViewUrl() => throw new System.NotImplementedException();
-    }
-
-    public partial class FirmaPageTypeManageProjectCustomAttributeInstructions
-    {
-        public override string GetViewUrl() => throw new System.NotImplementedException();
+        public override string GetViewUrl() => string.Empty;
     }
 
     public partial class FirmaPageTypeManageProjectCustomAttributeTypesList
     {
-        public override string GetViewUrl() => throw new System.NotImplementedException();
+        public override string GetViewUrl() => SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
     }
 }

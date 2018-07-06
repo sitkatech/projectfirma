@@ -64,8 +64,7 @@ create table dbo.ProjectCustomAttributeUpdateValue(
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
 values
 (52, 'ManageProjectCustomAttributeTypeInstructions', 'Manage Project Custom Attribute Type Instructions', 2),
-(53, 'ManageProjectCustomAttributeInstructions', 'Manage Project Custom Attribute Instructions', 2),
-(54, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2)
+(53, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2)
 
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 select
@@ -77,11 +76,5 @@ insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 select
 	TenantID,
 	FirmaPageType = 53,
-	FirmaPageContent = null
-from dbo.Tenant
-insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
-select
-	TenantID,
-	FirmaPageType = 54,
 	FirmaPageContent = null
 from dbo.Tenant

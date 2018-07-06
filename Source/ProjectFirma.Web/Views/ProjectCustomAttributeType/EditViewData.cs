@@ -16,16 +16,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public string ProjectCustomAttributeTypeIndexUrl { get; }
         public string SubmitUrl { get; }
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
-        public ViewPageContentViewData ViewProjectCustomAttributeInstructionsFirmaPage { get; }
         public IEnumerable<SelectListItem> ProjectCustomAttributeDataTypes { get; }
         public IEnumerable<SelectListItem> MeasurementUnitTypes { get; }
         public IEnumerable<SelectListItem> YesNos { get; }
         public EditViewDataForAngular ViewDataForAngular { get; }
 
-        public EditViewData(Person currentPerson, IEnumerable<MeasurementUnitType> measurementUnitTypes,
-            List<ProjectCustomAttributeDataType> projectCustomAttributeDataTypes, string submitUrl,
-            Models.FirmaPage instructionsFirmaPage, Models.FirmaPage projectCustomAttributeInstructionsFirmaPage,
-            Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentPerson)
+        public EditViewData(Person currentPerson,
+            IEnumerable<MeasurementUnitType> measurementUnitTypes,
+            List<ProjectCustomAttributeDataType> projectCustomAttributeDataTypes,
+            string submitUrl,
+            Models.FirmaPage instructionsFirmaPage,
+            Models.ProjectCustomAttributeType projectCustomAttributeType)
+            : base(currentPerson)
         {
             EntityName = "Attribute Type";
             PageTitle =
@@ -33,14 +35,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             YesNos = BooleanFormats.GetYesNoSelectList();
             ProjectCustomAttributeDataTypes = projectCustomAttributeDataTypes.ToSelectListWithEmptyFirstRow(
                 x => x.ProjectCustomAttributeDataTypeID.ToString(), x => x.ProjectCustomAttributeDataTypeDisplayName);
-            MeasurementUnitTypes = measurementUnitTypes.OrderBy(x => x.MeasurementUnitTypeDisplayName).ToSelectListWithEmptyFirstRow(
-                x => x.MeasurementUnitTypeID.ToString(), x => x.MeasurementUnitTypeDisplayName, ViewUtilities.NoneString);
+            MeasurementUnitTypes = measurementUnitTypes.OrderBy(x => x.MeasurementUnitTypeDisplayName)
+                .ToSelectListWithEmptyFirstRow(
+                    x => x.MeasurementUnitTypeID.ToString(), x => x.MeasurementUnitTypeDisplayName,
+                    ViewUtilities.NoneString);
             ProjectCustomAttributeTypeIndexUrl =
                 SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentPerson);
-            ViewProjectCustomAttributeInstructionsFirmaPage = new ViewPageContentViewData(projectCustomAttributeInstructionsFirmaPage, currentPerson);
 
             ViewDataForAngular = new EditViewDataForAngular(projectCustomAttributeDataTypes);
         }

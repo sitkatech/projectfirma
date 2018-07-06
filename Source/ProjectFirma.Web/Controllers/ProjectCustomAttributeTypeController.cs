@@ -92,10 +92,11 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeType projectCustomAttributeType)
         {
             var instructionsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeTypeInstructions);
-            var projectCustomAttributeInstructionsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeInstructions);
-
-            var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID) ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID)) : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
-            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, submitUrl, instructionsFirmaPage, projectCustomAttributeInstructionsFirmaPage, projectCustomAttributeType);
+            var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID)
+                ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID))
+                : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
+            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All,
+                submitUrl, instructionsFirmaPage, projectCustomAttributeType);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
