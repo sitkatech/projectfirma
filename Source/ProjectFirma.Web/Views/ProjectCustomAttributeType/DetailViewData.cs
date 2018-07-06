@@ -9,7 +9,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
     {
         public Models.ProjectCustomAttributeType ProjectCustomAttributeType { get; }
         public bool UserHasProjectCustomAttributeTypeManagePermissions { get; }
-        //public ProjectTypeGridSpec ProjectTypeGridSpec { get; }
         public string ProjectTypeGridName { get; }
         public string ProjectTypeGridDataUrl { get; }
         public string ManageUrl { get; }
