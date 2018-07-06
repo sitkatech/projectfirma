@@ -24,20 +24,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
             UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
 
-            //if (UserHasProjectCustomAttributeTypeManagePermissions)
-            //{
-            //    EntityUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
-            //}
-
-            //ProjectTypeGridSpec = new ProjectTypeGridSpec(currentPerson)
-            //{
-            //    ObjectNameSingular = $"{Models.FieldDefinition.ProjectType.GetFieldDefinitionLabel()}",
-            //    ObjectNamePlural = $"{Models.FieldDefinition.ProjectType.GetFieldDefinitionLabelPluralized()}",
-            //    SaveFiltersInCookie = true
-            //};
-
             ProjectTypeGridName = "projectTypeGridForAttribute";
-            //ProjectTypeGridDataUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(tc => tc.ProjectTypeGridJsonData(projectCustomAttributeType));
             ProjectTypeGridDataUrl = "#";
         }
     }
