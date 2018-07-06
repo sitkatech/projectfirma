@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -53,6 +54,37 @@ namespace ProjectFirma.Web.Models
                     return projectCustomAttributeUpdate;
                 })
                 .ToList();
+        }
+
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
+            IList<ProjectCustomAttribute> allProjectCustomAttributes,
+            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
+        {
+            var project = projectUpdateBatch.Project;
+            var projectCustomAttributesFromProjectUpdate = projectUpdateBatch.ProjectCustomAttributeUpdates
+                .Select(x => new ProjectCustomAttribute(project.ProjectID, x.ProjectCustomAttributeType.ProjectCustomAttributeTypeID))
+                .ToList();
+            var projectCustomAttributeValuesFromProjectUpdate = projectUpdateBatch.ProjectCustomAttributeUpdates
+                .SelectMany(x => x.ProjectCustomAttributeUpdateValues)
+                .Select(x =>
+                {
+                    var projectCustomAttributeID =
+                        project.ProjectCustomAttributes.SingleOrDefault(y =>
+                                y.ProjectCustomAttributeTypeID ==
+                                x.IProjectCustomAttribute?.ProjectCustomAttributeTypeID)
+                            ?.ProjectCustomAttributeID ??
+                        projectCustomAttributesFromProjectUpdate.Single().ProjectCustomAttributeID;
+                    return new ProjectCustomAttributeValue(projectCustomAttributeID, x.AttributeValue);
+                })
+                .ToList();
+            project.ProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
+                allProjectCustomAttributes,
+                (a, b) => a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID);
+            project.ProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
+                .ToList()
+                .Merge(projectCustomAttributeValuesFromProjectUpdate,
+                    allProjectCustomAttributeValues,
+                    (x, y) => x.ProjectCustomAttributeValueID == y.ProjectCustomAttributeValueID);
         }
     }
 }

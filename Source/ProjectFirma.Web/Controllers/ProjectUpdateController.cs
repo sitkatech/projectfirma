@@ -1398,6 +1398,10 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
             var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
+            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
+            var allProjectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1414,7 +1418,9 @@ namespace ProjectFirma.Web.Controllers
                 allProjectWatersheds,
                 allProjectFundingSourceRequests,
                 allProjectOrganizations,
-                allProjectDocuments);
+                allProjectDocuments,
+                allProjectCustomAttributes,
+                allProjectCustomAttributeValues);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -1501,7 +1507,6 @@ namespace ProjectFirma.Web.Controllers
             NotificationProject.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.DisplayName}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
-
         }
 
         private PartialViewResult ViewSubmit(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
