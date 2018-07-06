@@ -19,148 +19,167 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.Basics
 
 @section JavascriptAndStylesContent
-{   
+{
     <style>
         .row {
             margin-top: 5px;
         }
     </style>
+    <script type="text/javascript">
+        // <![CDATA[
+        function displaySelectedFundingTypeFields() {
+            var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
+            if (fundingTypeDropdown.val() === "1") {
+                jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
+                jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
+                jQuery(".op-label").css("color", "#666");
+                jQuery(".cap-label").css("color", "");
+            }
+            else if (fundingTypeDropdown.val() === "2") {
+                jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
+                jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
+                jQuery(".op-label").css("color", "");
+                jQuery(".cap-label").css("color", "#666");
+            }
+        }
+
+        jQuery(document).ready(function ()
+        {
+            displaySelectedFundingTypeFields();
+            HookupCheckIfFormIsDirty(undefined, ".submitProject");
+
+            // Bypass the "Could not parse a blank value" error
+            jQuery("#TaxonomyLeafID option.bs-title-option").val(-1);
+        });
+        // ]]>
+    </script>
 }
 <p>Add your @FieldDefinition.Project.GetFieldDefinitionLabel()’s basic information here.</p>
 <hr />
+@Html.ValidationSummary()
+
 @using (Html.BeginForm())
 {
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.TaxonomyLeafID, 600, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject())</div>
-        <div class="col-md-8">
-            <div>
-                    @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))                
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.TaxonomyLeafID, 600, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject())
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))
                 @Html.ValidationMessageFor(m => m.TaxonomyLeafID)
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProjectName)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ProjectName)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProjectDescription)</div>
-        <div class="col-md-8">
-            @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
-            @Html.ValidationMessageFor(m => m.ProjectDescription)
-        </div>
-    </div>
-    if (ViewDataTyped.ShowProjectStageDropDown)
-    {
-        <div class="row form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.ProjectName)
             </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new Dictionary<string, object>() {{"style", "width: auto"}, {"class", "form-control"}})
-                    @Html.ValidationMessageFor(m => m.ProjectStageID)
-                }
-                else
-                {
-                    @ViewDataTyped.ProjectStage.ProjectStageDisplayName
-                }
+            <div class="col-xs-12 col-sm-8">
+                @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ProjectName)
             </div>
         </div>
-    }
-    else
-    {
-        @Html.HiddenFor(m=>m.ProjectStageID);
-    }
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
-        <div class="col-md-8">
-            @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.FundingTypeID)
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.ProjectDescription)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                @Html.ValidationMessageFor(m => m.ProjectDescription)
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4 cap-label">@Html.LabelWithSugarFor(m => m.EstimatedTotalCost)</div>
-        <div class="col-md-2">
-            @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
+        @if (ViewDataTyped.ShowProjectStageDropDown)
+        {
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    @if (ViewDataTyped.IsEditable)
+                    {
+                        @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new {@class = "form-control", style = "width: auto;"})
+                        @Html.ValidationMessageFor(m => m.ProjectStageID)
+                    }
+                    else
+                    {
+                        @ViewDataTyped.ProjectStage.ProjectStageDisplayName
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.ProjectStageID)
+        }
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.FundingTypeID)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.FundingTypeID)
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.EditorFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.ImplementationStartYear)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.CompletionYear)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new { @class = "form-control", style = "width: auto;" })
+                @Html.ValidationMessageFor(m => m.CompletionYear)
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-md-4 col-lg-4 op-label">@Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)</div>
-        <div class="col-md-2">
-            @Html.EditorFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-        </div>
+        @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8})
     </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)</div>
-        <div class="col-md-4">
-            @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ImplementationStartYear)</div>
-        <div class="col-md-4">
-            @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.ImplementationStartYear)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.CompletionYear)</div>
-        <div class="col-md-4">
-            @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.CompletionYear)
-        </div>
-    </div>    
 
     @Html.HiddenFor(m => m.ProjectID)
     @Html.HiddenFor(m => m.ImportExternalProjectStagingID)
 
-    <hr/>
+    <hr />
     <div class="pull-right">
         <button type="submit" class="btn btn-xs btn-firma" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
         <button type="submit" class="btn btn-xs btn-firma" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
     </div>
 }
-
-<script type="text/javascript">
-    // <![CDATA[
-    function displaySelectedFundingTypeFields() {
-        var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
-        if (fundingTypeDropdown.val() == 1) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
-            jQuery(".op-label").css("color", "#666");
-            jQuery(".cap-label").css("color", "");
-        }
-        else if (fundingTypeDropdown.val() == 2) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
-            jQuery(".op-label").css("color", "");
-            jQuery(".cap-label").css("color", "#666");
-        }
-    }
-
-    jQuery(document).ready(function ()
-    {
-        displaySelectedFundingTypeFields();
-        HookupCheckIfFormIsDirty(undefined, ".submitProject");
-       
-        // Bypass the "Could not parse a blank value" error
-        jQuery("#TaxonomyLeafID option.bs-title-option").val(-1);
-    });
-    // ]]>
-</script>

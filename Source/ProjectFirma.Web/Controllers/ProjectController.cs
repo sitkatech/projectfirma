@@ -20,9 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -76,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.DisplayName, project.TotalExpenditures);
             }
-            viewModel.UpdateModel(project);
+            viewModel.UpdateModel(project, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
@@ -86,13 +84,15 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), FundingType.All, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,
-                taxonomyLeafs
+                taxonomyLeafs,
+                projectCustomAttributeTypes
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -165,20 +165,44 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
                 projectBasicsViewData,
-                projectLocationSummaryViewData, projectFundingDetailViewData,
-                performanceMeasureExpectedsSummaryViewData, performanceMeasureReportedValuesGroupedViewData,
-                projectExpendituresSummaryViewData, imageGalleryViewData, entityNotesViewData,
-                entityExternalLinksViewData, projectBasicsTagsViewData, userHasProjectAdminPermissions,
-                userHasEditProjectPermissions, userHasProjectUpdatePermissions,
-                userHasPerformanceMeasureActualManagePermissions, mapFormID,
-                editSimpleProjectLocationUrl, editDetailedProjectLocationUrl, editOrganizationsUrl,
-                editPerformanceMeasureExpectedsUrl, editPerformanceMeasureActualsUrl, editReportedExpendituresUrl, editWatershedsUrl, auditLogsGridSpec, auditLogsGridDataUrl,
-                editExternalLinksUrl, projectNotificationGridSpec, projectNotificationGridName,
-                projectNotificationGridDataUrl, userCanEditProposal, projectOrganizationsDetailViewData, classificationSystems, ProjectLocationController.EditProjectBoundingBoxFormID);
+                projectLocationSummaryViewData,
+                projectFundingDetailViewData,
+                performanceMeasureExpectedsSummaryViewData,
+                performanceMeasureReportedValuesGroupedViewData,
+                projectExpendituresSummaryViewData,
+                imageGalleryViewData,
+                entityNotesViewData,
+                entityExternalLinksViewData,
+                projectBasicsTagsViewData,
+                userHasProjectAdminPermissions,
+                userHasEditProjectPermissions,
+                userHasProjectUpdatePermissions,
+                userHasPerformanceMeasureActualManagePermissions,
+                mapFormID,
+                editSimpleProjectLocationUrl,
+                editDetailedProjectLocationUrl,
+                editOrganizationsUrl,
+                editPerformanceMeasureExpectedsUrl,
+                editPerformanceMeasureActualsUrl,
+                editReportedExpendituresUrl,
+                editWatershedsUrl,
+                auditLogsGridSpec,
+                auditLogsGridDataUrl,
+                editExternalLinksUrl,
+                projectNotificationGridSpec,
+                projectNotificationGridName,
+                projectNotificationGridDataUrl,
+                userCanEditProposal,
+                projectOrganizationsDetailViewData,
+                classificationSystems,
+                ProjectLocationController.EditProjectBoundingBoxFormID,
+                projectCustomAttributeTypes);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

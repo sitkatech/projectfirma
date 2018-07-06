@@ -31,24 +31,28 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class BasicsViewData : ProjectUpdateViewData
     {
-        public readonly IEnumerable<SelectListItem> PlanningDesignStartYearRange;
-        public readonly IEnumerable<SelectListItem> ImplementationStartYearRange;
-        public readonly IEnumerable<SelectListItem> CompletionYearRange;
-        public readonly IEnumerable<SelectListItem> ProjectStages;
-        public readonly string TaxonomyLeafDisplayName;
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
-        public readonly string RequestPrimaryContactChangeUrl;
+        public IEnumerable<SelectListItem> PlanningDesignStartYearRange { get; }
+        public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
+        public IEnumerable<SelectListItem> CompletionYearRange { get; }
+        public IEnumerable<SelectListItem> ProjectStages { get; }
+        public string TaxonomyLeafDisplayName { get; }
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
 
-        public readonly Models.ProjectUpdate ProjectUpdate;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
+        public Models.ProjectUpdate ProjectUpdate { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
 
-        public readonly decimal InflationRate;
-        public readonly decimal? CapitalCostInYearOfExpenditure;
-        public readonly decimal? TotalOperatingCostInYearOfExpenditure;
-        public readonly int? StartYearForTotalOperatingCostCalculation;
+        public decimal InflationRate { get; }
+        public decimal? CapitalCostInYearOfExpenditure { get; }
+        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
+        public int? StartYearForTotalOperatingCostCalculation { get; }
+        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
 
-        public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate, IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus, BasicsValidationResult basicsValidationResult)
+
+        public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate,
+            IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus,
+            BasicsValidationResult basicsValidationResult,
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
         {
             ProjectUpdate = projectUpdate;
@@ -65,6 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
             TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(projectUpdate);
             StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(projectUpdate);
+            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
         }
     }
 }

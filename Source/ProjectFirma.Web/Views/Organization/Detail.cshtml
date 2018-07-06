@@ -39,8 +39,8 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
     <script src="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.js")" type="text/javascript"></script>
-    <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css" />}
-<script type="text/javascript">
+    <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
 
     jQuery(function () {
         jQuery("#overviewTab").on("shown.bs.tab", function () {
@@ -83,7 +83,8 @@
                 });
         });
     });
-</script>
+    </script>
+}
 
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</a>
@@ -227,7 +228,7 @@
                                                     var mapInitJson =
                                                         @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
                                                     var map = new ProjectFirmaMaps.Map(mapInitJson);
-                                                
+
                                                     jQuery("#overviewTab").on("shown.bs.tab", function() {
                                                         map.map.invalidateSize();
                                                     });
@@ -254,16 +255,16 @@
                                 <ul>
                                     @if (ViewDataTyped.TenantHasCanStewardProjectsOrganizationRelationship)
                                     {
-                                    <li>
-                                        the <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong> for
-                                        <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
-                                        @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
-                                    </li>
+                                        <li>
+                                            the <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong> for
+                                            <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
+                                            @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                        </li>
                                     }
                                     <li>
                                         the <strong>Lead Implementer</strong> for
                                         <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
-                                        @(ViewDataTyped.NumberOfLeadImplementedProjects  == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                        @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
                                     </li>
                                     <li>
                                         a contributor to

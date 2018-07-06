@@ -26,7 +26,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -38,40 +37,39 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
-        public bool ShowProjectStageDropDown { get; private set; }
-        private string ProjectDisplayName { get; set; }
-
-        // todo: put correct value in if this is relevant, otherwise rip it out. 
+        public bool ShowProjectStageDropDown { get; }
+        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
+        private string ProjectDisplayName { get; }
         public bool IsEditable = true;
 
         public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
-
-        public BasicsViewData(Person currentPerson,
-            IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, 
-            bool showProjectStageDropDown,
-            string instructionsPageUrl)
+        public BasicsViewData(Person currentPerson, IEnumerable<FundingType> fundingTypes,
+            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, ProjectCreateSection.Basics, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
-            AssignParameters(taxonomyLeafs, fundingTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
         }
 
         public BasicsViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
-            IEnumerable<FundingType> fundingTypes)
+            IEnumerable<FundingType> fundingTypes,
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.DisplayName;
-            AssignParameters(taxonomyLeafs, fundingTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, IEnumerable<FundingType> fundingTypes)
+        private void AssignParameters(IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
+            IEnumerable<FundingType> fundingTypes,
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
@@ -91,6 +89,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 PageTitle += $": {ProjectDisplayName}";
             }
+
+            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
         }
     }
 }
