@@ -23,18 +23,6 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public int IProjectID
-        {
-            get => ProjectUpdateBatch.ProjectUpdate.ProjectUpdateID;
-            set => ProjectUpdateBatch.ProjectUpdate.ProjectUpdateID = value;
-        }
-
-        public int IProjectCustomAttributeID
-        {
-            get => ProjectCustomAttributeUpdateID;
-            set => ProjectCustomAttributeUpdateID = value;
-        }
-
         public IEnumerable<IProjectCustomAttributeValue> Values
         {
             get => ProjectCustomAttributeUpdateValues;

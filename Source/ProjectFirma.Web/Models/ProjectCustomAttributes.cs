@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
@@ -121,7 +122,7 @@ namespace ProjectFirma.Web.Models
         private static void UpdateProjectCustomAttributesImpl<TProjectCustomAttribute>(
             ICollection<TProjectCustomAttribute> existingProjectCustomAttributes,
             ICollection<TProjectCustomAttribute> projectCustomAttributesToUpdate,
-            ICollection<TProjectCustomAttribute> projectCustomAttributesInDatabase)
+            ObservableCollection<TProjectCustomAttribute> projectCustomAttributesInDatabase)
             where TProjectCustomAttribute : IProjectCustomAttribute
         {
             existingProjectCustomAttributes.Merge(projectCustomAttributesToUpdate,
@@ -132,7 +133,7 @@ namespace ProjectFirma.Web.Models
         private void UpdateProjectCustomAttributeValuesImpl<TProjectCustomAttributeValue>(
             ICollection<TProjectCustomAttributeValue> existingProjectCustomAttributeValues,
             ICollection<TProjectCustomAttributeValue> projectCustomAttributeValuesToUpdate,
-            ICollection<TProjectCustomAttributeValue> projectCustomAttributeValuesInDatabase)
+            ObservableCollection<TProjectCustomAttributeValue> projectCustomAttributeValuesInDatabase)
             where TProjectCustomAttributeValue : IProjectCustomAttributeValue
         {
             existingProjectCustomAttributeValues.Merge(projectCustomAttributeValuesToUpdate,

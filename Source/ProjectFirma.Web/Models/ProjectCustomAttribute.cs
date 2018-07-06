@@ -18,17 +18,6 @@ namespace ProjectFirma.Web.Models
                     $"Project: {project?.ProjectName ?? "<Project Not Found>"})";
             }
         }
-        public int IProjectID
-        {
-            get => ProjectID;
-            set => ProjectID = value;
-        }
-
-        public int IProjectCustomAttributeID
-        {
-            get => ProjectCustomAttributeID;
-            set => ProjectCustomAttributeID = value;
-        }
 
         public IEnumerable<IProjectCustomAttributeValue> Values
         {
