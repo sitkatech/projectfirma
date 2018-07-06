@@ -40,11 +40,13 @@ namespace ProjectFirma.Web.Models
         public void UpdateModel(Project project, Person currentPerson)
         {
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var existingProjectCustomAttributes = project.ProjectCustomAttributes;
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))
                 .Select(x => new ProjectCustomAttribute(project.ProjectID, x.ProjectCustomAttributeTypeID))
                 .ToList();
+            var existingProjectCustomAttributeValues = existingProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues).ToList();
             var customAttributeValuesToUpdate = customAttributesToUpdate.Join(Attributes,
                     x => x.ProjectCustomAttributeTypeID,
                     x => x.ProjectCustomAttributeTypeID,
@@ -52,7 +54,7 @@ namespace ProjectFirma.Web.Models
                     {
                         // Use existing attribute ID if you can, otherwise use dummy entity ID
                         var projectCustomAttributeID =
-                            project.ProjectCustomAttributes
+                            existingProjectCustomAttributes
                                 .SingleOrDefault(x => x.ProjectCustomAttributeTypeID == a.ProjectCustomAttributeTypeID)
                                 ?.ProjectCustomAttributeID ?? a.ProjectCustomAttributeID;
                         var projectCustomAttributeType = allProjectCustomAttributeTypes.Single(x =>
@@ -69,11 +71,11 @@ namespace ProjectFirma.Web.Models
                 .SelectMany(x => x)
                 .ToList();
 
-            UpdateProjectCustomAttributesImpl(project.ProjectCustomAttributes,
+            UpdateProjectCustomAttributesImpl(existingProjectCustomAttributes,
                 customAttributesToUpdate,
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local);
             UpdateProjectCustomAttributeValuesImpl(
-                project.ProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues).ToList(),
+                existingProjectCustomAttributeValues,
                 customAttributeValuesToUpdate,
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local);
         }
@@ -81,11 +83,13 @@ namespace ProjectFirma.Web.Models
         public void UpdateModel(ProjectUpdate projectUpdate, Person currentPerson)
         {
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates;
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))
                 .Select(x => new ProjectCustomAttributeUpdate(projectUpdate.ProjectUpdateBatchID, x.ProjectCustomAttributeTypeID))
                 .ToList();
+            var existingProjectCustomAttributeValues = existingProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeUpdateValues).ToList();
             var customAttributeValuesToUpdate = customAttributesToUpdate.Join(Attributes,
                     x => x.ProjectCustomAttributeTypeID,
                     x => x.ProjectCustomAttributeTypeID,
@@ -93,7 +97,7 @@ namespace ProjectFirma.Web.Models
                     {
                         // Use existing attribute ID if you can, otherwise use dummy entity ID
                         var projectCustomAttributeUpdateID =
-                            projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates
+                            existingProjectCustomAttributes
                                 .SingleOrDefault(x => x.ProjectCustomAttributeTypeID == a.ProjectCustomAttributeTypeID)
                                 ?.ProjectCustomAttributeUpdateID ?? a.ProjectCustomAttributeUpdateID;
                         var projectCustomAttributeType = allProjectCustomAttributeTypes.Single(x =>
@@ -110,11 +114,10 @@ namespace ProjectFirma.Web.Models
                 .SelectMany(x => x)
                 .ToList();
 
-            UpdateProjectCustomAttributesImpl(projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates,
+            UpdateProjectCustomAttributesImpl(existingProjectCustomAttributes,
                 customAttributesToUpdate,
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeUpdates.Local);
-            UpdateProjectCustomAttributeValuesImpl(
-                projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.SelectMany(x => x.ProjectCustomAttributeUpdateValues).ToList(),
+            UpdateProjectCustomAttributeValuesImpl(existingProjectCustomAttributeValues,
                 customAttributeValuesToUpdate,
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeUpdateValues.Local);
         }
