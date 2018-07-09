@@ -119,18 +119,15 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectsToNotifyOn = notifyOnAll
                 ? tenantProjects.AsQueryable().GetUpdatableProjects()
                 : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
-            var primaryContactPeople = projectsToNotifyOn.GetPrimaryContactPeople();
 
-            var groupBy = projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact());
+            var projectsGroupedByPrimaryContact = projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact()).ToList();
 
-
-
-            var notifications = groupBy.SelectMany(x => SendProjectUpdateReminderMessage(x.Key, x.ToList(),
+            var notifications = projectsGroupedByPrimaryContact.SelectMany(x => SendProjectUpdateReminderMessage(x.Key, x.ToList(),
                 reminderSubject, toolDisplayName, introContent, tenantAttribute.TenantSquareLogoFileResource,
                 tenantAttribute.PrimaryContactPerson.Email)).ToList();
 
             var message =
-                $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {projectsToNotifyOn.Count} projects requiring an update.";
+                $"Reminder emails sent to {projectsGroupedByPrimaryContact.Count} primary contacts for {projectsGroupedByPrimaryContact.Count} projects requiring an update.";
             Logger.Info(message);
 
             return notifications;
@@ -227,5 +224,20 @@ Thank you,<br />
 <p>
 P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{contactSupportEmail}"">contact support</a>.
 </p>";
+    }
+
+    public class ProjectUpdateNotificationHelper
+    {
+        public string ToolName { get; set; }
+        public string IntroContent { get; set; }
+        public FileResource ToolLogo { get; set; }
+        public string ReminderEmailSubject { get; set; }
+        public string ContactSupportEmail { get; set; }
+
+
+        public ProjectUpdateNotificationHelper()
+        {
+
+        }
     }
 }
