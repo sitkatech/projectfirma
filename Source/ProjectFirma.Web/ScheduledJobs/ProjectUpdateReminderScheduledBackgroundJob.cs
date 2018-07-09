@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
@@ -116,128 +113,32 @@ namespace ProjectFirma.Web.ScheduledJobs
             var tenantAttribute = DbContext.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var toolDisplayName = tenantAttribute.ToolDisplayName;
 
+            var contactSupportEmail = tenantAttribute.PrimaryContactPerson.Email;
+
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResource;
+
+            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail,
+                introContent,
+                reminderSubject,
+                toolLogo,
+                toolDisplayName
+            );
+
             var projectsToNotifyOn = notifyOnAll
                 ? tenantProjects.AsQueryable().GetUpdatableProjects()
                 : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
 
-            var projectsGroupedByPrimaryContact = projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact()).ToList();
+            var projectsGroupedByPrimaryContact =
+                projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact()).ToList();
 
-            var notifications = projectsGroupedByPrimaryContact.SelectMany(x => SendProjectUpdateReminderMessage(x.Key, x.ToList(),
-                reminderSubject, toolDisplayName, introContent, tenantAttribute.TenantSquareLogoFileResource,
-                tenantAttribute.PrimaryContactPerson.Email)).ToList();
+            var notifications = projectsGroupedByPrimaryContact
+                .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
 
             var message =
                 $"Reminder emails sent to {projectsGroupedByPrimaryContact.Count} primary contacts for {projectsGroupedByPrimaryContact.Count} projects requiring an update.";
             Logger.Info(message);
 
             return notifications;
-        }
-
-        public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, List<Project> projects,
-            string reminderSubject,
-            string toolName, string introContent, FileResource logo, string contactSupportEmail)
-        {
-            if (projects.Count > 0)
-            {
-                var mailMessage = GenerateReminderForPerson(primaryContactPerson, projects, reminderSubject, toolName, introContent, logo, contactSupportEmail);
-
-                var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
-                    new List<string> {primaryContactPerson.Email},
-                    new List<string>(),
-                    new List<string>(),
-                    new List<Person> {primaryContactPerson},
-                    DateTime.Now, projects,
-                    NotificationType.ProjectUpdateReminder);
-                return sendProjectUpdateReminderMessage;
-            }
-
-            return new List<Notification>();
-        }
-
-        public MailMessage GenerateReminderForPerson(Person person, List<Project> projects, string reminderSubject,
-            string toolName, string introContent, FileResource logo, string contactSupportEmail)
-        {
-            var projectListAsHtmlStrings =
-                GenerateProjectListAsHtmlStrings(
-                    projects);
-            var projectsRequiringAnUpdateUrl =
-                SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
-                    x.MyProjectsRequiringAnUpdate());
-
-            var emailContent = GetEmailContentWithGeneratedSignature(toolName, introContent, projectsRequiringAnUpdateUrl, person.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings), contactSupportEmail);
-
-            var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
-            htmlView.LinkedResources.Add(
-                new LinkedResource(new MemoryStream(logo.FileResourceData), "img/jpeg") {ContentId = "tool-logo"});
-            var mailMessage = new MailMessage {Subject = reminderSubject, IsBodyHtml = true};
-            mailMessage.AlternateViews.Add(htmlView);
-
-            return mailMessage;
-        }
-
-        public static string GetEmailContentWithGeneratedSignature(string toolName, string introContent,
-            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated,
-            string contactSupportEmail)
-        {
-            return GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, fullNameFirstLast,
-                projectListConcatenated, GetReminderMessageSignature(toolName, "cid:tool-logo", contactSupportEmail));
-        }
-
-        public static string GetEmailContent(string toolName, string introContent,
-            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated, string signature)
-        {
-            var body = String.Format(ReminderMessageTemplate,
-                fullNameFirstLast,
-                introContent,
-                projectsRequiringAnUpdateUrl,
-                projectListConcatenated);
-            var emailContent = $"{body}<br/>{signature}";
-            return emailContent;
-        }
-
-        private const string ReminderMessageTemplate = @"Hello, {0},<br/><br/>
-{1}
-<div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
-<div style=""margin-left: 15px"">
-    {3}
-</div>";
-
-        public static List<string> GenerateProjectListAsHtmlStrings(
-            List<Project> updatableProjectsThatHaveNotBeenSubmitted)
-        {
-            var projectsRemaining = updatableProjectsThatHaveNotBeenSubmitted;
-            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.DisplayName).Select(project =>
-            {
-                var projectUrl =
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>
-                        controller.Detail(project));
-                return $@"<div style=""font-size:smaller""><a href=""{projectUrl}"">{project.ProjectName}</a></div>";
-            }).ToList();
-
-            return projectListAsHtmlStrings;
-        }
-
-        public static string GetReminderMessageSignature(string toolName, string logoUrl, string contactSupportEmail) =>
-            $@"
-Thank you,<br />
-{toolName} team<br/><br/><img src=""{logoUrl}"" width=""160"" />
-<p>
-P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{contactSupportEmail}"">contact support</a>.
-</p>";
-    }
-
-    public class ProjectUpdateNotificationHelper
-    {
-        public string ToolName { get; set; }
-        public string IntroContent { get; set; }
-        public FileResource ToolLogo { get; set; }
-        public string ReminderEmailSubject { get; set; }
-        public string ContactSupportEmail { get; set; }
-
-
-        public ProjectUpdateNotificationHelper()
-        {
-
         }
     }
 }

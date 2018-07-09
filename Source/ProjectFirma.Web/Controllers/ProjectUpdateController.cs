@@ -179,8 +179,6 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectUpdateConfiguration(EditProjectUpdateConfigurationViewModel viewModel)
         {
-            var sampleProjectList = ProjectUpdateReminderScheduledBackgroundJob.GenerateProjectListAsHtmlStrings(HttpRequestStorage
-                .DatabaseEntities.Projects.ToList().AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted().Take(5).ToList());
             var viewData = new EditProjectUpdateConfigurationViewData(CurrentPerson);
             return RazorPartialView<EditProjectUpdateConfiguration, EditProjectUpdateConfigurationViewData, EditProjectUpdateConfigurationViewModel>(viewData, viewModel);
         }
@@ -2212,7 +2210,6 @@ namespace ProjectFirma.Web.Controllers
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
                 FundingType.Capital,
-                // TODO: Verify that this is correct or use the correct value
                 ProjectApprovalStatus.Approved);
 
             var dummyProjectUpdateBatch = ProjectUpdateBatch.CreateNewBlank(dummyProject, CurrentPerson, ProjectUpdateState.Created);
@@ -2416,12 +2413,12 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,$"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             var entityNotesOriginal = new List<IEntityNote>(project.ProjectNotes);
             var entityNotesUpdated = new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates);
-            var entityDocumentsOriginal = new List<IEntityDocument>(project.ProjectDocuments);
-            var entityDocumentsUpdated = new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates);
 
             var originalHtmlNotes = GeneratePartialViewForOriginalNotes(entityNotesOriginal, entityNotesUpdated);
             var updatedHtmlNotes = GeneratePartialViewForModifiedNotes(entityNotesOriginal, entityNotesUpdated);
             // TODO: Commented out until such time as it is appropriate to take this feature live
+            //var entityDocumentsOriginal = new List<IEntityDocument>(project.ProjectDocuments);
+            //var entityDocumentsUpdated = new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates);
             //var originalHtmlDocuments = GeneratePartialViewForOriginalDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
             //var updatedHtmlDocuments = GeneratePartialViewForModifiedDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
 
@@ -2473,40 +2470,41 @@ namespace ProjectFirma.Web.Controllers
             return partialViewToString;
         }
 
-        private string GeneratePartialViewForOriginalDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
-        {
-            var fileResourceIDsInOriginal = entityDocumentsOriginal.Select(x=>x.FileResource.FileResourceID).ToList();
-            var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
-            var urlsOnlyInOriginal = fileResourceIDsInOriginal.Where(x => !fileResourceIDsInModified.Contains(x)).ToList();
+        // TODO: Commented out until such time as it is appropriate to take this feature live
+        //private string GeneratePartialViewForOriginalDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
+        //{
+        //    var fileResourceIDsInOriginal = entityDocumentsOriginal.Select(x=>x.FileResource.FileResourceID).ToList();
+        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+        //    var urlsOnlyInOriginal = fileResourceIDsInOriginal.Where(x => !fileResourceIDsInModified.Contains(x)).ToList();
 
-            var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
-            var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
-            // find the ones that are only in the modified set and add them and mark them as "added"
-            externalLinksOriginal.AddRange(
-                externalLinksUpdated.Where(x => !fileResourceIDsInOriginal.Contains(x.FileResource.FileResourceID))
-                    .Select(x => new EntityDocument(x.DeleteUrl,x.EditUrl,x.FileResource,HtmlDiffContainer.DisplayCssClassAddedElement, x.DisplayName, x.Description))
-                    .ToList());
-            // find the ones only in original and mark them as "deleted"
-            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
-            return GeneratePartialViewForDocuments(externalLinksOriginal.OrderBy(x => x.FileResource.FileResourceID).ToList());
-        }
+        //    var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
+        //    var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
+        //    // find the ones that are only in the modified set and add them and mark them as "added"
+        //    externalLinksOriginal.AddRange(
+        //        externalLinksUpdated.Where(x => !fileResourceIDsInOriginal.Contains(x.FileResource.FileResourceID))
+        //            .Select(x => new EntityDocument(x.DeleteUrl,x.EditUrl,x.FileResource,HtmlDiffContainer.DisplayCssClassAddedElement, x.DisplayName, x.Description))
+        //            .ToList());
+        //    // find the ones only in original and mark them as "deleted"
+        //    externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+        //    return GeneratePartialViewForDocuments(externalLinksOriginal.OrderBy(x => x.FileResource.FileResourceID).ToList());
+        ////}
 
-        private string GeneratePartialViewForModifiedDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
-        {
-             var fileResouceIDsInOriginal = entityDocumentsOriginal.Select(x => x.FileResource.FileResourceID).ToList();
-            var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
-            var urlsOnlyInUpdated = fileResourceIDsInModified.Where(x => !fileResouceIDsInOriginal.Contains(x)).ToList();
+        //private string GeneratePartialViewForModifiedDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
+        //{
+        //     var fileResouceIDsInOriginal = entityDocumentsOriginal.Select(x => x.FileResource.FileResourceID).ToList();
+        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+        //    var urlsOnlyInUpdated = fileResourceIDsInModified.Where(x => !fileResouceIDsInOriginal.Contains(x)).ToList();
 
-            var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
-            var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
-            // find the ones that are only in the original set and add them and mark them as "deleted"
-            externalLinksUpdated.AddRange(
-                externalLinksOriginal.Where(x => !fileResourceIDsInModified.Contains(x.FileResource.FileResourceID))
-                    .Select(x => new EntityDocument(x.DeleteUrl, x.EditUrl, x.FileResource, HtmlDiffContainer.DisplayCssClassDeletedElement, x.DisplayName, x.Description))
-                    .ToList());
-            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-            return GeneratePartialViewForDocuments(externalLinksUpdated.OrderBy(x=>x.FileResource.FileResourceID).ToList());
-        }
+        //    var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
+        //    var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
+        //    // find the ones that are only in the original set and add them and mark them as "deleted"
+        //    externalLinksUpdated.AddRange(
+        //        externalLinksOriginal.Where(x => !fileResourceIDsInModified.Contains(x.FileResource.FileResourceID))
+        //            .Select(x => new EntityDocument(x.DeleteUrl, x.EditUrl, x.FileResource, HtmlDiffContainer.DisplayCssClassDeletedElement, x.DisplayName, x.Description))
+        //            .ToList());
+        //    externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+        //    return GeneratePartialViewForDocuments(externalLinksUpdated.OrderBy(x=>x.FileResource.FileResourceID).ToList());
+        //}
         private string GeneratePartialViewForDocuments(List<EntityDocument> entityDocuments)
         {
             var viewData = new ProjectDocumentsDetailViewData(entityDocuments, null, $"{FieldDefinition.Project.GetFieldDefinitionLabel()}", false, false);
@@ -2814,17 +2812,12 @@ namespace ProjectFirma.Web.Controllers
 
         private static string EmailContentPreview(string introContent)
         {
-            var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
 
-            var signature = ProjectUpdateReminderScheduledBackgroundJob.GetReminderMessageSignature(
-                toolDisplayName, MultiTenantHelpers.GetTenantSquareLogoUrl(),
-                HttpRequestStorage.Tenant.GetTenantAttribute().PrimaryContactPerson.Email);
-
-            var emailContentPreview = ProjectUpdateReminderScheduledBackgroundJob.GetEmailContent(
-                toolDisplayName,
-                introContent,
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
-                "<em>Organization Primary Contact</em>", "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>", signature);
+            var emailContentPreview = new ProjectUpdateNotificationHelper(
+                tenantAttribute.PrimaryContactPerson.Email, introContent, "",
+                tenantAttribute.TenantSquareLogoFileResource,
+                MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
 
             return emailContentPreview;
         }
