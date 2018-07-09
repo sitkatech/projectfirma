@@ -88,9 +88,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdateConfiguration.EnableProjectUpdateReminders = EnableProjectUpdateReminders;
             projectUpdateConfiguration.SendPeriodicReminders = SendPeriodicReminders;
             projectUpdateConfiguration.SendCloseOutNotification = SendCloseOutNotification;
-            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent.ToString();
-            projectUpdateConfiguration.ProjectUpdateReminderIntroContent = ProjectUpdateReminderIntroContent.ToString();
-            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent = ProjectUpdateCloseOutIntroContent.ToString();
+            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent?.ToString();
+            projectUpdateConfiguration.ProjectUpdateReminderIntroContent =
+                ProjectUpdateReminderIntroContent?.ToString();
+            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent =
+                ProjectUpdateCloseOutIntroContent?.ToString();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -98,47 +100,79 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             // these bools will never be null due to RequiredAttribute
             if (EnableProjectUpdateReminders)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent.ToString()))
+                if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
-                        "You must provide Project Update Kick-Off Email Content if Project Update Reminders are enabled.", m=>m.ProjectUpdateKickOffIntroContent);
+                        "You must provide Project Update Kick-Off Email Content if Project Update Reminders are enabled.",
+                        m => m.ProjectUpdateKickOffIntroContent);
                 if (!ProjectUpdateKickOffDate.HasValue)
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,DateTime?>(
-                        "You must provide a Project Update Kick-Off Date if Project Update Reminders are enabled", m=>m.ProjectUpdateKickOffDate);
+                {
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                        "You must provide a Project Update Kick-Off Date if Project Update Reminders are enabled.",
+                        m => m.ProjectUpdateKickOffDate);
+                }
+                else if (ProjectUpdateKickOffDate.Value < DateTime.Today)
+                {
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                        "Project Update Kick-Off Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
+                }
             }
 
             if (SendPeriodicReminders)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent.ToString()))
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,HtmlString>(
-                        "You must provide Project Update Reminder Email Content if Periodic Reminders are enabled.", m=>m.ProjectUpdateReminderIntroContent);
+                if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent?.ToString()))
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
+                        "You must provide Project Update Reminder Email Content if Periodic Reminders are enabled.",
+                        m => m.ProjectUpdateReminderIntroContent);
 
                 if (!ProjectUpdateReminderInterval.HasValue)
                 {
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,int?>(
-                        "You must provide a Project Update Reminder Interval if Periodic Reminders are enabled", m=>m.ProjectUpdateReminderInterval);
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, int?>(
+                        "You must provide a Project Update Reminder Interval if Periodic Reminders are enabled.",
+                        m => m.ProjectUpdateReminderInterval);
                 }
                 else if (ProjectUpdateReminderInterval.Value < 7)
                 {
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,int?>("Project Update Reminder Interval must be at least 7 days", m => m.ProjectUpdateReminderInterval);
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, int?>(
+                        "Project Update Reminder Interval must be at least 7 days.",
+                        m => m.ProjectUpdateReminderInterval);
+                }
+                else if (ProjectUpdateReminderInterval > 365)
+                {
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, int?>(
+                        "Project Update Reminder Interval cannot be greater than 365 days.",
+                        m => m.ProjectUpdateReminderInterval);
                 }
             }
 
             if (SendCloseOutNotification)
             {
-                if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent.ToString()))
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,HtmlString>(
-                        "You must provide Project Update Close-Out Email Content if Project Update Close-Out Notifications are enabled.",m=>m.ProjectUpdateCloseOutIntroContent);
+                if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent?.ToString()))
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
+                        "You must provide Project Update Close-Out Email Content if Project Update Close-Out Notifications are enabled.",
+                        m => m.ProjectUpdateCloseOutIntroContent);
                 if (!ProjectUpdateCloseOutDate.HasValue)
                 {
-                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel,DateTime?>(
-                        "You must provide a Project Update Close-Out Date if Project Update Close-Out Notifications are enabled",m=>m.ProjectUpdateCloseOutDate);
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                        "You must provide a Project Update Close-Out Date if Project Update Close-Out Notifications are enabled.",
+                        m => m.ProjectUpdateCloseOutDate);
                 }
-                else if (ProjectUpdateKickOffDate.HasValue )
+                else if (ProjectUpdateKickOffDate.HasValue)
                 {
+                    if (!EnableProjectUpdateReminders)
+                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                            "You cannot set a Project Update Close-Out Date without also setting a Project Update Kick-Off Date",
+                            m => m.ProjectUpdateCloseOutDate);
                     if (ProjectUpdateKickOffDate.Value.AddYears(1) < ProjectUpdateCloseOutDate.Value)
-                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>("Project Update Close-Out Date cannot be more than 1 year later than Project Update Kick-Off Date", m => m.ProjectUpdateCloseOutDate);
+                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                            "Project Update Close-Out Date cannot be more than 1 year later than Project Update Kick-Off Date.",
+                            m => m.ProjectUpdateCloseOutDate);
                     if (ProjectUpdateKickOffDate.Value >= ProjectUpdateCloseOutDate.Value)
-                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>("Project Update Close-Out Date must be later than Project Update Kick-Off Date", m => m.ProjectUpdateCloseOutDate);
+                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                            "Project Update Close-Out Date must be later than Project Update Kick-Off Date.",
+                            m => m.ProjectUpdateCloseOutDate);
+                    if (ProjectUpdateCloseOutDate.Value < DateTime.Today)
+                        yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
+                            "Project Update Close-Out Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
                 }
             }
         }

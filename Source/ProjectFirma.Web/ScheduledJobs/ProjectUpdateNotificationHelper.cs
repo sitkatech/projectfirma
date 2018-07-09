@@ -75,14 +75,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             return mailMessage;
         }
 
-        private string GetEmailContentWithGeneratedSignature(
-            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated
-        )
-        {
-            return GetEmailContent(projectsRequiringAnUpdateUrl, fullNameFirstLast,
-                projectListConcatenated, GetReminderMessageSignature(false));
-        }
-
         private string GetEmailContent(
             string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated,
             string signature)
@@ -96,10 +88,30 @@ namespace ProjectFirma.Web.ScheduledJobs
             return emailContent;
         }
 
-        private static List<string> GenerateProjectListAsHtmlStrings(
-            List<Project> updatableProjectsThatHaveNotBeenSubmitted)
+        private string GetEmailContentWithGeneratedSignature(
+            string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated
+        )
         {
-            var projectsRemaining = updatableProjectsThatHaveNotBeenSubmitted;
+            return GetEmailContent(projectsRequiringAnUpdateUrl, fullNameFirstLast,
+                projectListConcatenated, GetReminderMessageSignature(false));
+        }
+
+        public string GetEmailContentPreview()
+        {
+            var signature = GetReminderMessageSignature(true);
+
+            return GetEmailContent(
+                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
+                "<em>Organization Primary Contact</em>",
+                "<p><em>A list of the recipient’s projects that require an update and do not have an update submitted yet will appear here.&nbsp;</em></p>",
+                signature
+            );
+        }
+
+        private static IEnumerable<string> GenerateProjectListAsHtmlStrings(
+            IReadOnlyCollection<Project> projects)
+        {
+            var projectsRemaining = projects;
             var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.DisplayName).Select(project =>
             {
                 var projectUrl =
@@ -121,18 +133,6 @@ Thank you,<br />
 <p>
 P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{ContactSupportEmail}"">contact support</a>.
 </p>";
-        }
-
-        public string GetEmailContentPreview()
-        {
-            var signature = GetReminderMessageSignature(true);
-
-            return GetEmailContent(
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
-                "<em>Organization Primary Contact</em>",
-                "<p><em>The reminder email will also include a list of the recipient&rsquo;s projects that require an update and do not have an update submitted yet.&nbsp;</em></p>",
-                signature
-            );
         }
     }
 }
