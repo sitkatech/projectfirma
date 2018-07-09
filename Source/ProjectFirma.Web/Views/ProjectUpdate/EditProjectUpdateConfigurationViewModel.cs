@@ -26,17 +26,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class EditProjectUpdateConfigurationViewModel : FormViewModel, IValidatableObject
     {
-        [DisplayName("Kick-Off Date")] public DateTime? ProjectUpdateKickOffDate { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateKickOffDate)]
+        public DateTime? ProjectUpdateKickOffDate { get; set; }
 
-        [DisplayName("Close-Out Date")] public DateTime? ProjectUpdateCloseOutDate { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateCloseOutDate)]
+        public DateTime? ProjectUpdateCloseOutDate { get; set; }
 
-        [DisplayName("Reminder Interval (days)")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateReminderInterval)]
         public int? ProjectUpdateReminderInterval { get; set; }
 
         [Required]

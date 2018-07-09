@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Kick-Off Date</label>
+                        <label class="left_indent">@FieldDefinition.ProjectUpdateKickOffDate.GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
                         @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate.Value.ToShortDateString() : "Not Set")
@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Kick-Off Intro Content</label>
+                        <label class="left_indent">Kick-off Email Intro Content</label>
                     </div>
                     <div class="col-xs-7">
                         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.KickOffIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
@@ -97,7 +97,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Reminder Interval</label>
+                        <label class="left_indent">@FieldDefinition.ProjectUpdateReminderInterval.GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
                         @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval.ToString() + " days" : "Not Set")
@@ -105,7 +105,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Reminder Intro Content</label>
+                        <label class="left_indent">Reminder Email Intro Content</label>
                     </div>
                     <div class="col-xs-7">
                         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ReminderIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
@@ -115,7 +115,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <br />
                 <div class="row">
                     <div class="col-xs-5">
-                        <label>Send Close Out Notification?</label>
+                        <label>Send Close-out Notification?</label>
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.ProjectUpdateConfiguration.SendCloseOutNotification.ToYesNo()
@@ -123,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Close Out Date</label>
+                        <label class="left_indent">@FieldDefinition.ProjectUpdateCloseOutDate.GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
                         @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate.Value.ToShortDateString() : "Not Set")
@@ -131,7 +131,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Project Update Close Out Notification Intro Content</label>
+                        <label class="left_indent">Close-out Email Notification Intro Content</label>
                     </div>
                     <div class="col-xs-7">
                         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.CloseOutIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
