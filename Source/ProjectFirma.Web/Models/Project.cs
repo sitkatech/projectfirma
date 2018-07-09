@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Models
                 if (latestApprovedUpdateBatch == null)
                     return true;
 
-                if (latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate())
+                if (latestApprovedUpdateBatch.LastUpdateDate < MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffDate)
                 {
                     return true;
                 }

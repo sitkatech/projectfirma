@@ -121,10 +121,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                 : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
             var primaryContactPeople = projectsToNotifyOn.GetPrimaryContactPeople();
 
-            // create a notification entry per primary contact reminder
-            var notifications = primaryContactPeople.SelectMany(primaryContactPerson =>
-                SendProjectUpdateReminderMessage(primaryContactPerson, reminderSubject, toolDisplayName,
-                    introContent, tenantAttribute.TenantSquareLogoFileResource, tenantAttribute.PrimaryContactPerson.Email)).ToList();
+            var groupBy = projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact());
+
+
+
+            var notifications = groupBy.SelectMany(x => SendProjectUpdateReminderMessage(x.Key, x.ToList(),
+                reminderSubject, toolDisplayName, introContent, tenantAttribute.TenantSquareLogoFileResource,
+                tenantAttribute.PrimaryContactPerson.Email)).ToList();
 
             var message =
                 $"Reminder emails sent to {primaryContactPeople.Count} primary contacts for {projectsToNotifyOn.Count} projects requiring an update.";
@@ -133,22 +136,20 @@ namespace ProjectFirma.Web.ScheduledJobs
             return notifications;
         }
 
-        public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, string reminderSubject,
+        public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson, List<Project> projects,
+            string reminderSubject,
             string toolName, string introContent, FileResource logo, string contactSupportEmail)
         {
-            var updatableProjectsThatHaveNotBeenSubmitted =
-                GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson);
-            if (updatableProjectsThatHaveNotBeenSubmitted.Count > 0)
+            if (projects.Count > 0)
             {
-                var mailMessage = GenerateReminderForPerson(primaryContactPerson, reminderSubject, toolName,
-                    introContent, logo, contactSupportEmail);
+                var mailMessage = GenerateReminderForPerson(primaryContactPerson, projects, reminderSubject, toolName, introContent, logo, contactSupportEmail);
 
                 var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
                     new List<string> {primaryContactPerson.Email},
                     new List<string>(),
                     new List<string>(),
                     new List<Person> {primaryContactPerson},
-                    DateTime.Now, updatableProjectsThatHaveNotBeenSubmitted,
+                    DateTime.Now, projects,
                     NotificationType.ProjectUpdateReminder);
                 return sendProjectUpdateReminderMessage;
             }
@@ -156,24 +157,17 @@ namespace ProjectFirma.Web.ScheduledJobs
             return new List<Notification>();
         }
 
-        private List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(Person primaryContactPerson)
-        {
-            return primaryContactPerson
-                .GetPrimaryContactProjects(primaryContactPerson).AsQueryable()
-                .GetUpdatableProjectsThatHaveNotBeenSubmitted();
-        }
-
-        public MailMessage GenerateReminderForPerson(Person primaryContactPerson, string reminderSubject,
+        public MailMessage GenerateReminderForPerson(Person person, List<Project> projects, string reminderSubject,
             string toolName, string introContent, FileResource logo, string contactSupportEmail)
         {
             var projectListAsHtmlStrings =
                 GenerateProjectListAsHtmlStrings(
-                    GetUpdatableProjectsThatHaveNotBeenSubmittedForPerson(primaryContactPerson));
+                    projects);
             var projectsRequiringAnUpdateUrl =
                 SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
                     x.MyProjectsRequiringAnUpdate());
 
-            var emailContent = GetEmailContentWithGeneratedSignature(toolName, introContent, projectsRequiringAnUpdateUrl, primaryContactPerson.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings), contactSupportEmail);
+            var emailContent = GetEmailContentWithGeneratedSignature(toolName, introContent, projectsRequiringAnUpdateUrl, person.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings), contactSupportEmail);
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
@@ -191,6 +185,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             return GetEmailContent(toolName, introContent, projectsRequiringAnUpdateUrl, fullNameFirstLast,
                 projectListConcatenated, GetReminderMessageSignature(toolName, "cid:tool-logo", contactSupportEmail));
         }
+
         public static string GetEmailContent(string toolName, string introContent,
             string projectsRequiringAnUpdateUrl, string fullNameFirstLast, string projectListConcatenated, string signature)
         {
