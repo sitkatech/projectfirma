@@ -446,6 +446,12 @@ namespace ProjectFirma.Web.Models
         public bool HasProjectWatersheds => ProjectWatersheds.Any();
         public int FancyTreeNodeKey => ProjectID;
 
+        IEnumerable<IProjectCustomAttribute> IProject.ProjectCustomAttributes
+        {
+            get => ProjectCustomAttributes;
+            set => ProjectCustomAttributes = (ICollection<ProjectCustomAttribute>) value;
+        }
+
         public List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices()
         {
             var sortOrder = 0;

@@ -120,6 +120,16 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectBudgetUpdate> ProjectBudgetUpdates { get { return AllProjectBudgetUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
+        public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeType> AllProjectCustomAttributeTypes { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get { return AllProjectCustomAttributeTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeUpdate> AllProjectCustomAttributeUpdates { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeUpdate> ProjectCustomAttributeUpdates { get { return AllProjectCustomAttributeUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeUpdateValue> AllProjectCustomAttributeUpdateValues { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
         public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectDocumentUpdate> AllProjectDocumentUpdates { get; set; }
@@ -434,6 +444,26 @@ namespace ProjectFirma.Web.Models
                     var projectCreateSection = ProjectCreateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCreateSection, "ProjectCreateSection", primaryKey);
                     return projectCreateSection;
+
+                case "ProjectCustomAttributeDataType":
+                    var projectCustomAttributeDataType = ProjectCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomAttributeDataType, "ProjectCustomAttributeDataType", primaryKey);
+                    return projectCustomAttributeDataType;
+
+                case "ProjectCustomAttribute":
+                    return ProjectCustomAttributes.GetProjectCustomAttribute(primaryKey);
+
+                case "ProjectCustomAttributeType":
+                    return ProjectCustomAttributeTypes.GetProjectCustomAttributeType(primaryKey);
+
+                case "ProjectCustomAttributeUpdate":
+                    return ProjectCustomAttributeUpdates.GetProjectCustomAttributeUpdate(primaryKey);
+
+                case "ProjectCustomAttributeUpdateValue":
+                    return ProjectCustomAttributeUpdateValues.GetProjectCustomAttributeUpdateValue(primaryKey);
+
+                case "ProjectCustomAttributeValue":
+                    return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
 
                 case "ProjectDocument":
                     return ProjectDocuments.GetProjectDocument(primaryKey);

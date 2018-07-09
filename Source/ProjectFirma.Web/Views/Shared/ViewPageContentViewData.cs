@@ -1,6 +1,6 @@
-﻿
-using System.Web;
+﻿using System.Web;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -19,6 +19,11 @@ namespace ProjectFirma.Web.Views.Shared
             ShowEditButton = showEditButton;
             HasPageContent = firmaPage.HasPageContent;
             EditPageContentUrl = firmaPage.GetEditPageContentUrl();
-        }        
+        }
+
+        public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
+            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
+        {
+        }
     }
 }

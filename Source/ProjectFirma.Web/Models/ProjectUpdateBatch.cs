@@ -136,6 +136,9 @@ namespace ProjectFirma.Web.Models
             // Documents
             ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
 
+            // Custom attributes
+            ProjectCustomAttributeUpdate.CreateFromProject(projectUpdateBatch);
+
             return projectUpdateBatch;
         }
 
@@ -555,7 +558,9 @@ namespace ProjectFirma.Web.Models
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
             IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
             IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectDocument> allProjectDocuments)
+            IList<ProjectDocument> allProjectDocuments,
+            IList<ProjectCustomAttribute> allProjectCustomAttributes,
+            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
@@ -571,7 +576,9 @@ namespace ProjectFirma.Web.Models
                 projectWatersheds,
                 projectFundingSourceRequests,
                 allProjectOrganizations,
-                allProjectDocuments);
+                allProjectDocuments,
+                allProjectCustomAttributes,
+                allProjectCustomAttributeValues);
             CreateNewTransitionRecord(this, ProjectUpdateState.Approved, currentPerson, transitionDate);
             PushTransitionRecordsToAuditLog();
         }
@@ -602,7 +609,9 @@ namespace ProjectFirma.Web.Models
                 IList<ProjectWatershed> projectWatersheds,
                 IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
                 IList<ProjectOrganization> allProjectOrganizations,
-                IList<ProjectDocument> allProjectDocuments)
+                IList<ProjectDocument> allProjectDocuments,
+                IList<ProjectCustomAttribute> allProjectCustomAttributes,
+                IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
         {
             // basics
             ProjectUpdate.CommitChangesToProject(Project);
@@ -657,6 +666,9 @@ namespace ProjectFirma.Web.Models
 
             // Documents
             ProjectDocumentUpdate.CommitChangesToProject(this, allProjectDocuments);
+
+            // Project Custom Attributes
+            ProjectCustomAttributeUpdate.CommitChangesToProject(this, allProjectCustomAttributes, allProjectCustomAttributeValues);
         }
 
         public void RejectSubmission(Person currentPerson, DateTime transitionDate)

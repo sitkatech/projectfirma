@@ -94,3 +94,50 @@ function HookupCheckIfFormIsDirty(formSelector, submitButtonSelector, submitDisa
     // Turn of navigation check when the form is being submitted
     $formToCheckIfDirty.on("submit", function(event) { jQuery(window).off("beforeunload"); });
 }
+
+
+function HookupCheckIfFormIsDirtyNoDisable(formSelector, submitButtonSelector, navigationNotification) {
+    // Define default values for function parameters
+    formSelector = Sitka.Methods.isUndefinedNullOrEmpty(formSelector) ? "form" : formSelector;
+    submitButtonSelector = Sitka.Methods
+        .isUndefinedNullOrEmpty(submitButtonSelector)
+        ? ":submit"
+        : submitButtonSelector;
+
+    navigationNotification = Sitka.Methods.isUndefinedNullOrEmpty(navigationNotification)
+        ? "You have unsaved changes."
+        : navigationNotification;
+
+    // This function encapsulates the comparison of the current state of a form to it's initial state
+    var checkIfFormIsDirty = function ($form) {
+        var currentFormSerialized = $form.find(":not(.ignoreSerialization)").serialize();
+        return currentFormSerialized !== $form.data("formSerialization");
+    };
+
+    var $formToCheckIfDirty = jQuery(formSelector);
+
+    var $submitButton = jQuery(submitButtonSelector);
+    $submitButton.data("cachedOnClick", $submitButton.attr("onclick"));
+
+    // Handle any changes to form input so that submission is disabled while the form is unclean
+    _.each($formToCheckIfDirty,
+        function (formIndividual) {
+            var $formIndividual = jQuery(formIndividual);
+            $formIndividual.data("formSerialization", $formIndividual.find(":not(.ignoreSerialization)").serialize());
+
+        });
+
+    // Handle the case when the user navigates from the page
+    jQuery(window)
+        .on("beforeunload",
+        function (event) {
+            if (_.some($formToCheckIfDirty,
+                function (formIndividual) { return checkIfFormIsDirty(jQuery(formIndividual)); })) {
+                return navigationNotification;
+            }
+            event = null;
+        });
+
+    // Turn of navigation check when the form is being submitted
+    $formToCheckIfDirty.on("submit", function (event) { jQuery(window).off("beforeunload"); });
+}

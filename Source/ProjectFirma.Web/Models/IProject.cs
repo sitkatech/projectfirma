@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Models
 
         decimal? EstimatedTotalCost { get; }
         decimal? EstimatedAnnualOperatingCost { get; }
+        IEnumerable<IProjectCustomAttribute> ProjectCustomAttributes { get; set; }
 
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 

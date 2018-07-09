@@ -74,6 +74,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public int? ImportExternalProjectStagingID { get; set; }
 
+        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -94,6 +96,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
+            ProjectCustomAttributes = new ProjectCustomAttributes(project);
         }
 
         public void UpdateModel(Models.Project project, Person person)
@@ -127,6 +130,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
+            ProjectCustomAttributes.UpdateModel(project, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -136,32 +140,30 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<ValidationResult> GetValidationResults()
         {
-            var errors = new List<ValidationResult>();
-
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
 
             if (TaxonomyLeafID == -1)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID);
             }
             if (ProjectID.HasValue && !Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID.Value))
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
+                yield return new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName);
             }
 
             if (ImplementationStartYear < PlanningDesignStartYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear);
             }
 
             if (CompletionYear < ImplementationStartYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear);
             }
 
             if (CompletionYear < PlanningDesignStartYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear, m => m.CompletionYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear, m => m.CompletionYear);
             }
 
             var currentYear = DateTime.Today.Year;
@@ -169,31 +171,31 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 if (ImplementationStartYear > currentYear)
                 {
-                    errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
+                    yield return new SitkaValidationResult<BasicsViewModel, int?>(
                         FirmaValidationMessages.ImplementationYearMustBePastOrPresentForImplementationProjects,
-                        m => m.ImplementationStartYear));
+                        m => m.ImplementationStartYear);
                 }
             }
             
             if (ImplementationStartYear == null && ProjectStageID != ProjectStage.Terminated.ProjectStageID && ProjectStageID != ProjectStage.Deferred.ProjectStageID)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(
                     "Implementation year is required when the project stage is not Deferred or Terminated",
-                    m => m.ImplementationStartYear));
+                    m => m.ImplementationStartYear);
             }
 
             if ((ProjectStageID == ProjectStage.Completed.ProjectStageID ||
                 ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear>currentYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear);
             }
 
             if (ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID && PlanningDesignStartYear > currentYear)
             {
-                errors.Add(new SitkaValidationResult<BasicsViewModel, int?>("Since the project is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year", m=>m.PlanningDesignStartYear));
+                yield return new SitkaValidationResult<BasicsViewModel, int?>(
+                    "Since the project is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year",
+                    m => m.PlanningDesignStartYear);
             }
-
-            return errors;
         }
     }
 }

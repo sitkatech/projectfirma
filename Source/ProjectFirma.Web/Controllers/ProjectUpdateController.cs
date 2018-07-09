@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
             }
-            viewModel.UpdateModel(projectUpdate);
+            viewModel.UpdateModel(projectUpdate, CurrentPerson);
             if (projectUpdateBatch.IsSubmitted)
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
@@ -273,7 +273,8 @@ namespace ProjectFirma.Web.Controllers
             var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch); // note, the way the diff for the basics section is built, it will actually "commit" the updated values to the project, so it needs to be done last, or we need to change the current approach
 
             var projectStages = projectUpdate.ProjectUpdateBatch.Project.ProjectStage.GetProjectStagesThatProjectCanUpdateTo();
-            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, inflationRate, updateStatus, basicsValidationResult);
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, inflationRate, updateStatus, basicsValidationResult, projectCustomAttributeTypes);
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
@@ -1397,6 +1398,10 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
             var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
+            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
+            var allProjectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1413,7 +1418,9 @@ namespace ProjectFirma.Web.Controllers
                 allProjectWatersheds,
                 allProjectFundingSourceRequests,
                 allProjectOrganizations,
-                allProjectDocuments);
+                allProjectDocuments,
+                allProjectCustomAttributes,
+                allProjectCustomAttributeValues);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -1500,7 +1507,6 @@ namespace ProjectFirma.Web.Controllers
             NotificationProject.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.DisplayName}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
-
         }
 
         private PartialViewResult ViewSubmit(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
