@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             // because the reminder configurations are tenant-specific and user-configurable, just schedule the job to run nightly and have it check whether it's time to send a remind for each tenant.
 
-            AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.Instance.JobName,
+            AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.JobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
                 MakeDailyUtcCronJobStringFromLocalTime(1,23),
                 recurringJobIds);

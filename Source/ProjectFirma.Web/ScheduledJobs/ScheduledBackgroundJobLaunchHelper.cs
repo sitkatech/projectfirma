@@ -7,7 +7,8 @@
     {
         public static void RunProjectUpdateKickoffReminderScheduledBackgroundJob()
         {
-            ProjectUpdateReminderScheduledBackgroundJob.Instance.RunJob();
+            var projectUpdateReminderScheduledBackgroundJob = new ProjectUpdateReminderScheduledBackgroundJob("Project Update Reminders");
+            projectUpdateReminderScheduledBackgroundJob.RunJob();
         }
     }
 }

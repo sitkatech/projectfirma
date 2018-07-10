@@ -8,14 +8,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 {
     public class ProjectUpdateReminderScheduledBackgroundJob : ScheduledBackgroundJobBase
     {
-        public static ProjectUpdateReminderScheduledBackgroundJob Instance { get; set; }
-
-        static ProjectUpdateReminderScheduledBackgroundJob()
-        {
-            Instance = new ProjectUpdateReminderScheduledBackgroundJob("Project Update Reminder");
-        }
-
-        protected ProjectUpdateReminderScheduledBackgroundJob(string jobName) : base(jobName)
+        public ProjectUpdateReminderScheduledBackgroundJob(string jobName) : base()
         {
         }
 
