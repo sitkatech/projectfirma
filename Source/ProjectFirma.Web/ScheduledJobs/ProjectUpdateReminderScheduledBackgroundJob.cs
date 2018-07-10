@@ -47,10 +47,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     var projectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
-                        var projectUpdateKickOffIntroContent =
-                            projectUpdateConfiguration.ProjectUpdateKickOffIntroContent;
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateKickOffIntroContent, tenant, true));
+                                                        projectUpdateConfiguration.ProjectUpdateKickOffIntroContent, tenant, true));
                     }
                 }
 
@@ -58,11 +56,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                 {
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
                     {
-                        var projectUpdateReminderIntroContent =
-                            projectUpdateConfiguration.ProjectUpdateReminderIntroContent;
-                        notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateReminderIntroContent, tenant, false));
-                        // note that we only send periodic reminders for projects whose updates haven't been submitted yet.
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateConfiguration.ProjectUpdateReminderIntroContent, tenant, false));
+                        // notiftyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
@@ -71,10 +66,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     var projectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
-                        var projectUpdateCloseOutIntroContent =
-                            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent;
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateCloseOutIntroContent, tenant, true));
+                            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent, tenant, false));
                     }
                 }
 
@@ -122,7 +115,6 @@ namespace ProjectFirma.Web.ScheduledJobs
                 : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
 
             var projectsGroupedByPrimaryContact =
-                // if GetPrimaryContact() returns null, we can't do anything with this project :(
                 projectsToNotifyOn.Where(x=>x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact()).ToList();
 
             var notifications = projectsGroupedByPrimaryContact

@@ -148,21 +148,35 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatches.Any() ? projectUpdateBatches.MaxBy(x => x.LastUpdateDate) : null;
         }
 
+        public ProjectUpdateBatch GetLatestUpdateBatch()
+        {
+            var projectUpdateBatches = ProjectUpdateBatches.ToList();
+
+            return projectUpdateBatches.Any() ? projectUpdateBatches.MaxBy(x => x.LastUpdateDate) : null;
+        }
+
         public bool IsUpdateMandatory
         {
             get
             {
                 if (IsPendingProject())
+                {
                     return false;
+                }
 
                 if (!IsUpdatableViaProjectUpdateProcess)
+                {
                     return false;
+                }
 
-                var latestApprovedUpdateBatch = GetLatestApprovedUpdateBatch();
-                if (latestApprovedUpdateBatch == null)
+                var latestUpdateBatch = GetLatestUpdateBatch();
+
+                if (latestUpdateBatch == null)
+                {
                     return true;
+                }
 
-                if (latestApprovedUpdateBatch.LastUpdateDate < MultiTenantHelpers.GetProjectUpdateConfiguration().ProjectUpdateKickOffDate)
+                if (!latestUpdateBatch.IsApproved)
                 {
                     return true;
                 }
@@ -171,7 +185,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool IsUpdatableViaProjectUpdateProcess => ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals();
+        public bool IsUpdatableViaProjectUpdateProcess => !IsPendingProject() && (ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals());
 
         public ProjectUpdateState GetLatestUpdateState()
         {

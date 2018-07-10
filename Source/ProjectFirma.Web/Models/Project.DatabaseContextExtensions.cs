@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
         {
-            return projects.Where(x => x.IsUpdateMandatory && x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
+            return projects.GetUpdatableProjects().Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
         }
 
         public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
