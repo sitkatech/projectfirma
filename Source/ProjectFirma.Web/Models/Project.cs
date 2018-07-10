@@ -152,6 +152,9 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
+                if (IsPendingProject())
+                    return false;
+
                 if (!IsUpdatableViaProjectUpdateProcess)
                     return false;
 

@@ -122,7 +122,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                 : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
 
             var projectsGroupedByPrimaryContact =
-                projectsToNotifyOn.ToList().GroupBy(x => x.GetPrimaryContact()).ToList();
+                // if GetPrimaryContact() returns null, we can't do anything with this project :(
+                projectsToNotifyOn.Where(x=>x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact()).ToList();
 
             var notifications = projectsGroupedByPrimaryContact
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
