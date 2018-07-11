@@ -354,11 +354,6 @@ namespace LtInfo.Common.HtmlHelperExtensions
         {
             var requiredAsterisk =
                 hasRequiredAttribute ? " <sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
-            // pad on the right if not required, such that the ends of the labels' texts line up with required icons floating to the right if present.
-            if (!hasRequiredAttribute)
-            {
-                labelTag.Attributes.Add("style", "padding-right: 12px;");
-            }
 
             return requiredAsterisk;
         }

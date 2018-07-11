@@ -51,23 +51,6 @@ namespace ProjectFirma.Web.Models
                             performanceMeasureActual =>
                                 ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual,
                                     performanceMeasureActual.CalendarYear, performanceMeasureActual.ActualValue)));
-                    // now fill in the gaps up to the current year, if the max entered year is less than current year and we are not in Planning/Design
-                    if (currentStage != ProjectStage.PlanningDesign)
-                    {
-                        var maxEnteredYear = currentPerformanceMeasureActuals.Max(x => x.CalendarYear);
-                        if (maxEnteredYear < currentYear)
-                        {
-                            // go back to the most recent year there were values and fill in the gaps from that year to the current year using the PM values they entered from that year
-                            var performanceMeasureActualsToClone = new List<IPerformanceMeasureValue>(
-                                currentPerformanceMeasureActuals.Where(x => x.CalendarYear == maxEnteredYear).ToList());
-                            var initialYearToFill = maxEnteredYear + 1;
-                            performanceMeasureActualUpdates.AddRange(
-                                CreatePerformanceMeasureActualUpdateRecordsForGivenYearToCurrentYear(projectUpdateBatch,
-                                    performanceMeasureActualsToClone,
-                                    initialYearToFill,
-                                    endYearToFill));
-                        }
-                    }
                 }
                 // use expected values if any only if we are not in Planning/Design
                 else if (currentStage != ProjectStage.PlanningDesign)
