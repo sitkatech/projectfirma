@@ -47,7 +47,9 @@
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
-@if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
+@Html.ValidationSummary()
+
+@if (ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
         <ul>
