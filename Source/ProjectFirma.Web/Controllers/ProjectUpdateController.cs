@@ -1658,8 +1658,7 @@ namespace ProjectFirma.Web.Controllers
         private static List<Project> GetProjectsWithNoContact(Person person)
         {
             var projectsRequiringUpdate = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
-            var projectsWithPrimaryContact = projectsRequiringUpdate.GetPrimaryContactPeople().SelectMany(x => x.GetPrimaryContactProjects(person));
-            return projectsRequiringUpdate.Except(projectsWithPrimaryContact).ToList();
+            return projectsRequiringUpdate.Where(x => x.GetPrimaryContact() == null).ToList();
         }
 
         [ProjectUpdateAdminFeature]

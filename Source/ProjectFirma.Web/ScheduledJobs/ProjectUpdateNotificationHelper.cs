@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         public string ReminderEmailSubject { get; set; }
         public string ContactSupportEmail { get; set; }
 
-        private const string ReminderMessageTemplate = @"Hello, {0},<br/><br/>
+        private const string ReminderMessageTemplate = @"Hello {0},<br/><br/>
 {1}
 <div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
 <div style=""margin-left: 15px"">
