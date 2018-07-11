@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-8">
             @Html.EditorFor(x => x.FileResourceData)
             <span class="smallExplanationText">
-                Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
+                Max File Size: 3.8 MB. Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
             </span>
             @Html.ValidationMessageFor(x => x.FileResourceData)
         </div>

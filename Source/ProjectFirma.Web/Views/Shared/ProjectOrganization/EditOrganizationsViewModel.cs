@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         {
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
-            var projectOrganizationsUpdated = ProjectOrganizationSimples.Select(x =>
+            var projectOrganizationsUpdated = ProjectOrganizationSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.OrganizationID)).Select(x =>
                 new Models.ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
 
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,

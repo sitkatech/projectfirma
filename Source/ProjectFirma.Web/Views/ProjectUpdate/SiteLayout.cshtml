@@ -42,16 +42,23 @@
             }
 
         }
+        .validation-summary-errors {
+            padding: 12px 0 0 15px;
+        }
     </style>
 
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
-@Html.ValidationSummary()
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new {@class = "validation-summary-errors"})
+}
 
-@if (ViewDataTyped.ValidationWarnings.Any())
+@if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
+        There is missing data which must be entered before the Project Update can be submitted:
         <ul>
             @foreach (string warning in ViewDataTyped.ValidationWarnings)
             {
