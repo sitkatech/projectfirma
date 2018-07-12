@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
-            ProjectCustomAttributes.UpdateModel(project, person);
+            ProjectCustomAttributes?.UpdateModel(project, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

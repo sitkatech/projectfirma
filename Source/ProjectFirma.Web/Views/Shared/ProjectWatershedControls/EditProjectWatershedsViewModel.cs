@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
             {
                 errors.Add(
                     new SitkaValidationResult<EditProjectWatershedsViewModel, string>(
-                        $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} or explanatory information in the Notes section is required.",
+                        $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} or provide explanatory information in the Notes section if there are no applicable watersheds for this Project.",
                         x => x.ProjectWatershedNotes));
             }
 

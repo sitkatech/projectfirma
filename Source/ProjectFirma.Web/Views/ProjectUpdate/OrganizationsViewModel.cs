@@ -36,10 +36,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdateBatch.ProjectUpdate.PrimaryContactPersonID = PrimaryContactPersonID;
 
             var projectOrganizationUpdatesUpdated = new List<ProjectOrganizationUpdate>();
+
             if (ProjectOrganizationSimples != null)
             {
                 // Completely rebuild the list
-                projectOrganizationUpdatesUpdated = ProjectOrganizationSimples.Select(x => x.ToProjectOrganizationUpdate(projectUpdateBatch)).ToList();
+                projectOrganizationUpdatesUpdated = ProjectOrganizationSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.OrganizationID)).Select(x => x.ToProjectOrganizationUpdate(projectUpdateBatch)).ToList();
             }
 
             currentProjectOrganizationUpdates.Merge(projectOrganizationUpdatesUpdated,

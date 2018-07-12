@@ -50,18 +50,26 @@
             </p>
             <hr />
             <label>External Link to Add:</label>
-            <div class="form-inline">
-                <div class="form-group">
-                    <label>Link Text</label>
-                    <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: auto" />
+            <div class="form-horizontal">
+                <div class="row form-group">
+                    <div class="col-sm-3" style="text-align: right;">
+                        <label>Link Text:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" ng-model="ExternalLinkLabelToAdd" class="form-control" style="width: 100%" />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>URL</label>
-                    <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: auto" />
+                <div class="row form-group">
+                    <div class="col-sm-3" style="text-align: right;">
+                        <label>URL:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="url" ng-model="ExternalLinkUrlToAdd" class="form-control" style="width: 100%" />
+                    </div>
                 </div>
-                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
+                <div class="row text-right"><div class="col-sm-12"><button class="btn btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add Link</button></div></div>
             </div>
-            <br />
+            <br/>
             <table class="table">
                 <tr>
                     <th></th>

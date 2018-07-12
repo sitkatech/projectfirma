@@ -74,17 +74,28 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = new List<ValidationResult>();
-
-            if (ProjectFundingSourceRequests != null)
+            if (ProjectFundingSourceRequests == null)
             {
-                if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
-                {
-                    validationResults.Add(new ValidationResult("Each funding source can only be used once."));
-                }
+                yield break;
             }
 
-            return validationResults;
+            if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            {
+                yield return new ValidationResult("Each Funding Source can only be used once.");
+            }
+
+            foreach (var projectFundingSourceRequest in ProjectFundingSourceRequests)
+            {
+                if (projectFundingSourceRequest.AreBothValuesZero())
+                {
+                    var request = projectFundingSourceRequest;
+                    var fundingSource =
+                        HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
+                            x.FundingSourceID == request.FundingSourceID);
+                    yield return new ValidationResult(
+                        $"Secured Funding and Unsecured Funding cannot both be zero for any funding source. ({fundingSource.DisplayName})");
+                }
+            }
         }
     }
 }

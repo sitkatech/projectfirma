@@ -203,7 +203,7 @@ namespace ProjectFirma.Web.Views.Project
                     projectAlerts.Add(
                         "This Project is pending. Any edits to this project must be made using the Add New Project workflow.");
                 }
-            }            
+            }
             else
             {
                 var latestUpdateState = project.GetLatestUpdateState();
@@ -231,6 +231,19 @@ namespace ProjectFirma.Web.Views.Project
                             "You are a Project Steward, but not for this project. You may only edit projects that are associated with your <a href=\"" +
                             currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
                     }
+                }
+            }
+
+            
+            if (project.GetLatestNotApprovedUpdateBatch() != null)
+            {
+                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                {
+                    projectAlerts.Add("This Project has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
+                }
+                else
+                {
+                    projectAlerts.Add("This Project has an Update in progress. Check back later for more current information on this project.");
                 }
             }
 

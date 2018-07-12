@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -818,7 +817,6 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
                 return ViewLocationSimple(project, projectUpdateBatch, viewModel);
             }
             viewModel.UpdateModelBatch(projectUpdateBatch);
@@ -1133,7 +1131,6 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
                 return ViewWatershed(project, projectUpdateBatch, viewModel);
             }
             var currentProjectUpdateWatersheds = projectUpdateBatch.ProjectWatershedUpdates.ToList();
@@ -2647,16 +2644,6 @@ namespace ProjectFirma.Web.Controllers
             // now go through all the modified calendar years and mark them as either "added" or an update, with "added" meaning not being in the original set
             calendarYearStrings.AddRange(calendarYearsUpdated.Select(i => new CalendarYearString(i, !calendarYearsOriginal.Contains(i) ? AddedDeletedOrRealElement.AddedElement : AddedDeletedOrRealElement.RealElement)));
             return calendarYearStrings;
-        }
-
-        private void ShowValidationErrors(List<ValidationResult> validationResults)
-        {
-            var validationErrorMessages = string.Empty;
-            if (validationResults.Any())
-            {
-                validationErrorMessages = $" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
-            }
-            SetErrorForDisplay($"Could not save {FieldDefinition.Proposal.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
 
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection)

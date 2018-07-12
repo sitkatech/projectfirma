@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.CompletionYear = CompletionYear;
             projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
             projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
-            ProjectCustomAttributes.UpdateModel(projectUpdate, currentPerson);
+            ProjectCustomAttributes?.UpdateModel(projectUpdate, currentPerson);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

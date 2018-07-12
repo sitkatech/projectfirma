@@ -143,7 +143,6 @@ else
                     </div>
                 </div>
                 <br />
-                @Html.ValidationSummary()
                 @using (Html.BeginForm<ProjectUpdateController>(x => x.PerformanceMeasures(ViewDataTyped.Project, null), FormMethod.Post, new Dictionary<string, object> { { "name", "pmForm" }, { "novalidate", "novalidate" } }))
                 {
                     <table class="table" ng-show="AngularModel.PerformanceMeasureActualUpdates.length > 0" ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">

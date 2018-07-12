@@ -42,12 +42,10 @@
             return new ProjectFundingSourceRequestUpdate(ProjectID, FundingSourceID){SecuredAmount = SecuredAmount, UnsecuredAmount = UnsecuredAmount};
         }
 
-        public bool AreBothValuesZeroOrEmpty()
+        public bool AreBothValuesZero()
         {
-            return (SecuredAmount == null && UnsecuredAmount == null) ||
-                (SecuredAmount == 0 && UnsecuredAmount == 0) ||
-                (SecuredAmount == 0 && UnsecuredAmount == null) ||
-                (SecuredAmount == null && UnsecuredAmount == 0);
+            return
+                SecuredAmount == 0 && UnsecuredAmount == 0;
         }
     }
 }
