@@ -88,12 +88,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 if (projectFundingSourceRequest.AreBothValuesZero())
                 {
-                    var request = projectFundingSourceRequest;
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
-                            x.FundingSourceID == request.FundingSourceID);
+                            x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
                     yield return new ValidationResult(
-                        $"Secured Funding and Unsecured Funding cannot both be zero for any funding source. ({fundingSource.DisplayName})");
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}");
                 }
             }
         }

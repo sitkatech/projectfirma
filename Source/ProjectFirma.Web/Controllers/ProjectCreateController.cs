@@ -489,8 +489,8 @@ namespace ProjectFirma.Web.Controllers
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
             var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
-            var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
-            viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceExpectedFunding);
+            var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
+            viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceRequests);
             SetMessageForDisplay("Expected Funding successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
         }
@@ -1345,9 +1345,9 @@ namespace ProjectFirma.Web.Controllers
             var validationErrorMessages = string.Empty;
             if (validationResults.Any())
             {
-                validationErrorMessages =$" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
+                validationErrorMessages =$"<ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
-            SetErrorForDisplay($"Could not save {FieldDefinition.Project.GetFieldDefinitionLabel()}.{validationErrorMessages}");
+            SetErrorForDisplay($"The {FieldDefinition.Project.GetFieldDefinitionLabel()} could not be saved because there were errors that need to be corrected: {validationErrorMessages}");
         }
 
         private ActionResult GoToNextSection(FormViewModel viewModel, Project project, ProjectCreateSection currentSection)
