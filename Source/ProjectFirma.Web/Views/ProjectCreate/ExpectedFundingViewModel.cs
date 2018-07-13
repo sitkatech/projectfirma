@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests.Where(x => x.UnsecuredAmount.HasValue || x.SecuredAmount.HasValue).Select(x => x.ToProjectFundingSourceRequest()).ToList();
+                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests.Select(x => x.ToProjectFundingSourceRequest()).ToList();
             }
 
             currentProjectFundingSourceRequests.Merge(projectFundingSourceRequestsUpdated,
@@ -73,16 +73,28 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<ValidationResult> GetValidationResults()
         {
-            var validationResults = new List<ValidationResult>();
-
-            if (ProjectFundingSourceRequests != null)
+            if (ProjectFundingSourceRequests == null)
             {
-                if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+                yield break;
+            }
+
+            if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            {
+                yield return new ValidationResult("Each funding source can only be used once.");
+            }
+
+            foreach (var projectFundingSourceRequest in ProjectFundingSourceRequests)
+            {
+                if (projectFundingSourceRequest.AreBothValuesZero())
                 {
-                    validationResults.Add(new ValidationResult("Each funding source can only be used once."));
+                    var fundingSource =
+                        HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
+                            x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
+                    yield return new ValidationResult(
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}");
+
                 }
             }
-            return validationResults;
         }
     }
 }

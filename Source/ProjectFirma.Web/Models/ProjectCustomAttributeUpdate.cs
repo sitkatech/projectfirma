@@ -61,7 +61,9 @@ namespace ProjectFirma.Web.Models
                                 y.ProjectCustomAttributeTypeID ==
                                 x.IProjectCustomAttribute?.ProjectCustomAttributeTypeID)
                             ?.ProjectCustomAttributeID ??
-                        projectCustomAttributesFromProjectUpdate.Single().ProjectCustomAttributeID;
+                        projectCustomAttributesFromProjectUpdate.Single(y =>
+                            y.ProjectCustomAttributeTypeID ==
+                            x.IProjectCustomAttribute?.ProjectCustomAttributeTypeID).ProjectCustomAttributeID;
                     return new ProjectCustomAttributeValue(projectCustomAttributeID, x.AttributeValue);
                 })
                 .ToList();
