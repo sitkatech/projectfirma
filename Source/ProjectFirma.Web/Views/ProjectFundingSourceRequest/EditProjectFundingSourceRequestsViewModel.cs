@@ -18,12 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceRequest
 {
@@ -38,18 +40,22 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceRequest
         {
         }
 
-        public EditProjectFundingSourceRequestsViewModel(List<Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
+        public EditProjectFundingSourceRequestsViewModel(
+            List<Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
-            ProjectFundingSourceRequests = projectFundingSourceRequests.Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
+            ProjectFundingSourceRequests = projectFundingSourceRequests
+                .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
         }
 
-        public void UpdateModel(List<Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests, IList<Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+        public void UpdateModel(List<Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
+            IList<Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
         {
             var projectFundingSourceRequestsUpdated = new List<Models.ProjectFundingSourceRequest>();
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests.Select(x => x.ToProjectFundingSourceRequest()).ToList();
+                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests
+                    .Select(x => x.ToProjectFundingSourceRequest()).ToList();
             }
 
             currentProjectFundingSourceRequests.Merge(projectFundingSourceRequestsUpdated,
@@ -64,15 +70,27 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceRequest
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = new List<ValidationResult>();
-            if (ProjectFundingSourceRequests != null)
+            if (ProjectFundingSourceRequests == null)
             {
-                if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+                yield break;
+            }
+
+            if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            {
+                yield return new ValidationResult("Each funding source can only be used once.");
+            }
+
+            foreach (var projectFundingSourceRequest in ProjectFundingSourceRequests)
+            {
+                if (projectFundingSourceRequest.AreBothValuesZero())
                 {
-                    validationResults.Add(new ValidationResult("Each funding source can only be used once."));
+                    var fundingSource =
+                        HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
+                            x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
+                    yield return new ValidationResult(
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}");
                 }
             }
-            return validationResults;
         }
     }
 }
