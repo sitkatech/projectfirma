@@ -12,6 +12,16 @@ where TenantID = 9
 alter table dbo.TenantAttribute alter column ReportingYearStartDate datetime not null
 alter table dbo.TenantAttribute alter column UseFiscalYears bit not null
 
-update dbo.FieldDefinitionData
-set FieldDefinitionLabel = 'Fiscal Year'
-where TenantID = 9 and FieldDefinitionID = 76
+
+
+
+UPDATE dbo.PerformanceMeasureSubcategory SET ChartConfigurationJson = REPLACE(ChartConfigurationJson, '"title": "Date"', '"title": "Fiscal Year"')
+WHERE TenantID = 9; 
+
+
+UPDATE dbo.PerformanceMeasureSubcategory SET ChartConfigurationJson = REPLACE(ChartConfigurationJson, '"title":"Date"', '"title": "Fiscal Year"')
+WHERE TenantID = 9; 
+
+
+UPDATE dbo.PerformanceMeasureSubcategory SET ChartConfigurationJson = REPLACE(ChartConfigurationJson, '"title":"Year"', '"title": "Fiscal Year"')
+WHERE TenantID = 9; 
