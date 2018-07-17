@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -31,7 +32,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
 
         [Required]
-        [DisplayName("Year")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportingYear)]
         public int? CalendarYear { get; set; }
 
         [DisplayName("Reported Value")]

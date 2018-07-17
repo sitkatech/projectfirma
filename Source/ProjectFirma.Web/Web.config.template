@@ -28,15 +28,11 @@
     <add key="ApplicationDomain" value="${application-domain}"/>
     <add key="Ogr2OgrExecutable" value="C:\Program Files\GDAL\ogr2ogr.exe"/>
     <add key="OgrInfoExecutable" value="C:\Program Files\GDAL\ogrinfo.exe"/>
-    <add key="ReportingPeriodStartMonth" value="1"/>
-    <add key="ReportingPeriodStartDay" value="1"/>
-    <add key="AnnualReportingContactPersonID" value="18"/>
     <add key="DefaultSupportPersonID" value="2"/>
     <add key="LogFileFolder" value="${application-root-dir}\Logs"/>
     <add key="KeystoneUrl" value="https://${keystone-base-url}"/>
     <add key="KeystoneRegisterUserUrl" value="${keystone-register-endpoint}"/>
     <add key="KeystoneUserProfileUrl" value="${keystone-user-profile-endpoint}"/>
-    <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}"/>
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
     <add key="DefaultModalDialogButtonCssClasses" value="btn-firma,btn-xs"/>
     <add key="WkhtmltopdfExecutable" value="${wkhtmltopdf-executable}"/>

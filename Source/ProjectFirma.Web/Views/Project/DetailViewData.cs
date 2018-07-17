@@ -243,7 +243,7 @@ namespace ProjectFirma.Web.Views.Project
                 }
                 else
                 {
-                    projectAlerts.Add("This Project has an Update in progress. Check back later for more current information on this project.");
+                    projectAlerts.Add("This Project has an Update in progress.");
                 }
             }
 

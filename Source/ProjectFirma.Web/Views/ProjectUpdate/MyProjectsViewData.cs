@@ -52,19 +52,21 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public MyProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
+            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var fieldDefinitionReportingYear = Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
                     PageTitle =
-                        $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Requiring an Update for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
+                        $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Requiring an Update for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
                     PageTitle =
-                        $"Recently Submitted {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
+                        $"Recently Submitted {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
                     PageTitle =
-                        $"All My {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
+                        $"All My {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     PageTitle = $"All {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";

@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -42,7 +43,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ExpectedFundingViewModel(List<Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
-            ProjectFundingSourceRequests = projectFundingSourceRequests.Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
+            ProjectFundingSourceRequests = projectFundingSourceRequests
+                .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
         }
 
         public void UpdateModel(Models.Project project,
@@ -53,7 +55,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests.Select(x => x.ToProjectFundingSourceRequest()).ToList();
+                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests
+                    .Select(x => x.ToProjectFundingSourceRequest()).ToList();
             }
 
             currentProjectFundingSourceRequests.Merge(projectFundingSourceRequestsUpdated,
@@ -91,8 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
                     yield return new ValidationResult(
-                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}");
-
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.");
                 }
             }
         }

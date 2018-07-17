@@ -29,10 +29,7 @@ namespace ProjectFirma.Web.Common
 {
     public class FirmaDateUtilities
     {
-        public static int MinimumYear
-        {
-            get { return MultiTenantHelpers.GetMinimumYear(); }
-        }
+        public static int MinimumYear => MultiTenantHelpers.GetMinimumYear();
 
         public const int YearsBeyondPresentForMaximumYearForUserInput = 30;
 
@@ -43,16 +40,6 @@ namespace ProjectFirma.Web.Common
         public static List<int> YearsForUserInput()
         {
             return GetRangeOfYears(MinimumYear, DateTime.Now.Year + YearsBeyondPresentForMaximumYearForUserInput);
-        }
-
-
-        /// <summary>
-        /// Range of Years for user input, using MinimumYear and MaximumYearforUserInput
-        /// </summary>
-        /// <returns></returns>
-        public static List<int> FutureYearsForUserInput()
-        {
-            return GetRangeOfYears(DateTime.Now.Year, DateTime.Now.Year + YearsBeyondPresentForMaximumYearForUserInput);
         }
 
         /// <summary>
@@ -72,7 +59,8 @@ namespace ProjectFirma.Web.Common
 
         public static DateTime LastReportingPeriodStartDate()
         {
-            return new DateTime(CalculateCurrentYearToUseForReporting(), FirmaWebConfiguration.ReportingPeriodStartMonth, FirmaWebConfiguration.ReportingPeriodStartDay);
+            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
+            return new DateTime(CalculateCurrentYearToUseForReporting(), startDayOfReportingYear.Month, startDayOfReportingYear.Day);
         }
 
         public static int GetMinimumYearForReportingExpenditures()
@@ -82,26 +70,29 @@ namespace ProjectFirma.Web.Common
 
         public static int CalculateCurrentYearToUseForReporting()
         {
-            var reportingPeriodStartMonth = FirmaWebConfiguration.ReportingPeriodStartMonth;
-            var reportingPeriodStartDay = FirmaWebConfiguration.ReportingPeriodStartDay;
-            return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, reportingPeriodStartMonth, reportingPeriodStartDay);
+            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
+            return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
         }
 
         //Only public for unit testing
         public static int CalculateCurrentYearToUseForReportingImpl(DateTime currentDateTime, int reportingStartMonth, int reportingStartDay)
         {
             var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);
+            if(MultiTenantHelpers.UseFiscalYears())
+            { 
+                return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
+            }
             return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
         }
 
         public static List<int> CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
         {
-            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project == null ? null : project.PlanningDesignStartYear, project == null ? null : project.CompletionYear, currentYearToUse, MinimumYear, currentYearToUse);
+            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project?.PlanningDesignStartYear, project?.CompletionYear, currentYearToUse, MinimumYear, currentYearToUse);
         }
 
         public static List<int> CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
         {
-            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project == null ? null : project.PlanningDesignStartYear, project == null ? null : project.CompletionYear, currentYearToUse, null, null);
+            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project?.PlanningDesignStartYear, project?.CompletionYear, currentYearToUse, null, null);
         }
 
         public static List<int> CalculateCalendarYearRangeAccountingForExistingYears(List<int> existingYears, int? startYear, int? endYear, int currentYearToUse, int? floorYear, int? ceilingYear)
@@ -164,25 +155,6 @@ namespace ProjectFirma.Web.Common
         public static List<int> GetRangeOfYearsForReporting()
         {
             return GetRangeOfYears(MinimumYear, CalculateCurrentYearToUseForReporting());
-        }
-
-        public static bool IsDayToSendDelinquentReminder(DateTime dateToCheck, int delinquentReminderIntervalInDays, int deadlineMonth, int deadlineDay, int reportingPeriodEndMonth, int reportingPeriodEndDay)
-        {
-            var deadlineYear = CalculateDeadlineYear();
-            var deadlineDate = new DateTime(deadlineYear, deadlineMonth, deadlineDay);
-            var reportingPeriodEndDate = new DateTime(deadlineYear, reportingPeriodEndMonth, reportingPeriodEndDay);
-            var withinDelinquentReminderPeriod = dateToCheck > deadlineDate && dateToCheck < reportingPeriodEndDate;
-            var daysFromDeadline = (dateToCheck - deadlineDate).Days;
-            var isDayToSendDelinquentReminder = daysFromDeadline > 0 && daysFromDeadline % delinquentReminderIntervalInDays == 0;
-            return withinDelinquentReminderPeriod && isDayToSendDelinquentReminder;
-        }
-
-        public static int CalculateDeadlineYear()
-        {
-            var currentDateTime = DateTime.Today;
-            var dateToCheckAgainst = new DateTime(DateTime.Today.Year, FirmaWebConfiguration.ReportingPeriodStartMonth, FirmaWebConfiguration.ReportingPeriodStartDay);
-            var reportingYear = currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
-            return reportingYear;
         }
     }
 }
