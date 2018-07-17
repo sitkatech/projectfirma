@@ -157,7 +157,7 @@ else
                             </tr>
                             <tr>
                                 <th></th>
-                                <th>@Html.LabelWithRequiredTagFor("Year")</th>
+                                <th>@Html.LabelWithRequiredTagFor(ViewDataTyped.ReportingYearLabel)</th>
                                 <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOptionUpdate in performanceMeasureGroup.PerformanceMeasureActualSubcategoryOptionUpdates | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureActualSubcategoryOptionUpdate)}}</th>
                                 <th>Value</th>
                                 <th></th>

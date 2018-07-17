@@ -31,12 +31,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class PerformanceMeasuresViewData : ProjectCreateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData;
-        public readonly ViewDataForAngularEditor ViewDataForAngular;
-        
-        public readonly bool IsImplementationStartYearValid;
-        public readonly string DiffUrl;
+        public string RefreshUrl { get; }
+        public PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData { get; }
+        public ViewDataForAngularEditor ViewDataForAngular { get; }
+
+        public bool IsImplementationStartYearValid { get; }
+        public string DiffUrl { get; }
+
+        public string ReportingYearLabel { get; }
 
         public PerformanceMeasuresViewData(Person currentPerson, Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedPerformanceMeasures, proposalSectionsStatus)
@@ -52,8 +54,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 performanceMeasureActuals.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList());
             ViewDataForAngular = viewDataForAngularEditor;
             
-            IsImplementationStartYearValid = project.ImplementationStartYear.HasValue &&
-                                             project.ImplementationStartYear < project.CompletionYear;
+            IsImplementationStartYearValid = project.ImplementationStartYear.HasValue && project.ImplementationStartYear < project.CompletionYear;
+            ReportingYearLabel = Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
         }
 
         public class ViewDataForAngularEditor

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public PerformanceMeasureChartExcelSpec(List<GoogleChartColumn> googleChartColumns)
         {
-            AddColumn("Year", x => x.Year);
+            AddColumn(Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), x => x.Year);
 
             foreach (var googleChartColumn in googleChartColumns)
             {
@@ -36,12 +36,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 }
             }
 
-            AddColumn("Total",
-                x => x.SubcategoryOptionValues.Values.Sum(y =>
-                {
-                    decimal value;
-                    return y.Value != null && Decimal.TryParse(y.Value.ToString(), out value) ? value : 0;
-                }));
+            AddColumn("Total", x => x.SubcategoryOptionValues.Values.Sum(y => y.Value != null && Decimal.TryParse(y.Value.ToString(), out var value) ? value : 0));
         }
     }
 }

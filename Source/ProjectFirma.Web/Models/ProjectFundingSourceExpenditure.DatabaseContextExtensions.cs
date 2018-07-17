@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
                 isStacked,
                 googleChartType,
                 googleChartDataTable,
-                new GoogleChartAxis("Year", null, null),
+                new GoogleChartAxis(FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), null, null),
                 new List<GoogleChartAxis> { googleChartAxis });
             var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
@@ -142,7 +142,8 @@ namespace ProjectFirma.Web.Models
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Year", "Year", "string") };
+            var columnLabel = FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(columnLabel, columnLabel, "string") };
             googleChartColumns.AddRange(
                 sortedYearCategoryDictionary.Select(
                         x => new GoogleChartColumn(x.Key, x.Key, "number", new GoogleChartSeries(columnDisplayType, GoogleChartAxisType.Primary), null, null)));

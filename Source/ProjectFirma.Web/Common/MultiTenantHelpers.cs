@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
@@ -237,6 +238,16 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.Single(x =>
                 x.TenantID == HttpRequestStorage.Tenant.TenantID);
+        }
+
+        public static DateTime GetStartDayOfReportingYear()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().ReportingYearStartDate;
+        }
+
+        public static bool UseFiscalYears()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().UseFiscalYears;
         }
     }
 }

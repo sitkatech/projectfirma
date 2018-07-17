@@ -31,12 +31,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PerformanceMeasuresViewData : ProjectUpdateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData;
-        public readonly ViewDataForAngularEditor ViewDataForAngular;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly bool IsImplementationStartYearValid;
-        public readonly string DiffUrl;
+        public string RefreshUrl { get; }
+        public PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData { get; }
+        public ViewDataForAngularEditor ViewDataForAngular { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public bool IsImplementationStartYearValid { get; }
+        public string DiffUrl { get; }
+        public string ReportingYearLabel { get; }
 
         public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, UpdateStatus updateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
             : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.PerformanceMeasures, updateStatus, performanceMeasuresValidationResult.GetWarningMessages())
@@ -54,6 +55,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.PerformanceMeasuresComment, projectUpdateBatch.IsReturned);
             IsImplementationStartYearValid = projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue &&
                                              projectUpdateBatch.ProjectUpdate.ImplementationStartYear < projectUpdateBatch.ProjectUpdate.CompletionYear;
+
+            ReportingYearLabel = Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
         }
 
         public class ViewDataForAngularEditor

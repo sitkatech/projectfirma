@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.Organization.GetDetailUrl(), x.FundingSource.Organization.DisplayName), 120);
             Add($"Provided by {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization == organization).ToYesOrEmpty(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add($"Received from other {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization != organization).ToYesOrEmpty(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Year", x => x.CalendarYear, 80, DhtmlxGridColumnFormatType.Date, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ReportingYear.ToGridHeaderString(), x => x.CalendarYear, 80, DhtmlxGridColumnFormatType.Date, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Amount", x => x.ExpenditureAmount, 80, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);            
         }
     }
