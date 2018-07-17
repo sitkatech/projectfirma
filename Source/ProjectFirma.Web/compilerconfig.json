@@ -34,5 +34,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/peakstopeople.theme.css",
     "inputFile": "Content/Bootstrap/firma/peakstopeople.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/iswcc.theme.css",
+    "inputFile": "Content/Bootstrap/firma/iswcc.theme.less"
   }
 ]

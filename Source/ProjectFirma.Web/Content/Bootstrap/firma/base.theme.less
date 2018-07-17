@@ -108,6 +108,7 @@ h1, h2, h3, h4, h5, h6 {
 .firmaContent {
     background-color: @firma-contentBackground-color;
     border: 1px solid @firma-contentBorder-color;
+    margin-top: 20px;
     padding-top: 10px;
 }
 
@@ -260,6 +261,13 @@ form {
 .navbar-right {
     padding-right: 15px;
 }
+
+@media(max-width: 767px ) {
+    .navbar-right {
+        padding-right: 0;
+    }
+}
+
 
 .dropdown-menu {
     z-index: 16000;
@@ -734,6 +742,83 @@ table.summaryLayout td {
     border-right: 22px solid transparent;
     border-bottom: 22px solid transparent;
     border-left: 7px solid @firma-contentBackground-color;
+}
+
+
+// Content
+.firmaContent {
+    .list-group {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .list-group:nth-child(3n+1)   {
+        padding-left: 16px;
+    }
+
+    .list-group:nth-child(3n+3)   {
+        padding-right: 16px;
+    }
+}
+
+
+// Fancytree
+table[id^=projecttaxonomytree] > tbody {
+    & > tr.fancytree-ico-c {
+        &.fancytree-has-children:first-of-type:hover {
+            td {
+                background-color: #f5f5f5;
+            }
+
+            td:first-of-type {
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                background-color: #f5f5f5;
+            }
+
+            td:last-child {
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                background-color: #f5f5f5;
+            }
+        }
+
+        &:last-of-type:hover td:first-of-type, &.fancytree-has-children.fancytree-lastsib:hover td:first-of-type {
+            border-bottom-left-radius: 8px;
+            background: #f5f5f5;
+        }
+
+        &:last-of-type:hover td:last-child,
+        &.fancytree-has-children.fancytree-lastsib:hover td:last-child {
+            border-bottom-right-radius: 8px;
+            background: #f5f5f5;
+        }
+    }
+
+    & > tr.fancytree-ico-e {
+        &:first-of-type:hover {
+            td {
+                background: #f5f5f5;
+            }
+
+            td:first-of-type {
+                border-top-left-radius: 8px;
+                background: #f5f5f5;
+            }
+
+            td:last-child {
+                border-top-right-radius: 8px;
+                background: #f5f5f5;
+            }
+        }
+    }
+
+
+
+
+    & > tr:hover td {
+        background-color: #f5f5f5;
+    }
 }
 
 

@@ -48,6 +48,7 @@ h6 {
 .firmaContent {
   background-color: #fff;
   border: 1px solid #e7e7e7;
+  margin-top: 20px;
   padding-top: 10px;
 }
 .rightFloatingInfo {
@@ -170,6 +171,11 @@ form .form-group-condensed {
 }
 .navbar-right {
   padding-right: 15px;
+}
+@media (max-width: 767px) {
+  .navbar-right {
+    padding-right: 0;
+  }
 }
 .dropdown-menu {
   z-index: 16000;
@@ -573,6 +579,53 @@ table.summaryLayout td {
   border-right: 22px solid transparent;
   border-bottom: 22px solid transparent;
   border-left: 7px solid #fff;
+}
+.firmaContent .list-group {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.firmaContent .list-group:nth-child(3n+1)  {
+  padding-left: 16px;
+}
+.firmaContent .list-group:nth-child(3n+3)  {
+  padding-right: 16px;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c.fancytree-has-children:first-of-type:hover td {
+  background-color: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c.fancytree-has-children:first-of-type:hover td:first-of-type {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background-color: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c.fancytree-has-children:first-of-type:hover td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c:last-of-type:hover td:first-of-type,
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c.fancytree-has-children.fancytree-lastsib:hover td:first-of-type {
+  border-bottom-left-radius: 8px;
+  background: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c:last-of-type:hover td:last-child,
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-c.fancytree-has-children.fancytree-lastsib:hover td:last-child {
+  border-bottom-right-radius: 8px;
+  background: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-e:first-of-type:hover td {
+  background: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-e:first-of-type:hover td:first-of-type {
+  border-top-left-radius: 8px;
+  background: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr.fancytree-ico-e:first-of-type:hover td:last-child {
+  border-top-right-radius: 8px;
+  background: #f5f5f5;
+}
+table[id^=projecttaxonomytree] > tbody > tr:hover td {
+  background-color: #f5f5f5;
 }
 .panelFirma {
   border-color: #ddd;
