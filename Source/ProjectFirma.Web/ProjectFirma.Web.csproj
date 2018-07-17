@@ -665,6 +665,12 @@
     <Content Include="Content\Bootstrap\firma\clackamas.min.css">
       <DependentUpon>clackamas.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\iswcc.theme.css">
+      <DependentUpon>iswcc.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\iswcc.theme.min.css">
+      <DependentUpon>iswcc.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\peakstopeople.theme.css">
       <DependentUpon>peakstopeople.theme.less</DependentUpon>
     </Content>
@@ -808,6 +814,7 @@
     <Content Include="Content\Bootstrap\firma\peakstopeople.theme.less" />
     <Content Include="Content\img\PeaksToPeople\manifest.json" />
     <Compile Include="FirmaOwinStartup.cs" />
+    <Content Include="Content\Bootstrap\firma\iswcc.theme.less" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -3532,6 +3539,7 @@
     <Content Include="Views\TaxonomyLeaf\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\img\ISWCC\" />
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Views\Help\" />
