@@ -237,7 +237,7 @@ namespace ProjectFirma.Web.Views.Project
             
             if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects) && project.IsMyProject(currentPerson))
                 {
                     projectAlerts.Add("This Project has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }

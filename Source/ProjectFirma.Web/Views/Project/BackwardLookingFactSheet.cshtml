@@ -158,10 +158,10 @@
                     <strong>Primary Contact</strong>
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9">
-                    @if (ViewDataTyped.Project.PrimaryContactPerson != null)
+                    @if (ViewDataTyped.Project.GetPrimaryContact() != null)
                     {
                         <span>
-                            @ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast (@ViewDataTyped.Project.PrimaryContactPerson.Email)
+                            @ViewDataTyped.Project.GetPrimaryContact().FullNameFirstLast (@ViewDataTyped.Project.GetPrimaryContact().Email)
                         </span>
                     }
                     else
