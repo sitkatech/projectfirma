@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentPerson)
         {
             ProjectCustomAttributeType = projectCustomAttributeType;
-            EntityName = Models.FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabelPluralized();
+            EntityName = Models.FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabelPluralized();
             PageTitle = projectCustomAttributeType.ProjectCustomAttributeTypeName;
             ManageUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 

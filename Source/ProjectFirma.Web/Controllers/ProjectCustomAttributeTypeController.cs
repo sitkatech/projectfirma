@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
+            SetMessageForDisplay($"{FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProjectCustomAttributeType(ProjectCustomAttributeType projectCustomAttributeType, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} \"{projectCustomAttributeType.ProjectCustomAttributeTypeName}\"?", true);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} \"{projectCustomAttributeType.ProjectCustomAttributeTypeName}\"?", true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectCustomAttributeType(projectCustomAttributeType, viewModel);
             }
 
-            var message = $"{FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' successfully deleted!";
+            var message = $"{FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' successfully deleted!";
             projectCustomAttributeType.DeleteFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
