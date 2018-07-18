@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionTaxonomyLeafDescription TaxonomyLeafDescription = FieldDefinitionTaxonomyLeafDescription.Instance;
         public static readonly FieldDefinitionShowProposalsToThePublic ShowProposalsToThePublic = FieldDefinitionShowProposalsToThePublic.Instance;
         public static readonly FieldDefinitionShowLeadImplementerLogoOnFactSheet ShowLeadImplementerLogoOnFactSheet = FieldDefinitionShowLeadImplementerLogoOnFactSheet.Instance;
-        public static readonly FieldDefinitionProjectCustomAttributeType ProjectCustomAttributeType = FieldDefinitionProjectCustomAttributeType.Instance;
+        public static readonly FieldDefinitionProjectCustomAttribute ProjectCustomAttribute = FieldDefinitionProjectCustomAttribute.Instance;
         public static readonly FieldDefinitionProjectCustomAttributeDataType ProjectCustomAttributeDataType = FieldDefinitionProjectCustomAttributeDataType.Instance;
         public static readonly FieldDefinitionProjectUpdateKickOffDate ProjectUpdateKickOffDate = FieldDefinitionProjectUpdateKickOffDate.Instance;
         public static readonly FieldDefinitionProjectUpdateReminderInterval ProjectUpdateReminderInterval = FieldDefinitionProjectUpdateReminderInterval.Instance;
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyLeaf, ExpectedValue, TaxonomyTrunk, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyBranch, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyBranch, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyBranches, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyLeafDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType, TaxonomyTrunkDescription, TaxonomyBranchDescription, TaxonomyLeafDescription, ShowProposalsToThePublic, ShowLeadImplementerLogoOnFactSheet, ProjectCustomAttributeType, ProjectCustomAttributeDataType, ProjectUpdateKickOffDate, ProjectUpdateReminderInterval, ProjectUpdateCloseOutDate };
+            All = new List<FieldDefinition> { TaxonomyLeaf, ExpectedValue, TaxonomyTrunk, FundingSource, IsPrimaryContactOrganization, ProjectsStewardOrganizationRelationshipToProject, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, OrganizationPrimaryContact, TaxonomyBranch, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyBranch, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, Proposal, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyBranches, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyLeafDisplayNameForProject, ProjectRelationshipType, ProjectSteward, ChartLastUpdatedDate, UnsecuredFunding, ProjectStewardOrganizationDisplayName, ClassificationSystem, ClassificationSystemName, ProjectPrimaryContact, CustomPageDisplayType, TaxonomyTrunkDescription, TaxonomyBranchDescription, TaxonomyLeafDescription, ShowProposalsToThePublic, ShowLeadImplementerLogoOnFactSheet, ProjectCustomAttribute, ProjectCustomAttributeDataType, ProjectUpdateKickOffDate, ProjectUpdateReminderInterval, ProjectUpdateCloseOutDate };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -287,10 +287,10 @@ namespace ProjectFirma.Web.Models
                     return Project;
                 case FieldDefinitionEnum.ProjectCostInYearOfExpenditure:
                     return ProjectCostInYearOfExpenditure;
+                case FieldDefinitionEnum.ProjectCustomAttribute:
+                    return ProjectCustomAttribute;
                 case FieldDefinitionEnum.ProjectCustomAttributeDataType:
                     return ProjectCustomAttributeDataType;
-                case FieldDefinitionEnum.ProjectCustomAttributeType:
-                    return ProjectCustomAttributeType;
                 case FieldDefinitionEnum.ProjectDescription:
                     return ProjectDescription;
                 case FieldDefinitionEnum.ProjectLocation:
@@ -454,7 +454,7 @@ namespace ProjectFirma.Web.Models
         TaxonomyLeafDescription = 256,
         ShowProposalsToThePublic = 257,
         ShowLeadImplementerLogoOnFactSheet = 258,
-        ProjectCustomAttributeType = 259,
+        ProjectCustomAttribute = 259,
         ProjectCustomAttributeDataType = 260,
         ProjectUpdateKickOffDate = 261,
         ProjectUpdateReminderInterval = 262,
@@ -947,10 +947,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionShowLeadImplementerLogoOnFactSheet Instance = new FieldDefinitionShowLeadImplementerLogoOnFactSheet(258, @"ShowLeadImplementerLogoOnFactSheet", @"Show Lead Implementer Logo on Project Fact Sheet?", @"<p>When this option is set, project fact sheets will include the lead implementer's logo under the website logo. When not set, only the website logo will be shown on fact sheets.", true);
     }
 
-    public partial class FieldDefinitionProjectCustomAttributeType : FieldDefinition
+    public partial class FieldDefinitionProjectCustomAttribute : FieldDefinition
     {
-        private FieldDefinitionProjectCustomAttributeType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionProjectCustomAttributeType Instance = new FieldDefinitionProjectCustomAttributeType(259, @"ProjectCustomAttributeType", @"Custom Attribute Type", @"", true);
+        private FieldDefinitionProjectCustomAttribute(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
+        public static readonly FieldDefinitionProjectCustomAttribute Instance = new FieldDefinitionProjectCustomAttribute(259, @"ProjectCustomAttribute", @"Custom Attribute", @"", true);
     }
 
     public partial class FieldDefinitionProjectCustomAttributeDataType : FieldDefinition
