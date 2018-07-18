@@ -146,7 +146,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID);
             }
-            if (ProjectID.HasValue && !Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID.Value))
+
+            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 yield return new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName);
             }

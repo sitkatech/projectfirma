@@ -25,20 +25,18 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
-@using FirmaWebConfiguration = LtInfo.Common.SitkaWebConfiguration
 @inherits NavAndHeaderLayout
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>@MultiTenantHelpers.GetTenantDisplayName()  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
+    <title>@ViewDataTyped.TenantDisplayName  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
 
-    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-57x57.png", MultiTenantHelpers.GetTenantName())>
-    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-60x60.png", MultiTenantHelpers.GetTenantName())>
-    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-72x72.png", MultiTenantHelpers.GetTenantName())>
-    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-76x76.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-57x57.png", ViewDataTyped.TenantShortName)>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-60x60.png", ViewDataTyped.TenantShortName)>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-72x72.png", ViewDataTyped.TenantShortName)>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-76x76.png", ViewDataTyped.TenantShortName)>
     <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-114x114.png", MultiTenantHelpers.GetTenantName())>
     <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-120x120.png", MultiTenantHelpers.GetTenantName())>
     <link rel="icon" type="image/png" sizes="57x57" href=@string.Format("/Content/img/{0}/favicon-32x32.png", MultiTenantHelpers.GetTenantName())>
@@ -46,10 +44,11 @@ Source code is available upon request via <support@sitkatech.com>.
     <link rel="icon" type="image/png" sizes="57x57" href=@string.Format("/Content/img/{0}/favicon-16x16.png", MultiTenantHelpers.GetTenantName())>
 
     @{ Html.RenderRazorSitkaPartial<FirmaIncludes>(); }
-    
+
     <link href="@Url.Content("~/Content/Bootstrap/firma/base.theme.min.css")" rel="stylesheet" type="text/css" />
-    
-   <link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/Bootstrap/firma/iswcc.theme.css" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />*@
 
     <script src="@Url.Content("~/Content/bootstrap-typeahead/bootstrap3-typeahead.js")" type="text/javascript"></script>
 
@@ -63,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
             
             <div class="headerText">
                 <a href="@ViewDataTyped.FirmaHomeUrl">
-                    <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" /><span id="headerTenantDisplayName">@MultiTenantHelpers.GetTenantDisplayName()</span>
+                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
                 </a>
             </div>
 

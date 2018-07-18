@@ -49,13 +49,13 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
-        public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int currentProjectID)
+        public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int? currentProjectID)
         {
             if (string.IsNullOrWhiteSpace(projectName))
             {
                 return false;
             }
-            var project = projects.SingleOrDefault(x => x.ProjectID != currentProjectID && string.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
+            var project = projects.SingleOrDefault(x => x.ProjectID != (currentProjectID ?? 0) && string.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
             return project == null;
         }
 

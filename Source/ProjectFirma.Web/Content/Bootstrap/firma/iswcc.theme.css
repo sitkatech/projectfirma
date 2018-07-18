@@ -56,14 +56,13 @@ a:hover {
 .header .headerText {
   display: inline-block;
   font-size: 36px;
-  font-weight: 600;
+  font-weight: normal;
   font-family: "Vollkorn", sans-serif;
   color: #fff;
   vertical-align: bottom;
   margin-bottom: 6px;
   margin-bottom: 10px;
   text-transform: uppercase;
-  text-shadow: 1px 1px 1px #7E9A2C;
   letter-spacing: 3px;
 }
 .header .headerText a {
