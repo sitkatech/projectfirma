@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.FundingSourceName).ToList();
+            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
         }
