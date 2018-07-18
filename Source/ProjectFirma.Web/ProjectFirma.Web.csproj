@@ -692,6 +692,7 @@
     <Content Include="Content\img\ClackamasPartnership\favicon-16x16.png" />
     <Content Include="Content\img\ClackamasPartnership\favicon-32x32.png" />
     <Content Include="Content\img\ClackamasPartnership\favicon-96x96.png" />
+    <Content Include="Content\img\ISWCC\Sowing Seeds of Stewardship.png" />
     <Content Include="Content\img\PeaksToPeople\android-icon-144x144.png" />
     <Content Include="Content\img\PeaksToPeople\android-icon-192x192.png" />
     <Content Include="Content\img\PeaksToPeople\android-icon-36x36.png" />
@@ -3539,7 +3540,6 @@
     <Content Include="Views\TaxonomyLeaf\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\img\ISWCC\" />
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Views\Help\" />

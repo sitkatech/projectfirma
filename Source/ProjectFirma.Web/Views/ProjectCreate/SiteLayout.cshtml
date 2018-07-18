@@ -44,6 +44,11 @@
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new {@class = "validation-summary-errors"})
+}
+
 @if (!ViewDataTyped.ProjectStateIsValidInWizard && ViewDataTyped.Project != null)
 {
     <div class="alert alert-info" style="margin-bottom: 10px">
