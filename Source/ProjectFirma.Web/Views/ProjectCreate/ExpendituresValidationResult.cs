@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add($"Missing Expenditures for {string.Join(", ", missingYears)}");
+                _warningMessages.Add($"Missing Expenditures for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
             }
 
             if (missingFundingSourceYears.Any())
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 _warningMessages.AddRange(
                     missingFundingSourceYears.Select(
                         missingFundingSourceYear =>
-                            $"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{missingFundingSourceYear.Key.DisplayName}' for the following years: {string.Join(", ", missingFundingSourceYear.Value)}").ToList());
+                            $"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{missingFundingSourceYear.Key.DisplayName}' for the following years: {string.Join(", ", missingFundingSourceYear.Value.Select(MultiTenantHelpers.FormatReportingYear))}").ToList());
             }
         }
 

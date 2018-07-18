@@ -20,19 +20,18 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
     public class ProjectExpendituresDetailViewData : FirmaUserControlViewData
     {
-        public readonly List<int> CalendarYears;
-        public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures;
+        public List<CalendarYearString> CalendarYearStrings { get; }
+        public List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures { get; }
 
-        public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<int> calendarYears)
+        public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYearStrings)
         {
             FundingSourceExpenditures = fundingSourceExpenditures;
-            CalendarYears = calendarYears;
+            CalendarYearStrings = calendarYearStrings;
         }
     }
 }

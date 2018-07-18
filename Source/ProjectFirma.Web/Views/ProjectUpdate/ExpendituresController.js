@@ -76,6 +76,8 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         _.each($scope.getAllUsedFundingSourceIds(), function(fundingSourceId) { $scope.addCalendarYearExpenditureRow($scope.ProjectIDToAdd, fundingSourceId, calendarYear); });
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
     $scope.findProjectFundingSourceExpenditureRow = function(projectId, fundingSourceId) { return _.find($scope.AngularModel.ProjectFundingSourceExpenditures, function(pfse) { return pfse.ProjectID == projectId && pfse.FundingSourceID == fundingSourceId; }); }
 
     $scope.addRow = function()
@@ -107,6 +109,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
             projectFundingSourceExpenditure.CalendarYearExpenditures.push($scope.createNewCalendarYearExpenditureRow(calendarYear));
         }
     };
+
 
     $scope.createNewCalendarYearExpenditureRow = function(calendarYear)
     {

@@ -24,31 +24,30 @@ using System.Linq;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Common
 {
     public class FirmaDateUtilities
     {
-        public static int MinimumYear => MultiTenantHelpers.GetMinimumYear();
-
         public const int YearsBeyondPresentForMaximumYearForUserInput = 30;
 
         /// <summary>
         /// Range of Years for user input, using MinimumYear and MaximumYearforUserInput
         /// </summary>
         /// <returns></returns>
-        public static List<int> YearsForUserInput()
+        public static List<CalendarYearString> YearsForUserInput()
         {
-            return GetRangeOfYears(MinimumYear, DateTime.Now.Year + YearsBeyondPresentForMaximumYearForUserInput);
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), DateTime.Now.Year + YearsBeyondPresentForMaximumYearForUserInput).Select(x => new CalendarYearString(x)).ToList();
         }
 
         /// <summary>
         /// Range of Years for user input, using MinimumYearForReporting and DateTime.Now.Year
         /// </summary>
         /// <returns></returns>
-        public static List<int> ReportingYearsForUserInput()
+        public static List<CalendarYearString> ReportingYearsForUserInput()
         {
-            return GetRangeOfYears(MinimumYear, DateTime.Now.Year);
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForReporting()).Select(x => new CalendarYearString(x)).ToList();
         }
 
         public static List<int> GetRangeOfYears(int startYear, int endYear)
@@ -65,7 +64,7 @@ namespace ProjectFirma.Web.Common
 
         public static int GetMinimumYearForReportingExpenditures()
         {
-            return MinimumYear;
+            return MultiTenantHelpers.GetMinimumYear();
         }
 
         public static int CalculateCurrentYearToUseForReporting()
@@ -87,7 +86,7 @@ namespace ProjectFirma.Web.Common
 
         public static List<int> CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
         {
-            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project?.PlanningDesignStartYear, project?.CompletionYear, currentYearToUse, MinimumYear, currentYearToUse);
+            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project?.PlanningDesignStartYear, project?.CompletionYear, currentYearToUse, MultiTenantHelpers.GetMinimumYear(), currentYearToUse);
         }
 
         public static List<int> CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
@@ -144,7 +143,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool DateIsInReportingRange(int calendarYear)
         {
-            return calendarYear > MinimumYear && calendarYear <= CalculateCurrentYearToUseForReporting();
+            return calendarYear > MultiTenantHelpers.GetMinimumYear() && calendarYear <= CalculateCurrentYearToUseForReporting();
         }
 
         public static List<int> GetRangeOfYearsForReportingExpenditures()
@@ -154,7 +153,7 @@ namespace ProjectFirma.Web.Common
 
         public static List<int> GetRangeOfYearsForReporting()
         {
-            return GetRangeOfYears(MinimumYear, CalculateCurrentYearToUseForReporting());
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForReporting());
         }
     }
 }

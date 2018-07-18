@@ -111,6 +111,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
         }
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
     $scope.findProjectFundingSourceExpenditureRow = function(projectId, fundingSourceId) { return _.find($scope.AngularModel.ProjectFundingSourceExpenditures, function(pfse) { return pfse.ProjectID == projectId && pfse.FundingSourceID == fundingSourceId; }); }
     
     $scope.addRow = function () {

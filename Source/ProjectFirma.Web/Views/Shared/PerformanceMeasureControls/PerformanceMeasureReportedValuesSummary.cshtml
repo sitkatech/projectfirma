@@ -55,7 +55,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
             {
-                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYearDisplay</th>
             }
             <th style="text-align: right">Total</th>
             <th></th>

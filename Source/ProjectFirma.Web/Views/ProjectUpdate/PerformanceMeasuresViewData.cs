@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IsImplementationStartYearValid = projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue &&
                                              projectUpdateBatch.ProjectUpdate.ImplementationStartYear < projectUpdateBatch.ProjectUpdate.CompletionYear;
 
-            ReportingYearLabel = Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
+            ReportingYearLabel = "Year";
         }
 
         public class ViewDataForAngularEditor
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
             public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
             public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
-            public readonly List<int> CalendarYears;
+            public readonly List<CalendarYearString> CalendarYearStrings;
             public readonly int MaxSubcategoryOptions;
             public readonly bool ShowExemptYears;
 
@@ -73,14 +73,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 List<PerformanceMeasureSimple> allPerformanceMeasures,
                 List<PerformanceMeasureSubcategorySimple> allPerformanceMeasureSubcategories,
                 List<PerformanceMeasureSubcategoryOptionSimple> allPerformanceMeasureSubcategoryOptions,
-                List<int> calendarYears,
+                List<CalendarYearString> calendarYearStrings,
                 bool showExemptYears)
             {
                 ProjectUpdateBatchID = projectUpdateBatchID;
                 AllPerformanceMeasures = allPerformanceMeasures;
                 AllPerformanceMeasureSubcategories = allPerformanceMeasureSubcategories;
                 AllPerformanceMeasureSubcategoryOptions = allPerformanceMeasureSubcategoryOptions;
-                CalendarYears = calendarYears;
+                CalendarYearStrings = calendarYearStrings;
                 ShowExemptYears = showExemptYears;
                 MaxSubcategoryOptions = allPerformanceMeasureSubcategories.GroupBy(x => x.PerformanceMeasureID).Max(x => x.Count());
             }

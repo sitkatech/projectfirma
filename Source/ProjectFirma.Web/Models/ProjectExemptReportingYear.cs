@@ -34,5 +34,10 @@ namespace ProjectFirma.Web.Models
                 return string.Format("Project: {0}, Calendar Year: {1}", projectDisplayName, CalendarYear);
             }
         }
+
+        public string GetCalendarYear()
+        {
+            return MultiTenantHelpers.FormatReportingYear(CalendarYear);
+        }
     }
 }

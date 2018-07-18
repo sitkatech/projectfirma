@@ -23,6 +23,7 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {

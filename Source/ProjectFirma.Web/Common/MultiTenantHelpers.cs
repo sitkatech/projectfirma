@@ -242,12 +242,21 @@ namespace ProjectFirma.Web.Common
 
         public static DateTime GetStartDayOfReportingYear()
         {
-            return HttpRequestStorage.Tenant.GetTenantAttribute().ReportingYearStartDate;
+            return HttpRequestStorage.Tenant.ReportingYearStartDate;
         }
 
         public static bool UseFiscalYears()
         {
-            return HttpRequestStorage.Tenant.GetTenantAttribute().UseFiscalYears;
+            return HttpRequestStorage.Tenant.UseFiscalYears;
+        }
+
+        public static string FormatReportingYear(int reportingYear)
+        {
+            if (UseFiscalYears())
+            {
+                return $"FY{reportingYear}";
+            }
+            return reportingYear.ToString();
         }
     }
 }

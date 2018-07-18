@@ -23,6 +23,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
         public readonly List<ProjectSimple> AllProjects;
         public readonly int? ProjectID;
-        public readonly List<int> CalendarYears;
+        public readonly List<CalendarYearString> CalendarYearStrings;
         public readonly bool ShowExemptYears;
 
         private EditPerformanceMeasureActualsViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, Models.Project project, bool showExemptYears)
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
             AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             AllProjects = allProjects;
-            CalendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            CalendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
         }
 
         public EditPerformanceMeasureActualsViewData(Models.Project project, List<Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)

@@ -28,12 +28,6 @@ namespace ProjectFirma.Web.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static IQueryable<ProjectFundingSourceExpenditure> GetExpendituresFromMininumYearForReportingOnward(this IQueryable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
-        {
-            var minimumYearForReportingExpenditures = FirmaDateUtilities.GetMinimumYearForReportingExpenditures();
-            return projectFundingSourceExpenditures.Where(x => x.CalendarYear >= minimumYearForReportingExpenditures);
-        }
-
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, Project project)
         {
             var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
@@ -47,18 +41,7 @@ namespace ProjectFirma.Web.Models
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMinCalendarYear,
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear,
                 DateTime.Today.Year,
-                FirmaDateUtilities.MinimumYear,
-                null);
-        }
-
-        public static List<int> CalculateCalendarYearRangeForExpenditures(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, Organization organization)
-        {
-            var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
-                organization.FundingSources.Min(x => x.ProjectsWhereYouAreTheFundingSourceMinCalendarYear),
-                organization.FundingSources.Max(x => x.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear),
-                DateTime.Today.Year,
-                FirmaDateUtilities.MinimumYear,
+                MultiTenantHelpers.GetMinimumYear(),
                 null);
         }
 

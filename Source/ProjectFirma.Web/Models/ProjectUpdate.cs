@@ -167,5 +167,18 @@ namespace ProjectFirma.Web.Models
         {
             return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
         }
+
+        public string GetPlanningDesignStartYear()
+        {
+            return PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(PlanningDesignStartYear.Value) : null;
+        }
+        public string GetCompletionYear()
+        {
+            return CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(CompletionYear.Value) : null;
+        }
+        public string GetImplementationStartYear()
+        {
+            return ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ImplementationStartYear.Value) : null;
+        }
     }
 }

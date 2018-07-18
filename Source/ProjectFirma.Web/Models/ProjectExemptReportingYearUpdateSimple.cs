@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,6 +41,7 @@ namespace ProjectFirma.Web.Models
             ProjectExemptReportingYearUpdateID = projectExemptReportingYearUpdateID;
             ProjectUpdateBatchID = projectUpdateBatchID;
             CalendarYear = calendarYear;
+            CalendarYearDisplay = MultiTenantHelpers.FormatReportingYear(calendarYear);
         }
 
         /// <summary>
@@ -52,11 +54,13 @@ namespace ProjectFirma.Web.Models
             ProjectUpdateBatchID = projectExemptReportingYearUpdate.ProjectUpdateBatchID;
             CalendarYear = projectExemptReportingYearUpdate.CalendarYear;
             IsExempt = ModelObjectHelpers.IsRealPrimaryKeyValue(projectExemptReportingYearUpdate.ProjectExemptReportingYearUpdateID);
+            CalendarYearDisplay = MultiTenantHelpers.FormatReportingYear(projectExemptReportingYearUpdate.CalendarYear);
         }
 
         public int ProjectExemptReportingYearUpdateID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int CalendarYear { get; set; }
         public bool IsExempt { get; set; }
+        public string CalendarYearDisplay { get; }
     }
 }

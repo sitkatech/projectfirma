@@ -19,12 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public struct CalendarYearString
     {
         public readonly int CalendarYear;
+        public readonly string CalendarYearDisplay;
         public readonly bool IsRealEntry;
         public AddedDeletedOrRealElement AddedDeletedOrRealElement;
         public string DisplayCssClass;
@@ -32,6 +34,7 @@ namespace ProjectFirma.Web.Views.Shared
         public CalendarYearString(int calendarYear, AddedDeletedOrRealElement addedDeletedOrRealElement)
         {
             CalendarYear = calendarYear;
+            CalendarYearDisplay = MultiTenantHelpers.FormatReportingYear(calendarYear);
             IsRealEntry = addedDeletedOrRealElement == AddedDeletedOrRealElement.RealElement;
             AddedDeletedOrRealElement = addedDeletedOrRealElement;
             switch (AddedDeletedOrRealElement)

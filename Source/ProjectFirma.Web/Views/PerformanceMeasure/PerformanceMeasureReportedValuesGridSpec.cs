@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public PerformanceMeasureReportedValuesGridSpec(Models.PerformanceMeasure performanceMeasure)
         {
-            Add(Models.FieldDefinition.ReportingYear.ToGridHeaderString(), a => a.CalendarYear, 60, DhtmlxGridColumnFormatType.None, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ReportingYear.ToGridHeaderString(), a => a.GetCalendarYearDisplay(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.Project.ToGridHeaderString(),
                 a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName),
                 350,

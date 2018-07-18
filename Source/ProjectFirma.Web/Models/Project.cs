@@ -637,5 +637,18 @@ namespace ProjectFirma.Web.Models
 
             return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
         }
+
+        public string GetPlanningDesignStartYear()
+        {
+            return PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(PlanningDesignStartYear.Value) : null;
+        }
+        public string GetCompletionYear()
+        {
+            return CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(CompletionYear.Value) : null;
+        }
+        public string GetImplementationStartYear()
+        {
+            return ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ImplementationStartYear.Value) : null;
+        }
     }
 }

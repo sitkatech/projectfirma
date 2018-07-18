@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -128,6 +129,11 @@ namespace ProjectFirma.Web.Models
                 return null;
 
             return annualExpenditure / (decimal)ReportedValue.Value;
+        }
+
+        public string GetCalendarYearDisplay()
+        {
+            return MultiTenantHelpers.FormatReportingYear(CalendarYear);
         }
     }
 }

@@ -19,31 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirma.Web.Views.Project;
 
 namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 {
     public class PerformanceMeasureReportedValuesGroupedViewData : FirmaUserControlViewData
     {
-        public readonly List<int> CalendarYearsForPerformanceMeasures;
-        public readonly List<int> ExemptReportingYears;
+        public readonly List<CalendarYearString> CalendarYearsForPerformanceMeasures;
+        public readonly List<string> ExemptReportingYears;
         public readonly string ExemptionExplanation;
         public readonly List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> PerformanceMeasureSubcategoriesCalendarYearReportedValues;
         public readonly bool HideByDefault;
 
         public PerformanceMeasureReportedValuesGroupedViewData(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues,
-            List<int> exemptReportingYears,
+            List<string> exemptReportingYears,
             string exemptionExplanation,
-            List<int> calendarYearsForPerformanceMeasures)
-            : this(performanceMeasureSubcategoriesCalendarYearReportedValues, exemptReportingYears, exemptionExplanation, calendarYearsForPerformanceMeasures, false)
-        {
-        }
-
-        public PerformanceMeasureReportedValuesGroupedViewData(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues,
-            List<int> exemptReportingYears,
-            string exemptionExplanation,
-            List<int> calendarYearsForPerformanceMeasures,
+            List<CalendarYearString> calendarYearsForPerformanceMeasures,
             bool hideByDefault)
         {
             CalendarYearsForPerformanceMeasures = calendarYearsForPerformanceMeasures;
@@ -55,7 +46,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 
         public string HideByDefaultStyle()
         {
-            return string.Format("display: {0};", HideByDefault ? "none" : "table");
+            return $"display: {(HideByDefault ? "none" : "table")};";
         }
     }
 }

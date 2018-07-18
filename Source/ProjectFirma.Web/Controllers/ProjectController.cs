@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearsForFundingSourceExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearsForFundingSourceExpenditures);
-            var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearsForFundingSourceExpenditures);
+            var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearsForFundingSourceExpenditures.Select(x => new CalendarYearString(x)).ToList());
             return projectExpendituresDetailViewData;
         }
 
@@ -222,9 +222,9 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x=>x.PerformanceMeasure.SortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName)));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
-                project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList(),
+                project.ProjectExemptReportingYears.Select(x => x.GetCalendarYear()).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList(),
                 false);
             return performanceMeasureReportedValuesGroupedViewData;
         }

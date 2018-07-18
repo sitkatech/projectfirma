@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Models
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
-                new GoogleChartAxis("Date", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
+                new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,

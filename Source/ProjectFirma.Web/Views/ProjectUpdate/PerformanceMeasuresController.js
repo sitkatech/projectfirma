@@ -191,7 +191,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.filteredCalendarYears = function()
     {
         var usedCalendarYears = _($scope.AngularModel.ProjectExemptReportingYearUpdates).filter(function(f) { return f.IsExempt; }).map(function(p) { return p.CalendarYear; }).value();
-        return _($scope.AngularViewData.CalendarYears).filter(function(f) { return !_.contains(usedCalendarYears, f); }).value();
+        return _($scope.AngularViewData.CalendarYearStrings).filter(function(f) { return !_.contains(usedCalendarYears, f.CalendarYear); }).value();
     };
 
     $scope.showRowValidationWarnings = function(performanceMeasureActualUpdate)

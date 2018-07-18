@@ -63,10 +63,10 @@ namespace ProjectFirma.Web.Models
             CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
         }
 
-        public static List<ProjectFundingSourceExpenditureBulk> MakeFromList(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> calendarYearsToPopulate)
+        public static List<ProjectFundingSourceExpenditureBulk> MakeFromList(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> calendarYears)
         {
             var groupedByProjectFundingSource = projectFundingSourceExpenditures.GroupBy(x => new {x.ProjectID, x.FundingSourceID});
-            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceExpenditureBulk(grouping.First(), grouping.ToList(), calendarYearsToPopulate)).ToList();
+            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceExpenditureBulk(grouping.First(), grouping.ToList(), calendarYears)).ToList();
         }
 
         public static List<ProjectFundingSourceExpenditureBulk> MakeFromList(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates, List<int> calendarYearsToPopulate)

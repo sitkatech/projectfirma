@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (missingYears.Any())
             {
                 _warningMessages.Add(
-                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears)}");
+                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
             }
             if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
             {

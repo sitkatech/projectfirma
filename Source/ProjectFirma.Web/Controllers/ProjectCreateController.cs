@@ -43,7 +43,6 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -438,7 +437,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
 
-            var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
             //todo
             //var performanceMeasuresValidationResult = project.ValidatePerformanceMeasures();
 
@@ -446,7 +445,7 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureSimples,
                 performanceMeasureSubcategorySimples,
                 performanceMeasureSubcategoryOptionSimples,
-                calendarYears,
+                calendarYearStrings,
                 showExemptYears);
             var updateStatus = new ProposalSectionsStatus(project);
             var viewData =
@@ -554,7 +553,7 @@ namespace ProjectFirma.Web.Controllers
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList());
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
@@ -1107,7 +1106,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !projectDocument.HasDependentObjects();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinition.Project.GetFieldDefinitionLabel()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed Project Document");
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Proposed Project Document");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 

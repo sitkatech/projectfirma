@@ -63,9 +63,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(),
                 95);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
+            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.GetSecuredFunding(), 95, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
 

@@ -29,10 +29,10 @@
         <table class="table table-striped table-condensed table-hover">
             <tr>
                 <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
-                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings)
                 {
                     <th class="text-right">
-                        @calendarYear
+                        @calendarYear.CalendarYearDisplay
                     </th>
                 }
                 <th class="text-right">Total</th>
@@ -50,9 +50,9 @@
             }
             <tr>
                 <th>Total:</th>
-                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings)
                 {
-                    <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear).Sum(x => x.Value).ToStringCurrency()</th>
+                    <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</th>
                 }
                 <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
             </tr>

@@ -2016,8 +2016,6 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="bit" Nullable="false" />
     <Property Name="ShowLeadImplementerLogoOnFactSheet" Type="bit" Nullable="false" />
     <Property Name="EnableAccomplishmentsDashboard" Type="bit" Nullable="false" />
-    <Property Name="ReportingYearStartDate" Type="datetime" Nullable="false" />
-    <Property Name="UseFiscalYears" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

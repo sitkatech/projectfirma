@@ -164,7 +164,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)
         </div>
         <div class="col-xs-6">
-            @ViewDataTyped.Project.PlanningDesignStartYear
+            @ViewDataTyped.Project.GetPlanningDesignStartYear()
         </div>
     </div>
     <div class="row">
@@ -172,7 +172,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)
         </div>
         <div class="col-xs-6">
-            @ViewDataTyped.Project.ImplementationStartYear
+            @ViewDataTyped.Project.GetImplementationStartYear()
         </div>
     </div>
     <div class="row">
@@ -180,7 +180,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(FieldDefinition.CompletionYear)
         </div>
         <div class="col-xs-6">
-            @ViewDataTyped.Project.CompletionYear
+            @ViewDataTyped.Project.GetCompletionYear()
         </div>
     </div>
 </div>

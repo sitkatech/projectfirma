@@ -28,6 +28,7 @@ using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Detail = ProjectFirma.Web.Views.Snapshot.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Snapshot.DetailViewData;
@@ -64,9 +65,9 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
-                new List<int> (),
+                new List<string> (),
                 null,
-                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList(),
                 true);
 
             var viewData = new DetailViewData(CurrentPerson, snapshot, new SnapshotProjectGridSpec(), performanceMeasureReportedValuesGroupedViewData);

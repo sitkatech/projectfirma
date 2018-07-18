@@ -389,14 +389,14 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             
-            var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
             var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
 
             var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
                 performanceMeasureSimples,
                 performanceMeasureSubcategorySimples,
                 performanceMeasureSubcategoryOptionSimples,
-                calendarYears,
+                calendarYearStrings,
                 showExemptYears);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new PerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResult);
@@ -511,7 +511,7 @@ namespace ProjectFirma.Web.Controllers
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList());
 
             var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);

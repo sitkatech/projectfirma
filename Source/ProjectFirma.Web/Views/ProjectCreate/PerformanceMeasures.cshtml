@@ -90,7 +90,7 @@
                             Select the years for which you have no accomplishments to report and provide a brief explanation.
                             <div>
                                 <label ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears" style="padding-right: 10px">
-                                    <input type="checkbox" ng-model="projectExemptYear.IsExempt" /> <span ng-bind="projectExemptYear.CalendarYear"></span>
+                                    <input type="checkbox" ng-model="projectExemptYear.IsExempt" /> <span ng-bind="projectExemptYear.CalendarYearDisplay"></span>
                                 </label>
                             </div>
                             @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
@@ -148,13 +148,13 @@
                                     <span class="glyphicon glyphicon-warning-sign red" alt="Required information has not been completely provided (you can't submit this update)" ng-show="showRowValidationWarnings(performanceMeasureActual)"></span>
                                     <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureActual)" style="cursor: pointer"></span>
                                 </td>
-                                <td style="width: 100px">
+                                <td style="width: 120px">
                                     <select class="form-control"
                                             ng-model="performanceMeasureActual.CalendarYear" required>
-                                        <option ng-repeat="calendarYear in AngularViewData.CalendarYears"
-                                                value="{{calendarYear}}"
-                                                ng-selected="calendarYear == performanceMeasureActual.CalendarYear">
-                                            {{calendarYear}}
+                                        <option ng-repeat="calendarYearString in AngularViewData.CalendarYearStrings"
+                                                value="{{calendarYearString.CalendarYear}}"
+                                                ng-selected="calendarYearString.CalendarYear == performanceMeasureActual.CalendarYear">
+                                            {{calendarYearString.CalendarYearDisplay}}
                                         </option>
                                     </select>
                                 </td>

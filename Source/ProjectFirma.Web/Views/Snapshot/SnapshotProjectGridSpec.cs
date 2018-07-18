@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Views.Snapshot
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.GetDetailUrl(), x.Project.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add("Added/ Updated", x => x.SnapshotProjectType.SnapshotProjectTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.Project.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.Project.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.Project.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
+            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.Project.GetPlanningDesignStartYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.Project.GetImplementationStartYear(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.Project.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => x.Project.FundingType.GetFundingTypeShortName(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.Project.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.Project.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);

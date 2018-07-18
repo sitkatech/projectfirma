@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views;
 
@@ -26,12 +27,13 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
     public class EditProjectFundingSourceExpendituresViewData : FirmaUserControlViewData
     {
-        public readonly List<int> CalendarYearRange;
-        public readonly List<FundingSourceSimple> AllFundingSources;
-        public readonly List<ProjectSimple> AllProjects;
-        public readonly int? ProjectID;
-        public readonly int? FundingSourceID;
-        public readonly bool FromFundingSource;
+        public List<int> CalendarYearRange { get; }
+        public List<FundingSourceSimple> AllFundingSources { get; }
+        public List<ProjectSimple> AllProjects { get; }
+        public int? ProjectID { get; }
+        public int? FundingSourceID { get; }
+        public bool FromFundingSource { get; }
+        public bool UseFiscalYears { get; }
 
         private EditProjectFundingSourceExpendituresViewData(List<ProjectSimple> allProjects, List<FundingSourceSimple> allFundingSources, int? projectID, int? fundingSourceID, List<int> calendarYearRange)
         {
@@ -42,6 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
             AllProjects = allProjects;
             var displayMode = FundingSourceID.HasValue ? EditorDisplayMode.FromFundingSource : EditorDisplayMode.FromProject;
             FromFundingSource = displayMode == EditorDisplayMode.FromFundingSource;
+            UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
 
         public EditProjectFundingSourceExpendituresViewData(ProjectSimple project, List<FundingSourceSimple> allFundingSources, List<int> calendarYearRangeForExpenditures)

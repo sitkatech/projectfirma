@@ -75,9 +75,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             StartYearRange =
-                FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
+                FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYear, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
+            CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 

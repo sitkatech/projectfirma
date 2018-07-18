@@ -1204,8 +1204,6 @@
           <ScalarProperty Name="AccomplishmentsDashboardIncludeReportingOrganizationType" ColumnName="AccomplishmentsDashboardIncludeReportingOrganizationType" />
           <ScalarProperty Name="ShowLeadImplementerLogoOnFactSheet" ColumnName="ShowLeadImplementerLogoOnFactSheet" />
           <ScalarProperty Name="EnableAccomplishmentsDashboard" ColumnName="EnableAccomplishmentsDashboard" />
-          <ScalarProperty Name="ReportingYearStartDate" ColumnName="ReportingYearStartDate" />
-          <ScalarProperty Name="UseFiscalYears" ColumnName="UseFiscalYears" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
