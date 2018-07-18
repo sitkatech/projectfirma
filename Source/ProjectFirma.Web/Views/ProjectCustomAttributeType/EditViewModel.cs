@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [DisplayName("Name of Attribute")]
         public string ProjectCustomAttributeTypeName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Specify data type for this custom attribute")]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCustomAttributeDataType)]
         public int? ProjectCustomAttributeDataTypeID { get; set; }
 
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [DisplayName("Options")]
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Specify whether the attribute is required or optional")]
         [DisplayName("Required?")]
         public bool? IsRequired { get; set; }
 
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 .Where(x => x.ProjectCustomAttributeTypeName == ProjectCustomAttributeTypeName)
                 .Any(x => x.ProjectCustomAttributeTypeID != ProjectCustomAttributeTypeID))
             {
-                yield return new ValidationResult($"A {Models.FieldDefinition.ProjectCustomAttributeType.GetFieldDefinitionLabel()} with this name already exists.");
+                yield return new ValidationResult($"A {Models.FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} with this name already exists.");
             }
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectCustomAttributeTypeID))
