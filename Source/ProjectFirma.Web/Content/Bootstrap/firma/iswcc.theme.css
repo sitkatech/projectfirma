@@ -55,7 +55,7 @@ a:hover {
 }
 .header .headerText {
   display: inline-block;
-  font-size: 36px;
+  font-size: 48px;
   font-weight: normal;
   font-family: "Vollkorn", sans-serif;
   color: #fff;
@@ -75,6 +75,9 @@ a:hover {
 }
 .header .headerText a:hover,
 .header .headerText a:active {
+  text-decoration: none;
+}
+.header .headerText a:focus {
   text-decoration: none;
 }
 .navbar {
