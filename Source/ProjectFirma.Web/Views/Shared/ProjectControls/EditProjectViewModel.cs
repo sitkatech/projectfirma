@@ -124,7 +124,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             }
-            ProjectCustomAttributes.UpdateModel(project, currentPerson);
+
+            ProjectCustomAttributes?.UpdateModel(project, currentPerson);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

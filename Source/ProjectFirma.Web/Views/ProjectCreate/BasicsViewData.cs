@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -75,10 +74,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             StartYearRange =
-                FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
-                    .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            CompletionYearRange = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
-                    .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
+                FirmaDateUtilities.YearsForUserInput()
+                    .ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
+            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();

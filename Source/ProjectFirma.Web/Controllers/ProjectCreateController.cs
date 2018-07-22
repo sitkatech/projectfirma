@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.IO;
@@ -346,7 +345,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
             }
             var performanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
@@ -404,7 +402,6 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewPerformanceMeasures(project, viewModel);
             }
             var performanceMeasureActuals = project.PerformanceMeasureActuals.ToList();
@@ -480,7 +477,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewExpectedFunding(project, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
@@ -526,7 +522,6 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(project);
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewExpenditures(project, calendarYearRange, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
@@ -607,7 +602,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewEditClassifications(project, viewModel);
             }
             var currentProjectClassifications = viewModel.ProjectClassificationSimples;
@@ -652,7 +646,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewEditAssessment(project, viewModel);
             }
 
@@ -705,7 +698,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewEditLocationSimple(project, viewModel);
             }
 
@@ -911,7 +903,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewEditWatershed(project, viewModel);
             }
             var currentProjectWatersheds = project.ProjectWatersheds.ToList();
@@ -1330,20 +1321,9 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var gridSpec = new AuditLogsGridSpec();
-            var auditLogs1 = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject);
-            var auditLogs = auditLogs1;
+            var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private void ShowValidationErrors(List<ValidationResult> validationResults)
-        {
-            var validationErrorMessages = string.Empty;
-            if (validationResults.Any())
-            {
-                validationErrorMessages =$"<ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
-            }
-            SetErrorForDisplay($"The {FieldDefinition.Project.GetFieldDefinitionLabel()} could not be saved because there were errors that need to be corrected: {validationErrorMessages}");
         }
 
         private ActionResult GoToNextSection(FormViewModel viewModel, Project project, ProjectCreateSection currentSection)
@@ -1408,7 +1388,6 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList());
                 return ViewOrganizations(project, viewModel);
             }
 
