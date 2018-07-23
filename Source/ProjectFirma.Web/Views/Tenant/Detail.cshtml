@@ -303,6 +303,10 @@
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
+                @if (ViewDataTyped.IsCurrentTenant)
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditTenantLogoUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                }
                 Logos
             </div>
             <div class="row panel-body">
