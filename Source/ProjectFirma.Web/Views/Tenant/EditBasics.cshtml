@@ -30,14 +30,14 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantDisplayName)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.TenantDisplayName, new {@class = "form-control", style = "width:auto;"})
+            @Html.TextBoxFor(m => m.TenantDisplayName, new {@class = "form-control"})
             @Html.ValidationMessageFor(x => x.TenantDisplayName)
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.ToolDisplayName)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ToolDisplayName, new {@class = "form-control", style = "width:auto;"})
+            @Html.TextBoxFor(m => m.ToolDisplayName, new {@class = "form-control"})
             @Html.ValidationMessageFor(x => x.ToolDisplayName)
         </div>
     </div>
@@ -65,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="margin: 20px 0;">
             <span class="smallExplanationText">Changing the number of Taxonomy Tiers or which Taxonomy Tier to associate Performance Measures to will result in the deletion of any relationships to Performance Measures</span>
         </div>
     </div>
@@ -79,7 +79,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowProposalsToThePublic)</div>
         <div class="col-md-8">
-            @Html.CheckBoxFor(m => m.ShowProposalsToThePublic)
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, true) Yes
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, false) No
+            </label>
         </div>
     </div>
     <div class="form-group">
