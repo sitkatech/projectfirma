@@ -6,6 +6,8 @@ namespace ProjectFirma.Web.Views.Shared
     {
         [JsonProperty(PropertyName = "italic")]
         public bool IsItalic { get; set; }
+        [JsonProperty(PropertyName = "bold")]
+        public bool IsBold { get; set; }
         [JsonProperty(PropertyName = "color", NullValueHandling = NullValueHandling.Ignore)]
         public string Color { get; set; }
         [JsonProperty(PropertyName = "fontName", NullValueHandling = NullValueHandling.Ignore)]
@@ -14,8 +16,6 @@ namespace ProjectFirma.Web.Views.Shared
         public int FontSize { get; set; }
         [JsonProperty(PropertyName = "fontWidth")]
         public string FontWidth { get; set; }
-        [JsonProperty(PropertyName = " fontWeight", NullValueHandling = NullValueHandling.Ignore)]
-        public string FontWeight { get; set; }
 
         public GoogleChartTextStyle()
         {
@@ -28,11 +28,6 @@ namespace ProjectFirma.Web.Views.Shared
             : this()
         {
             Color = color;
-        }
-
-        public void MakeBold()
-        {
-            FontWeight = "bold";
         }
     }
 }

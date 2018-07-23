@@ -96,13 +96,13 @@ namespace ProjectFirma.Web.Controllers
             googleChartConfiguration.TitleTextStyle = null;
 
             IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.LegendTextStyle, fontSizeIncrease / 2, false);
-            IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.HorizontalAxis.TextStyle, fontSizeIncrease, true);
+            IncreaseGoogleChartTextStyleFontSizeIfPresent(googleChartConfiguration.HorizontalAxis.TitleTextStyle, fontSizeIncrease, true);
 
             if (googleChartConfiguration.VerticalAxes != null)
             {
                 foreach (var vaxis in googleChartConfiguration.VerticalAxes)
                 {
-                    IncreaseGoogleChartTextStyleFontSizeIfPresent(vaxis.TextStyle, fontSizeIncrease, true);
+                    IncreaseGoogleChartTextStyleFontSizeIfPresent(vaxis.TitleTextStyle, fontSizeIncrease, true);
                 }
             }
 
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
                 googleChartTextStyle.FontSize += fontSize;
                 if (makeBold)
                 {
-                    googleChartTextStyle.MakeBold();
+                    googleChartTextStyle.IsBold = true;
                 }
             }
         }
