@@ -9,6 +9,9 @@ namespace ProjectFirma.Web.Views.Shared
         public string Title { get; set; }
 
         [JsonProperty(PropertyName = "titleTextStyle")]
+        public GoogleChartTextStyle TitleTextStyle { get; set; }
+
+        [JsonProperty(PropertyName = "textStyle")]
         public GoogleChartTextStyle TextStyle { get; set; }
 
         [JsonProperty(PropertyName = "useFormatFromData")]
@@ -29,7 +32,7 @@ namespace ProjectFirma.Web.Views.Shared
         public GoogleChartAxis(string title, MeasurementUnitTypeEnum? measurementUnitTypeEnum, GoogleChartAxisLabelFormat? googleChartAxisLabelFormat)
         {
             Title = title;
-            TextStyle = new GoogleChartTextStyle();
+            TitleTextStyle = new GoogleChartTextStyle();
             UseFormatFromData = true;
             Format = googleChartAxisLabelFormat.ToString().ToLower();
             FormatOptions = new GoogleChartFormatOptions(measurementUnitTypeEnum);

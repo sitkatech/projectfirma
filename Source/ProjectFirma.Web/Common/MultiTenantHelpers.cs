@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null
                 ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource
-                    .FileResourceUrlScaledThumbnail(64)
+                    .FileResourceUrlScaledThumbnail(100)
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
