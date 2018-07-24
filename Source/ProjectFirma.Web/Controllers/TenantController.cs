@@ -47,6 +47,8 @@ namespace ProjectFirma.Web.Controllers
             var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
             var editClassificationSystemsUrl = new SitkaRoute<TenantController>(c => c.EditClassificationSystems()).BuildUrlFromExpression();
+            var editStylesheetUrl = new SitkaRoute<TenantController>(c => c.EditStylesheet()).BuildUrlFromExpression();
+            var editTenantLogoUrl = new SitkaRoute<TenantController>(c => c.EditTenantLogo()).BuildUrlFromExpression();
             var deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource()).BuildUrlFromExpression();
             var deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource()).BuildUrlFromExpression();
             var deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource()).BuildUrlFromExpression();
@@ -78,7 +80,9 @@ namespace ProjectFirma.Web.Controllers
                 gridSpec,
                 gridName,
                 gridDataUrl, 
-                editClassificationSystemsUrl);
+                editClassificationSystemsUrl,
+                editStylesheetUrl,
+                editTenantLogoUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -168,6 +172,72 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditStylesheet()
+        {
+            var tenant = HttpRequestStorage.Tenant;
+            var viewModel = new EditStylesheetViewModel(tenant);
+            return ViewEditStylesheet(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditStylesheet(EditStylesheetViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditStylesheet(viewModel);
+            }
+
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
+           
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            
+            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
+        }
+
+        private PartialViewResult ViewEditStylesheet(EditStylesheetViewModel viewModel)
+        {
+            var viewData = new EditStylesheetViewData(CurrentPerson);
+            return RazorPartialView<EditStylesheet, EditStylesheetViewData, EditStylesheetViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditTenantLogo()
+        {
+            var tenant = HttpRequestStorage.Tenant;
+            var viewModel = new EditTenantLogoViewModel(tenant);
+            return ViewEditTenantLogo(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditTenantLogo(EditTenantLogoViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditTenantLogo(viewModel);
+            }
+
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
+
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+
+            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
+        }
+
+        private PartialViewResult ViewEditTenantLogo(EditTenantLogoViewModel viewModel)
+        {
+            var viewData = new EditTenantLogoViewData(CurrentPerson);
+            return RazorPartialView<EditTenantLogo, EditTenantLogoViewData, EditTenantLogoViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

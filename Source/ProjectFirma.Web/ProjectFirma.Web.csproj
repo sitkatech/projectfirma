@@ -630,6 +630,12 @@
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
+    <Compile Include="Views\Tenant\EditTenantLogo.cs" />
+    <Compile Include="Views\Tenant\EditTenantLogoViewData.cs" />
+    <Compile Include="Views\Tenant\EditTenantLogoViewModel.cs" />
+    <Compile Include="Views\Tenant\EditStylesheet.cs" />
+    <Compile Include="Views\Tenant\EditStylesheetViewData.cs" />
+    <Compile Include="Views\Tenant\EditStylesheetViewModel.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystems.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystemsViewData.cs" />
     <Compile Include="Models\ClassificationSystemSimple.cs" />
@@ -1629,6 +1635,8 @@
     <Content Include="Views\ProjectCustomAttributeType\Manage.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
+    <Content Include="Views\Tenant\EditStylesheet.cshtml" />
+    <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

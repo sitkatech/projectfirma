@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Views.Tenant
         public bool? ProjectExternalDataSourceEnabled { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
-        public bool ShowProposalsToThePublic { get; set; }
+        [Required]
+        public bool? ShowProposalsToThePublic { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
         public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
@@ -118,7 +119,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             attribute.TenantDisplayName = TenantDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;
-            attribute.ShowProposalsToThePublic = ShowProposalsToThePublic;
+            attribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
 
