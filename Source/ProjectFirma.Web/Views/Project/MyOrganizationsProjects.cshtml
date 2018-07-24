@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
@@ -49,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="panel-body">
         <div>
-            <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New Project</a>
+            @ProjectCreateHelper.AddProjectButton()
         </div>
         <div>
             @Html.DhtmlxGrid(ViewDataTyped.ProposalsesGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
