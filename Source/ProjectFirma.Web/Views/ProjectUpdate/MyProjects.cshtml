@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -36,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New Project</a>
+    @ProjectCreateHelper.AddProjectButton()
 }
 
 <div>
