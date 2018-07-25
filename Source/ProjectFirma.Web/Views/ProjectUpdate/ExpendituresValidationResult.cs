@@ -48,10 +48,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (missingFundingSourceYears.Any())
             {
-                _warningMessages.AddRange(
-                    missingFundingSourceYears.Select(
-                        missingFundingSourceYear =>
-                            $"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{missingFundingSourceYear.Key.DisplayName}' for the following years: {string.Join(", ", missingFundingSourceYear.Value.Select(MultiTenantHelpers.FormatReportingYear))}").ToList());
+                foreach (var fundingSource in missingFundingSourceYears)
+                {
+                    var missingYearsForFundingSource = fundingSource.Value;
+                    var missingYearsCount = missingYearsForFundingSource.Count;
+                    if (missingYearsCount > 2)
+                    {
+                        _warningMessages.Add($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Min())} - {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Max())}");
+                    }
+                    else
+                    {
+                        _warningMessages.Add($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {string.Join(", ", fundingSource.Value.Select(MultiTenantHelpers.FormatReportingYear))}");
+                    }
+                }
             }
         }
 
