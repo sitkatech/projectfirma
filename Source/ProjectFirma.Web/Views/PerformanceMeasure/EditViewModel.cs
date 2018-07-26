@@ -49,6 +49,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureType)]
         public int? PerformanceMeasureTypeID { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureIsAggregatable)]
+        public bool? IsAggregatable { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -63,6 +67,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureTypeID = performanceMeasure.PerformanceMeasureTypeID;
             MeasurementUnitTypeID = performanceMeasure.MeasurementUnitTypeID;
             PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
+            IsAggregatable = performanceMeasure.IsAggregatable;
         }
 
         public void UpdateModel(Models.PerformanceMeasure performanceMeasure, Person currentPerson)
@@ -71,6 +76,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             performanceMeasure.PerformanceMeasureTypeID = PerformanceMeasureTypeID.Value;
             performanceMeasure.MeasurementUnitTypeID = MeasurementUnitTypeID;
             performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
+            performanceMeasure.IsAggregatable = IsAggregatable.GetValueOrDefault(); // will never be null due to RequiredAttribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -23,44 +23,55 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.Edit
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.Label("Name")
-            </div>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.PerformanceMeasureDisplayName, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.PerformanceMeasureDisplayName)
-            </div>
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.Label("Name")
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.PerformanceMeasureTypeID)
-            </div>
-            <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.PerformanceMeasureTypeID, ViewDataTyped.PerformanceMeasureTypes, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.PerformanceMeasureTypeID)
-            </div>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.PerformanceMeasureDisplayName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PerformanceMeasureDisplayName)
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinition.MeasurementUnit.GetFieldDefinitionLabel()))
-            </div>
-            <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.PerformanceMeasureTypeID)
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition, "Description")
-            </div>
-            <div class="col-sm-9">
-                <div style="max-height: 600px; overflow-y: auto">
-                    @Html.TextAreaFor(x => x.PerformanceMeasureDefinition, 6, 0, new {style = "resize:none;", @class = "form-control"})
-                </div>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.PerformanceMeasureTypeID, ViewDataTyped.PerformanceMeasureTypes, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PerformanceMeasureTypeID)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinition.MeasurementUnit.GetFieldDefinitionLabel()))
+        </div>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.IsAggregatable)
+        </div>
+        <div class="col-sm-9"><div class="radio-inline">
+                <label>@Html.RadioButtonFor(m=>m.IsAggregatable, true) Yes</label>
+            </div><div class="radio-inline">
+                <label>@Html.RadioButtonFor(m=>m.IsAggregatable, false) No</label>
             </div>
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition, "Description")
+        </div>
+        <div class="col-sm-9">
+            <div style="max-height: 600px; overflow-y: auto">
+                @Html.TextAreaFor(x => x.PerformanceMeasureDefinition, 6, 0, new { style = "resize:none;", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
     @Html.HiddenFor(m => m.PerformanceMeasureID)
 }
