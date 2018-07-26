@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
         public List<PerformanceMeasureActualSimple> PerformanceMeasureActuals { get; set; }
         public int? ProjectID { get; set; }
+        public int ProjectExemptReportingTypeID { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -47,11 +48,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public PerformanceMeasuresViewModel(List<PerformanceMeasureActualSimple> performanceMeasureActuals,
             string explanation,
-            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
+            List<ProjectExemptReportingYearSimple> projectExemptReportingYears, int projectExemptReportingTypeID)
         {
             PerformanceMeasureActuals = performanceMeasureActuals;
             Explanation = explanation;
             ProjectExemptReportingYears = projectExemptReportingYears;
+            ProjectExemptReportingTypeID = projectExemptReportingTypeID;
         }
 
         public void UpdateModel(List<Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
@@ -112,7 +114,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 // Completely rebuild the list
                 projectExemptReportingYears =
                     ProjectExemptReportingYears.Where(x => x.IsExempt)
-                        .Select(x => new ProjectExemptReportingYear(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear))
+                        .Select(x => new ProjectExemptReportingYear(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID))
                         .ToList();
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears,

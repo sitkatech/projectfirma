@@ -88,6 +88,26 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
     {
         @Html.HiddenFor(m=>m.ProjectID);
         <div ng-app="ProjectFirmaApp" ng-controller="ExpendituresController" style="overflow-x: auto">
+
+            <hr/>
+            <div style="margin-top: 5px">
+                <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
+                    <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
+                    What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+                </a>
+                <div ng-show="AngularViewData.ShowNoExpendituresExplanation" >
+                    Select the years for which you have no accomplishments to report and provide a brief explanation.
+                    <div>
+                        <label style="padding-right: 10px">
+                            <input type="checkbox" ng-model="AngularModel.NoExpendituresToReport" /> I have no expenditures to report 
+                        </label>
+                    </div>
+                    @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
+                            
+                </div>
+            </div>
+            <hr />
+
             <div style="display: inline-block; margin-right: 5px; vertical-align: top">
                 @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
             </div>
@@ -106,7 +126,7 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </span>
                 <br />
-                
+
             </div>
             <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
             <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
@@ -150,13 +170,16 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
                     <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}" />
                 </div>
             </div>
-                <div class="row">
-                    <div style="text-align: right; white-space: nowrap">
-                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
-                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
-                    </div>
+            <div ng-if="AngularModel.NoExpendituresToReport">
+                <input type="hidden" name="@Html.NameFor(x => x.NoExpendituresToReport)" value="{{AngularModel.NoExpendituresToReport}}"/>
+            </div>
+            <div class="row">
+                <div style="text-align: right; white-space: nowrap">
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
                 </div>
-            
+            </div>
+
         </div>
     }
 

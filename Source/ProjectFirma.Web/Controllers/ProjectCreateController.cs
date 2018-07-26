@@ -386,7 +386,8 @@ namespace ProjectFirma.Web.Controllers
 
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()){ProjectID = projectPrimaryKey.PrimaryKeyValue};
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList(), ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)
+            {ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
         }
 
@@ -500,7 +501,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                calendarYearRange) {ProjectID = project.ProjectID};
+                calendarYearRange, project) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, calendarYearRange, viewModel);
         }
 
@@ -526,7 +527,7 @@ namespace ProjectFirma.Web.Controllers
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);            
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures);
         }

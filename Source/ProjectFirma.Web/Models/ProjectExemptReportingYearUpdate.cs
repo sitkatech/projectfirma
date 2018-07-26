@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             var projectExemptReportingYearsFromProjectUpdate =
-                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear)).ToList();
+                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             project.ProjectExemptReportingYears.Merge(projectExemptReportingYearsFromProjectUpdate,
                 projectExemptReportingYears,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear);
