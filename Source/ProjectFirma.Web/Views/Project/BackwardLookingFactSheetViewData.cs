@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Project
                 x => x.CaptionOnFullView,
                 "Photo");
 
-            PerformanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
+            PerformanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Where(x=>x.IsAggregatable)
                 .Distinct(new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                 .SelectMany(x =>
                     x.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(x, new List<int> {project.ProjectID}))

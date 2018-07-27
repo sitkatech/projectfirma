@@ -88,4 +88,5 @@ VALUES
 (260, N'ProjectCustomAttributeDataType', N'Data Type', N'', 1),
 (261, N'ProjectUpdateKickOffDate', N'Kick-off Date', N'The date to send the initial notification about Project Updates to Primary Contacts', 1),
 (262, N'ProjectUpdateReminderInterval', N'Reminder Interval (days)', N'The number of days between repeated Project Update Reminders', 1),
-(263, N'ProjectUpdateCloseOutDate', N'Close-out Date', N'The date on which to send the final Project Update Reminder', 1)
+(263, N'ProjectUpdateCloseOutDate', N'Close-out Date', N'The date on which to send the final Project Update Reminder', 1),
+(264, 'PerformanceMeasureIsAggregatable', 'Is Aggregatable', 'Indicates whether the values for this Performance Measure can be aggregated across subcategory options.', 1)
