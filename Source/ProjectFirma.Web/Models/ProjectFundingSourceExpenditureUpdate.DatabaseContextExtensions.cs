@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
             if (projectUpdate.CompletionYear < projectUpdate.PlanningDesignStartYear) return new List<int>();
 
             var existingYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
-            return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, projectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, projectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting());
         }
     }
 }

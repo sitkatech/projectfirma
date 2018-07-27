@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Models
 
             // If no start year, it should only create for current year
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             IEnumerable<int> yearsExpected = new[] {currentYear};
             AssertFutureYearsCreatedCorrectly(projectUpdateBatch.PerformanceMeasureActualUpdates, project.PerformanceMeasureExpecteds, yearsExpected);
 
@@ -299,7 +299,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
             // Assert
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var maxEnteredYear = project.PerformanceMeasureActuals.Max(x => x.CalendarYear);
             AssertNewPerformanceMeasureActualUpdateCreatedCorrectly(projectUpdateBatch, project.PerformanceMeasureActuals, currentYear, maxEnteredYear);
         }
@@ -407,7 +407,7 @@ namespace ProjectFirma.Web.Models
         public void CreateFromProjectWhenHaveCompletionYearLaterThanCurrentYearAndHaveActualValuesExpectValuesFromLastEnteredYearToCurrentYearTest()
         {
             var project = TestFramework.TestProject.Create(-777, "Project-777");
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             project.CompletionYear = currentYear + 1;
             var performanceMeasure1 = TestFramework.TestPerformanceMeasure.CreateWithSubcategories(-1000, "PerformanceMeasure1");
             var performanceMeasure2 = TestFramework.TestPerformanceMeasure.CreateWithSubcategories(-1001, "PerformanceMeasure2");
@@ -541,7 +541,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
             // Assert
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var maxEnteredYear = project.PerformanceMeasureActuals.Max(x => x.CalendarYear);
             AssertNewPerformanceMeasureActualUpdateCreatedCorrectly(projectUpdateBatch, project.PerformanceMeasureActuals, currentYear, maxEnteredYear);
         }

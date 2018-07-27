@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
         {
-            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             if (projectUpdate != null)
             {
                 if (startYear.HasValue && startYear.Value < MultiTenantHelpers.GetMinimumYear() &&

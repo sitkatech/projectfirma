@@ -420,6 +420,7 @@
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewData.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectUpdateViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
@@ -1338,10 +1339,7 @@
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLogViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchGridSpec.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateStatus.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateStatusGridSpec.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateStatusViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogForm.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogFormViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogFormViewModel.cs" />
@@ -3488,7 +3486,6 @@
     <Content Include="Views\ProjectUpdate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\Photos.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cshtml" />
-    <Content Include="Views\ProjectUpdate\ProjectUpdateStatus.cshtml" />
     <Content Include="Views\ProjectUpdate\ReturnDialogForm.cshtml" />
     <Content Include="Views\ProjectUpdate\SectionComments.cshtml" />
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />

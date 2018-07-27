@@ -1751,20 +1751,6 @@ namespace ProjectFirma.Web.Controllers
             Notification.SendMessage(message, emailsToSendTo, new List<string>(), new List<string>());
             return CreateCustomNotification(viewModel);
         }
-
-
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ViewResult ProjectUpdateStatus()
-        {
-            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false, CurrentPerson) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectUpdateStatus);
-
-            var viewData = new ProjectUpdateStatusViewData(CurrentPerson,
-                firmaPage,
-                contactsReceivingReminderGridSpec,
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(false)));
-            return RazorView<ProjectUpdateStatus, ProjectUpdateStatusViewData>(viewData);
-        }
         
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]

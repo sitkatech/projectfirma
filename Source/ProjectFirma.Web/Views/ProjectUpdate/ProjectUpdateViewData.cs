@@ -63,6 +63,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public UpdateStatus UpdateStatus { get; }
         public bool HasUpdateStarted { get; }
 
+        public List<string> ValidationWarnings { get; set; }
+
         public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
         {
             CurrentSection = currentSection;
@@ -73,7 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             HtmlPageTitle += $" - {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
-            EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
+            EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update";
             PageTitle = $"Update: {Project.DisplayName}";
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             ProjectUpdateInstructionsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(Project));
@@ -108,7 +110,5 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             ValidationWarnings = validationWarnings;
         }
-
-        public List<string> ValidationWarnings { get; set; }
     }
 }

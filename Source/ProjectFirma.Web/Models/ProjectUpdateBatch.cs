@@ -482,7 +482,7 @@ namespace ProjectFirma.Web.Models
             }
 
             // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
-            var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting());
 
             var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
             foreach (var fundingSource in fundingSources)

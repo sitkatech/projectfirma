@@ -24,7 +24,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -52,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public MyProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
-            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var fieldDefinitionReportingYear = Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
             switch (projectUpdateStatusFilterType)
             {
