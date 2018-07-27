@@ -546,9 +546,10 @@ namespace ProjectFirma.Web.Controllers
             // todo: fix this pattern
             // var expendituresValidationResult = project.ValidateExpenditures();
 
+            var showNoExpendituresExplanation = project.ProjectExemptReportingYears.Any(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures);
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
-                calendarYearRange);
+                calendarYearRange, showNoExpendituresExplanation);
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
