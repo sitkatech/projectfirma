@@ -19,8 +19,8 @@
 @firma-text-font: "Segoe UI",sans-serif;
 @firma-text-fontSize: 14px;
 
-@firma-text-color: #1c2329;
-@firma-header-color: #1c2329;
+@firma-text-color: #1C2329;
+@firma-header-color: #1C2329;
 
 @firma-background-color: #E4DAD0;
 @firma-contentBackground-color: #fff;
@@ -45,6 +45,8 @@
 @firma-panel-headerBackground-color: #535971;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
+@firma-panelDropdownText-color: #1C2329;
+@firma-panelDropdownBackground-color: #EBECEC;
 
 @firma-pageTitle-color: #535971;
 @firma-header-color: #1E2617;
@@ -453,6 +455,26 @@ table.summaryLayout th,
     border-bottom: 22px solid transparent;
     border-left: 7px solid @firma-contentBackground-color;
 }
+
+// Main page drop downs
+.panelFirma {
+    .panelTitle {
+        a:hover {
+            text-decoration: none;
+        }
+
+        ul li {
+            a, a:visited {
+                color: @firma-panelDropdownText-color;
+            }
+
+            a:hover {
+                background-color: @firma-panelDropdownBackground-color;
+            }
+        }
+    }
+}
+
 
 
 // Panels

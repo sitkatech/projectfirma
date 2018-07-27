@@ -106,7 +106,7 @@
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic)</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowProposalsToThePublic.GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>
                 <div class="row">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinition.ShowLeadImplementerLogoOnFactSheet)
+                        @Html.LabelWithSugarFor(FieldDefinition.ShowLeadImplementerLogoOnFactSheet, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowLeadImplementerLogoOnFactSheet.GetFieldDefinitionLabel()
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ShowLeadImplementerLogoOnFactSheet.ToYesNo()
