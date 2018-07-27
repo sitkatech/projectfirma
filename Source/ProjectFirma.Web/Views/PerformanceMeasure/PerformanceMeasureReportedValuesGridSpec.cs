@@ -60,7 +60,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
-            Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
+            if (performanceMeasure.IsAggregatable)
+            {
+                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal,
+                    DhtmlxGridColumnAggregationType.Total);
+            }
+            else
+            {
+                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal);
+            }
             Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", a => a.Project.GetProjectWatershedNamesAsHyperlinks(), 200, DhtmlxGridColumnFilterType.Html);
         }
     }
