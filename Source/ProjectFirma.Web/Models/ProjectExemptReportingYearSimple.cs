@@ -61,6 +61,6 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }
         public bool IsExempt { get; set; }
-        public string CalendarYearDisplay { get; }
+        public string CalendarYearDisplay { get; set; }
     }
 }
