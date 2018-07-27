@@ -46,4 +46,13 @@ alter column ProjectExemptReportingTypeID INT not null;
 
 
 
+alter table dbo.ProjectExemptReportingYear drop constraint AK_ProjectExemptReportingYear_ProjectID_CalendarYear
+
+
+alter table dbo.ProjectExemptReportingYear add constraint  AK_ProjectExemptReportingYear_ProjectID_CalendarYear_ProjectExemptReportingTypeID unique (ProjectID, CalendarYear, ProjectExemptReportingTypeID) 
+
+
+
+
+
 

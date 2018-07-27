@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectExemptReportingYearUpdates =
-                project.ProjectExemptReportingYears.Select(projectExemptReportingYear => new ProjectExemptReportingYearUpdate(projectUpdateBatch, projectExemptReportingYear.CalendarYear)).ToList();
+                project.ProjectExemptReportingYears.Select(projectExemptReportingYear => new ProjectExemptReportingYearUpdate(projectUpdateBatch, projectExemptReportingYear.CalendarYear, ProjectExemptReportingType.PerformanceMeasures)).ToList();
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears)

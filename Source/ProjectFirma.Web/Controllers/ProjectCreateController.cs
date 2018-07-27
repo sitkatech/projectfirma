@@ -376,8 +376,7 @@ namespace ProjectFirma.Web.Controllers
                     .ThenByDescending(x => x.CalendarYear)
                     .Select(x => new PerformanceMeasureActualSimple(x))
                     .ToList();
-            var projectExemptReportingYears = project.ProjectExemptReportingYears
-                .Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var projectExemptReportingYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();
             projectExemptReportingYears.AddRange(
@@ -386,7 +385,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList(), ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList())
             {ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
         }
@@ -500,8 +499,16 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+
+            var projectExemptReportingYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = calendarYearRange;
+            projectExemptReportingYears.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
+
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                calendarYearRange, project) {ProjectID = project.ProjectID};
+                calendarYearRange, project, projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, calendarYearRange, viewModel);
         }
 

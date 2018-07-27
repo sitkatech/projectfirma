@@ -93,13 +93,13 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
             <div style="margin-top: 5px">
                 <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
                     <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
-                    What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+                    What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no expenditures to report?
                 </a>
                 <div ng-show="AngularViewData.ShowNoExpendituresExplanation" >
-                    Select the years for which you have no accomplishments to report and provide a brief explanation.
+                    Select the years for which you have no expenditures to report and provide a brief explanation.                 
                     <div>
-                        <label style="padding-right: 10px">
-                            <input type="checkbox" ng-model="AngularModel.NoExpendituresToReport" /> I have no expenditures to report 
+                        <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYears" style="padding-right: 10px">
+                            <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" /> <span ng-bind="projectExemptYearUpdate.CalendarYearDisplay"></span>
                         </label>
                     </div>
                     @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
@@ -170,8 +170,11 @@ To enter your project's annual expenditures, add the appropriate @FieldDefinitio
                     <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}" />
                 </div>
             </div>
-            <div ng-if="AngularModel.NoExpendituresToReport">
-                <input type="hidden" name="@Html.NameFor(x => x.NoExpendituresToReport)" value="{{AngularModel.NoExpendituresToReport}}"/>
+            <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
             </div>
             <div class="row">
                 <div style="text-align: right; white-space: nowrap">
