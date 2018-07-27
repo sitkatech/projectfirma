@@ -1118,6 +1118,7 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMea
     <Property Name="SwapChartAxes" Type="bit" Nullable="false" />
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />
     <Property Name="PerformanceMeasureSortOrder" Type="int" />
+    <Property Name="IsAggregatable" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

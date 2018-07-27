@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[SwapChartAxes] [bit] NOT NULL,
 	[CanCalculateTotal] [bit] NOT NULL,
 	[PerformanceMeasureSortOrder] [int] NULL,
+	[IsAggregatable] [bit] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC

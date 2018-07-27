@@ -376,6 +376,7 @@
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
           <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
+          <ScalarProperty Name="IsAggregatable" ColumnName="IsAggregatable" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

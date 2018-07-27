@@ -33,7 +33,6 @@
     @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues)
     {
         var isLast = ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Last() == performanceMeasureCalendarYearReportedValue;
-        //performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.SelectMany(x=>x.CalendarYearReportedValue.Keys).Distinct().OrderBy(x=>x).ToList();
         var showTotalColumn = ViewDataTyped.CalendarYearsForPerformanceMeasures.Count > 1;
         var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
         var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty;
@@ -77,6 +76,8 @@
                     <th style="@fixedWidthStyleForYearTotalAndUnits @fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
                 </tr>
                 }
+                if (performanceMeasureCalendarYearReportedValue.IsAggregatable)
+                {
                     <tr style="border-top: 1px solid">
                         <th style="text-align: right">Total</th>
                         @if (showTotalColumn)
@@ -93,6 +94,7 @@
                         }
                         <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
                     </tr>
+                }
             }
             else
             {
@@ -156,6 +158,8 @@
                 }
 
 
+                if(performanceMeasureCalendarYearReportedValue.IsAggregatable)
+                {
                     <tr style="">
                         <th colspan="@subcategoryCount" style="text-align: right">Total</th>
                         @if (showTotalColumn)
@@ -172,6 +176,7 @@
                         }
                         <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
                     </tr>
+                }
             }
         </table>
         if (!isLast)
