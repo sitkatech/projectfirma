@@ -100,15 +100,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 }
             });
 
-            var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
-            foreach (var projectClassificationSimple in ProjectClassificationSimples)
-            {
-                if (projectClassificationSimple.Selected && string.IsNullOrWhiteSpace(projectClassificationSimple.ProjectClassificationNotes))
-                {
-                    var classificationName = classifications.Single(x => x.ClassificationID == projectClassificationSimple.ClassificationID).DisplayName;
-                    validationResults.Add(new ValidationResult($"You must include notes for {classificationName}"));
-                }
-            }
             return validationResults;
         }
     }
