@@ -30,14 +30,14 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectExemptReportingYearUpdates =
-                project.ProjectExemptReportingYears.Select(projectExemptReportingYear => new ProjectExemptReportingYearUpdate(projectUpdateBatch, projectExemptReportingYear.CalendarYear)).ToList();
+                project.ProjectExemptReportingYears.Select(projectExemptReportingYear => new ProjectExemptReportingYearUpdate(projectUpdateBatch, projectExemptReportingYear.CalendarYear, ProjectExemptReportingType.PerformanceMeasures)).ToList();
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears)
         {
             var project = projectUpdateBatch.Project;
             var projectExemptReportingYearsFromProjectUpdate =
-                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear)).ToList();
+                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             project.ProjectExemptReportingYears.Merge(projectExemptReportingYearsFromProjectUpdate,
                 projectExemptReportingYears,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear);

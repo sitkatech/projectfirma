@@ -59,10 +59,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public readonly int ProjectID;
             public readonly int MaxYear;
             public readonly bool UseFiscalYears;
+            public readonly bool ShowNoExpendituresExplanation;
 
             public ViewDataForAngularClass(Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<int> calendarYearRange)
+                List<int> calendarYearRange, bool showNoExpendituresExplanation)
             {
                 CalendarYearRange = calendarYearRange;
                 AllFundingSources = allFundingSources;
@@ -70,6 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
                 UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
+                ShowNoExpendituresExplanation = showNoExpendituresExplanation;
             }
         }
     }

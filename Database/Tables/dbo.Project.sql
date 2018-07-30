@@ -30,6 +30,7 @@ CREATE TABLE [dbo].[Project](
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
 	[DefaultBoundingBox] [geometry] NULL,
+	[NoExpendituresToReportExplanation] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

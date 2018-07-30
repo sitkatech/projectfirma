@@ -85,25 +85,6 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
-                </div>
-                <div class="col-xs-6">
-                    @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
-                    {
-                        <span>@ViewDataTyped.ProjectBasicsCalculatedCosts.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
-                        if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
-                        {
-                            <span> (<a href="@ViewDataTyped.ProjectBasicsCalculatedCosts.EditInflationUrl">@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation</a>)</span>
-                        }
-                        else
-                        {
-                            <span> (@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation)</span>
-                        }
-                    }
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
                     @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                 </div>
                 <div class="col-xs-6">

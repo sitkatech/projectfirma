@@ -200,6 +200,7 @@
                     </div>
                     <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
                         <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
                         <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
                         <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
                         <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
