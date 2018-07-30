@@ -471,6 +471,11 @@ namespace ProjectFirma.Web.Models
                 case "ProjectDocumentUpdate":
                     return ProjectDocumentUpdates.GetProjectDocumentUpdate(primaryKey);
 
+                case "ProjectExemptReportingType":
+                    var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectExemptReportingType, "ProjectExemptReportingType", primaryKey);
+                    return projectExemptReportingType;
+
                 case "ProjectExemptReportingYear":
                     return ProjectExemptReportingYears.GetProjectExemptReportingYear(primaryKey);
 

@@ -552,6 +552,7 @@
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
           <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
+          <ScalarProperty Name="NoExpendituresToReportExplanation" ColumnName="NoExpendituresToReportExplanation" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -688,6 +689,7 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="ProjectExemptReportingTypeID" ColumnName="ProjectExemptReportingTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -698,6 +700,7 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="ProjectExemptReportingTypeID" ColumnName="ProjectExemptReportingTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

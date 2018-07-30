@@ -30,29 +30,31 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectExemptReportingYear(int projectExemptReportingYearID, int projectID, int calendarYear) : this()
+        public ProjectExemptReportingYear(int projectExemptReportingYearID, int projectID, int calendarYear, int projectExemptReportingTypeID) : this()
         {
             this.ProjectExemptReportingYearID = projectExemptReportingYearID;
             this.ProjectID = projectID;
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectExemptReportingYear(int projectID, int calendarYear) : this()
+        public ProjectExemptReportingYear(int projectID, int calendarYear, int projectExemptReportingTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectExemptReportingYear(Project project, int calendarYear) : this()
+        public ProjectExemptReportingYear(Project project, int calendarYear, ProjectExemptReportingType projectExemptReportingType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -60,14 +62,15 @@ namespace ProjectFirma.Web.Models
             this.Project = project;
             project.ProjectExemptReportingYears.Add(this);
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingType.ProjectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectExemptReportingYear CreateNewBlank(Project project)
+        public static ProjectExemptReportingYear CreateNewBlank(Project project, ProjectExemptReportingType projectExemptReportingType)
         {
-            return new ProjectExemptReportingYear(project, default(int));
+            return new ProjectExemptReportingYear(project, default(int), projectExemptReportingType);
         }
 
         /// <summary>
@@ -98,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }
+        public int ProjectExemptReportingTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectExemptReportingYearID; } set { ProjectExemptReportingYearID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
+        public ProjectExemptReportingType ProjectExemptReportingType { get { return ProjectExemptReportingType.AllLookupDictionary[ProjectExemptReportingTypeID]; } }
 
         public static class FieldLengths
         {

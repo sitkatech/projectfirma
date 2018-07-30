@@ -157,17 +157,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </div>
         </div>
-        if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
-        {
-            <div class="form-group form-group-condensed">
-                <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
-                </div>
-                <div class="col-sm-8">
-                    <p class="form-control-static">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency() (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
-                </div>
-            </div>
-        }
     }
     else if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
     {

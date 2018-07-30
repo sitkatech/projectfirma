@@ -8,7 +8,7 @@ body {
   font-family: "Segoe UI", sans-serif;
   font-size: 14px;
   background-color: #E4DAD0;
-  color: #1c2329;
+  color: #1C2329;
 }
 input[disabled] {
   background-color: LightGray;
@@ -187,7 +187,7 @@ table.summaryLayout th,
   font-weight: bold;
   padding: 2px 6px;
   vertical-align: top;
-  color: #1c2329;
+  color: #1C2329;
 }
 .mainPageHeader {
   margin-top: 20px;
@@ -322,6 +322,16 @@ table.summaryLayout th,
   border-bottom: 22px solid transparent;
   border-left: 7px solid #fff;
 }
+.panelFirma .panelTitle a:hover {
+  text-decoration: none;
+}
+.panelFirma .panelTitle ul li a,
+.panelFirma .panelTitle ul li a:visited {
+  color: #1C2329;
+}
+.panelFirma .panelTitle ul li a:hover {
+  background-color: #EBECEC;
+}
 .panelFirma {
   border-color: #ddd;
 }
@@ -387,7 +397,7 @@ a.gridButton:hover {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
-  color: #1c2329;
+  color: #1C2329;
   background-color: #fff;
   text-decoration: none;
   font-weight: bold;
@@ -432,7 +442,7 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #1c2329;
+  color: #1C2329;
 }
 nav#tableOfContents ul.nav li a:hover {
   color: #3670c5;

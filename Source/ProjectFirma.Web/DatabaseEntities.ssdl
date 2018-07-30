@@ -1353,6 +1353,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />
     <Property Name="DefaultBoundingBox" Type="geometry" />
+    <Property Name="NoExpendituresToReportExplanation" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -1487,6 +1488,7 @@ warning 6035: The relationship 'FK_ProjectCustomAttributeUpdateValue_ProjectCust
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="ProjectExemptReportingTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYearUpdate">
     <Key>
@@ -1496,6 +1498,7 @@ warning 6035: The relationship 'FK_ProjectCustomAttributeUpdateValue_ProjectCust
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="ProjectExemptReportingTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExternalLink">
     <Key>

@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 // Completely rebuild the list
                 projectExemptReportingYears =
                     ProjectExemptReportingYearUpdates.Where(x => x.IsExempt)
-                        .Select(x => new ProjectExemptReportingYearUpdate(x.ProjectExemptReportingYearUpdateID, x.ProjectUpdateBatchID, x.CalendarYear))
+                        .Select(x => new ProjectExemptReportingYearUpdate(x.ProjectExemptReportingYearUpdateID, x.ProjectUpdateBatchID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID))
                         .ToList();
             }
             currentProjectExemptYearUpdates.Merge(projectExemptReportingYears,

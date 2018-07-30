@@ -118,7 +118,13 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
-            var pmValidationResults = new PerformanceMeasuresViewModel(project.PerformanceMeasureActuals.Select(x=>new PerformanceMeasureActualSimple(x)).ToList(), project.PerformanceMeasureActualYearsExemptionExplanation,project.ProjectExemptReportingYears.Select(x=>new ProjectExemptReportingYearSimple(x)).ToList()){ProjectID=project.ProjectID}.GetValidationResults();
+            var pmValidationResults = new PerformanceMeasuresViewModel(
+                project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
+                project.PerformanceMeasureActualYearsExemptionExplanation,
+                project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+            {
+                ProjectID = project.ProjectID
+            }.GetValidationResults();
             return !pmValidationResults.Any();
         }
 
@@ -203,7 +209,13 @@ namespace ProjectFirma.Web.Models
         public override bool IsComplete(Project project)
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures, projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project)){ProjectID=project.ProjectID}.GetValidationResults();
+            var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
+                    projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project), project,
+                    project.ProjectExemptReportingYears
+                        .Where(x => x.ProjectExemptReportingTypeID ==
+                                    ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID)
+                        .Select(x => new ProjectExemptReportingYearSimple(x)).ToList()) {ProjectID = project.ProjectID}
+                .GetValidationResults();
             return !validationResults.Any();
         }
 

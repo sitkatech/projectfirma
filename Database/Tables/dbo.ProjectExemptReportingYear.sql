@@ -7,14 +7,16 @@ CREATE TABLE [dbo].[ProjectExemptReportingYear](
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
+	[ProjectExemptReportingTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectExemptReportingYear_ProjectExemptReportingYearID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectExemptReportingYearID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectExemptReportingYear_ProjectID_CalendarYear] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectExemptReportingYear_ProjectID_CalendarYear_ProjectExemptReportingTypeID] UNIQUE NONCLUSTERED 
 (
 	[ProjectID] ASC,
-	[CalendarYear] ASC
+	[CalendarYear] ASC,
+	[ProjectExemptReportingTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -28,6 +30,11 @@ ALTER TABLE [dbo].[ProjectExemptReportingYear]  WITH CHECK ADD  CONSTRAINT [FK_P
 REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProjectExemptReportingYear] CHECK CONSTRAINT [FK_ProjectExemptReportingYear_Project_ProjectID_TenantID]
+GO
+ALTER TABLE [dbo].[ProjectExemptReportingYear]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYear_ProjectExemptReportingType_ProjectExemptReportingTypeID] FOREIGN KEY([ProjectExemptReportingTypeID])
+REFERENCES [dbo].[ProjectExemptReportingType] ([ProjectExemptReportingTypeID])
+GO
+ALTER TABLE [dbo].[ProjectExemptReportingYear] CHECK CONSTRAINT [FK_ProjectExemptReportingYear_ProjectExemptReportingType_ProjectExemptReportingTypeID]
 GO
 ALTER TABLE [dbo].[ProjectExemptReportingYear]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYear_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

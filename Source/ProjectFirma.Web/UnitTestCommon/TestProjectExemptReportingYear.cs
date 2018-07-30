@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static ProjectExemptReportingYear Create(Project project, int calendarYear)
             {
-                var projectExemptReportingYear = new ProjectExemptReportingYear(project, calendarYear);
+                var projectExemptReportingYear = new ProjectExemptReportingYear(project, calendarYear, ProjectExemptReportingType.PerformanceMeasures);
                 return projectExemptReportingYear;
             }
         }

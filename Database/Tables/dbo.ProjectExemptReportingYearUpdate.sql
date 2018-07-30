@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ProjectExemptReportingYearUpdate](
 	[TenantID] [int] NOT NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
+	[ProjectExemptReportingTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectExemptReportingYearUpdate_ProjectExemptReportingYearUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectExemptReportingYearUpdateID] ASC
@@ -18,6 +19,11 @@ CREATE TABLE [dbo].[ProjectExemptReportingYearUpdate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectExemptReportingYearUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYearUpdate_ProjectExemptReportingType_ProjectExemptReportingTypeID] FOREIGN KEY([ProjectExemptReportingTypeID])
+REFERENCES [dbo].[ProjectExemptReportingType] ([ProjectExemptReportingTypeID])
+GO
+ALTER TABLE [dbo].[ProjectExemptReportingYearUpdate] CHECK CONSTRAINT [FK_ProjectExemptReportingYearUpdate_ProjectExemptReportingType_ProjectExemptReportingTypeID]
 GO
 ALTER TABLE [dbo].[ProjectExemptReportingYearUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])

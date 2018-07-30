@@ -30,29 +30,31 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectExemptReportingYearUpdate(int projectExemptReportingYearUpdateID, int projectUpdateBatchID, int calendarYear) : this()
+        public ProjectExemptReportingYearUpdate(int projectExemptReportingYearUpdateID, int projectUpdateBatchID, int calendarYear, int projectExemptReportingTypeID) : this()
         {
             this.ProjectExemptReportingYearUpdateID = projectExemptReportingYearUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectExemptReportingYearUpdate(int projectUpdateBatchID, int calendarYear) : this()
+        public ProjectExemptReportingYearUpdate(int projectUpdateBatchID, int calendarYear, int projectExemptReportingTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectExemptReportingYearUpdate(ProjectUpdateBatch projectUpdateBatch, int calendarYear) : this()
+        public ProjectExemptReportingYearUpdate(ProjectUpdateBatch projectUpdateBatch, int calendarYear, ProjectExemptReportingType projectExemptReportingType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -60,14 +62,15 @@ namespace ProjectFirma.Web.Models
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectExemptReportingYearUpdates.Add(this);
             this.CalendarYear = calendarYear;
+            this.ProjectExemptReportingTypeID = projectExemptReportingType.ProjectExemptReportingTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectExemptReportingYearUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch)
+        public static ProjectExemptReportingYearUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, ProjectExemptReportingType projectExemptReportingType)
         {
-            return new ProjectExemptReportingYearUpdate(projectUpdateBatch, default(int));
+            return new ProjectExemptReportingYearUpdate(projectUpdateBatch, default(int), projectExemptReportingType);
         }
 
         /// <summary>
@@ -98,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int CalendarYear { get; set; }
+        public int ProjectExemptReportingTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectExemptReportingYearUpdateID; } set { ProjectExemptReportingYearUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public ProjectExemptReportingType ProjectExemptReportingType { get { return ProjectExemptReportingType.AllLookupDictionary[ProjectExemptReportingTypeID]; } }
 
         public static class FieldLengths
         {
