@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var viewModel = new EditViewModel {IsAggregatable = true};
             return ViewEdit(viewModel);
         }
 
@@ -304,7 +304,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false,true);
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false, true);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
