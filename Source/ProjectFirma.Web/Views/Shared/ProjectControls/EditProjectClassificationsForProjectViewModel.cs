@@ -89,15 +89,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     $"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} System."));
             }
 
-            var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
-            foreach (var projectClassificationSimple in ProjectClassificationSimples)
-            {
-                if (projectClassificationSimple.Selected && string.IsNullOrWhiteSpace(projectClassificationSimple.ProjectClassificationNotes))
-                {
-                    var classificationName = classifications.Single(x => x.ClassificationID == projectClassificationSimple.ClassificationID).DisplayName;
-                    validationResults.Add(new ValidationResult(String.Format("You must include notes for {0}", classificationName)));
-                }
-            }
             return validationResults;
         }
     }
