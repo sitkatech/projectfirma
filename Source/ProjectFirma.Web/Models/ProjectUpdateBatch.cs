@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -229,13 +228,6 @@ namespace ProjectFirma.Web.Models
         {
             ProjectFundingSourceRequestUpdates.DeleteProjectFundingSourceRequestUpdate();
             RefreshFromDatabase(ProjectFundingSourceRequestUpdates);
-        }
-
-        public void DeleteProjectBudgetUpdates()
-        {
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //ProjectBudgetUpdates.DeleteProjectBudgetUpdate();
-            //RefreshFromDatabase(ProjectBudgetUpdates);
         }
 
         public void DeletePerformanceMeasureActualUpdates()
@@ -458,51 +450,6 @@ namespace ProjectFirma.Web.Models
         public bool AreOrganizationsValid()
         {
             return ValidateOrganizations().IsValid;
-        }
-
-        public BudgetsValidationResult ValidateBudgetsAndForceValidation()
-        {
-            AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidateBudgets();
-        }
-
-        public BudgetsValidationResult ValidateBudgets()
-        {
-            if (!AreProjectBasicsValid)
-            {
-                return new BudgetsValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
-            }
-
-            // get distinct Funding Sources
-            var fundingSources = ProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
-
-            if (!fundingSources.Any())
-            {
-                return new BudgetsValidationResult();
-            }
-
-            // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
-            var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
-
-            var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
-            foreach (var fundingSource in fundingSources)
-            {
-                var currentFundingSource = fundingSource;
-                var missingYears =
-                    yearsExpected.GetMissingYears(ProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
-                if (missingYears.Any())
-                {
-                    missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                }
-            }
-            var budgetsValidationResult = new BudgetsValidationResult(missingFundingSourceYears);
-            return budgetsValidationResult;
-
-        }
-
-        public bool AreBudgetsValid()
-        {
-            return ValidateBudgets().IsValid;
         }
 
         public LocationSimpleValidationResult ValidateProjectLocationSimple()
