@@ -212,8 +212,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
         public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TechnicalAssistanceParamter> AllTechnicalAssistanceParamters { get; set; }
-        public virtual IQueryable<TechnicalAssistanceParamter> TechnicalAssistanceParamters { get { return AllTechnicalAssistanceParamters.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TechnicalAssistanceParameter> AllTechnicalAssistanceParameters { get; set; }
+        public virtual IQueryable<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get { return AllTechnicalAssistanceParameters.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
@@ -650,8 +650,8 @@ namespace ProjectFirma.Web.Models
                 case "TaxonomyTrunk":
                     return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);
 
-                case "TechnicalAssistanceParamter":
-                    return TechnicalAssistanceParamters.GetTechnicalAssistanceParamter(primaryKey);
+                case "TechnicalAssistanceParameter":
+                    return TechnicalAssistanceParameters.GetTechnicalAssistanceParameter(primaryKey);
 
                 case "TenantAttribute":
                     return TenantAttributes.GetTenantAttribute(primaryKey);

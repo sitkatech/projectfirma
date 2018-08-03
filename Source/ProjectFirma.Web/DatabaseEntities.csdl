@@ -93,7 +93,7 @@
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.TaxonomyLeaf" />
     <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.TaxonomyTrunk" />
-    <EntitySet Name="TechnicalAssistanceParamter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParamter" />
+    <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParameter" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
@@ -2049,11 +2049,11 @@
     <Property Name="TaxonomyTrunkSortOrder" Type="Int32" />
     <NavigationProperty Name="TaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" FromRole="TaxonomyTrunk" ToRole="TaxonomyBranches" />
   </EntityType>
-  <EntityType Name="TechnicalAssistanceParamter">
+  <EntityType Name="TechnicalAssistanceParameter">
     <Key>
-      <PropertyRef Name="TechnicalAssistanceParamter1" />
+      <PropertyRef Name="TechnicalAssistanceParameterID" />
     </Key>
-    <Property Name="TechnicalAssistanceParamter1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TechnicalAssistanceParameterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="Year" Type="Int32" Nullable="false" />
     <Property Name="EngineeringHourlyCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />

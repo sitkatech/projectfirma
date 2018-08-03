@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[TechnicalAssistanceParamter]
+//  Source Table: [dbo].[TechnicalAssistanceParameter]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[TechnicalAssistanceParamter]")]
-    public partial class TechnicalAssistanceParamter : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[TechnicalAssistanceParameter]")]
+    public partial class TechnicalAssistanceParameter : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected TechnicalAssistanceParamter()
+        protected TechnicalAssistanceParameter()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceParamter(int technicalAssistanceParamter, int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
+        public TechnicalAssistanceParameter(int technicalAssistanceParameterID, int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
         {
-            this.TechnicalAssistanceParamter = technicalAssistanceParamter;
+            this.TechnicalAssistanceParameterID = technicalAssistanceParameterID;
             this.Year = year;
             this.EngineeringHourlyCost = engineeringHourlyCost;
             this.OtherAssistanceHourlyCost = otherAssistanceHourlyCost;
@@ -41,10 +41,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceParamter(int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
+        public TechnicalAssistanceParameter(int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TechnicalAssistanceParamter = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TechnicalAssistanceParameterID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.Year = year;
             this.EngineeringHourlyCost = engineeringHourlyCost;
@@ -55,9 +55,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TechnicalAssistanceParamter CreateNewBlank()
+        public static TechnicalAssistanceParameter CreateNewBlank()
         {
-            return new TechnicalAssistanceParamter(default(int), default(decimal), default(decimal));
+            return new TechnicalAssistanceParameter(default(int), default(decimal), default(decimal));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TechnicalAssistanceParamter).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TechnicalAssistanceParameter).Name};
 
 
         /// <summary>
@@ -80,17 +80,17 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceParamters.Remove(this);                
+            HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceParameters.Remove(this);                
         }
 
         [Key]
-        public int TechnicalAssistanceParamter { get; set; }
+        public int TechnicalAssistanceParameterID { get; set; }
         public int TenantID { get; private set; }
         public int Year { get; set; }
         public decimal EngineeringHourlyCost { get; set; }
         public decimal OtherAssistanceHourlyCost { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return TechnicalAssistanceParamter; } set { TechnicalAssistanceParamter = value; } }
+        public int PrimaryKey { get { return TechnicalAssistanceParameterID; } set { TechnicalAssistanceParameterID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

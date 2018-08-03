@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -31,7 +32,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
@@ -490,9 +490,16 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult TechnicalAssistanceParameters()
         {
-            // Feature only available for Idaho
-            Check.Assert(MultiTenantHelpers.TenantUsesTechnicalAssistanceParameters(), "This feature is not available.");
-            var viewModel = new TechnicalAssistanceParametersViewModel();
+            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
+            var technicalAssistanceParameterSimples = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList()
+                .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
+
+            // add blank TAPSes for the years that don't already have stuff in the deeb
+            technicalAssistanceParameterSimples.AddRange(FirmaDateUtilities.ReportingYearsForUserInputAsIntegers()
+                .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
+                .Select(year => new TechnicalAssistanceParameterSimple(year)));
+
+            var viewModel = new TechnicalAssistanceParametersViewModel(technicalAssistanceParameterSimples);
             return ViewTechnicalAssistanceParameters(viewModel);
         }
 
@@ -508,38 +515,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult TechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
         {
-            // Feature only available for Idaho
-            Check.Assert(MultiTenantHelpers.TenantUsesTechnicalAssistanceParameters(), "This feature is not available.");
+            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
             if (!ModelState.IsValid)
             {
                 return ViewTechnicalAssistanceParameters(viewModel);
             }
 
-            viewModel.UpdateModel();
+            HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.Load();
+
+
+            var currentTechnicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            var allTechnicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceParameters.Local;
+
+            viewModel.UpdateModel(currentTechnicalAssistanceParameters, allTechnicalAssistanceParameters);
             return new ModalDialogFormJsonResult();
         }
     }
-}
-
-namespace ProjectFirma.Web.Views.PerformanceMeasure
-{
-    public class TechnicalAssistanceParametersViewModel : FormViewModel
-    {
-        public void UpdateModel()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class TechnicalAssistanceParametersViewData : FirmaUserControlViewData
-    {
-
-    }
-
-    public abstract class TechnicalAssistanceParameters : TypedWebPartialViewPage<TechnicalAssistanceParametersViewData,
-        TechnicalAssistanceParametersViewModel>
-    {
-
-    }
-
 }

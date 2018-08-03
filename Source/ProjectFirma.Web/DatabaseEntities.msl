@@ -1180,10 +1180,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TechnicalAssistanceParamter">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TechnicalAssistanceParamter">
-        <MappingFragment StoreEntitySet="TechnicalAssistanceParamter">
-          <ScalarProperty Name="TechnicalAssistanceParamter1" ColumnName="TechnicalAssistanceParamter" />
+    <EntitySetMapping Name="TechnicalAssistanceParameter">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TechnicalAssistanceParameter">
+        <MappingFragment StoreEntitySet="TechnicalAssistanceParameter">
+          <ScalarProperty Name="TechnicalAssistanceParameterID" ColumnName="TechnicalAssistanceParameterID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="Year" ColumnName="Year" />
           <ScalarProperty Name="EngineeringHourlyCost" ColumnName="EngineeringHourlyCost" />

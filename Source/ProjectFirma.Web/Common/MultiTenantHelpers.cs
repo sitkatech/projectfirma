@@ -262,14 +262,14 @@ namespace ProjectFirma.Web.Common
         }
 
         
-        public static bool TenantUsesTechnicalAssistanceParameters()
+        public static bool UsesTechnicalAssistanceParameters()
         {
             return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
         }
 
         public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, string menuGroupName)
         {
-            if (TenantUsesTechnicalAssistanceParameters())
+            if (UsesTechnicalAssistanceParameters())
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Paramters",
                     ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",

@@ -49,6 +49,11 @@ namespace ProjectFirma.Web.Common
         {
             return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForUpToAllowableInputInReporting()).Select(x => new CalendarYearString(x)).ToList();
         }
+        public static List<int> ReportingYearsForUserInputAsIntegers()
+        {
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(),
+                CalculateCurrentYearToUseForUpToAllowableInputInReporting());
+        }
 
         public static List<int> GetRangeOfYears(int startYear, int endYear)
         {

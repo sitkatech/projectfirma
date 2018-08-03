@@ -93,7 +93,7 @@
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TechnicalAssistanceParamter" EntityType="ProjectFirma.Web.Models.Store.TechnicalAssistanceParamter" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.Store.TechnicalAssistanceParameter" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
@@ -1992,11 +1992,11 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TaxonomyTrunkCode" Type="varchar" MaxLength="10" />
     <Property Name="TaxonomyTrunkSortOrder" Type="int" />
   </EntityType>
-  <EntityType Name="TechnicalAssistanceParamter">
+  <EntityType Name="TechnicalAssistanceParameter">
     <Key>
-      <PropertyRef Name="TechnicalAssistanceParamter" />
+      <PropertyRef Name="TechnicalAssistanceParameterID" />
     </Key>
-    <Property Name="TechnicalAssistanceParamter" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TechnicalAssistanceParameterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="Year" Type="int" Nullable="false" />
     <Property Name="EngineeringHourlyCost" Type="money" Nullable="false" />
