@@ -24,8 +24,10 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Common
 {
@@ -259,10 +261,22 @@ namespace ProjectFirma.Web.Common
             return reportingYear.ToString();
         }
 
-        // This is Nick's fault and he's sorry.
-        public static bool TenantIsIdaho()
+        
+        public static bool TenantUsesTechnicalAssistanceParameters()
         {
-            return HttpRequestStorage.Tenant.TenantID == 9;
+            return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
+        }
+
+        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, string menuGroupName)
+        {
+            if (TenantUsesTechnicalAssistanceParameters())
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Paramters",
+                    ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",
+                        SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.TechnicalAssistanceParameters()),
+                        "Technical Assistance Parameters", 800,
+                        "Save", "Cancel", new List<string>(), null, null).ToString(), menuGroupName));
+            }
         }
     }
 }
