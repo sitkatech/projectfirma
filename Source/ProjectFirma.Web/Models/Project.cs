@@ -274,8 +274,25 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
-            var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            var reportedPerformanceMeasures = GetNonVirtualPerformanceMeasureReportedValues();
+
+            var indicator33 = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
+                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
+                    .PerformanceMeasureDataSourceTypeID);
+            if (indicator33 != null)
+            {
+                reportedPerformanceMeasures.AddRange(indicator33.GetReportedPerformanceMeasureValues(this));
+            }
+
+            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma).ToList();
+        }
+
+        public List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues()
+        {
+            var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
+                .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma).ToList();
         }
 
         public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
