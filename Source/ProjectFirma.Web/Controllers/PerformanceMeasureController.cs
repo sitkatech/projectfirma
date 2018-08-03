@@ -30,6 +30,8 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
@@ -484,5 +486,60 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult TechnicalAssistanceParameters()
+        {
+            // Feature only available for Idaho
+            Check.Assert(HttpRequestStorage.Tenant.TenantID == 9, "This feature is not available.");
+            var viewModel = new TechnicalAssistanceParametersViewModel();
+            return ViewTechnicalAssistanceParameters(viewModel);
+        }
+
+        private PartialViewResult ViewTechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
+        {
+            var viewData = new TechnicalAssistanceParametersViewData();
+            return RazorPartialView<TechnicalAssistanceParameters, TechnicalAssistanceParametersViewData,
+                TechnicalAssistanceParametersViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult TechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
+        {
+            // Feature only available for Idaho
+            Check.Assert(HttpRequestStorage.Tenant.TenantID == 9, "This feature is not available.");
+            if (!ModelState.IsValid)
+            {
+                return ViewTechnicalAssistanceParameters(viewModel);
+            }
+
+            viewModel.UpdateModel();
+            return new ModalDialogFormJsonResult();
+        }
     }
+}
+
+namespace ProjectFirma.Web.Views.PerformanceMeasure
+{
+    public class TechnicalAssistanceParametersViewModel : FormViewModel
+    {
+        public void UpdateModel()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TechnicalAssistanceParametersViewData : FirmaUserControlViewData
+    {
+
+    }
+
+    public abstract class TechnicalAssistanceParameters : TypedWebPartialViewPage<TechnicalAssistanceParametersViewData,
+        TechnicalAssistanceParametersViewModel>
+    {
+
+    }
+
 }
