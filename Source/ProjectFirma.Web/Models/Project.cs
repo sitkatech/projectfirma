@@ -276,12 +276,14 @@ namespace ProjectFirma.Web.Models
         {
             var reportedPerformanceMeasures = GetNonVirtualPerformanceMeasureReportedValues();
 
-            var indicator33 = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
+            // Idaho's special PM.
+            // There Might Be A Better Way To Do This™
+            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
                 x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
                     .PerformanceMeasureDataSourceTypeID);
-            if (indicator33 != null)
+            if (technicalAssistanceValue != null)
             {
-                reportedPerformanceMeasures.AddRange(indicator33.GetReportedPerformanceMeasureValues(this));
+                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(this));
             }
 
             return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma).ToList();

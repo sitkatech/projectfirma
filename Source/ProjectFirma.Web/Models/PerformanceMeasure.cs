@@ -88,19 +88,7 @@ namespace ProjectFirma.Web.Models
        
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(List<int> projectIDs)
         {
-            List<PerformanceMeasureActual> performanceMeasureActuals;
-            if (projectIDs == null || !projectIDs.Any())
-            {
-                performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == PerformanceMeasureID).ToList();
-            }
-            else
-            {
-                performanceMeasureActuals =
-                    HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
-                        pmav => pmav.PerformanceMeasureID == PerformanceMeasureID && projectIDs.Contains(pmav.ProjectID)).ToList();
-            }
-            var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActuals);
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
+            return PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues( this, projectIDs);
         }
 
         public decimal? TotalExpenditure()
