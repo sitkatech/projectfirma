@@ -382,6 +382,11 @@ namespace ProjectFirma.Web.Models
                 case "PerformanceMeasureActualUpdate":
                     return PerformanceMeasureActualUpdates.GetPerformanceMeasureActualUpdate(primaryKey);
 
+                case "PerformanceMeasureDataSourceType":
+                    var performanceMeasureDataSourceType = PerformanceMeasureDataSourceType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(performanceMeasureDataSourceType, "PerformanceMeasureDataSourceType", primaryKey);
+                    return performanceMeasureDataSourceType;
+
                 case "PerformanceMeasureExpected":
                     return PerformanceMeasureExpecteds.GetPerformanceMeasureExpected(primaryKey);
 

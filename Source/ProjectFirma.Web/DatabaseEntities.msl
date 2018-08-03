@@ -377,6 +377,7 @@
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
           <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
           <ScalarProperty Name="IsAggregatable" ColumnName="IsAggregatable" />
+          <ScalarProperty Name="PerformanceMeasureDataSourceTypeID" ColumnName="PerformanceMeasureDataSourceTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

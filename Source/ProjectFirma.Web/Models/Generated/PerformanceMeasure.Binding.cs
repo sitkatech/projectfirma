@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, bool canCalculateTotal, int? performanceMeasureSortOrder, bool isAggregatable) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, bool canCalculateTotal, int? performanceMeasureSortOrder, bool isAggregatable, int performanceMeasureDataSourceTypeID) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -58,12 +58,13 @@ namespace ProjectFirma.Web.Models
             this.CanCalculateTotal = canCalculateTotal;
             this.PerformanceMeasureSortOrder = performanceMeasureSortOrder;
             this.IsAggregatable = isAggregatable;
+            this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, bool swapChartAxes, bool canCalculateTotal, bool isAggregatable) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, bool swapChartAxes, bool canCalculateTotal, bool isAggregatable, int performanceMeasureDataSourceTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -74,12 +75,13 @@ namespace ProjectFirma.Web.Models
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
             this.IsAggregatable = isAggregatable;
+            this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, bool swapChartAxes, bool canCalculateTotal, bool isAggregatable) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, bool swapChartAxes, bool canCalculateTotal, bool isAggregatable, PerformanceMeasureDataSourceType performanceMeasureDataSourceType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -89,14 +91,15 @@ namespace ProjectFirma.Web.Models
             this.SwapChartAxes = swapChartAxes;
             this.CanCalculateTotal = canCalculateTotal;
             this.IsAggregatable = isAggregatable;
+            this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType)
+        public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, PerformanceMeasureDataSourceType performanceMeasureDataSourceType)
         {
-            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(bool), default(bool), default(bool));
+            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(bool), default(bool), default(bool), performanceMeasureDataSourceType);
         }
 
         /// <summary>
@@ -215,6 +218,7 @@ namespace ProjectFirma.Web.Models
         public bool CanCalculateTotal { get; set; }
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsAggregatable { get; set; }
+        public int PerformanceMeasureDataSourceTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
@@ -234,6 +238,7 @@ namespace ProjectFirma.Web.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
         public PerformanceMeasureType PerformanceMeasureType { get { return PerformanceMeasureType.AllLookupDictionary[PerformanceMeasureTypeID]; } }
+        public PerformanceMeasureDataSourceType PerformanceMeasureDataSourceType { get { return PerformanceMeasureDataSourceType.AllLookupDictionary[PerformanceMeasureDataSourceTypeID]; } }
 
         public static class FieldLengths
         {

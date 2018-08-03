@@ -173,6 +173,8 @@
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceType.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpected.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpected.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpectedPrimaryKey.Binding.cs" />
