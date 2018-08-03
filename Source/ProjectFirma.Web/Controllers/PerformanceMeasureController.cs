@@ -491,7 +491,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult TechnicalAssistanceParameters()
         {
             // Feature only available for Idaho
-            Check.Assert(HttpRequestStorage.Tenant.TenantID == 9, "This feature is not available.");
+            Check.Assert(MultiTenantHelpers.TenantUsesTechnicalAssistanceParameters(), "This feature is not available.");
             var viewModel = new TechnicalAssistanceParametersViewModel();
             return ViewTechnicalAssistanceParameters(viewModel);
         }
@@ -509,7 +509,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult TechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
         {
             // Feature only available for Idaho
-            Check.Assert(HttpRequestStorage.Tenant.TenantID == 9, "This feature is not available.");
+            Check.Assert(MultiTenantHelpers.TenantUsesTechnicalAssistanceParameters(), "This feature is not available.");
             if (!ModelState.IsValid)
             {
                 return ViewTechnicalAssistanceParameters(viewModel);

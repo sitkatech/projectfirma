@@ -258,5 +258,11 @@ namespace ProjectFirma.Web.Common
             }
             return reportingYear.ToString();
         }
+
+        // This is Nick's fault and he's sorry.
+        public static bool TenantIsIdaho()
+        {
+            return HttpRequestStorage.Tenant.TenantID == 9;
+        }
     }
 }

@@ -41,3 +41,22 @@ WHERE TenantID = 9 and PerformanceMeasureDisplayName = @newPMName
 
 ALTER TABLE dbo.PerformanceMeasure
 ALTER COLUMN PerformanceMeasureDataSourceTypeID INT NOT NULL
+
+ALTER TABLE dbo.Tenant
+ADD UsesTechnicalAssistanceParameters BIT NULL
+GO
+
+UPDATE dbo.Tenant
+SET UsesTechnicalAssistanceParameters = 0
+
+UPDATE dbo.Tenant
+SET UsesTechnicalAssistanceParameters = 1
+WHERE TenantID = 9
+
+ALTER TABLE dbo.Tenant
+ALTER COLUMN UsesTechnicalAssistanceParameters BIT NOT NULL
+
+-- this feature is only available for Idaho
+ALTER TABLE dbo.Tenant
+ADD CONSTRAINT CK_OnlyIdahoUsesTechnicalAssistanceParameters
+CHECK (UsesTechnicalAssistanceParameters = 0 OR TenantID = 9)
