@@ -1,4 +1,5 @@
-﻿@inherits ProjectFirma.Web.Views.PerformanceMeasure.TechnicalAssistanceParameters
+﻿@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.PerformanceMeasure.TechnicalAssistanceParameters
     
 <div class="row"><div class="col-sm-12">'Ello, gov'na! Go ri' ahea' an' pu' summa parame'ers in dis 'ere form, arri'?</div></div>
 <hr />
@@ -17,11 +18,11 @@
             for (var i = 0; i < Model.TechnicalAssistanceParameters.Count; i++)
 
             {
-                var whatver = Model.TechnicalAssistanceParameters[i];
+                var technicalAssistanceParameter = Model.TechnicalAssistanceParameters[i];
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-2">
-                            <label>@whatver.Year</label>
+                            <label>@MultiTenantHelpers.FormatReportingYear(technicalAssistanceParameter.Year)</label>
                             @Html.HiddenFor(m=>m.TechnicalAssistanceParameters[i].Year)
                         </div>
                         <div class="col-sm-5">@Html.EditorFor(m=>m.TechnicalAssistanceParameters[i].EngineeringHourlyCost, "MoneyWithCents")</div>

@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public TechnicalAssistanceParametersViewModel(List<TechnicalAssistanceParameterSimple> technicalAssitanceParameters)
         {
-            TechnicalAssistanceParameters = technicalAssitanceParameters.OrderBy(x=>x.Year).ToList();
+            TechnicalAssistanceParameters = technicalAssitanceParameters.OrderByDescending(x=>x.Year).ToList();
         }
 
         public void UpdateModel(List<TechnicalAssistanceParameter> currentTechnicalAssistanceParameters,

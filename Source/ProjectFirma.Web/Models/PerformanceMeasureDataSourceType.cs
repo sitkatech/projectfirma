@@ -38,19 +38,21 @@ namespace ProjectFirma.Web.Models
                 return new List<PerformanceMeasureReportedValue>();
             }
 
-            var technicalAssistanceHoursProvidedGroupedByYear = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
+            var technicalAssistanceHoursProvidedGroupedByYearAndProject = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
                 projectIDs).Where(x =>
                 x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID)
-                    .Contains(2935)).GroupBy(x=>x.CalendarYear);
+                    .Contains(2935)).GroupBy(x=> new {x.CalendarYear, x.Project});
 
-            return technicalAssistanceHoursProvidedGroupedByYear.Select(x =>
+            return technicalAssistanceHoursProvidedGroupedByYearAndProject.SelectMany(x =>
             {
-                var year = x.Key;
+                var year = x.Key.CalendarYear;
+                var project = x.Key.Project;
                 var technicalAssistanceParameter = technicalAssistanceParameters.SingleOrDefault(y=>y.Year == year);
                 var engineeringHourlyCost = technicalAssistanceParameter?.EngineeringHourlyCost;
                 var otherAssistanceHourlyCost = technicalAssistanceParameter?.OtherAssistanceHourlyCost;
                 var technicalAssistanceValueInYear = 0d;
-                foreach (var performanceMeasureReportedValue in x)
+                //foreach (var performanceMeasureReportedValue in x)
+                return x.Select(performanceMeasureReportedValue =>
                 {
                     if (performanceMeasureReportedValue.PerformanceMeasureActualSubcategoryOptions
                         .Select(y => y.PerformanceMeasureSubcategoryOptionID).Contains(2938))
@@ -63,11 +65,12 @@ namespace ProjectFirma.Web.Models
                     {
                         technicalAssistanceValueInYear +=
                             performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
-                            (double)otherAssistanceHourlyCost.GetValueOrDefault();
+                            (double) otherAssistanceHourlyCost.GetValueOrDefault();
                     }
-                }
 
-                return new PerformanceMeasureReportedValue(performanceMeasure, null, year, technicalAssistanceValueInYear);
+                    return new PerformanceMeasureReportedValue(performanceMeasure, project, year,
+                        technicalAssistanceValueInYear);
+                });
             }).ToList();
         }
     }

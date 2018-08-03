@@ -286,7 +286,7 @@ namespace ProjectFirma.Web.Models
                 reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(this));
             }
 
-            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma).ToList();
+            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues()
@@ -294,7 +294,7 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
                 .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
