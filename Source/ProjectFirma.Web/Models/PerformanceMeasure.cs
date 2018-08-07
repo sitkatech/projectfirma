@@ -165,9 +165,8 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureValues =
                 performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
                     performanceMeasure,
-                    projectIDs).Select(x=>new VirtualPerformanceMeasureValue(x));
+                    projectIDs);
 
-            //var performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
             var performanceMeasureActualsFiltered =
                 projectIDs?.Any() == true ? performanceMeasureValues.Where(pmav => projectIDs.Contains(pmav.Project.ProjectID)).ToList() : performanceMeasureValues;
 
