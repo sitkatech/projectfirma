@@ -22,5 +22,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class SnapshotPerformanceMeasureSubcategoryOption : IPerformanceMeasureValueSubcategoryOption
     {
+        public string PerformanceMeasureSubcategoryOptionName =>
+            PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
     }
 }

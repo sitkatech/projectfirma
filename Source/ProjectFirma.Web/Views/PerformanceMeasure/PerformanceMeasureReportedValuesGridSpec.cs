@@ -44,19 +44,28 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
+            if (performanceMeasure.HasRealSubcategories)
             {
-                Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
-                    a =>
-                    {
-                        var performanceMeasureActualSubcategoryOption =
-                            a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
-                        if (performanceMeasureActualSubcategoryOption != null)
+                foreach (var performanceMeasureSubcategory in
+                    performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x =>
+                        x.PerformanceMeasureSubcategoryDisplayName))
+                {
+                    Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
+                        a =>
                         {
-                            return performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
-                        }
-                        return string.Empty;
-                    }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                            var performanceMeasureActualSubcategoryOption =
+                                a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x =>
+                                    x.PerformanceMeasureSubcategoryID ==
+                                    performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
+                            if (performanceMeasureActualSubcategoryOption != null)
+                            {
+                                return performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOption
+                                    .PerformanceMeasureSubcategoryOptionName;
+                            }
+
+                            return string.Empty;
+                        }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                }
             }
             var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 

@@ -165,7 +165,7 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureValues =
                 performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
                     performanceMeasure,
-                    projectIDs);
+                    projectIDs).Select(x=>new VirtualPerformanceMeasureValue(x));
 
             //var performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
             var performanceMeasureActualsFiltered =
@@ -179,9 +179,22 @@ namespace ProjectFirma.Web.Models
                 var performanceMeasureReportingPeriodSubcategoryOptionReportedValues = reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions.OrderBy(y =>
                     y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).Select(
                     (y, index) =>
-                        new PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                            reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
-                            reportedValuesGroup.Sum(x => x.ReportedValue ?? 0))).ToList();
+                    {
+                        if (y.PerformanceMeasureSubcategoryOption != null)
+                        {
+                            return new
+                                PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
+                                    reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
+                                    reportedValuesGroup.Sum(x => x.ReportedValue ?? 0));
+                        }
+                        else
+                        {
+                            return new
+                                PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
+                                    reportedValuesGroup.Key.CalendarYear,
+                                    reportedValuesGroup.Sum(x => x.ReportedValue ?? 0), y.PerformanceMeasureSubcategory, y.PerformanceMeasureSubcategoryOptionName);
+                        }
+                    }).ToList();
 
                 return new ProjectPerformanceMeasureReportingPeriodValue(project, performanceMeasureReportingPeriodSubcategoryOptionReportedValues);
             }).ToList();

@@ -29,6 +29,7 @@ namespace ProjectFirma.Web.Models
         int PerformanceMeasureID { get; }
         int PerformanceMeasureSubcategoryID { get; }
         PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
+        string PerformanceMeasureSubcategoryOptionName { get; }
         PerformanceMeasure PerformanceMeasure { get; }
         PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         int PrimaryKey { get; }
@@ -43,6 +44,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
         public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
         public PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
+        public string PerformanceMeasureSubcategoryOptionName { get; }
         public PerformanceMeasure PerformanceMeasure { get; }
         public PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         public int PrimaryKey => ModelObjectHelpers.NotYetAssignedID;
@@ -54,6 +56,8 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.NotYetAssignedID;
             PerformanceMeasureSubcategory = performanceMeasureSubcategory;
             PerformanceMeasure = PerformanceMeasureSubcategory.PerformanceMeasure;
+            PerformanceMeasureSubcategoryOptionName =
+                performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
         }
     }
 }

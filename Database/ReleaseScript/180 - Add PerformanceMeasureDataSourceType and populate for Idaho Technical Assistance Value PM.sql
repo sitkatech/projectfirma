@@ -36,7 +36,7 @@ declare @newPMID int = SCOPE_IDENTITY()
 
 INSERT INTO dbo.PerformanceMeasureSubcategory([TenantID], [PerformanceMeasureID], [PerformanceMeasureSubcategoryDisplayName], [ChartConfigurationJson], [GoogleChartTypeID])
 values
-(9, @newPMID, @NewPMName, NULL, 7)
+(9, @newPMID, @NewPMName, '{"title":"","titlePosition":null,"legend":{"position":"none"},"hAxis":{"title":null,"titleTextStyle":{"italic":false,"bold":false,"color":"#222","fontSize":12,"fontWidth":"normal"},"textStyle":null,"useFormatFromData":false,"formatOptions":{"source":"inline"},"format":"0.##"},"vAxes":[{"title":"Technical Assitance Value ($)","titleTextStyle":{"italic":false,"bold":false,"color":"#222","fontSize":12,"fontWidth":"normal"},"textStyle":null,"useFormatFromData":false,"formatOptions":{"source":"inline"},"viewWindow":{"min":0},"format":"0.##"},{"title":null,"titleTextStyle":{"italic":false,"bold":false,"color":"#222","fontSize":12,"fontWidth":"normal"},"textStyle":null,"useFormatFromData":false,"formatOptions":{"source":"inline"},"viewWindow":{"min":0},"format":"0.##"}],"series":null,"backgroundColor":{"fill":"white"},"legendTextStyle":{"italic":false,"bold":false,"color":"#222","fontSize":11,"fontWidth":"normal"},"titleTextStyle":{"italic":false,"bold":false,"color":"#000","fontSize":16,"fontWidth":"normal"},"isStacked":false,"focusTarget":"category","tooltip":null,"curveType":null,"lineWidth":0,"seriesType":null,"type":null,"connectSteps":false,"theme":null}', 1)
 
 UPDATE dbo.PerformanceMeasure
 SET PerformanceMeasureDataSourceTypeID = 1

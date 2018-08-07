@@ -38,6 +38,8 @@ namespace ProjectFirma.Web.Models
                 return new List<PerformanceMeasureReportedValue>();
             }
 
+
+
             var technicalAssistanceHoursProvidedGroupedByYearAndProject = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
                 projectIDs).Where(x =>
                 x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID)
@@ -50,6 +52,8 @@ namespace ProjectFirma.Web.Models
                 var technicalAssistanceParameter = technicalAssistanceParameters.SingleOrDefault(y=>y.Year == year);
                 var engineeringHourlyCost = technicalAssistanceParameter?.EngineeringHourlyCost;
                 var otherAssistanceHourlyCost = technicalAssistanceParameter?.OtherAssistanceHourlyCost;
+                
+                // todo something's wrong here
                 var technicalAssistanceValueInYear = 0d;
                 //foreach (var performanceMeasureReportedValue in x)
                 return x.Select(performanceMeasureReportedValue =>
@@ -69,7 +73,10 @@ namespace ProjectFirma.Web.Models
                     }
 
                     return new PerformanceMeasureReportedValue(performanceMeasure, project, year,
-                        technicalAssistanceValueInYear);
+                        technicalAssistanceValueInYear)
+                    {
+                        PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>{new VirtualPerformanceMeasureValueSubcategoryOption(performanceMeasure.PerformanceMeasureSubcategories.Single())}
+                    };
                 });
             }).ToList();
         }

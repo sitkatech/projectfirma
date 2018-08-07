@@ -32,30 +32,32 @@ namespace ProjectFirma.Web.Models
         string PerformanceMeasureSubcategoriesAsString { get; }
     }
 
-    // TODO KiLL 
-    //class PerformanceMeasureValue : IPerformanceMeasureValue
-    //{
-    //    //public PerformanceMeasureValue(PerformanceMeasureReportedValue performanceMeasureReportedValue)
-    //    //{
-    //    //    PerformanceMeasure = performanceMeasureReportedValue.PerformanceMeasure;
-    //    //    PerformanceMeasureID = PerformanceMeasure.PerformanceMeasureID;
-    //    //    ReportedValue = performanceMeasureReportedValue.ReportedValue;
-    //    //    PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue.PerformanceMeasureSubcategoryOptions;
-    //    //    PerformanceMeasureSubcategoriesAsString =
-    //    //        performanceMeasureReportedValue.PerformanceMeasureSubcategoriesAsString;
-    //    //    ProjectID = performanceMeasureReportedValue.Project.ProjectID;
-    //    //    Project = performanceMeasureReportedValue.Project;
-    //    //    CalendarYear = performanceMeasureReportedValue.CalendarYear;
-    //    //}
+    /// <summary>
+    /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
+    /// </summary>
+    class VirtualPerformanceMeasureValue : IPerformanceMeasureValue
+    {
+        public VirtualPerformanceMeasureValue(PerformanceMeasureReportedValue performanceMeasureReportedValue)
+        {
+            PerformanceMeasure = performanceMeasureReportedValue.PerformanceMeasure;
+            PerformanceMeasureID = PerformanceMeasure.PerformanceMeasureID;
+            ReportedValue = performanceMeasureReportedValue.ReportedValue;
+            PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue.PerformanceMeasureSubcategoryOptions;
+            PerformanceMeasureSubcategoriesAsString =
+                performanceMeasureReportedValue.PerformanceMeasureSubcategoriesAsString;
+            ProjectID = performanceMeasureReportedValue.Project.ProjectID;
+            Project = performanceMeasureReportedValue.Project;
+            CalendarYear = performanceMeasureReportedValue.CalendarYear;
+        }
 
-    //    public int CalendarYear { get; set; }
+        public int CalendarYear { get; set; }
 
-    //    public int ProjectID { get; set; }
-    //    public Project Project { get; private set; }
-    //    public int PerformanceMeasureID { get; set; }
-    //    public List<IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption>> PerformanceMeasureSubcategoryOptions { get; }
-    //    public PerformanceMeasure PerformanceMeasure { get; set; }
-    //    public double? ReportedValue { get; }
-    //    public string PerformanceMeasureSubcategoriesAsString { get; }
-    //}
+        public int ProjectID { get; set; }
+        public Project Project { get; private set; }
+        public int PerformanceMeasureID { get; set; }
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
+        public PerformanceMeasure PerformanceMeasure { get; set; }
+        public double? ReportedValue { get; }
+        public string PerformanceMeasureSubcategoriesAsString { get; }
+    }
 }
