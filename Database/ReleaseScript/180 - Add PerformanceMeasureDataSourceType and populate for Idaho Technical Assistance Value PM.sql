@@ -32,6 +32,12 @@ INSERT INTO dbo.PerformanceMeasure ([TenantID], [CriticalDefinitions], [ProjectR
 values
 (9, NULL, NULL, @newPMName, 9, 1, 'The dollar value of technical assistance provided to Conservation Districts.', NULL, NULL, NULL, 0, 0, NULL, 1)
 
+declare @newPMID int = SCOPE_IDENTITY()
+
+INSERT INTO dbo.PerformanceMeasureSubcategory([TenantID], [PerformanceMeasureID], [PerformanceMeasureSubcategoryDisplayName], [ChartConfigurationJson], [GoogleChartTypeID])
+values
+(9, @newPMID, @NewPMName, NULL, 7)
+
 UPDATE dbo.PerformanceMeasure
 SET PerformanceMeasureDataSourceTypeID = 1
 

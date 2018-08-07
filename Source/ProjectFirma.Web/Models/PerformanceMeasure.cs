@@ -162,16 +162,21 @@ namespace ProjectFirma.Web.Models
 
         public List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            var performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
+            var performanceMeasureValues =
+                performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
+                    performanceMeasure,
+                    projectIDs);
+
+            //var performanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
             var performanceMeasureActualsFiltered =
-                projectIDs?.Any() == true ? performanceMeasureActuals.Where(pmav => projectIDs.Contains(pmav.ProjectID)).ToList() : performanceMeasureActuals;
+                projectIDs?.Any() == true ? performanceMeasureValues.Where(pmav => projectIDs.Contains(pmav.Project.ProjectID)).ToList() : performanceMeasureValues;
 
             var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, pirv.PerformanceMeasureSubcategoriesAsString, pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
             var projectPerformanceMeasureReportingPeriodValues = groupByProjectAndSubcategory.Select(reportedValuesGroup =>
             {
                 var project = reportedValuesGroup.Key.Project;
-                var performanceMeasureReportingPeriodSubcategoryOptionReportedValues = reportedValuesGroup.First().PerformanceMeasureActualSubcategoryOptions.OrderBy(y =>
+                var performanceMeasureReportingPeriodSubcategoryOptionReportedValues = reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions.OrderBy(y =>
                     y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).Select(
                     (y, index) =>
                         new PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(

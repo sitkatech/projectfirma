@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IPerformanceMeasureValueSubcategoryOption.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption>.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,15 +18,42 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
+using LtInfo.Common.Models;
+
 namespace ProjectFirma.Web.Models
 {
-    public interface IPerformanceMeasureValueSubcategoryOption
+    public interface IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption><out T> where T : IPerformanceMeasureSubcategoryOption
     {
         int PerformanceMeasureID { get; }
         int PerformanceMeasureSubcategoryID { get; }
-        PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
+        T PerformanceMeasureSubcategoryOption { get; }
         PerformanceMeasure PerformanceMeasure { get; }
         PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         int PrimaryKey { get; }
+        int PerformanceMeasureSubcategoryOptionID { get; }
+    }
+
+    /// <summary>
+    /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
+    /// </summary>
+    public class VirtualPerformanceMeasureValueSubcategoryOption : IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption> <IPerformanceMeasureSubcategoryOption>
+    {
+        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
+        public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
+        public IPerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
+        public PerformanceMeasure PerformanceMeasure { get; }
+        public PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
+        public int PrimaryKey => ModelObjectHelpers.NotYetAssignedID;
+        public int PerformanceMeasureSubcategoryOptionID { get; }
+
+        public VirtualPerformanceMeasureValueSubcategoryOption(
+            PerformanceMeasureSubcategory performanceMeasureSubcategory)
+        {
+            PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.NotYetAssignedID;
+            PerformanceMeasureSubcategory = performanceMeasureSubcategory;
+            PerformanceMeasure = PerformanceMeasureSubcategory.PerformanceMeasure;
+        }
     }
 }

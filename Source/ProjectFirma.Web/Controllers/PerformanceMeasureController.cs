@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
+            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
             
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, null, CurrentPerson, false, true);
 
@@ -96,9 +96,9 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
-                userHasPerformanceMeasureManagePermissions);
+                canManagePerformanceMeasure);
 
-            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, userHasPerformanceMeasureManagePermissions);
+            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

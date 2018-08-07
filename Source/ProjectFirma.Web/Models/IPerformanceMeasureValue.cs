@@ -26,9 +26,36 @@ namespace ProjectFirma.Web.Models
     public interface IPerformanceMeasureValue
     {
         Int32 PerformanceMeasureID { get; set; }
-        List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
+        List<IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption>> PerformanceMeasureSubcategoryOptions { get; }
         PerformanceMeasure PerformanceMeasure { get; set; }
         double? ReportedValue { get; }
         string PerformanceMeasureSubcategoriesAsString { get; }
+    }
+
+    // shim/sham class
+    class PerformanceMeasureValue : IPerformanceMeasureValue
+    {
+        public PerformanceMeasureValue(PerformanceMeasureReportedValue performanceMeasureReportedValue)
+        {
+            PerformanceMeasure = performanceMeasureReportedValue.PerformanceMeasure;
+            PerformanceMeasureID = PerformanceMeasure.PerformanceMeasureID;
+            ReportedValue = performanceMeasureReportedValue.ReportedValue;
+            PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue.PerformanceMeasureSubcategoryOptions;
+            PerformanceMeasureSubcategoriesAsString =
+                performanceMeasureReportedValue.PerformanceMeasureSubcategoriesAsString;
+            ProjectID = performanceMeasureReportedValue.Project.ProjectID;
+            Project = performanceMeasureReportedValue.Project;
+            CalendarYear = performanceMeasureReportedValue.CalendarYear;
+        }
+
+        public int CalendarYear { get; set; }
+
+        public int ProjectID { get; set; }
+        public Project Project { get; private set; }
+        public int PerformanceMeasureID { get; set; }
+        public List<IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption>> PerformanceMeasureSubcategoryOptions { get; }
+        public PerformanceMeasure PerformanceMeasure { get; set; }
+        public double? ReportedValue { get; }
+        public string PerformanceMeasureSubcategoriesAsString { get; }
     }
 }
