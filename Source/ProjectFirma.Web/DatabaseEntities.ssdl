@@ -1999,8 +1999,8 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TechnicalAssistanceParameterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="Year" Type="int" Nullable="false" />
-    <Property Name="EngineeringHourlyCost" Type="money" Nullable="false" />
-    <Property Name="OtherAssistanceHourlyCost" Type="money" Nullable="false" />
+    <Property Name="EngineeringHourlyCost" Type="money" />
+    <Property Name="OtherAssistanceHourlyCost" Type="money" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>

@@ -6,8 +6,8 @@ CREATE TABLE [dbo].[TechnicalAssistanceParameter](
 	[TechnicalAssistanceParameterID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[Year] [int] NOT NULL,
-	[EngineeringHourlyCost] [money] NOT NULL,
-	[OtherAssistanceHourlyCost] [money] NOT NULL,
+	[EngineeringHourlyCost] [money] NULL,
+	[OtherAssistanceHourlyCost] [money] NULL,
  CONSTRAINT [PK_TechnicalAssistanceParameter_TechnicalAssistanceParameterID] PRIMARY KEY CLUSTERED 
 (
 	[TechnicalAssistanceParameterID] ASC

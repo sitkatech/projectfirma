@@ -24,11 +24,11 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public interface IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption><out T> where T : IPerformanceMeasureSubcategoryOption
+    public interface IPerformanceMeasureValueSubcategoryOption
     {
         int PerformanceMeasureID { get; }
         int PerformanceMeasureSubcategoryID { get; }
-        T PerformanceMeasureSubcategoryOption { get; }
+        PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
         PerformanceMeasure PerformanceMeasure { get; }
         PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         int PrimaryKey { get; }
@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Models
     /// <summary>
     /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
     /// </summary>
-    public class VirtualPerformanceMeasureValueSubcategoryOption : IPerformanceMeasureValueSubcategoryOption<PerformanceMeasureSubcategoryOption> <IPerformanceMeasureSubcategoryOption>
+    public class VirtualPerformanceMeasureValueSubcategoryOption : IPerformanceMeasureValueSubcategoryOption
     {
         public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
         public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
-        public IPerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
+        public PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
         public PerformanceMeasure PerformanceMeasure { get; }
         public PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         public int PrimaryKey => ModelObjectHelpers.NotYetAssignedID;

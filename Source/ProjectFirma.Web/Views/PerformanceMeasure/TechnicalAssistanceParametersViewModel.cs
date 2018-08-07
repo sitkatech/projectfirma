@@ -83,7 +83,11 @@ namespace ProjectFirma.Web.Models
 
         public TechnicalAssistanceParameter ToTechnicalAssistanceParameter()
         {
-            return new TechnicalAssistanceParameter(Year, EngineeringHourlyCost.GetValueOrDefault(), OtherAssistanceHourlyCost.GetValueOrDefault());
+            return new TechnicalAssistanceParameter(Year)
+            {
+                EngineeringHourlyCost = EngineeringHourlyCost,
+                OtherAssistanceHourlyCost = OtherAssistanceHourlyCost
+            }; 
         }
     }
 }

@@ -2056,8 +2056,8 @@
     <Property Name="TechnicalAssistanceParameterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="Year" Type="Int32" Nullable="false" />
-    <Property Name="EngineeringHourlyCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="OtherAssistanceHourlyCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="EngineeringHourlyCost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="OtherAssistanceHourlyCost" Type="Decimal" Precision="19" Scale="4" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>

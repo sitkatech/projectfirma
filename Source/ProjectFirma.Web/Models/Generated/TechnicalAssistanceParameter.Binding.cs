@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceParameter(int technicalAssistanceParameterID, int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
+        public TechnicalAssistanceParameter(int technicalAssistanceParameterID, int year, decimal? engineeringHourlyCost, decimal? otherAssistanceHourlyCost) : this()
         {
             this.TechnicalAssistanceParameterID = technicalAssistanceParameterID;
             this.Year = year;
@@ -41,14 +41,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceParameter(int year, decimal engineeringHourlyCost, decimal otherAssistanceHourlyCost) : this()
+        public TechnicalAssistanceParameter(int year) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TechnicalAssistanceParameterID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.Year = year;
-            this.EngineeringHourlyCost = engineeringHourlyCost;
-            this.OtherAssistanceHourlyCost = otherAssistanceHourlyCost;
         }
 
 
@@ -57,7 +55,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TechnicalAssistanceParameter CreateNewBlank()
         {
-            return new TechnicalAssistanceParameter(default(int), default(decimal), default(decimal));
+            return new TechnicalAssistanceParameter(default(int));
         }
 
         /// <summary>
@@ -87,8 +85,8 @@ namespace ProjectFirma.Web.Models
         public int TechnicalAssistanceParameterID { get; set; }
         public int TenantID { get; private set; }
         public int Year { get; set; }
-        public decimal EngineeringHourlyCost { get; set; }
-        public decimal OtherAssistanceHourlyCost { get; set; }
+        public decimal? EngineeringHourlyCost { get; set; }
+        public decimal? OtherAssistanceHourlyCost { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TechnicalAssistanceParameterID; } set { TechnicalAssistanceParameterID = value; } }
 
