@@ -31,53 +31,46 @@ namespace ProjectFirma.Web.Models
         public override List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(
             PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            // the source for this PM is "Technical Assistance Provided to Conservation Districts"
             var technicalAssistanceHours = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x=>x.PerformanceMeasureID == 2147);
             if (technicalAssistanceHours == null)
             {
+                // should not be calling this from a context where that PM doesn't exist anyway, but let's not die if we do.
                 return new List<PerformanceMeasureReportedValue>();
             }
 
-
-
-            var technicalAssistanceHoursProvidedGroupedByYearAndProject = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
+            var performanceMeasureReportedValues = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
                 projectIDs).Where(x =>
                 x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID)
-                    .Contains(2935)).GroupBy(x=> new {x.CalendarYear, x.Project});
+                    .Contains(2935));  // Should only be counting "Provided" Technical Assistance Hours
 
-            return technicalAssistanceHoursProvidedGroupedByYearAndProject.SelectMany(x =>
+            // get these now to prepare for the main calculation
+            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            var performanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>
             {
-                var year = x.Key.CalendarYear;
-                var project = x.Key.Project;
-                var technicalAssistanceParameter = technicalAssistanceParameters.SingleOrDefault(y=>y.Year == year);
+                new VirtualPerformanceMeasureValueSubcategoryOption(performanceMeasure.PerformanceMeasureSubcategories
+                    .Single())
+            };
+
+            return performanceMeasureReportedValues.Select(performanceMeasureReportedValue =>
+            {
+                var year = performanceMeasureReportedValue.CalendarYear;
+                var project = performanceMeasureReportedValue.Project;
+                var technicalAssistanceParameter = technicalAssistanceParameters.SingleOrDefault(y => y.Year == year);
                 var engineeringHourlyCost = technicalAssistanceParameter?.EngineeringHourlyCost;
                 var otherAssistanceHourlyCost = technicalAssistanceParameter?.OtherAssistanceHourlyCost;
-                
-                // todo something's wrong here
-                var technicalAssistanceValueInYear = 0d;
-                //foreach (var performanceMeasureReportedValue in x)
-                return x.Select(performanceMeasureReportedValue =>
-                {
-                    if (performanceMeasureReportedValue.PerformanceMeasureActualSubcategoryOptions
-                        .Select(y => y.PerformanceMeasureSubcategoryOptionID).Contains(2938))
-                    {
-                        technicalAssistanceValueInYear +=
-                            performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
-                            (double) engineeringHourlyCost.GetValueOrDefault();
-                    }
-                    else
-                    {
-                        technicalAssistanceValueInYear +=
-                            performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
-                            (double) otherAssistanceHourlyCost.GetValueOrDefault();
-                    }
 
-                    return new PerformanceMeasureReportedValue(performanceMeasure, project, year,
-                        technicalAssistanceValueInYear)
-                    {
-                        PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>{new VirtualPerformanceMeasureValueSubcategoryOption(performanceMeasure.PerformanceMeasureSubcategories.Single())}
-                    };
-                });
+                var technicalAssistanceValueInYear = performanceMeasureReportedValue
+                    .PerformanceMeasureActualSubcategoryOptions
+                    .Select(y => y.PerformanceMeasureSubcategoryOptionID).Contains(2938)  // "Engineering Assistance" is treated differently from other kinds of technical assistance.
+                    ? performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
+                      (double)engineeringHourlyCost.GetValueOrDefault()
+                    : performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
+                      (double)otherAssistanceHourlyCost.GetValueOrDefault();
+                return new PerformanceMeasureReportedValue(performanceMeasure, project,year, technicalAssistanceValueInYear)
+                {
+                    PerformanceMeasureActualSubcategoryOptions = performanceMeasureActualSubcategoryOptions
+                };
             }).ToList();
         }
     }
