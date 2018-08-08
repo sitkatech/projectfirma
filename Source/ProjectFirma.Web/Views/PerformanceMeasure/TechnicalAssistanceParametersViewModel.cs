@@ -54,11 +54,8 @@ namespace ProjectFirma.Web.Models
     {
         public int Year { get; set; }
 
-        // todo: it feels gross to require these but if they're not required we might have to let them be null in the deeb
-        //[Required]
         public Money? EngineeringHourlyCost { get; set; }
 
-        //[Required]
         public Money? OtherAssistanceHourlyCost { get; set; }
 
         /// <summary>

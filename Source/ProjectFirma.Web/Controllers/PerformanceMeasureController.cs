@@ -494,7 +494,7 @@ namespace ProjectFirma.Web.Controllers
             var technicalAssistanceParameterSimples = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList()
                 .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
 
-            // add blank TAPSes for the years that don't already have stuff in the deeb
+            // add blank TAPSes for the years that don't already have stuff in the DB
             technicalAssistanceParameterSimples.AddRange(FirmaDateUtilities.ReportingYearsForUserInputAsIntegers()
                 .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
                 .Select(year => new TechnicalAssistanceParameterSimple(year)));
