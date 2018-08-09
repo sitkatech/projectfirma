@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected Tenant(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears)
+        protected Tenant(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters)
         {
             TenantID = tenantID;
             TenantName = tenantName;
@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Models
             CanonicalHostNameProd = canonicalHostNameProd;
             ReportingYearStartDate = reportingYearStartDate;
             UseFiscalYears = useFiscalYears;
+            UsesTechnicalAssistanceParameters = usesTechnicalAssistanceParameters;
         }
 
         [Key]
@@ -62,6 +63,7 @@ namespace ProjectFirma.Web.Models
         public string CanonicalHostNameProd { get; private set; }
         public DateTime ReportingYearStartDate { get; private set; }
         public bool UseFiscalYears { get; private set; }
+        public bool UsesTechnicalAssistanceParameters { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantID; } }
 
@@ -153,55 +155,55 @@ namespace ProjectFirma.Web.Models
 
     public partial class TenantSitkaTechnologyGroup : Tenant
     {
-        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"sitka.localhost.projectfirma.com", @"sitka.qa.projectfirma.com", @"sitka.projectfirma.com", DateTime.Parse("01/01/1990"), false);
+        private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"sitka.localhost.projectfirma.com", @"sitka.qa.projectfirma.com", @"sitka.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantClackamasPartnership : Tenant
     {
-        private TenantClackamasPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"localhost.clackamaspartnership.org", @"qa.clackamaspartnership.org", @"www.clackamaspartnership.org", DateTime.Parse("01/01/1990"), false);
+        private TenantClackamasPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"localhost.clackamaspartnership.org", @"qa.clackamaspartnership.org", @"www.clackamaspartnership.org", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantRCDProjectTracker : Tenant
     {
-        private TenantRCDProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"localhost.rcdprojects.org", @"qa.rcdprojects.org", @"www.rcdprojects.org", DateTime.Parse("01/01/1990"), false);
+        private TenantRCDProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"localhost.rcdprojects.org", @"qa.rcdprojects.org", @"www.rcdprojects.org", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantInternationYearOfTheSalmon : Tenant
     {
-        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"iysdemo.localhost.projectfirma.com", @"iysdemo.qa.projectfirma.com", @"iysdemo.projectfirma.com", DateTime.Parse("01/01/1990"), false);
+        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(4, @"InternationYearOfTheSalmon", @"iysdemo.localhost.projectfirma.com", @"iysdemo.qa.projectfirma.com", @"iysdemo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantDemoProjectFirma : Tenant
     {
-        private TenantDemoProjectFirma(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"demo.localhost.projectfirma.com", @"demo.qa.projectfirma.com", @"demo.projectfirma.com", DateTime.Parse("01/01/1990"), false);
+        private TenantDemoProjectFirma(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"demo.localhost.projectfirma.com", @"demo.qa.projectfirma.com", @"demo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantPeaksToPeople : Tenant
     {
-        private TenantPeaksToPeople(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org", DateTime.Parse("01/01/1990"), false);
+        private TenantPeaksToPeople(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantJohnDayPartnership : Tenant
     {
-        private TenantJohnDayPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"johndaydemo.localhost.projectfirma.com", @"johndaydemo.qa.projectfirma.com", @"johndaydemo.projectfirma.com", DateTime.Parse("01/01/1990"), false);
+        private TenantJohnDayPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"johndaydemo.localhost.projectfirma.com", @"johndaydemo.qa.projectfirma.com", @"johndaydemo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
     {
-        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"ashlanddemo.localhost.projectfirma.com", @"ashlanddemo.qa.projectfirma.com", @"ashlanddemo.projectfirma.com", DateTime.Parse("01/01/1990"), false);
+        private TenantAshlandForestAllLandsRestorationInitiative(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantAshlandForestAllLandsRestorationInitiative Instance = new TenantAshlandForestAllLandsRestorationInitiative(8, @"AshlandForestAllLandsRestorationInitiative", @"ashlanddemo.localhost.projectfirma.com", @"ashlanddemo.qa.projectfirma.com", @"ashlanddemo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantIdahoAssociatonOfSoilConservationDistricts : Tenant
     {
-        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears) {}
-        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"swcdemo.localhost.projectfirma.com", @"swcdemo.qa.projectfirma.com", @"swcdemo.projectfirma.com", DateTime.Parse("07/01/1990"), true);
+        private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
+        public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"swcdemo.localhost.projectfirma.com", @"swcdemo.qa.projectfirma.com", @"swcdemo.projectfirma.com", DateTime.Parse("07/01/1990"), true, true);
     }
 }

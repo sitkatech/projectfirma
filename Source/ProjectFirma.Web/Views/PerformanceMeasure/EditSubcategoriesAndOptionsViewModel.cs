@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             var performanceMeasureSubcategoriesToUpdate = PerformanceMeasureSubcategorySimples.Select(x =>
             {
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true),
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
                     x.PerformanceMeasureSubcategoryDisplayName);
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
                 performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
                         (y, index) =>
                             new PerformanceMeasureSubcategoryOption(
-                                new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true), String.Empty),
+                                new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
                                 y.PerformanceMeasureSubcategoryOptionName)
                             {
                                 PerformanceMeasureSubcategory =

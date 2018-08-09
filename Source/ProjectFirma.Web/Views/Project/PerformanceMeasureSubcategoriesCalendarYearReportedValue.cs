@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.Project
                 var orderedSubcategoryReportedValues = subcategoriesReportedValues.OrderBy(srv =>
                     srv.PerformanceMeasureValueSubcategoryOptions
                         .OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).FirstOrDefault()?
-                        .PerformanceMeasureSubcategoryOption.SortOrder).ToList();
+                        .PerformanceMeasureSubcategoryOption?.SortOrder).ToList();
                 performanceMeasureCalendarYearReportedValues.Add(new PerformanceMeasureSubcategoriesCalendarYearReportedValue(performanceMeasure, orderedSubcategoryReportedValues, null));
             }
             return performanceMeasureCalendarYearReportedValues;

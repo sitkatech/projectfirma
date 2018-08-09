@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[CanCalculateTotal] [bit] NOT NULL,
 	[PerformanceMeasureSortOrder] [int] NULL,
 	[IsAggregatable] [bit] NOT NULL,
+	[PerformanceMeasureDataSourceTypeID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC
@@ -34,6 +35,11 @@ ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_Performan
 REFERENCES [dbo].[MeasurementUnitType] ([MeasurementUnitTypeID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_MeasurementUnitType_MeasurementUnitTypeID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureDataSourceType_PerformanceMeasureDataSourceTypeID] FOREIGN KEY([PerformanceMeasureDataSourceTypeID])
+REFERENCES [dbo].[PerformanceMeasureDataSourceType] ([PerformanceMeasureDataSourceTypeID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureDataSourceType_PerformanceMeasureDataSourceTypeID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureType_PerformanceMeasureTypeID] FOREIGN KEY([PerformanceMeasureTypeID])
 REFERENCES [dbo].[PerformanceMeasureType] ([PerformanceMeasureTypeID])

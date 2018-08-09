@@ -24,8 +24,10 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Common
 {
@@ -257,6 +259,24 @@ namespace ProjectFirma.Web.Common
                 return $"FY{reportingYear}";
             }
             return reportingYear.ToString();
+        }
+
+        
+        public static bool UsesTechnicalAssistanceParameters()
+        {
+            return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
+        }
+
+        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, string menuGroupName)
+        {
+            if (UsesTechnicalAssistanceParameters())
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Paramters",
+                    ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",
+                        SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.TechnicalAssistanceParameters()),
+                        "Technical Assistance Parameters", 800,
+                        "Save", "Cancel", new List<string>(), null, null).ToString(), menuGroupName));
+            }
         }
     }
 }

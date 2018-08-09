@@ -274,7 +274,26 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
-            var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
+            var reportedPerformanceMeasures = GetNonVirtualPerformanceMeasureReportedValues();
+
+            // Idaho's special PM.
+            // There Might Be A Better Way To Do This™
+            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
+                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
+                    .PerformanceMeasureDataSourceTypeID);
+            if (technicalAssistanceValue != null)
+            {
+                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(this));
+            }
+
+            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+        public List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues()
+        {
+            var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
+                .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .SelectMany(x => x.GetReportedPerformanceMeasureValues(this)).ToList();
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 

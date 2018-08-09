@@ -212,6 +212,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
         public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TechnicalAssistanceParameter> AllTechnicalAssistanceParameters { get; set; }
+        public virtual IQueryable<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get { return AllTechnicalAssistanceParameters.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
@@ -381,6 +383,11 @@ namespace ProjectFirma.Web.Models
 
                 case "PerformanceMeasureActualUpdate":
                     return PerformanceMeasureActualUpdates.GetPerformanceMeasureActualUpdate(primaryKey);
+
+                case "PerformanceMeasureDataSourceType":
+                    var performanceMeasureDataSourceType = PerformanceMeasureDataSourceType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(performanceMeasureDataSourceType, "PerformanceMeasureDataSourceType", primaryKey);
+                    return performanceMeasureDataSourceType;
 
                 case "PerformanceMeasureExpected":
                     return PerformanceMeasureExpecteds.GetPerformanceMeasureExpected(primaryKey);
@@ -642,6 +649,9 @@ namespace ProjectFirma.Web.Models
 
                 case "TaxonomyTrunk":
                     return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);
+
+                case "TechnicalAssistanceParameter":
+                    return TechnicalAssistanceParameters.GetTechnicalAssistanceParameter(primaryKey);
 
                 case "TenantAttribute":
                     return TenantAttributes.GetTenantAttribute(primaryKey);

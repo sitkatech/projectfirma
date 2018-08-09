@@ -25,6 +25,9 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureExpectedSubcategoryOption : IAuditableEntity, IPerformanceMeasureValueSubcategoryOption
     {
+        public string PerformanceMeasureSubcategoryOptionName =>
+            PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
+
         public string AuditDescriptionString
         {
             get
