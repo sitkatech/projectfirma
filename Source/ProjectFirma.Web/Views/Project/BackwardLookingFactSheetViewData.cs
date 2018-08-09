@@ -76,16 +76,6 @@ namespace ProjectFirma.Web.Views.Project
                 x => x.CaptionOnFullView,
                 "Photo");
 
-            //PerformanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Where(x=>x.IsAggregatable)
-            //    .Distinct(new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-            //    .SelectMany(x =>
-            //        x.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(x, new List<int> {project.ProjectID}))
-            //    .OrderByDescending(pma => pma.CalendarYear)
-            //    .ThenBy(pma => pma.PerformanceMeasureReportingPeriod.PerformanceMeasure.PerformanceMeasureID)
-            //    .GroupBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasure,
-            //        new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-            //    .OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x=>x.Key.PerformanceMeasureDisplayName).ToList();
-
             PerformanceMeasureReportedValues =
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).Where(x=>x.Key.IsAggregatable).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 

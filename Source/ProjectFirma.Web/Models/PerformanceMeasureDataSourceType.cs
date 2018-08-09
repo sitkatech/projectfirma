@@ -7,6 +7,10 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class PerformanceMeasureDataSourceType
     {
+        public const int TechnicalAssistanceProvidedPMID = 2147;
+        public const int ProvidedSubcategoryOptionID = 2935;
+        public const int EngineeringAssistanceSubcategoryOptionID = 2938;
+
         public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure,
             List<int> projectIDs)
         {
@@ -32,7 +36,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
             // the source for this PM is "Technical Assistance Provided to Conservation Districts"
-            var technicalAssistanceHours = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x=>x.PerformanceMeasureID == 2147);
+            var technicalAssistanceHours = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x=>x.PerformanceMeasureID == TechnicalAssistanceProvidedPMID);
             if (technicalAssistanceHours == null)
             {
                 // should not be calling this from a context where that PM doesn't exist anyway, but let's not die if we do.
@@ -42,7 +46,7 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureReportedValues = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
                 projectIDs).Where(x =>
                 x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID)
-                    .Contains(2935));  // Should only be counting "Provided" Technical Assistance Hours
+                    .Contains(ProvidedSubcategoryOptionID));  // Should only be counting "Provided" Technical Assistance Hours
 
             // get these now to prepare for the main calculation
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
@@ -62,7 +66,7 @@ namespace ProjectFirma.Web.Models
 
                 var technicalAssistanceValueInYear = performanceMeasureReportedValue
                     .PerformanceMeasureActualSubcategoryOptions
-                    .Select(y => y.PerformanceMeasureSubcategoryOptionID).Contains(2938)  // "Engineering Assistance" is treated differently from other kinds of technical assistance.
+                    .Select(y => y.PerformanceMeasureSubcategoryOptionID).Contains(EngineeringAssistanceSubcategoryOptionID)  // "Engineering Assistance" is treated differently from other kinds of technical assistance.
                     ? performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *
                       (double)engineeringHourlyCost.GetValueOrDefault()
                     : performanceMeasureReportedValue.ReportedValue.GetValueOrDefault() *

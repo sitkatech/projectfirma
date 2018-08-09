@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
     /// <summary>
     /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
     /// </summary>
-    class VirtualPerformanceMeasureValue : IPerformanceMeasureValue
+    public class VirtualPerformanceMeasureValue : IPerformanceMeasureValue
     {
         public VirtualPerformanceMeasureValue(PerformanceMeasureReportedValue performanceMeasureReportedValue)
         {
