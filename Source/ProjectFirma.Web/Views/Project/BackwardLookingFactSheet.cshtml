@@ -223,9 +223,15 @@
                                 {
                                     foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
                                     {
-                                        <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName): <strong>
-                                            @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
-                                        </strong></li>
+                                        var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+
+                                        if(performanceMeasureReportedValues.Any())
+                                        {
+                                            <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
+                                                <strong>
+                                                    @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
+                                                </strong></li>
+                                        }
                                     }
                                 }
                             }
