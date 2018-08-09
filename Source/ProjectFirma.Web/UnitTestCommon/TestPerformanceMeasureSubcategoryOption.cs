@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasureSubcategoryOption Create(int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName)
             {
-                var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName);
+                var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, false);
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
                 return performanceMeasureSubcategoryOption;
             }

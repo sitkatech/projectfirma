@@ -1256,7 +1256,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="SortOrder" Type="int" />
-    <Property Name="ShortName" Type="varchar" MaxLength="50" />
+    <Property Name="ShowOnFactSheet" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_AuditLog_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
