@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
             SortOrder = performanceMeasureSubcategoryOption.SortOrder;
             HasAssociatedActuals = performanceMeasureSubcategoryOption.HasDependentObjects();
+            ShowOnFactSheet = performanceMeasureSubcategoryOption.ShowOnFactSheet;
         }
 
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
@@ -47,5 +48,6 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
         public bool HasAssociatedActuals { get; set; }
+        public bool ShowOnFactSheet { get; set; }
     }
 }

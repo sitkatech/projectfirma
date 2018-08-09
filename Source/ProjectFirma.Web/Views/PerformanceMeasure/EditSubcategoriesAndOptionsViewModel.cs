@@ -66,7 +66,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                 PerformanceMeasureSubcategory =
                                     performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
                                 PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
-                                SortOrder = index + 1
+                                SortOrder = index + 1,
+                                ShowOnFactSheet = y.ShowOnFactSheet
                             }).ToList();
                 var chartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
                 performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
@@ -83,6 +84,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 {
                     x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
                     x.SortOrder = y.SortOrder;
+                    x.ShowOnFactSheet = y.ShowOnFactSheet;
                 });
 
             performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,

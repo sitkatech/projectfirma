@@ -112,14 +112,14 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <thead>
                                             <tr>
                                                 <th class="col-sm-1"></th>
-                                                <th class="col-sm-3">Option Name</th>
-                                                <th class="col-sm-3">Option Shortname</th>
-                                                <th class="col-sm-5"></th>
+                                                <th class="col-sm-8">Option Name</th>
+                                                
+                                                <th class="col-sm-3">Show on Fact Sheet?</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
-                                                <td colspan="4">
+                                                <td colspan="3">
                                                     <div class="alert alert-danger">There are currently no @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() on this @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel().</div>
                                                 </td>
                                             </tr>
@@ -140,15 +140,17 @@ Source code is available upon request via <support@sitkatech.com>.
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
-                                                        <input class="form-control" type="text" ng-model="optionSimple.PerformanceMeasureSubcategoryOptionName"
+                                                    <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
+                                                        <input class="form-control" style="width: 100%;" type="text" ng-model="optionSimple.PerformanceMeasureSubcategoryOptionName"
                                                                name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionName" />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionShortname(optionSimple).length != 0}">
-                                                        <input class="form-control" type="text" ng-model="optionSimple.ShortName"
-                                                               name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShortName" />
+                                                    <div class="input-group input-group-sm text-center" style="width: 100%;">
+                                                        <input type="checkbox" ng-model="optionSimple.ShowOnFactSheet" name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShowOnFactSheet"  value="true"/>
+                                                        @* When hand-coding a checkbox input, 'value="true"' is a necessary idiom so that ModelBinder can correctly bind the value of this checkbox.
+                                                            Otherwise, the form will attempt to pass the value "on", which ModelBinder is unable to parse.
+                                                            Setting value=true does not affect whether or not the checkbox is checked.*@
                                                     </div>
                                                 </td>
                                             </tr>
