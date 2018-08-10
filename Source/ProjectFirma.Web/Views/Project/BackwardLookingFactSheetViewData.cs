@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Project
                 "Photo");
 
             PerformanceMeasureReportedValues =
-                project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).Where(x=>x.Key.IsAggregatable).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
+                project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 

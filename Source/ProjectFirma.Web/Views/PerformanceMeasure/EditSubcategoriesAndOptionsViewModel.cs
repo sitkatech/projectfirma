@@ -60,13 +60,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         (y, index) =>
                             new PerformanceMeasureSubcategoryOption(
                                 new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
-                                y.PerformanceMeasureSubcategoryOptionName)
+                                y.PerformanceMeasureSubcategoryOptionName,
+                                false)
                             {
                                 PerformanceMeasureSubcategory =
                                     performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
                                 PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
-                                ShortName = y.ShortName,
-                                SortOrder = index + 1
+                                SortOrder = index + 1,
+                                ShowOnFactSheet = y.ShowOnFactSheet
                             }).ToList();
                 var chartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
                 performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
@@ -82,8 +83,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
-                    x.ShortName = y.ShortName;
                     x.SortOrder = y.SortOrder;
+                    x.ShowOnFactSheet = y.ShowOnFactSheet;
                 });
 
             performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,

@@ -213,8 +213,27 @@
                         <ul>
                             @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                             {
+                                if (performanceMeasureGroup.Key.IsAggregatable)
+                                {
+                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
+                                }
 
-                                <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
+                                var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
+                                if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
+                                {
+                                    foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
+                                    {
+                                        var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+
+                                        if(performanceMeasureReportedValues.Any())
+                                        {
+                                            <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
+                                                <strong>
+                                                    @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
+                                                </strong></li>
+                                        }
+                                    }
+                                }
                             }
                         </ul>
                     }

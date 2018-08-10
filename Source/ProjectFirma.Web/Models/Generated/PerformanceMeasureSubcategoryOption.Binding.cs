@@ -33,31 +33,32 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryOptionID, int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, int? sortOrder, string shortName) : this()
+        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryOptionID, int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, int? sortOrder, bool showOnFactSheet) : this()
         {
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
             this.SortOrder = sortOrder;
-            this.ShortName = shortName;
+            this.ShowOnFactSheet = showOnFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName) : this()
+        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
+            this.ShowOnFactSheet = showOnFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName) : this()
+        public PerformanceMeasureSubcategoryOption(PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -65,6 +66,7 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureSubcategory = performanceMeasureSubcategory;
             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Add(this);
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
+            this.ShowOnFactSheet = showOnFactSheet;
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static PerformanceMeasureSubcategoryOption CreateNewBlank(PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
-            return new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, default(string));
+            return new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, default(string), default(bool));
         }
 
         /// <summary>
@@ -124,7 +126,7 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureSubcategoryID { get; set; }
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
-        public string ShortName { get; set; }
+        public bool ShowOnFactSheet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryOptionID; } set { PerformanceMeasureSubcategoryOptionID = value; } }
 
@@ -138,7 +140,6 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int PerformanceMeasureSubcategoryOptionName = 100;
-            public const int ShortName = 50;
         }
     }
 }

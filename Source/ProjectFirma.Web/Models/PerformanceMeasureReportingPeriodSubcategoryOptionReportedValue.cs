@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName,
-                performanceMeasureSubcategoryOption.ChartName)
+                performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)
         {
         }
 

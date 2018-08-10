@@ -26,10 +26,5 @@ namespace ProjectFirma.Web.Models
         {
             get { return PerformanceMeasureSubcategoryOptionName; }
         }
-
-        public string ChartName
-        {
-            get { return ShortName ?? PerformanceMeasureSubcategoryOptionName; }
-        }
     }
 }

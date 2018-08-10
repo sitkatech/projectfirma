@@ -76,6 +76,12 @@ namespace ProjectFirma.Web.Models
                 : new List<PerformanceMeasureSubcategory>();
         }
 
+        public IEnumerable<PerformanceMeasureSubcategoryOption> GetPerformanceMeasureSubcategoryOptions()
+        {
+            return GetPerformanceMeasureSubcategories()
+                .SelectMany(x => x.PerformanceMeasureSubcategoryOptions).OrderBy(x=>x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).ThenBy(x=>x.SortOrder);
+        }
+
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues()
         {
             return GetReportedPerformanceMeasureValues(new List<int>());
