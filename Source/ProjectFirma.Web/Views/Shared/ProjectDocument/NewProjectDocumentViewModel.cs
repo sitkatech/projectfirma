@@ -63,6 +63,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+            FileResource.ValidateFileSize(File, validationResults, "File");
 
             if (HttpRequestStorage.DatabaseEntities.ProjectDocuments.Where(x => x.ProjectID == ParentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))

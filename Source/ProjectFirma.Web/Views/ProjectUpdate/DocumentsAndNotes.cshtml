@@ -27,13 +27,13 @@
 <p>Add document and notes to the project. When approved, the documents and notes will be publicly visible.</p>
 <hr />
 <div style="min-height: 200px;">
-    @*TODO: Commented out until such time as it's appropriate to take this feature live*@
-    @*<div>
+
+    <div>
                 @{
                     ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsViewData);
                 }
         <hr />
-            </div>*@
+            </div>
     <div>
         @{
             EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData);
