@@ -10,6 +10,7 @@ namespace ProjectFirma.Web.Models
         public const int TechnicalAssistanceProvidedPMID = 2147;
         public const int ProvidedSubcategoryOptionID = 2935;
         public const int EngineeringAssistanceSubcategoryOptionID = 2938;
+        public const int ProvidedToConservationDistrictionsSubcategoryOptionID = 2994;
 
         public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure,
             List<int> projectIDs)
@@ -45,8 +46,12 @@ namespace ProjectFirma.Web.Models
 
             var performanceMeasureReportedValues = Project.GetReportedPerformanceMeasureValues(technicalAssistanceHours,
                 projectIDs).Where(x =>
-                x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID)
-                    .Contains(ProvidedSubcategoryOptionID));  // Should only be counting "Provided" Technical Assistance Hours
+            {
+                var performanceMeasureValueSubcategoryOptionIDs = x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID).ToList();
+                return performanceMeasureValueSubcategoryOptionIDs
+                           .Contains(ProvidedSubcategoryOptionID) && performanceMeasureValueSubcategoryOptionIDs
+                           .Contains(ProvidedToConservationDistrictionsSubcategoryOptionID);
+            });  // Should only be counting "Provided" to "Conservation District" Technical Assistance Hours
 
             // get these now to prepare for the main calculation
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();

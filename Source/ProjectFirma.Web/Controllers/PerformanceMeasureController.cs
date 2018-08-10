@@ -495,7 +495,10 @@ namespace ProjectFirma.Web.Controllers
                 .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
 
             // add blank TAPSes for the years that don't already have stuff in the DB
-            technicalAssistanceParameterSimples.AddRange(FirmaDateUtilities.ReportingYearsForUserInputAsIntegers()
+            var reportingYearsForUserInputAsIntegers = FirmaDateUtilities.ReportingYearsForUserInputAsIntegers();
+            var oneYearIntoTheFuture = reportingYearsForUserInputAsIntegers.Max() + 1;
+            reportingYearsForUserInputAsIntegers.Add(oneYearIntoTheFuture);
+            technicalAssistanceParameterSimples.AddRange(reportingYearsForUserInputAsIntegers
                 .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
                 .Select(year => new TechnicalAssistanceParameterSimple(year)));
 

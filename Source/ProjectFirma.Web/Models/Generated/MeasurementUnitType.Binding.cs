@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Models
         public static readonly MeasurementUnitTypeGallon Gallon = MeasurementUnitTypeGallon.Instance;
         public static readonly MeasurementUnitTypeCubicYards CubicYards = MeasurementUnitTypeCubicYards.Instance;
         public static readonly MeasurementUnitTypeMetricTons MetricTons = MeasurementUnitTypeMetricTons.Instance;
+        public static readonly MeasurementUnitTypeHours Hours = MeasurementUnitTypeHours.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -135,6 +136,8 @@ namespace ProjectFirma.Web.Models
                     return Dollars;
                 case MeasurementUnitTypeEnum.Gallon:
                     return Gallon;
+                case MeasurementUnitTypeEnum.Hours:
+                    return Hours;
                 case MeasurementUnitTypeEnum.Kilogram:
                     return Kilogram;
                 case MeasurementUnitTypeEnum.LinearFeet:
@@ -198,7 +201,8 @@ namespace ProjectFirma.Web.Models
         AcreFeet = 19,
         Gallon = 20,
         CubicYards = 21,
-        MetricTons = 22
+        MetricTons = 22,
+        Hours = 23
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -331,5 +335,11 @@ namespace ProjectFirma.Web.Models
     {
         private MeasurementUnitTypeMetricTons(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypeMetricTons Instance = new MeasurementUnitTypeMetricTons(22, @"MetricTons", @"metric tons", @"metric tons", @"Metric Ton", 0);
+    }
+
+    public partial class MeasurementUnitTypeHours : MeasurementUnitType
+    {
+        private MeasurementUnitTypeHours(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeHours Instance = new MeasurementUnitTypeHours(23, @"Hours", @"hours ", @"hours", @"Hour", 0);
     }
 }

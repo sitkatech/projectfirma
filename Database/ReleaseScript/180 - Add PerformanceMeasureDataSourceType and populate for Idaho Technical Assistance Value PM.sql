@@ -24,9 +24,9 @@ GO
 
 INSERT INTO dbo.PerformanceMeasureDataSourceType(PerformanceMeasureDataSourceTypeID, PerformanceMeasureDataSourceTypeName, PerformanceMeasureDataSourceTypeDisplayName, IsCustomCalculation) values 
 (1, 'Project', 'Project', 0),
-(2, 'TechnicalAssistanceValue', 'Technical Assistance Value', 1)
+(2, 'TechnicalAssistanceValue', 'Value of Assistance Provided to Conservation Districts', 1)
 
-declare @newPMName varchar(50) = 'Technical Assistance Value'
+declare @newPMName varchar(200) = 'Value of Assistance Provided to Conservation Districts'
 
 INSERT INTO dbo.PerformanceMeasure ([TenantID], [CriticalDefinitions], [ProjectReporting], [PerformanceMeasureDisplayName], [MeasurementUnitTypeID], [PerformanceMeasureTypeID], [PerformanceMeasureDefinition], [DataSourceText], [ExternalDataSourceUrl], [ChartCaption], [SwapChartAxes], [CanCalculateTotal], [PerformanceMeasureSortOrder], [IsAggregatable])
 values

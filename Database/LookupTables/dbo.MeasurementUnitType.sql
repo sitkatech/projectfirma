@@ -22,4 +22,5 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (19, 'AcreFeet', 'acre-feet', 'acre-ft', 'Acre-Foot', 0),
 (20, 'Gallon', 'gallons', 'gallons', 'Gallon', 0),
 (21, 'CubicYards', 'cubic yards', 'cubic yards', 'Cubic Yard', 0),
-(22, 'MetricTons', 'metric tons', 'metric tons', 'Metric Ton', 0)
+(22, 'MetricTons', 'metric tons', 'metric tons', 'Metric Ton', 0),
+(23, 'Hours', 'hours ', 'hours', 'Hour', 0)
