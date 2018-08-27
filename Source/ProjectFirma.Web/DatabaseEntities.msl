@@ -377,6 +377,7 @@
           <ScalarProperty Name="CanCalculateTotal" ColumnName="CanCalculateTotal" />
           <ScalarProperty Name="PerformanceMeasureSortOrder" ColumnName="PerformanceMeasureSortOrder" />
           <ScalarProperty Name="IsAggregatable" ColumnName="IsAggregatable" />
+          <ScalarProperty Name="PerformanceMeasureDataSourceTypeID" ColumnName="PerformanceMeasureDataSourceTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -495,7 +496,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionName" ColumnName="PerformanceMeasureSubcategoryOptionName" />
           <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="ShowOnFactSheet" ColumnName="ShowOnFactSheet" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1176,6 +1177,17 @@
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTrunkCode" ColumnName="TaxonomyTrunkCode" />
           <ScalarProperty Name="TaxonomyTrunkSortOrder" ColumnName="TaxonomyTrunkSortOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TechnicalAssistanceParameter">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TechnicalAssistanceParameter">
+        <MappingFragment StoreEntitySet="TechnicalAssistanceParameter">
+          <ScalarProperty Name="TechnicalAssistanceParameterID" ColumnName="TechnicalAssistanceParameterID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="EngineeringHourlyCost" ColumnName="EngineeringHourlyCost" />
+          <ScalarProperty Name="OtherAssistanceHourlyCost" ColumnName="OtherAssistanceHourlyCost" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

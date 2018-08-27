@@ -1,0 +1,35 @@
+﻿@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.PerformanceMeasure.TechnicalAssistanceParameters
+    
+<div class="row"><div class="col-sm-12">Enter the blended hourly rate used to calculate the value of technical assistance provided. The Value of Technical Assistance PM will be automatically calculated for all years which have an hourly rate entered.</div></div>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2"><label>Fiscal Year</label></div>
+                <div class="col-sm-5"><label>Engineering Assistance Hourly Cost</label></div>
+                <div class="col-sm-5"><label>Other Technical Assistance Hourly Cost</label></div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            for (var i = 0; i < Model.TechnicalAssistanceParameters.Count; i++)
+
+            {
+                var technicalAssistanceParameter = Model.TechnicalAssistanceParameters[i];
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>@MultiTenantHelpers.FormatReportingYear(technicalAssistanceParameter.Year)</label>
+                            @Html.HiddenFor(m=>m.TechnicalAssistanceParameters[i].Year)
+                        </div>
+                        <div class="col-sm-5">@Html.EditorFor(m=>m.TechnicalAssistanceParameters[i].EngineeringHourlyCost, "MoneyWithCents")</div>
+                        <div class="col-sm-5">@Html.EditorFor(m => m.TechnicalAssistanceParameters[i].OtherAssistanceHourlyCost, "MoneyWithCents")</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

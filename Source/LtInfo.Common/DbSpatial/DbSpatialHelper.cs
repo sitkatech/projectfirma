@@ -39,8 +39,8 @@ namespace LtInfo.Common.DbSpatial
 
         public static double FeetToLatDegree(DbGeometry geometry, double feet)
         {
-            var longitude = geometry.Centroid == null ? geometry.XCoordinate.Value : geometry.Centroid.XCoordinate.Value;
-            var latitude = geometry.Centroid == null ? geometry.YCoordinate.Value : geometry.Centroid.YCoordinate.Value;
+            var longitude = GetRepresentativeXCoordinate(geometry);
+            var latitude = GetRepresentativeYCoordinate(geometry);
             var coordinateSystemId = geometry.CoordinateSystemId == 0 ? Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
 
             var geography = MakeDbGeographyFromLatLon(longitude, latitude - 0.5, coordinateSystemId);
@@ -54,8 +54,8 @@ namespace LtInfo.Common.DbSpatial
 
         public static double FeetToLonDegree(DbGeometry geometry, double feet)
         {
-            var longitude = geometry.Centroid == null ? geometry.XCoordinate.Value : geometry.Centroid.XCoordinate.Value;
-            var latitude = geometry.Centroid == null ? geometry.YCoordinate.Value : geometry.Centroid.YCoordinate.Value;
+            var longitude = GetRepresentativeXCoordinate(geometry);
+            var latitude = GetRepresentativeYCoordinate(geometry);
             var coordinateSystemId = geometry.CoordinateSystemId == 0 ? Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
 
             var geography = MakeDbGeographyFromLatLon(longitude - 0.5, latitude, coordinateSystemId);
@@ -64,19 +64,28 @@ namespace LtInfo.Common.DbSpatial
             var degreesLongitudePerMeter =
                 geography.Distance(dbGeographyOneDegreeLongitude).Value;
 
-            return (feet*MetersPerFoot)/degreesLongitudePerMeter;
+            return (feet * MetersPerFoot) / degreesLongitudePerMeter;
+        }
+
+        private static double GetRepresentativeYCoordinate(DbGeometry geometry)
+        {
+            return geometry.Centroid?.YCoordinate ?? geometry.YCoordinate ?? geometry.Envelope.Centroid.YCoordinate.Value;
+        }
+
+        private static double GetRepresentativeXCoordinate(DbGeometry geometry)
+        {
+            return geometry.Centroid?.XCoordinate ?? geometry.XCoordinate ?? geometry.Envelope.Centroid.XCoordinate.Value;
         }
 
         public static DbGeometry MakeDbGeometryFromCoordinates(double xCoordinate, double yCoordinate, int coordinateSystemId)
         {
-            var geometry = DbGeometry.PointFromText(string.Format("POINT({0} {1})", xCoordinate, yCoordinate),
-                coordinateSystemId);
+            var geometry = DbGeometry.PointFromText($"POINT({xCoordinate} {yCoordinate})", coordinateSystemId);
             return geometry;
         }
 
         public static DbGeography MakeDbGeographyFromLatLon(double longitude, double latitude, int coordinateSystemId)
         {
-            var geography = DbGeography.PointFromText(string.Format("POINT({0} {1})", longitude, latitude),
+            var geography = DbGeography.PointFromText($"POINT({longitude} {latitude})",
                 coordinateSystemId);
             return geography;
         }
@@ -98,9 +107,9 @@ namespace LtInfo.Common.DbSpatial
 
         public static void Reduce(List<IHaveSqlGeometry> geometries)
         {
-            const int thresholdInFeet = 25;
+            const int thresholdInFeet = 1;
             var thresholdInDegrees = FeetToAverageLatLonDegree(geometries.First().DbGeometry, thresholdInFeet);
-            geometries.ForEach(x => x.DbGeometry = x.SqlGeometry.Reduce(thresholdInDegrees).ToDbGeometry());
+            geometries.ForEach(x => x.DbGeometry = x.SqlGeometry.MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
         }
     }
 }

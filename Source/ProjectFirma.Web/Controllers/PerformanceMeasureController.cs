@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -30,6 +31,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
@@ -78,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
+            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
             
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, null, CurrentPerson, false, true);
 
@@ -94,9 +96,9 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
-                userHasPerformanceMeasureManagePermissions);
+                canManagePerformanceMeasure);
 
-            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, userHasPerformanceMeasureManagePermissions);
+            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -291,7 +293,7 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var viewModel = new EditViewModel {IsAggregatable = true};
             return ViewEdit(viewModel);
         }
 
@@ -304,13 +306,13 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false,true);
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
             var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
             defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
-            new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
+            new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"New {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.GetDisplayNameAsUrl()}' successfully created!");
@@ -484,5 +486,52 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult TechnicalAssistanceParameters()
+        {
+            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
+            var technicalAssistanceParameterSimples = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList()
+                .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
+
+            // add blank TAPSes for the years that don't already have stuff in the DB
+            var reportingYearsForUserInputAsIntegers = FirmaDateUtilities.ReportingYearsForUserInputAsIntegers();
+            var oneYearIntoTheFuture = reportingYearsForUserInputAsIntegers.Max() + 1;
+            reportingYearsForUserInputAsIntegers.Add(oneYearIntoTheFuture);
+            technicalAssistanceParameterSimples.AddRange(reportingYearsForUserInputAsIntegers
+                .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
+                .Select(year => new TechnicalAssistanceParameterSimple(year)));
+
+            var viewModel = new TechnicalAssistanceParametersViewModel(technicalAssistanceParameterSimples);
+            return ViewTechnicalAssistanceParameters(viewModel);
+        }
+
+        private PartialViewResult ViewTechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
+        {
+            var viewData = new TechnicalAssistanceParametersViewData();
+            return RazorPartialView<TechnicalAssistanceParameters, TechnicalAssistanceParametersViewData,
+                TechnicalAssistanceParametersViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult TechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
+        {
+            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
+            if (!ModelState.IsValid)
+            {
+                return ViewTechnicalAssistanceParameters(viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.Load();
+
+
+            var currentTechnicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            var allTechnicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceParameters.Local;
+
+            viewModel.UpdateModel(currentTechnicalAssistanceParameters, allTechnicalAssistanceParameters);
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

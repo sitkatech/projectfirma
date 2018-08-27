@@ -203,6 +203,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
         </div>
         <input type="hidden" name="@Html.NameFor(x => x.Explanation)" value="{{AngularModel.Explanation}}" />
     }

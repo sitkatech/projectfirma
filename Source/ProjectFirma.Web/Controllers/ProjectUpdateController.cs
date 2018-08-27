@@ -503,9 +503,7 @@ namespace ProjectFirma.Web.Controllers
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
 
-            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
-                allFundingSources,
-                calendarYearRange);
+            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange);
             var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
@@ -1648,20 +1646,6 @@ namespace ProjectFirma.Web.Controllers
             var message = new MailMessage { Subject = viewModel.Subject, AlternateViews = { AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent, null, "text/html") } };
             Notification.SendMessage(message, emailsToSendTo, new List<string>(), new List<string>());
             return CreateCustomNotification(viewModel);
-        }
-
-
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public ViewResult ProjectUpdateStatus()
-        {
-            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false, CurrentPerson) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectUpdateStatus);
-
-            var viewData = new ProjectUpdateStatusViewData(CurrentPerson,
-                firmaPage,
-                contactsReceivingReminderGridSpec,
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(false)));
-            return RazorView<ProjectUpdateStatus, ProjectUpdateStatusViewData>(viewData);
         }
         
         [HttpGet]

@@ -1,4 +1,5 @@
 ﻿using System;
+using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -26,7 +27,14 @@ namespace ProjectFirma.Web.Models
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName,
-                performanceMeasureSubcategoryOption.ChartName)
+                performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)
+        {
+        }
+
+        public PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(int calendarYear, double reportedValue,
+            PerformanceMeasureSubcategory performanceMeasureSubcategory,
+            string performanceMeasureSubcategoryOptionName) : 
+            this(calendarYear, reportedValue, ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, performanceMeasureSubcategoryOptionName)
         {
         }
 

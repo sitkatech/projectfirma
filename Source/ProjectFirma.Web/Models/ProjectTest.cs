@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
             // Find all project update batches for given reporting year that are approved
             // If none approved, then look for submitted
             var project = TestFramework.TestProject.Create();
-            var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             // brand new project, should not have any updates
             AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>(), "Brand new project, should not have any project updates submitted");
 
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
 
         private static void AssertThatProjectHasNoSubmittedProjectUpdates(Project project, List<int> reportingYearsToExclude, string assertMessage)
         {
-            var rangeOfReportingYears = FirmaDateUtilities.GetRangeOfYears(2014, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var rangeOfReportingYears = FirmaDateUtilities.GetRangeOfYears(2014, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting());
             rangeOfReportingYears.Where(x => !reportingYearsToExclude.Contains(x)).ToList().ForEach(year => Assert.That(project.IsUpdateMandatory, Is.True, assertMessage));
         }
 

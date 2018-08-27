@@ -93,6 +93,7 @@
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.TaxonomyLeaf" />
     <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyLeafPerformanceMeasure" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.TaxonomyTrunk" />
+    <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParameter" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
@@ -1097,6 +1098,7 @@
     <Property Name="CanCalculateTotal" Type="Boolean" Nullable="false" />
     <Property Name="PerformanceMeasureSortOrder" Type="Int32" />
     <Property Name="IsAggregatable" Type="Boolean" Nullable="false" />
+    <Property Name="PerformanceMeasureDataSourceTypeID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptions" />
@@ -1250,7 +1252,7 @@
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="SortOrder" Type="Int32" />
-    <Property Name="ShortName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ShowOnFactSheet" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
@@ -2046,6 +2048,16 @@
     <Property Name="TaxonomyTrunkCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTrunkSortOrder" Type="Int32" />
     <NavigationProperty Name="TaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" FromRole="TaxonomyTrunk" ToRole="TaxonomyBranches" />
+  </EntityType>
+  <EntityType Name="TechnicalAssistanceParameter">
+    <Key>
+      <PropertyRef Name="TechnicalAssistanceParameterID" />
+    </Key>
+    <Property Name="TechnicalAssistanceParameterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="EngineeringHourlyCost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="OtherAssistanceHourlyCost" Type="Decimal" Precision="19" Scale="4" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>

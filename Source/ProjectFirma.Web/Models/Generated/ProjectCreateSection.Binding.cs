@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectCreateSectionNotesAndDocuments : ProjectCreateSection
     {
         private ProjectCreateSectionNotesAndDocuments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Notes", 140, false);
+        public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Documents and Notes", 140, false);
     }
 
     public partial class ProjectCreateSectionOrganizations : ProjectCreateSection

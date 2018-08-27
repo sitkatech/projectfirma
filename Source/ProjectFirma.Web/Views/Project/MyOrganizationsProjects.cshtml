@@ -31,6 +31,11 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
+@section RightOfPageTitle
+{
+    @ProjectCreateHelper.AddProjectButton()
+}
+
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
@@ -49,9 +54,6 @@ Source code is available upon request via <support@sitkatech.com>.
         <h2>@Html.LabelWithSugarFor(FieldDefinition.Proposal, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
-        <div>
-            @ProjectCreateHelper.AddProjectButton()
-        </div>
         <div>
             @Html.DhtmlxGrid(ViewDataTyped.ProposalsesGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
         </div>

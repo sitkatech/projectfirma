@@ -222,7 +222,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionNotesAndDocuments : ProjectUpdateSection
     {
         private ProjectUpdateSectionNotesAndDocuments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectUpdateSectionNotesAndDocuments Instance = new ProjectUpdateSectionNotesAndDocuments(11, @"NotesAndDocuments", @"Notes", 120, false);
+        public static readonly ProjectUpdateSectionNotesAndDocuments Instance = new ProjectUpdateSectionNotesAndDocuments(11, @"NotesAndDocuments", @"Documents and Notes", 120, false);
     }
 
     public partial class ProjectUpdateSectionOrganizations : ProjectUpdateSection

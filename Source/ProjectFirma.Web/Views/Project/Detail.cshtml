@@ -34,6 +34,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.Shared.ProjectDocument
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectFirma.Web.Views.Project.Detail
 
@@ -362,15 +363,14 @@
                 }
                
                 <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</h2>
-            @*TODO: Commented out until such time as it's appropriate to take this feature live
-                <div class="panel panelFirma">
+            <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Documents</h3>
                     </div>
                     <div class="panel-body">
                         @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
                     </div>
-                </div>*@
+                </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Notes</h3>

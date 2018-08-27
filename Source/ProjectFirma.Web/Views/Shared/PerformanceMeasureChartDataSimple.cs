@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public static Func<GoogleChartColumn, bool> IsValidColumn(Models.PerformanceMeasure performanceMeasure)
         {
-            return x => performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x1 => x1.PerformanceMeasureSubcategoryOptions).Select(x2 => x2.ChartName).ToList().Contains(x.ColumnLabel) ||
+            return x => performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x1 => x1.PerformanceMeasureSubcategoryOptions).Select(x2 => x2.PerformanceMeasureSubcategoryOptionName).ToList().Contains(x.ColumnLabel) ||
                         x.ColumnLabel == performanceMeasure.PerformanceMeasureDisplayName;
         }
 

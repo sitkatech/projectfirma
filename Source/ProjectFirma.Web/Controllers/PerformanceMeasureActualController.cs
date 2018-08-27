@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditPerformanceMeasureActuals(Project project, EditPerformanceMeasureActualsViewModel viewModel)
         {
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
+            var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList().SortByOrderThenName().ToList();
             var showExemptYears = project.ProjectExemptReportingYears.Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(

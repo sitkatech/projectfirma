@@ -162,13 +162,13 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
 
     $scope.getMeasurementUnitTypeDisplayName = function(performanceMeasureActual)
     {
-        var MeasurementUnitTypeDisplayName = "";
+        var measurementUnitTypeDisplayName = "";
         var performanceMeasure = $scope.getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID);
         if (performanceMeasure != null)
         {
-            MeasurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
+            measurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
         }
-        return MeasurementUnitTypeDisplayName;
+        return measurementUnitTypeDisplayName;
     };
 
     $scope.getSubcategoryOptionsSelected = function(performanceMeasureActual)
@@ -194,6 +194,10 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.resetProjectToAdd();
+
+    if ($scope.AngularModel.PerformanceMeasureActuals == null) {
+        $scope.AngularModel.PerformanceMeasureActuals = [];
+    }
 
     var repositionQtipPopupsTimeout = null;
     $scope.repositionQtipPopups = function()

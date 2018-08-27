@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasure.MeasurementUnitType; }
         }
 
-        public readonly List<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions;
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
 
         private PerformanceMeasureReportedValue(PerformanceMeasureActual performanceMeasureActual)
         {
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Models
             CalendarYear = performanceMeasureActual.CalendarYear;
             ReportedValue = performanceMeasureActual.ActualValue;
             Project = performanceMeasureActual.Project;
-            PerformanceMeasureActualSubcategoryOptions = performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions.ToList();
+            PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>(performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions);
         }
 
         public PerformanceMeasureReportedValue(PerformanceMeasure performanceMeasure, Project project, int calendarYear, double reportedValue)
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Models
             CalendarYear = calendarYear;
             ReportedValue = reportedValue;
             Project = project;
-            PerformanceMeasureActualSubcategoryOptions = new List<PerformanceMeasureActualSubcategoryOption>();
+            PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>();
         }
 
         public string PerformanceMeasureSubcategoriesAsString
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureActualSubcategoryOptions.Any()
                     ? string.Join("\r\n",
                         PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOptionName)))
                     : ViewUtilities.NoneString;
             }
         }

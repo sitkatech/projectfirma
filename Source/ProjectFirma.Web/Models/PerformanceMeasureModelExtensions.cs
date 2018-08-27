@@ -88,5 +88,10 @@ namespace ProjectFirma.Web.Models
                 googleChartAxisVerticals);
             return defaultSubcategoryChartConfigurationJson;
         }
+
+        public static IEnumerable<PerformanceMeasure> GetReportablePerformanceMeasures()
+        {
+            return HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(x => !x.PerformanceMeasureDataSourceType.IsCustomCalculation);
+        }
     }
 }

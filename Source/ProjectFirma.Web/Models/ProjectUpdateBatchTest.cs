@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = ProjectUpdateBatch.CreateProjectUpdateBatchAndLogTransition(project, person);
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = currentYear;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.CompletionYear = currentYear;
@@ -197,7 +197,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -276,7 +276,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -408,7 +408,7 @@ namespace ProjectFirma.Web.Models
             // invalid year combo; should throw an exception
             projectUpdate.PlanningDesignStartYear = 2012;
             projectUpdate.CompletionYear = 2011;
-            Assert.Throws<PreconditionException>(() => FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting()));
+            Assert.Throws<PreconditionException>(() => FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting()));
 
             // both start and completion years before the minimum year; expect it to return start to completion year
             projectUpdate.PlanningDesignStartYear = 2003;
@@ -432,7 +432,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Planning/Design Start Year set");
             Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = 2005;
             projectUpdate.ImplementationStartYear = currentYear;
             AssertExpenditureYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(),
@@ -521,11 +521,11 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ProjectStage, Is.Not.EqualTo(ProjectStage.PlanningDesign), "Should not be in Planning/Design");
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
 
-            var result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have an Implementation Start Year set");
             Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = 2004;
             projectUpdate.ImplementationStartYear = 2005;
             AssertPerformanceMeasures(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList(),
@@ -562,7 +562,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = 2001;
             projectUpdate.ImplementationStartYear = 2002;
             projectUpdate.CompletionYear = 2006;
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.EqualTo(true), "Should be valid since the project start and completion year is before 2007");
             Assert.That(result.GetWarningMessages(), Is.Empty, "Should not have any validation warnings");
             Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
@@ -600,7 +600,7 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year after current year, all years filled, just incomplete rows");
 
             projectUpdateBatch.PerformanceMeasureActualUpdates.ForEach((x, index) => x.ActualValue = index * 10);
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.True, "Should have no warnings");
             Assert.That(result.GetWarningMessages(), Is.Empty, "Should have no warnings");
             Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
@@ -617,21 +617,21 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ProjectStage, Is.EqualTo(ProjectStage.PlanningDesign), "Should not be in Planning/Design");
 
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
-            var result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Implementation Start Year set");
             Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = DateTime.Today.Year;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.PlanningDesignStartYear = currentYear - 1;
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.True, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
             Assert.That(result.GetWarningMessages(), Is.Empty, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
 
             // now add some performance measure reported value records
             var performanceMeasureActualUpdate1 = TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear); // record after current year
             var performanceMeasureActualUpdate2 = TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear - 1); // record before start year
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.False, "Should have warning about incomplete rows");
             Assert.That(result.GetWarningMessages(),
                 Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
@@ -645,7 +645,7 @@ namespace ProjectFirma.Web.Models
                 "Should have warning about incomplete rows");
 
             performanceMeasureActualUpdate1.ActualValue = 10;
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.False, "Should have warning about incomplete rows");
             Assert.That(result.GetWarningMessages(),
                 Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
@@ -655,7 +655,7 @@ namespace ProjectFirma.Web.Models
                 "Should have warning about incomplete rows");
 
             performanceMeasureActualUpdate2.ActualValue = 20;
-            result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.True, "Should have no warnings");
             Assert.That(result.GetWarningMessages(), Is.Empty, "Should have no warnings");
             Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
@@ -713,7 +713,7 @@ namespace ProjectFirma.Web.Models
             bool isValid,
             string assertionMessage)
         {
-            var result = projectUpdateBatch.ValidatePerformanceMeasuresAndForceValidation();
+            var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
 
             var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
@@ -763,7 +763,7 @@ namespace ProjectFirma.Web.Models
 
         private static void AssertYearRangeForBudgetsCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
-            var result = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var result = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting());
             var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }

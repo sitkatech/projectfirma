@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear, m => m.CompletionYear);
             }
 
-            var currentYear = DateTime.Today.Year;
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             if (ProjectStageID == ProjectStage.Implementation.ProjectStageID)
             {
                 if (ImplementationStartYear > currentYear)

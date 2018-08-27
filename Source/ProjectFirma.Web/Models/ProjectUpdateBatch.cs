@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -230,6 +231,13 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectFundingSourceRequestUpdates);
         }
 
+        public void DeleteProjectBudgetUpdates()
+        {
+            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+            //ProjectBudgetUpdates.DeleteProjectBudgetUpdate();
+            //RefreshFromDatabase(ProjectBudgetUpdates);
+        }
+
         public void DeletePerformanceMeasureActualUpdates()
         {
             PerformanceMeasureActualUpdates.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates.Select(y => y.PerformanceMeasureActualSubcategoryOptionUpdateID)).ToList().DeletePerformanceMeasureActualSubcategoryOptionUpdate();
@@ -307,12 +315,6 @@ namespace ProjectFirma.Web.Models
         }
 
         public bool NewStageIsPlanningDesign => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;
-
-        public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()
-        {
-            AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidatePerformanceMeasures();
-        }
 
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
@@ -413,8 +415,7 @@ namespace ProjectFirma.Web.Models
                 if (!fundingSources.Any())
                 {
                     // we need to at least check for the missing years
-                    var expendituresValidationResult = new ExpendituresValidationResult(yearsExpected);
-                    return expendituresValidationResult;
+                    return new ExpendituresValidationResult(yearsExpected);
                 }
                 else
                 {
@@ -429,8 +430,8 @@ namespace ProjectFirma.Web.Models
                             missingFundingSourceYears.Add(currentFundingSource, missingYears);
                         }
                     }
-                    var expendituresValidationResult = new ExpendituresValidationResult(missingFundingSourceYears);
-                    return expendituresValidationResult;
+
+                    return new ExpendituresValidationResult(missingFundingSourceYears);
                 }
             }
             return new ExpendituresValidationResult(new List<int>());

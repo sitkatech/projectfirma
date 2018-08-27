@@ -47,7 +47,12 @@ namespace ProjectFirma.Web.Common
         /// <returns></returns>
         public static List<CalendarYearString> ReportingYearsForUserInput()
         {
-            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForReporting()).Select(x => new CalendarYearString(x)).ToList();
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForUpToAllowableInputInReporting()).Select(x => new CalendarYearString(x)).ToList();
+        }
+        public static List<int> ReportingYearsForUserInputAsIntegers()
+        {
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(),
+                CalculateCurrentYearToUseForUpToAllowableInputInReporting());
         }
 
         public static List<int> GetRangeOfYears(int startYear, int endYear)
@@ -59,15 +64,10 @@ namespace ProjectFirma.Web.Common
         public static DateTime LastReportingPeriodStartDate()
         {
             var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
-            return new DateTime(CalculateCurrentYearToUseForReporting(), startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            return new DateTime(CalculateCurrentYearToUseForRequiredReporting(), startDayOfReportingYear.Month, startDayOfReportingYear.Day);
         }
 
-        public static int GetMinimumYearForReportingExpenditures()
-        {
-            return MultiTenantHelpers.GetMinimumYear();
-        }
-
-        public static int CalculateCurrentYearToUseForReporting()
+        public static int CalculateCurrentYearToUseForRequiredReporting()
         {
             var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
             return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
@@ -77,6 +77,18 @@ namespace ProjectFirma.Web.Common
         public static int CalculateCurrentYearToUseForReportingImpl(DateTime currentDateTime, int reportingStartMonth, int reportingStartDay)
         {
             var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);
+            return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
+        }
+
+        public static int CalculateCurrentYearToUseForUpToAllowableInputInReporting()
+        {
+            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
+            var currentDateTime = DateTime.Today;
+            var dateToCheckAgainst = new DateTime(currentDateTime.Year, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            if (MultiTenantHelpers.UseFiscalYears())
+            {
+                return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
+            }
             return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
         }
 
@@ -139,17 +151,12 @@ namespace ProjectFirma.Web.Common
 
         public static bool DateIsInReportingRange(int calendarYear)
         {
-            return calendarYear > MultiTenantHelpers.GetMinimumYear() && calendarYear <= CalculateCurrentYearToUseForReporting();
-        }
-
-        public static List<int> GetRangeOfYearsForReportingExpenditures()
-        {
-            return GetRangeOfYears(GetMinimumYearForReportingExpenditures(), CalculateCurrentYearToUseForReporting());
+            return calendarYear > MultiTenantHelpers.GetMinimumYear() && calendarYear <= CalculateCurrentYearToUseForRequiredReporting();
         }
 
         public static List<int> GetRangeOfYearsForReporting()
         {
-            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForReporting());
+            return GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), CalculateCurrentYearToUseForRequiredReporting());
         }
     }
 }

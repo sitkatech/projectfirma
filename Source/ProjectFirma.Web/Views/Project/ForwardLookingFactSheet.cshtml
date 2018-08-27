@@ -225,13 +225,29 @@
                     <h4>Targeted Performance Measures</h4>
                     @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
                     {
-                        <ul>
-                            @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
+                    <ul>
+                        @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
+                        {
+                            if (performanceMeasureGroup.Key.IsAggregatable)
                             {
-
-                                <li>@eipPerformanceMeasureGroup.Key.PerformanceMeasureDisplayName</li>
+                                <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName</li>
                             }
-                        </ul>
+                            var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
+                            if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
+                            {
+                                foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
+                                {
+                                    var performanceMeasureExpectedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureExpectedSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+                                    if (performanceMeasureExpectedValues.Any())
+                                    {
+                                        <li>
+                                            @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName)
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    </ul>
                     }
                     else
                     {

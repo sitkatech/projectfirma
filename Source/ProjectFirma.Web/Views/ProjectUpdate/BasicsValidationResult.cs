@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 _warningMessages.Add(ProjectDescriptionIsRequired);
             }
             
-            var currentYear = DateTime.Now.Year;
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             if ((projectUpdate.ProjectStage == ProjectStage.Completed || projectUpdate.ProjectStage == ProjectStage.PostImplementation) && projectUpdate.CompletionYear > currentYear)
             {
                 _warningMessages.Add(CompletionYearShouldBeLessThanCurrentYear);

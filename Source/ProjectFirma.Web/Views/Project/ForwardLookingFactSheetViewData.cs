@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Project
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
 
-            PerformanceMeasureExpectedValues = project.PerformanceMeasureExpecteds.Where(x=>x.PerformanceMeasure.IsAggregatable).GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
+            PerformanceMeasureExpectedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                 .OrderBy(x=>x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 

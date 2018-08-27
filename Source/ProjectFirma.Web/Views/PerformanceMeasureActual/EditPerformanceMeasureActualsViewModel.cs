@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             {
                 // Completely rebuild the list
                 projectExemptReportingYears =
-                    ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear)).ToList();
+                    ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(x.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;

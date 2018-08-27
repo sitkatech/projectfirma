@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasure Create()
             {
-                var performanceMeasure = new PerformanceMeasure("Foo", MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, false,true)
+                var performanceMeasure = new PerformanceMeasure("Foo", MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, false,true,PerformanceMeasureDataSourceType.Project)
                 {
                     PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>()
                 };

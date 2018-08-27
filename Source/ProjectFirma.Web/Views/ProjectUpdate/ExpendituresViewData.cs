@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
                 
-                MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+                MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
                 UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
             }
         }

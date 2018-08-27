@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, ProjectPerformanceMeasureReportingPeriodValue>> PerformanceMeasureReportedValues;
+        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues;
         public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
         public readonly string ChartID;
         public readonly Models.ProjectImage KeyPhoto;
@@ -76,15 +76,9 @@ namespace ProjectFirma.Web.Views.Project
                 x => x.CaptionOnFullView,
                 "Photo");
 
-            PerformanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Where(x=>x.IsAggregatable)
-                .Distinct(new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-                .SelectMany(x =>
-                    x.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(x, new List<int> {project.ProjectID}))
-                .OrderByDescending(pma => pma.CalendarYear)
-                .ThenBy(pma => pma.PerformanceMeasureReportingPeriod.PerformanceMeasure.PerformanceMeasureID)
-                .GroupBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasure,
-                    new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-                .OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x=>x.Key.PerformanceMeasureDisplayName).ToList();
+            PerformanceMeasureReportedValues =
+                project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
+
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = $"fundingChartForProject{project.ProjectID}";

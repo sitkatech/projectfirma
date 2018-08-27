@@ -93,6 +93,7 @@
     <EntitySet Name="TaxonomyLeaf" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeaf" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyLeafPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyLeafPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.Store.TechnicalAssistanceParameter" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
@@ -1119,6 +1120,7 @@ warning 6035: The relationship 'FK_TaxonomyLeafPerformanceMeasure_PerformanceMea
     <Property Name="CanCalculateTotal" Type="bit" Nullable="false" />
     <Property Name="PerformanceMeasureSortOrder" Type="int" />
     <Property Name="IsAggregatable" Type="bit" Nullable="false" />
+    <Property Name="PerformanceMeasureDataSourceTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1254,7 +1256,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="SortOrder" Type="int" />
-    <Property Name="ShortName" Type="varchar" MaxLength="50" />
+    <Property Name="ShowOnFactSheet" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_AuditLog_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1989,6 +1991,16 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTrunkCode" Type="varchar" MaxLength="10" />
     <Property Name="TaxonomyTrunkSortOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="TechnicalAssistanceParameter">
+    <Key>
+      <PropertyRef Name="TechnicalAssistanceParameterID" />
+    </Key>
+    <Property Name="TechnicalAssistanceParameterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="EngineeringHourlyCost" Type="money" />
+    <Property Name="OtherAssistanceHourlyCost" Type="money" />
   </EntityType>
   <EntityType Name="TenantAttribute">
     <Key>

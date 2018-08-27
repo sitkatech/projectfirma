@@ -31,6 +31,7 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.MonitoringProgram
 {
+    // todo: WHY!
     public class NewMonitoringProgramDocumentViewModel : FormViewModel, IValidatableObject
     {
         [Required]

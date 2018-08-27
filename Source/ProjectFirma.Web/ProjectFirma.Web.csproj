@@ -173,6 +173,8 @@
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActualUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceType.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpected.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpected.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpectedPrimaryKey.Binding.cs" />
@@ -381,6 +383,9 @@
     <Compile Include="Models\Generated\TaxonomyTrunk.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyTrunk.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TaxonomyTrunkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameter.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameter.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameterPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Tenant.Binding.cs" />
     <Compile Include="Models\Generated\TenantAttribute.Binding.cs" />
     <Compile Include="Models\Generated\TenantAttribute.DatabaseContextExtensions.cs" />
@@ -390,8 +395,12 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
+    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
+    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
     <Compile Include="Models\IProjectCustomAttribute.cs" />
     <Compile Include="Models\IProjectCustomAttributeValue.cs" />
+    <Compile Include="Models\PerformanceMeasureDataSourceType.cs" />
     <Compile Include="Models\ProjectCustomAttributeDataType.cs" />
     <Compile Include="Models\ProjectCustomAttributeSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeType.cs" />
@@ -422,6 +431,7 @@
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewData.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectUpdateViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
@@ -1339,10 +1349,7 @@
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLogViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateBatchGridSpec.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateStatus.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateStatusGridSpec.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateStatusViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\ProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogForm.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogFormViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ReturnDialogFormViewModel.cs" />
@@ -1634,6 +1641,8 @@
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Content Include="Views\Tenant\EditStylesheet.cshtml" />
     <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
+    <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3484,7 +3493,6 @@
     <Content Include="Views\ProjectUpdate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\Photos.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cshtml" />
-    <Content Include="Views\ProjectUpdate\ProjectUpdateStatus.cshtml" />
     <Content Include="Views\ProjectUpdate\ReturnDialogForm.cshtml" />
     <Content Include="Views\ProjectUpdate\SectionComments.cshtml" />
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />

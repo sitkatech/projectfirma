@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Models
     public partial class FileResource : IAuditableEntity
     {
         public static int MaxUploadFileSizeInBytes = FirmaWebConfiguration.MaximumAllowedUploadFileSize;
+        public static int MaxUploadImageSizeInBytes = FirmaWebConfiguration.MaximumAllowedUploadImageSize;
+        public static readonly string[] ImageFileExtensions = { "jpg", "jpeg", "gif", "png" };
 
         public static readonly UrlTemplate<int> FileResourceByIDUrlTemplate =
             new UrlTemplate<int>(SitkaRoute<FileResourceController>.BuildUrlFromExpression(t => t.DisplayResourceByID(UrlTemplate.Parameter1Int)));
@@ -65,9 +67,9 @@ namespace ProjectFirma.Web.Models
             get { return String.Format("{0}{1}", OriginalBaseFilename, OriginalFileExtension); }
         }
 
-        public static string MaxFileSizeHumanReadable()
+        public static string FileSizeHumanReadable(int fileSizeInBytes)
         {
-            return String.Format("{0:0.0} KB", MaxUploadFileSizeInBytes/(1024 ^ 2));
+            return String.Format("{0:0.0} KB", fileSizeInBytes/(1000 ^ 2));
         }
 
         private Jpeg _photo;
@@ -157,10 +159,12 @@ namespace ProjectFirma.Web.Models
 
         public static void ValidateFileSize(HttpPostedFileBase httpPostedFileBase, List<ValidationResult> errors, string propertyName)
         {
-            if (httpPostedFileBase.ContentLength > MaxUploadFileSizeInBytes)
+            var maxUploadSizeInBytes = ImageFileExtensions.Any(httpPostedFileBase.FileName.EndsWith) ? MaxUploadImageSizeInBytes : MaxUploadFileSizeInBytes;
+
+            if (httpPostedFileBase.ContentLength > maxUploadSizeInBytes)
             {
                 var formattedUploadSize = String.Format("~{0} KB", (httpPostedFileBase.ContentLength / 1000).ToGroupedNumeric());
-                errors.Add(new ValidationResult(String.Format("File is too large - must be less than {0} [Provided file was {1}]", MaxFileSizeHumanReadable(), formattedUploadSize), new[] { propertyName }));
+                errors.Add(new ValidationResult(String.Format("File is too large - must be less than {0} [Provided file was {1}]", FileSizeHumanReadable(maxUploadSizeInBytes), formattedUploadSize), new[] { propertyName }));
             }
         }
 
