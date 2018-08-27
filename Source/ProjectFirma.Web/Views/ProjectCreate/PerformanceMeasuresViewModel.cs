@@ -181,16 +181,23 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 return new HashSet<int>();
             }
+
             var performanceMeasureIDs =
                 PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
             var performanceMeasuresIDsAndSubcategoryCounts =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
-                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new {x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
+                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new
+                    {x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
 
             var performanceMeasureActualsWithMissingSubcategoryOptions =
                 PerformanceMeasureActuals.Where(
-                    x => !x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y=>x.PerformanceMeasureID==y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count).ToList();
-            return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
+                    x => !x.ActualValue.HasValue ||
+                         performanceMeasuresIDsAndSubcategoryCounts
+                             .Single(y => x.PerformanceMeasureID == y.PerformanceMeasureID).SubcategoryCount !=
+                         x.PerformanceMeasureActualSubcategoryOptions.Count).ToList();
+            return new HashSet<int>(
+                performanceMeasureActualsWithMissingSubcategoryOptions.Select(x =>
+                    x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
 
         private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualRow()
@@ -211,14 +218,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow()
         {
-            if (PerformanceMeasureActuals == null)
-            {
-                return new HashSet<int>();
-            }
-            var exemptYears = ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
+            var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
+            var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
+            var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
 
             var performanceMeasureActualsWithExemptYear =
-                PerformanceMeasureActuals.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
+                performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
 
             return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
