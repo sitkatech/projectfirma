@@ -299,7 +299,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!projectUpdateBatch.AreAccomplishmentsRelevant())
             {
-                projectUpdateBatch.DeleteProjectExemptReportingYearUpdates();
+                projectUpdateBatch.DeletePerformanceMeasuresProjectExemptReportingYearUpdates();
                 projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
             }
             return new ModalDialogFormJsonResult();
@@ -328,7 +328,7 @@ namespace ProjectFirma.Web.Controllers
                     .ThenByDescending(x => x.CalendarYear)
                     .Select(x => new PerformanceMeasureActualUpdateSimple(x))
                     .ToList();
-            var projectExemptReportingYearUpdates = projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
             projectExemptReportingYearUpdates.AddRange(
@@ -375,7 +375,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
-            var showExemptYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Any() ||
+            var showExemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>
@@ -432,12 +432,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            projectUpdateBatch.DeleteProjectExemptReportingYearUpdates();
+            projectUpdateBatch.DeletePerformanceMeasuresProjectExemptReportingYearUpdates();
             projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
 
             // refresh the data
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
-            ProjectExemptReportingYearUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectExemptReportingYearUpdate.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -463,7 +463,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
-            var projectExemptReportingYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var projectExemptReportingYears = projectUpdateBatch.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             projectExemptReportingYears.AddRange(
                 calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
@@ -1704,7 +1704,7 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureReportedValuesUpdated,
                 calendarYearsForPerformanceMeasuresOriginal,
                 calendarYearsForPerformanceMeasuresUpdated,
-                project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList(),
+                project.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation);
 
             var updatedHtml = GeneratePartialViewForModifiedPerformanceMeasures(
@@ -1712,7 +1712,7 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureReportedValuesUpdated,
                 calendarYearsForPerformanceMeasuresOriginal,
                 calendarYearsForPerformanceMeasuresUpdated,
-                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList(),
+                projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList(),
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);

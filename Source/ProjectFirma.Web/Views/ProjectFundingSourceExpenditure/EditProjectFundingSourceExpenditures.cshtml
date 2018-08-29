@@ -41,59 +41,47 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ProjectFundingSourceExpenditureController" style="max-height: 600px; overflow-y: auto">
-    @if (ViewDataTyped.FromFundingSource)
-    {
-        <div class="form-group">
-            <label class="control-label">Project to Add:</label>
-            <div class="input-group">
-                <select ng-model="ProjectIDToAdd"
-                        class="selectpicker"
-                        data-live-search="true"
-                        data-container="body"
-                        title="Select a Project to Add"
-                        data-width="100%">
-                    <option value="null" disabled selected></option>
-                    <option ng-repeat="project in filteredProjects()"
-                            value="{{project.ProjectID}}"
-                            ng-selected="ProjectIDToAdd == project.ProjectID"
-                            ng-bind="project.DisplayName"
-                            data-tokens="{{project.DisplayName}}"></option>
-                </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-firma" type="button" ng-click="addRow()">
-                        <span class="glyphicon glyphicon-plus"></span> Add
-                    </button>
-                </span>
+    <hr/>
+    <div style="margin-top: 5px">
+        <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
+            <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
+            What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no expenditures to report?
+        </a>
+        <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
+            Select the years for which you have no expenditures to report and provide a brief explanation.
+            <div>
+                <label ng-repeat="projectExemptReportingYear in AngularModel.ProjectExemptReportingYears | orderBy: 'CalendarYear'" style="padding-right: 10px">
+                    <input type="checkbox" ng-model="projectExemptReportingYear.IsExempt" /> <span ng-bind="projectExemptReportingYear.CalendarYearDisplay"></span>
+                </label>
             </div>
+            <textarea class="form-control" cols="20" ng-model="AngularModel.Explanation" placeholder="Explanation here" rows="2" style="width:100%">{{AngularModel.Explanation}}</textarea>
         </div>
-    }
-    else
-    {
-        <div class="form-group">
-            <label class="control-label">Funding Source to Add:</label>
-            <div class="input-group">
-                <select ng-model="FundingSourceIDToAdd"
-                        class="selectpicker"
-                        data-live-search="true"
-                        data-container="body"
-                        title="Select a Funding Source to Add"
-                        data-width="100%">
-                    <option value="null" disabled selected></option>
-                    <option ng-repeat="fundingSource in filteredFundingSources()"
-                            value="{{fundingSource.FundingSourceID}}"
-                            ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
-                            ng-bind="fundingSource.DisplayName"
-                            data-tokens="{{fundingSource.DisplayName}}"></option>
-                </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-firma" type="button" ng-click="addRow()">
-                        <span class="glyphicon glyphicon-plus"></span> Add
-                    </button>
-                </span>
-            </div>
-            <br />
+    </div>    
+    <hr />
+    <div class="form-group">
+        <label class="control-label">Funding Source to Add:</label>
+        <div class="input-group">
+            <select ng-model="FundingSourceIDToAdd"
+                    class="selectpicker"
+                    data-live-search="true"
+                    data-container="body"
+                    title="Select a Funding Source to Add"
+                    data-width="100%">
+                <option value="null" disabled selected></option>
+                <option ng-repeat="fundingSource in filteredFundingSources()"
+                        value="{{fundingSource.FundingSourceID}}"
+                        ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
+                        ng-bind="fundingSource.DisplayName"
+                        data-tokens="{{fundingSource.DisplayName}}"></option>
+            </select>
+            <span class="input-group-btn">
+                <button class="btn btn-firma" type="button" ng-click="addRow()">
+                    <span class="glyphicon glyphicon-plus"></span> Add
+                </button>
+            </span>
         </div>
-    }
+        <br />
+    </div>
     <table class="dialogFormLayout" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
         <tr>
             <th></th>
@@ -127,6 +115,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
     @using (Html.BeginForm())
     {
+        @Html.HiddenFor(x => x.ProjectID)
+        <input type="hidden" name="@Html.NameFor(x => x.Explanation)" value="{{AngularModel.Explanation}}" />
         <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
             <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.ProjectID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.FundingSourceID}}" />
@@ -134,6 +124,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].CalendarYear).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.CalendarYear}}" />
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}" />
             </div>
+        </div>
+        <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
         </div>
     }
 </div>

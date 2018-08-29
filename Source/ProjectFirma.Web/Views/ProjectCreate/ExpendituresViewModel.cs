@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
 
-            var currentProjectExemptYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).ToList();
+            var currentProjectExemptYears = project.GetExpendituresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();

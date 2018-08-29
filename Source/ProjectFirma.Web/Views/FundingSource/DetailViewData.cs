@@ -35,7 +35,6 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly bool UserHasFundingSourceManagePermissions;
         public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
         public readonly string EditFundingSourceUrl;
-        public readonly string EditReportedExpendituresUrl;
         public readonly string ManageFundingSourcesUrl;
 
         public readonly List<int> CalendarYearsForProjectExpenditures;
@@ -58,7 +57,6 @@ namespace ProjectFirma.Web.Views.FundingSource
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             EditFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Edit(fundingSource));
-            EditReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForFundingSource(fundingSource));
 
             var projectFundingSourceExpenditures = FundingSource.ProjectFundingSourceExpenditures.ToList();
             CalendarYearsForProjectExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);

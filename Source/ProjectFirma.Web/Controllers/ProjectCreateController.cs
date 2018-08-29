@@ -287,14 +287,15 @@ namespace ProjectFirma.Web.Controllers
             if (project.ProjectStage == ProjectStage.Proposal)
             {
                 DeletePerformanceMeasureActuals(project);
-                DeleteProjectExemptReportingYears(project);
-                DeleteProjectFundingSourceExpenditures(project);
+                project.GetPerformanceMeasuresExemptReportingYears().DeleteProjectExemptReportingYear();
+                project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+                project.GetExpendituresExemptReportingYears().DeleteProjectExemptReportingYear();
             }
 
             if (project.ProjectStage == ProjectStage.PlanningDesign)
             {
                 DeletePerformanceMeasureActuals(project);
-                DeleteProjectExemptReportingYears(project);
+                project.GetPerformanceMeasuresExemptReportingYears().DeleteProjectExemptReportingYear();
             }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -376,7 +377,7 @@ namespace ProjectFirma.Web.Controllers
                     .ThenByDescending(x => x.CalendarYear)
                     .Select(x => new PerformanceMeasureActualSimple(x))
                     .ToList();
-            var projectExemptReportingYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();
             projectExemptReportingYears.AddRange(
@@ -418,7 +419,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
-            var showExemptYears = project.ProjectExemptReportingYears.Any() ||
+            var showExemptYears = project.GetPerformanceMeasuresExemptReportingYears().Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>
@@ -432,8 +433,6 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
 
             var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
-            //todo
-            //var performanceMeasuresValidationResult = project.ValidatePerformanceMeasures();
 
             var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(project.ProjectID,
                 performanceMeasureSimples,
@@ -500,7 +499,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
 
-            var projectExemptReportingYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var projectExemptReportingYears = project.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             projectExemptReportingYears.AddRange(
                 calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
@@ -541,10 +540,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
 
-            // todo: fix this pattern
-            // var expendituresValidationResult = project.ValidateExpenditures();
-
-            var showNoExpendituresExplanation = project.ProjectExemptReportingYears.Any(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures);
+            var showNoExpendituresExplanation = project.GetExpendituresExemptReportingYears().Any();
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
                 calendarYearRange, showNoExpendituresExplanation);
@@ -1346,16 +1342,6 @@ namespace ProjectFirma.Web.Controllers
             project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureActualSubcategoryOptionID)).ToList().DeletePerformanceMeasureActualSubcategoryOption();
             project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
             project.PerformanceMeasureActualYearsExemptionExplanation = null;
-        }
-
-        public void DeleteProjectExemptReportingYears(Project project)
-        {
-            project.ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
-        }
-
-        public void DeleteProjectFundingSourceExpenditures(Project project)
-        {
-            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure(); 
         }
 
         [HttpGet]

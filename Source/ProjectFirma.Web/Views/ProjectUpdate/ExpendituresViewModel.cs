@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditureUpdates(projectUpdateBatch)).ToList();
             }
 
-            var currentProjectExemptYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).ToList();
+            var currentProjectExemptYears = projectUpdateBatch.GetExpendituresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYearUpdates.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();

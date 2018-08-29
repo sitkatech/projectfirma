@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
@@ -34,33 +33,27 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         public int? FundingSourceID { get; }
         public bool FromFundingSource { get; }
         public bool UseFiscalYears { get; }
+        public bool ShowNoExpendituresExplanation { get; }
 
-        private EditProjectFundingSourceExpendituresViewData(List<ProjectSimple> allProjects, List<FundingSourceSimple> allFundingSources, int? projectID, int? fundingSourceID, List<int> calendarYearRange)
+        private EditProjectFundingSourceExpendituresViewData(List<ProjectSimple> allProjects,
+            List<FundingSourceSimple> allFundingSources, int? projectID, int? fundingSourceID,
+            List<int> calendarYearRange, bool showNoExpendituresExplanation)
         {
             CalendarYearRange = calendarYearRange;
             AllFundingSources = allFundingSources;
             ProjectID = projectID;
             FundingSourceID = fundingSourceID;
             AllProjects = allProjects;
-            var displayMode = FundingSourceID.HasValue ? EditorDisplayMode.FromFundingSource : EditorDisplayMode.FromProject;
-            FromFundingSource = displayMode == EditorDisplayMode.FromFundingSource;
+            FromFundingSource = false;
             UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
+            ShowNoExpendituresExplanation = showNoExpendituresExplanation;
         }
 
-        public EditProjectFundingSourceExpendituresViewData(ProjectSimple project, List<FundingSourceSimple> allFundingSources, List<int> calendarYearRangeForExpenditures)
-            : this(new List<ProjectSimple> { project }, allFundingSources, project.ProjectID, null, calendarYearRangeForExpenditures)
+        public EditProjectFundingSourceExpendituresViewData(ProjectSimple project,
+            List<FundingSourceSimple> allFundingSources, List<int> calendarYearRangeForExpenditures,
+            bool showNoExpendituresExplanation)
+            : this(new List<ProjectSimple> { project }, allFundingSources, project.ProjectID, null, calendarYearRangeForExpenditures, showNoExpendituresExplanation)
         {
-        }
-
-        public EditProjectFundingSourceExpendituresViewData(FundingSourceSimple fundingSource, List<ProjectSimple> allProjects, List<int> calendarYearRange)
-            : this(allProjects, new List<FundingSourceSimple> {fundingSource}, null, fundingSource.FundingSourceID, calendarYearRange)
-        {
-        }
-
-        public enum EditorDisplayMode
-        {
-            FromProject,
-            FromFundingSource
         }
     }
 }

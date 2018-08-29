@@ -222,7 +222,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x=>x.PerformanceMeasure.SortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName)));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
-                project.ProjectExemptReportingYears.Select(x => x.GetCalendarYear()).ToList(),
+                project.GetPerformanceMeasuresExemptReportingYears().Select(x => x.GetCalendarYear()).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
                 performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList(),
                 false);
