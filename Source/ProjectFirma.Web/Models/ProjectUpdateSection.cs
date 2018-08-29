@@ -1,5 +1,4 @@
-﻿using System;
-using ProjectFirma.Web.Controllers;
+﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -11,9 +10,6 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsComplete(ProjectUpdateBatch projectUpdateBatch);
         public abstract string GetSectionUrl(Project project);
         public abstract bool SectionIsUpdated(UpdateStatus updateStatus);
-
-        public static ProjectUpdateSection Budgets { get; set; }
-        public static ProjectUpdateSection History { get; set; }
     }
 
     public partial class ProjectUpdateSectionInstructions

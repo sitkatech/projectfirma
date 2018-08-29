@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -395,6 +395,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ProjectUpdateBatchModelExtensions.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewData.cs" />
     <Compile Include="Views\ProjectUpdate\EditProjectUpdateConfigurationViewModel.cs" />
+    <Compile Include="Common\FirmaHelpersTest.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectUpdateViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
@@ -556,7 +558,6 @@
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingViewModel.cs" />
     <Compile Include="Views\ProjectCreate\Expenditures.cs" />
-    <Compile Include="Views\ProjectCreate\ExpendituresValidationResult.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresViewModel.cs" />
     <Compile Include="Views\ProjectCreate\PerformanceMeasures.cs" />
@@ -1357,10 +1358,6 @@
     <Compile Include="Views\ProjectUpdate\SectionComments.cs" />
     <Compile Include="Views\ProjectUpdate\SectionCommentsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\SiteLayout.cs" />
-    <Compile Include="Views\ProjectUpdate\Budgets.cs" />
-    <Compile Include="Views\ProjectUpdate\BudgetsValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\BudgetsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\BudgetsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\UpdateStatus.cs" />
     <Compile Include="Views\Project\BasicProjectInfoGridSpec.cs" />
     <Compile Include="Views\Project\EditFeaturedProjects.cs" />
@@ -2203,7 +2200,6 @@
     <Content Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModelTest.AllViewModelFieldsAreSetFromConstructorTest.approved.txt" />
     <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
-    <Content Include="Views\ProjectUpdate\BudgetsController.js" />
     <Content Include="Views\Project\FeaturedProjectController.js" />
     <Content Include="Views\Project\FundingSourceCalendarYearExpenditureTest.CreateFromFundingSourcesAndCalendarYearsTest.approved.txt" />
     <Content Include="Views\Project\ProjectCalendarYearExpenditureTest.CreateFromProjectsAndCalendarYearsTest.approved.txt" />
@@ -3502,7 +3498,6 @@
     <Content Include="Views\ProjectUpdate\ReturnDialogForm.cshtml" />
     <Content Include="Views\ProjectUpdate\SectionComments.cshtml" />
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />
-    <Content Include="Views\ProjectUpdate\Budgets.cshtml" />
     <Content Include="Views\ProjectUpdate\_ViewStart.cshtml" />
     <Content Include="Views\ProjectCreate\Basics.cshtml" />
     <Content Include="Views\ProjectCreate\EditProposalClassifications.cshtml" />

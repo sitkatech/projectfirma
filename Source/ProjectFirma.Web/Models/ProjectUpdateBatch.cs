@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -30,7 +29,6 @@ using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
-using WebGrease.Css.Extensions;
 
 namespace ProjectFirma.Web.Models
 {
@@ -98,18 +96,20 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
 
+            // project expenditures exempt reporting years
+            ProjectExemptReportingYearUpdate.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+
+            // expenditures exempt explanation
+            projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
+
             // Expected Funding
             ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
-
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            // project budgets
-            // ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
 
             // performance measures
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
-            // project exempt reporting years
-            ProjectExemptReportingYearUpdate.CreateFromProject(projectUpdateBatch);
+            // project performance measures exempt reporting years
+            ProjectExemptReportingYearUpdate.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // project exempt reporting years reason
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
@@ -159,6 +159,11 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureActualYearsExemptionExplanation = Project.PerformanceMeasureActualYearsExemptionExplanation;
         }
 
+        public void SyncExpendituresYearsExemptionExplanation()
+        {
+            NoExpendituresToReportExplanation = Project.NoExpendituresToReportExplanation;
+        }
+
         public void TickleLastUpdateDate(Person currentPerson)
         {
             TickleLastUpdateDate(DateTime.Now, currentPerson);
@@ -170,9 +175,9 @@ namespace ProjectFirma.Web.Models
             LastUpdatePerson = currentPerson;
         }
 
-        private static void RefreshFromDatabase(IEnumerable projectExternalLinkUpdates)
+        private static void RefreshFromDatabase(IEnumerable updates)
         {
-            ((IObjectContextAdapter)HttpRequestStorage.DatabaseEntities).ObjectContext.Refresh(RefreshMode.StoreWins, projectExternalLinkUpdates);
+            ((IObjectContextAdapter)HttpRequestStorage.DatabaseEntities).ObjectContext.Refresh(RefreshMode.StoreWins, updates);
         }
 
         public void DeleteProjectImageUpdates()
@@ -212,11 +217,19 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectUpdateHistories);
         }
 
-        public void DeleteProjectExemptReportingYearUpdates()
+        public void DeletePerformanceMeasuresProjectExemptReportingYearUpdates()
         {
-            ProjectExemptReportingYearUpdates.DeleteProjectExemptReportingYearUpdate();
+            var performanceMeasuresExemptReportingYears = this.GetPerformanceMeasuresExemptReportingYears();
+            performanceMeasuresExemptReportingYears.DeleteProjectExemptReportingYearUpdate();
             PerformanceMeasureActualYearsExemptionExplanation = null;
-            RefreshFromDatabase(ProjectExemptReportingYearUpdates);
+            RefreshFromDatabase(performanceMeasuresExemptReportingYears);
+        }
+        public void DeleteExpendituresProjectExemptReportingYearUpdates()
+        {
+            var performanceMeasuresExemptReportingYears = this.GetExpendituresExemptReportingYears();
+            performanceMeasuresExemptReportingYears.DeleteProjectExemptReportingYearUpdate();
+            NoExpendituresToReportExplanation = null;
+            RefreshFromDatabase(performanceMeasuresExemptReportingYears);
         }
 
         public void DeleteProjectFundingSourceExpenditureUpdates()
@@ -274,7 +287,7 @@ namespace ProjectFirma.Web.Models
             DeleteProjectLocationStagingUpdates();
             DeleteProjectLocationUpdates();
             DeletePerformanceMeasureActualUpdates();
-            DeleteProjectExemptReportingYearUpdates();
+            DeletePerformanceMeasuresProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
             DeleteProjectFundingSourceRequestUpdates();
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
@@ -316,12 +329,6 @@ namespace ProjectFirma.Web.Models
 
         public bool NewStageIsPlanningDesign => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;
 
-        public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()
-        {
-            AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidatePerformanceMeasures();
-        }
-
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
             if (!AreProjectBasicsValid)
@@ -333,7 +340,7 @@ namespace ProjectFirma.Web.Models
             var missingYears = new HashSet<int>();
             if (ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
             {
-                var exemptYears = ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+                var exemptYears = this.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
                 var yearsExpected = ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
                 var yearsEntered = PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
@@ -381,7 +388,7 @@ namespace ProjectFirma.Web.Models
             {
                 return new HashSet<int>();
             }
-            var exemptYears = ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+            var exemptYears = this.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
 
             var performanceMeasureActualUpdatesWithExemptYear =
                 PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();            
@@ -394,7 +401,7 @@ namespace ProjectFirma.Web.Models
             return NewStageIsPlanningDesign || ValidatePerformanceMeasures().IsValid;
         }
 
-        public ExpendituresValidationResult ValidateExpendituresAndForceValidation()
+        public List<string> ValidateExpendituresAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
             return ValidateExpenditures();
@@ -405,48 +412,28 @@ namespace ProjectFirma.Web.Models
             return new ExpectedFundingValidationResult();
         }
 
-        public ExpendituresValidationResult ValidateExpenditures()
+        public List<string> ValidateExpenditures()
         {
             if (!AreProjectBasicsValid)
             {
-                return new ExpendituresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new List<string> {FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection};
             }
 
             if (ProjectUpdate.ProjectStage.RequiresReportedExpenditures() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
             {
-                // get distinct Funding Sources
-                var fundingSources = ProjectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct().ToList();
                 // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
                 var yearsExpected = ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-                if (!fundingSources.Any())
-                {
-                    // we need to at least check for the missing years
-                    var expendituresValidationResult = new ExpendituresValidationResult(yearsExpected);
-                    return expendituresValidationResult;
-                }
-                else
-                {
-                    var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
-                    foreach (var fundingSource in fundingSources)
-                    {
-                        var currentFundingSource = fundingSource;
-                        var missingYears =
-                            yearsExpected.GetMissingYears(ProjectFundingSourceExpenditureUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
-                        if (missingYears.Any())
-                        {
-                            missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                        }
-                    }
-                    var expendituresValidationResult = new ExpendituresValidationResult(missingFundingSourceYears);
-                    return expendituresValidationResult;
-                }
+                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(
+                    this.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList(),
+                    NoExpendituresToReportExplanation, yearsExpected, new List<IFundingSourceExpenditure>(ProjectFundingSourceExpenditureUpdates));
+                return validateExpenditures;
             }
-            return new ExpendituresValidationResult(new List<int>());
+            return new List<string>();
         }
 
         public bool AreExpendituresValid()
         {
-            return ValidateExpenditures().IsValid;
+            return ValidateExpenditures().Count == 0;
         }
 
         public OrganizationsValidationResult ValidateOrganizations()
@@ -458,51 +445,6 @@ namespace ProjectFirma.Web.Models
         public bool AreOrganizationsValid()
         {
             return ValidateOrganizations().IsValid;
-        }
-
-        public BudgetsValidationResult ValidateBudgetsAndForceValidation()
-        {
-            AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidateBudgets();
-        }
-
-        public BudgetsValidationResult ValidateBudgets()
-        {
-            if (!AreProjectBasicsValid)
-            {
-                return new BudgetsValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
-            }
-
-            // get distinct Funding Sources
-            var fundingSources = ProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
-
-            if (!fundingSources.Any())
-            {
-                return new BudgetsValidationResult();
-            }
-
-            // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
-            var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting());
-
-            var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
-            foreach (var fundingSource in fundingSources)
-            {
-                var currentFundingSource = fundingSource;
-                var missingYears =
-                    yearsExpected.GetMissingYears(ProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
-                if (missingYears.Any())
-                {
-                    missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                }
-            }
-            var budgetsValidationResult = new BudgetsValidationResult(missingFundingSourceYears);
-            return budgetsValidationResult;
-
-        }
-
-        public bool AreBudgetsValid()
-        {
-            return ValidateBudgets().IsValid;
         }
 
         public LocationSimpleValidationResult ValidateProjectLocationSimple()
@@ -585,20 +527,20 @@ namespace ProjectFirma.Web.Models
 
         private void PushTransitionRecordsToAuditLog()
         {
-            ProjectUpdateHistories.ForEach(
-                projectUpdateHistory =>
-                    // ReSharper disable once ObjectCreationAsStatement
-                    new AuditLog(projectUpdateHistory.UpdatePerson,
-                        projectUpdateHistory.TransitionDate,
-                        AuditLogEventType.Added,
-                        "Project Update",
-                        projectUpdateHistory.ProjectUpdateHistoryID,
-                        "Project Update record",
-                        projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID});
+            foreach (var projectUpdateHistory in ProjectUpdateHistories.ToList())
+            {
+                var auditLog = new AuditLog(projectUpdateHistory.UpdatePerson,
+                    projectUpdateHistory.TransitionDate,
+                    AuditLogEventType.Added,
+                    "Project Update",
+                    projectUpdateHistory.ProjectUpdateHistoryID,
+                    "Project Update record",
+                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID};
+            }
         }
 
-        private void
-            CommitChangesToProject( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        private void CommitChangesToProject( 
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            IList<ProjectBudget> projectBudgets,
                 IList<ProjectExemptReportingYear> projectExemptReportingYears,
                 IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,

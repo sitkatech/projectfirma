@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID && x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
                 (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
 
-            var currentProjectExemptYearUpdates = projectUpdateBatch.ProjectExemptReportingYearUpdates.ToList();
+            var currentProjectExemptYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();
             var allProjectExemptYearUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYearUpdates.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
             currentProjectExemptYearUpdates.Merge(projectExemptReportingYears,
                 allProjectExemptYearUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear);
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
             projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 

@@ -12,10 +12,11 @@ CREATE TABLE [dbo].[ProjectExemptReportingYearUpdate](
 (
 	[ProjectExemptReportingYearUpdateID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectExemptReportingYearUpdate_ProjectUpdateBatchID_CalendarYear] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectExemptReportingYearUpdate_ProjectUpdateBatchID_CalendarYear_ProjectExemptReportingTypeID] UNIQUE NONCLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC,
-	[CalendarYear] ASC
+	[CalendarYear] ASC,
+	[ProjectExemptReportingTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

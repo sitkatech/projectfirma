@@ -1,0 +1,9 @@
+Alter table dbo.ProjectUpdateBatch
+Add NoExpendituresToReportExplanation varchar(max) null;
+
+
+ALTER TABLE dbo.ProjectExemptReportingYearUpdate DROP CONSTRAINT AK_ProjectExemptReportingYearUpdate_ProjectUpdateBatchID_CalendarYear
+GO
+
+ALTER TABLE dbo.ProjectExemptReportingYearUpdate ADD  CONSTRAINT AK_ProjectExemptReportingYearUpdate_ProjectUpdateBatchID_CalendarYear_ProjectExemptReportingTypeID UNIQUE (ProjectUpdateBatchID, CalendarYear, ProjectExemptReportingTypeID)
+

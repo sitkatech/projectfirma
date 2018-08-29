@@ -37,9 +37,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectFundingSourceExpendituresForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var currentProjectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearRangeForExpenditures = currentProjectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
-            var viewModel = new EditProjectFundingSourceExpendituresViewModel(currentProjectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+            var projectExemptReportingYears = project.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            projectExemptReportingYears.AddRange(calendarYearRange.Where(x => !currentExemptedYears.Contains(x)).Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
+            var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+            var viewModel = new EditProjectFundingSourceExpendituresViewModel(project, projectFundingSourceExpenditureBulks, projectExemptReportingYears);
             return ViewEditProjectFundingSourceExpenditures(project, viewModel, calendarYearRangeForExpenditures);
         }
 
@@ -56,59 +61,25 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditProjectFundingSourceExpenditures(project, viewModel, calendarYearRangeForExpenditures);
             }
 
-            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures);
+            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures, project);
         }
 
-        [HttpGet]
-        [FirmaAdminFeature]
-        public PartialViewResult EditProjectFundingSourceExpendituresForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey)
-        {
-            var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var currentProjectFundingSourceExpenditures = fundingSource.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearRangeForExpenditures = currentProjectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
-            var viewModel = new EditProjectFundingSourceExpendituresViewModel(currentProjectFundingSourceExpenditures, calendarYearRangeForExpenditures);
-            return ViewEditProjectFundingSourceExpenditures(fundingSource, viewModel, calendarYearRangeForExpenditures);
-        }
-
-        [HttpPost]
-        [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectFundingSourceExpendituresForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, EditProjectFundingSourceExpendituresViewModel viewModel)
-        {
-            var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var currentProjectFundingSourceExpenditures = fundingSource.ProjectFundingSourceExpenditures.ToList();
-            if (!ModelState.IsValid)
-            {
-                var calendarYearRangeForExpenditures = currentProjectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
-                return ViewEditProjectFundingSourceExpenditures(fundingSource, viewModel, calendarYearRangeForExpenditures);
-            }
-
-            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures);
-        }
-
-        private static ActionResult UpdateProjectFundingSourceExpenditures(EditProjectFundingSourceExpendituresViewModel viewModel,
-            List<ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures)
+        private static ActionResult UpdateProjectFundingSourceExpenditures(
+            EditProjectFundingSourceExpendituresViewModel viewModel,
+            List<ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures, Project project)
         {
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(currentProjectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
+            viewModel.UpdateModel(currentProjectFundingSourceExpenditures, allProjectFundingSourceExpenditures, project);
 
             return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditProjectFundingSourceExpenditures(FundingSource fundingSource,
-            EditProjectFundingSourceExpendituresViewModel viewModel,
-            List<int> calendarYearRangeForExpenditures)
-        {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var viewData = new EditProjectFundingSourceExpendituresViewData(new FundingSourceSimple(fundingSource), allProjects, calendarYearRangeForExpenditures);
-            return RazorPartialView<EditProjectFundingSourceExpenditures, EditProjectFundingSourceExpendituresViewData, EditProjectFundingSourceExpendituresViewModel>(viewData, viewModel);
         }
 
         private PartialViewResult ViewEditProjectFundingSourceExpenditures(Project project, EditProjectFundingSourceExpendituresViewModel viewModel, List<int> calendarYearRangeForExpenditures)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var viewData = new EditProjectFundingSourceExpendituresViewData(new ProjectSimple(project), allFundingSources, calendarYearRangeForExpenditures);
+            var showNoExpendituresExplanation = project.GetExpendituresExemptReportingYears().Any();
+            var viewData = new EditProjectFundingSourceExpendituresViewData(new ProjectSimple(project), allFundingSources, calendarYearRangeForExpenditures, showNoExpendituresExplanation);
             return RazorPartialView<EditProjectFundingSourceExpenditures, EditProjectFundingSourceExpendituresViewData, EditProjectFundingSourceExpendituresViewModel>(viewData, viewModel);
         }
     }

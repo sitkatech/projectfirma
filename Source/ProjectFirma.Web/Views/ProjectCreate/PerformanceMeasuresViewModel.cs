@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 (x, y) => x.PerformanceMeasureActualID == y.PerformanceMeasureActualID && x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
                 (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
 
-            var currentProjectExemptYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.PerformanceMeasures).ToList();
+            var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();

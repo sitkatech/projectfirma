@@ -40,8 +40,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string ProjectUpdateBasicsUrl { get; }
         public string ProjectUpdatePerformanceMeasuresUrl { get; }
         public string ProjectUpdateExpendituresUrl { get; }
-        // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-        // public string ProjectUpdateBudgetsUrl { get; }
         public string ProjectUpdatePhotosUrl { get; }
         public string ProjectUpdateLocationSimpleUrl { get; }
         public string ProjectUpdateLocationDetailedUrl { get; }
@@ -84,8 +82,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateExpectedFundingUrl =
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding((Project)));
             ProjectUpdateExpendituresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(Project));
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//            ProjectUpdateBudgetsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Budgets(Project));
             ProjectUpdatePhotosUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(Project));
             ProjectUpdateLocationSimpleUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(Project));
             ProjectUpdateLocationDetailedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(Project));

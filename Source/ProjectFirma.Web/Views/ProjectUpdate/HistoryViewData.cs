@@ -19,15 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class HistoryViewData : ProjectUpdateViewData
+    public class HistoryViewData : FirmaUserControlViewData
     {
-        public HistoryViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.History, updateStatus, new List<string>())
+        public HistoryViewData(ProjectUpdateBatch projectUpdateBatch)
         {
+            ProjectUpdateBatch = projectUpdateBatch;
         }
+
+        public ProjectUpdateBatch ProjectUpdateBatch { get; }
     }
 }

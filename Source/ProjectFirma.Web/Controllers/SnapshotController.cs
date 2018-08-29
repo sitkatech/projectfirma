@@ -25,7 +25,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Snapshot;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;

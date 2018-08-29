@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
@@ -29,7 +28,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using MoreLinq;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
@@ -65,7 +63,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             Models.Project project)
         {
             UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions);
-            var currentProjectExemptYears = project.ProjectExemptReportingYears.ToList();
+            var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
@@ -75,7 +73,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 projectExemptReportingYears =
                     ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(x.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             }
-            currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear);
+            currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 
@@ -115,8 +113,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-
-
 
             if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {

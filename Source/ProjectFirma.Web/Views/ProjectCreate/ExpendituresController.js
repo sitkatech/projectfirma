@@ -30,7 +30,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
 
     $scope.getAllUsedCalendarYears = function() { return $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().pluck("CalendarYear").flatten().union().sortBy().value(); };
 
-    $scope.getCalendarYearRange = function() { return _.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange); };
+    $scope.getCalendarYearRange = function() {
+        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange)).reverse();
+    };
 
     $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceExpenditures, function(p) { return p.FundingSourceID; }); };
 
@@ -116,6 +118,13 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
             CalendarYear: calendarYear,
             ExpenditureAmount: null
         };
+    };
+
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function(f) {
+                f.IsExempt = isChecked;
+            });
     };
 
     $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceExpenditures, rowToDelete); };

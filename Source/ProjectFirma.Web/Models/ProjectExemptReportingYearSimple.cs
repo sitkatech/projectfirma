@@ -57,6 +57,16 @@ namespace ProjectFirma.Web.Models
             CalendarYearDisplay = MultiTenantHelpers.FormatReportingYear(projectExemptReportingYear.CalendarYear);
         }
 
+        public ProjectExemptReportingYearSimple(ProjectExemptReportingYearUpdate projectExemptReportingYearUpdate)
+            : this()
+        {
+            ProjectExemptReportingYearID = projectExemptReportingYearUpdate.ProjectExemptReportingYearUpdateID;
+            ProjectID = projectExemptReportingYearUpdate.ProjectUpdateBatchID;
+            CalendarYear = projectExemptReportingYearUpdate.CalendarYear;
+            IsExempt = ModelObjectHelpers.IsRealPrimaryKeyValue(projectExemptReportingYearUpdate.ProjectExemptReportingYearUpdateID);
+            CalendarYearDisplay = MultiTenantHelpers.FormatReportingYear(projectExemptReportingYearUpdate.CalendarYear);
+        }
+
         public int ProjectExemptReportingYearID { get; set; }
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }

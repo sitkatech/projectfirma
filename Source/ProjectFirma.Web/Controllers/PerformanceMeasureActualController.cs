@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.SortOrder).ThenBy(pam=>pam.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
-            var projectExemptReportingYears = project.ProjectExemptReportingYears.Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var endYear = DateTime.Now.Year;
             var startYear = project.ImplementationStartYear ?? endYear;
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditPerformanceMeasureActuals(Project project, EditPerformanceMeasureActualsViewModel viewModel)
         {
             var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList().SortByOrderThenName().ToList();
-            var showExemptYears = project.ProjectExemptReportingYears.Any() ||
+            var showExemptYears = project.GetPerformanceMeasuresExemptReportingYears().Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>

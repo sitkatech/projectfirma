@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
             int initialYearToFill,
             int endYearToFill)
         {
-            var exemptYears = projectUpdateBatch.Project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            var exemptYears = projectUpdateBatch.Project.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
             var yearsToFill = FirmaDateUtilities.GetRangeOfYears(initialYearToFill, endYearToFill).Where(x => !exemptYears.Contains(x)).ToList();
 
             var performanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();

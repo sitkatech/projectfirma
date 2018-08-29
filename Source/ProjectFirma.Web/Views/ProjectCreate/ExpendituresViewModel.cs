@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +28,7 @@ using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -74,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
 
-            var currentProjectExemptYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).ToList();
+            var currentProjectExemptYears = project.GetExpendituresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
@@ -96,10 +95,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 allProjectFundingSourceExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
-
-
-
-
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -110,123 +105,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
-            var emptyRows = ProjectFundingSourceExpenditures?.Where(x =>
-                x.CalendarYearExpenditures.All(y => !y.MonetaryAmount.HasValue));
-
-            if (ProjectFundingSourceExpenditures == null)
-            {
-                ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditureBulk>();
-            }
-
-            if (emptyRows?.Any() ?? false)
-            {
-                errors.Add(new ValidationResult("The Project could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
-            }
-
             var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
-
-            // get distinct Funding Sources
-            var fundingSourcesIDs = ProjectFundingSourceExpenditures?.SelectMany(x => x.ToProjectFundingSourceExpenditures()).Select(x => x.FundingSourceID).Distinct().ToList();
-            var fundingSources =
-                HttpRequestStorage.DatabaseEntities.FundingSources.Where(x =>
-                    fundingSourcesIDs.Contains(x.FundingSourceID));
-            
-            // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
-            var yearsExpected = project.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-
-            if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
-            {
-                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
-            }
-
-            if ((ProjectExemptReportingYears == null || !ProjectExemptReportingYears.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
-            {
-                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
-            }
-
-            var everyYearIsExempt = ProjectExemptReportingYears != null && ProjectExemptReportingYears.Count(x => x.IsExempt) == yearsExpected.Count;
-
-            if (!everyYearIsExempt)
-            {
-                if (!fundingSources.Any())
-                {
-                    //If there are no funding sources then every year is missing.
-                    if (yearsExpected.Count() > 2)
-                    {
-                        errors.Add(new ValidationResult($"Missing Expenditures for {MultiTenantHelpers.FormatReportingYear(yearsExpected.Min())} - {MultiTenantHelpers.FormatReportingYear(yearsExpected.Max())}"));
-                    }
-                    else
-                    {
-                        errors.Add(new ValidationResult($"Missing Expenditures for {string.Join(", ", yearsExpected.Select(MultiTenantHelpers.FormatReportingYear))}"));
-                    }
-                }
-                else
-                {
-                    var missingFundingSourceYears = new Dictionary<Models.FundingSource, IEnumerable<int>>();
-                    foreach (var fundingSource in fundingSources)
-                    {
-                        var currentFundingSource = fundingSource;
-                        var missingYears =
-                            yearsExpected
-                                .GetMissingYears(ProjectFundingSourceExpenditures
-                                    .Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID)
-                                    .SelectMany(x => x.ToProjectFundingSourceExpenditures()).Select(x => x.CalendarYear)).ToList()
-                                .Where(year =>
-                                    !ProjectExemptReportingYears.Where(reportingYear => reportingYear.IsExempt).Select(reportingYear
-                                        => reportingYear.CalendarYear).Contains(year)).ToList();
-
-                        if (missingYears.Any())
-                        {
-                            missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                        }
-                    }
-                    foreach (var fundingSource in missingFundingSourceYears)
-                    {
-                        var missingYearsForFundingSource = fundingSource.Value;
-                        var missingYearsCount = missingYearsForFundingSource.Count();
-                        if (missingYearsCount > 2)
-                        {
-                            errors.Add(new ValidationResult($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Min())} - {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Max())}"));
-                        }
-                        else
-                        {
-                            errors.Add(new ValidationResult($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {string.Join(", ", fundingSource.Value.Select(MultiTenantHelpers.FormatReportingYear))}"));
-                        }
-                    }
-                }
-
-            }
-
-            // duplicate funding sources
-            errors.AddRange(ProjectFundingSourceExpenditures.GroupBy(x => x.FundingSourceID).Where(x => x.Count() > 1)
-                .Select(x =>
-                    new ValidationResult(
-                        $"Duplicate funding source: {fundingSources.Single(y => y.FundingSourceID == x.Key).FundingSourceName}")));
-
-            // reported expenditures in exempt years
-            foreach (var fundingSource in ProjectFundingSourceExpenditures)
-            {
-                var exemptYearsWithReportedValues = fundingSource.CalendarYearExpenditures.Where(x =>
-                    x.MonetaryAmount.HasValue && ProjectExemptReportingYears.Where(y => y.IsExempt)
-                        .Select(y => y.CalendarYear).Contains(x.CalendarYear)).Select(x=>x.CalendarYear).ToList();
-                if (exemptYearsWithReportedValues.Any())
-                {
-                    var fundingSourceName = fundingSources.Single(x=>x.FundingSourceID == fundingSource.FundingSourceID).FundingSourceName;
-                    string yearsForErrorDisplay;
-
-                    if (exemptYearsWithReportedValues.Count > 2)
-                    {
-                        yearsForErrorDisplay =
-                            $"{MultiTenantHelpers.FormatReportingYear(exemptYearsWithReportedValues.Min())} - {MultiTenantHelpers.FormatReportingYear(exemptYearsWithReportedValues.Max())}";
-                    }
-                    else
-                    {
-                        yearsForErrorDisplay = string.Join(", ", exemptYearsWithReportedValues.Select(MultiTenantHelpers.FormatReportingYear));
-                    }
-
-                    errors.Add(new ValidationResult($"Funding source {fundingSourceName} has reported values for the exempt years: {yearsForErrorDisplay}"));
-                }
-            }
+            var validationErrors = ExpendituresValidationResult.Validate(ProjectFundingSourceExpenditures,
+                ProjectExemptReportingYears, Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange());
+            errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
 
             return errors;
         }

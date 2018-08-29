@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureActualUpdates));
             PerformanceMeasureReportedValuesSummaryViewData = new PerformanceMeasureReportedValuesSummaryViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
-                projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList(),
+                projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList(),
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 performanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList());
             ViewDataForAngular = viewDataForAngularEditor;

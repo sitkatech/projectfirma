@@ -121,10 +121,10 @@ namespace ProjectFirma.Web.Models
             var pmValidationResults = new PerformanceMeasuresViewModel(
                 project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
-            {
-                ProjectID = project.ProjectID
-            }.GetValidationResults();
+                project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+                {
+                    ProjectID = project.ProjectID
+                }.GetValidationResults();
             return !pmValidationResults.Any();
         }
 
@@ -211,10 +211,7 @@ namespace ProjectFirma.Web.Models
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
                     projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project), project,
-                    project.ProjectExemptReportingYears
-                        .Where(x => x.ProjectExemptReportingTypeID ==
-                                    ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID)
-                        .Select(x => new ProjectExemptReportingYearSimple(x)).ToList()) {ProjectID = project.ProjectID}
+                    project.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList()) {ProjectID = project.ProjectID}
                 .GetValidationResults();
             return !validationResults.Any();
         }
