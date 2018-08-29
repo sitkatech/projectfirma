@@ -506,8 +506,7 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
                     .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
 
-            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                calendarYearRange, project, projectExemptReportingYears.Where(x => x.IsExempt).OrderBy(x => x.CalendarYear).ToList()) {ProjectID = project.ProjectID};
+            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures, calendarYearRange, project, projectExemptReportingYears) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, calendarYearRange, viewModel);
         }
 

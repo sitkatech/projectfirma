@@ -176,7 +176,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             //    .Select(x => $"Duplicate funding source: {fundingSources.Single(y => y.FundingSourceID == x.Key).FundingSourceName}"));
 
             // reported expenditures in exempt years
-            var yearsWithExpenditures = projectFundingSourceExpenditures.GroupBy(x => x.FundingSource);
+            var yearsWithExpenditures = projectFundingSourceExpenditures.GroupBy(x => x.FundingSourceID);
             foreach (var fundingSource in yearsWithExpenditures)
             {
                 var exemptYearsWithReportedValues = fundingSource
@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     .ToList();
                 if (exemptYearsWithReportedValues.Any())
                 {
-                    var fundingSourceName = fundingSource.Key.FundingSourceName;
+                    var fundingSourceName = fundingSources.SingleOrDefault(x => x.FundingSourceID == fundingSource.Key)?.FundingSourceName;
                     var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(exemptYearsWithReportedValues));
                     errors.Add($"Funding source {fundingSourceName} has reported values for the exempt years: {yearsForErrorDisplay}");
                 }
