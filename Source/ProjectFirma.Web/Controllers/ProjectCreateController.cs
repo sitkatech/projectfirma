@@ -502,13 +502,12 @@ namespace ProjectFirma.Web.Controllers
 
             var projectExemptReportingYears = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingTypeID == ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
-            var possibleYearsToExempt = calendarYearRange;
             projectExemptReportingYears.AddRange(
-                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
                     .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
 
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                calendarYearRange, project, projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()) {ProjectID = project.ProjectID};
+                calendarYearRange, project, projectExemptReportingYears.Where(x => x.IsExempt).OrderBy(x => x.CalendarYear).ToList()) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, calendarYearRange, viewModel);
         }
 

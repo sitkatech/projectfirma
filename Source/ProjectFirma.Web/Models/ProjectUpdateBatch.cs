@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using NUnit.Framework;
 using WebGrease.Css.Extensions;
 
 namespace ProjectFirma.Web.Models
@@ -388,7 +389,7 @@ namespace ProjectFirma.Web.Models
             return NewStageIsPlanningDesign || ValidatePerformanceMeasures().IsValid;
         }
 
-        public ExpendituresValidationResult ValidateExpendituresAndForceValidation()
+        public List<string> ValidateExpendituresAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
             return ValidateExpenditures();
@@ -399,47 +400,28 @@ namespace ProjectFirma.Web.Models
             return new ExpectedFundingValidationResult();
         }
 
-        public ExpendituresValidationResult ValidateExpenditures()
+        public List<string> ValidateExpenditures()
         {
             if (!AreProjectBasicsValid)
             {
-                return new ExpendituresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new List<string> {FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection};
             }
 
             if (ProjectUpdate.ProjectStage.RequiresReportedExpenditures() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
             {
-                // get distinct Funding Sources
-                var fundingSources = ProjectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct().ToList();
                 // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
                 var yearsExpected = ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-                if (!fundingSources.Any())
-                {
-                    // we need to at least check for the missing years
-                    return new ExpendituresValidationResult(yearsExpected);
-                }
-                else
-                {
-                    var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
-                    foreach (var fundingSource in fundingSources)
-                    {
-                        var currentFundingSource = fundingSource;
-                        var missingYears =
-                            yearsExpected.GetMissingYears(ProjectFundingSourceExpenditureUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
-                        if (missingYears.Any())
-                        {
-                            missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                        }
-                    }
-
-                    return new ExpendituresValidationResult(missingFundingSourceYears);
-                }
+                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(
+                    ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).Select(x => new ProjectExemptReportingYearSimple(x)).ToList(),
+                    NoExpendituresToReportExplanation, yearsExpected, new List<IFundingSourceExpenditure>(ProjectFundingSourceExpenditureUpdates));
+                return validateExpenditures;
             }
-            return new ExpendituresValidationResult(new List<int>());
+            return new List<string>();
         }
 
         public bool AreExpendituresValid()
         {
-            return ValidateExpenditures().IsValid;
+            return ValidateExpenditures().Count == 0;
         }
 
         public OrganizationsValidationResult ValidateOrganizations()
@@ -533,20 +515,20 @@ namespace ProjectFirma.Web.Models
 
         private void PushTransitionRecordsToAuditLog()
         {
-            ProjectUpdateHistories.ForEach(
-                projectUpdateHistory =>
-                    // ReSharper disable once ObjectCreationAsStatement
-                    new AuditLog(projectUpdateHistory.UpdatePerson,
-                        projectUpdateHistory.TransitionDate,
-                        AuditLogEventType.Added,
-                        "Project Update",
-                        projectUpdateHistory.ProjectUpdateHistoryID,
-                        "Project Update record",
-                        projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID});
+            foreach (var projectUpdateHistory in ProjectUpdateHistories.ToList())
+            {
+                var auditLog = new AuditLog(projectUpdateHistory.UpdatePerson,
+                    projectUpdateHistory.TransitionDate,
+                    AuditLogEventType.Added,
+                    "Project Update",
+                    projectUpdateHistory.ProjectUpdateHistoryID,
+                    "Project Update record",
+                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID};
+            }
         }
 
-        private void
-            CommitChangesToProject( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
+        private void CommitChangesToProject( 
+                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
 //            IList<ProjectBudget> projectBudgets,
                 IList<ProjectExemptReportingYear> projectExemptReportingYears,
                 IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,

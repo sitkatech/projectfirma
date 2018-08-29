@@ -38,8 +38,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly decimal InflationRate;
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
-        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, ExpendituresValidationResult expendituresValidationResult)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Expenditures, updateStatus, expendituresValidationResult.GetWarningMessages())
+        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, List<string> expendituresValidationErrors)
+            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Expenditures, updateStatus, expendituresValidationErrors)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));

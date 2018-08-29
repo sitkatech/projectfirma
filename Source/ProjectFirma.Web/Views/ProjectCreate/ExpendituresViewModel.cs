@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -30,7 +29,6 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -109,8 +107,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
             var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
             var validationErrors = ExpendituresValidationResult.Validate(ProjectFundingSourceExpenditures,
-                ProjectExemptReportingYears,
-                project, Explanation);
+                ProjectExemptReportingYears, Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange());
             errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
 
             return errors;

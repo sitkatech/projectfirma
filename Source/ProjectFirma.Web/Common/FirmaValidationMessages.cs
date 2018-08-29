@@ -25,10 +25,6 @@ namespace ProjectFirma.Web.Common
 {
     public static class FirmaValidationMessages
     {
-        public static readonly string PasswordRequiredForNewUser = $"{FieldDefinition.Password.GetFieldDefinitionLabel()} is required for new users.";
-        public static readonly string MustEnterOldPasswordWhenChangingPassword = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is required when changing {FieldDefinition.Password.GetFieldDefinitionLabel()}.";
-        public static readonly string OldPasswordProvidedIsNotCorrect = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is incorrect.";
-        public static readonly string CantChangePasswordToBeSameAsOldPassword = $"Can't reset {FieldDefinition.Password.GetFieldDefinitionLabel()} to same as old {FieldDefinition.Password.GetFieldDefinitionLabel()}.";
         public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
         public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()}.";
         public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
@@ -48,7 +44,6 @@ namespace ProjectFirma.Web.Common
         public const string LettersNumbersSpacesDashesAndUnderscoresOnly = "Only letters, numbers, spaces, dashes and underscores are allowed.";
         public const string LettersOnly = "Only letters are allowed.";
         public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress.";
-        public const string EmailAlreadyUsed = "Email already exists.";
         public static readonly string ImplementationYearMustBePastOrPresentForImplementationProjects = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the Implementation stage cannot have an {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} in the future.";
     }
 }

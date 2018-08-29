@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
@@ -29,7 +30,8 @@ namespace ProjectFirma.Web.Common
 {
     public static class FirmaHelpers
     {
-        public static readonly List<string> DefaultColorRange = new List<string> {
+        public static readonly List<string> DefaultColorRange = new List<string>
+        {
             "#1f77b4",
             "#ff7f0e",
             "#aec7e8",
@@ -56,7 +58,7 @@ namespace ProjectFirma.Web.Common
 
             var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 
-            return OnErrorOrNotFoundPage(returnUrl) ? logInUrl : string.Format("{0}?returnUrl={1}", logInUrl, HttpUtility.UrlEncode(returnUrl));
+            return OnErrorOrNotFoundPage(returnUrl) ? logInUrl : String.Format("{0}?returnUrl={1}", logInUrl, HttpUtility.UrlEncode(returnUrl));
         }
 
         public static string GenerateLogOutUrlWithReturnUrl()
@@ -109,6 +111,43 @@ namespace ProjectFirma.Web.Common
             }
 
             return Color.FromArgb(color.A, (int)red, (int)green, (int)blue);
+        }
+
+        public static List<string> CalculateNumberRanges(List<int> years)
+        {
+            var yearsInOrder = years.OrderBy(x => x).ToList();
+            if (!yearsInOrder.Any())
+            {
+                return new List<string>();
+            }
+
+            return yearsInOrder
+                .Select((n, i) => new {number = n, group = n - i})
+                .GroupBy(n => n.@group)
+                .Select(g =>
+                    g.Count() >= 2
+                        ? g.First().number + "-" + g.Last().number
+                        : String.Join(", ", g.Select(x => x.number))
+                )
+                .ToList();
+        }
+        public static List<string> CalculateYearRanges(IEnumerable<int> years)
+        {
+            var yearsInOrder = years.OrderBy(x => x).ToList();
+            if (!yearsInOrder.Any())
+            {
+                return new List<string>();
+            }
+
+            return yearsInOrder
+                .Select((n, i) => new {number = n, group = n - i})
+                .GroupBy(n => n.@group)
+                .Select(g =>
+                    g.Count() >= 2
+                        ? MultiTenantHelpers.FormatReportingYear(g.First().number) + "-" + MultiTenantHelpers.FormatReportingYear(g.Last().number)
+                        : String.Join(", ", g.Select(x => MultiTenantHelpers.FormatReportingYear(x.number)))
+                )
+                .ToList();
         }
     }
 }

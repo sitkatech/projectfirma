@@ -463,9 +463,13 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
-            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureUpdates,
-                calendarYearRange,
-                projectUpdateBatch.ExpendituresComment);
+            var projectExemptReportingYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            projectExemptReportingYears.AddRange(
+                calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
+
+            var viewModel = new ExpendituresViewModel(projectUpdateBatch, calendarYearRange, projectExemptReportingYears);
             return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
         }
 

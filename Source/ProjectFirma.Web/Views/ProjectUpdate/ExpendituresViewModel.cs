@@ -21,10 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -39,6 +41,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public List<ProjectFundingSourceExpenditureBulk> ProjectFundingSourceExpenditures { get; set; }
 
+        public string Explanation { get; set; }
+
+        public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -46,13 +52,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ExpendituresViewModel(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates,
-            List<int> calendarYearsToPopulate,
-            string comments)
+        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate,
+            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
-            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditureUpdates, calendarYearsToPopulate);
+            ProjectExemptReportingYears = projectExemptReportingYears;
+            Explanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearsToPopulate);
             ShowValidationWarnings = true;
-            Comments = comments;
+            Comments = projectUpdateBatch.ExpendituresComment;
         }
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch,
@@ -65,6 +72,24 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 // Completely rebuild the list
                 projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditureUpdates(projectUpdateBatch)).ToList();
             }
+
+            var currentProjectExemptYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).ToList();
+            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();
+            var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYearUpdates.Local;
+            var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();
+            if (ProjectExemptReportingYears != null)
+            {
+                // Completely rebuild the list
+                projectExemptReportingYears =
+                    ProjectExemptReportingYears.Where(x => x.IsExempt)
+                        .Select(x => new ProjectExemptReportingYearUpdate(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear, ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID))
+                        .ToList();
+            }
+            currentProjectExemptYears.Merge(projectExemptReportingYears,
+                allProjectExemptYears,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+
+            projectUpdateBatch.NoExpendituresToReportExplanation = Explanation;
 
             currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
                 allProjectFundingSourceExpenditureUpdates,
