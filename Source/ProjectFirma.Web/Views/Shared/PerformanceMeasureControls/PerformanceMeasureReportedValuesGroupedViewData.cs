@@ -25,11 +25,11 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 {
     public class PerformanceMeasureReportedValuesGroupedViewData : FirmaUserControlViewData
     {
-        public readonly List<CalendarYearString> CalendarYearsForPerformanceMeasures;
-        public readonly List<string> ExemptReportingYears;
-        public readonly string ExemptionExplanation;
-        public readonly List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> PerformanceMeasureSubcategoriesCalendarYearReportedValues;
-        public readonly bool HideByDefault;
+        public List<CalendarYearString> CalendarYearsForPerformanceMeasures { get; }
+        public List<string> ExemptReportingYears { get; }
+        public string ExemptionExplanation { get; }
+        public List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> PerformanceMeasureSubcategoriesCalendarYearReportedValues { get; }
+        public bool HideByDefault { get; }
 
         public PerformanceMeasureReportedValuesGroupedViewData(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues,
             List<string> exemptReportingYears,

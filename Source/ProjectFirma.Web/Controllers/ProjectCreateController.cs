@@ -539,8 +539,8 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpenditures(Project project, List<int> calendarYearRange, ExpendituresViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-
-            var showNoExpendituresExplanation = project.GetExpendituresExemptReportingYears().Any();
+            var expendituresExemptReportingYears = project.GetExpendituresExemptReportingYears();
+            var showNoExpendituresExplanation = expendituresExemptReportingYears.Any();
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
                 calendarYearRange, showNoExpendituresExplanation);
@@ -548,8 +548,10 @@ namespace ProjectFirma.Web.Controllers
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList());
-
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
+                fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
+                FirmaHelpers.CalculateYearRanges(expendituresExemptReportingYears.Select(x => x.CalendarYear)),
+                project.NoExpendituresToReportExplanation);
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);

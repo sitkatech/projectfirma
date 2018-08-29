@@ -257,8 +257,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
             }
-            //projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            //return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProjectUpdateController>(x=>x.LocationSimple(project)) : new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Basics);
         }
 
@@ -504,15 +502,20 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresViewModel viewModel)
         {
             var project = projectUpdateBatch.Project;
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetExpendituresExemptReportingYears();
+            var showNoExpendituresExplanation = projectExemptReportingYearUpdates.Any();
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
 
-            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange);
+            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
             var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList());
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
+                fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
+                FirmaHelpers.CalculateYearRanges(projectExemptReportingYearUpdates.Select(x => x.CalendarYear)),
+                projectUpdateBatch.NoExpendituresToReportExplanation);
 
             var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);

@@ -105,18 +105,20 @@ else
         <hr />
         <div style="margin-top: 5px">
             <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
-                <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i>
+                <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
                 What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no expenditures to report?
             </a>
-            <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
+            <div ng-show="AngularViewData.ShowNoExpendituresExplanation" >
                 Select the years for which you have no expenditures to report and provide a brief explanation.
+                <a style="cursor: pointer" ng-click="selectAllYears(true)">Select All</a> |
+                <a style="cursor: pointer"  ng-click="selectAllYears(false)">Unselect All</a>
                 <div>
-                    <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYears" style="padding-right: 10px">
+                    <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYears | orderBy:'-CalendarYear'" style="padding-right: 10px">
                         <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" /> <span ng-bind="projectExemptYearUpdate.CalendarYearDisplay"></span>
                     </label>
                 </div>
-                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, { "class", "form-control" } })
-
+                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
+                            
             </div>
         </div>
         <hr />

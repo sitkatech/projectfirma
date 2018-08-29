@@ -119,6 +119,13 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         };
     };
 
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function (f) {
+                f.IsExempt = isChecked;
+            });
+    };
+
     $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceExpenditures, rowToDelete); };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;

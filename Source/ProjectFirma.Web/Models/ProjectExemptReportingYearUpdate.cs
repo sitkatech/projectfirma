@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -59,5 +60,11 @@ namespace ProjectFirma.Web.Models
                 projectExemptReportingYears,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
         }
+
+        public string GetCalendarYear()
+        {
+            return MultiTenantHelpers.FormatReportingYear(CalendarYear);
+        }
+
     }
 }

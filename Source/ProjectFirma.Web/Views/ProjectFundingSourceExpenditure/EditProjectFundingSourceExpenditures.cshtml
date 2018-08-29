@@ -49,6 +49,8 @@ Source code is available upon request via <support@sitkatech.com>.
         </a>
         <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
             Select the years for which you have no expenditures to report and provide a brief explanation.
+            <a style="cursor: pointer" ng-click="selectAllYears(true)">Select All</a> |
+            <a style="cursor: pointer"  ng-click="selectAllYears(false)">Unselect All</a>
             <div>
                 <label ng-repeat="projectExemptReportingYear in AngularModel.ProjectExemptReportingYears | orderBy: 'CalendarYear'" style="padding-right: 10px">
                     <input type="checkbox" ng-model="projectExemptReportingYear.IsExempt" /> <span ng-bind="projectExemptReportingYear.CalendarYearDisplay"></span>
