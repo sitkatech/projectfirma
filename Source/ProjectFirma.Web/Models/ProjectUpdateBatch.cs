@@ -96,17 +96,19 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
 
+            // project expenditures exempt reporting years
+            ProjectExemptReportingYearUpdate.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+
+            // expenditures exempt explanation
+            projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
+
             // Expected Funding
             ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
-
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            // project budgets
-            // ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
 
             // performance measures
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
-            // project exempt reporting years
+            // project performance measures exempt reporting years
             ProjectExemptReportingYearUpdate.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // project exempt reporting years reason
@@ -155,6 +157,11 @@ namespace ProjectFirma.Web.Models
         public void SyncPerformanceMeasureActualYearsExemptionExplanation()
         {
             PerformanceMeasureActualYearsExemptionExplanation = Project.PerformanceMeasureActualYearsExemptionExplanation;
+        }
+
+        public void SyncExpendituresYearsExemptionExplanation()
+        {
+            NoExpendituresToReportExplanation = Project.NoExpendituresToReportExplanation;
         }
 
         public void TickleLastUpdateDate(Person currentPerson)

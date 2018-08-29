@@ -538,8 +538,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteExpendituresProjectExemptReportingYearUpdates();
             projectUpdateBatch.DeleteProjectFundingSourceExpenditureUpdates();
-            // refresh data
+
+            // refresh the data
+            projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
+            ProjectExemptReportingYearUpdate.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
