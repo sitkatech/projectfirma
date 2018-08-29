@@ -185,8 +185,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     m => m.ImplementationStartYear);
             }
 
+            if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
+            {
+                yield return new SitkaValidationResult<BasicsViewModel, int?>("Since the project is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+            }
+
             if ((ProjectStageID == ProjectStage.Completed.ProjectStageID ||
-                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear>currentYear)
+                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear);
             }
