@@ -210,7 +210,7 @@ namespace LtInfo.Common
 
         protected virtual List<ISitkaLoggingFilter> GetLoggingFilters()
         {
-            var filters = new List<ISitkaLoggingFilter> { new TrendMicroFilter(), new NotReferred404LoggingFilter(), new NagiosLoggingFilter(), new RequireSslLoggingFilter(), new UnsupportedHttpMethodHandler(), new RemoteHostClosedTheConnectionLoggingFilter() };
+            var filters = new List<ISitkaLoggingFilter> { new TrendMicroFilter(), new NotReferred404LoggingFilter(), new NagiosLoggingFilter(), new RequireSslLoggingFilter(), new UnsupportedHttpMethodHandler(), new RemoteHostClosedTheConnectionLoggingFilter(), new SemRushFilter() };
             return filters;
         }
 

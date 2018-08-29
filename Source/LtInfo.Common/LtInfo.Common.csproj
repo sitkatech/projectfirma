@@ -218,6 +218,7 @@
     <Compile Include="HtmlHelperExtensions\LabelForExtensionsTest.cs" />
     <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpers.cs" />
     <Compile Include="HtmlHelperExtensions\TextAreaForExtensions.cs" />
+    <Compile Include="LoggingFilters\SemRushFilter.cs" />
     <Compile Include="ModalDialog\ModalDialogForm.cs" />
     <Compile Include="DhtmlWrappers\ColumnSpec.cs" />
     <Compile Include="DisposableHtmlHelper.cs" />
