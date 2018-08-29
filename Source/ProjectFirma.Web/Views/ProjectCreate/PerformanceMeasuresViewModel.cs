@@ -211,15 +211,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow()
         {
-            if (PerformanceMeasureActuals == null)
-            {
-                return new HashSet<int>();
-            }
-            var exemptYears = ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
-
-            var performanceMeasureActualsWithExemptYear =
-                PerformanceMeasureActuals.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
-
+            var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
+            var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
+            var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
+            var performanceMeasureActualsWithExemptYear = performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
             return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
     }
