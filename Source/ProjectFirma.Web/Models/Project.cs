@@ -79,8 +79,11 @@ namespace ProjectFirma.Web.Models
         {
             if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
             {
-                return ProjectOrganizations.Where(x => x.Organization.FundingSources.Any()).Select(x => x.Organization)
-                    .ToList();
+                // Default is Funding Organizations
+                var organizations = ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+                    .Union(ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization))
+                    .Distinct(new HavePrimaryKeyComparer<Organization>());
+                return organizations;
             }
             else
             {

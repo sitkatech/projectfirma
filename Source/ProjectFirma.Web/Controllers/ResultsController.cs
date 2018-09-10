@@ -50,21 +50,22 @@ namespace ProjectFirma.Web.Controllers
 
             List<Organization> organizations;
             // default to Funding Organizations if no relationship type is selected to report in the dashboard.
-            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() != null)
+            var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard();
+            if (relationshipTypeToReportInAccomplishmentsDashboard == null)
             {
-                organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
-                    .Where(x => x.CanBeReportedInAccomplishmentsDashboard())
-                    .OrderBy(x => x.OrganizationName)
-                    .ToList();
+                var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests
+                    .Select(x => x.FundingSource.Organization).ToList();
+                var reportedFundingOrganization = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                    .Select(x => x.FundingSource.Organization).ToList();
+
+                expectedFundingOrganizations.AddRange(reportedFundingOrganization);
+                organizations = expectedFundingOrganizations.Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();
             }
             else
             {
-                //organizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests
-                //    .Select(x => x.FundingSource.Organization).Union(
-                //        HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Select(x =>
-                //            x.FundingSource.Organization)).OrderBy(x => x.OrganizationName).ToList();
-                organizations = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => x.Organization)
-                    .Distinct().OrderBy(x => x.OrganizationName).ToList();
+                organizations = HttpRequestStorage.DatabaseEntities.Projects.ToList().SelectMany(x =>
+                    x.ProjectOrganizations.Where(y =>
+                        y.RelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();              
             }
 
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -191,9 +192,12 @@ namespace ProjectFirma.Web.Controllers
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) &&
                 MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
-                partnerOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID)
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+                partnerOrganizations = organization
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && y.Organization.OrganizationType.IsFundingType && y.Organization.IsActive))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && 
+                                                                               y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
+                                                                               y.Organization.IsActive))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }
@@ -201,7 +205,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 partnerOrganizations = HttpRequestStorage.DatabaseEntities.Projects.ToList()
                     .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType && y.Organization.IsActive))
+                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
+                                                                               y.Organization.IsActive))
                     .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard())
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
@@ -441,7 +446,7 @@ namespace ProjectFirma.Web.Controllers
             IEnumerable<SelectListItem> relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes
                 .ToList().ToSelectListWithEmptyFirstRow(
                     x => x.RelationshipTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.RelationshipTypeName.ToString(CultureInfo.InvariantCulture), "Funding Organization");
+                    x => x.RelationshipTypeName.ToString(CultureInfo.InvariantCulture), "Funding Organization (Default)");
             var viewData = new ConfigureAccomplishmentsDashboardViewData(relationshipTypes);
             return RazorPartialView<ConfigureAccomplishmentsDashboard, ConfigureAccomplishmentsDashboardViewData,
                 ConfigureAccomplishmentsDashboardViewModel>(viewData, viewModel);

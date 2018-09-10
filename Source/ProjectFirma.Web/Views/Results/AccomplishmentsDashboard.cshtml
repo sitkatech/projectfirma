@@ -186,7 +186,7 @@
     <div class="row counterSection">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-right">
             <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="100%">
-                <option value="-1">All @ViewDataTyped.ProjectStewardOrganizationTypeName</option>
+                <option value="-1">All @ViewDataTyped.AccomplishmentsDashboardOrganizationTypeName</option>
                 @foreach (var organization in ViewDataTyped.Organizations)
                 {
                     <option value="@organization.OrganizationID">@organization.OrganizationName</option>

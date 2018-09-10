@@ -8,27 +8,29 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-group">
-        @Html.LabelWithSugarFor(m => m.RelationshipTypetoIncludeID)
-        <div>
-            @Html.DropDownListFor(m=>m.RelationshipTypetoIncludeID, ViewDataTyped.RelationshipTypes, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+<div class="form-group">
+    @Html.LabelWithSugarFor(m => m.RelationshipTypetoIncludeID)
+    <div class="help-block">The default option is to use the Accomplishments Dashboard to report for all Organizations that have a funding relationship (through expected or reported expenditures) with a project.</div>
+    <div>
+        @Html.DropDownListFor(m => m.RelationshipTypetoIncludeID, ViewDataTyped.RelationshipTypes, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelWithSugarFor(m => m.FundingDisplayTypeID)
+    @foreach (var fundingDisplayType in ViewDataTyped.AccomplishmentsDashboardFundingDisplayTypes)
+    {
+        <div class="radio">
+            <label>
+                @Html.RadioButtonFor(m => m.FundingDisplayTypeID, fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeID)
+                @fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeDisplayName
+            </label>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelWithSugarFor(m => m.FundingDisplayTypeID)
-        @foreach (var fundingDisplayType in ViewDataTyped.AccomplishmentsDashboardFundingDisplayTypes)
-        {
-            <div class="radio">
-                <label>
-                    @Html.RadioButtonFor(m => m.FundingDisplayTypeID, fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeID)
-                    @fundingDisplayType.AccomplishmentsDashboardFundingDisplayTypeDisplayName
-                </label>
-            </div>
-        }
-        @Html.ValidationMessageFor(m => m.FundingDisplayTypeID)
-    </div>
+    }
+    @Html.ValidationMessageFor(m => m.FundingDisplayTypeID)
+</div>
     <div class="form-group">
         @Html.LabelWithSugarFor(m => m.IncludeReportingOrganizationType)
+        <div class="help-block">When 'No' is selected, the organizations with the Project-Organization Relationship to a project above will NOT appear in the full list of partners, unless the list is filtered by a particular organization.</div>
         <div>
             <div class="radio-inline">
                 <label>

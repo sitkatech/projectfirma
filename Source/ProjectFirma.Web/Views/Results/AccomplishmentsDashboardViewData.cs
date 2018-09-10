@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Results
         public int DefaultBeginYear { get; }
         public int DefaultEndYear { get; }
         public List<ITaxonomyTier> TaxonomyTiers { get; }
-        public string ProjectStewardOrganizationTypeName { get; }
+        public string AccomplishmentsDashboardOrganizationTypeName { get; }
         public string TaxonomyTierDisplayName { get; }
         public bool HasSitkaAdminPermissions { get; set; }
         public string ConfigureAccomplishmentsDashboardUrl { get; set; }
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Results
             List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
             List<ITaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentPerson, firmaPage)
         {
-            var projectStewardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
+            var accomplishmentsDashboardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
                 .GetFieldDefinitionLabelPluralized();
             PageTitle = "Accomplishments Dashboard";
             TenantAttribute = tenantAttribute;
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Results
             OrganizationAccomplishmentsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationAccomplishments(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
             OrganizationDetailUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int));
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
-            ProjectStewardOrganizationTypeName = projectStewardOrganizationTypeName;
+            AccomplishmentsDashboardOrganizationTypeName = accomplishmentsDashboardOrganizationTypeName;
             TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
             HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             ConfigureAccomplishmentsDashboardUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.ConfigureAccomplishmentsDashboard());
