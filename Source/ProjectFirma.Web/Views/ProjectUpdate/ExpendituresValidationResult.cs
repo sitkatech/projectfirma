@@ -28,56 +28,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ExpendituresValidationResult
     {
-        private readonly List<string> _warningMessages;
-
-        public ExpendituresValidationResult(Dictionary<Models.FundingSource, HashSet<int>> missingFundingSourceYears)
-            : this(missingFundingSourceYears, new List<int>())
-        {
-        }
-
-        public ExpendituresValidationResult(List<int> missingYears)
-            : this(new Dictionary<Models.FundingSource, HashSet<int>>(), missingYears)
-        {
-        }
-
-        public ExpendituresValidationResult(Dictionary<Models.FundingSource, HashSet<int>> missingFundingSourceYears, List<int> missingYears)
-        {
-            _warningMessages = new List<string>();
-            if (missingYears.Any())
-            {
-                _warningMessages.Add($"Missing Expenditures for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
-            }
-
-            if (missingFundingSourceYears.Any())
-            {
-                foreach (var fundingSource in missingFundingSourceYears)
-                {
-                    var missingYearsForFundingSource = fundingSource.Value;
-                    var missingYearsCount = missingYearsForFundingSource.Count;
-                    if (missingYearsCount > 2)
-                    {
-                        _warningMessages.Add($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Min())} - {MultiTenantHelpers.FormatReportingYear(fundingSource.Value.Max())}");
-                    }
-                    else
-                    {
-                        _warningMessages.Add($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {string.Join(", ", fundingSource.Value.Select(MultiTenantHelpers.FormatReportingYear))}");
-                    }
-                }
-            }
-        }
-
-        public ExpendituresValidationResult(string customErrorMessage)
-        {
-            _warningMessages = new List<string> {customErrorMessage};
-        }
-
-        public List<string> GetWarningMessages()
-        {
-            return _warningMessages;
-        }
-
-        public bool IsValid => !_warningMessages.Any();
-
         public static List<string> Validate(List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditureBulks, List<ProjectExemptReportingYearSimple> projectExemptReportingYearSimples, string explanation, List<int> expectedYears)
         {
             var errors = new List<string>();
@@ -131,17 +81,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 if (!fundingSources.Any())
                 {
-                    //If there are no funding sources then every year is missing.
-                    if (expectedYears.Count() > 2)
-                    {
-                        errors.Add(
-                            $"Missing Expenditures for {MultiTenantHelpers.FormatReportingYear(expectedYears.Min())} - {MultiTenantHelpers.FormatReportingYear(expectedYears.Max())}");
-                    }
-                    else
-                    {
-                        errors.Add(
-                            $"Missing Expenditures for {string.Join(", ", expectedYears.Select(MultiTenantHelpers.FormatReportingYear))}");
-                    }
+                    var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(expectedYears.Except(exemptReportingYears)));
+                    errors.Add($"Missing Expenditures for {string.Join(", ", yearsForErrorDisplay)}");
                 }
                 else
                 {
@@ -171,9 +112,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
 
-            // duplicate funding sources
-            //errors.AddRange(projectFundingSourceExpenditures.GroupBy(x => x.FundingSourceID).Where(x => x.Count() > 1)
-            //    .Select(x => $"Duplicate funding source: {fundingSources.Single(y => y.FundingSourceID == x.Key).FundingSourceName}"));
 
             // reported expenditures in exempt years
             var yearsWithExpenditures = projectFundingSourceExpenditures.GroupBy(x => x.FundingSourceID);

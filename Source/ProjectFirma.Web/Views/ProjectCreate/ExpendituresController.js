@@ -130,6 +130,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
     $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceExpenditures, rowToDelete); };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
+    if ($scope.AngularModel.ProjectFundingSourceExpenditures == null) {
+        $scope.AngularModel.ProjectFundingSourceExpenditures = [];
+    }
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.ShowOnlyProjectFunders = false;
     $scope.resetFundingSourceToAdd();

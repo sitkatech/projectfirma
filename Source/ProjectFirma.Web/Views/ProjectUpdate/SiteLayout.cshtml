@@ -58,7 +58,7 @@
 @if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
-        There is missing data which must be entered before the Project Update can be submitted:
+        There are errors that need to be corrected before the Project Update can be submitted:
         <ul>
             @foreach (string warning in ViewDataTyped.ValidationWarnings)
             {

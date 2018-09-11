@@ -35,7 +35,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     };
 
     $scope.getCalendarYearRange = function () {
-        return _.union($scope.getAllUsedCalendarYears(), angularModelAndViewData.AngularViewData.CalendarYearRange);
+        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange)).reverse();
     };
 
     $scope.getAllUsedFundingSourceIds = function () {
@@ -163,6 +163,9 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
+    if ($scope.AngularModel.ProjectFundingSourceExpenditures == null) {
+        $scope.AngularModel.ProjectFundingSourceExpenditures = [];
+    }
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;
     $scope.FromProject = !$scope.FromFundingSource;

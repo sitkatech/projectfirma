@@ -42,9 +42,9 @@
             {
                 <tr>
                     <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
-                    @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+                    @foreach (var calendarYear in fundingSourceExpenditure.CalendarYearExpenditure.Keys.OrderByDescending(x => x))
                     {
-                        <td class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+                        <td class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure[calendarYear].ToStringCurrency()</td>
                     }
                     <th class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
                 </tr>
