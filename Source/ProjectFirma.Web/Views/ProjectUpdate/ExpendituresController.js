@@ -30,7 +30,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
 
     $scope.getAllUsedCalendarYears = function() { return $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().pluck("CalendarYear").flatten().union().sortBy().value(); };
 
-    $scope.getCalendarYearRange = function() { return _.union($scope.getAllUsedCalendarYears(), angularModelAndViewData.AngularViewData.CalendarYearRange); };
+    $scope.getCalendarYearRange = function() {
+        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange)).reverse();
+    };
 
     $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceExpenditures, function(p) { return p.FundingSourceID; }); };
 
