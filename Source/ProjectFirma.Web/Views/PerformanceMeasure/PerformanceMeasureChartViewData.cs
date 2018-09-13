@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly bool CanManagePerformanceMeasures;
         public readonly bool ShowLastUpdatedDate;
         public readonly string ChartTitle;
+        public double? ChartTotal { get; }
         public string ChartTotalFormatted { get; }
         public string ChartTotalUnit { get;  }
 
@@ -54,8 +55,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
             GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
-            var chartTotal = PerformanceMeasure.PerformanceMeasureActuals?.Sum(x => x.ActualValue);
-            ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(chartTotal);
+            ChartTotal = PerformanceMeasure.PerformanceMeasureActuals?.Sum(x => x.ActualValue);
+            ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
             ChartTotalUnit = PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             
             var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
