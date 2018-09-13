@@ -230,7 +230,7 @@
                         {
                             if (performanceMeasureGroup.Key.IsAggregatable)
                             {
-                                <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName</li>
+                                <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
                             }
                             var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
                             if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
@@ -242,6 +242,9 @@
                                     {
                                         <li>
                                             @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName)
+                                            <strong>
+                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureExpectedValues.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
+                                            </strong>
                                         </li>
                                     }
                                 }
