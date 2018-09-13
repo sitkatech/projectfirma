@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -37,6 +38,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly bool CanManagePerformanceMeasures;
         public readonly bool ShowLastUpdatedDate;
         public readonly string ChartTitle;
+        public double? ChartTotal { get; }
 
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
@@ -51,6 +53,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
             GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
+            ChartTotal = PerformanceMeasure.PerformanceMeasureActuals?.Sum(x => x.ActualValue);
 
             var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;

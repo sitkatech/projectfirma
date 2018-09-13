@@ -62,5 +62,10 @@
 <div id="@(ViewDataTyped.ViewGoogleChartViewData.ChartUniqueName)" class="panel">
     <div class="panel-body">
         @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+
+        @if (ViewDataTyped.ChartTotal != null && ViewDataTyped.ChartTotal > 0)
+        {
+            <p style="text-align: center;"><label>Total</label>: @String.Format("{0:n}", ViewDataTyped.ChartTotal)</p>
+        }
     </div>
 </div>
