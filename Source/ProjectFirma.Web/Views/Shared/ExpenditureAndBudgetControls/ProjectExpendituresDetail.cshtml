@@ -51,7 +51,7 @@
             }
             <tr>
                 <th>Total:</th>
-                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings)
+                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderByDescending(x => x.CalendarYear))
                 {
                     <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</th>
                 }
