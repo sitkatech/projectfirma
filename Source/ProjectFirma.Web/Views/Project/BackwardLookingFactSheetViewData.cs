@@ -18,23 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using LtInfo.Common;
+using LtInfo.Common.Views;
+
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class BackwardLookingFactSheetViewData : ProjectViewData
     {
+        public string EstimatedTotalCost { get; }
+        public string NoFundingSourceIdentified { get; }
+        public string SecuredFunding { get; }
+        public string UnsecuredFunding { get; }
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues;
@@ -61,6 +65,11 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
+
+            EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : ViewUtilities.Unknown;
+            NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : ViewUtilities.Unknown;
+            SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : ViewUtilities.Unknown;
+            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
 
             const bool userCanAddPhotosToThisProject = false;
             var newPhotoForProjectUrl = string.Empty;

@@ -194,10 +194,24 @@
                     @ViewDataTyped.EstimatedTotalCost
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>Funding Request</strong>
+                    <strong>No Funding Source Identified</strong>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    @ViewDataTyped.FundingRequest
+                    @ViewDataTyped.NoFundingSourceIdentified
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.SecuredFunding
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong> @FieldDefinition.UnsecuredFunding.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.UnsecuredFunding
                 </div>
             </div>
         </div>

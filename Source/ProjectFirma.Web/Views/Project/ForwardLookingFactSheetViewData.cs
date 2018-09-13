@@ -47,6 +47,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
         public readonly string EstimatedTotalCost;
+        public string NoFundingSourceIdentified { get; }
+        public string SecuredFunding { get; }
+        public string UnsecuredFunding { get; }
         public readonly string FundingRequest;
         public readonly int CalculatedChartHeight;
         public readonly string FactSheetPdfUrl;
@@ -109,6 +112,11 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : ViewUtilities.Unknown;
+            NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : ViewUtilities.Unknown;
+            SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : ViewUtilities.Unknown;
+            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
+
+
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
         }
 
