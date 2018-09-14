@@ -27,8 +27,10 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.Views;
+
 
 
 namespace ProjectFirma.Web.Views.Project
@@ -60,9 +62,15 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafDisplayName { get; }
         public Person PrimaryContactPerson { get; }
 
-        public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson projectFactSheetGoogleChart,
-            List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange) : base(currentPerson, project)
-        {
+        public ViewPageContentViewData CustomFactSheetPageTextViewData { get; }
+
+
+        public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project,
+            ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
+            GoogleChartJson projectFactSheetGoogleChart,
+            List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
+            Models.FirmaPage firmaPageFactSheetCustomText) : base(currentPerson, project)
+        { 
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
 
@@ -131,6 +139,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheetCustomText).HasPermission);
         }
     }
 }

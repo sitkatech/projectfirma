@@ -32,6 +32,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.Project
@@ -59,12 +60,13 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafName { get; }
         public string TaxonomyBranchName { get; }
 
+        public ViewPageContentViewData CustomFactSheetTextViewData { get; }
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson googleChartJson,
-            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices) : base(currentPerson, project)
+            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, Models.FirmaPage firmaPageFactSheetCustomText) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
@@ -118,6 +120,7 @@ namespace ProjectFirma.Web.Views.Project
 
 
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
+            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheetCustomText).HasPermission);
         }
 
         public HtmlString LegendHtml
