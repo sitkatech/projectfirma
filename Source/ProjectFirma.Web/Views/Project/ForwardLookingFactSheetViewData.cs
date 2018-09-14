@@ -39,24 +39,24 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ForwardLookingFactSheetViewData : ProjectViewData
     {
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues;
-        public readonly List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices;
-        public readonly Models.ProjectImage KeyPhoto;
-        public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
-        public readonly int ProjectImagesPerTimingGroup;
-        public readonly List<Models.Classification> Classifications;
-        public readonly GoogleChartJson GoogleChartJson;
-        public readonly string EstimatedTotalCost;
-        public readonly string FundingRequest;
-        public readonly int CalculatedChartHeight;
-        public readonly string FactSheetPdfUrl;
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues { get; }
+        public List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices { get; }
+        public Models.ProjectImage KeyPhoto { get; }
+        public List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
+        public int ProjectImagesPerTimingGroup { get; }
+        public List<Models.Classification> Classifications { get; }
+        public GoogleChartJson GoogleChartJson { get; }
+        public string EstimatedTotalCost { get; }
+        public string FundingRequest { get; }
+        public int CalculatedChartHeight { get; }
+        public string FactSheetPdfUrl { get; }
 
-        public readonly string TaxonomyColor;
-        public readonly string TaxonomyLeafDisplayName;
-        public readonly string TaxonomyLeafName;
-        public readonly string TaxonomyBranchName;
-        public readonly ViewPageContentViewData CustomHomePageTextViewData;
+        public string TaxonomyColor { get; }
+        public string TaxonomyLeafDisplayName { get; }
+        public string TaxonomyLeafName { get; }
+        public string TaxonomyBranchName { get; }
+        public ViewPageContentViewData CustomHomePageTextViewData { get; }
 
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
