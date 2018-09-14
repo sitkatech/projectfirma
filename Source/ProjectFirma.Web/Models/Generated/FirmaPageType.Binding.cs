@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeCustomFooter CustomFooter = FirmaPageTypeCustomFooter.Instance;
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypeInstructions ManageProjectCustomAttributeTypeInstructions = FirmaPageTypeManageProjectCustomAttributeTypeInstructions.Instance;
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypesList ManageProjectCustomAttributeTypesList = FirmaPageTypeManageProjectCustomAttributeTypesList.Instance;
-        public static readonly FirmaPageTypeFactSheet FactSheet = FirmaPageTypeFactSheet.Instance;
+        public static readonly FirmaPageTypeFactSheetCustomText FactSheetCustomText = FirmaPageTypeFactSheetCustomText.Instance;
 
         public static readonly List<FirmaPageType> All;
         public static readonly ReadOnlyDictionary<int, FirmaPageType> AllLookupDictionary;
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal, CustomFooter, ManageProjectCustomAttributeTypeInstructions, ManageProjectCustomAttributeTypesList, FactSheet };
+            All = new List<FirmaPageType> { HomePage, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyLeafList, TaxonomyBranchList, TaxonomyTrunkList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, ProjectResults, ProjectMap, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, Proposals, MyOrganizationsProjects, ManageUpdateNotifications, MonitoringProgramsList, ProposeProjectInstructions, ProjectStewardOrganizationList, EnterHistoricProjectInstructions, PendingProjects, Training, ProjectCreateImportExternal, CustomFooter, ManageProjectCustomAttributeTypeInstructions, ManageProjectCustomAttributeTypesList, FactSheetCustomText };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -143,8 +143,8 @@ namespace ProjectFirma.Web.Models
                     return DemoScript;
                 case FirmaPageTypeEnum.EnterHistoricProjectInstructions:
                     return EnterHistoricProjectInstructions;
-                case FirmaPageTypeEnum.FactSheet:
-                    return FactSheet;
+                case FirmaPageTypeEnum.FactSheetCustomText:
+                    return FactSheetCustomText;
                 case FirmaPageTypeEnum.FeaturedProjectList:
                     return FeaturedProjectList;
                 case FirmaPageTypeEnum.FullProjectList:
@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Models
         CustomFooter = 51,
         ManageProjectCustomAttributeTypeInstructions = 52,
         ManageProjectCustomAttributeTypesList = 53,
-        FactSheet = 54
+        FactSheetCustomText = 54
     }
 
     public partial class FirmaPageTypeHomePage : FirmaPageType
@@ -463,9 +463,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeManageProjectCustomAttributeTypesList Instance = new FirmaPageTypeManageProjectCustomAttributeTypesList(53, @"ManageProjectCustomAttributeTypesList", @"Manage Project Custom Attribute Types List", 2);
     }
 
-    public partial class FirmaPageTypeFactSheet : FirmaPageType
+    public partial class FirmaPageTypeFactSheetCustomText : FirmaPageType
     {
-        private FirmaPageTypeFactSheet(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeFactSheet Instance = new FirmaPageTypeFactSheet(54, @"FactSheet", @"Fact Sheet", 2);
+        private FirmaPageTypeFactSheetCustomText(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeFactSheetCustomText Instance = new FirmaPageTypeFactSheetCustomText(54, @"FactSheetCustomText", @"Fact Sheet CustomText", 2);
     }
 }

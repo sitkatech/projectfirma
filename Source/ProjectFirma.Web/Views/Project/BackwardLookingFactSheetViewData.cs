@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafDisplayName { get; }
         public Person PrimaryContactPerson { get; }
 
-        public ViewPageContentViewData CustomHomePageTextViewData { get; }
+        public ViewPageContentViewData CustomFactSheetPageTextViewData { get; }
 
 
         public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project,
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheet).HasPermission);
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheet).HasPermission);
         }
     }
 }

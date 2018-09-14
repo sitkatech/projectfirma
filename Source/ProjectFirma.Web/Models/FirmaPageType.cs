@@ -202,7 +202,7 @@ namespace ProjectFirma.Web.Models
     }
 
 
-    public partial class FirmaPageTypeFactSheet
+    public partial class FirmaPageTypeFactSheetCustomText
     {
         public override string GetViewUrl() => string.Empty;
     }
