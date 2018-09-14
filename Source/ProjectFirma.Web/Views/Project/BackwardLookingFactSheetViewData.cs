@@ -18,49 +18,58 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using LtInfo.Common;
+using LtInfo.Common.Views;
+
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class BackwardLookingFactSheetViewData : ProjectViewData
     {
-        public readonly ImageGalleryViewData ImageGalleryViewData;
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues;
-        public readonly List<GooglePieChartSlice> ExpenditureGooglePieChartSlices;
-        public readonly string ChartID;
-        public readonly Models.ProjectImage KeyPhoto;
-        public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
-        public readonly int ProjectImagesPerTimingGroup;
-        public readonly List<string> ChartColorRange;
-        public readonly List<Models.Classification> Classifications;
-        public readonly GoogleChartJson GoogleChartJson;
-        public readonly int CalculatedChartHeight;
-        public readonly string FactSheetPdfUrl;
+        public string EstimatedTotalCost { get; }
+        public string NoFundingSourceIdentified { get; }
+        public string SecuredFunding { get; }
+        public string UnsecuredFunding { get; }
+        public ImageGalleryViewData ImageGalleryViewData { get; }
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
+        public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
+        public string ChartID { get; }
+        public Models.ProjectImage KeyPhoto { get; }
+        public List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
+        public int ProjectImagesPerTimingGroup { get; }
+        public List<string> ChartColorRange { get; }
+        public List<Models.Classification> Classifications { get; }
+        public GoogleChartJson GoogleChartJson { get; }
+        public int CalculatedChartHeight { get; }
+        public string FactSheetPdfUrl { get; }
 
-        public readonly string TaxonomyColor;
-        public readonly string TaxonomyLeafName;
-        public readonly string TaxonomyBranchName;
+        public string TaxonomyColor { get; }
+        public string TaxonomyLeafName { get; }
+        public string TaxonomyBranchName { get; }
 
-        public readonly string TaxonomyLeafDisplayName;
-        public readonly Person PrimaryContactPerson;
+        public string TaxonomyLeafDisplayName { get; }
+        public Person PrimaryContactPerson { get; }
 
         public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, GoogleChartJson projectFactSheetGoogleChart,
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
+
+            EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
+            NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
+            SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : "";
+            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
 
             const bool userCanAddPhotosToThisProject = false;
             var newPhotoForProjectUrl = string.Empty;

@@ -99,7 +99,7 @@
             @{
                 var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
             }
-            @if(stewardingOrganization != null)
+            @if (stewardingOrganization != null)
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
@@ -113,7 +113,7 @@
             @{
                 var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
             }
-            @if(primaryContactOrganization != null)
+            @if (primaryContactOrganization != null)
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
@@ -184,6 +184,34 @@
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9">
                     @ViewDataTyped.Project.Duration
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.EstimatedTotalCost
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong>No Funding Source Identified</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.NoFundingSourceIdentified
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.SecuredFunding
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    <strong> @FieldDefinition.UnsecuredFunding.GetFieldDefinitionLabel()</strong>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    @ViewDataTyped.UnsecuredFunding
                 </div>
             </div>
         </div>

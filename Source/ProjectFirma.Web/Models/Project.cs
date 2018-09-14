@@ -110,6 +110,14 @@ namespace ProjectFirma.Web.Models
             return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
 
+        public decimal? GetNoFundingSourceIdentifiedAmount()
+        {
+            decimal? securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
+            decimal unsecuredFunding = GetUnsecuredFunding();
+
+            return EstimatedTotalCost - securedFunding + unsecuredFunding;
+        }
+
 
         public decimal? TotalExpenditures
         {
