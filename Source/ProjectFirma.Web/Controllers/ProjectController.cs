@@ -296,8 +296,10 @@ namespace ProjectFirma.Web.Controllers
                 googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
+            var firmaPageTypeFactsheet = FirmaPageType.ToType(FirmaPageTypeEnum.FactSheet);
+            var firmaPageFactSheet = FirmaPage.GetFirmaPageByPageType(firmaPageTypeFactsheet);
             var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
-                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange);
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheet);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
@@ -318,9 +320,11 @@ namespace ProjectFirma.Web.Controllers
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType,
                 googleChartDataTable, null);
+            var firmaPageTypeFactsheet = FirmaPageType.ToType(FirmaPageTypeEnum.FactSheet);
+            var firmaPageFactSheet = FirmaPage.GetFirmaPageByPageType(firmaPageTypeFactsheet);
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
-                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices);
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheet);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 

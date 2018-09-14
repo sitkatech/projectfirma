@@ -32,6 +32,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.Project
@@ -55,13 +56,14 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyLeafDisplayName;
         public readonly string TaxonomyLeafName;
         public readonly string TaxonomyBranchName;
+        public readonly ViewPageContentViewData CustomHomePageTextViewData;
 
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson googleChartJson,
-            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices) : base(currentPerson, project)
+            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, Models.FirmaPage firmaPageFactSheet) : base(currentPerson, project)
         {
             PageTitle = project.DisplayName;
             BreadCrumbTitle = "Fact Sheet";
@@ -110,6 +112,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : ViewUtilities.Unknown;
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheet).HasPermission);
         }
 
         public HtmlString LegendHtml
