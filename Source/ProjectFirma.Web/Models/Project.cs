@@ -112,9 +112,10 @@ namespace ProjectFirma.Web.Models
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            decimal? estimatedTotalCost = EstimatedTotalCost == null ? 0 : EstimatedTotalCost;
-            decimal? securedFunding = GetSecuredFunding() == null ? 0 : GetSecuredFunding();
-            return estimatedTotalCost - (securedFunding + GetUnsecuredFunding());
+            decimal? securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
+            decimal unsecuredFunding = GetUnsecuredFunding();
+
+            return EstimatedTotalCost - securedFunding + unsecuredFunding;
         }
 
 
