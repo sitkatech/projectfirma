@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -399,6 +399,8 @@
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\ProjectUpdateBatchModelExtensions.cs" />
+    <Compile Include="Views\Home\TrainingVideo.cs" />
+    <Compile Include="Views\Home\TrainingVideoViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
@@ -910,6 +912,7 @@
     <Content Include="Views\CustomPage\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
+    <Content Include="Views\Home\TrainingVideo.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
