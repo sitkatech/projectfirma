@@ -95,6 +95,7 @@
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.TaxonomyTrunk" />
     <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParameter" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
+    <EntitySet Name="TrainingVideo" EntityType="ProjectFirma.Web.Models.TrainingVideo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
@@ -2094,6 +2095,17 @@
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" FromRole="TenantAttributesWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
+  </EntityType>
+  <EntityType Name="TrainingVideo">
+    <Key>
+      <PropertyRef Name="TrainingVideoID" />
+    </Key>
+    <Property Name="TrainingVideoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="VideoName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="VideoDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="VideoUploadDate" Type="DateTime" Nullable="false" />
+    <Property Name="VideoURL" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>

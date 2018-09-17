@@ -1224,6 +1224,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TrainingVideo">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TrainingVideo">
+        <MappingFragment StoreEntitySet="TrainingVideo">
+          <ScalarProperty Name="TrainingVideoID" ColumnName="TrainingVideoID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="VideoName" ColumnName="VideoName" />
+          <ScalarProperty Name="VideoDescription" ColumnName="VideoDescription" />
+          <ScalarProperty Name="VideoUploadDate" ColumnName="VideoUploadDate" />
+          <ScalarProperty Name="VideoURL" ColumnName="VideoURL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Watershed">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Watershed">
         <MappingFragment StoreEntitySet="Watershed">
