@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
-            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheet).HasPermission);
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
         }
     }
 }
