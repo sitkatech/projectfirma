@@ -105,17 +105,23 @@ namespace ProjectFirma.Web.Models
             return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : null;
         }
 
-        public decimal GetUnsecuredFunding()
+        public decimal? GetUnsecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : null;
         }
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
             decimal? securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
-            decimal unsecuredFunding = GetUnsecuredFunding();
+            decimal? unsecuredFunding = GetUnsecuredFunding() == null ? null : GetUnsecuredFunding();
 
-            return EstimatedTotalCost - securedFunding + unsecuredFunding;
+            var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + unsecuredFunding ?? 0);
+            if (noFundingSourceIdentifiedAmount >= 0)
+            {
+                return noFundingSourceIdentifiedAmount;
+            }
+
+            return null;
         }
 
 
@@ -571,11 +577,11 @@ namespace ProjectFirma.Web.Models
         public List<GooglePieChartSlice> GetRequestAmountGooglePieChartSlices()
         {
             var requestAmountsDictionary = GetFundingSourceRequestGooglePieChartSlices();
-            var unfundedNeed = Convert.ToDouble(EstimatedTotalCost ?? 0) - requestAmountsDictionary.Sum(x => x.Value);
-            if (unfundedNeed > 0)
+            var noFundingSourceIdentifiedAmount = Convert.ToDouble(EstimatedTotalCost ?? 0) - requestAmountsDictionary.Sum(x => x.Value);
+            if (noFundingSourceIdentifiedAmount > 0)
             {
                 var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
-                requestAmountsDictionary.Add(new GooglePieChartSlice("No Funding Source Identified", unfundedNeed, sortOrder, "#dbdbdb"));
+                requestAmountsDictionary.Add(new GooglePieChartSlice("No Funding Source Identified", noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
             }
             return requestAmountsDictionary;
         }
