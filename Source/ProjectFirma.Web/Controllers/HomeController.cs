@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -147,8 +147,10 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Training()
         {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.Training);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Training);
+            List<Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
+            var viewData = new TrainingVideoViewData(CurrentPerson, firmaPage, trainingVideos);
+            return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
         }       
 
     }

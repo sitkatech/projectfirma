@@ -204,6 +204,6 @@ namespace ProjectFirma.Web.Models
 
     public partial class FirmaPageTypeFactSheetCustomText
     {
-        public override string GetViewUrl() => string.Empty;
+        public override string GetViewUrl() => SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
     }
 }

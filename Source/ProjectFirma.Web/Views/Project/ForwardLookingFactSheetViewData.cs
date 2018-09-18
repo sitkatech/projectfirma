@@ -119,11 +119,11 @@ namespace ProjectFirma.Web.Views.Project
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : "";
-            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
+            UnsecuredFunding = Project.GetUnsecuredFunding() != null ? Project.GetUnsecuredFunding().ToStringCurrency() : "";
 
 
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
-            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheetCustomText).HasPermission);
+            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
         }
 
         public HtmlString LegendHtml

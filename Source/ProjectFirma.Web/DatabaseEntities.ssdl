@@ -95,6 +95,7 @@
     <EntitySet Name="TaxonomyTrunk" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTrunk" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.Store.TechnicalAssistanceParameter" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TrainingVideo" EntityType="ProjectFirma.Web.Models.Store.TrainingVideo" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
       <DefiningQuery>SELECT 
@@ -2033,6 +2034,17 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="bit" Nullable="false" />
     <Property Name="ShowLeadImplementerLogoOnFactSheet" Type="bit" Nullable="false" />
     <Property Name="EnableAccomplishmentsDashboard" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TrainingVideo">
+    <Key>
+      <PropertyRef Name="TrainingVideoID" />
+    </Key>
+    <Property Name="TrainingVideoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="VideoName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="VideoDescription" Type="varchar" MaxLength="500" />
+    <Property Name="VideoUploadDate" Type="datetime" Nullable="false" />
+    <Property Name="VideoURL" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

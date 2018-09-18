@@ -171,46 +171,44 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     <strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel()</strong>
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     <strong>Duration</strong>
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.Project.Duration
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.EstimatedTotalCost
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>No Funding Source Identified</strong>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    @ViewDataTyped.NoFundingSourceIdentified
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    @ViewDataTyped.SecuredFunding
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <strong style="white-space: nowrap;">No Funding Identified</strong>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    @ViewDataTyped.SecuredFunding
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    @ViewDataTyped.NoFundingSourceIdentified
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     <strong> @FieldDefinition.UnsecuredFunding.GetFieldDefinitionLabel()</strong>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.UnsecuredFunding
                 </div>
             </div>
@@ -272,7 +270,7 @@
                 </div>
                 @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
                 {
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
                         <h4>@classificationSystem.ClassificationSystemNamePluralized</h4>
                         @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
                         {

@@ -466,6 +466,6 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeFactSheetCustomText : FirmaPageType
     {
         private FirmaPageTypeFactSheetCustomText(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeFactSheetCustomText Instance = new FirmaPageTypeFactSheetCustomText(54, @"FactSheetCustomText", @"Fact Sheet CustomText", 2);
+        public static readonly FirmaPageTypeFactSheetCustomText Instance = new FirmaPageTypeFactSheetCustomText(54, @"FactSheetCustomText", @"Fact Sheet Custom Text", 2);
     }
 }

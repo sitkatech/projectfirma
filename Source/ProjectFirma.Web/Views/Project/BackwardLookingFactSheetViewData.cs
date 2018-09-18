@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.Project
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : "";
-            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
+            UnsecuredFunding = Project.GetUnsecuredFunding() != null ? Project.GetUnsecuredFunding().ToStringCurrency() : "";
 
             const bool userCanAddPhotosToThisProject = false;
             var newPhotoForProjectUrl = string.Empty;
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
-            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheet).HasPermission);
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
         }
     }
 }
