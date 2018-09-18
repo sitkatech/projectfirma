@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Views.Organization
                 new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()} where {organization.DisplayName} is the {ProjectStewardOrLeadImplementorFieldDefinitionName}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()}",
                     SaveFiltersInCookie = true
                 };
 

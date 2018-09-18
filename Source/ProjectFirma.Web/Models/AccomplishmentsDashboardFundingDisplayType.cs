@@ -28,7 +28,12 @@ namespace ProjectFirma.Web.Models
         public override decimal GetInvestmentAmount(Organization organization,
             IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            return projectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount);
+            var filteredProjectFundingSourceExpenditures = organization == null
+                ? projectFundingSourceExpenditures
+                : projectFundingSourceExpenditures.Where(x => 
+                    x.FundingSource.Organization.OrganizationID != organization.OrganizationID);
+
+            return filteredProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount);
         }
     }
 }

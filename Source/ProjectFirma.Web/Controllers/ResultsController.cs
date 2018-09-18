@@ -94,12 +94,19 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int organizationID, int beginYear, int endYear)
         {
-            var projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Where(x => x.CalendarYear >= beginYear && x.CalendarYear <= endYear).ToList();
+            var projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.ToList().Where(x => x.CalendarYear >= beginYear && x.CalendarYear <= endYear).Where(x => !x.Project.IsPendingProject()).ToList();
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(organizationID) && MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
-                return projectFundingSourceExpenditures.Where(x => x.Project.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == organizationID))
-                    .OrderBy(x => x.Project.ProjectName)
-                    .ToList();
+                var accomplishmentsDashboardIncludeReportingOrganizationType = MultiTenantHelpers.GetAccomplishmentsDashboardFundingDisplayType();
+
+                switch (accomplishmentsDashboardIncludeReportingOrganizationType.ToEnum)
+                {
+                    case AccomplishmentsDashboardFundingDisplayTypeEnum.AllFundingReceived:
+                        return projectFundingSourceExpenditures.Where(x => x.Project.GetOrganizationsToReportInAccomplishments().Any(y => y.OrganizationID == organizationID) && x.FundingSource.OrganizationID != organizationID).OrderBy(x => x.Project.ProjectName).ToList();
+                    case AccomplishmentsDashboardFundingDisplayTypeEnum.OnlyFundingProvided:
+                        return projectFundingSourceExpenditures.Where(x => x.FundingSource.Organization.OrganizationID == organizationID).OrderBy(x => x.Project.ProjectName).ToList();
+                }
+               
             }
 
             return projectFundingSourceExpenditures.OrderBy(x => x.Project.ProjectName).ToList();
