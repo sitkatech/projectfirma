@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Views.Project
 
 
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
-            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageFactSheetCustomText).HasPermission);
+            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
         }
 
         public HtmlString LegendHtml
