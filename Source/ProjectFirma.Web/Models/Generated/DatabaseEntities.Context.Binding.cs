@@ -216,6 +216,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get { return AllTechnicalAssistanceParameters.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
+        public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
         public virtual IQueryable<Watershed> Watersheds { get { return AllWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<vGeoServerWatershed> vGeoServerWatersheds { get; set; }
@@ -660,6 +662,9 @@ namespace ProjectFirma.Web.Models
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(tenant, "Tenant", primaryKey);
                     return tenant;
+
+                case "TrainingVideo":
+                    return TrainingVideos.GetTrainingVideo(primaryKey);
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);
