@@ -49,12 +49,11 @@ namespace ProjectFirma.Web.Models
                 var performanceMeasureSubcategory = groupedBySubcategory.Key;
                 Check.RequireNotNull(performanceMeasureSubcategory.ChartConfigurationJson, "All PerformanceMeasure Subcategories need to have a Google Chart Configuration Json");
                 var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
-                var subcategoryOptions = groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList();
+                var chartColumns = performanceMeasure.HasRealSubcategories ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.DisplayName };
                 var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
-                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, subcategoryOptions, performanceMeasure.CanCalculateTotal);
-                var chartColumns = performanceMeasure.HasRealSubcategories ? subcategoryOptions : new List<string> { performanceMeasure.DisplayName };
+                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.CanCalculateTotal);
                 var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.DisplayName;
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
