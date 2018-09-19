@@ -67,59 +67,82 @@
             }
 
             function onMapClickSetPointOnMap(event, callback) {
-                var watershedMapSericeLayerName = $scope.AngularViewData.WatershedMapSericeLayerName,
-                    mapServiceUrl = $scope.AngularViewData.MapServiceUrl;
-
-                if (!watershedMapSericeLayerName || !mapServiceUrl)
-                    return;
-
                 var latlng = event.latlng;
                 var latlngWrapped = latlng.wrap();
-                var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
+
+                var propertiesForDisplay = {
+                    Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
+                    Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
+                };
+
+                var watershedMapServiceLayerName = $scope.AngularViewData.WatershedMapSericeLayerName,
+                    mapServiceUrl = $scope.AngularViewData.MapServiceUrl;
+
+                if (Sitka.Methods.isUndefinedNullOrEmpty(watershedMapServiceLayerName) || Sitka.Methods.isUndefinedNullOrEmpty(mapServiceUrl)) {
+                    setPointOnMap(latlng);
+                    $scope.propertiesForPointOnMap = propertiesForDisplay;
+                    if (callback) {
+                        callback.call();
+                    }
+                }
+                else {
+                    var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
+                        {
+                            typeName: watershedMapServiceLayerName,
+                            cql_filter: "intersects(Ogr_Geometry, POINT(" +
+                                latlngWrapped.lat +
+                                " " +
+                                latlngWrapped.lng +
+                                "))"
+                        });
+                    SitkaAjax.ajax({
+                            url: mapServiceUrl + L.Util.getParamString(parameters),
+                            dataType: "json",
+                            jsonpCallback: "getJson"
+                        },
+                        function(response) {
+                            setPointOnMap(latlng);
+                            if (response.features.length > 0) {
+                                var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
+                                propertiesForDisplay[$scope.AngularViewData.WatershedFieldDefinitionLabel] =
+                                    mergedProperties.WatershedName;
+                            }
+
+                            $scope.propertiesForPointOnMap = propertiesForDisplay;
+
+                            if (callback) {
+                                callback.call();
+                            }
+                        },
+                        function() {
+                            console.error(
+                                "There was an error selecting the " +
+                                $scope.AngularViewData.ProjectLocationFieldDefinitionLabel +
+                                " area from list.");
+                        });
+                }
+            }
+
+            function setPointOnMap(latlng) {
+                $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(latlng.lng);
+                $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(latlng.lat);
+
+                if ($scope.projectLocationMap.currentSelectedPoint) {
+                    $scope.projectLocationMap.map.removeLayer(
+                        $scope.projectLocationMap.currentSelectedPoint);
+                }
+
+                $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng,
                     {
-                        typeName: watershedMapSericeLayerName,
-                        cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
+                        icon: L.MakiMarkers.icon({
+                            icon: "marker",
+                            color: $scope.selectedStyle.color,
+                            size: "m"
+                        })
                     });
-                SitkaAjax.ajax({
-                        url: mapServiceUrl + L.Util.getParamString(parameters),
-                        dataType: "json",
-                        jsonpCallback: "getJson"
-                    },
-                    function (response) {
 
-                        $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(latlng.lng);
-                        $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(latlng.lat);
-
-                        if ($scope.projectLocationMap.currentSelectedPoint) {
-                            $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
-                        }
-
-                        $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
-                        
-                        $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
-                        $scope.projectLocationMap.map.panTo(latlng);
-
-                        var propertiesForDisplay = {
-                            Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
-                            Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
-                        };
-
-                        if (response.features.length > 0) {
-                            var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                            propertiesForDisplay[$scope.AngularViewData.WatershedFieldDefinitionLabel] =
-                                mergedProperties.WatershedName;
-                        }
-
-                        $scope.propertiesForPointOnMap = propertiesForDisplay;
-
-                        if (callback) {
-                            callback.call();
-                        }
-                    },
-                    function () {
-                        console.error(
-                            "There was an error selecting the " + $scope.AngularViewData.ProjectLocationFieldDefinitionLabel + " area from list.");
-                    });
+                $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
+                $scope.projectLocationMap.map.panTo(latlng);
             }
 
             $scope.getProjectLocationProperties = function() {
