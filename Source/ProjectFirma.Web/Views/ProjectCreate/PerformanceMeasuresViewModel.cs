@@ -129,8 +129,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
+
+            if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
+            {
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
+            }
+
             errors.AddRange(ValidatePerformanceMeasures().GetWarningMessages().Select(m =>
                 new ValidationResult(m)));
+
             return errors;
         }
 
