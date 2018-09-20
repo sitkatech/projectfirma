@@ -1286,7 +1286,6 @@
     <Compile Include="Models\ProjectUpdateTest.cs" />
     <Compile Include="Models\ProjectBudgetAmount.cs" />
     <Compile Include="Models\ProjectBudgetAmount2.cs" />
-    <Compile Include="Models\ProjectBudgetUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProjectBudgetUpdateTest.cs" />
     <Compile Include="Models\ProjectExternalLink.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdate.cs" />
