@@ -114,16 +114,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         {
             var errors = new List<ValidationResult>();
 
-            if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
-            {
-                errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears));
-            }
-
-            if ((ProjectExemptReportingYears == null || !ProjectExemptReportingYears.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
-            {
-                errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears));
-            }
-
             var exemptYears = ProjectExemptReportingYears?.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
 
             var performanceMeasureActualsWithDuplicatesDisplayNames = PerformanceMeasureActuals

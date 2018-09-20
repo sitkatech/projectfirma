@@ -31,7 +31,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class PerformanceMeasuresViewModel : FormViewModel, IValidatableObject
+    public class PerformanceMeasuresViewModel : FormViewModel
     {
         public string Explanation { get; set; }
         public List<ProjectExemptReportingYearUpdateSimple> ProjectExemptReportingYearUpdates { get; set; }
@@ -124,21 +124,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectExemptYearUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
             projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (ProjectExemptReportingYearUpdates != null && ProjectExemptReportingYearUpdates.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
-            {
-                yield return new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
-                    FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation);
-            }
-
-            if ((ProjectExemptReportingYearUpdates == null || !ProjectExemptReportingYearUpdates.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
-            {
-                yield return new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
-                    FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation);
-            }
         }
     }
 }
