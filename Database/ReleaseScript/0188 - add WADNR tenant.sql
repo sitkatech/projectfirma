@@ -64,7 +64,7 @@ values
 	insert into dbo.Person(TenantID, PersonGuid, FirstName, LastName, Email, Phone, IsActive, OrganizationID,  ReceiveSupportEmails, LoginName, RoleID, CreateDate, UpdateDate, LastActivityDate)
 	select @TenantIDTo as TenantID, p.PersonGuid, p.FirstName, p.LastName, p.Email, p.Phone, p.IsActive, @sitkaOrgIDForTenant as OrganizationID,  ReceiveSupportEmails, LoginName, RoleID, @createDate, @createDate, @createDate
 	from dbo.Person p
-	where TenantID = @TenantIDFrom and Email like '%sitkatech.com%'
+	where TenantID = 3 and Email like '%sitkatech.com%'
 
 	select @primaryContactPersonID = p.PersonID from dbo.Person p where p.Email = 'liz.christeleit@sitkatech.com' and TenantID = @TenantIDTo
 
