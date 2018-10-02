@@ -38,7 +38,167 @@
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
-    <script type="text/javascript">
+}
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.HasSitkaAdminPermissions)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-edit\"></span> Configure", ViewDataTyped.ConfigureAccomplishmentsDashboardUrl, "Configure Accomplishments Dashboard", new List<string>(), true)
+    }
+}
+
+    <div id="accomplishmentsDashboard">
+        <div class="homepageHeader">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                    <div class="intro-text">
+                        <h1 class="subSectionName">Accomplishments Dashboard</h1>
+                        <div class="star-primary"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!ViewDataTyped.Organizations.Any() || !ViewDataTyped.TaxonomyTiers.Any() || !ViewDataTyped.CalendarYears.Any())
+        {
+            <div class="alert alert-info">Please define your Funding Sources, Organizations, and Taxonomy.  The Accomplishments Dashboard will be functional when those are all defined.</div>
+        }
+        else
+        {
+            <div class="row counterHeader">
+                <div class="col-xs-12 text-center">
+                    <h4>Showing Results for</h4>
+                </div>
+            </div>
+            <div class="row counterSection">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-right">
+                    <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="100%">
+                        <option value="-1">All @ViewDataTyped.AccomplishmentsDashboardOrganizationTypeName</option>
+                        @foreach (var organization in ViewDataTyped.Organizations)
+                        {
+                            <option value="@organization.OrganizationID">@organization.OrganizationName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
+                </div>
+            </div>
+            <br style="margin: 20px 0;" />
+
+            <div class="row counterHeader">
+                <div class="col-xs-12 text-center">
+                    <h4>Currently Tracking</h4>
+                </div>
+            </div>
+            <div class="row counterSection">
+                <div class="col-sm-12 text-center">
+                    <div id="counterLoader">
+                        <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
+                    </div>
+                    <div id="counterNumbers">
+                        <span id="projectCount" class="counter"></span> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span id="partnerCount" class="counter"></span> Partners
+                    </div>
+                </div>
+            </div>
+
+            <div class="row resultsQuestions">
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#accomplishmentsTab').tab('show')">
+                        @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString
+                    </button>
+                </div>
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#expendituresTab').tab('show')">
+                        @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString
+                    </button>
+                </div>
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#organizationsTab').tab('show')">
+                        @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString
+                    </button>
+                </div>
+                <div style="display: none;">
+                    @*We need to put content into the tab buttons that can't exist in an anchor tag (i.e. edit firma page content), but bootstrap doesn't
+                    support tabs triggered by buttons, so we're using the buttons above as a proxy for toggling the tab content*@
+                    <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab"></a>
+                    <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab"></a>
+                    <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="nothingPanel">
+                            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="accomplishmentsPanel">
+                            <div class="row counterHeader">
+                                <div class="col-xs-12 text-center">
+                                    <h4>Showing Results By</h4>
+                                </div>
+                            </div>
+                            <div class="row counterSection">
+                                <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                                    <select id="taxonomyTierDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
+                                        @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers)
+                                        {
+                                            <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.SummaryUrl">@taxonomyTier.DisplayName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-sm-2">
+                                    <a id="taxonomyTierLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @ViewDataTyped.TaxonomyTierDisplayName Details</a>
+                                </div>
+                            </div>
+                            <div id="organizationAccomplishments" class="contentWrapper">
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="expendituresPanel">
+                            <div class="row counterHeader">
+                                <div class="col-xs-12 text-center">
+                                    <h4>Show Results From</h4>
+                                </div>
+                            </div>
+                            <div class="row counterSection">
+                                <div class="col-xs-12 text-center">
+                                    <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
+                                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                        {
+                                            <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                        }
+                                    </select>
+                                    <span style="font-size: 14px">To</span>
+                                    <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
+                                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                        {
+                                            <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="spendingByOrganizationTypeAndOrganization" class="contentWrapper">
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="organizationsPanel">
+                            <div class="row counterHeader">
+                                <div class="col-xs-12 text-center">
+                                    <h4>Showing Top Partners</h4>
+                                </div>
+                            </div>
+                            <div id="participatingOrganizations" class="contentWrapper">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
         // <![CDATA[
         function loadOrganizationDashboardSummary(countUp)
         {
@@ -69,7 +229,7 @@
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ParticipatingOrganizationsUrl.ToJS()));
             var newUrl = urlTemplate.ParameterReplace(organizationID);
             SitkaAjax.load(jQuery("#participatingOrganizations"), newUrl);
-        };
+        }
 
         function loadOrganizationAccomplishments()
         {
@@ -83,7 +243,7 @@
             jQuery("#taxonomyTierLink").attr("href", newDetailPageUrl);
 
             SitkaAjax.load(jQuery("#organizationAccomplishments"), newUrl);
-        };
+        }
 
         function loadSpendingByOrganizationTypeAndOrganization()
         {
@@ -93,7 +253,7 @@
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SpendingByOrganizationTypeAndOrganizationUrl.ToJS()));
             var newUrl = urlTemplate.ParameterReplace(organizationID, beginYear, endYear);
             SitkaAjax.load(jQuery("#spendingByOrganizationTypeAndOrganization"), newUrl);
-        };
+        }
 
         function reloadWithNewOrganization(countUp) {
 
@@ -155,158 +315,6 @@
             });
         });
         // ]]>
-    </script>
-}
-
-@section RightOfPageTitle
-{
-    @if (ViewDataTyped.HasSitkaAdminPermissions)
-    {
-        @ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-edit\"></span> Configure", ViewDataTyped.ConfigureAccomplishmentsDashboardUrl, "Configure Accomplishments Dashboard", new List<string>(), true)
+        </script>
     }
-}
-
-<div id="accomplishmentsDashboard">
-    <div class="homepageHeader">
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
-                <div class="intro-text">
-                    <h1 class="subSectionName">Accomplishments Dashboard</h1>
-                    <div class="star-primary"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row counterHeader">
-        <div class="col-xs-12 text-center">
-            <h4>Showing Results for</h4>
-        </div>
-    </div>
-    <div class="row counterSection">
-        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-right">
-            <select id="organizationDropdown" onchange="reloadWithNewOrganization(false)" class="selectpicker" data-live-search="true" data-width="100%">
-                <option value="-1">All @ViewDataTyped.AccomplishmentsDashboardOrganizationTypeName</option>
-                @foreach (var organization in ViewDataTyped.Organizations)
-                {
-                    <option value="@organization.OrganizationID">@organization.OrganizationName</option>
-                }
-            </select>
-        </div>
-        <div class="col-xs-12 col-sm-2">
-            <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
-        </div>
-    </div>
-    <br style="margin: 20px 0;" />
-
-    <div class="row counterHeader">
-        <div class="col-xs-12 text-center">
-            <h4>Currently Tracking</h4>
-        </div>
-    </div>
-    <div class="row counterSection">
-        <div class="col-sm-12 text-center">
-            <div id="counterLoader">
-                <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
-            </div>
-            <div id="counterNumbers">
-                <span id="projectCount" class="counter"></span> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
-                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
-                <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                <span id="partnerCount" class="counter"></span> Partners
-            </div>
-        </div>
-    </div>
-
-    <div class="row resultsQuestions">
-        <div class="col-xs-12 col-sm-4 text-center">
-            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#accomplishmentsTab').tab('show')">
-                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString
-            </button>
-        </div>
-        <div class="col-xs-12 col-sm-4 text-center">
-            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#expendituresTab').tab('show')">
-                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString
-            </button>
-        </div>
-        <div class="col-xs-12 col-sm-4 text-center">
-            <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#organizationsTab').tab('show')">
-                @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString
-            </button>
-        </div>
-        <div style="display: none;">
-            @*We need to put content into the tab buttons that can't exist in an anchor tag (i.e. edit firma page content), but bootstrap doesn't
-                support tabs triggered by buttons, so we're using the buttons above as a proxy for toggling the tab content*@
-            <a href="#accomplishmentsPanel" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab"></a>
-            <a href="#expendituresPanel" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab"></a>
-            <a href="#organizationsPanel" aria-controls="organizations" role="tab" data-toggle="tab" id="organizationsTab"></a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="nothingPanel">
-                    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="accomplishmentsPanel">
-                    <div class="row counterHeader">
-                        <div class="col-xs-12 text-center">
-                            <h4>Showing Results By</h4>
-                        </div>
-                    </div>
-                    <div class="row counterSection">
-                        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                            <select id="taxonomyTierDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
-                                @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers)
-                                {
-                                    <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.SummaryUrl">@taxonomyTier.DisplayName</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-xs-12 col-sm-2">
-                            <a id="taxonomyTierLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @ViewDataTyped.TaxonomyTierDisplayName Details</a>
-                        </div>
-                    </div>
-                    <div id="organizationAccomplishments" class="contentWrapper">
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="expendituresPanel">
-                    <div class="row counterHeader">
-                        <div class="col-xs-12 text-center">
-                            <h4>Show Results From</h4>
-                        </div>
-                    </div>
-                    <div class="row counterSection">
-                        <div class="col-xs-12 text-center">
-                            <select id="beginYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
-                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                                {
-                                    <option value="@calendarYear" @((ViewDataTyped.DefaultBeginYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
-                                }
-                            </select>
-                            <span style="font-size: 14px">To</span>
-                            <select id="endYearDropdown" onchange="loadSpendingByOrganizationTypeAndOrganization()" class="selectpicker" data-width="100px">
-                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                                {
-                                    <option value="@calendarYear" @((ViewDataTyped.DefaultEndYear == calendarYear).ToSelectedOrEmpty())>@calendarYear</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div id="spendingByOrganizationTypeAndOrganization" class="contentWrapper">
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="organizationsPanel">
-                    <div class="row counterHeader">
-                        <div class="col-xs-12 text-center">
-                            <h4>Showing Top Partners</h4>
-                        </div>
-                    </div>
-                    <div id="participatingOrganizations" class="contentWrapper">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

@@ -11,4 +11,6 @@ values
 (6, 'PeaksToPeople', 'peakstopeople.localhost.projectfirma.com', 'qa-outcomes.peakstopeople.org', 'outcomes.peakstopeople.org', '1/1/1990', 0, 0),
 (7, 'JohnDayPartnership', 'johndaydemo.localhost.projectfirma.com', 'johndaydemo.qa.projectfirma.com', 'johndaydemo.projectfirma.com', '1/1/1990', 0, 0),
 (8, 'AshlandForestAllLandsRestorationInitiative', 'ashlanddemo.localhost.projectfirma.com', 'ashlanddemo.qa.projectfirma.com', 'ashlanddemo.projectfirma.com', '1/1/1990', 0, 0),
-(9, 'IdahoAssociatonOfSoilConservationDistricts', 'swcdemo.localhost.projectfirma.com', 'swcdemo.qa.projectfirma.com', 'swcdemo.projectfirma.com', '7/1/1990', 1, 1)
+(9, 'IdahoAssociatonOfSoilConservationDistricts', 'swcdemo.localhost.projectfirma.com', 'swcdemo.qa.projectfirma.com', 'swcdemo.projectfirma.com', '7/1/1990', 1, 1),
+(10, 'WashingtonDepartmentOfNaturalResources', 'wadnrforesthealth.localhost.projectfirma.com', 'wadnrforesthealth.qa.projectfirma.com', 'wadnrforesthealth.projectfirma.com', '1/1/1990', 0, 0),
+(11, 'ActionAgendaForPugetSound', 'actionagendatracker.localhost.projectfirma.com', 'actionagendatracker.qa.projectfirma.com', 'actionagendatracker.projectfirma.com', '1/1/1990', 0, 0)
