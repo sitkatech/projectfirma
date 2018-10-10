@@ -994,6 +994,6 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionFundingSourceAmount : FieldDefinition
     {
         private FieldDefinitionFundingSourceAmount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition, bool canCustomizeLabel) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition, canCustomizeLabel) {}
-        public static readonly FieldDefinitionFundingSourceAmount Instance = new FieldDefinitionFundingSourceAmount(265, @"FundingSourceAmount", @"Amount", @"Amount", true);
+        public static readonly FieldDefinitionFundingSourceAmount Instance = new FieldDefinitionFundingSourceAmount(265, @"FundingSourceAmount", @"Amount", @"<p>Funding Source Amount</p>", true);
     }
 }

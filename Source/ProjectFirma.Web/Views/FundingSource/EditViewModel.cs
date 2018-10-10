@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string FundingSourceName { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Organization)]
         public int? OrganizationID { get; set; }
 
         [Required]
