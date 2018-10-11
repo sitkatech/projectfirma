@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string FundingSourceName { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Organization)]
         public int? OrganizationID { get; set; }
 
         [Required]
@@ -49,6 +50,9 @@ namespace ProjectFirma.Web.Views.FundingSource
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
         [DisplayName("Description")]
         public string FundingSourceDescription { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingSourceAmount)]
+        public double? FundingSourceAmount { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -64,6 +68,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             FundingSourceDescription = fundingSource.FundingSourceDescription;
             OrganizationID = fundingSource.OrganizationID;
             IsActive = fundingSource.IsActive;
+            FundingSourceAmount = fundingSource.FundingSourceAmount;
         }
 
         public void UpdateModel(Models.FundingSource fundingSource, Person currentPerson)
@@ -72,6 +77,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             fundingSource.FundingSourceDescription = FundingSourceDescription;
             fundingSource.OrganizationID = OrganizationID ?? ModelObjectHelpers.NotYetAssignedID; // should never be null due to Required Validation Attribute
             fundingSource.IsActive = IsActive ?? false; // should never be null due to Required Validation Attribute
+            fundingSource.FundingSourceAmount = FundingSourceAmount;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -90,6 +96,11 @@ namespace ProjectFirma.Web.Views.FundingSource
             {
                 var errorMessage = $"You cannnot create a {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} for an {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} other than your own.";
                 errors.Add(new SitkaValidationResult<EditViewModel, int?>(errorMessage, x => x.OrganizationID));
+            }
+
+            if (FundingSourceAmount != null && FundingSourceAmount < 0)
+            {
+                errors.Add(new SitkaValidationResult<EditViewModel, double?>(Models.FieldDefinition.FundingSourceAmount.GetFieldDefinitionLabel() + " cannot be a negative amount", x => x.FundingSourceAmount));
             }
 
             return errors;

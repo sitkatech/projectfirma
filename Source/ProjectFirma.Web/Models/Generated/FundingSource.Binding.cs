@@ -35,13 +35,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FundingSource(int fundingSourceID, int organizationID, string fundingSourceName, bool isActive, string fundingSourceDescription) : this()
+        public FundingSource(int fundingSourceID, int organizationID, string fundingSourceName, bool isActive, string fundingSourceDescription, double? fundingSourceAmount) : this()
         {
             this.FundingSourceID = fundingSourceID;
             this.OrganizationID = organizationID;
             this.FundingSourceName = fundingSourceName;
             this.IsActive = isActive;
             this.FundingSourceDescription = fundingSourceDescription;
+            this.FundingSourceAmount = fundingSourceAmount;
         }
 
         /// <summary>
@@ -139,6 +140,7 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
+        public double? FundingSourceAmount { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 

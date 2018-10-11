@@ -63,6 +63,19 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-5 fieldLabel text-right">Active?</div>
                         <div class="col-xs-7">@ViewDataTyped.FundingSource.IsActive.ToYesNo()</div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.FundingSourceAmount)</div>
+                        <div class="col-xs-7">
+                            @if (ViewDataTyped.FundingSource.FundingSourceAmount != null)
+                            {
+                                <p>@ViewDataTyped.FundingSource.FundingSourceAmount.ToStringCurrency()</p>
+                            }
+                            else
+                            {
+                                <p class="systemText">Not set or not applicable</p>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

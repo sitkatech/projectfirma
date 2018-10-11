@@ -44,6 +44,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.FundingSourceAmount.ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add("Total Expenditures", a => a.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount), 80, DhtmlxGridColumnFormatType.Currency);
         }
