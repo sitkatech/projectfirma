@@ -34,7 +34,13 @@ Source code is available upon request via <support@sitkatech.com>.
         margin-right: 0;
         margin-left: 0;
     }
+
+    #taxonomyBasicsPanel .taxonomyBasicsPanelLabel {
+        max-width: 205px;
+    }
 </style>
+
+<div id="taxonomyBasicsPanel">
 @{
     int i = 0;
 
@@ -42,7 +48,7 @@ Source code is available upon request via <support@sitkatech.com>.
     if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk && ViewDataTyped.TaxonomyTrunk != null)
     {
         <div class="row taxonomyRow">
-            <div class="col-sm-5">
+            <div class="col-sm-5 taxonomyBasicsPanelLabel">
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-7">
@@ -55,7 +61,7 @@ Source code is available upon request via <support@sitkatech.com>.
     if ((ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk || ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch) && ViewDataTyped.TaxonomyBranch != null)
     {
         <div class="row taxonomyRow">
-            <div class="col-sm-5 col-sm-offset-@(i++)">
+            <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-6">
@@ -67,7 +73,7 @@ Source code is available upon request via <support@sitkatech.com>.
     if (ViewDataTyped.TaxonomyLeaf != null)
     {
         <div class="row taxonomyRow">
-            <div class="col-sm-5 col-sm-offset-@(i++)">
+            <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-5">
@@ -79,7 +85,7 @@ Source code is available upon request via <support@sitkatech.com>.
     if (ViewDataTyped.Project != null)
     {
         <div class="row taxonomyRow">
-            <div class="col-sm-5 col-sm-offset-@(i++)">
+            <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
                 @Html.LabelWithSugarFor(FieldDefinition.Project, string.Format("{0}", FieldDefinition.ProjectName.GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-4">
@@ -88,3 +94,4 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     }
 }
+</div>
