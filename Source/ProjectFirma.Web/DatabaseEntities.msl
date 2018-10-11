@@ -211,6 +211,7 @@
           <ScalarProperty Name="FundingSourceName" ColumnName="FundingSourceName" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="FundingSourceDescription" ColumnName="FundingSourceDescription" />
+          <ScalarProperty Name="FundingSourceAmount" ColumnName="FundingSourceAmount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
