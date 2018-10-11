@@ -96,13 +96,13 @@ namespace ProjectFirma.Web.Models
             return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(x => x.PerformanceMeasure).ToList();
         }
 
-        public FancyTreeNode ToFancyTreeNode()
+        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTrunkID.ToString(), true)
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,
-                Children = TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode()).ToList()
+                Children = TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentPerson)).ToList()
             };
             return fancyTreeNode;
         }

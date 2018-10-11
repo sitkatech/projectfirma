@@ -43,15 +43,15 @@ namespace ProjectFirma.Web.Controllers
             {
                 case TaxonomyLevelEnum.Trunk:
                     var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode()).ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTrunks.Select(x => x.ToFancyTreeNode(CurrentPerson)).ToList();
                     break;
                 case TaxonomyLevelEnum.Branch:
                     var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyBranches.Select(x => x.ToFancyTreeNode()).ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyBranches.Select(x => x.ToFancyTreeNode(CurrentPerson)).ToList();
                     break;
                 case TaxonomyLevelEnum.Leaf:
                     var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().SortByOrderThenName().ToList();
-                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyLeafs.Select(x => x.ToFancyTreeNode()).ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyLeafs.Select(x => x.ToFancyTreeNode(CurrentPerson)).ToList();
                     break;
                 default:
                     throw new NotImplementedException("Only one, two, or three taxonomy tiers are supported.");

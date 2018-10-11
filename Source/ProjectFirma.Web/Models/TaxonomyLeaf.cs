@@ -65,13 +65,13 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString => TaxonomyLeafName;
 
-        public FancyTreeNode ToFancyTreeNode()
+        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)}", TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyBranch.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,
-                Children = Projects.Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
+                Children = GetAssociatedProjects(currentPerson).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
             };
             return fancyTreeNode;
         }
