@@ -1,2 +1,2 @@
 ALTER TABLE [dbo].[FundingSource]
-ADD FundingSourceAmount FLOAT NULL;
+ADD FundingSourceAmount MONEY NULL;
