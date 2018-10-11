@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -52,7 +53,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string FundingSourceDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingSourceAmount)]
-        public double? FundingSourceAmount { get; set; }
+        public MoneyWholeNumber? FundingSourceAmount { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -100,7 +101,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             if (FundingSourceAmount != null && FundingSourceAmount < 0)
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, double?>(Models.FieldDefinition.FundingSourceAmount.GetFieldDefinitionLabel() + " cannot be a negative amount", x => x.FundingSourceAmount));
+                errors.Add(new SitkaValidationResult<EditViewModel, MoneyWholeNumber?>(Models.FieldDefinition.FundingSourceAmount.GetFieldDefinitionLabel() + " cannot be a negative amount", x => x.FundingSourceAmount));
             }
 
             return errors;

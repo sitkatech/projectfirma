@@ -932,7 +932,7 @@ warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_FundingSour
     <Property Name="FundingSourceName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
-    <Property Name="FundingSourceAmount" Type="float" />
+    <Property Name="FundingSourceAmount" Type="money" />
   </EntityType>
   <EntityType Name="FundingTypeData">
     <Key>
