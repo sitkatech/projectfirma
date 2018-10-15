@@ -1,27 +1,21 @@
 ﻿@font-face {
-  font-family: 'Vollkorn';
+  font-family: 'PT Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Vollkorn Regular'), local('Vollkorn-Regular'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb9GDoxxrvAnPhYGxkpaEg.ttf) format('truetype');
+  src: local('PT Sans'), local('PTSans-Regular'), url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
 }
 @font-face {
-  font-family: 'Vollkorn';
+  font-family: 'PT Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb6GDoxxrvAnPhYGxGSTVg5jBA.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Ruthie';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Ruthie'), local('Ruthie-Regular'), url(https://fonts.gstatic.com/s/ruthie/v8/gokvH63sGkdqXuUNkzRz.ttf) format('truetype');
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(https://fonts.gstatic.com/s/ptsans/v9/jizfRExUiTo99u79B_mh0O6tKA.ttf) format('truetype');
 }
 html,
 body {
   height: 100%;
 }
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
   font-size: 14px;
   background-color: #FEFEFE;
   color: #1C2329;
@@ -36,7 +30,7 @@ h4,
 h5,
 h6 {
   color: #1E2617;
-  font-family: "Vollkorn", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
   font-weight: 600;
 }
 h4 {
@@ -54,6 +48,8 @@ a:hover {
   font-weight: 400;
   color: #9A610A;
   font-size: 28px;
+  font-weight: bold;
+  font-stretch: condensed;
 }
 .firmaContent {
   background-color: #fff;
@@ -73,7 +69,7 @@ a:hover {
   display: inline-block;
   font-size: 18px;
   font-weight: normal;
-  font-family: "Vollkorn", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
   color: #fff;
   vertical-align: bottom;
   margin-bottom: 6px;
@@ -86,8 +82,10 @@ a:hover {
   vertical-align: top;
 }
 .header .headerText a #headerTenantDisplayName {
-  font-family: myriad-pro-semi-condensed, Arial;
+  font-family:   'PT Sans', "myriad pro", Arial;
   text-transform: none;
+  font-weight: bold;
+  font-stretch: condensed;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
@@ -108,7 +106,9 @@ a:hover {
 .projectFirmaNavbar .nav li a {
   color: #023467;
   background-color: transparent;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
+  font-weight: bold;
+  font-stretch: condensed;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
@@ -122,7 +122,7 @@ a:hover {
 }
 .projectFirmaNavbar .nav li .navbar-text {
   color: #023467;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
@@ -136,7 +136,7 @@ a:hover {
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-weight: 400;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
   color: #1C2329;
   background-color: #FFF;
   padding: 1px 19px;
@@ -202,6 +202,14 @@ footer#footer a:hover {
 a.btn-firma {
   color: #fff;
   background-color: #003366;
+}
+a.backButton {
+  color: #9A610A;
+  background-color: #FFF;
+}
+a.backButton:hover {
+  color: #9A610A;
+  background-color: #FFF;
 }
 table.summaryLayout th,
 .stylizeLikeTH {
@@ -365,7 +373,7 @@ table.summaryLayout th,
   border-color: #ddd;
   font-weight: 400;
   font-size: 16px;
-  font-family: "Vollkorn", sans-serif;
+  font-family: 'PT Sans', "myriad pro", Arial;
   margin-bottom: 0;
   margin-top: 0;
   text-transform: uppercase;
@@ -451,13 +459,13 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 200px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #3670c5;
-  border-left: 4px solid #3670c5;
+  color: #9A610A;
+  border-left: 4px solid #9A610A;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #3670c5;
-  border-left: 2px solid #3670c5;
+  color: #9A610A;
+  border-left: 2px solid #9A610A;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -467,12 +475,12 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   color: #1C2329;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #3670c5;
+  color: #9A610A;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #3670c5;
+  color: #9A610A;
   cursor: pointer;
   text-decoration: none;
 }

@@ -7,16 +7,14 @@
 @import (reference) "../bootstrap-3.3.5/less/glyphicons.less";
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Vollkorn:400,700');
-@import url('https://fonts.googleapis.com/css?family=Ruthie');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
 
-@path-to-favicon: url('../../../Content/img/RCDProjectTracker/favicon-32x32.png');
 
 // Customizable Variables
-@firma-menu-font: "Segoe UI", sans-serif;
-@firma-header-font: "Vollkorn", sans-serif;
-@firma-title-font:  myriad-pro-semi-condensed, Arial;
-@firma-text-font: "Segoe UI",sans-serif;
+@firma-menu-font: 'PT Sans', "myriad pro", Arial;
+@firma-header-font: 'PT Sans', "myriad pro", Arial;
+@firma-title-font:   'PT Sans', "myriad pro", Arial;
+@firma-text-font: 'PT Sans', "myriad pro", Arial;
 @firma-text-fontSize: 14px;
 
 @firma-text-color: #1C2329;
@@ -57,7 +55,13 @@
 @firma-buttonBackground-color-hover: #040707;
 @firma-buttonText-color-hover: #fff;
 
-@firma-scrollSpyAccent-color: #3670c5;
+@backButton-buttonText-color: #9A610A;
+@backButton-buttonBackground-color: #FFF;
+@backButton-buttonText-color-hover: #9A610A;
+@backButton-buttonBackground-color-hover: #FFF;
+
+
+@firma-scrollSpyAccent-color: #9A610A;
 
 @firma-white: #fff;
 @firma-active-arrow-color: #033B6A;
@@ -113,7 +117,9 @@ a:hover {
 .pageTitle {
     font-weight: 400;
     color: @firma-pageTitle-color;
-    font-size: 28px
+    font-size: 28px;
+    font-weight: bold;
+    font-stretch: condensed;
 }
 
 .firmaContent {
@@ -155,6 +161,8 @@ a:hover {
             #headerTenantDisplayName {
                 font-family: @firma-title-font;
                 text-transform: none;
+                font-weight: bold;
+                font-stretch:condensed;
             }
         }
 
@@ -184,6 +192,8 @@ a:hover {
             color: @firma-navText-color;
             background-color: @firma-navItemBackground-color;
             font-family: @firma-menu-font;
+            font-weight: bold;
+            font-stretch: condensed;
         }
 
         a:hover, a:focus, a:active {
@@ -296,7 +306,14 @@ a.btn-firma {
     color: @firma-buttonText-color;
     background-color: @firma-buttonBackground-color;
 }
-
+a.backButton {
+    color: @backButton-buttonText-color;
+    background-color: @backButton-buttonBackground-color;
+}
+a.backButton:hover {
+    color: @backButton-buttonText-color-hover;
+    background-color: @backButton-buttonBackground-color-hover;
+}
 
 // Summary Layout - Legacy LT Info styling
 table.summaryLayout th,

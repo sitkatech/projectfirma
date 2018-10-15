@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [SitkaAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult StyleGuide()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Training);
