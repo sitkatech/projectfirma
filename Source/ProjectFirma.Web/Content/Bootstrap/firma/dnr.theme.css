@@ -23,7 +23,7 @@ body {
 body {
   font-family: "Segoe UI", sans-serif;
   font-size: 14px;
-  background-color: #E4DAD0;
+  background-color: #FEFEFE;
   color: #1C2329;
 }
 input[disabled] {
@@ -44,15 +44,15 @@ h4 {
 }
 a,
 a:visited {
-  color: #007BFF;
+  color: #0000ff;
 }
 a:hover {
-  color: #0056B3;
-  text-decoration: underline;
+  color: #0000ff;
+  text-decoration: none;
 }
 .pageTitle {
   font-weight: 400;
-  color: #535971;
+  color: #9A610A;
   font-size: 28px;
 }
 .firmaContent {
@@ -63,7 +63,7 @@ a:hover {
   min-height: 100%;
 }
 .header {
-  background-color: #535971;
+  background-color: #003D6B;
 }
 .header img {
   margin: 10px;
@@ -71,7 +71,7 @@ a:hover {
 }
 .header .headerText {
   display: inline-block;
-  font-size: 48px;
+  font-size: 18px;
   font-weight: normal;
   font-family: "Vollkorn", sans-serif;
   color: #fff;
@@ -86,7 +86,7 @@ a:hover {
   vertical-align: top;
 }
 .header .headerText a #headerTenantDisplayName {
-  font-family: 'Ruthie', cursive;
+  font-family: myriad-pro-semi-condensed, Arial;
   text-transform: none;
 }
 .header .headerText a:hover,
@@ -97,63 +97,63 @@ a:hover {
   text-decoration: none;
 }
 .navbar {
-  background: #A5946A;
+  background: #DBDBDB;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
 }
 .projectFirmaNavbar .nav li {
   font-weight: 600;
-  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a {
-  color: #fff;
+  color: #023467;
   background-color: transparent;
   font-family: "Segoe UI", sans-serif;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
 .projectFirmaNavbar .nav li a:active {
-  color: rgba(255, 255, 255, 0.5);
-  background-color: transparent;
+  color: #9A610A;
+  background-color: #FFF;
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li p a:hover {
   background-color: transparent;
 }
 .projectFirmaNavbar .nav li .navbar-text {
-  color: #fff;
+  color: #023467;
   font-family: "Segoe UI", sans-serif;
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
 .projectFirmaNavbar .nav li .nav .open > a:focus {
-  background-color: transparent;
-  border-color: #A5946A;
+  background-color: #FFF;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu {
   background-color: #FFF;
-  border: 1px solid #A5946A;
   border-top: none;
+  padding: 20px 0 15px 0;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-weight: 400;
   font-family: "Segoe UI", sans-serif;
   color: #1C2329;
   background-color: #FFF;
+  padding: 1px 19px;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
-  color: #1C2329;
-  background-color: #EBECEC;
+  color: #FFF;
+  background-color: #9A610A;
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
-  background-color: #A5946A;
+  height: 0;
+  margin: 0;
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
-  color: #fff;
+  color: #023467;
 }
 footer#footer {
   position: relative;
@@ -162,9 +162,15 @@ footer#footer {
   right: 0;
   width: 100%;
   height: auto;
-  background-color: #A5946A;
+  background-color: #033B6A;
+  background-image: url(https://www.dnr.wa.gov/sites/default/files/imageblock/Bottom-New_0.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  height: 300px;
+  padding-top: 37px;
 }
 footer#footer p {
+  color: #83A6CD;
   margin: 10px 0;
   font-size: 12px;
 }
@@ -173,7 +179,7 @@ footer#footer a:visited {
   color: #FFF;
 }
 footer#footer a:hover {
-  color: #535971;
+  color: #FFF;
   text-decoration: none;
 }
 .btn-firma,
@@ -181,21 +187,21 @@ footer#footer a:hover {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #fff;
-  background-color: #3670c5;
+  background-color: #003366;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #5C91DE;
+  background-color: #040707;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #5C91DE;
+  background-color: #040707;
 }
 a.btn-firma {
   color: #fff;
-  background-color: #3670c5;
+  background-color: #003366;
 }
 table.summaryLayout th,
 .stylizeLikeTH {
@@ -226,8 +232,8 @@ table.summaryLayout th,
   text-align: center;
 }
 .singleArrow.current {
-  background-color: #535971;
-  border-left-color: #535971;
+  background-color: #033B6A;
+  border-left-color: #033B6A;
   color: #fff;
 }
 .singleArrow.default {
@@ -241,8 +247,8 @@ table.summaryLayout th,
   border-bottom-left-radius: 0.25rem;
 }
 .firstArrow.current {
-  background-color: #535971;
-  border-left-color: #535971;
+  background-color: #033B6A;
+  border-left-color: #033B6A;
   color: #fff;
 }
 .firstArrow.default {
@@ -269,8 +275,8 @@ table.summaryLayout th,
 }
 /* Middle arrow */
 .middleArrow.current {
-  background-color: #535971;
-  border-left-color: #535971;
+  background-color: #033B6A;
+  border-left-color: #033B6A;
   color: #fff;
 }
 .middleArrow.default {
@@ -315,8 +321,8 @@ table.summaryLayout th,
   border-bottom-right-radius: 0.25rem;
 }
 .lastArrow.current {
-  background-color: #535971;
-  border-left-color: #535971;
+  background-color: #033B6A;
+  border-left-color: #033B6A;
   color: #fff;
 }
 .lastArrow.default {
@@ -355,7 +361,7 @@ table.summaryLayout th,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
   color: #fff;
-  background-color: #535971;
+  background-color: #033B6A;
   border-color: #ddd;
   font-weight: 400;
   font-size: 16px;
@@ -377,7 +383,7 @@ table.summaryLayout th,
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #3670c5;
+  background-color: #003366;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -401,7 +407,7 @@ a.gridButton.disabled {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #5C91DE;
+  background-color: #040707;
   color: #fff;
 }
 .helpicon {

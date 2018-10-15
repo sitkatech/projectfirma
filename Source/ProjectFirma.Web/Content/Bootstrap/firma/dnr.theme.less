@@ -15,62 +15,62 @@
 // Customizable Variables
 @firma-menu-font: "Segoe UI", sans-serif;
 @firma-header-font: "Vollkorn", sans-serif;
-@firma-title-font: 'Ruthie', cursive;
+@firma-title-font:  myriad-pro-semi-condensed, Arial;
 @firma-text-font: "Segoe UI",sans-serif;
 @firma-text-fontSize: 14px;
 
 @firma-text-color: #1C2329;
 @firma-header-color: #1C2329;
 
-@firma-background-color: #E4DAD0;
+@firma-background-color: #FEFEFE;
 @firma-contentBackground-color: #fff;
 @firma-contentBorder-color: #fff;
-@firma-contentLink-color: #007BFF;
-@firma-contentLink-color-hover: #0056B3;
+@firma-contentLink-color: #0000ff;
+@firma-contentLink-color-hover: #0000ff;
 
 
-@firma-logoHeaderBackground-color: #535971;
+@firma-logoHeaderBackground-color: #003D6B;
 @firma-logoHeaderText-color: #fff;
-@firma-navBackground-color: #A5946A;
-@firma-navBorder-color: #A5946A;
-@firma-navText-color: #fff;
-@firma-navItemText-color-hover: rgba(255,255,255,.50);
-@firma-navItemBackground-color-hover: transparent;
+@firma-navBackground-color: #DBDBDB;
+@firma-navText-color: #023467;
+@firma-navItemText-color-hover: #9A610A;
+@firma-navItemBackground-color-hover: #FFF;
 @firma-navItemBackground-color: transparent;
 @firma-navItemDropdownText-color: #1C2329;
-@firma-navItemDropdownText-color-hover: #1C2329;
+@firma-navItemDropdownText-color-hover: #FFF;
 @firma-navItemDropdownBackground-color: #FFF;
-@firma-navItemDropdownBackground-color-hover: #EBECEC;
+@firma-navItemDropdownBackground-color-hover: #9A610A;
 
-@firma-panel-headerBackground-color: #535971;
+@firma-panel-headerBackground-color: #033B6A;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 @firma-panelDropdownText-color: #1C2329;
 @firma-panelDropdownBackground-color: #EBECEC;
 
-@firma-pageTitle-color: #535971;
+@firma-pageTitle-color: #9A610A;
 @firma-header-color: #1E2617;
 
 @firma-helpIcon-color: #6c91a4;
 
-@firma-buttonBackground-color: #3670c5;
+@firma-buttonBackground-color: #003366;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: #5C91DE;
+@firma-buttonBackground-color-hover: #040707;
 @firma-buttonText-color-hover: #fff;
 
 @firma-scrollSpyAccent-color: #3670c5;
 
 @firma-white: #fff;
-@firma-active-arrow-color: #535971;
+@firma-active-arrow-color: #033B6A;
 @firma-inactive-arrow-color: #bbb;
 
 @z-index-arrow: 900;
 
 @disabled-color: LightGray;
 
-@firma-footerBackground-color: #A5946A;
-@firma-footerText-color: #FFF;
-@firma-footerText-color-hover: #535971;
+@firma-footerBackground-color: #033B6A;
+@firma-footerText-color: #83A6CD;
+@firma-footerTextLink-color: #FFF;
+@firma-footerTextLink-color-hover: #FFF;
 
 
 // Global
@@ -105,7 +105,7 @@ a, a:visited {
 
 a:hover {
     color: @firma-contentLink-color-hover;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 
@@ -138,7 +138,7 @@ a:hover {
 
     .headerText {
         display: inline-block;
-        font-size: 48px;
+        font-size: 18px;
         font-weight: normal;
         font-family: @firma-header-font;
         color: @firma-logoHeaderText-color;
@@ -179,7 +179,6 @@ a:hover {
 .projectFirmaNavbar {
     .nav li {
         font-weight: 600;
-        text-transform: uppercase;
 
         a {
             color: @firma-navText-color;
@@ -189,7 +188,7 @@ a:hover {
 
         a:hover, a:focus, a:active {
             color: @firma-navItemText-color-hover;
-            background-color: @firma-navItemBackground-color;
+            background-color: @firma-navItemBackground-color-hover;
             text-decoration: none;
         }
 
@@ -204,14 +203,13 @@ a:hover {
 
         .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
             background-color: @firma-navItemBackground-color-hover;
-            border-color: @firma-navBorder-color;
         }
 
 
         ul.dropdown-menu {
             background-color: @firma-navItemDropdownBackground-color;
-            border: 1px solid @firma-navBorder-color;
             border-top: none;
+            padding: 20px 0 15px 0;
 
             li {
                 a {
@@ -219,6 +217,7 @@ a:hover {
                     font-family: @firma-menu-font;
                     color: @firma-navItemDropdownText-color;
                     background-color: @firma-navItemDropdownBackground-color;
+                    padding: 1px 19px;
                 }
 
                 a:hover, a:active, a:focus {
@@ -229,7 +228,8 @@ a:hover {
             }
 
             .divider {
-                background-color: @firma-navBorder-color;
+                height: 0;
+                margin: 0;
             }
         }
     }
@@ -252,18 +252,24 @@ footer#footer {
     width: 100%;
     height: auto;
     background-color: @firma-footerBackground-color;
+    background-image: url(https://www.dnr.wa.gov/sites/default/files/imageblock/Bottom-New_0.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 300px;
+    padding-top: 37px;
 
     p {
+        color: @firma-footerText-color;
         margin: 10px 0;
         font-size: 12px;
     }
 
     a, a:visited {
-        color: @firma-footerText-color;
+        color: @firma-footerTextLink-color;
     }
 
     a:hover {
-        color: @firma-footerText-color-hover;
+        color: @firma-footerTextLink-color-hover;
         text-decoration: none;
     }
 }
