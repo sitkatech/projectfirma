@@ -645,6 +645,8 @@
     <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
+    <Compile Include="Views\Home\StyleGuide.cs" />
+    <Compile Include="Views\Home\StyleGuideViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
@@ -688,6 +690,12 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\clackamas.min.css">
       <DependentUpon>clackamas.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\dnr.theme.css">
+      <DependentUpon>dnr.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\dnr.theme.min.css">
+      <DependentUpon>dnr.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\iswcc.theme.css">
       <DependentUpon>iswcc.theme.less</DependentUpon>
@@ -840,6 +848,7 @@
     <Content Include="Content\img\PeaksToPeople\manifest.json" />
     <Compile Include="FirmaOwinStartup.cs" />
     <Content Include="Content\Bootstrap\firma\iswcc.theme.less" />
+    <Content Include="Content\Bootstrap\firma\dnr.theme.less" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -1650,6 +1659,7 @@
     <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
+    <Content Include="Views\Home\StyleGuide.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

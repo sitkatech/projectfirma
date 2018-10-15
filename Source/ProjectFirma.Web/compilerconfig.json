@@ -38,5 +38,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/iswcc.theme.css",
     "inputFile": "Content/Bootstrap/firma/iswcc.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/dnr.theme.css",
+    "inputFile": "Content/Bootstrap/firma/dnr.theme.less"
   }
 ]

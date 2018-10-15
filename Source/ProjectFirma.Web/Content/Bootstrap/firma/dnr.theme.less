@@ -1,0 +1,686 @@
+﻿// This file is for any custom theming of the Washington DNR Tracker styling
+//
+// Core variables and mixins - allows reuse of any Bootstrap or custom variables
+@import "../bootstrap-3.3.5/less/variables.less";
+@import "bootstrap.firma.variables.less";
+@import "../bootstrap-3.3.5/less/mixins.less";
+@import (reference) "../bootstrap-3.3.5/less/glyphicons.less";
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
+
+
+// Customizable Variables
+@firma-menu-font: 'PT Sans', "myriad pro", Arial;
+@firma-header-font: 'PT Sans', "myriad pro", Arial;
+@firma-title-font:   'PT Sans', "myriad pro", Arial;
+@firma-text-font: 'PT Sans', "myriad pro", Arial;
+@firma-text-fontSize: 14px;
+
+@firma-text-color: #1C2329;
+@firma-header-color: #1C2329;
+
+@firma-background-color: #FEFEFE;
+@firma-contentBackground-color: #fff;
+@firma-contentBorder-color: #fff;
+@firma-contentLink-color: #0000ff;
+@firma-contentLink-color-hover: #0000ff;
+
+
+@firma-logoHeaderBackground-color: #003D6B;
+@firma-logoHeaderText-color: #fff;
+@firma-navBackground-color: #DBDBDB;
+@firma-navText-color: #023467;
+@firma-navItemText-color-hover: #9A610A;
+@firma-navItemBackground-color-hover: #FFF;
+@firma-navItemBackground-color: transparent;
+@firma-navItemDropdownText-color: #1C2329;
+@firma-navItemDropdownText-color-hover: #FFF;
+@firma-navItemDropdownBackground-color: #FFF;
+@firma-navItemDropdownBackground-color-hover: #9A610A;
+
+@firma-panel-headerBackground-color: #033B6A;
+@firma-panel-headerText-color: #fff;
+@firma-panel-border-color: #ddd;
+@firma-panelDropdownText-color: #1C2329;
+@firma-panelDropdownBackground-color: #EBECEC;
+
+@firma-pageTitle-color: #9A610A;
+@firma-header-color: #1E2617;
+
+@firma-helpIcon-color: #6c91a4;
+
+@firma-buttonBackground-color: #003366;
+@firma-buttonText-color: #fff;
+@firma-buttonBackground-color-hover: #040707;
+@firma-buttonText-color-hover: #fff;
+
+@backButton-buttonText-color: #9A610A;
+@backButton-buttonBackground-color: #FFF;
+@backButton-buttonText-color-hover: #9A610A;
+@backButton-buttonBackground-color-hover: #FFF;
+
+
+@firma-scrollSpyAccent-color: #9A610A;
+
+@firma-white: #fff;
+@firma-active-arrow-color: #033B6A;
+@firma-inactive-arrow-color: #bbb;
+
+@z-index-arrow: 900;
+
+@disabled-color: LightGray;
+
+@firma-footerBackground-color: #033B6A;
+@firma-footerText-color: #83A6CD;
+@firma-footerTextLink-color: #FFF;
+@firma-footerTextLink-color-hover: #FFF;
+
+
+// Global
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: @firma-text-font;
+    font-size: @firma-text-fontSize;
+    background-color: @firma-background-color;
+    color: @firma-text-color;
+}
+
+input[disabled] {
+    background-color: @disabled-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @firma-header-color;
+    font-family: @firma-header-font;
+    font-weight: 600;
+}
+
+h4 {
+    margin-top: 0px;
+}
+
+a, a:visited {
+    color: @firma-contentLink-color;
+}
+
+a:hover {
+    color: @firma-contentLink-color-hover;
+    text-decoration: none;
+}
+
+
+
+.pageTitle {
+    font-weight: 400;
+    color: @firma-pageTitle-color;
+    font-size: 28px;
+    font-weight: bold;
+    font-stretch: condensed;
+}
+
+.firmaContent {
+    background-color: @firma-contentBackground-color;
+    border: 1px solid @firma-contentBorder-color;
+}
+
+
+// Header
+
+.expandToFillScreen {
+    min-height: 100%;
+}
+
+.header {
+    background-color: @firma-logoHeaderBackground-color;
+
+    img {
+        margin: 10px;
+        height: 50px;
+    }
+
+    .headerText {
+        display: inline-block;
+        font-size: 18px;
+        font-weight: normal;
+        font-family: @firma-header-font;
+        color: @firma-logoHeaderText-color;
+        vertical-align: bottom;
+        margin-bottom: 6px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+
+        a {
+            color: @firma-logoHeaderText-color;
+            vertical-align: top;
+
+            #headerTenantDisplayName {
+                font-family: @firma-title-font;
+                text-transform: none;
+                font-weight: bold;
+                font-stretch:condensed;
+            }
+        }
+
+        a:hover, a:active {
+            text-decoration: none;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+    }
+}
+
+.navbar {
+    background: @firma-navBackground-color;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+
+.projectFirmaNavbar {
+    .nav li {
+        font-weight: 600;
+
+        a {
+            color: @firma-navText-color;
+            background-color: @firma-navItemBackground-color;
+            font-family: @firma-menu-font;
+            font-weight: bold;
+            font-stretch: condensed;
+        }
+
+        a:hover, a:focus, a:active {
+            color: @firma-navItemText-color-hover;
+            background-color: @firma-navItemBackground-color-hover;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            background-color: transparent;
+        }
+
+        .navbar-text {
+            color: @firma-navText-color;
+            font-family: @firma-menu-font;
+        }
+
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+            background-color: @firma-navItemBackground-color-hover;
+        }
+
+
+        ul.dropdown-menu {
+            background-color: @firma-navItemDropdownBackground-color;
+            border-top: none;
+            padding: 20px 0 15px 0;
+
+            li {
+                a {
+                    font-weight: 400;
+                    font-family: @firma-menu-font;
+                    color: @firma-navItemDropdownText-color;
+                    background-color: @firma-navItemDropdownBackground-color;
+                    padding: 1px 19px;
+                }
+
+                a:hover, a:active, a:focus {
+                    color: @firma-navItemDropdownText-color-hover;
+                    background-color: @firma-navItemDropdownBackground-color-hover;
+                    text-decoration: none;
+                }
+            }
+
+            .divider {
+                height: 0;
+                margin: 0;
+            }
+        }
+    }
+
+    .glyphicon-menu-hamburger {
+        color: @firma-navText-color;
+    }
+}
+
+
+
+
+
+// Footer
+footer#footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    background-color: @firma-footerBackground-color;
+    background-image: url(https://www.dnr.wa.gov/sites/default/files/imageblock/Bottom-New_0.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 300px;
+    padding-top: 37px;
+
+    p {
+        color: @firma-footerText-color;
+        margin: 10px 0;
+        font-size: 12px;
+    }
+
+    a, a:visited {
+        color: @firma-footerTextLink-color;
+    }
+
+    a:hover {
+        color: @firma-footerTextLink-color-hover;
+        text-decoration: none;
+    }
+}
+
+
+// buttons
+.btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
+    font-size: 14px;
+    color: @firma-buttonText-color;
+    background-color: @firma-buttonBackground-color;
+}
+
+.btn-primary:hover {
+    color: @firma-buttonText-color-hover;
+    background-color: @firma-buttonBackground-color-hover;
+}
+
+.btn-firma:hover, .btn-primary:focus, .btn-primary.focus {
+    color: @firma-buttonText-color-hover;
+    background-color: @firma-buttonBackground-color-hover;
+}
+
+a.btn-firma {
+    color: @firma-buttonText-color;
+    background-color: @firma-buttonBackground-color;
+}
+a.backButton {
+    color: @backButton-buttonText-color;
+    background-color: @backButton-buttonBackground-color;
+}
+a.backButton:hover {
+    color: @backButton-buttonText-color-hover;
+    background-color: @backButton-buttonBackground-color-hover;
+}
+
+// Summary Layout - Legacy LT Info styling
+table.summaryLayout th,
+.stylizeLikeTH {
+    text-align: left;
+    font-weight: bold;
+    padding: 2px 6px;
+    vertical-align: top;
+    color: @firma-text-color;
+}
+
+// Breadcrumb
+.mainPageHeader {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.breadcrumbTitle, .breadcrumbTitle a {
+    color: @firma-white;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.breadcrumbTitle a:hover {
+    text-decoration: none;
+}
+
+.arrow {
+    display: inline-block;
+    position: relative;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.singleArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+}
+
+/* First arrow */
+.firstArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.firstArrow:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left-width: 7px;
+    border-left-style: solid;
+    border-left-color: inherit;
+    z-index: @z-index-arrow;
+}
+
+/* Middle arrow */
+.middleArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+}
+
+.middleArrow:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 7px solid @firma-contentBackground-color;
+}
+
+.middleArrow:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left-width: 7px;
+    border-left-style: solid;
+    border-left-color: inherit;
+    z-index: @z-index-arrow;
+}
+
+/* Last arrow */
+.lastArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-contentBackground-color;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-contentBackground-color;
+    }
+
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+.lastArrow:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 7px solid @firma-contentBackground-color;
+}
+
+// Main page drop downs
+.panelFirma {
+    .panelTitle {
+        a:hover {
+            text-decoration: none;
+        }
+
+        ul li {
+            a, a:visited {
+                color: @firma-panelDropdownText-color;
+            }
+
+            a:hover {
+                background-color: @firma-panelDropdownBackground-color;
+            }
+        }
+    }
+}
+
+
+
+// Panels
+
+.panelFirma {
+    border-color: @firma-panel-border-color;
+
+    .panelTitle, .panelTitle h2, .panelTitle h3 {
+        color: @firma-panel-headerText-color;
+        background-color: @firma-panel-headerBackground-color;
+        border-color: @firma-panel-border-color;
+        font-weight: 400;
+        font-size: 16px;
+        font-family: @firma-header-font;
+        margin-bottom: 0;
+        margin-top: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        a {
+            color: @firma-panel-headerText-color;
+
+            .glyphicon {
+                color: white;
+            }
+        }
+    }
+}
+
+
+// Grids
+a.gridButton {
+    margin: 0 7px 0 0;
+    background-color: @firma-buttonBackground-color;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    font-size: 10px;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: @firma-buttonText-color;
+    cursor: pointer;
+    padding: 1px 5px 1px 3px; /* Links */
+}
+
+a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
+    color: @firma-buttonText-color;
+}
+
+a.gridButton.disabled {
+    background-color: @disabled-color;
+}
+
+/* STANDARD */
+a.gridButton:hover {
+    background-color: @firma-buttonBackground-color-hover;
+    color: @firma-buttonText-color;
+}
+
+
+// Field Definitions
+.helpicon {
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 2px;
+    color: @firma-helpIcon-color;
+}
+
+
+/* ScrollSpy / Table of Contents */
+nav#tableOfContents ul.nav li a {
+    border: none;
+    color: @firma-text-color;
+    background-color: @firma-contentBackground-color;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 0 0 5px;
+    margin-bottom: 5px;
+}
+
+nav#tableOfContents ul.nav ul.nav {
+    border: none;
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 0 0 5px;
+}
+
+nav#tableOfContents ul.nav ul.nav li a {
+    padding: 0 0 0 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+nav#tableOfContents ul.nav li ul.nav {
+    max-height: 0;
+    padding: 0;
+    -moz-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    -webkit-transition: max-height 0.5s;
+    transition: max-height 0.5s;
+    overflow: hidden;
+}
+
+nav#tableOfContents ul.nav li.active ul.nav {
+    max-height: 200px;
+}
+
+nav#tableOfContents ul.nav li.active a {
+    color: @firma-scrollSpyAccent-color;
+    border-left: 4px solid @firma-scrollSpyAccent-color;
+    cursor: pointer;
+}
+
+nav#tableOfContents ul.nav li.active ul.nav li.active a {
+    color: @firma-scrollSpyAccent-color;
+    border-left: 2px solid @firma-scrollSpyAccent-color;
+    cursor: pointer;
+}
+
+nav#tableOfContents ul.nav li.active ul.nav li a {
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    color: @firma-text-color;
+}
+
+nav#tableOfContents ul.nav li a:hover {
+    color: @firma-scrollSpyAccent-color;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+nav#tableOfContents ul.nav li ul.nav li a:hover {
+    color: @firma-scrollSpyAccent-color;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.scrollSpy {
+    width: 230px;
+}
+
+#tableOfContentsAffixed.affix {
+    top: 0;
+}
+
+#tableOfContentsAffixed.affix-bottom {
+    position: relative;
+}
+
+h2.sectionHeader {
+    height: 0;
+    visibility: hidden;
+    margin: 0;
+}
+
+
+.disabled {
+    color: @disabled-color;
+}
+
+a.disabled {
+    cursor: not-allowed;
+    font-style: italic;
+    color: @disabled-color;
+    background-color: transparent;
+}
+
+
+//Project Wizard
+
+#projectWizardContent textarea[disabled], #projectWizardContent input[disabled], #projectWizardContent select[disabled], #projectWizardContent .dropdown-toggle[disabled], #projectWizardContent .dropdown-menu[disabled] {
+    background-color: @disabled-color;
+}
+
+
+//Home page image carousel customizations
+@media only screen and (min-width: 768px) {
+    .main-text h1 {
+        font-size: 32px;
+    }
+}
