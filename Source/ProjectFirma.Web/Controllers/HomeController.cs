@@ -151,7 +151,16 @@ namespace ProjectFirma.Web.Controllers
             List<Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
             var viewData = new TrainingVideoViewData(CurrentPerson, firmaPage, trainingVideos);
             return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
-        }       
+        }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public ViewResult StyleGuide()
+        {
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Training);
+            var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
+            return RazorView<StyleGuide, StyleGuideViewData>(viewData);
+        }
 
     }
 }
