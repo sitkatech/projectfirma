@@ -789,6 +789,7 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
+    <Content Include="Content\img\WashingtonDNR\dnr-footer-img.jpg" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="Content\qtip\jquery.qtip.es5.js">

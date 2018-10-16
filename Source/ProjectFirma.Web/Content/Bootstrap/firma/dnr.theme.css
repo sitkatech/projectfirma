@@ -47,7 +47,7 @@ a:hover {
 .pageTitle {
   font-weight: 400;
   color: #9A610A;
-  font-size: 28px;
+  font-size: 36px;
   font-weight: bold;
   font-stretch: condensed;
 }
@@ -109,6 +109,8 @@ a:hover {
   font-family: 'PT Sans', "myriad pro", Arial;
   font-weight: bold;
   font-stretch: condensed;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
@@ -140,6 +142,8 @@ a:hover {
   color: #1C2329;
   background-color: #FFF;
   padding: 1px 19px;
+  text-transform: unset;
+  font-size: 14px;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
@@ -149,8 +153,7 @@ a:hover {
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
-  height: 0;
-  margin: 0;
+  background-color: #A5946A;
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
   color: #023467;
@@ -163,7 +166,7 @@ footer#footer {
   width: 100%;
   height: auto;
   background-color: #033B6A;
-  background-image: url(https://www.dnr.wa.gov/sites/default/files/imageblock/Bottom-New_0.jpg);
+  background-image: url('../../img/WashingtonDNR/dnr-footer-img.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   height: 300px;
@@ -378,6 +381,7 @@ table.summaryLayout th,
   margin-top: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: bold;
 }
 .panelFirma .panelTitle a,
 .panelFirma .panelTitle h2 a,

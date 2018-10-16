@@ -30,6 +30,7 @@
 @firma-logoHeaderBackground-color: #003D6B;
 @firma-logoHeaderText-color: #fff;
 @firma-navBackground-color: #DBDBDB;
+@firma-navBorder-color: #A5946A;
 @firma-navText-color: #023467;
 @firma-navItemText-color-hover: #9A610A;
 @firma-navItemBackground-color-hover: #FFF;
@@ -117,7 +118,7 @@ a:hover {
 .pageTitle {
     font-weight: 400;
     color: @firma-pageTitle-color;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: bold;
     font-stretch: condensed;
 }
@@ -194,6 +195,8 @@ a:hover {
             font-family: @firma-menu-font;
             font-weight: bold;
             font-stretch: condensed;
+            font-size: 16px;
+            text-transform: uppercase;
         }
 
         a:hover, a:focus, a:active {
@@ -228,6 +231,8 @@ a:hover {
                     color: @firma-navItemDropdownText-color;
                     background-color: @firma-navItemDropdownBackground-color;
                     padding: 1px 19px;
+                    text-transform: unset;
+                    font-size: 14px;
                 }
 
                 a:hover, a:active, a:focus {
@@ -238,8 +243,7 @@ a:hover {
             }
 
             .divider {
-                height: 0;
-                margin: 0;
+                background-color: @firma-navBorder-color;
             }
         }
     }
@@ -262,7 +266,7 @@ footer#footer {
     width: 100%;
     height: auto;
     background-color: @firma-footerBackground-color;
-    background-image: url(https://www.dnr.wa.gov/sites/default/files/imageblock/Bottom-New_0.jpg);
+    background-image: url('../../img/WashingtonDNR/dnr-footer-img.jpg');
     background-repeat: no-repeat;
     background-position: top center;
     height: 300px;
@@ -517,6 +521,7 @@ table.summaryLayout th,
         margin-top: 0;
         text-transform: uppercase;
         letter-spacing: 1px;
+        font-weight: bold;
 
         a {
             color: @firma-panel-headerText-color;
