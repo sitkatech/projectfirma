@@ -789,7 +789,15 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
-    <Content Include="Content\img\WashingtonDNR\dnr-footer-img.jpg" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\android-chrome-192x192.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\apple-touch-icon.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\browserconfig.xml" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\dnr-footer-img.jpg" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon-16x16.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon-32x32.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon.ico" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\mstile-150x150.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\safari-pinned-tab.svg" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="Content\qtip\jquery.qtip.es5.js">
@@ -850,6 +858,7 @@
     <Compile Include="FirmaOwinStartup.cs" />
     <Content Include="Content\Bootstrap\firma\iswcc.theme.less" />
     <Content Include="Content\Bootstrap\firma\dnr.theme.less" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\site.webmanifest" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
