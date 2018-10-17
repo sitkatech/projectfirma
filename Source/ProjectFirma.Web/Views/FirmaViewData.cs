@@ -208,13 +208,14 @@ namespace ProjectFirma.Web.Views
 
             // Group 4 - Other
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentPerson, "Internal Setup Notes", "Group4"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentPerson, "Style Guide", "Group4"));
 
             // Group 5 - Project Firma Configuation stuff
             if (HttpRequestStorage.Tenant == Models.Tenant.SitkaTechnologyGroup)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.DemoScript()), currentPerson, "Demo Script", "Group5")); // TODO: poor man's hack until we do tenant specific menu and features
             }
-
+            
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Detail()), currentPerson, "Cost Parameters", "Group5"));            
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationAndRelationshipTypeController>(c => c.Index()), currentPerson, Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized(), "Group5"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentPerson, "Tenant Configuration", "Group5"));
