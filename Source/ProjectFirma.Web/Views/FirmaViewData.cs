@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
         public ViewPageContentViewData CustomFooterViewData { get; }
-        public string TenantShortName { get; private set; }
+        public string TenantName { get; private set; }
         public string TenantDisplayName { get; private set; }
         public string TenantBannerLogoUrl { get; private set; }
 
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views
             CustomFooterViewData =
                 new ViewPageContentViewData(Models.FirmaPage.GetFirmaPageByPageType(FirmaPageType.CustomFooter),
                     currentPersonCanManage);
-            TenantShortName = MultiTenantHelpers.GetTenantName();
+            TenantName = MultiTenantHelpers.GetTenantName();
             TenantDisplayName = MultiTenantHelpers.GetTenantDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
         }
