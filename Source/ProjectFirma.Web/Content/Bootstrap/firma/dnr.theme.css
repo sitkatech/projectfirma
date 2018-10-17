@@ -166,7 +166,7 @@ footer#footer {
   width: 100%;
   height: auto;
   background-color: #033B6A;
-  background-image: url('../../img/WashingtonDNR/dnr-footer-img.jpg');
+  background-image: url('/Content/img/WashingtonDNR/dnr-footer-img.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   height: 300px;
