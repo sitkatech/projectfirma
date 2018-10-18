@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             var performanceMeasureActualsWithMissingSubcategoryOptions =
                 PerformanceMeasureActuals.Where(
-                    x => !x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y=>x.PerformanceMeasureID==y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count).ToList();
+                    x => !x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y=>x.PerformanceMeasureID==y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count || x.PerformanceMeasureActualSubcategoryOptions.Any(y => y.PerformanceMeasureSubcategoryOptionID == null)).ToList();
             return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
 
