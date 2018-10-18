@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Views;
@@ -33,33 +33,17 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasure PerformanceMeasure { get; private set; }
         public double? ReportedValue { get; private set; }
 
-        public int PerformanceMeasureID
-        {
-            get { return PerformanceMeasure.PerformanceMeasureID; }
-        }
-        public string PerformanceMeasureName
-        {
-            get { return PerformanceMeasure.PerformanceMeasureDisplayName; }
-        }
+        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
 
-        public string PerformanceMeasureUrl
-        {
-            get { return PerformanceMeasure.GetSummaryUrl(); }
-        }
+        public string PerformanceMeasureName => PerformanceMeasure.PerformanceMeasureDisplayName;
 
-        public string ProjectName
-        {
-            get { return Project.DisplayName; }
-        }
-        public string ProjectUrl
-        {
-            get { return Project.GetDetailUrl(); }
-        }
+        public string PerformanceMeasureUrl => PerformanceMeasure.GetSummaryUrl();
 
-        public MeasurementUnitType MeasurementUnitType
-        {
-            get { return PerformanceMeasure.MeasurementUnitType; }
-        }
+        public string ProjectName => Project.DisplayName;
+
+        public string ProjectUrl => Project.GetDetailUrl();
+
+        public MeasurementUnitType MeasurementUnitType => PerformanceMeasure.MeasurementUnitType;
 
         public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
 
@@ -88,47 +72,19 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureActualSubcategoryOptions.Any()
                     ? string.Join("\r\n",
                         PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOptionName)))
+                            .Select(x =>
+                                $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOptionName}"))
                     : ViewUtilities.NoneString;
             }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
-        {
-            get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions); }
-        }
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions => new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);
 
-        public string ReportedValueDisplay
-        {
-            get { return MeasurementUnitType.DisplayValue(ReportedValue); }
-        }
+        public string ReportedValueDisplay => MeasurementUnitType.DisplayValue(ReportedValue);
 
         public static List<PerformanceMeasureReportedValue> MakeFromList(IEnumerable<PerformanceMeasureActual> performanceMeasureActuals)
         {
             return performanceMeasureActuals.Select(x => new PerformanceMeasureReportedValue(x)).ToList();
-        }
-        
-        public decimal? CalculateWeightedAnnualExpenditure()
-        {
-            var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project).Where(x => x.CalendarYear == CalendarYear).Sum(x => x.ReportedValue ?? 0);
-            if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)
-            {
-                return null;
-            }
-
-            var projectFundingSourceExpenditures = Project.ProjectFundingSourceExpenditures.Where(x => x.CalendarYear == CalendarYear).ToList();
-            var weight = ReportedValue / reportedValuesForAllSubcategories;
-            return projectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) * Convert.ToDecimal(weight);
-        }
-
-        public decimal? CalculateWeightedAnnualExpenditurePerPerformanceMeasure()
-        {
-            var annualExpenditure = CalculateWeightedAnnualExpenditure();
-
-            if (annualExpenditure == 0 || ReportedValue == null || ReportedValue == 0)
-                return null;
-
-            return annualExpenditure / (decimal)ReportedValue.Value;
         }
 
         public string GetCalendarYearDisplay()

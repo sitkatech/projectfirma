@@ -111,8 +111,8 @@ namespace ProjectFirma.Web.Models
         }
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            var projectIDs = this.GetAllActiveProjectsAndProposals(currentPerson).Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
+            var projects = this.GetAllActiveProjectsAndProposals(currentPerson).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
         }
 
         public bool CanBeAnApprovingOrganization()
