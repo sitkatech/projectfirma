@@ -46,16 +46,18 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure,
             int height,
-            List<int> projectIDs,
             Person currentPerson,
             bool showLastUpdatedDate,
-            bool fromPerformanceMeasureDetailPage)
+            bool fromPerformanceMeasureDetailPage,
+            List<Models.Project> projects)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projectIDs);
-            ChartTotal = PerformanceMeasure.PerformanceMeasureActuals.Any() ? PerformanceMeasure.PerformanceMeasureActuals?.Sum(x => x.ActualValue) : null;
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects);
+
+            var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
+            ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
             ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
             ChartTotalUnit = PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             
@@ -77,24 +79,23 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, List<int> projectIDs, Person currentPerson,
-            bool showLastUpdatedDate) : this(
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, List<Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            projectIDs,
             currentPerson,
             showLastUpdatedDate,
-            false)
+            false, 
+            projects)
         {
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, List<int> projectIDs, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption) : this(
+        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption, List<Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            projectIDs,
             currentPerson,
             showLastUpdatedDate,
-            showConfigureOption)
+            showConfigureOption, 
+            projects)
         {
         }
     }

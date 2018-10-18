@@ -176,7 +176,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
             var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.GetTaxonomyTierPerformanceMeasures().Where(x => x.Any(y => y.IsPrimaryTaxonomyLeaf)).Select(x => x.Key).ToList();
             var performanceMeasures = primaryPerformanceMeasuresForTaxonomyTier.SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, projectIDs, CurrentPerson, false)).ToList();
+            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, projects)).ToList();
 
             var viewData = new OrganizationAccomplishmentsViewData(performanceMeasureChartViewDatas, taxonomyTier, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
@@ -353,7 +353,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
                 .ToList()
                 .Where(x => x.ProjectWatersheds.Any())
-                .Select(x => x.ToFancyTreeNode())
+                .Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
 
             var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
@@ -391,7 +391,7 @@ namespace ProjectFirma.Web.Controllers
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
                 : performanceMeasures.First();
             var accomplishmentsChartViewData =
-                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, null, CurrentPerson, false);
+                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentPerson, false, new List<Project>());
 
             var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage,
                 performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
@@ -406,20 +406,19 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var performanceMeasureSubcategoriesTotalReportedValues =
-                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure);
+                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure, CurrentPerson);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(
                     performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<PerformanceMeasureSubcategoriesTotalReportedValue>
-            GetSpendingByPerformanceMeasureByProjectAndGridSpec(
+        private static List<PerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByPerformanceMeasureByProjectAndGridSpec(
                 out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
-                PerformanceMeasure performanceMeasure)
+                PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
-            return performanceMeasure.SubcategoriesTotalReportedValues();
+            return performanceMeasure.SubcategoriesTotalReportedValues(currentPerson);
         }
 
         [HttpGet]

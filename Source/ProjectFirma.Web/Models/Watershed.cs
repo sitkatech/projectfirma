@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsWatershedNameUnique(IEnumerable<Watershed> watersheds, string watershedName, int currentWatershedID)
         {
-            var watershed = watersheds.SingleOrDefault(x => x.WatershedID != currentWatershedID && String.Equals(x.WatershedName, watershedName, StringComparison.InvariantCultureIgnoreCase));
+            var watershed = watersheds.SingleOrDefault(x => x.WatershedID != currentWatershedID && string.Equals(x.WatershedName, watershedName, StringComparison.InvariantCultureIgnoreCase));
             return watershed == null;
         }
 
@@ -106,11 +106,11 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }     
 
-        public FancyTreeNode ToFancyTreeNode()
+        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode(WatershedName, WatershedName, false) {MapUrl = null};
 
-            var projectChildren = ProjectWatersheds.Select(x => x.Project).OrderBy(x => x.DisplayName)
+            var projectChildren = GetAssociatedProjects(currentPerson).OrderBy(x => x.DisplayName)
                 .Select(x => x.ToFancyTreeNode()).ToList();
             fancyTreeNode.Children = projectChildren.ToList();
 
@@ -119,8 +119,8 @@ namespace ProjectFirma.Web.Models
 
         public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            var projectIDs = ProjectWatersheds.Select(x => x.ProjectID).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, projectIDs, currentPerson, false);
+            var projects = GetAssociatedProjects(currentPerson);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
         }
     }
 }
