@@ -11,23 +11,20 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public class ProjectPerformanceMeasureReportingPeriodValue
     {
+        private readonly PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue _performanceMeasureReportingPeriodSubcategoryOptionReportedValue;
         public Project Project { get; set; }
 
-        public PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod => PerformanceMeasureSubcategoryOptionReportedValues.First().PerformanceMeasureReportingPeriod;
+        public PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod => _performanceMeasureReportingPeriodSubcategoryOptionReportedValue?.PerformanceMeasureReportingPeriod;
 
         public List<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue> PerformanceMeasureSubcategoryOptionReportedValues { get; set; }
-        public string PerformanceMeasureSubcategoriesAsString => string.Join("\r\n",
-            PerformanceMeasureSubcategoryOptionReportedValues.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).Select(x =>
-                $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOptionName}"));
 
-        public double? ReportedValue => PerformanceMeasureSubcategoryOptionReportedValues.First().ReportedValue;
-        public int CalendarYear => Convert.ToInt32(PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel);
-        public PerformanceMeasure PerformanceMeasure => PerformanceMeasureReportingPeriod.PerformanceMeasure;
+        public int? CalendarYear => PerformanceMeasureReportingPeriod != null ? Convert.ToInt32(PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) : (int?) null;
 
         public ProjectPerformanceMeasureReportingPeriodValue(Project project, List<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue> performanceMeasureSubcategoryOptionReportedValues)
         {
             Project = project;
             PerformanceMeasureSubcategoryOptionReportedValues = performanceMeasureSubcategoryOptionReportedValues;
+            _performanceMeasureReportingPeriodSubcategoryOptionReportedValue = PerformanceMeasureSubcategoryOptionReportedValues.FirstOrDefault();
         }
     }
 }
