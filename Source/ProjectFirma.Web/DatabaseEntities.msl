@@ -524,6 +524,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PersonStewardOrganization">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PersonStewardOrganization">
+        <MappingFragment StoreEntitySet="PersonStewardOrganization">
+          <ScalarProperty Name="PersonStewardOrganizationID" ColumnName="PersonStewardOrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PersonStewardTaxonomyBranch">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PersonStewardTaxonomyBranch">
+        <MappingFragment StoreEntitySet="PersonStewardTaxonomyBranch">
+          <ScalarProperty Name="PersonStewardTaxonomyBranchID" ColumnName="PersonStewardTaxonomyBranchID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="TaxonomyBranchID" ColumnName="TaxonomyBranchID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Project">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Project">
         <MappingFragment StoreEntitySet="Project">
@@ -1222,6 +1242,7 @@
           <ScalarProperty Name="AccomplishmentsDashboardIncludeReportingOrganizationType" ColumnName="AccomplishmentsDashboardIncludeReportingOrganizationType" />
           <ScalarProperty Name="ShowLeadImplementerLogoOnFactSheet" ColumnName="ShowLeadImplementerLogoOnFactSheet" />
           <ScalarProperty Name="EnableAccomplishmentsDashboard" ColumnName="EnableAccomplishmentsDashboard" />
+          <ScalarProperty Name="ProjectStewardshipAreaTypeID" ColumnName="ProjectStewardshipAreaTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
