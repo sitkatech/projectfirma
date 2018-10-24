@@ -1,0 +1,104 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.UserStewardshipAreas.EditUserStewardshipAreas
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+    angular.module("ProjectFirmaApp")
+        .factory("angularModelAndViewData",
+            function()
+            {
+                return {
+                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                    };
+            });
+
+    angular.bootstrap(jQuery("#EditUserStewardshipAreasApp"), ["ProjectFirmaApp"]);
+
+    jQuery(".selectpicker").selectpicker("refresh");
+    jQuery(".modal").on("hidden.bs.modal",
+        function () {
+            jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditUserStewardshipAreasApp" ng-controller="EditUserStewardshipAreasController">
+    @if (ViewDataTyped.Standalone)
+    {
+        <p>Use this form to set a user's assigned Stewardship Areas. You can assign a user to many Stewardship Areas. Project Stewards have administrator-level edit rights for the Stewardship Areas asssigned below. </p>
+    }
+    @using (!ViewDataTyped.Standalone ? Html.BeginForm() : null)
+    {
+        <div class="form-group">
+            <label class="control-label">Stewardship Area to Add:</label>
+            <div class="input-group">
+                <select ng-model="StewardshipAreaIDToAdd"
+                        class="selectpicker"
+                        data-live-search="true"
+                        data-container="body"
+                        title="Select a Stewardship Area to Add"
+                        data-width="100%">
+                    <option value="null" disabled selected></option>
+                    <option ng-repeat="stewardshipArea in filteredStewardshipAreas()"
+                            value="{{stewardshipArea.StewardshipAreaID}}"
+                            ng-selected="StewardshipAreaIDToAdd == stewardshipArea.StewardshipAreaID"
+                            ng-bind="stewardshipArea.StewardshipAreaName"
+                            data-tokens="{{stewardshipArea.StewardshipAreaName}}"></option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-firma" type="button" ng-click="addRow()">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </span>
+            </div>
+        </div>
+        <table class="table table-condensed">
+            <tr>
+                <th></th>
+                <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectStewardshipArea)</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="personStewardshipAreaSimple in AngularModel.PersonStewardshipAreaSimples | orderBy: getStewardshipAreaDisplayName">
+                <td style="width: 60px;">
+                    <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(personStewardshipAreaSimple)" style="cursor: pointer"></span>
+                </td>
+                <td ng-bind="getStewardshipAreaDisplayName(personStewardshipAreaSimple)"></td>
+                <td style="width: 0px;">
+                    <input type="hidden" value="{{personStewardshipAreaSimple.PersonStewardshipAreaID}}"
+                           name="PersonStewardshipAreaSimples[{{$index}}].StewardshipAreaPersonID"/>
+                    <input type="hidden" value="{{personStewardshipAreaSimple.StewardshipAreaID}}"
+                           name="PersonStewardshipAreaSimples[{{$index}}].StewardshipAreaID"/>
+                </td>
+            </tr>
+        </table>
+        @Html.HiddenFor(m => m.PersonID)
+    }
+</div>

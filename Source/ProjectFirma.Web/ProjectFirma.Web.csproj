@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -652,6 +652,11 @@
     <Compile Include="Views\Shared\SortOrder\SortOrderHelper.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasures.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewModel.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\StewardshipAreaSimple.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
     <Compile Include="Views\Home\StyleGuide.cs" />
@@ -1625,6 +1630,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
+    <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1679,6 +1685,7 @@
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Content Include="Views\Home\StyleGuide.cshtml" />
+    <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

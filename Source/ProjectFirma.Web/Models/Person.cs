@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
@@ -179,6 +181,20 @@ namespace ProjectFirma.Web.Models
                        canStewardProjectsOrganizationRelationship != null &&
                        canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
                            x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+            }
+        }
+
+        public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
+        {
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
+            switch (projectStewardshipAreaType.ToEnum)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    return PersonStewardOrganizations.Select(x => x.Organization.GetDisplayNameAsUrl()).ToList();
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    return PersonStewardTaxonomyBranches.Select(x => x.TaxonomyBranch.GetDisplayNameAsUrl()).ToList();
+                default:
+                    return new List<HtmlString>();
             }
         }
 

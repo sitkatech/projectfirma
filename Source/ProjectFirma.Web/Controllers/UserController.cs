@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -31,6 +32,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
 using Organization = ProjectFirma.Web.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
@@ -318,6 +320,70 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData = new PullUserFromKeystoneViewData();
             return RazorPartialView<PullUserFromKeystone, PullUserFromKeystoneViewData, PullUserFromKeystoneViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new EditUserStewardshipAreasViewModel(person, CurrentPerson, MultiTenantHelpers.GetProjectStewardshipAreaType());
+            return ViewEditStewardshipAreas(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey, EditUserStewardshipAreasViewModel viewModel)
+        {
+            var person = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditStewardshipAreas(viewModel);
+            }
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType().ToEnum;
+
+            switch (projectStewardshipAreaType)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    HttpRequestStorage.DatabaseEntities.Organizations.Load();
+                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardOrganizations.Local);
+                    break;
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Load();
+                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardTaxonomyBranches.Local);
+                    break;
+                default:
+                    throw new InvalidOperationException(
+                        "The Stewardship Area editor should only be allowed for tenants with a Project Stewardship Area Type");
+            }
+
+
+            SetMessageForDisplay($"Assigned {FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()} successfully changed for {person.FullNameFirstLast}.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditStewardshipAreas(EditUserStewardshipAreasViewModel viewModel)
+        {
+            EditUserStewardshipAreasViewData viewData;
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType().ToEnum;
+
+            switch (projectStewardshipAreaType)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allOrganizations, false);
+                    break;
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    var allTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
+                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allTaxonomyBranches, false);
+                    break;
+                default:
+                    throw new InvalidOperationException(
+                        "The Stewardship Area editor should only be allowed for tenants with a Project Stewardship Area Type");
+            }
+
+            return RazorPartialView<EditUserStewardshipAreas, EditUserStewardshipAreasViewData, EditUserStewardshipAreasViewModel>(viewData, viewModel);
         }
     }
 
