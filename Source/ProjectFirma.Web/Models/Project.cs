@@ -75,6 +75,12 @@ namespace ProjectFirma.Web.Models
             return organization;
         }
 
+        public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
+        {
+            var taxonomyBranch = TaxonomyLeaf.TaxonomyBranch;
+            return taxonomyBranch;
+        }
+
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
             if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)

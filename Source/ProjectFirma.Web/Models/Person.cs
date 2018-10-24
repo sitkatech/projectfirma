@@ -120,10 +120,32 @@ namespace ProjectFirma.Web.Models
             Email = keystoneUserClaims.Email;
         }
 
+        // TODO: probably replace every use of this with CanStewardProject(project) but idk
         public bool CanStewardProjectByOrganizationRelationship(Project project)
         {
             var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
             return canStewardProjectsOrganizationForProject != null && canStewardProjectsOrganizationForProject.OrganizationID == OrganizationID;
+        }
+
+        public bool CanStewardProjectByTaxonomyBranchRelationship(Project project)
+        {
+            var canStewardProjectsTaxonomyBranch = project.GetCanStewardProjectsTaxonomyBranch();
+            return canStewardProjectsTaxonomyBranch != null &&
+                   PersonStewardTaxonomyBranches.Select(x=>x.TaxonomyBranchID).Contains(canStewardProjectsTaxonomyBranch.TaxonomyBranchID);
+        }
+
+        public bool CanStewardProject(Project project)
+        {
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
+            switch (projectStewardshipAreaType.ToEnum)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    return CanStewardProjectByOrganizationRelationship(project);
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    return CanStewardProjectByTaxonomyBranchRelationship(project);
+                default:
+                    return true;
+            }
         }
 
         public void SetDefaultProjectOrganizations(Project project)
