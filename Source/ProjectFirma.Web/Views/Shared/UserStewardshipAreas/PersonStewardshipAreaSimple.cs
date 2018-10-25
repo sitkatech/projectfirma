@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 {
     public class PersonStewardshipAreaSimple
     {
-     
         public int? PersonStewardshipAreaID { get; set; }
         
         [Required]

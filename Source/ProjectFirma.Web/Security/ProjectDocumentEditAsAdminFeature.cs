@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectDocument contextModelObject)
         {
-            var isProjectDocumentStewardButCannotStewardThisProjectDocument = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProjectByOrganizationRelationship(contextModelObject.Project);
+            var isProjectDocumentStewardButCannotStewardThisProjectDocument = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject.Project);
             var forbidAdmin = !HasPermissionByPerson(person) || isProjectDocumentStewardButCannotStewardThisProjectDocument;
             if (forbidAdmin)
             {

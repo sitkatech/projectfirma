@@ -187,7 +187,7 @@ namespace ProjectFirma.Web.Models
         public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
         {
             var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
-            switch (projectStewardshipAreaType.ToEnum)
+            switch (projectStewardshipAreaType?.ToEnum)
             {
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
                     return PersonStewardOrganizations.Select(x => x.Organization.GetDisplayNameAsUrl()).ToList();

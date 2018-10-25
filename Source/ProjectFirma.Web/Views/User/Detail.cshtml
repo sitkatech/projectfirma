@@ -139,7 +139,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         Assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()
-                        @if (ViewDataTyped.UserHasPersonManagePermissions && ViewDataTyped.Person.Role == Role.ProjectSteward)
+                        @if (ViewDataTyped.UserHasPersonManagePermissions && ViewDataTyped.TenantHasStewardshipAreas && ViewDataTyped.Person.Role == Role.ProjectSteward)
                         {
                             <span class="pull-right">
                                 @ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditStewardshipAreas(ViewDataTyped.Person)),
@@ -164,13 +164,17 @@ Source code is available upon request via <support@sitkatech.com>.
                         else if (ViewDataTyped.Person.Role == Role.Normal)
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and cannot add or edit any projects.
+                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add projects to any Stewardship Area, but cannot edit/manage projects that are not their own.
                             </p>
                         }
                         else
                         {
                             var projectStewardshipAreaHtmlStringList = ViewDataTyped.Person.GetProjectStewardshipAreaHtmlStringList();
-                            if (projectStewardshipAreaHtmlStringList.Any())
+                            if (!ViewDataTyped.TenantHasStewardshipAreas)
+                            {
+                            <p class="systemText">Project Stewards can approve Project Proposals, create new Projects, and approve Project Updates for all projects</p>
+                            }
+                            else if (projectStewardshipAreaHtmlStringList.Any())
                             {
                             <ul>
                                 @foreach (var link in projectStewardshipAreaHtmlStringList)
