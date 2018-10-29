@@ -43,6 +43,8 @@
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
     <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Person" />
+    <EntitySet Name="PersonStewardOrganization" EntityType="ProjectFirma.Web.Models.PersonStewardOrganization" />
+    <EntitySet Name="PersonStewardTaxonomyBranch" EntityType="ProjectFirma.Web.Models.PersonStewardTaxonomyBranch" />
     <EntitySet Name="Project" EntityType="ProjectFirma.Web.Models.Project" />
     <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProjectAssessmentQuestion" />
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
@@ -282,6 +284,10 @@
       <End Role="Organization" EntitySet="Organization" />
       <End Role="People" EntitySet="Person" />
     </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="PersonStewardOrganizations" EntitySet="PersonStewardOrganization" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
@@ -418,6 +424,14 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardOrganization_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="PersonStewardOrganizations" EntitySet="PersonStewardOrganization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardTaxonomyBranch_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="PersonStewardTaxonomyBranches" EntitySet="PersonStewardTaxonomyBranch" />
+    </AssociationSet>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
@@ -473,6 +487,10 @@
     <AssociationSet Name="FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="TenantAttributesWhereYouAreThePrimaryContactPerson" EntitySet="TenantAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID">
+      <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
+      <End Role="PersonStewardTaxonomyBranches" EntitySet="PersonStewardTaxonomyBranch" />
     </AssociationSet>
     <AssociationSet Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.FK_Project_TaxonomyLeaf_TaxonomyLeafID">
       <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
@@ -1040,6 +1058,7 @@
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="OrganizationsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="OrganizationBoundaryStagings" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="Organization" ToRole="OrganizationBoundaryStagings" />
     <NavigationProperty Name="People" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="Organization" ToRole="People" />
+    <NavigationProperty Name="PersonStewardOrganizations" Relationship="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="PersonStewardOrganizations" />
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectOrganizationUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganizationUpdate_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectOrganizationUpdates" />
   </EntityType>
@@ -1290,6 +1309,8 @@
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="PersonStewardOrganizations" Relationship="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Person_PersonID" FromRole="Person" ToRole="PersonStewardOrganizations" />
+    <NavigationProperty Name="PersonStewardTaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID" FromRole="Person" ToRole="PersonStewardTaxonomyBranches" />
     <NavigationProperty Name="ProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProjectsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProjectsWhereYouAreTheProposingPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProjectsWhereYouAreTheReviewedByPerson" />
@@ -1304,6 +1325,28 @@
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
     <NavigationProperty Name="TenantAttributesWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="TenantAttributesWhereYouAreThePrimaryContactPerson" />
+  </EntityType>
+  <EntityType Name="PersonStewardOrganization">
+    <Key>
+      <PropertyRef Name="PersonStewardOrganizationID" />
+    </Key>
+    <Property Name="PersonStewardOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Organization_OrganizationID" FromRole="PersonStewardOrganizations" ToRole="Organization" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Person_PersonID" FromRole="PersonStewardOrganizations" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="PersonStewardTaxonomyBranch">
+    <Key>
+      <PropertyRef Name="PersonStewardTaxonomyBranchID" />
+    </Key>
+    <Property Name="PersonStewardTaxonomyBranchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomyBranchID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID" FromRole="PersonStewardTaxonomyBranches" ToRole="Person" />
+    <NavigationProperty Name="TaxonomyBranch" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID" FromRole="PersonStewardTaxonomyBranches" ToRole="TaxonomyBranch" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
@@ -2008,6 +2051,7 @@
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyBranchCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyBranchSortOrder" Type="Int32" />
+    <NavigationProperty Name="PersonStewardTaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID" FromRole="TaxonomyBranch" ToRole="PersonStewardTaxonomyBranches" />
     <NavigationProperty Name="TaxonomyTrunk" Relationship="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" FromRole="TaxonomyBranches" ToRole="TaxonomyTrunk" />
     <NavigationProperty Name="TaxonomyLeafs" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID" FromRole="TaxonomyBranch" ToRole="TaxonomyLeafs" />
   </EntityType>
@@ -2092,6 +2136,7 @@
     <Property Name="AccomplishmentsDashboardIncludeReportingOrganizationType" Type="Boolean" Nullable="false" />
     <Property Name="ShowLeadImplementerLogoOnFactSheet" Type="Boolean" Nullable="false" />
     <Property Name="EnableAccomplishmentsDashboard" Type="Boolean" Nullable="false" />
+    <Property Name="ProjectStewardshipAreaTypeID" Type="Int32" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />
@@ -2687,6 +2732,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PersonStewardOrganization_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
+    <End Role="PersonStewardOrganizations" Type="ProjectFirma.Web.Models.PersonStewardOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="PersonStewardOrganizations">
+        <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectOrganization_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
     <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.ProjectOrganization" Multiplicity="*" />
@@ -3095,6 +3152,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PersonStewardOrganization_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="PersonStewardOrganizations" Type="ProjectFirma.Web.Models.PersonStewardOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PersonStewardOrganizations">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonStewardTaxonomyBranch_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="PersonStewardTaxonomyBranches" Type="ProjectFirma.Web.Models.PersonStewardTaxonomyBranch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PersonStewardTaxonomyBranches">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Project_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
     <End Role="ProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
@@ -3260,6 +3341,18 @@
       </Principal>
       <Dependent Role="TenantAttributesWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID">
+    <End Role="TaxonomyBranch" Type="ProjectFirma.Web.Models.TaxonomyBranch" Multiplicity="1" />
+    <End Role="PersonStewardTaxonomyBranches" Type="ProjectFirma.Web.Models.PersonStewardTaxonomyBranch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyBranch">
+        <PropertyRef Name="TaxonomyBranchID" />
+      </Principal>
+      <Dependent Role="PersonStewardTaxonomyBranches">
+        <PropertyRef Name="TaxonomyBranchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

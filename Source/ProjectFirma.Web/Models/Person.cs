@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
@@ -123,7 +125,30 @@ namespace ProjectFirma.Web.Models
         public bool CanStewardProjectByOrganizationRelationship(Project project)
         {
             var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganizationForProject != null && canStewardProjectsOrganizationForProject.OrganizationID == OrganizationID;
+            return canStewardProjectsOrganizationForProject != null &&
+                   PersonStewardOrganizations.Select(x => x.OrganizationID)
+                       .Contains(canStewardProjectsOrganizationForProject.OrganizationID);
+        }
+
+        public bool CanStewardProjectByTaxonomyBranchRelationship(Project project)
+        {
+            var canStewardProjectsTaxonomyBranch = project.GetCanStewardProjectsTaxonomyBranch();
+            return canStewardProjectsTaxonomyBranch != null &&
+                   PersonStewardTaxonomyBranches.Select(x=>x.TaxonomyBranchID).Contains(canStewardProjectsTaxonomyBranch.TaxonomyBranchID);
+        }
+
+        public bool CanStewardProject(Project project)
+        {
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
+            switch (projectStewardshipAreaType.ToEnum)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    return CanStewardProjectByOrganizationRelationship(project);
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    return CanStewardProjectByTaxonomyBranchRelationship(project);
+                default:
+                    return true;
+            }
         }
 
         public void SetDefaultProjectOrganizations(Project project)
@@ -157,6 +182,20 @@ namespace ProjectFirma.Web.Models
                        canStewardProjectsOrganizationRelationship != null &&
                        canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
                            x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+            }
+        }
+
+        public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
+        {
+            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
+            switch (projectStewardshipAreaType?.ToEnum)
+            {
+                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
+                    return PersonStewardOrganizations.Select(x => x.Organization.GetDisplayNameAsUrl()).ToList();
+                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
+                    return PersonStewardTaxonomyBranches.Select(x => x.TaxonomyBranch.GetDisplayNameAsUrl()).ToList();
+                default:
+                    return new List<HtmlString>();
             }
         }
 

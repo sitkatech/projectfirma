@@ -160,6 +160,14 @@
                         @ViewDataTyped.TenantAttribute.EnableAccomplishmentsDashboard.ToYesNo()
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(FieldDefinition.ProjectStewardshipArea)
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType.ProjectStewardshipAreaTypeDisplayName
+                    </div>
+                </div>
             </div>
         </div>
     </div>
