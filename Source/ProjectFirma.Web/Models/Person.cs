@@ -122,11 +122,12 @@ namespace ProjectFirma.Web.Models
             Email = keystoneUserClaims.Email;
         }
 
-        // TODO: probably replace every use of this with CanStewardProject(project) but idk
         public bool CanStewardProjectByOrganizationRelationship(Project project)
         {
             var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganizationForProject != null && canStewardProjectsOrganizationForProject.OrganizationID == OrganizationID;
+            return canStewardProjectsOrganizationForProject != null &&
+                   PersonStewardOrganizations.Select(x => x.OrganizationID)
+                       .Contains(canStewardProjectsOrganizationForProject.OrganizationID);
         }
 
         public bool CanStewardProjectByTaxonomyBranchRelationship(Project project)
