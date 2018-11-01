@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
         public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions, SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
-            PageTitle = "Add Project";
+            PageTitle = $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }

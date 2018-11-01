@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectTypeSelection());
 
         private static readonly string AddNewProjectButtonText =
-            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add Project";
+            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
 
         private static readonly string ProjectTypeSelectionContinueButtonText =
             $"Continue {BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-right")}";
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public static HtmlString AddProjectButton()
         {
             return ModalDialogFormHelper.ModalDialogFormLink(AddNewProjectButtonText, ProjectTypeSelectionUrl,
-                "Add a project", 700, ProjectTypeSelectionContinueButtonText, "Cancel",
+                $"Add a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", 700, ProjectTypeSelectionContinueButtonText, "Cancel",
                 new List<string> {"btn", "btn-firma"}, null, null);
         }
     }

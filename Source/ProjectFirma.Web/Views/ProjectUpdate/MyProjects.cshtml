@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views
@@ -51,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div style="margin-top: 10px">
     <div style="float: right">@ModalDialogFormHelper.ModalDialogFormLink("Submit All", ViewDataTyped.SubmitAllUrl, "Submit all projects for review", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)</div>
     <p>
-        <b>Why these projects?</b> Projects appear here if they are your projects or you are the Project Steward for the Organization they belong to.
+        <b>Why these @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()?</b> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() appear here if they are your @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() or you are the @FieldDefinition.Project.GetFieldDefinitionLabel() Steward for the Organization they belong to.
     </p>
 </div>
 
@@ -59,25 +60,25 @@ Source code is available upon request via <support@sitkatech.com>.
     Show:
     <label>
         @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.MyProjectsRequiringAnUpdateUrl) })
-        My Projects Requiring an Update
+        My @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Requiring an Update
     </label>
     <label>
         @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.MySubmittedProjectsUrl) })
-        My Recently Submitted Projects
+        My Recently Submitted @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
     </label>
     <label>
         @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.AllMyProjectsUrl) })
-        All My Projects
+        All My @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
     </label>
     @if (ViewDataTyped.HasProjectUpdateAdminPermissions)
     {
         <label>
             @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.SubmittedProjectsUrl) })
-            Submitted Projects
+            Submitted @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
         </label>
         <label>
             @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.AllProjectsUrl) })
-            All Projects
+            All @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
         </label>
     }
 </span>

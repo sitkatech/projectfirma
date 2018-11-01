@@ -80,5 +80,5 @@
 }
 @if (!ViewDataTyped.FundingSourceExpenditures.Any())
 {
-    <p class="systemText">No Expenditures have been reported for this project.</p>
+    <p class="systemText">No Expenditures have been reported for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
 }
