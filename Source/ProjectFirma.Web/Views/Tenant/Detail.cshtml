@@ -165,7 +165,15 @@
                         @Html.LabelWithSugarFor(FieldDefinition.ProjectStewardshipArea)
                     </div>
                     <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType.ProjectStewardshipAreaTypeDisplayName
+                        @if (ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType != null)
+                        {
+                            @ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType.ProjectStewardshipAreaTypeDisplayName
+
+                        }
+                        else
+                        {
+                            <p class="systemText">None</p>
+                        }
                     </div>
                 </div>
             </div>
