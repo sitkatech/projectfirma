@@ -62,13 +62,13 @@
 }
 
 <p>
-    To enter your project's annual accomplishments:
+    To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual accomplishments:
     <ul>
         <li>Select and add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
         <li>For each @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), select the appropriate @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() options</li>
         <li>Enter the accomplishment value</li>
         <li>
-            You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your project's Start and Completion
+            You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your @FieldDefinition.Project.GetFieldDefinitionLabel()'s Start and Completion
             Years (or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, string.Format("current {0}", FieldDefinition.ReportingYear.GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
         </li>
     </ul>
@@ -85,7 +85,7 @@
     }
     else
     {
-        <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments entered for this project.</p>
+        <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments entered for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
     }
 }
 else if (!ViewDataTyped.AreProjectBasicsValid)
