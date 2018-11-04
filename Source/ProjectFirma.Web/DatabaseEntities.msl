@@ -544,6 +544,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PersonStewardWatershed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PersonStewardWatershed">
+        <MappingFragment StoreEntitySet="PersonStewardWatershed">
+          <ScalarProperty Name="PersonStewardWatershedID" ColumnName="PersonStewardWatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Project">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Project">
         <MappingFragment StoreEntitySet="Project">

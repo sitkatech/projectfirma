@@ -45,6 +45,7 @@
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Store.Person" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PersonStewardOrganization" EntityType="ProjectFirma.Web.Models.Store.PersonStewardOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PersonStewardTaxonomyBranch" EntityType="ProjectFirma.Web.Models.Store.PersonStewardTaxonomyBranch" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PersonStewardWatershed" EntityType="ProjectFirma.Web.Models.Store.PersonStewardWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Project" EntityType="ProjectFirma.Web.Models.Store.Project" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.Store.ProjectAssessmentQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.Store.ProjectBudget" store:Type="Tables" Schema="dbo" />
@@ -353,6 +354,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID" Association="ProjectFirma.Web.Models.Store.FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID">
       <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
       <End Role="PersonStewardTaxonomyBranches" EntitySet="PersonStewardTaxonomyBranch" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardWatershed_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_PersonStewardWatershed_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="PersonStewardWatersheds" EntitySet="PersonStewardWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_PersonStewardWatershed_Watershed_WatershedID">
+      <End Role="Watershed" EntitySet="Watershed" />
+      <End Role="PersonStewardWatersheds" EntitySet="PersonStewardWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
@@ -1289,6 +1298,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_CreatePersonID_
 warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PersonStewardOrganization_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PersonStewardTaxonomyBranch_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PersonStewardWatershed_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Project_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1341,6 +1351,15 @@ warning 6035: The relationship 'FK_TenantAttribute_Person_PrimaryContactPersonID
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="TaxonomyBranchID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PersonStewardWatershed">
+    <Key>
+      <PropertyRef Name="PersonStewardWatershedID" />
+    </Key>
+    <Property Name="PersonStewardWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="PersonID" Type="int" Nullable="false" />
+    <Property Name="WatershedID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_NotificationProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2089,6 +2108,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="VideoURL" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_PersonStewardWatershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershedUpdate_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
@@ -2849,6 +2869,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="PersonStewardTaxonomyBranches">
         <PropertyRef Name="TaxonomyBranchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonStewardWatershed_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
+    <End Role="PersonStewardWatersheds" Type="ProjectFirma.Web.Models.Store.PersonStewardWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PersonStewardWatersheds">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonStewardWatershed_Watershed_WatershedID">
+    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="1" />
+    <End Role="PersonStewardWatersheds" Type="ProjectFirma.Web.Models.Store.PersonStewardWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watershed">
+        <PropertyRef Name="WatershedID" />
+      </Principal>
+      <Dependent Role="PersonStewardWatersheds">
+        <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

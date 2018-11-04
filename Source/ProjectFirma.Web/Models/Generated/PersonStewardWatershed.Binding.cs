@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[PersonStewardTaxonomyBranch]
+//  Source Table: [dbo].[PersonStewardWatershed]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[PersonStewardTaxonomyBranch]")]
-    public partial class PersonStewardTaxonomyBranch : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[PersonStewardWatershed]")]
+    public partial class PersonStewardWatershed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected PersonStewardTaxonomyBranch()
+        protected PersonStewardWatershed()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,46 +30,46 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonStewardTaxonomyBranch(int personStewardTaxonomyBranchID, int personID, int taxonomyBranchID) : this()
+        public PersonStewardWatershed(int personStewardWatershedID, int personID, int watershedID) : this()
         {
-            this.PersonStewardTaxonomyBranchID = personStewardTaxonomyBranchID;
+            this.PersonStewardWatershedID = personStewardWatershedID;
             this.PersonID = personID;
-            this.TaxonomyBranchID = taxonomyBranchID;
+            this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonStewardTaxonomyBranch(int personID, int taxonomyBranchID) : this()
+        public PersonStewardWatershed(int personID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PersonStewardTaxonomyBranchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonStewardWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PersonID = personID;
-            this.TaxonomyBranchID = taxonomyBranchID;
+            this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PersonStewardTaxonomyBranch(Person person, TaxonomyBranch taxonomyBranch) : this()
+        public PersonStewardWatershed(Person person, Watershed watershed) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PersonStewardTaxonomyBranchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonStewardWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PersonID = person.PersonID;
             this.Person = person;
-            person.PersonStewardTaxonomyBranches.Add(this);
-            this.TaxonomyBranchID = taxonomyBranch.TaxonomyBranchID;
-            this.TaxonomyBranch = taxonomyBranch;
-            taxonomyBranch.PersonStewardTaxonomyBranches.Add(this);
+            person.PersonStewardWatersheds.Add(this);
+            this.WatershedID = watershed.WatershedID;
+            this.Watershed = watershed;
+            watershed.PersonStewardWatersheds.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PersonStewardTaxonomyBranch CreateNewBlank(Person person, TaxonomyBranch taxonomyBranch)
+        public static PersonStewardWatershed CreateNewBlank(Person person, Watershed watershed)
         {
-            return new PersonStewardTaxonomyBranch(person, taxonomyBranch);
+            return new PersonStewardWatershed(person, watershed);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PersonStewardTaxonomyBranch).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PersonStewardWatershed).Name};
 
 
         /// <summary>
@@ -100,20 +100,20 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            dbContext.AllPersonStewardTaxonomyBranches.Remove(this);
+            dbContext.AllPersonStewardWatersheds.Remove(this);
         }
 
         [Key]
-        public int PersonStewardTaxonomyBranchID { get; set; }
+        public int PersonStewardWatershedID { get; set; }
         public int TenantID { get; private set; }
         public int PersonID { get; set; }
-        public int TaxonomyBranchID { get; set; }
+        public int WatershedID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return PersonStewardTaxonomyBranchID; } set { PersonStewardTaxonomyBranchID = value; } }
+        public int PrimaryKey { get { return PersonStewardWatershedID; } set { PersonStewardWatershedID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person Person { get; set; }
-        public virtual TaxonomyBranch TaxonomyBranch { get; set; }
+        public virtual Watershed Watershed { get; set; }
 
         public static class FieldLengths
         {

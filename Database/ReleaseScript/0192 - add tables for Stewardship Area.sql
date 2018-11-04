@@ -19,6 +19,17 @@ constraint AK_PersonStewardTaxonomyBranch_PersonStewardTaxonomyBranchID_TenantID
 constraint FK_PersonStewardTaxonomyBranch_Person_PersonID_TenantID foreign key (PersonID, TenantID) references dbo.Person(PersonID,TenantID),
 constraint FK_PersonStewardTaxonomyBranch_TaxonomyBranchID_TenantID foreign key (TaxonomyBranchID, TenantID) references dbo.TaxonomyBranch(TaxonomyBranchID, TenantID)
 )
+
+Create Table dbo.PersonStewardWatershed(
+PersonStewardWatershedID int not null identity(1,1) constraint PK_PersonStewardWatershed_PersonStewardWatershedID primary key,
+TenantID int not null constraint FK_PersonStewardWatershed_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+PersonID int not null constraint FK_PersonStewardWatershed_Person_PersonID foreign key references dbo.Person(PersonID),
+WatershedID int not null constraint FK_PersonStewardWatershed_Watershed_WatershedID foreign key references dbo.Watershed(WatershedID),
+constraint AK_PersonStewardWatershed_PersonStewardWatershedID_TenantID unique (PersonStewardWatershedID, TenantID),
+constraint FK_PersonStewardWatershed_Person_PersonID_TenantID foreign key (PersonID, TenantID) references dbo.Person(PersonID,TenantID),
+constraint FK_PersonStewardWatershed_WatershedID_TenantID foreign key (WatershedID, TenantID) references dbo.Watershed(WatershedID, TenantID)
+)
+
 GO
 
 -- migrate existing stewardships
@@ -37,7 +48,8 @@ GO
 Insert Into dbo.ProjectStewardshipAreaType (ProjectStewardshipAreaTypeID, ProjectStewardshipAreaTypeName, ProjectStewardshipAreaTypeDisplayName)
 Values
 (1,'ProjectStewardingOrganizations', 'Project Stewarding Organizations'),
-(2,'TaxonomyBranches', 'Taxonomy Branches')
+(2,'TaxonomyBranches', 'Taxonomy Branches'),
+(3,'Watershed', 'Watersheds')
 GO
 
 -- add Tenant Attributes and prepopulate
@@ -52,4 +64,4 @@ Update dbo.TenantAttribute
 set ProjectStewardshipAreaTypeID = 1 where TenantID = 3
 
 Update dbo.TenantAttribute
-set ProjectStewardshipAreaTypeID = 2 where TenantID = 10
+set ProjectStewardshipAreaTypeID = 3 where TenantID = 10

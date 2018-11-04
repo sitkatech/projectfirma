@@ -116,6 +116,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<PersonStewardOrganization> PersonStewardOrganizations { get { return AllPersonStewardOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PersonStewardTaxonomyBranch> AllPersonStewardTaxonomyBranches { get; set; }
         public virtual IQueryable<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get { return AllPersonStewardTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<PersonStewardWatershed> AllPersonStewardWatersheds { get; set; }
+        public virtual IQueryable<PersonStewardWatershed> PersonStewardWatersheds { get { return AllPersonStewardWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectAssessmentQuestion> AllProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectBudget> AllProjectBudgets { get; set; }
@@ -431,6 +433,9 @@ namespace ProjectFirma.Web.Models
 
                 case "PersonStewardTaxonomyBranch":
                     return PersonStewardTaxonomyBranches.GetPersonStewardTaxonomyBranch(primaryKey);
+
+                case "PersonStewardWatershed":
+                    return PersonStewardWatersheds.GetPersonStewardWatershed(primaryKey);
 
                 case "ProjectApprovalStatus":
                     var projectApprovalStatus = ProjectApprovalStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

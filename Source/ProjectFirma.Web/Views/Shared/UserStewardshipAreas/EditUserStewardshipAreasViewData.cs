@@ -44,6 +44,11 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
             ViewDataForAngular = new EditViewDataForAngular(allTaxonomyBranches);
             Standalone = standalone;
         }
+        public EditUserStewardshipAreasViewData(Person currentPerson, List<Models.Watershed> allWatersheds, bool standalone) : base(currentPerson)
+        {
+            ViewDataForAngular = new EditViewDataForAngular(allWatersheds);
+            Standalone = standalone;
+        }
 
         public class EditViewDataForAngular
         {
@@ -57,6 +62,10 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
             public EditViewDataForAngular(List<Models.TaxonomyBranch> allTaxonomyBranches)
             {
                 AllStewardshipAreas = allTaxonomyBranches.OrderBy(x => x.DisplayName).Select(x => new StewardshipAreaSimple(x)).ToList();
+            }
+            public EditViewDataForAngular(List<Models.Watershed> allWatersheds)
+            {
+                AllStewardshipAreas = allWatersheds.OrderBy(x => x.DisplayName).Select(x => new StewardshipAreaSimple(x)).ToList();
             }
         }
     }

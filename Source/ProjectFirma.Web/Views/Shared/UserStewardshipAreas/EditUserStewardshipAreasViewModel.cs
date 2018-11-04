@@ -18,8 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
@@ -28,7 +28,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 {
-    public class EditUserStewardshipAreasViewModel : FormViewModel, IValidatableObject
+    public class EditUserStewardshipAreasViewModel : FormViewModel
     {
 
         [Required]
@@ -43,18 +43,10 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
         {
         }
 
-        public EditUserStewardshipAreasViewModel(Person person, Person currentPerson, ProjectStewardshipAreaType projectStewardshipAreaType)
+        public EditUserStewardshipAreasViewModel(Person person, ProjectStewardshipAreaType projectStewardshipAreaType)
         {
             PersonID = person.PersonID;
-            if (projectStewardshipAreaType == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
-            {
-                PersonStewardshipAreaSimples = person.PersonStewardOrganizations.OrderBy(x => x.Organization.DisplayName).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
-            }
-            else if (projectStewardshipAreaType == ProjectStewardshipAreaType.TaxonomyBranches)
-            {
-                PersonStewardshipAreaSimples = person.PersonStewardTaxonomyBranches.OrderBy(x => x.TaxonomyBranch.SortOrder)
-                    .ThenBy(x => x.TaxonomyBranch.DisplayName).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
-            }
+            PersonStewardshipAreaSimples = projectStewardshipAreaType.GetPersonStewardshipAreaSimples(person);
         }
 
         public void UpdateModel(Person person, IList<PersonStewardOrganization> allPersonStewardOrganizations)
@@ -64,7 +56,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 PersonStewardshipAreaSimples = new List<PersonStewardshipAreaSimple>();
             }
 
-            var personStewardOrganizationUpdateds = PersonStewardshipAreaSimples.Select(x =>
+            var personStewardOrganizationsUpdated = PersonStewardshipAreaSimples.Select(x =>
             {
                 var personStewardOrganization = new PersonStewardOrganization(
                     x.PersonStewardshipAreaID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), person.PersonID,
@@ -72,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 return personStewardOrganization;
             }).ToList();
 
-            person.PersonStewardOrganizations.Merge(personStewardOrganizationUpdateds, 
+            person.PersonStewardOrganizations.Merge(personStewardOrganizationsUpdated, 
                 allPersonStewardOrganizations, 
                 (x, y) => x.PersonStewardOrganizationID == y.PersonStewardOrganizationID,
                 (x, y) =>
@@ -83,7 +75,6 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 
         }
 
-        // TODO: If we add a new (third) Stewardship type, we need to make these methods generic to cut down on switching. See NJP about the approach.
         public void UpdateModel(Person person, IList<PersonStewardTaxonomyBranch> allPersonStewardTaxonomyBranches)
         {
             if (PersonStewardshipAreaSimples == null)
@@ -91,7 +82,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 PersonStewardshipAreaSimples = new List<PersonStewardshipAreaSimple>();
             }
 
-            var personStewardTaxonomyBranchUpdateds = PersonStewardshipAreaSimples.Select(x =>
+            var personStewardTaxonomyBranchesUpdated = PersonStewardshipAreaSimples.Select(x =>
             {
                 var personStewardTaxonomyBranch = new PersonStewardTaxonomyBranch(
                     x.PersonStewardshipAreaID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), person.PersonID,
@@ -99,7 +90,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 return personStewardTaxonomyBranch;
             }).ToList();
 
-            person.PersonStewardTaxonomyBranches.Merge(personStewardTaxonomyBranchUpdateds,
+            person.PersonStewardTaxonomyBranches.Merge(personStewardTaxonomyBranchesUpdated,
                 allPersonStewardTaxonomyBranches,
                 (x, y) => x.PersonStewardTaxonomyBranchID == y.PersonStewardTaxonomyBranchID,
                 (x, y) =>
@@ -108,11 +99,31 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                     x.TaxonomyBranchID = y.TaxonomyBranchID;
                 });
         }
+       
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public void UpdateModel(Person person, ObservableCollection<PersonStewardWatershed> allPersonStewardWatersheds)
         {
-            yield break;
-        }
+            if (PersonStewardshipAreaSimples == null)
+            {
+                PersonStewardshipAreaSimples = new List<PersonStewardshipAreaSimple>();
+            }
 
+            var personStewardWatershedsUpdated = PersonStewardshipAreaSimples.Select(x =>
+            {
+                var personStewardWatershed = new PersonStewardWatershed(
+                    x.PersonStewardshipAreaID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), person.PersonID,
+                    x.StewardshipAreaID.GetValueOrDefault()); // will never be null due to RequiredAttribute
+                return personStewardWatershed;
+            }).ToList();
+
+            person.PersonStewardWatersheds.Merge(personStewardWatershedsUpdated,
+                allPersonStewardWatersheds,
+                (x, y) => x.PersonStewardWatershedID == y.PersonStewardWatershedID,
+                (x, y) =>
+                {
+                    x.PersonID = y.PersonID;
+                    x.WatershedID = y.WatershedID;
+                });
+        }
     }
 }

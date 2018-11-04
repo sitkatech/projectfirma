@@ -122,55 +122,9 @@ namespace ProjectFirma.Web.Models
             Email = keystoneUserClaims.Email;
         }
 
-        public bool CanStewardProjectByOrganizationRelationship(Project project)
-        {
-            var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganizationForProject != null &&
-                   PersonStewardOrganizations.Select(x => x.OrganizationID)
-                       .Contains(canStewardProjectsOrganizationForProject.OrganizationID);
-        }
-
-        public bool CanStewardProjectByTaxonomyBranchRelationship(Project project)
-        {
-            var canStewardProjectsTaxonomyBranch = project.GetCanStewardProjectsTaxonomyBranch();
-            return canStewardProjectsTaxonomyBranch != null &&
-                   PersonStewardTaxonomyBranches.Select(x=>x.TaxonomyBranchID).Contains(canStewardProjectsTaxonomyBranch.TaxonomyBranchID);
-        }
-
         public bool CanStewardProject(Project project)
         {
-            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
-            switch (projectStewardshipAreaType.ToEnum)
-            {
-                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
-                    return CanStewardProjectByOrganizationRelationship(project);
-                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
-                    return CanStewardProjectByTaxonomyBranchRelationship(project);
-                default:
-                    return true;
-            }
-        }
-
-        public void SetDefaultProjectOrganizations(Project project)
-        {
-            if (!new ProjectApproveFeature().HasPermissionByPerson(this))
-            {
-                return;
-            }
-
-            var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
-            if (canStewardProjectsOrganizationRelationship != null &&
-                canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, canStewardProjectsOrganizationRelationship));
-            }
-
-            var relationshipTypeThatIsPrimaryContact = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
-            if (relationshipTypeThatIsPrimaryContact != null &&
-                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatIsPrimaryContact));
-            }
+            return MultiTenantHelpers.GetProjectStewardshipAreaType().CanStewardProject(this, project);
         }
 
         public bool PersonIsProjectOwnerWhoCanStewardProjects
@@ -187,16 +141,7 @@ namespace ProjectFirma.Web.Models
 
         public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
         {
-            var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType();
-            switch (projectStewardshipAreaType?.ToEnum)
-            {
-                case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
-                    return PersonStewardOrganizations.Select(x => x.Organization.GetDisplayNameAsUrl()).ToList();
-                case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
-                    return PersonStewardTaxonomyBranches.Select(x => x.TaxonomyBranch.GetDisplayNameAsUrl()).ToList();
-                default:
-                    return new List<HtmlString>();
-            }
+            return MultiTenantHelpers.GetProjectStewardshipAreaType().GetProjectStewardshipAreaHtmlStringList(this);
         }
 
         public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;

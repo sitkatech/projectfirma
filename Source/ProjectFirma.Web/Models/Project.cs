@@ -81,6 +81,11 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranch;
         }
 
+        public List<Watershed> GetCanStewardProjectsWatersheds()
+        {
+            return ProjectWatersheds.Select(x => x.Watershed).ToList();
+        }
+
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
             if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)

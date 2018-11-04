@@ -50,5 +50,10 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
             PersonStewardshipAreaID = personStewardOrganization.PersonStewardOrganizationID;
             StewardshipAreaID = personStewardOrganization.OrganizationID;
         }
+        public PersonStewardshipAreaSimple(PersonStewardWatershed personStewardWatershed)
+        {
+            PersonStewardshipAreaID = personStewardWatershed.PersonStewardWatershedID;
+            StewardshipAreaID = personStewardWatershed.WatershedID;
+        }
     }
 }

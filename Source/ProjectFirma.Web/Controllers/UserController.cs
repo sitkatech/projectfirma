@@ -327,7 +327,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
-            var viewModel = new EditUserStewardshipAreasViewModel(person, CurrentPerson, MultiTenantHelpers.GetProjectStewardshipAreaType());
+            var viewModel = new EditUserStewardshipAreasViewModel(person, MultiTenantHelpers.GetProjectStewardshipAreaType());
             return ViewEditStewardshipAreas(viewModel);
         }
 
@@ -353,6 +353,10 @@ namespace ProjectFirma.Web.Controllers
                     HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Load();
                     viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardTaxonomyBranches.Local);
                     break;
+                case ProjectStewardshipAreaTypeEnum.Watersheds:
+                    HttpRequestStorage.DatabaseEntities.Watersheds.Load();
+                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardWatersheds.Local);
+                    break;
                 default:
                     throw new InvalidOperationException(
                         "The Stewardship Area editor should only be allowed for tenants with a Project Stewardship Area Type");
@@ -377,6 +381,10 @@ namespace ProjectFirma.Web.Controllers
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
                     var allTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
                     viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allTaxonomyBranches, false);
+                    break;
+                case ProjectStewardshipAreaTypeEnum.Watersheds:
+                    var allWatersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
+                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allWatersheds, false);
                     break;
                 default:
                     throw new InvalidOperationException(
