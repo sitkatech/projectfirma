@@ -140,7 +140,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.Watershed.GetFieldDefinitionLabel() are charted here. Results are included for every project that is assigned to this @FieldDefinition.Watershed.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.Watershed.GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @FieldDefinition.Watershed.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {

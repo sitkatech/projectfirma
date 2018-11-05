@@ -36,15 +36,15 @@ namespace ProjectFirma.Web.Views.Project
 
         public FeaturedListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Featured Projects";
+            PageTitle = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
             GridName = "featuredListGrid";
             GridSpec = new FeaturesListProjectGridSpec(currentPerson)
             {
-                ObjectNameSingular = "Featured Project",
-                ObjectNamePlural = "Featured Projects",
+                ObjectNameSingular = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects()), "Edit Featured Projects"),
-                CreateEntityActionPhrase = "Add/Remove Featured Projects"
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects()), $"Edit Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}"),
+                CreateEntityActionPhrase = $"Add/Remove Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}"
             };
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.FeaturedListGridJsonData());
         }
