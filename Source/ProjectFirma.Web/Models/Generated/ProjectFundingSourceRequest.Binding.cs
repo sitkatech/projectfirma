@@ -94,15 +94,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            DeleteFull(HttpRequestStorage.DatabaseEntities);
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            dbContext.AllProjectFundingSourceRequests.Remove(this);
+            HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Remove(this);                
         }
 
         [Key]
