@@ -278,5 +278,10 @@ namespace ProjectFirma.Web.Common
                         "Save", "Cancel", new List<string>(), null, null).ToString(), menuGroupName));
             }
         }
+
+        public static ProjectStewardshipAreaType GetProjectStewardshipAreaType()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().ProjectStewardshipAreaType;
+        }
     }
 }

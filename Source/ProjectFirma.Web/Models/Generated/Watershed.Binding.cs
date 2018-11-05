@@ -23,6 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Watershed()
         {
+            this.PersonStewardWatersheds = new HashSet<PersonStewardWatershed>();
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
             this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -64,13 +65,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectWatersheds.Any() || ProjectWatershedUpdates.Any();
+            return PersonStewardWatersheds.Any() || ProjectWatersheds.Any() || ProjectWatershedUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(ProjectWatershed).Name, typeof(ProjectWatershedUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(PersonStewardWatershed).Name, typeof(ProjectWatershed).Name, typeof(ProjectWatershedUpdate).Name};
 
 
         /// <summary>
@@ -78,17 +79,30 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in PersonStewardWatersheds.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in ProjectWatersheds.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in ProjectWatershedUpdates.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
-            HttpRequestStorage.DatabaseEntities.AllWatersheds.Remove(this);                
+            dbContext.AllWatersheds.Remove(this);
         }
 
         [Key]
@@ -99,6 +113,7 @@ namespace ProjectFirma.Web.Models
         [NotMapped]
         public int PrimaryKey { get { return WatershedID; } set { WatershedID = value; } }
 
+        public virtual ICollection<PersonStewardWatershed> PersonStewardWatersheds { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
         public virtual ICollection<ProjectWatershedUpdate> ProjectWatershedUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

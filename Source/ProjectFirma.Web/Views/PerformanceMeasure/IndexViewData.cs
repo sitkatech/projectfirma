@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
 
             HasPerformanceMeasureManagePermissions = hasPerformanceMeasureManagePermissions;
-            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec (HasPerformanceMeasureManagePermissions) {
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentPerson) {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true

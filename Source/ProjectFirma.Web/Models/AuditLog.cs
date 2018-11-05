@@ -64,7 +64,9 @@ namespace ProjectFirma.Web.Models
             "SupportRequestLog",
             "ProjectBudgetUpdate",
             "ProjectFundingSourceRequestUpdate",
-            "ProjectDocumentUpdate"
+            "ProjectDocumentUpdate",
+            "PersonStewardOrganization",
+            "PersonStewardTaxonomyBranch"
         };
 
         public string AuditDescriptionDisplay

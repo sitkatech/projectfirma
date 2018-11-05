@@ -29,21 +29,22 @@ namespace ProjectFirma.Web.Views.User
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Person Person;
-        public readonly string EditPersonOrganizationPrimaryContactUrl;
-        public readonly string Index;
+        public Person Person { get; }
+        public string EditPersonOrganizationPrimaryContactUrl { get; }
+        public string Index { get; }
 
-        public readonly bool UserHasPersonViewPermissions;
-        public readonly bool UserHasPersonManagePermissions;
-        public readonly bool UserHasViewEverythingPermissions;
-        public readonly bool IsViewingSelf;
-        public readonly Project.BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
-        public readonly UserNotificationGridSpec UserNotificationGridSpec;
-        public readonly string UserNotificationGridName;
-        public readonly string UserNotificationGridDataUrl;
-        public readonly string ActivateInactivateUrl;
+        public bool UserHasPersonViewPermissions { get; }
+        public bool UserHasPersonManagePermissions { get; }
+        public bool UserHasViewEverythingPermissions { get; }
+        public bool IsViewingSelf { get; }
+        public Project.BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
+        public UserNotificationGridSpec UserNotificationGridSpec { get; }
+        public string UserNotificationGridName { get; }
+        public string UserNotificationGridDataUrl { get; }
+        public string ActivateInactivateUrl { get; }
+        public bool TenantHasStewardshipAreas { get; }
 
         public DetailViewData(Person currentPerson,
             Person personToView,
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.User
             IsViewingSelf = currentPerson != null && currentPerson.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
-                    string.Format("Edit Roles for User - {0}", personToView.FullNameFirstLast),
+                    $"Edit Roles for User - {personToView.FullNameFirstLast}",
                     true)
                 : new HtmlString(string.Empty);
 
@@ -81,6 +82,8 @@ namespace ProjectFirma.Web.Views.User
             UserNotificationGridName = userNotificationGridName;
             UserNotificationGridDataUrl = userNotificationGridDataUrl;
             ActivateInactivateUrl = activateInactivateUrl;
+
+            TenantHasStewardshipAreas = MultiTenantHelpers.GetProjectStewardshipAreaType() != null;
         }
 
         public readonly HtmlString EditRolesLink;

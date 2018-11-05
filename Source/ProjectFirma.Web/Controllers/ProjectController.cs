@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -355,8 +356,9 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
+            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypeDatas.ToDictionary(x => x.FundingTypeID);
+            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes);
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceRequests).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectWatersheds).Include(x => x.ProjectOrganizations).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }

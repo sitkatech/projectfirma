@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
@@ -120,32 +122,9 @@ namespace ProjectFirma.Web.Models
             Email = keystoneUserClaims.Email;
         }
 
-        public bool CanStewardProjectByOrganizationRelationship(Project project)
+        public bool CanStewardProject(Project project)
         {
-            var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
-            return canStewardProjectsOrganizationForProject != null && canStewardProjectsOrganizationForProject.OrganizationID == OrganizationID;
-        }
-
-        public void SetDefaultProjectOrganizations(Project project)
-        {
-            if (!new ProjectApproveFeature().HasPermissionByPerson(this))
-            {
-                return;
-            }
-
-            var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
-            if (canStewardProjectsOrganizationRelationship != null &&
-                canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, canStewardProjectsOrganizationRelationship));
-            }
-
-            var relationshipTypeThatIsPrimaryContact = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
-            if (relationshipTypeThatIsPrimaryContact != null &&
-                relationshipTypeThatIsPrimaryContact.OrganizationTypeRelationshipTypes.Any(x => x.OrganizationTypeID == Organization.OrganizationTypeID))
-            {
-                project.ProjectOrganizations.Add(new ProjectOrganization(project, Organization, relationshipTypeThatIsPrimaryContact));
-            }
+            return MultiTenantHelpers.GetProjectStewardshipAreaType().CanStewardProject(this, project);
         }
 
         public bool PersonIsProjectOwnerWhoCanStewardProjects
@@ -158,6 +137,11 @@ namespace ProjectFirma.Web.Models
                        canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
                            x => x.OrganizationTypeID == Organization.OrganizationTypeID);
             }
+        }
+
+        public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
+        {
+            return MultiTenantHelpers.GetProjectStewardshipAreaType().GetProjectStewardshipAreaHtmlStringList(this);
         }
 
         public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;

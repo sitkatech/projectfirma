@@ -201,6 +201,15 @@
     <Compile Include="Models\Generated\Person.Binding.cs" />
     <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganization.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranch.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardWatershed.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardWatershed.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardWatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Project.Binding.cs" />
     <Compile Include="Models\Generated\Project.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectApprovalStatus.Binding.cs" />
@@ -311,6 +320,8 @@
     <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStewardshipAreaType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStewardshipAreaTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTag.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
@@ -398,6 +409,8 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.cs" />
+    <Compile Include="Models\ProjectStewardshipAreaType.cs" />
     <Compile Include="Models\ProjectUpdateBatchModelExtensions.cs" />
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
@@ -643,6 +656,11 @@
     <Compile Include="Views\Shared\SortOrder\SortOrderHelper.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasures.cs" />
     <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewModel.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\StewardshipAreaSimple.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
     <Compile Include="Views\Home\StyleGuide.cs" />
@@ -789,7 +807,15 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
-    <Content Include="Content\img\WashingtonDNR\dnr-footer-img.jpg" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\android-chrome-192x192.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\apple-touch-icon.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\browserconfig.xml" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\dnr-footer-img.jpg" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon-16x16.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon-32x32.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\favicon.ico" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\mstile-150x150.png" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\safari-pinned-tab.svg" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="Content\qtip\jquery.qtip.es5.js">
@@ -850,6 +876,7 @@
     <Compile Include="FirmaOwinStartup.cs" />
     <Content Include="Content\Bootstrap\firma\iswcc.theme.less" />
     <Content Include="Content\Bootstrap\firma\dnr.theme.less" />
+    <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\site.webmanifest" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -1607,6 +1634,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
+    <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1661,6 +1689,7 @@
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Content Include="Views\Home\StyleGuide.cshtml" />
+    <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

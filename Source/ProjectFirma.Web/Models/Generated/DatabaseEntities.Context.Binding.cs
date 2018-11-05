@@ -112,6 +112,12 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
+        public virtual IQueryable<PersonStewardOrganization> PersonStewardOrganizations { get { return AllPersonStewardOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<PersonStewardTaxonomyBranch> AllPersonStewardTaxonomyBranches { get; set; }
+        public virtual IQueryable<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get { return AllPersonStewardTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<PersonStewardWatershed> AllPersonStewardWatersheds { get; set; }
+        public virtual IQueryable<PersonStewardWatershed> PersonStewardWatersheds { get { return AllPersonStewardWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectAssessmentQuestion> AllProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectBudget> AllProjectBudgets { get; set; }
@@ -422,6 +428,15 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
 
+                case "PersonStewardOrganization":
+                    return PersonStewardOrganizations.GetPersonStewardOrganization(primaryKey);
+
+                case "PersonStewardTaxonomyBranch":
+                    return PersonStewardTaxonomyBranches.GetPersonStewardTaxonomyBranch(primaryKey);
+
+                case "PersonStewardWatershed":
+                    return PersonStewardWatersheds.GetPersonStewardWatershed(primaryKey);
+
                 case "ProjectApprovalStatus":
                     var projectApprovalStatus = ProjectApprovalStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectApprovalStatus, "ProjectApprovalStatus", primaryKey);
@@ -561,6 +576,11 @@ namespace ProjectFirma.Web.Models
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectStage, "ProjectStage", primaryKey);
                     return projectStage;
+
+                case "ProjectStewardshipAreaType":
+                    var projectStewardshipAreaType = ProjectStewardshipAreaType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectStewardshipAreaType, "ProjectStewardshipAreaType", primaryKey);
+                    return projectStewardshipAreaType;
 
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);

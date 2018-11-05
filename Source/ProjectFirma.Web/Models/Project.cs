@@ -75,6 +75,17 @@ namespace ProjectFirma.Web.Models
             return organization;
         }
 
+        public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
+        {
+            var taxonomyBranch = TaxonomyLeaf.TaxonomyBranch;
+            return taxonomyBranch;
+        }
+
+        public List<Watershed> GetCanStewardProjectsWatersheds()
+        {
+            return ProjectWatersheds.Select(x => x.Watershed).ToList();
+        }
+
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
         {
             if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
@@ -271,7 +282,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return !person.IsAnonymousUser && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this));
+            return !person.IsAnonymousUser && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this) || person.PersonStewardOrganizations.Any(x=>x.Organization.IsMyProject(this)));
         }
 
         public bool IsPersonThePrimaryContact(Person person)

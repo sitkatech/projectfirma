@@ -29,14 +29,19 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasure : IAuditableEntity, IHaveASortOrder
     {
-        public int ExpectedProjectsCount
+        public List<Project> GetAssociatedProjectsWithReportedValues(Person person)
         {
-            get { return PerformanceMeasureExpecteds.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }
+            return PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
         }
 
-        public int ReportedProjectsCount
+        public List<Project> GetAssociatedProjectsWithExpectedValues(Person person)
         {
-            get { return PerformanceMeasureActuals.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }
+            return PerformanceMeasureExpecteds.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+        }     
+
+        public int ReportedProjectsCount(Person currentPerson)
+        {
+           return GetAssociatedProjectsWithReportedValues(currentPerson).Distinct().Count(); 
         }
 
         public ITaxonomyTier GetPrimaryTaxonomyTier()
@@ -82,50 +87,41 @@ namespace ProjectFirma.Web.Models
                 .SelectMany(x => x.PerformanceMeasureSubcategoryOptions).OrderBy(x=>x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).ThenBy(x=>x.SortOrder);
         }
 
-        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues()
+        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(Person currentPerson)
         {
-            return GetReportedPerformanceMeasureValues(new List<int>());
+            var projects = GetAssociatedProjectsWithReportedValues(currentPerson);
+            return GetReportedPerformanceMeasureValues(projects);
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(Project project)
         {
-            return GetReportedPerformanceMeasureValues(new List<int> {project.ProjectID});
+            return GetReportedPerformanceMeasureValues(new List<Project> {project});
         }
        
-        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(List<int> projectIDs)
+        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(List<Project> projects)
         {
-            return PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues( this, projectIDs);
+            return PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(this, projects);
         }
 
-        public decimal? TotalExpenditure()
+        public decimal? TotalExpenditure(Person currentPerson)
         {
-            return SubcategoriesTotalReportedValues().Sum(x => x.CalculateWeightedTotalExpenditure());
+            return SubcategoriesTotalReportedValues(currentPerson).Sum(x => x.CalculateWeightedTotalExpenditure());
         }
 
-        public decimal? TotalExpenditurePerPerformanceMeasureUnit()
+        public decimal? TotalExpenditurePerPerformanceMeasureUnit(Person currentPerson)
         {
-            var totalReportedValues = SubcategoriesTotalReportedValues().Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
+            var totalReportedValues = SubcategoriesTotalReportedValues(currentPerson).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
             if (Math.Abs(totalReportedValues) < Double.Epsilon)
             {
                 return null;
             }
-            return TotalExpenditure()/(decimal) totalReportedValues;
+            return TotalExpenditure(currentPerson) / (decimal)totalReportedValues;
         }
 
-        public decimal? AnnualExpenditure(int calendarYear)
-        {
-            return GetReportedPerformanceMeasureValues().Where(x => x.CalendarYear == calendarYear).Sum(x => x.CalculateWeightedAnnualExpenditure());
-        }
-
-        public double? TotalReportedValueWithNonZeroExpenditures()
-        {
-            return SubcategoriesTotalReportedValues().Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
-        }
-
-        public List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues()
+        public List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues(Person currentPerson)
         {
             var groupByProjectAndSubcategory =
-                GetReportedPerformanceMeasureValues()
+                GetReportedPerformanceMeasureValues(currentPerson)
                     .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
                     .GroupBy(x => new {x.Project, x.PerformanceMeasureSubcategoriesAsString})
                     .ToList();
@@ -159,22 +155,21 @@ namespace ProjectFirma.Web.Models
             return HasRealSubcategories ? PerformanceMeasureSubcategories.Count : 0;
         }
 
-        public List<GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
+        public List<GoogleChartJson> GetGoogleChartJsonDictionary(List<Project> projects)
         {
-            var reportedValues = GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this, projectIDs);
+            var reportedValues = GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this, projects);
             var googleChartJsons = PerformanceMeasureSubcategory.MakeGoogleChartJsons(this, reportedValues);
             return googleChartJsons;
         }
 
-        public List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(PerformanceMeasure performanceMeasure, List<int> projectIDs)
+        public List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(PerformanceMeasure performanceMeasure, List<Project> projects)
         {
-            var performanceMeasureValues =
-                performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
+            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
                     performanceMeasure,
-                    projectIDs);
+                    projects);
 
             var performanceMeasureActualsFiltered =
-                projectIDs?.Any() == true ? performanceMeasureValues.Where(pmav => projectIDs.Contains(pmav.Project.ProjectID)).ToList() : performanceMeasureValues;
+                projects?.Any() == true ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList() : performanceMeasureValues;
 
             var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, pirv.PerformanceMeasureSubcategoriesAsString, pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
@@ -210,5 +205,11 @@ namespace ProjectFirma.Web.Models
         public string DisplayName => PerformanceMeasureDisplayName;
         public int? SortOrder { get => PerformanceMeasureSortOrder; set => PerformanceMeasureSortOrder = value; }
         public int ID => PerformanceMeasureID;
+
+        public double? TotalReportedValueWithNonZeroExpenditures(Person currentPerson)
+        {
+            return SubcategoriesTotalReportedValues(currentPerson).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+        }   
+
     }
 }

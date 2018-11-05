@@ -26,13 +26,15 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class PerformanceMeasureGridSpec : GridSpec<Models.PerformanceMeasure>
     {
-        public PerformanceMeasureGridSpec(bool hasDeletePermission)
+        public PerformanceMeasureGridSpec(Person currentPerson)
         {
+            var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             if (hasDeletePermission)
             {
                 Add(string.Empty, x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
@@ -45,7 +47,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add(Models.FieldDefinition.PerformanceMeasureType.ToGridHeaderString("Type"), a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add($"# of {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount, 80);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount(currentPerson), 80);
             Add($"Primary {MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().GetFieldDefinition().GetFieldDefinitionLabel()}", a => a.GetPrimaryTaxonomyTier() == null ? new HtmlString(string.Empty) : a.GetPrimaryTaxonomyTier().GetDisplayNameAsUrl(), 150);
         }
     }
