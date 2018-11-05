@@ -1,4 +1,5 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Results
 
@@ -30,7 +31,7 @@
 </div>
     <div class="form-group">
         @Html.LabelWithSugarFor(m => m.IncludeReportingOrganizationType)
-        <div class="help-block">When 'No' is selected, the organizations with the Project-Organization Relationship to a project above will NOT appear in the full list of partners, unless the list is filtered by a particular organization.</div>
+        <div class="help-block">When 'No' is selected, the organizations with the Project-Organization Relationship to a @FieldDefinition.Project.GetFieldDefinitionLabel() above will NOT appear in the full list of partners, unless the list is filtered by a particular organization.</div>
         <div>
             <div class="radio-inline">
                 <label>

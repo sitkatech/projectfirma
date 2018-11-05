@@ -38,12 +38,12 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             // brand new project, should not have any updates
-            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>(), "Brand new project, should not have any project updates submitted");
+            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>(), $"Brand new {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}, should not have any project updates submitted");
 
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
             projectUpdateBatch.LastUpdateDate = DateTime.Now;
             // brand new project update batch, should still not have any updates
-            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>(), "Brand new project update batch, should not have any project updates submitted");
+            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>(), $"Brand new {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update batch, should not have any project updates submitted");
 
             var person = TestFramework.TestPerson.Create();
 
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Models
             var projectUpdateBatch2 = TestFramework.TestProjectUpdateBatch.Create(project);
             projectUpdateBatch2.LastUpdateDate = DateTime.Now;
             
-            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>{ reportingYear }, "Should not have any project updates submitted except for the reporting year");
+            AssertThatProjectHasNoSubmittedProjectUpdates(project, new List<int>{ reportingYear }, $"Should not have any {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} updates submitted except for the reporting year");
         }
 
         private static void AssertThatProjectHasNoSubmittedProjectUpdates(Project project, List<int> reportingYearsToExclude, string assertMessage)

@@ -151,7 +151,7 @@ Thank you,<br />
 ";
 
             var subject =
-                $"The update for project {projectUpdateBatch.Project.DisplayName} has been returned - please review and re-submit";
+                $"The update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} has been returned - please review and re-submit";
             var mailMessage1 = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
             var mailMessage = mailMessage1;
 
@@ -167,15 +167,15 @@ Thank you,<br />
         public static void SendSubmittedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $"A Project was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
+            var subject = $"A {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
-<p>A new Project, “{project.DisplayName}”, was submitted.</p>
-<p>The Project was submitted on {project.ProposingDate.ToStringDate()} by {
+<p>A new {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}, “{project.DisplayName}”, was submitted.</p>
+<p>The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was submitted on {project.ProposingDate.ToStringDate()} by {
                     submitterPerson.FullNameFirstLastAndOrg
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
-<a href=""{basicsUrl}"">View this project</a></p>
+<a href=""{basicsUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
@@ -194,14 +194,14 @@ Thank you,<br />
         {
             Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
             var submitterPerson = project.ProposingPerson;
-            var subject = $"Your Project \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
+            var subject = $"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLastAndOrg},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} Project submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
-<p>This project is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} Project List</a> and is visible to the public via the project detail page.</p>
-<p><a href=""{detailUrl}"">View this project</a></p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
+<p>This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List</a> and is visible to the public via the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} detail page.</p>
+<p><a href=""{detailUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
 ";
@@ -225,13 +225,13 @@ Thank you,<br />
         public static void SendReturnedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $@"Your Project ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
+            var subject = $@"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.FullNameFirstLast},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} project submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
-<p>The project was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this project can move forward.</p>
-<a href=""{basicsUrl}"">View this project</a></p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
+<p>The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} can move forward.</p>
+<a href=""{basicsUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
 ";

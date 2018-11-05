@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString MakeDisabledSectionLinkForApprovedAndRejectedProjects(string sectionLabel)
         {
-            return BootstrapHtmlHelpers.MakeModalDialogAlertLink("Unable to edit project through this wizard.",
+            return BootstrapHtmlHelpers.MakeModalDialogAlertLink($"Unable to edit {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} through this wizard.",
                 string.Format("Unable to Edit {0}", sectionLabel),
                 "Close",
                 sectionLabel,

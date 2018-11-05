@@ -278,7 +278,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            Check.Assert(project.ProjectStage != ProjectStage.Terminated, "There is no Fact Sheet available for this Project because it has been terminated.");
+            Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} because it has been terminated.");
             return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project) : ViewForwardLookingFactSheet(project);
         }
         private ViewResult ViewBackwardLookingFactSheet(Project project)
@@ -508,7 +508,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = $"Are you sure you want to delete this Project '{project.DisplayName}'?";
+            var confirmMessage = $"Are you sure you want to delete this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.DisplayName}'?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -524,7 +524,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
 
-            var message = $"Project \"{project.DisplayName}\" successfully deleted.";
+            var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" successfully deleted.";
             project.DeleteFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();

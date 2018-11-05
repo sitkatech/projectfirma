@@ -49,12 +49,12 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
             {
-                return new PermissionCheckResult("This Project has been approved and can no longer be edited through this wizard.");
+                return new PermissionCheckResult($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has been approved and can no longer be edited through this wizard.");
             }
 
             if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
             {
-                return new PermissionCheckResult("This Project has been rejected and can no longer be edited through this wizard.");
+                return new PermissionCheckResult($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has been rejected and can no longer be edited through this wizard.");
             }
 
             var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);

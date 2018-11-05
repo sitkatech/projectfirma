@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
                                                          ModelObjectHelpers.NotYetAssignedID);
                 return
                     $"Custom Attribute Value (type: {projectCustomAttributeType?.ProjectCustomAttributeTypeName ?? "<Type Not Found>"}, " +
-                    $"project update: {projectUpdateBatch?.ProjectUpdate.DisplayName ?? "<Project Update Not Found>"}, " +
+                    $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update: {projectUpdateBatch?.ProjectUpdate.DisplayName ?? "<{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Not Found>"}, " +
                     $"value = \"{AttributeValue}\")";
             }
         }

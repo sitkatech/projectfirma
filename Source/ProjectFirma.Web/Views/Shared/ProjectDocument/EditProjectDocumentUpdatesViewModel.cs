@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             if (HttpRequestStorage.DatabaseEntities.ProjectDocumentUpdates.Where(x => x.ProjectUpdateBatchID == ParentID && x.ProjectDocumentUpdateID != DocumentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>("The Display Name must be unique for each Document attached to a Project Update", m => m.DisplayName));
+                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>($"The Display Name must be unique for each Document attached to a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update", m => m.DisplayName));
             }
 
             return validationResults;

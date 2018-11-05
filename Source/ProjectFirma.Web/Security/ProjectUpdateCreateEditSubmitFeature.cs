@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.IsProposal())
             {
-                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the Project Update process.");
+                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update process.");
             }
 
             if (!contextModelObject.IsUpdatableViaProjectUpdateProcess)

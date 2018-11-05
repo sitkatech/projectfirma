@@ -57,13 +57,13 @@ Source code is available upon request via <support@sitkatech.com>.
             @if (ViewDataTyped.FromFundingSource)
             {
                 <div class="form-group">
-                    <label class="control-label">Project to Add:</label>
+                    <label class="control-label">@FieldDefinition.Project.GetFieldDefinitionLabel() to Add:</label>
                     <div class="input-group">
                         <select ng-model="ProjectIDToAdd"
                                 class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
-                                title="Select a Project to Add"
+                                title="Select a @FieldDefinition.Project.GetFieldDefinitionLabel() to Add"
                                 data-width="100%">
                             <option value="null" disabled selected></option>
                             <option ng-repeat="project in filteredProjects()"

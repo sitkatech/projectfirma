@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
             {
                 var watershed = Watershed != null ? Watershed.DisplayName : ViewUtilities.NotFoundString;
                 var projectUpdate = ProjectUpdateBatch != null ? ProjectUpdateBatch.ProjectUpdate.DisplayName : ViewUtilities.NotFoundString;
-                return $"Watershed: {watershed}, Project Update: {projectUpdate}";
+                return $"Watershed: {watershed}, {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update: {projectUpdate}";
             }
         }
 

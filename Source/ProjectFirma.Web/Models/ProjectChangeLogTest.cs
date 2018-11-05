@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
             Check.Ensure(hadChanges == false, "We should detect no changes in this case");
 
             // Now we'll simulate an actual change. This SHOULD show changes
-            testProject.ProjectName = "First Project Name";
+            testProject.ProjectName = $"First {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Name";
             hadChanges = OutputChangedEntities();
             Check.Ensure(hadChanges == true, "We SHOULD detect changes in this case");
 

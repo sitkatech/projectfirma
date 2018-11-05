@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (emptyRows?.Any() ?? false)
             {
-                errors.Add("The Project could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report.");
+                errors.Add($"The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report.");
             }
 
             // get distinct Funding Sources
