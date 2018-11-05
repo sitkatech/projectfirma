@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-12">
             <p>Select the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) and @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() that are associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
-            <p class="systemText">Project Funders are not set in this editor. They are determined by the @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() in the @FieldDefinition.Project.GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
+            <p class="systemText">@FieldDefinition.Project.GetFieldDefinitionLabel() Funders are not set in this editor. They are determined by the @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() in the @FieldDefinition.Project.GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
         </div>
     </div>
 

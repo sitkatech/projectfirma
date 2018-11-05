@@ -79,8 +79,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             BasicProjectInfoGridName = "taxonomyLeafProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"Project with this {taxonomyLeafDisplayName}",
-                ObjectNamePlural = $"Projects with this {taxonomyLeafDisplayName}",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",
                 SaveFiltersInCookie = true
             };
 

@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
                 var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.Find(OrganizationID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var organizationName = organization != null ? organization.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"Project Update: {projectName}, Organization: {organizationName}";
+                return $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update: {projectName}, Organization: {organizationName}";
             }
         }
 

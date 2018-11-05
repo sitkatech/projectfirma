@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 errors.Add(
                     new SitkaValidationResult<ProjectLocationSimpleViewModel, string>(
-                        "If a location point or general project area is not available, explanatory information in the Notes section is required.",
+                        $"If a location point or general {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.",
                         x => x.ProjectLocationNotes));
             }
 

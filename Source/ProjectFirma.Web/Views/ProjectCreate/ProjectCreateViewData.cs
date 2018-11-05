@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
 
-            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? "Propose Project" : "Add Project";
+            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             PageTitle = $"{pagetitle}: {project.DisplayName}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));

@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Views.Project
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
             var backToAllProposalsText = "Back to all Proposals";
             var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
-            var backToAllPendingProjectsText = "Back to all Pending Projects";
+            var backToAllPendingProjectsText = $"Back to all Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             if (project.IsRejected())
             {
@@ -144,8 +144,8 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectUpdateButtonText =
                     projectApprovalStatus == ProjectApprovalStatus.Draft ||
                     projectApprovalStatus == ProjectApprovalStatus.Returned
-                        ? "Edit Pending Project"
-                        : "Review Pending Project";
+                        ? $"Edit Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}"
+                        : $"Review Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
-                        "This project was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
+                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
                 }
             }            
             else if (project.IsProposal())
@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
-                        "This project is in the Proposal stage. Any edits to this project must be made using the Add New Project workflow.");
+                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
                 }
             }
             else if (project.IsPendingProject())
@@ -191,8 +191,8 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectUpdateButtonText =
                     projectApprovalStatus == ProjectApprovalStatus.Draft ||
                     projectApprovalStatus == ProjectApprovalStatus.Returned
-                        ? "Edit Pending Project"
-                        : "Review Pending Project";
+                        ? $"Edit Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}"
+                        : $"Review Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
                     projectAlerts.Add(
-                        "This Project is pending. Any edits to this project must be made using the Add New Project workflow.");
+                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is pending. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
                 }
             }
             else
@@ -211,11 +211,11 @@ namespace ProjectFirma.Web.Views.Project
                     latestUpdateState == ProjectUpdateState.Submitted ||
                     latestUpdateState == ProjectUpdateState.Returned
                         ? "Review Update"
-                        : "Update Project";
+                        : $"Update {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
                 ProjectWizardUrl = project.GetProjectUpdateUrl();
                 CanLaunchProjectOrProposalWizard = userHasProjectUpdatePermissions;
                 ProjectListUrl = FullProjectListUrl;
-                BackToProjectsText = "Back to all Projects";
+                BackToProjectsText = $"Back to all {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
 
                 if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
@@ -223,12 +223,12 @@ namespace ProjectFirma.Web.Views.Project
                     if (project.IsMyProject(currentPerson))
                     {
                         projectAlerts.Add(
-                            "You are a Project Steward for this project. You may edit this project by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
+                            $"You are a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Steward for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may edit this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
                     }
                     else
                     {
                         projectAlerts.Add(
-                            "You are a Project Steward, but not for this project. You may only edit projects that are associated with your <a href=\"" +
+                            $"You are a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Steward, but not for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may only edit {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} that are associated with your <a href=\"" +
                             currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
                     }
                 }
@@ -239,11 +239,11 @@ namespace ProjectFirma.Web.Views.Project
             {
                 if (userHasProjectAdminPermissions || (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects) && project.IsMyProject(currentPerson))
                 {
-                    projectAlerts.Add("This Project has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
+                    projectAlerts.Add($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }
                 else
                 {
-                    projectAlerts.Add("This Project has an Update in progress.");
+                    projectAlerts.Add($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has an Update in progress.");
                 }
             }
 

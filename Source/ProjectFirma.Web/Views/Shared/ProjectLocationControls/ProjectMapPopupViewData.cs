@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ClassificationsBySystem = dict;
 
             FactSheetUrl = project.GetFactSheetUrl();
-            DetailLinkDescriptor = project.IsProposal() ? "This project is a proposal. For description and expected results, see the" : "For project expenditures & results, see the";
+            DetailLinkDescriptor = project.IsProposal() ? $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} expenditures & results, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectExternalLink.EditProjectExternalLinks
 <script type="text/javascript">
     // <![CDATA[
@@ -34,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </script>
 
 <p>
-    You may add one or more links to external web pages that further describe this project or are related to it. URLs must start with "http".
+    You may add one or more links to external web pages that further describe this @FieldDefinition.Project.GetFieldDefinitionLabel() or are related to it. URLs must start with "http".
 </p>
 <div id="EditProjectExternalLinksApp" ng-controller="ProjectExternalLinkController">
     <strong>External Link to Add:</strong><br/>

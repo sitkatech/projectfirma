@@ -58,7 +58,7 @@
 @if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
-        There are errors that need to be corrected before the Project Update can be submitted:
+        There are errors that need to be corrected before the @FieldDefinition.Project.GetFieldDefinitionLabel() Update can be submitted:
         <ul>
             @foreach (string warning in ViewDataTyped.ValidationWarnings)
             {
@@ -134,7 +134,7 @@
                 @if (!ViewDataTyped.ProjectUpdateBatch.IsNew)
                 {
                     <i></i>
-                    @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete Project Update", 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, string.Format("Delete {0} Update", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
                     <i></i>
                     @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> { "btn btn-xs btn-firma" }, null)
                 }

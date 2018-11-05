@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
-            var pagetitle = ShowProjectStageDropDown ? "Add Project" : "Propose Project";
+            var pagetitle = ShowProjectStageDropDown ? $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             PageTitle = $"{pagetitle}";
             if (ProjectDisplayName != null)
             {

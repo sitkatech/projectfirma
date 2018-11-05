@@ -96,20 +96,12 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            DeleteFull(HttpRequestStorage.DatabaseEntities);
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
 
             foreach(var x in PerformanceMeasureActualSubcategoryOptionUpdates.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
-            dbContext.AllPerformanceMeasureActualUpdates.Remove(this);
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.Remove(this);                
         }
 
         [Key]

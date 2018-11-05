@@ -217,14 +217,14 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Project named \"{0}\" in Audit Log database entries.", testProject.ProjectName));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for {0} named \"{1}\" in Audit Log database entries.", FieldDefinition.Project.GetFieldDefinitionLabel(), testProject.ProjectName));
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testProject.ProjectName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newProjectName = TestFramework.MakeTestName("New Project Name", Project.FieldLengths.ProjectName);
+            var newProjectName = TestFramework.MakeTestName($"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Name", Project.FieldLengths.ProjectName);
             testProject.ProjectName = newProjectName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
@@ -240,7 +240,7 @@ namespace ProjectFirma.Web.Models
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
                     al => al.TableName == "Project" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testProject.ProjectID) != null,
-                "Could not find deleted project record");
+                $"Could not find deleted {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} record");
         }
 
         [Test]

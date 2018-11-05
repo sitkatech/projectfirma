@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Views.Project
 
         public PendingViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Pending Projects";
+            PageTitle = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
 
-            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending Project", ObjectNamePlural = $"Pending Projects", SaveFiltersInCookie = true};
+            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", ObjectNamePlural = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Project
             }
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
-                GridSpec.CreateEntityActionPhrase = "Propose a New Project";
+                GridSpec.CreateEntityActionPhrase = $"Propose a New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
                 GridSpec.CreateEntityModalDialogForm = null;
             }
             GridName = "proposalsGrid";

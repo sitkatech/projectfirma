@@ -54,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
-            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, "Edit Project Update Configuration", 950, true)
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, string.Format("Edit {0} Update Configuration", FieldDefinition.Project.GetFieldDefinitionLabel()), 950, true)
             Configure Notifications
         </h2>
     </div>
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-xs-5">
-                        <label>Enable Project Update Reminders?</label>
+                        <label>Enable @FieldDefinition.Project.GetFieldDefinitionLabel() Update Reminders?</label>
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.ProjectUpdateConfiguration.EnableProjectUpdateReminders.ToYesNo()

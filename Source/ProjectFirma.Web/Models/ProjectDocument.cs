@@ -5,7 +5,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectDocument : IAuditableEntity, IEntityDocument
     {
-        public string AuditDescriptionString => $"Project \" {Project?.ProjectName ?? "<Not Found>"}\" document \"{DisplayName ?? "<Not Found>"}\"";
+        public string AuditDescriptionString => $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \" {Project?.ProjectName ?? "<Not Found>"}\" document \"{DisplayName ?? "<Not Found>"}\"";
         public string DeleteUrl {
             get
             {

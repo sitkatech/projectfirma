@@ -25,7 +25,7 @@ Source code is available upon request via <support@sitkatech.com>.
               
 @if (!ViewDataTyped.AllFundingSources.Any())
 {
-    <p>No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() are defined. You must define <a href="@ViewDataTyped.FundingSourceUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a> before entering a Project Budget.</p>
+    <p>No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() are defined. You must define <a href="@ViewDataTyped.FundingSourceUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a> before entering a @FieldDefinition.Project.GetFieldDefinitionLabel() Budget.</p>
 }
 else
 {

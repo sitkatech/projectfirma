@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Watershed Layer Name")]
         public string WatershedLayerName { get; set; }
 
-        [DisplayName("Project External Data Source Enabled")]
+        [DisplayName("External Data Source Enabled")]
         [Required]
         public bool? ProjectExternalDataSourceEnabled { get; set; }
 

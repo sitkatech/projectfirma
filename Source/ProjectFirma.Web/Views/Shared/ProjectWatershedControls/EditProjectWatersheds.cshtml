@@ -118,7 +118,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @if (ViewDataTyped.HasProjectLocationPoint || ViewDataTyped.HasProjectLocationDetail)
         {
             <div>
-                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple and/or Detailed project location (for reference)
+                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple and/or Detailed @FieldDefinition.Project.GetFieldDefinitionLabel() location (for reference)
             </div>
         }        
     </div>
