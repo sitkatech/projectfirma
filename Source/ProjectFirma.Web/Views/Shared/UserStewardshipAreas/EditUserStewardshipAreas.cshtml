@@ -53,18 +53,21 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="EditUserStewardshipAreasApp" ng-controller="EditUserStewardshipAreasController">
     @if (ViewDataTyped.Standalone)
     {
-        <p>Use this form to set a user's assigned Stewardship Areas. You can assign a user to many Stewardship Areas. Project Stewards have administrator-level edit rights for the Stewardship Areas asssigned below. </p>
+        <p>Use this form to set a user's assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized().
+            You can assign a user to many @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized().
+            Project Stewards have administrator-level edit rights for the @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() asssigned below.
+        </p>
     }
     @using (!ViewDataTyped.Standalone ? Html.BeginForm() : null)
     {
         <div class="form-group">
-            <label class="control-label">Stewardship Area to Add:</label>
+            <label class="control-label">@FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() to Add:</label>
             <div class="input-group">
                 <select ng-model="StewardshipAreaIDToAdd"
                         class="selectpicker"
                         data-live-search="true"
                         data-container="body"
-                        title="Select a Stewardship Area to Add"
+                        title="Select a @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() to Add"
                         data-width="100%">
                     <option value="null" disabled selected></option>
                     <option ng-repeat="stewardshipArea in filteredStewardshipAreas()"

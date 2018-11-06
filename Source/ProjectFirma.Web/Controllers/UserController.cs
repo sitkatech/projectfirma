@@ -375,7 +375,7 @@ namespace ProjectFirma.Web.Controllers
             switch (projectStewardshipAreaType)
             {
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
-                    var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+                    var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x=>x.CanStewardProjects()).ToList();
                     viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allOrganizations, false);
                     break;
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:

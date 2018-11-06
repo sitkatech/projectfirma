@@ -138,15 +138,15 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-6">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        Assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()
                         @if (ViewDataTyped.UserHasPersonManagePermissions && ViewDataTyped.TenantHasStewardshipAreas && ViewDataTyped.Person.Role == Role.ProjectSteward)
                         {
-                            <span class="pull-right">
+                            <span>
                                 @ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditStewardshipAreas(ViewDataTyped.Person)),
-                                string.Format("Edit Assigned Stewardship Areas for User - {0}", ViewDataTyped.Person.FullNameFirstLast),
+                                string.Format("Edit {1} for User - {0}", ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()),
                                 true)
                             </span>
                         }
+                        Assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Person.IsAdministrator())
@@ -164,7 +164,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         else if (ViewDataTyped.Person.Role == Role.Normal)
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add projects to any Stewardship Area, but cannot edit/manage projects that are not their own.
+                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add projects to any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel(), but cannot edit/manage projects that are not their own.
                             </p>
                         }
                         else
@@ -172,7 +172,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             var projectStewardshipAreaHtmlStringList = ViewDataTyped.Person.GetProjectStewardshipAreaHtmlStringList();
                             if (!ViewDataTyped.TenantHasStewardshipAreas)
                             {
-                            <p class="systemText">Project Stewards can approve Project Proposals, create new Projects, and approve Project Updates for all projects</p>
+                            <p class="systemText">@FieldDefinition.ProjectSteward.GetFieldDefinitionLabelPluralized() can approve Project Proposals, create new Projects, and approve Project Updates for all projects</p>
                             }
                             else if (projectStewardshipAreaHtmlStringList.Any())
                             {
@@ -187,7 +187,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                            <p class="systemText">@ViewDataTyped.Person.FullNameFirstLast is not assigned to manage Projects in any Stewardship Areas.</p>
+                            <p class="systemText">@ViewDataTyped.Person.FullNameFirstLast is not assigned to manage Projects in any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel().</p>
                             }
                         }
 
