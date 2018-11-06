@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
         {
             var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
-            var rolesAsSelectListItems = roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
+            var rolesAsSelectListItems = roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.GetRoleDisplayName());
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }

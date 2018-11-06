@@ -92,7 +92,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            HttpRequestStorage.DatabaseEntities.AllPersonStewardOrganizations.Remove(this);                
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
+            dbContext.AllPersonStewardOrganizations.Remove(this);
         }
 
         [Key]

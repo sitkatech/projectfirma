@@ -37,6 +37,21 @@ namespace ProjectFirma.Web.Models
             return featurePermissions;
         }
 
+        public string GetRoleDisplayName()
+        {
+            if (RoleName == "ProjectSteward")
+            {
+                return FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
+            }
+
+            if (RoleName == "Normal")
+            {
+                return FieldDefinition.NormalUser.GetFieldDefinitionLabel();
+            }
+
+            return RoleDisplayName;
+        }
+
         public List<Person> GetPeopleWithRole()
         {
             return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID == RoleID).ToList();
@@ -44,7 +59,7 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(RoleID)), RoleDisplayName);
+            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(RoleID)), GetRoleDisplayName());
         }
 
         public static string GetAnonymousRoleUrl()
