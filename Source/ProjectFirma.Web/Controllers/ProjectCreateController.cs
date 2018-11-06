@@ -1006,7 +1006,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for project '{projectNote.Project.DisplayName}'?"
+                ? $"Are you sure you want to delete this note for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectNote.Project.DisplayName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -1099,7 +1099,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !projectDocument.HasDependentObjects();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinition.Project.GetFieldDefinitionLabel()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Proposed Project Document");
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Document");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
@@ -1163,7 +1163,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            var message = $"Project \"{project.DisplayName}\" successfully deleted.";
+            var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" successfully deleted.";
             project.DeleteFull();
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
@@ -1465,7 +1465,7 @@ namespace ProjectFirma.Web.Controllers
 
                 var webResponse = (HttpWebResponse) webRequest.GetResponse();
                 Check.Assert(webResponse.StatusCode == HttpStatusCode.OK,
-                    $"Request to Project External Import Data Uri {viewModel.RequestUri} should resolve 200.");
+                    $"Request to {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} External Import Data Uri {viewModel.RequestUri} should resolve 200.");
 
                 var responseStream = webResponse.GetResponseStream();
 

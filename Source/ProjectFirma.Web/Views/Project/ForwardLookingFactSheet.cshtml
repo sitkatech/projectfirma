@@ -71,7 +71,7 @@
 <div class="container noPrint">
     <div style="margin: 15px 0;">
         <div class="pull-right">
-            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
+            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
             <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
@@ -393,6 +393,6 @@
         </div>
     </div>
 
-    <div class="pull-right onlyOnPrint"><hr />Project Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-right onlyOnPrint"><hr />@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 

@@ -47,12 +47,12 @@
     }
 }
 
-To enter your project's annual expenditures, add the appropriate @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your project's Planning / Design Start and @FieldDefinition.CompletionYear.GetFieldDefinitionLabel()
-(or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your project had no expenditures for a given year, enter zero "0" for that year for at least one of its @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized().
+To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinition.Project.GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinition.CompletionYear.GetFieldDefinitionLabel()
+(or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your @FieldDefinition.Project.GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized().
 <hr />
 <div style="margin: 10px 0">
     <p>
-        Other financial information for this project that might be helpful:
+        Other financial information for this @FieldDefinition.Project.GetFieldDefinitionLabel() that might be helpful:
     </p>
 
     @if (ViewDataTyped.Project.FundingType == FundingType.Capital)
@@ -142,7 +142,7 @@ else
             <br />
 
         </div>
-        <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
+        <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinition.Project.GetFieldDefinitionLabel()'s funders</label>
         <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
             <thead>
                 <tr>

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public List<int> OrganizationTypeIDs { get; set; }
 
         [Required]
-        [DisplayName("Can Steward Projects?")]
+        [DisplayName("Can Steward?")]
         public bool? CanStewardProjects { get; set; }
 
         [Required]
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
-        [DisplayName("Must be Related to a Project Once?")]
+        [DisplayName("Must be Related to Once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public string RelationshipTypeDescription { get; set; }
 
         [Required]
-        [DisplayName("Show on Project Fact Sheet?")]
+        [DisplayName("Show on Fact Sheet?")]
         public bool? ShowOnFactSheet { get; set; }
 
 

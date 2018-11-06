@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateConfiguration projectUpdateConfiguration) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
-            PageTitle = "Manage Project Updates";
+            PageTitle = $"Manage {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
             ReportingYear = reportingYear;
 
             ProjectsRequiringUpdateGridDataUrl = projectsRequiringUpdateGridDataUrl;

@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
                                                      .GetProjectCustomAttributeType(ProjectCustomAttributeTypeID);
                 return
                     $"Custom Attribute (type: {projectCustomAttributeType?.ProjectCustomAttributeTypeName ?? "<Type Not Found>"}, " +
-                    $"Project Update: {projectUpdateBatch?.ProjectUpdate.DisplayName ?? "<Projec Update Not Found>"})";
+                    $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update: {projectUpdateBatch?.ProjectUpdate.DisplayName ?? $"<{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Not Found>"})";
             }
         }
 

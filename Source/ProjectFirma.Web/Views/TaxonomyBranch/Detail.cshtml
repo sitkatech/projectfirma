@@ -94,7 +94,7 @@
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </div>
                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
-                <span>Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.</span>
+                <span>Some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() operate over larger areas and are not represented on the map, but are listed in the @FieldDefinition.Project.GetFieldDefinitionLabel() grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.</span>
             </div>
         </div>
         <div class="panel panelFirma">

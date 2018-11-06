@@ -146,120 +146,112 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            DeleteFull(HttpRequestStorage.DatabaseEntities);
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
 
             foreach(var x in NotificationProjects.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in PerformanceMeasureActuals.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in PerformanceMeasureExpecteds.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectAssessmentQuestions.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectBudgets.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectClassifications.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectCustomAttributes.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectDocuments.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectExemptReportingYears.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectExternalLinks.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectFundingSourceExpenditures.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectFundingSourceRequests.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectLocations.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectLocationStagings.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectNotes.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectOrganizations.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectTags.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectUpdateBatches.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectWatersheds.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in SnapshotProjects.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
-            dbContext.AllProjects.Remove(this);
+            HttpRequestStorage.DatabaseEntities.AllProjects.Remove(this);                
         }
 
         [Key]

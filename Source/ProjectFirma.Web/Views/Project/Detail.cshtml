@@ -261,11 +261,11 @@
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.IsProposal())
                         {
-                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Proposal stage.</p>
+                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
                         else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
                         {
-                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for projects in the Planning/Design stage.</p>
+                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
                         }
                         else
                         {
@@ -315,8 +315,8 @@
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.IsProposal())
-                                        {
-                            <p>Reported Expenditures are not relevant for projects in the Proposal stage.</p>
+                        {
+                            <p>Reported Expenditures are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
                         else
                         {
@@ -355,15 +355,15 @@
                             }
                             else
                             {
-                                <p class="systemText">No @classificationSystem.ClassificationSystemNamePluralized set for this project.</p>
+                                    <p class="systemText">No @classificationSystem.ClassificationSystemNamePluralized set for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
                             }
                         </div>
                     </div>
 
                 }
-               
+
                 <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</h2>
-            <div class="panel panelFirma">
+                <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Documents</h3>
                     </div>

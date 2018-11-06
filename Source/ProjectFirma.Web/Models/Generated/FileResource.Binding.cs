@@ -118,85 +118,77 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            DeleteFull(HttpRequestStorage.DatabaseEntities);
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
 
             foreach(var x in ClassificationsWhereYouAreTheKeyImageFileResource.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in CustomPageImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in FieldDefinitionDataImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in FirmaHomePageImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in FirmaPageImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in MonitoringProgramDocuments.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in OrganizationsWhereYouAreTheLogoFileResource.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectDocuments.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectDocumentUpdates.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectImages.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in ProjectImageUpdates.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
 
             foreach(var x in TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.ToList())
             {
-                x.DeleteFull(dbContext);
+                x.DeleteFull();
             }
-            dbContext.AllFileResources.Remove(this);
+            HttpRequestStorage.DatabaseEntities.AllFileResources.Remove(this);                
         }
 
         [Key]

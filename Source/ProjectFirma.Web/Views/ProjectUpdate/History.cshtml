@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @inherits ProjectFirma.Web.Views.ProjectUpdate.History
 
-The following is the high-level summary of the history for this project update.
+The following is the high-level summary of the history for this @FieldDefinition.Project.GetFieldDefinitionLabel() update.
 <div style="margin: 10px 0 10px 0">Last Updated: @ViewDataTyped.ProjectUpdateBatch.LastUpdateDate.ToStringDateTime() - @Html.Raw(ViewDataTyped.ProjectUpdateBatch.LastUpdatePerson.GetFullNameFirstLastAndOrgAsUrl())</div>
 <hr/>
 <table class="summaryLayout" style="margin-top: 10px">

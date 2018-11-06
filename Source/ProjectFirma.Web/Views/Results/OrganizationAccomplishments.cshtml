@@ -26,7 +26,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
 {
     <p>
-        The reported @ViewDataTyped.PerformanceMeasureDisplayName results for the @ViewDataTyped.TaxonomyTierDisplayName @ViewDataTyped.TaxonomyTier.GetDisplayNameAsUrl() within this @ViewDataTyped.OrganizationDisplayName are charted here. Results are included for every project that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @ViewDataTyped.PerformanceMeasureDisplayName, click the @ViewDataTyped.PerformanceMeasureDisplayName name in the chart title.
+        The reported @ViewDataTyped.PerformanceMeasureDisplayName results for the @ViewDataTyped.TaxonomyTierDisplayName @ViewDataTyped.TaxonomyTier.GetDisplayNameAsUrl() within this @ViewDataTyped.OrganizationDisplayName are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @ViewDataTyped.PerformanceMeasureDisplayName, click the @ViewDataTyped.PerformanceMeasureDisplayName name in the chart title.
     </p>
     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
     {

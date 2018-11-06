@@ -1926,7 +1926,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExpectedFundingImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             var projectFundingSourceRequestsOriginal = new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests.ToList());
             var projectFundingSourceRequestsUpdated = new List<IFundingSourceRequestAmount>(projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList());
             var originalHtml = GeneratePartialViewForOriginalFundingRequests(projectFundingSourceRequestsOriginal, projectFundingSourceRequestsUpdated);
@@ -2592,7 +2592,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffOrganizationsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
 
             var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
             var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());

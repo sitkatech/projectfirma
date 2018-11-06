@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public PartialViewResult UpdateFeedback()
         {
-            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the Project Update wizard: " + Environment.NewLine);
+            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update wizard: " + Environment.NewLine);
         }
 
         [AnonymousUnclassifiedFeature]

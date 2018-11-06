@@ -40,12 +40,12 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = ProjectUpdateBatch.CreateProjectUpdateBatchAndLogTransition(project, person);
             Assert.That(projectUpdateBatch, Is.Not.Null, "Should have created one");
-            Assert.That(projectUpdateBatch.ProjectUpdateHistories.Count, Is.EqualTo(1), "Should have created a project update history record");
+            Assert.That(projectUpdateBatch.ProjectUpdateHistories.Count, Is.EqualTo(1), $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record");
             var projectUpdateHistory = projectUpdateBatch.ProjectUpdateHistories.First();
-            Assert.That(projectUpdateHistory.ProjectUpdateState, Is.EqualTo(ProjectUpdateState.Created), "Should have created a project update history record in transition: Created");
+            Assert.That(projectUpdateHistory.ProjectUpdateState, Is.EqualTo(ProjectUpdateState.Created), $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record in transition: Created");
             Assert.That(projectUpdateHistory.TransitionDate.ToShortDateString(),
                 Is.EqualTo(DateTime.Today.ToShortDateString()),
-                "Should have created a project update history record and the date should be today");
+                $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record and the date should be today");
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.InEditableState, Is.True);
 
             var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
-            Assert.That(preconditionException.Message, Is.StringContaining("You cannot submit a project update that is not ready to be submitted"));
+            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
             var fundingSource1 = TestFramework.TestFundingSource.Create(organization1, "Funding Source 1");
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Models
                             new List<ProjectCustomAttribute>(),
                             new List<ProjectCustomAttributeValue>()),
                     "Should not be allowed to approve yet");
-            Assert.That(preconditionException.Message, Is.StringContaining("You cannot approve a project update that has not been submitted"));
+            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that has not been submitted"));
 
             // we have to re submit to get to approve
             projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(3));
@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
+            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
 
             // Should just have one year, current year
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -201,8 +201,8 @@ namespace ProjectFirma.Web.Models
 
             // create a project update record
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue, Is.False, "Precondition: Project update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, "Precondition: Project update record has no completion year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a start year
@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
+            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
 
             // Should just have one year, current year
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -280,8 +280,8 @@ namespace ProjectFirma.Web.Models
 
             // create a project update record
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, "Precondition: Project update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, "Precondition: Project update record has no completion year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a start year
@@ -351,7 +351,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
+            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
 
             // Should just have one year, current year
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -359,8 +359,8 @@ namespace ProjectFirma.Web.Models
 
             // create a project update record
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, "Precondition: Project update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, "Precondition: Project update record has no completion year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
             AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a start year
@@ -470,7 +470,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = 2003;
             projectUpdate.CompletionYear = 2006;
             result = projectUpdateBatch.ValidateExpendituresAndForceValidation();
-            Assert.That(result, Is.Empty, "Should be valid since the project start and completion year is before 2007");
+            Assert.That(result, Is.Empty, $"Should be valid since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} start and completion year is before 2007");
             Assert.That(result, Is.Empty, "Should not have any validation warnings");
 
             // now add some expenditure update records
@@ -562,7 +562,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = 2002;
             projectUpdate.CompletionYear = 2006;
             result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.EqualTo(true), "Should be valid since the project start and completion year is before 2007");
+            Assert.That(result.IsValid, Is.EqualTo(true), $"Should be valid since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} start and completion year is before 2007");
             Assert.That(result.GetWarningMessages(), Is.Empty, "Should not have any validation warnings");
             Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
 

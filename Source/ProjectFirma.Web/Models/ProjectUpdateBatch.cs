@@ -479,13 +479,13 @@ namespace ProjectFirma.Web.Models
 
         public void SubmitToReviewer(Person currentPerson, DateTime transitionDate)
         {
-            Check.Require(IsReadyToSubmit, "You cannot submit a project update that is not ready to be submitted!");
+            Check.Require(IsReadyToSubmit, $"You cannot submit a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that is not ready to be submitted!");
             CreateNewTransitionRecord(this, ProjectUpdateState.Submitted, currentPerson, transitionDate);
         }
 
         public void Return(Person currentPerson, DateTime transitionDate)
         {
-            Check.Require(IsSubmitted, "You cannot return a project update that has not been submitted!");
+            Check.Require(IsSubmitted, $"You cannot return a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that has not been submitted!");
             CreateNewTransitionRecord(this, ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
@@ -504,7 +504,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
         {
-            Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
+            Check.Require(IsSubmitted, $"You cannot approve a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
                 projectFundingSourceExpenditures,
                 // TODO: Neutered per #1136; most likely will bring back when BOR project starts
@@ -532,9 +532,9 @@ namespace ProjectFirma.Web.Models
                 var auditLog = new AuditLog(projectUpdateHistory.UpdatePerson,
                     projectUpdateHistory.TransitionDate,
                     AuditLogEventType.Added,
-                    "Project Update",
+                    $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update",
                     projectUpdateHistory.ProjectUpdateHistoryID,
-                    "Project Update record",
+                    $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update record",
                     projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = ProjectID};
             }
         }

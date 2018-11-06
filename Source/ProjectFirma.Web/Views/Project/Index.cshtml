@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -36,7 +37,7 @@
     @if (ViewDataTyped.DisplayActionButtons)
     {
         @ProjectCreateHelper.AddProjectButton()
-        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update Project</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View projects requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
     }
 }
 
