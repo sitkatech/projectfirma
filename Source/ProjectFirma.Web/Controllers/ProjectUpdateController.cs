@@ -1504,7 +1504,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to delete for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
-            projectUpdateBatch.DeleteAll();
+            projectUpdateBatch.DeleteFull();
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
         }
 

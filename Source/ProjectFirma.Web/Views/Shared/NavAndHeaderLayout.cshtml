@@ -59,17 +59,25 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="expandToFillScreen">
         <div class="header">
             <div class="optionalContainer">
-                <div class="headerText">
-                    <a href="@ViewDataTyped.FirmaHomeUrl">
-                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
-                    </a>
+                <div class="row">
+                    <div class="headerText col-sm-12 col-md-8">
+                        <a href="@ViewDataTyped.FirmaHomeUrl">
+                            <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
+                        </a>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex;margin-top: 17px;">
+                            <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
+                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 4)"
+                                   placeholder="@FieldDefinition.Project.GetFieldDefinitionLabel() Name or Description"
+                                   style="margin-right: -5px;"/>
+                                <button id="searchButton" type="button" class="btn btn-default">
+                                    <span class="sr-only">Search</span>
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                        </form>
+                    </div>
                 </div>
-
-                @*<div class="col-sm-6">
-            <div id="searchBox" class="pull-right">
-                <span>Find Project: </span><input id="@SearchResults.ProjectSearchInputTextboxID" name="@SearchResults.ProjectSearchInputTextboxID" type="text" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 4)" placeholder="project #, name, description" />
-            </div>
-        </div>*@
             </div>
             
         </div>
@@ -101,20 +109,34 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
 
-            jQuery(document)
-                .ready(function () {
-                    jQuery("#@SearchResults.ProjectSearchInputTextboxID")
-                        .autocomplete({
-                            source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
-                            minLength: 4,
-                            position: { my: "right top", at: "right bottom" },
-                            select: function (event, ui) {
-                                document.location = ui.item.value;
-                                event.preventDefault();
-                            },
-                            html: true
-                        });
+            function search(myfield, numMinChars)
+            {
+                if (myfield.value.trim().length >= numMinChars) {
+                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                    document.location = searchUrlTemplate.ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                }
+            }
+
+            jQuery(document).ready(function () {
+
+                var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
+                jQuery("#searchButton").click(function()
+                {
+                    search(pfFinder[0], 4);
                 });
+
+                jQuery("#@SearchResults.ProjectSearchInputTextboxID")
+                    .autocomplete({
+                        source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
+                        minLength: 4,
+                        position: { my: "right top", at: "right bottom" },
+                        select: function (event, ui) {
+                            document.location = ui.item.value;
+                            event.preventDefault();
+                        },
+                        html: true
+                    });
+            });
             // ]]>
         </script>
 
