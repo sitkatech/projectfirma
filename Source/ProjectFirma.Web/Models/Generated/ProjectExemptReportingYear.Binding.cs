@@ -93,7 +93,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Remove(this);                
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
+            dbContext.AllProjectExemptReportingYears.Remove(this);
         }
 
         [Key]

@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
 
         public bool CanStewardProject(Project project)
         {
-            return MultiTenantHelpers.GetProjectStewardshipAreaType().CanStewardProject(this, project);
+            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.CanStewardProject(this, project) ?? true;
         }
 
         public bool PersonIsProjectOwnerWhoCanStewardProjects
@@ -132,16 +132,21 @@ namespace ProjectFirma.Web.Models
             get
             {
                 var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
-                return Role.ProjectSteward.RoleID == RoleID &&
-                       canStewardProjectsOrganizationRelationship != null &&
-                       canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
-                           x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+                if (MultiTenantHelpers.GetProjectStewardshipAreaType() != null)
+                {
+                    return Role.ProjectSteward.RoleID == RoleID &&
+                           canStewardProjectsOrganizationRelationship != null &&
+                           canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
+                               x => x.OrganizationTypeID == Organization.OrganizationTypeID);
+                }
+
+                return Role.ProjectSteward.RoleID == RoleID;
             }
         }
 
         public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
         {
-            return MultiTenantHelpers.GetProjectStewardshipAreaType().GetProjectStewardshipAreaHtmlStringList(this);
+            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.GetProjectStewardshipAreaHtmlStringList(this);
         }
 
         public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;

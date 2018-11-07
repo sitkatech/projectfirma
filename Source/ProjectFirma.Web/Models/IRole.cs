@@ -32,5 +32,6 @@ namespace ProjectFirma.Web.Models
         List<FeaturePermission> GetFeaturePermissions();
         List<Person> GetPeopleWithRole();
         HtmlString GetDisplayNameAsUrl();
+        string GetRoleDisplayName();
     }
 }
