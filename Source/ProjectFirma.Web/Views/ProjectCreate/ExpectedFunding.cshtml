@@ -91,15 +91,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     <td style="text-align: right">
                         <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
-                    <th style="text-align: right" ng-bind="(projectFundingSourceRequest.SecuredAmount + projectFundingSourceRequest.UnsecuredAmount) | nfcurrency"></th>
+                    <th style="text-align: right">
+                        {{ getRowTotal(projectFundingSourceRequest) | currency:"$"}}
+                    </th>
                 </tr>
                 <tr>
                     <th colspan="2">Total</th>
-                    <th style="text-align: right" ng-bind="getSecuredTotal() | nfcurrency">
+                    <th style="text-align: right">
+                        {{ getSecuredTotal() | currency:"$"}}
                     </th>
-                    <th style="text-align: right" ng-bind="getUnsecuredTotal() | nfcurrency">
+                    <th style="text-align: right">
+                        {{ getUnsecuredTotal() | currency:"$"}}
                     </th>
-                    <th style="text-align: right" ng-bind="(getSecuredTotal() + getUnsecuredTotal()) | nfcurrency">
+                    <th style="text-align: right">
+                        {{ getTotal() | currency:"$"}}
                     </th>
                 </tr>
             </table>
