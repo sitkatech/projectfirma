@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
@@ -79,7 +80,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             // Act
             // Set string fields to string longer than their max lengths
             viewModel.TaxonomyLeafName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyLeafName, Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
-            viewModel.TaxonomyLeafDescription = "Test Description";
+            viewModel.TaxonomyLeafDescription = new HtmlString("Test Description");
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

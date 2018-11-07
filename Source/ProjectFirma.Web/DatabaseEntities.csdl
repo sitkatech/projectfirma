@@ -2084,7 +2084,7 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyBranchID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyLeafName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyLeafDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyLeafDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafSortOrder" Type="Int32" />
