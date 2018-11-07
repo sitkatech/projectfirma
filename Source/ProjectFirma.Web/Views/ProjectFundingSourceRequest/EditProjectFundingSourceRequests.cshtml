@@ -133,15 +133,21 @@ Source code is available upon request via <support@sitkatech.com>.
                     <td style="text-align: right; padding-right: 17px;">
                         <input style="float: right; text-align: right" type="text" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
-                    <th style="text-align: right" ng-bind="(projectFundingSourceRequest.SecuredAmount + projectFundingSourceRequest.UnsecuredAmount) | nfcurrency"></th>
+                    <th style="text-align: right">
+                        {{getRowTotal(projectFundingSourceRequest) | currency:"$"}}
+                    </th>
                 </tr>
                 <tr style="border-top: 1px solid #eeeeee;">
                     <th colspan="2">Total</th>
-                    <th style="text-align: right; padding-right: 17px;" ng-bind="getSecuredTotal() | nfcurrency">
+                    <th style="text-align: right; padding-right: 17px;">
+                        {{getSecuredTotal() | currency:"$"}}
                     </th>
-                    <th style="text-align: right; padding-right: 17px;" ng-bind="getUnsecuredTotal() | nfcurrency">
+                    <th style="text-align: right; padding-right: 17px;">
+                        {{getUnsecuredTotal() | currency:"$"}}
                     </th>
-                    <th style="text-align: right;" ng-bind="(getSecuredTotal() + getUnsecuredTotal()) | nfcurrency">
+                    <th style="text-align: right;">
+                        {{getTotal()}}
+                    </th>
                 </tr>
                 </tbody>
             </table>

@@ -70,14 +70,29 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
         return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceID == f.FundingSourceID; });
     };
 
+    $scope.getRowTotal = function (projectFundingSourceRequest) {
+        return Number(projectFundingSourceRequest.SecuredAmount) + Number(projectFundingSourceRequest.UnsecuredAmount);
+    }
+
     $scope.getUnsecuredTotal = function ()
     {
-        return _.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return m + x.UnsecuredAmount; }, 0);
+        var total = 0;
+        for (var i = 0; i < $scope.AngularModel.ProjectFundingSourceRequests.length; i++) {
+            var temp = Number($scope.AngularModel.ProjectFundingSourceRequests[i].UnsecuredAmount);
+            total += temp;
+        }
+        return total;
     };
 
     $scope.getSecuredTotal = function ()
     {
-        return _.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return m + x.SecuredAmount; }, 0);
+        return _.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return Number(m) + Number(x.SecuredAmount); }, 0);
+    };
+
+    $scope.getTotal = function() {
+        var securedTotal = $scope.getSecuredTotal();
+        var unsecuredTotal = $scope.getUnsecuredTotal();
+        return Number($scope.getSecuredTotal()) + Number($scope.getUnsecuredTotal());
     };
     
     $scope.findProjectFundingSourceRequestRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceRequests, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
