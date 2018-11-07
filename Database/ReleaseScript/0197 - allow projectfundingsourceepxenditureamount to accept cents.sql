@@ -1,0 +1,2 @@
+alter table ProjectFundingSourceExpenditure
+drop constraint CK_ProjectFundingSourceExpenditure_ExpenditureAmountWholeDollarOnlyNoCents
