@@ -164,14 +164,17 @@ else
                 <td style="text-align: right" ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
                     <input type="text" style="width: 80px; text-align: right;" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" ng-currency />
                 </td>
-                <th style="text-align: right" ng-bind="getExpenditureTotalForRow(projectFundingSourceExpenditure) | nfcurrency">
+                <th style="text-align: right">
+                    {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
                 </th>
             </tr>
             <tr>
                 <th colspan="2">Total:</th>
-                <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right" ng-bind="getExpenditureTotalForCalendarYear(calendarYear) | nfcurrency">
+                <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
+                    {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
                 </th>
-                <th style="text-align: right" ng-bind="getExpenditureTotalForCalendarYear() | nfcurrency">
+                <th style="text-align: right">
+                    {{ getExpenditureTotalForCalendarYear() | currency:"$"}}
                 </th>
             </tr>
         </table>
