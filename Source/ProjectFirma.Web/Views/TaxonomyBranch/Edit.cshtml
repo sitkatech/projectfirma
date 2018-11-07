@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Edit
 
 <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css" />
@@ -47,7 +48,7 @@
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyBranchDescription)</div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyBranchDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.CkEditorFor(m => m.TaxonomyBranchDescription, CkEditorExtension.CkEditorToolbar.Minimal, true,true, 8)
                 @Html.ValidationMessageFor(m => m.TaxonomyBranchDescription)
             </div>
         </div>

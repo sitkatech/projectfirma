@@ -2007,7 +2007,7 @@ warning 6035: The relationship 'FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID_
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTrunkID" Type="int" Nullable="false" />
     <Property Name="TaxonomyBranchName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyBranchDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="TaxonomyBranchDescription" Type="varchar(max)" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyBranchCode" Type="varchar" MaxLength="10" />
     <Property Name="TaxonomyBranchSortOrder" Type="int" />
@@ -2049,7 +2049,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TaxonomyTrunkID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTrunkName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTrunkDescription" Type="varchar" MaxLength="4000" />
+    <Property Name="TaxonomyTrunkDescription" Type="varchar(max)" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTrunkCode" Type="varchar" MaxLength="10" />
     <Property Name="TaxonomyTrunkSortOrder" Type="int" />

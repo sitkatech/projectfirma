@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
@@ -39,9 +40,9 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         [DisplayName("Name")]
         public string TaxonomyBranchName { get; set; }
 
-        [StringLength(Models.TaxonomyBranch.FieldLengths.TaxonomyBranchDescription)]
+        [StringLength(4000)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyBranchDescription)]
-        public string TaxonomyBranchDescription { get; set; }
+        public HtmlString TaxonomyBranchDescription { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTrunk)]
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             TaxonomyBranchID = taxonomyBranch.TaxonomyBranchID;
             TaxonomyBranchName = taxonomyBranch.TaxonomyBranchName;
-            TaxonomyBranchDescription = taxonomyBranch.TaxonomyBranchDescription;
+            TaxonomyBranchDescription = taxonomyBranch.TaxonomyBranchDescriptionHtmlString;
             TaxonomyTrunkID = taxonomyBranch.TaxonomyTrunkID;
             ThemeColor = taxonomyBranch.ThemeColor;
         }
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public void UpdateModel(Models.TaxonomyBranch taxonomyBranch, Person currentPerson)
         {
             taxonomyBranch.TaxonomyBranchName = TaxonomyBranchName;
-            taxonomyBranch.TaxonomyBranchDescription = TaxonomyBranchDescription;
+            taxonomyBranch.TaxonomyBranchDescriptionHtmlString = TaxonomyBranchDescription;
             taxonomyBranch.TaxonomyTrunkID = MultiTenantHelpers.IsTaxonomyLevelTrunk()
                 ? TaxonomyTrunkID
                 : HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.First().TaxonomyTrunkID; // really should only be one
