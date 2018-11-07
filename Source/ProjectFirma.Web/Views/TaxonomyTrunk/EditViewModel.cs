@@ -40,7 +40,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         [DisplayName("Name")]
         public string TaxonomyTrunkName { get; set; }
 
-        [StringLength(4000)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTrunkDescription)]
         [Required]
         public HtmlString TaxonomyTrunkDescription { get; set; }

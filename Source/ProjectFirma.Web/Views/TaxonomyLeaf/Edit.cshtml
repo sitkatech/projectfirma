@@ -52,7 +52,7 @@
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyLeafDescription)</div>
             <div class="col-sm-9">
-                @Html.CkEditorFor(m=>m.TaxonomyLeafDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, true, 8)
+                @Html.CkEditorFor(m=>m.TaxonomyLeafDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, true, 300)
                 @Html.ValidationMessageFor(m => m.TaxonomyLeafDescription)
             </div>
         </div>

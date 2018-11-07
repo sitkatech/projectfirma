@@ -40,7 +40,6 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         [DisplayName("Name")]
         public string TaxonomyLeafName { get; set; }
 
-        [StringLength(4000)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeafDescription)]
         [Required]
         public HtmlString TaxonomyLeafDescription { get; set; }

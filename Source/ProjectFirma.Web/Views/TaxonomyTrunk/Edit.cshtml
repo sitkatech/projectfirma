@@ -38,7 +38,7 @@
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkDescription)</div>
             <div class="col-sm-9">
-                @Html.CkEditorFor(m=>m.TaxonomyTrunkDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, true, 8)
+                @Html.CkEditorFor(m => m.TaxonomyTrunkDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, true, 300)
                 @Html.ValidationMessageFor(m => m.TaxonomyTrunkDescription)
             </div>
         </div>
@@ -63,3 +63,4 @@
 <script type="text/javascript">
     jQuery(document).ready(function () { jQuery("#themeColorPicker").colorpicker(); });
 </script>
+<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>

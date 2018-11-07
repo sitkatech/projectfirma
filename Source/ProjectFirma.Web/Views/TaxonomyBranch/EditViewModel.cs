@@ -40,7 +40,6 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         [DisplayName("Name")]
         public string TaxonomyBranchName { get; set; }
 
-        [StringLength(4000)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyBranchDescription)]
         public HtmlString TaxonomyBranchDescription { get; set; }
 
