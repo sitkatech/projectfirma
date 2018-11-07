@@ -92,7 +92,7 @@
                             }
                         }
 
-                        @projectUpdateSection.ProjectUpdateSectionDisplayName
+                        @projectUpdateSection.GetProjectUpdateSectionDisplayName()
                         @if (projectUpdateSection.SectionIsUpdated(ViewDataTyped.UpdateStatus) && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
                         {
                             <span style="margin-left: 4px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "Section has been updated")</span>
