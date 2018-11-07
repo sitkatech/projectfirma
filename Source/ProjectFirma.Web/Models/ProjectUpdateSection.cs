@@ -10,6 +10,12 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsComplete(ProjectUpdateBatch projectUpdateBatch);
         public abstract string GetSectionUrl(Project project);
         public abstract bool SectionIsUpdated(UpdateStatus updateStatus);
+
+
+        public string GetProjectUpdateSectionDisplayName()
+        {
+            return this == Watersheds ? FieldDefinition.Watershed.GetFieldDefinitionLabel() : ProjectUpdateSectionDisplayName;
+        }
     }
 
     public partial class ProjectUpdateSectionInstructions

@@ -10,6 +10,15 @@ namespace ProjectFirma.Web.Models
         public abstract List<PersonStewardshipAreaSimple> GetPersonStewardshipAreaSimples(Person person);
         public abstract bool CanStewardProject(Person person, Project project);
         public abstract List<HtmlString> GetProjectStewardshipAreaHtmlStringList(Person person);
+
+        public string GetProjectStewardshipAreaTypeDisplayName()
+        {
+            if (this == Watersheds)
+            {
+                return FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized();
+            }
+            return ProjectStewardshipAreaTypeDisplayName;
+        }
     }
 
     public partial class ProjectStewardshipAreaTypeProjectStewardingOrganizations
@@ -83,4 +92,5 @@ namespace ProjectFirma.Web.Models
             return person.PersonStewardWatersheds.OrderBy(x => x.Watershed.WatershedName).ToList();
         }
     }
+
 }

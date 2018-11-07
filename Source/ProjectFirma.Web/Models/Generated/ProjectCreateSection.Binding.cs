@@ -224,7 +224,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectCreateSectionClassifications : ProjectCreateSection
     {
         private ProjectCreateSectionClassifications(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectCreateSectionClassifications Instance = new ProjectCreateSectionClassifications(11, @"Classifications", @"Project Classifications", 110, true);
+        public static readonly ProjectCreateSectionClassifications Instance = new ProjectCreateSectionClassifications(11, @"Classifications", @"Classifications", 110, true);
     }
 
     public partial class ProjectCreateSectionAssessment : ProjectCreateSection
