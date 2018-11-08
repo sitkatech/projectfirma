@@ -13,11 +13,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectStewardshipAreaTypeDisplayName()
         {
-            if (this == Watersheds)
-            {
-                return FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized();
-            }
-            return ProjectStewardshipAreaTypeDisplayName;
+            return this == Watersheds ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectStewardshipAreaTypeDisplayName;
         }
     }
 

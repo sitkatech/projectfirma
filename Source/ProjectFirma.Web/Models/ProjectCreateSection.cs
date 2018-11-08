@@ -14,7 +14,6 @@ namespace ProjectFirma.Web.Models
         public static List<ProjectCreateSection> ConditionalSections =>
             new List<ProjectCreateSection> {ExpectedFunding, Assessment, ReportedPerformanceMeasures, ReportedExpenditures};
 
-
         public string GetProjectCreateSectionDisplayName()
         {
             return this == Watershed ? FieldDefinition.Watershed.GetFieldDefinitionLabel() : ProjectCreateSectionDisplayName;
