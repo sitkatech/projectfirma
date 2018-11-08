@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[Project](
 	[ProjectLocationNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PlanningDesignStartYear] [int] NULL,
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
-	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
+	[EstimatedAnnualOperatingCost] [money] NULL,
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -110,10 +110,6 @@ GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_CompletionYearHasToBeSetWhenStageIsInCompletedOrPostImplementation] CHECK  ((([ProjectStageID]=(8) OR [ProjectStageID]=(4)) AND [CompletionYear] IS NOT NULL OR NOT ([ProjectStageID]=(8) OR [ProjectStageID]=(4))))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_CompletionYearHasToBeSetWhenStageIsInCompletedOrPostImplementation]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_EstimatedTotalCostWholeDollarOnlyNoCents] CHECK  (([EstimatedTotalCost]%(1)=(0.0)))
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_EstimatedTotalCostWholeDollarOnlyNoCents]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_ImplementationStartYearLessThanEqualToCompletionYear] CHECK  (([ImplementationStartYear] IS NULL OR [CompletionYear] IS NULL OR [CompletionYear]>=[ImplementationStartYear]))
 GO
