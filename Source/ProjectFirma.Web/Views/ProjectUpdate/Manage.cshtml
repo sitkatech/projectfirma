@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
-
+@if(ViewDataTyped.CurrentPerson.IsAdministrator()){
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
@@ -141,7 +141,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 </div>
-
+}
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>@FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabelPluralized() Receiving Notification</h2>

@@ -44,15 +44,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         [Required]
         [DisplayName("Enable Project Update Reminders?")]
-        public bool EnableProjectUpdateReminders { get; set; }
+        public bool? EnableProjectUpdateReminders { get; set; }
 
         [Required]
         [DisplayName("Send Periodic Reminders?")]
-        public bool SendPeriodicReminders { get; set; }
+        public bool? SendPeriodicReminders { get; set; }
 
         [Required]
         [DisplayName("Send Close-Out Notification?")]
-        public bool SendCloseOutNotification { get; set; }
+        public bool? SendCloseOutNotification { get; set; }
 
         [DisplayName("Project Update Kick-Off Email Content")]
         public HtmlString ProjectUpdateKickOffIntroContent { get; set; }
@@ -72,15 +72,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public EditProjectUpdateConfigurationViewModel(ProjectUpdateConfiguration projectUpdateConfiguration)
         {
-            ProjectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
-            ProjectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
-            ProjectUpdateReminderInterval = projectUpdateConfiguration.ProjectUpdateReminderInterval;
-            EnableProjectUpdateReminders = projectUpdateConfiguration.EnableProjectUpdateReminders;
-            SendPeriodicReminders = projectUpdateConfiguration.SendPeriodicReminders;
-            SendCloseOutNotification = projectUpdateConfiguration.SendCloseOutNotification;
-            ProjectUpdateKickOffIntroContent = projectUpdateConfiguration.ProjectUpdateKickOffIntroContentHtmlString;
-            ProjectUpdateReminderIntroContent = projectUpdateConfiguration.ProjectUpdateReminderIntroContentHtmlString;
-            ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration.ProjectUpdateCloseOutIntroContentHtmlString;
+            ProjectUpdateKickOffDate = projectUpdateConfiguration?.ProjectUpdateKickOffDate;
+            ProjectUpdateCloseOutDate = projectUpdateConfiguration?.ProjectUpdateCloseOutDate;
+            ProjectUpdateReminderInterval = projectUpdateConfiguration?.ProjectUpdateReminderInterval;
+            EnableProjectUpdateReminders = projectUpdateConfiguration?.EnableProjectUpdateReminders;
+            SendPeriodicReminders = projectUpdateConfiguration?.SendPeriodicReminders;
+            SendCloseOutNotification = projectUpdateConfiguration?.SendCloseOutNotification;
+            ProjectUpdateKickOffIntroContent = projectUpdateConfiguration?.ProjectUpdateKickOffIntroContentHtmlString;
+            ProjectUpdateReminderIntroContent = projectUpdateConfiguration?.ProjectUpdateReminderIntroContentHtmlString;
+            ProjectUpdateCloseOutIntroContent = projectUpdateConfiguration?.ProjectUpdateCloseOutIntroContentHtmlString;
         }
 
         public void UpdateModel(ProjectUpdateConfiguration projectUpdateConfiguration)
@@ -88,9 +88,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdateConfiguration.ProjectUpdateKickOffDate = ProjectUpdateKickOffDate;
             projectUpdateConfiguration.ProjectUpdateCloseOutDate = ProjectUpdateCloseOutDate;
             projectUpdateConfiguration.ProjectUpdateReminderInterval = ProjectUpdateReminderInterval;
-            projectUpdateConfiguration.EnableProjectUpdateReminders = EnableProjectUpdateReminders;
-            projectUpdateConfiguration.SendPeriodicReminders = SendPeriodicReminders;
-            projectUpdateConfiguration.SendCloseOutNotification = SendCloseOutNotification;
+            projectUpdateConfiguration.EnableProjectUpdateReminders = EnableProjectUpdateReminders.GetValueOrDefault(); // will never be null
+            projectUpdateConfiguration.SendPeriodicReminders = SendPeriodicReminders.GetValueOrDefault(); // will never be null
+            projectUpdateConfiguration.SendCloseOutNotification = SendCloseOutNotification.GetValueOrDefault(); // will never be null
             projectUpdateConfiguration.ProjectUpdateKickOffIntroContent = ProjectUpdateKickOffIntroContent?.ToString();
             projectUpdateConfiguration.ProjectUpdateReminderIntroContent =
                 ProjectUpdateReminderIntroContent?.ToString();
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             // these bools will never be null due to RequiredAttribute
-            if (EnableProjectUpdateReminders)
+            if (EnableProjectUpdateReminders ?? false)
             {
                 if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
 
-            if (SendPeriodicReminders)
+            if (SendPeriodicReminders ?? false)
             {
                 if (string.IsNullOrWhiteSpace(ProjectUpdateReminderIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
 
-            if (SendCloseOutNotification)
+            if (SendCloseOutNotification ?? false)
             {
                 if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
                 else if (ProjectUpdateKickOffDate.HasValue)
                 {
-                    if (!EnableProjectUpdateReminders)
+                    if (!EnableProjectUpdateReminders ?? false)
                         yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
                             $"You cannot set a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Close-Out Date without also setting a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Kick-Off Date",
                             m => m.ProjectUpdateCloseOutDate);
