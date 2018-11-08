@@ -501,7 +501,7 @@ ProjectFirmaMaps.Map.prototype.removeDuplicatesFromArray = function (originalArr
 
             var atag = "<a title='' href='/Watershed/Detail/" + json.features[0].properties.WatershedID + "'>" + json.features[0].properties.WatershedName + "</a>";
             vectorLayerInfoHtmlForPopup = {
-                label: "Watershed",
+                label: json.features[0].properties.WatershedLabelName,
                 link: atag
             }
         }
