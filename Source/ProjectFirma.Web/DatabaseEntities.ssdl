@@ -108,7 +108,8 @@
 [vGeoServerWatershed].[WatershedFeature] AS [WatershedFeature], 
 [vGeoServerWatershed].[Ogr_Geometry] AS [Ogr_Geometry], 
 [vGeoServerWatershed].[TenantID] AS [TenantID], 
-[vGeoServerWatershed].[TenantName] AS [TenantName]
+[vGeoServerWatershed].[TenantName] AS [TenantName], 
+[vGeoServerWatershed].[WatershedLabelName] AS [WatershedLabelName]
 FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
@@ -1403,7 +1404,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
-    <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
+    <Property Name="EstimatedAnnualOperatingCost" Type="money" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
@@ -2131,6 +2132,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       <PropertyRef Name="WatershedName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
+      <PropertyRef Name="WatershedLabelName" />
     </Key>
     <Property Name="WatershedID" Type="int" Nullable="false" />
     <Property Name="PrimaryKey" Type="int" Nullable="false" />
@@ -2139,6 +2141,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
     <Property Name="Ogr_Geometry" Type="geometry" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="WatershedLabelName" Type="varchar" Nullable="false" MaxLength="300" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />

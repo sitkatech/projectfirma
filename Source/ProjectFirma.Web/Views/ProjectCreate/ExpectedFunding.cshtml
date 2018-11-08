@@ -149,24 +149,32 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="row">
                     <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost):</div>
                     <div class="col-sm-3 text-right">
-                        <span ng-bind="AngularViewData.EstimatedTotalCost | nfcurrency"></span>
+                        <span>
+                            {{ AngularViewData.EstimatedTotalCost | currency:"$"}}
+                        </span>
                     </div>
                 </div>
 
                     <div class="row">
                         <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding):</div>
                         <div class="col-sm-3 text-right">
-                            <span ng-bind="getSecuredTotal() | nfcurrency"></span>
+                            <span>
+                                {{getSecuredTotal() | currency:"$"}}
+                            </span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed):</div>
                         <div class="col-sm-3 text-right">
-                            <span ng-bind="(AngularViewData.EstimatedTotalCost - getSecuredTotal()) | nfcurrency"></span>
+                            <span>
+                                {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
+                            </span>
                         </div>
                         <div class="col-sm-6 text-right" ng-show="getUnsecuredTotal() > 0">
-                            (<span ng-bind="(getUnsecuredTotal()) | nfcurrency"></span> identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))
+                            (<span>
+                                 {{(getUnsecuredTotal()) | currency:"$"}}
+                            </span> identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))
                         </div>
                     </div>
             }

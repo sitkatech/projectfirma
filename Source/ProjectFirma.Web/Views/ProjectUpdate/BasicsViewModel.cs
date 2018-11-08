@@ -50,10 +50,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
-        public MoneyWholeNumber? EstimatedTotalCost { get; set; }
+        public Money? EstimatedTotalCost { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
-        public MoneyWholeNumber? EstimatedAnnualOperatingCost { get; set; }
+        public Money? EstimatedAnnualOperatingCost { get; set; }
 
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
