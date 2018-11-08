@@ -1288,6 +1288,7 @@
           <ScalarProperty Name="Ogr_Geometry" ColumnName="Ogr_Geometry" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TenantName" ColumnName="TenantName" />
+          <ScalarProperty Name="WatershedLabelName" ColumnName="WatershedLabelName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
