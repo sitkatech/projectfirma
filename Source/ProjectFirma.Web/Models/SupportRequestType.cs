@@ -26,6 +26,11 @@ namespace ProjectFirma.Web.Models
 {
     public partial class SupportRequestType
     {
+        public virtual string GetSubjectLine()
+        {
+            return SupportRequestTypeDisplayName;
+        }
+
         public virtual void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
         {
             var supportPersons = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveSupportEmails();
@@ -55,6 +60,10 @@ namespace ProjectFirma.Web.Models
 
     public partial class SupportRequestTypeHelpWithProjectUpdate
     {
+        public override string GetSubjectLine()
+        {
+            return $"Can't figure out how to update my {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+        }
     }
 
     public partial class SupportRequestTypeForgotLoginInfo
@@ -76,6 +85,24 @@ namespace ProjectFirma.Web.Models
     public partial class SupportRequestTypeProvideFeedback
     {
     }
+
+
+    public partial class SupportRequestTypeRequestProjectPrimaryContactChange
+    {
+        public override string GetSubjectLine()
+        {
+            return $"Request a change to a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s primary contact";
+        }
+    }
+
+    public partial class SupportRequestTypeRequestPermissionToAddProjects
+    {
+        public override string GetSubjectLine()
+        {
+            return $"Request permission to add {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+        }
+    }
+
 
     public partial class SupportRequestTypeRequestOrganizationNameChange
     {
