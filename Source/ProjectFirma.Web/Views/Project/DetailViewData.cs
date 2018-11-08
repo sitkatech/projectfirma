@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Views.Project
                     BackToProjectsText = backToAllPendingProjectsText;
                 }
 
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
                 ProjectListUrl = proposedProjectListUrl;
                 BackToProjectsText = backToAllProposalsText;
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
                 ProjectListUrl = pendingProjectsListUrl;
                 BackToProjectsText = backToAllPendingProjectsText;
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is pending. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Views.Project
 
                 if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
-                    if (project.IsMyProject(currentPerson))
+                    if (currentPerson.CanStewardProject(project))
                     {
                         projectAlerts.Add(
                             $"You are a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Steward for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may edit this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");

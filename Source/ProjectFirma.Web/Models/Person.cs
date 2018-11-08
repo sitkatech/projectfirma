@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Models
             get
             {
                 var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
-                if (MultiTenantHelpers.GetProjectStewardshipAreaType() != null)
+                if (MultiTenantHelpers.GetProjectStewardshipAreaType() == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
                 {
                     return Role.ProjectSteward.RoleID == RoleID &&
                            canStewardProjectsOrganizationRelationship != null &&
