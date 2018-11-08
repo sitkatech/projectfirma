@@ -2068,7 +2068,7 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTrunkID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyBranchName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyBranchDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyBranchDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyBranchCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyBranchSortOrder" Type="Int32" />
@@ -2084,7 +2084,7 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyBranchID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyLeafName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyLeafDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyLeafDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyLeafSortOrder" Type="Int32" />
@@ -2111,7 +2111,7 @@
     <Property Name="TaxonomyTrunkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTrunkName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTrunkDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTrunkDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTrunkCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTrunkSortOrder" Type="Int32" />

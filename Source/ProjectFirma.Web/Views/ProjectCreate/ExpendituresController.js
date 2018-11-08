@@ -67,7 +67,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         return $scope.calculateExpenditureTotal(calendarYearExpendituresAsFlattenedArray);
     };
 
-    $scope.calculateExpenditureTotal = function (expenditures) { return _.reduce(expenditures, function (m, x) { return m + x.MonetaryAmount; }, 0); }
+    $scope.calculateExpenditureTotal = function(expenditures) {
+        return _.reduce(expenditures, function(m, x) { return Number(m) + Number(x.MonetaryAmount); }, 0);
+    };
 
     $scope.addCalendarYear = function(calendarYear)
     {
@@ -116,7 +118,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
     {
         return {
             CalendarYear: calendarYear,
-            ExpenditureAmount: null
+            MonetaryAmount: null
         };
     };
 

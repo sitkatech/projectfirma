@@ -101,6 +101,12 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string TaxonomyTrunkName { get; set; }
         public string TaxonomyTrunkDescription { get; set; }
+        [NotMapped]
+        public HtmlString TaxonomyTrunkDescriptionHtmlString
+        { 
+            get { return TaxonomyTrunkDescription == null ? null : new HtmlString(TaxonomyTrunkDescription); }
+            set { TaxonomyTrunkDescription = value?.ToString(); }
+        }
         public string ThemeColor { get; set; }
         public string TaxonomyTrunkCode { get; set; }
         public int? TaxonomyTrunkSortOrder { get; set; }
@@ -113,7 +119,6 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyTrunkName = 100;
-            public const int TaxonomyTrunkDescription = 4000;
             public const int ThemeColor = 20;
             public const int TaxonomyTrunkCode = 10;
         }

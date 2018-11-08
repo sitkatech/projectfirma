@@ -238,7 +238,7 @@ namespace ProjectFirma.Web.Common
 
         public static ProjectUpdateConfiguration GetProjectUpdateConfiguration()
         {
-            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.Single(x =>
+            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.SingleOrDefault(x =>
                 x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
 

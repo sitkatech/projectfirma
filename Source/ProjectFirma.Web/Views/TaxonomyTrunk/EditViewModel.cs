@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
@@ -39,10 +40,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         [DisplayName("Name")]
         public string TaxonomyTrunkName { get; set; }
 
-        [StringLength(Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkDescription)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTrunkDescription)]
         [Required]
-        public string TaxonomyTrunkDescription { get; set; }
+        public HtmlString TaxonomyTrunkDescription { get; set; }
 
         [Required]
         public string ThemeColor { get; set; }
@@ -58,14 +58,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         {
             TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
             TaxonomyTrunkName = taxonomyTrunk.TaxonomyTrunkName;
-            TaxonomyTrunkDescription = taxonomyTrunk.TaxonomyTrunkDescription;
+            TaxonomyTrunkDescription = taxonomyTrunk.TaxonomyTrunkDescriptionHtmlString;
             ThemeColor = taxonomyTrunk.ThemeColor;
         }
 
         public void UpdateModel(Models.TaxonomyTrunk taxonomyTrunk, Person currentPerson)
         {
             taxonomyTrunk.TaxonomyTrunkName = TaxonomyTrunkName;
-            taxonomyTrunk.TaxonomyTrunkDescription = TaxonomyTrunkDescription;
+            taxonomyTrunk.TaxonomyTrunkDescriptionHtmlString = TaxonomyTrunkDescription;
             taxonomyTrunk.ThemeColor = ThemeColor;
         }
 

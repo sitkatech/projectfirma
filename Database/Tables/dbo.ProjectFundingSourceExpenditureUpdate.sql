@@ -46,7 +46,3 @@ ALTER TABLE [dbo].[ProjectFundingSourceExpenditureUpdate]  WITH CHECK ADD  CONST
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceExpenditureUpdate] CHECK CONSTRAINT [FK_ProjectFundingSourceExpenditureUpdate_Tenant_TenantID]
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceExpenditureUpdate]  WITH CHECK ADD  CONSTRAINT [CK_ProjectFundingSourceExpenditureUpdate_ExpenditureAmountWholeDollarOnlyNoCents] CHECK  (([ExpenditureAmount]%(1)=(0.0)))
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceExpenditureUpdate] CHECK CONSTRAINT [CK_ProjectFundingSourceExpenditureUpdate_ExpenditureAmountWholeDollarOnlyNoCents]

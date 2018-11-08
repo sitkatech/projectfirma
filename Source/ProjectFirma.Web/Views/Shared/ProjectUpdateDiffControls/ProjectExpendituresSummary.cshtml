@@ -63,11 +63,11 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                 {
                     <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                        <span class="normalDollars">@(fundingSourceExpenditure.CalendarYearExpenditure.ContainsKey(calendarYear.CalendarYear) ? fundingSourceExpenditure.CalendarYearExpenditure[calendarYear.CalendarYear].ToIntString() : "0")</span>
+                        <span>@(fundingSourceExpenditure.CalendarYearExpenditure.ContainsKey(calendarYear.CalendarYear) ? fundingSourceExpenditure.CalendarYearExpenditure[calendarYear.CalendarYear].ToStringCurrency() : "0")</span>
                     </td>
                 }
                 <th style="text-align: right">
-                    <span class="normalDollars">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToIntString()</span>
+                    <span>@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</span>
                 </th>
             </tr>
         }
@@ -76,11 +76,11 @@ Source code is available upon request via <support@sitkatech.com>.
             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">
-                    <span class="normalDollars">@(ViewDataTyped.FundingSourceExpenditures.Any(x => x.CalendarYearExpenditure.ContainsKey(calendarYear.CalendarYear)) ? ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString() : "0")</span>
+                    <span>@(ViewDataTyped.FundingSourceExpenditures.Any(x => x.CalendarYearExpenditure.ContainsKey(calendarYear.CalendarYear)) ? ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency() : "0")</span>
                 </th>
             }
             <th style="text-align: right">
-                <span class="normalDollars">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToIntString()</span>
+                <span>@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</span>
             </th>
         </tr>
 

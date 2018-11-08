@@ -45,15 +45,15 @@ angular.module("ng-currency", [])
 
                 ngModel.$parsers.push(function (viewValue) {
                     var cVal = clearValue(viewValue);
-                    return Sitka.Methods.isUndefinedNullOrEmpty(cVal) ? null : Math.round(parseFloat(cVal));
+                    return Sitka.Methods.isUndefinedNullOrEmpty(cVal) ? null : parseFloat(cVal).toFixed(2);
                 });
 
                 element.on("blur", function () {
-                    element.val($filter("nfcurrency")(ngModel.$modelValue));
+                    element.val($filter('currency')(ngModel.$modelValue));
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter("nfcurrency")(value);
+                    return $filter('currency')(value);
                 });
             }
         };
