@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,
             ProjectCreateSection currentSection,
-            ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
+            ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson)
         {
             ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(project);
             Check.Assert(project != null);
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
         protected ProjectCreateViewData(Person currentPerson,
-            ProjectCreateSection currentSection, string proposalInstructionsUrl) : this(currentPerson)
+            ProjectCreateSection currentSection, string proposalInstructionsUrl) : this(null, currentPerson)
         {
             Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics);
             ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(null);
@@ -125,14 +125,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         }
 
-        private ProjectCreateViewData(Person currentPerson) : base(currentPerson)
+        private ProjectCreateViewData(Models.Project project, Person currentPerson) : base(currentPerson)
         {
             EntityName = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
-            CurrentPersonIsApprover = new ProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
-                        
+            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentPerson, project).HasPermission;
+
         }
 
 

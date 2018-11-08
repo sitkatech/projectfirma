@@ -153,6 +153,7 @@ a:hover {
   font-stretch: condensed;
   font-size: 18px;
   text-transform: uppercase;
+  line-height: 23px;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,

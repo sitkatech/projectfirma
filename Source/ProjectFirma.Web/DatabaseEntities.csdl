@@ -1388,7 +1388,7 @@
     <Property Name="ProjectLocationNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
-    <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
@@ -2193,6 +2193,7 @@
       <PropertyRef Name="WatershedName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
+      <PropertyRef Name="WatershedLabelName" />
     </Key>
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryKey" Type="Int32" Nullable="false" />
@@ -2201,6 +2202,7 @@
     <Property Name="Ogr_Geometry" Type="Geometry" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TenantName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="WatershedLabelName" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
   </EntityType>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
     <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />

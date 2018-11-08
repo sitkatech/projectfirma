@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Views.Project
                     BackToProjectsText = backToAllPendingProjectsText;
                 }
 
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
                 ProjectListUrl = proposedProjectListUrl;
                 BackToProjectsText = backToAllProposalsText;
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Views.Project
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
                 ProjectListUrl = pendingProjectsListUrl;
                 BackToProjectsText = backToAllPendingProjectsText;
-                if (userHasProjectAdminPermissions || currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
                         $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is pending. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
@@ -220,16 +220,15 @@ namespace ProjectFirma.Web.Views.Project
 
                 if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
                 {
-                    if (project.IsMyProject(currentPerson))
+                    if (currentPerson.CanStewardProject(project))
                     {
                         projectAlerts.Add(
-                            $"You are a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Steward for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may edit this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
+                            $"You are a {Models.FieldDefinition.ProjectSteward.GetFieldDefinitionLabel()} for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may edit this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
                     }
                     else
                     {
                         projectAlerts.Add(
-                            $"You are a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Steward, but not for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may only edit {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} that are associated with your <a href=\"" +
-                            currentPerson.Organization.GetDetailUrl() + "\">organization</a>.");
+                            $"You are a {Models.FieldDefinition.ProjectSteward.GetFieldDefinitionLabel()}, but not for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may only edit {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} that are associated with your {Models.FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel()}.");
                     }
                 }
             }
@@ -237,7 +236,7 @@ namespace ProjectFirma.Web.Views.Project
             
             if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
-                if (userHasProjectAdminPermissions || (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects) && project.IsMyProject(currentPerson))
+                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }

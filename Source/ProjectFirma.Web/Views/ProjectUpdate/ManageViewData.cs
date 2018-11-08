@@ -65,7 +65,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             PeopleReceivingReminderGridDataUrl = peopleReceivingReminderGridDataUrl;
             ProjectsWithNoContactCount = projectsWithNoContactCount;
-            ProjectUpdateConfiguration = projectUpdateConfiguration;
+
+            ProjectUpdateConfiguration = projectUpdateConfiguration ?? ProjectUpdateConfiguration.CreateNewBlank();
+
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 

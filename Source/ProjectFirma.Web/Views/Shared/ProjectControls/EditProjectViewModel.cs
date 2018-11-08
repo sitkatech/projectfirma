@@ -65,10 +65,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
-        public MoneyWholeNumber? EstimatedTotalCost { get; set; }
+        public Money? EstimatedTotalCost { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
-        public MoneyWholeNumber? EstimatedAnnualOperatingCost { get; set; }
+        public Money? EstimatedAnnualOperatingCost { get; set; }
 
         public bool HasExistingProjectUpdate { get; set; }
 
