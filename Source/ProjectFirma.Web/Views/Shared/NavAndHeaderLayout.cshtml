@@ -128,7 +128,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 jQuery("#@SearchResults.ProjectSearchInputTextboxID")
                     .autocomplete({
                         source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
-                        minLength: 4,
+                        minLength: 1,
                         position: { my: "right top", at: "right bottom" },
                         select: function (event, ui) {
                             document.location = ui.item.value;
