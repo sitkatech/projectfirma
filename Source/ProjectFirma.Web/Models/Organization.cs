@@ -132,6 +132,11 @@ namespace ProjectFirma.Web.Models
             return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
         }
 
+        public bool CanStewardProjects()
+        {
+            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+        }
+
         public bool IsMyProject(Project project)
         {
             return IsLeadImplementingOrganizationForProject(project) ||

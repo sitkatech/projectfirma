@@ -81,22 +81,30 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
 
             foreach(var x in SnapshotOrganizationTypeExpenditures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in SnapshotPerformanceMeasures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in SnapshotProjects.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
-            HttpRequestStorage.DatabaseEntities.AllSnapshots.Remove(this);                
+            dbContext.AllSnapshots.Remove(this);
         }
 
         [Key]

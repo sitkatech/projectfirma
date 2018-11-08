@@ -47,7 +47,8 @@ namespace ProjectFirma.Web.Views.Role
             ApprovedFeatures = featurePermissions.Where(x => x.HasPermission).ToList();
             DeniedFeatures = featurePermissions.Where(x => !x.HasPermission).ToList();
 
-            RoleName = role.RoleDisplayName;
+            RoleName = role.GetRoleDisplayName();
+
             RoleDescription = role.RoleDescription;
 
             GridSpec = new PersonWithRoleGridSpec() {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};

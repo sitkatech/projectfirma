@@ -70,15 +70,23 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceRequestControl
         return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceID == f.FundingSourceID; });
     };
 
-    $scope.getUnsecuredTotal = function ()
-    {
-        return _.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return m + x.UnsecuredAmount; }, 0);
+    $scope.getUnsecuredTotal = function () {
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return Number(m) + Number(x.UnsecuredAmount); }, 0));
     };
 
-    $scope.getSecuredTotal = function ()
-    {
-        return _.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return m + x.SecuredAmount; }, 0);
+    $scope.getSecuredTotal = function () {
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceRequests,
+            function (m, x) { return Number(m) + Number(x.SecuredAmount); },
+            0));
     };
+
+    $scope.getTotal = function () {
+        return Number($scope.getUnsecuredTotal()) + Number($scope.getSecuredTotal());
+    }
+
+    $scope.getRowTotal = function (projectFundingSourceRequest) {
+        return Number(projectFundingSourceRequest.SecuredAmount) + Number(projectFundingSourceRequest.UnsecuredAmount);
+    }
     
     $scope.findProjectFundingSourceRequestRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceRequests, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
 

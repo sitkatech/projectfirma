@@ -122,72 +122,80 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
 
             foreach(var x in ClassificationPerformanceMeasures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureActuals.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureActualSubcategoryOptions.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureActualSubcategoryOptionUpdates.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureActualUpdates.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureExpecteds.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureExpectedSubcategoryOptions.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureMonitoringPrograms.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureNotes.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureSubcategories.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in SnapshotPerformanceMeasures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in SnapshotPerformanceMeasureSubcategoryOptions.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in TaxonomyLeafPerformanceMeasures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
-            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Remove(this);                
+            dbContext.AllPerformanceMeasures.Remove(this);
         }
 
         [Key]

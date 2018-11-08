@@ -42,13 +42,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr class="@fundingSourceRequestAmount.DisplayCssClass">
             <td>@fundingSourceRequestAmount.FundingSource.DisplayNameAsUrl</td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
-                <span class="normalDollars">@fundingSourceRequestAmount.SecuredAmount.ToIntString()</span>
+                <span >@fundingSourceRequestAmount.SecuredAmount.ToStringCurrency()</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
-                <span class="normalDollars">@fundingSourceRequestAmount.UnsecuredAmount.ToIntString()</span>
+                <span >@fundingSourceRequestAmount.UnsecuredAmount.ToStringCurrency()</span>
             </td>
             <th style="text-align: right">
-                <span class="normalDollars">@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.UnsecuredAmount).ToIntString())</span>
+                <span >@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.UnsecuredAmount).ToStringCurrency())</span>
             </th>
         </tr>
     }
@@ -57,13 +57,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <th>Total</th>
             <td style="text-align: right">
-                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToIntString()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</span>
             </td>
             <td style="text-align: right">
-                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToIntString()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToStringCurrency()</span>
             </td>
             <th style="text-align: right">
-                <span class="normalDollars">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToIntString()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToStringCurrency()</span>
             </th>
         </tr>
     }

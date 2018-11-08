@@ -95,17 +95,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
 
             foreach(var x in Projects.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in TaxonomyLeafPerformanceMeasures.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
-            HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Remove(this);                
+            dbContext.AllTaxonomyLeafs.Remove(this);
         }
 
         [Key]
@@ -114,6 +122,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyBranchID { get; set; }
         public string TaxonomyLeafName { get; set; }
         public string TaxonomyLeafDescription { get; set; }
+        [NotMapped]
+        public HtmlString TaxonomyLeafDescriptionHtmlString
+        { 
+            get { return TaxonomyLeafDescription == null ? null : new HtmlString(TaxonomyLeafDescription); }
+            set { TaxonomyLeafDescription = value?.ToString(); }
+        }
         public string TaxonomyLeafCode { get; set; }
         public string ThemeColor { get; set; }
         public int? TaxonomyLeafSortOrder { get; set; }
@@ -128,7 +142,6 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyLeafName = 100;
-            public const int TaxonomyLeafDescription = 4000;
             public const int TaxonomyLeafCode = 10;
             public const int ThemeColor = 7;
         }

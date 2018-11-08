@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Models
             LayerInitialVisibility layerInitialVisibility)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl,
+            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), tenantAttribute.MapServiceUrl,
                 tenantAttribute.WatershedLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
                 layerInitialVisibility);
         }

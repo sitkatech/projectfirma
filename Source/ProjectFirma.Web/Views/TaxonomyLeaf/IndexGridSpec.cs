@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
                 Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.SummaryUrl, a.TaxonomyBranch.TaxonomyBranchName), 300);
             }
             Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
-            Add("Description", a => a.TaxonomyLeafDescription, 350);
+            Add("Description", a => a.TaxonomyLeafDescriptionHtmlString, 350);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add($"# of {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
             Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, DhtmlxGridColumnFormatType.None);

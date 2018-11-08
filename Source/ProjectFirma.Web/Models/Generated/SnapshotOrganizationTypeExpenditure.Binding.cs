@@ -98,7 +98,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
-            HttpRequestStorage.DatabaseEntities.AllSnapshotOrganizationTypeExpenditures.Remove(this);                
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
+            dbContext.AllSnapshotOrganizationTypeExpenditures.Remove(this);
         }
 
         [Key]

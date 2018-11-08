@@ -95,17 +95,25 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public void DeleteFull()
         {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
 
             foreach(var x in PersonStewardTaxonomyBranches.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
 
             foreach(var x in TaxonomyLeafs.ToList())
             {
-                x.DeleteFull();
+                x.DeleteFull(dbContext);
             }
-            HttpRequestStorage.DatabaseEntities.AllTaxonomyBranches.Remove(this);                
+            dbContext.AllTaxonomyBranches.Remove(this);
         }
 
         [Key]
@@ -114,6 +122,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyTrunkID { get; set; }
         public string TaxonomyBranchName { get; set; }
         public string TaxonomyBranchDescription { get; set; }
+        [NotMapped]
+        public HtmlString TaxonomyBranchDescriptionHtmlString
+        { 
+            get { return TaxonomyBranchDescription == null ? null : new HtmlString(TaxonomyBranchDescription); }
+            set { TaxonomyBranchDescription = value?.ToString(); }
+        }
         public string ThemeColor { get; set; }
         public string TaxonomyBranchCode { get; set; }
         public int? TaxonomyBranchSortOrder { get; set; }
@@ -128,7 +142,6 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyBranchName = 100;
-            public const int TaxonomyBranchDescription = 4000;
             public const int ThemeColor = 7;
             public const int TaxonomyBranchCode = 10;
         }
