@@ -122,6 +122,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyBranchID { get; set; }
         public string TaxonomyLeafName { get; set; }
         public string TaxonomyLeafDescription { get; set; }
+        [NotMapped]
+        public HtmlString TaxonomyLeafDescriptionHtmlString
+        { 
+            get { return TaxonomyLeafDescription == null ? null : new HtmlString(TaxonomyLeafDescription); }
+            set { TaxonomyLeafDescription = value?.ToString(); }
+        }
         public string TaxonomyLeafCode { get; set; }
         public string ThemeColor { get; set; }
         public int? TaxonomyLeafSortOrder { get; set; }
@@ -136,7 +142,6 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyLeafName = 100;
-            public const int TaxonomyLeafDescription = 4000;
             public const int TaxonomyLeafCode = 10;
             public const int ThemeColor = 7;
         }

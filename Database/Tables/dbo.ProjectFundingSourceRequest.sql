@@ -49,7 +49,3 @@ GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [CK_ProjectFundingSourceRequest_SecuredUnsecuredAmountBothCannotBeZero] CHECK  (([SecuredAmount]<>(0) OR [UnsecuredAmount]<>(0)))
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [CK_ProjectFundingSourceRequest_SecuredUnsecuredAmountBothCannotBeZero]
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceRequest]  WITH CHECK ADD  CONSTRAINT [CK_ProjectFundingSourceRequest_UnsecuredAmountWholeDollarOnlyNoCents] CHECK  (([SecuredAmount]%(1)=(0.0)))
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceRequest] CHECK CONSTRAINT [CK_ProjectFundingSourceRequest_UnsecuredAmountWholeDollarOnlyNoCents]

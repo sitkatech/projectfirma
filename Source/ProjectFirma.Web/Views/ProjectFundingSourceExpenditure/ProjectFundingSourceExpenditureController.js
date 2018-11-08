@@ -92,7 +92,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
         return $scope.calculateExpenditureTotal(calendarYearExpendituresAsFlattenedArray);
     };
 
-    $scope.calculateExpenditureTotal = function (expenditures) { return _.reduce(expenditures, function (m, x) { return m + x.MonetaryAmount; }, 0); }
+    $scope.calculateExpenditureTotal = function (expenditures) {
+        var fart = _.reduce(expenditures, function(m, x) { return Number(m) + Number(x.MonetaryAmount); }, 0);
+        return fart;
+    };
 
     $scope.addCalendarYear = function (calendarYear) {
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
@@ -147,7 +150,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     $scope.createNewCalendarYearExpenditureRow = function (calendarYear) {
         return {
             CalendarYear: calendarYear,
-            ExpenditureAmount: null
+            MonetaryAmount: null
         };
     };
 
