@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSummary
 
 <style>
@@ -48,18 +49,18 @@ Source code is available upon request via <support@sitkatech.com>.
     }
     @if (ViewDataTyped.HasLocationInformation)
     {
-        <div style="margin-bottom: 5px"> 
+        <div style="margin-bottom: 5px">
             <label>
                 Location Information
             </label>
             <div id="projectLocationInformationContainer" style="padding-left: 20px"></div>
         </div>
-    } 
+    }
     @if (ViewDataTyped.HasWatersheds)
     {
         <div style="margin-bottom: 5px">
             <label>
-                Watershed Information
+                @FieldDefinition.Watershed.GetFieldDefinitionLabel() Information
             </label>
             <ul class="noListStyle">
                 @foreach (var projectWatershed in ViewDataTyped.Watersheds.OrderBy(x => x.DisplayName))
@@ -69,19 +70,19 @@ Source code is available upon request via <support@sitkatech.com>.
                     </li>
                 }
             </ul>
-     </div>        
+        </div>
     }
-    @if(ViewDataTyped.HasWatershedNotes)
+    @if (ViewDataTyped.HasWatershedNotes)
     {
         <div style="margin-bottom: 5px">
             <label>
-                Watershed Notes
+                @FieldDefinition.Watershed.GetFieldDefinitionLabel() Notes
             </label>
             <div style="padding-left: 20px">
                 @ViewDataTyped.ProjectWatershedNotes
             </div>
-        </div>             
-    }   
+        </div>
+    }
 </div>
 
 <script type="text/javascript">

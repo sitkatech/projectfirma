@@ -73,7 +73,7 @@
                     @if (projectCreateSection == ProjectCreateSection.Instructions)
                     {
                         <a href="@(ViewDataTyped.ProposalInstructionsUrl ?? projectCreateSection.GetSectionUrl(ViewDataTyped.Project))">
-                            @projectCreateSection.ProjectCreateSectionDisplayName
+                            @projectCreateSection.GetProjectCreateSectionDisplayName()
                         </a>
                     }
                     else if ((projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard))
@@ -86,16 +86,16 @@
                                     @Html.Raw(projectCreateSection.IsComplete(ViewDataTyped.Project) ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                                 </span>
                             }
-                            @projectCreateSection.ProjectCreateSectionDisplayName
+                            @projectCreateSection.GetProjectCreateSectionDisplayName()
                         </a>
                     }
                     else if (!ViewDataTyped.ProjectStateIsValidInWizard)
                     {
-                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.ProjectCreateSectionDisplayName)
+                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.GetProjectCreateSectionDisplayName())
                     }
                     else
                     {
-                        @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.ProjectCreateSectionDisplayName)
+                        @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.GetProjectCreateSectionDisplayName())
                     }
                 </li>
             }
