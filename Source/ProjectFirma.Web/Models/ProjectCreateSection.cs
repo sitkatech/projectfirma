@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectCreateSectionDisplayName()
         {
-            return this == Watershed ? FieldDefinition.Watershed.GetFieldDefinitionLabel() : ProjectCreateSectionDisplayName;
+            return this == Watershed ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectCreateSectionDisplayName;
         }
     }
 
