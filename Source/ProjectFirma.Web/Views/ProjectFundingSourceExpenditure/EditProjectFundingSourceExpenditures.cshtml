@@ -36,12 +36,6 @@ Source code is available upon request via <support@sitkatech.com>.
     // ]]>
 </script>
 <style>
-    input.sitkaCurrency {
-        width: 96px;
-        text-align: right;
-        padding-left: 4px;
-        padding-right: 4px;
-    }
     #EditFundingSourceExpendituresApp td,
     #EditFundingSourceExpendituresApp th {
         min-width: 96px;
@@ -100,7 +94,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <label ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceExpenditure)" : "getFundingSourceName(projectFundingSourceExpenditure)")"></label>
 
         <table class="table table-responsive table-condensed dialogFormLayout"
-               style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
+               style="margin-bottom: 25px; display: block; overflow: auto; background-color: #f1f1f1">
             <thead>
                 <tr>
                     <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
@@ -114,7 +108,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <tbody>
                 <tr>
                     <td style="text-align: right" ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
-                        <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" ng-currency/>
+                        <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency/>
                     </td>
                     <td style="text-align: right; font-weight: bold;">
                         {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
