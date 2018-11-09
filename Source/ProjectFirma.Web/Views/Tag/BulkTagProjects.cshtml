@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
@@ -29,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     
     <p>
-        No projects selected to be tagged.
+        No @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() selected to be tagged.
     </p>
 
     <script type="text/javascript">

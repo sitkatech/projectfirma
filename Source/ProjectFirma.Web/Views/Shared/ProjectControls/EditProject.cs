@@ -43,18 +43,18 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     public class EditProjectTypeNewProject : EditProjectType
         {
         private EditProjectTypeNewProject(string introductoryText) : base(introductoryText) {  }
-            public static readonly EditProjectTypeNewProject Instance = new EditProjectTypeNewProject("<p>Enter basic information about the project.</p>");
+            public static readonly EditProjectTypeNewProject Instance = new EditProjectTypeNewProject($"<p>Enter basic information about the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}.</p>");
         }
 
     public class EditProjectTypeExistingProject : EditProjectType
         {
             private EditProjectTypeExistingProject(string introductoryText) : base(introductoryText) { }
-            public static readonly EditProjectTypeExistingProject Instance = new EditProjectTypeExistingProject("<p>Update this project's information.</p>");
+            public static readonly EditProjectTypeExistingProject Instance = new EditProjectTypeExistingProject($"<p>Update this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s information.</p>");
         }
 
     public class EditProjectTypeProposal : EditProjectType
     {
         private EditProjectTypeProposal(string introductoryText) : base(introductoryText) { }
-        public static readonly EditProjectTypeProposal Instance = new EditProjectTypeProposal("<p>Enter additional information to approve this as a full-fledged project.</p>");
+        public static readonly EditProjectTypeProposal Instance = new EditProjectTypeProposal($"<p>Enter additional information to approve this as a full-fledged {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}.</p>");
     }
 }

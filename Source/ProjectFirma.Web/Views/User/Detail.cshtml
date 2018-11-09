@@ -158,13 +158,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         else if (ViewDataTyped.Person.IsAnonymousOrUnassigned)
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is not assigned a role and cannot add or edit any projects.
+                                @ViewDataTyped.Person.FullNameFirstLast is not assigned a role and cannot add or edit any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized().
                             </p>
                         }
                         else if (ViewDataTyped.Person.Role == Role.Normal)
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add projects to any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel(), but cannot edit/manage projects that are not their own.
+                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() to any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel(), but cannot edit/manage @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() that are not their own.
                             </p>
                         }
                         else
@@ -172,7 +172,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             var projectStewardshipAreaHtmlStringList = ViewDataTyped.Person.GetProjectStewardshipAreaHtmlStringList();
                             if (!ViewDataTyped.TenantHasStewardshipAreas)
                             {
-                            <p class="systemText">@FieldDefinition.ProjectSteward.GetFieldDefinitionLabelPluralized() can approve Project Proposals, create new Projects, and approve Project Updates for all projects</p>
+                            <p class="systemText">@FieldDefinition.ProjectSteward.GetFieldDefinitionLabelPluralized() can approve @FieldDefinition.Project.GetFieldDefinitionLabel() Proposals, create new @FieldDefinition.Project.GetFieldDefinitionLabelPluralized(), and approve @FieldDefinition.Project.GetFieldDefinitionLabel() Updates for all @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</p>
                             }
                             else if (projectStewardshipAreaHtmlStringList.Any())
                             {
@@ -187,7 +187,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                            <p class="systemText">@ViewDataTyped.Person.FullNameFirstLast is not assigned to manage Projects in any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel().</p>
+                            <p class="systemText">@ViewDataTyped.Person.FullNameFirstLast is not assigned to manage @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel().</p>
                             }
                         }
 
