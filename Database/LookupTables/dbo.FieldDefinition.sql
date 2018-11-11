@@ -92,4 +92,5 @@ VALUES
 (264, 'PerformanceMeasureIsAggregatable', 'Is Aggregatable', 'Indicates whether the values for this Performance Measure can be aggregated across subcategory options.'),
 (265, N'FundingSourceAmount', N'Amount', N'<p>Funding Source Amount</p>'),
 (266, N'NormalUser', N'Normal User', N'Users with this role can propose new Projects, update existing Projects where their organization is the Lead Implementer, and view almost every page within the Project Tracker.'),
-(267, N'ProjectStewardshipArea', N'Project Stewardship Area', 'Indicates which attribute of a project is used to determine if a Project Steward is permitted to edit that project.')
+(267, N'ProjectStewardshipArea', N'Project Stewardship Area', 'Indicates which attribute of a project is used to determine if a Project Steward is permitted to edit that project.'),
+(268, N'ProjectInternalNote', N'Internal Note', N'<p>Any important information about a project that should only be visible to Administrators.</p>')

@@ -837,6 +837,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectInternalNote">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectInternalNote">
+        <MappingFragment StoreEntitySet="ProjectInternalNote">
+          <ScalarProperty Name="ProjectInternalNoteID" ColumnName="ProjectInternalNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectLocation">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocation">
         <MappingFragment StoreEntitySet="ProjectLocation">
