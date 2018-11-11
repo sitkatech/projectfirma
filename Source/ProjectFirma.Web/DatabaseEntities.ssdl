@@ -68,6 +68,7 @@
     <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequestUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectInternalNote" EntityType="ProjectFirma.Web.Models.Store.ProjectInternalNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationStagingUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationStagingUpdate" store:Type="Tables" Schema="dbo" />
@@ -519,6 +520,18 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectInternalNote_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="ProjectInternalNotesWhereYouAreTheCreatePerson" EntitySet="ProjectInternalNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectInternalNote_Person_UpdatePersonID_PersonID">
+      <End Role="UpdatePerson" EntitySet="Person" />
+      <End Role="ProjectInternalNotesWhereYouAreTheUpdatePerson" EntitySet="ProjectInternalNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectInternalNote_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectInternalNotes" EntitySet="ProjectInternalNote" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -1301,6 +1314,8 @@ warning 6035: The relationship 'FK_PersonStewardOrganization_Person_PersonID_Ten
 warning 6035: The relationship 'FK_PersonStewardTaxonomyBranch_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PersonStewardWatershed_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Project_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectInternalNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectInternalNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1376,6 +1391,7 @@ warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantI
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectInternalNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStaging_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1658,6 +1674,19 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
     <Property Name="ProjectImageID" Type="int" />
+  </EntityType>
+  <EntityType Name="ProjectInternalNote">
+    <Key>
+      <PropertyRef Name="ProjectInternalNoteID" />
+    </Key>
+    <Property Name="ProjectInternalNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="Note" Type="varchar" Nullable="false" />
+    <Property Name="CreatePersonID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatePersonID" Type="int" />
+    <Property Name="UpdateDate" Type="datetime" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -2132,7 +2161,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       <PropertyRef Name="WatershedName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
-      <PropertyRef Name="WatershedLabelName" />
     </Key>
     <Property Name="WatershedID" Type="int" Nullable="false" />
     <Property Name="PrimaryKey" Type="int" Nullable="false" />
@@ -2141,7 +2169,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
     <Property Name="Ogr_Geometry" Type="geometry" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="WatershedLabelName" Type="varchar" Nullable="false" MaxLength="300" />
+    <Property Name="WatershedLabelName" Type="varchar" MaxLength="300" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />
@@ -3364,6 +3392,42 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProjectImageUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectInternalNote_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectInternalNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotesWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectInternalNote_Person_UpdatePersonID_PersonID">
+    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="ProjectInternalNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UpdatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotesWhereYouAreTheUpdatePerson">
+        <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectInternalNote_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
+    <End Role="ProjectInternalNotes" Type="ProjectFirma.Web.Models.Store.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotes">
+        <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -68,6 +68,7 @@
     <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceRequestUpdate" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.ProjectImage" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.ProjectImageUpdate" />
+    <EntitySet Name="ProjectInternalNote" EntityType="ProjectFirma.Web.Models.ProjectInternalNote" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.ProjectLocation" />
     <EntitySet Name="ProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProjectLocationStaging" />
     <EntitySet Name="ProjectLocationStagingUpdate" EntityType="ProjectFirma.Web.Models.ProjectLocationStagingUpdate" />
@@ -449,6 +450,14 @@
       <End Role="ReviewedByPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreTheReviewedByPerson" EntitySet="Project" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="ProjectInternalNotesWhereYouAreTheCreatePerson" EntitySet="ProjectInternalNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_UpdatePersonID_PersonID">
+      <End Role="UpdatePerson" EntitySet="Person" />
+      <End Role="ProjectInternalNotesWhereYouAreTheUpdatePerson" EntitySet="ProjectInternalNote" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
@@ -544,6 +553,10 @@
     <AssociationSet Name="FK_ProjectImage_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectInternalNote_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectInternalNote_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectInternalNotes" EntitySet="ProjectInternalNote" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -1324,6 +1337,8 @@
     <NavigationProperty Name="ProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProjectsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProjectsWhereYouAreTheProposingPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProjectsWhereYouAreTheReviewedByPerson" />
+    <NavigationProperty Name="ProjectInternalNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectInternalNotesWhereYouAreTheCreatePerson" />
+    <NavigationProperty Name="ProjectInternalNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectInternalNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagings" />
     <NavigationProperty Name="ProjectLocationStagingUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagingUpdates" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNotesWhereYouAreTheCreatePerson" />
@@ -1418,6 +1433,7 @@
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceRequests" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequest_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceRequests" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID" FromRole="Project" ToRole="ProjectImages" />
+    <NavigationProperty Name="ProjectInternalNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Project_ProjectID" FromRole="Project" ToRole="ProjectInternalNotes" />
     <NavigationProperty Name="ProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID" FromRole="Project" ToRole="ProjectLocations" />
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Project_ProjectID" FromRole="Project" ToRole="ProjectLocationStagings" />
     <NavigationProperty Name="ProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID" FromRole="Project" ToRole="ProjectNotes" />
@@ -1694,6 +1710,22 @@
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="ProjectImageUpdates" ToRole="FileResource" />
     <NavigationProperty Name="ProjectImage" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectImage_ProjectImageID" FromRole="ProjectImageUpdates" ToRole="ProjectImage" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectImageUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
+  <EntityType Name="ProjectInternalNote">
+    <Key>
+      <PropertyRef Name="ProjectInternalNoteID" />
+    </Key>
+    <Property Name="ProjectInternalNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
+    <Property Name="CreatePersonID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+    <Property Name="UpdatePersonID" Type="Int32" />
+    <Property Name="UpdateDate" Type="DateTime" />
+    <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_CreatePersonID_PersonID" FromRole="ProjectInternalNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
+    <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Person_UpdatePersonID_PersonID" FromRole="ProjectInternalNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Project_ProjectID" FromRole="ProjectInternalNotes" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -2193,7 +2225,6 @@
       <PropertyRef Name="WatershedName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
-      <PropertyRef Name="WatershedLabelName" />
     </Key>
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryKey" Type="Int32" Nullable="false" />
@@ -2202,7 +2233,7 @@
     <Property Name="Ogr_Geometry" Type="Geometry" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TenantName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedLabelName" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="WatershedLabelName" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
   </EntityType>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
     <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />
@@ -3248,6 +3279,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectInternalNote_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="ProjectInternalNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotesWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectInternalNote_Person_UpdatePersonID_PersonID">
+    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="ProjectInternalNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UpdatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotesWhereYouAreTheUpdatePerson">
+        <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationStaging_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
     <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.ProjectLocationStaging" Multiplicity="*" />
@@ -3532,6 +3587,18 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectImages">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectInternalNote_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectInternalNotes" Type="ProjectFirma.Web.Models.ProjectInternalNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectInternalNotes">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>

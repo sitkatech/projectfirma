@@ -160,6 +160,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
         public virtual IQueryable<ProjectImageUpdate> ProjectImageUpdates { get { return AllProjectImageUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectInternalNote> AllProjectInternalNotes { get; set; }
+        public virtual IQueryable<ProjectInternalNote> ProjectInternalNotes { get { return AllProjectInternalNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocation> AllProjectLocations { get; set; }
         public virtual IQueryable<ProjectLocation> ProjectLocations { get { return AllProjectLocations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationStaging> AllProjectLocationStagings { get; set; }
@@ -534,6 +536,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectImageUpdate":
                     return ProjectImageUpdates.GetProjectImageUpdate(primaryKey);
+
+                case "ProjectInternalNote":
+                    return ProjectInternalNotes.GetProjectInternalNote(primaryKey);
 
                 case "ProjectLocationFilterType":
                     var projectLocationFilterType = ProjectLocationFilterType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
