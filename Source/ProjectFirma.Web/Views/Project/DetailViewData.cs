@@ -62,7 +62,8 @@ namespace ProjectFirma.Web.Views.Project
         public PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData { get; }
         public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
         public ImageGalleryViewData ImageGalleryViewData { get; }
-        public EntityNotesViewData EntityNotesViewData { get; }
+        public EntityNotesViewData ProjectNotesViewData { get; }
+        public EntityNotesViewData InternalNotesViewData { get; }
         public EntityExternalLinksViewData EntityExternalLinksViewData { get; }
 
         public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
@@ -106,7 +107,7 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
-            ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData,
+            ImageGalleryViewData imageGalleryViewData, EntityNotesViewData projectNotesViewData, EntityNotesViewData internalNotesViewData,
             EntityExternalLinksViewData entityExternalLinksViewData,
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
             bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
@@ -279,7 +280,9 @@ namespace ProjectFirma.Web.Views.Project
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
 
-            EntityNotesViewData = entityNotesViewData;
+            ProjectNotesViewData = projectNotesViewData;
+            InternalNotesViewData = internalNotesViewData;
+
             EntityExternalLinksViewData = entityExternalLinksViewData;
 
             ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec

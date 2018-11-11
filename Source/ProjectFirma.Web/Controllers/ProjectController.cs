@@ -147,9 +147,14 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
-            var entityNotesViewData = new EntityNotesViewData(
+            var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
+                project.DisplayName,
+                userHasEditProjectPermissions);
+            var internalNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectInternalNotes)),
+                SitkaRoute<ProjectInternalNoteController>.BuildUrlFromExpression(x => x.New(project)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
                 project.DisplayName,
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
@@ -178,7 +183,8 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureReportedValuesGroupedViewData,
                 projectExpendituresSummaryViewData,
                 imageGalleryViewData,
-                entityNotesViewData,
+                projectNotesViewData,
+                internalNotesViewData,
                 entityExternalLinksViewData,
                 projectBasicsTagsViewData,
                 userHasProjectAdminPermissions,

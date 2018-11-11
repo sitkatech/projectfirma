@@ -45,3 +45,15 @@ GO
 ALTER TABLE [dbo].[ProjectInternalNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectInternalNote_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
+
+Insert into dbo.FieldDefinition
+values
+(268, N'ProjectInternalNote', N'Internal Note', N'<p>Any important information about a project that should only be visible to Administrators.</p>')
+
+Insert into dbo.FieldDefinitionData([TenantID], [FieldDefinitionID], [FieldDefinitionDataValue], [FieldDefinitionLabel])
+select 
+TenantID,
+268,
+Null,
+Null
+from tenant

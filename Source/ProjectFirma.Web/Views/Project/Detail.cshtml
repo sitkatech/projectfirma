@@ -376,7 +376,7 @@
                         <h3>Notes</h3>
                     </div>
                     <div class="panel-body">
-                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.ProjectNotesViewData); }
                     </div>
                 </div>
                 <div class="panel panelFirma">
@@ -414,6 +414,16 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
+                    <!--TODO: Wrap with an iffer-->
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>Internal Notes</h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.InternalNotesViewData); }
+                        </div>
+                    </div>
+                    
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>System Communications</h3>

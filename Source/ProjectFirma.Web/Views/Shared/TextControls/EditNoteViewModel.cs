@@ -89,5 +89,20 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
                 projectNoteUpdate.UpdatePerson = currentPerson;
             }
         }
+
+        public void UpdateModel(ProjectInternalNote projectInternalNote, Person currentPerson)
+        {
+            projectInternalNote.Note = Note;
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectInternalNote.ProjectInternalNoteID))
+            {
+                projectInternalNote.CreateDate = DateTime.Now;
+                projectInternalNote.CreatePerson = currentPerson;
+            }
+            else
+            {
+                projectInternalNote.UpdateDate = DateTime.Now;
+                projectInternalNote.UpdatePerson = currentPerson;
+            }
+        }
     }
 }
