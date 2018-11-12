@@ -1401,7 +1401,6 @@ nav#wizardNav ul li.workflowSection .workflowStatusIndicator {
   margin-left: 0px !important;
 }
 nav#wizardNav ul li.workflowSectionGroup {
-  color: #06c;
   font-weight: 700;
   position: relative;
   display: block;
@@ -1433,7 +1432,7 @@ nav#wizardNav ul li.workflowSectionGroup#instructions {
   border-bottom: none;
 }
 nav#wizardNav ul li.workflowSectionGroup#instructions a {
-  color: #06c;
+  color: #000;
   font-weight: 700;
   position: relative;
   display: block;
@@ -1457,7 +1456,7 @@ nav#wizardNav ul li.workflowSectionGroup ul.collapsed {
 }
 nav#wizardNav ul li.workflowSectionGroup ul li a,
 nav#wizardNav ul li.workflowSectionGroup ul li span {
-  color: #06c;
+  color: #000;
 }
 nav#wizardNav ul li.workflowSectionGroup ul li a.disabled,
 nav#wizardNav ul li.workflowSectionGroup ul li span.disabled {
@@ -1521,7 +1520,6 @@ nav#wizardNav ul li.workflowSectionGroup.expanded:before {
   margin-right: 5px;
 }
 nav#wizardNav ul li.workflowSection a {
-  color: #06c;
   position: relative;
   display: block;
   padding: 10px 0px;
