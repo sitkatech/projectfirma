@@ -1413,6 +1413,15 @@ nav#wizardNav ul li.workflowSectionGroup .workflowStatusIndicator {
   margin-right: 4px;
   margin-left: 5px;
 }
+nav#wizardNav ul li.workflowSectionGroup .workflowStatusIndicator.field-validation-success {
+  color: #5cb85c;
+}
+nav#wizardNav ul li.workflowSectionGroup .workflowStatusIndicator.field-validation-warning {
+  color: #f0ad4e;
+}
+nav#wizardNav ul li.workflowSectionGroup .workflowStatusIndicator.glyphicon-flag {
+  color: #4b4b4b;
+}
 nav#wizardNav ul li.workflowSectionGroup .workflowStatusPlaceholder {
   padding-left: 42px;
 }
