@@ -1673,3 +1673,203 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
         content: none;
     }
 }
+
+// Wizard
+
+nav#wizardNav ul {
+    li {
+
+        &.workflowSection {
+            list-style: none;
+
+            .workflowStatusIndicator {
+                margin-left: 0px !important;
+            }
+        }
+
+        &.workflowSectionGroup {
+            color: #06c;
+            font-weight: 700;
+            position: relative;
+            display: block;
+            padding: 10px 0px;
+            padding-right: 0px;
+
+            .workflowStatusIndicator {
+                padding-left: 15px;
+                margin-right: 4px;
+                margin-left: 5px;
+            }
+
+            .workflowStatusPlaceholder {
+                padding-left: 42px;
+            }
+
+            &#instructions {
+                .workflowStatusPlaceholder {
+                    padding-left: 28px;
+                }
+            }
+
+            &#instructions {
+                padding-top: 0;
+                border-bottom: none;
+
+                a {
+                    color: #06c;
+                    font-weight: 700;
+                    position: relative;
+                    display: block;
+                    padding-right: 0px;
+                    background-color: transparent;
+                    border-radius: 0;
+                    text-decoration: none;
+                    padding-right: 0px;
+                    padding-left: 10px;
+                }
+
+                &:not(.active) {
+                    padding-left: 5px;
+                    padding-bottom: 0px;
+                }
+            }
+
+            ul {
+                margin-top: 10px;
+                padding-left: 0px;
+                background: #fff;
+
+                &.collapsed {
+                    display: none;
+                }
+
+                li {
+                    a, span {
+                        color: #06c;
+
+                        &.disabled {
+                            cursor: not-allowed;
+                            font-style: italic;
+                            color: #999;
+                            background-color: transparent;
+                        }
+                    }
+
+                    &.active {
+                        a, span {
+                            color: #fff;
+                            background: #3e72b0;
+                            cursor: pointer;
+
+                            .field-validation-success {
+                                color: #5cb85c;
+                            }
+
+                            .field-validation-warning {
+                                color: #f0ad4e;
+                            }
+
+                            .glyphicon-flag {
+                                color: #4b4b4b;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.active,
+            &.expanded {
+                background: #f1f1f1;
+                padding-bottom: 0;
+                border-left: 5px solid #f1f1f1;
+                border-bottom: 5px solid #f1f1f1;
+                display: block;
+
+
+                .workflowStatusIndicator {
+                    margin-right: 4px;
+                    margin-left: 0px;
+                }
+
+                .workflowStatusPlaceholder {
+                    padding-left: 37px;
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
+                background-color: #f3f3f3;
+            }
+
+            &.active {
+                cursor: default;
+            }
+
+            &.collapsed:before {
+                font-family: 'Glyphicons Halflings';
+                content: "\e114";
+                float: right;
+                margin-right: 5px;
+            }
+
+            &.expanded:before {
+                font-family: 'Glyphicons Halflings';
+                content: "\e113";
+                float: right;
+                margin-right: 5px;
+            }
+        }
+
+        &.workflowSection a {
+            color: #06c;
+            font-weight: 700;
+            position: relative;
+            display: block;
+            padding: 10px 0px;
+            padding-right: 0px;
+            background-color: transparent;
+            border-radius: 0;
+            text-decoration: none;
+            font-weight: 700;
+
+            span {
+
+                &.field-validation-success {
+                    color: #5cb85c;
+                }
+
+                &.field-validation-warning {
+                    color: #f0ad4e;
+                }
+
+                &.glyphicon-flag {
+                    color: #4b4b4b;
+                }
+            }
+
+            &:hover {
+                background-color: #7399d4;
+                color: #fff;
+            }
+        }
+
+
+        @media only screen and (min-width: 768px) {
+            &.active.workflowSectionGroup ul li.active.workflowSection a:after {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 100%;
+                top: 50%;
+                margin-top: -10px;
+                width: 0;
+                height: 0;
+                border-top: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-left: 8px solid #3e72b0;
+                z-index: 1000;
+            }
+        }
+    }
+}

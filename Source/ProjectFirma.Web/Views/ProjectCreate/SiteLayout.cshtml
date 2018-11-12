@@ -40,6 +40,28 @@
             }
         }
     </style>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery(".workflowSectionGroup").not(".active").not(" #instructions").click(function (event) {
+                    if (jQuery(this).hasClass("expanded")) {
+                        if (!jQuery(event.target).is('a')) {
+                            jQuery(this).removeClass("expanded");
+                            jQuery(this).addClass("collapsed")
+                            jQuery(this).children("ul").addClass("collapsed");
+                            jQuery(this).children("ul").removeClass("expanded");
+
+                        }
+                    }
+                    else {
+                        jQuery(this).addClass("expanded");
+                        jQuery(this).removeClass("collapsed");
+                        jQuery(this).children("ul").removeClass("collapsed");
+                        jQuery(this).children("ul").addClass("expanded");
+                    }
+                }
+            );
+        })
+    </script>
 
     @RenderSection("JavascriptAndStylesContent", false)
 }
@@ -124,7 +146,7 @@
                                             }
                                         </span>
                                         <span style="display: inline-block; width: 80%">
-                                            <span>@projectSection.ProjectCreateSectionDisplayName</span>
+                                            <span>@projectSection.GetProjectCreateSectionDisplayName()</span>
                                         </span>
                                     </a>
                                 </li>
