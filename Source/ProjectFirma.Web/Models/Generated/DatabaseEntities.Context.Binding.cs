@@ -618,6 +618,11 @@ namespace ProjectFirma.Web.Models
                 case "ProjectWatershedUpdate":
                     return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
 
+                case "ProjectWorkflowSectionGrouping":
+                    var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
+                    return projectWorkflowSectionGrouping;
+
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);
 
