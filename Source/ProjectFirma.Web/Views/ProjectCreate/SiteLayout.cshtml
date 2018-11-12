@@ -64,42 +64,77 @@
 }
 
 <div id="projectWizardContent" class="row">
-    <div id="tab-container" class="col-sm-4 col-md-3">
-        <ul>
-            @foreach (var projectCreateSection in ViewDataTyped.ProjectCreateSections)
-            {
-                <li class="@(ViewDataTyped.CurrentSection == projectCreateSection ? "selected" : "selectable")">
-
-                    @if (projectCreateSection == ProjectCreateSection.Instructions)
-                    {
-                        <a href="@(ViewDataTyped.ProposalInstructionsUrl ?? projectCreateSection.GetSectionUrl(ViewDataTyped.Project))">
-                            @projectCreateSection.GetProjectCreateSectionDisplayName()
-                        </a>
-                    }
-                    else if ((projectCreateSection.GetSectionUrl(ViewDataTyped.Project) != null && ViewDataTyped.ProjectStateIsValidInWizard))
-                    {
-                        <a href="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project))"
-                           class="@(projectCreateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
-                            @if (projectCreateSection.HasCompletionStatus)
-                            {
-                                <span class="pull-right statusIcon">
-                                    @Html.Raw(projectCreateSection.IsComplete(ViewDataTyped.Project) ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                                </span>
-                            }
-                            @projectCreateSection.GetProjectCreateSectionDisplayName()
-                        </a>
-                    }
-                    else if (!ViewDataTyped.ProjectStateIsValidInWizard)
-                    {
-                        @ProjectWizardComponents.MakeDisabledSectionLinkForApprovedAndRejectedProjects(projectCreateSection.GetProjectCreateSectionDisplayName())
-                    }
-                    else
-                    {
-                        @ProjectWizardComponents.MakeDisabledSectionLink(projectCreateSection.GetProjectCreateSectionDisplayName())
-                    }
+    <div class="col-xs-12 col-sm-4 col-md-3">
+        <nav id="wizardNav">
+            <ul class="nav nav-stacked">
+                <li class="@(ViewDataTyped.CurrentSection == ProjectCreateSection.Instructions ? "active" : null) workflowSectionGroup" id="instructions">
+                    <a href="@ProjectCreateSection.Instructions.GetSectionUrl(ViewDataTyped.Project)"
+                       style="display: block;">
+                        <span class="workflowStatusPlaceholder"></span>
+                        @ProjectCreateSection.Instructions.ProjectCreateSectionDisplayName
+                    </a>
                 </li>
-            }
-        </ul>
+
+                @{
+                    var projectSectionGroupings = ViewDataTyped.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Instructions }).GroupBy(x => x.ProjectWorkflowSectionGrouping);
+                }
+                @foreach (var grouping in projectSectionGroupings.OrderBy(x => x.Key.SortOrder))
+                {
+                    var isGroupingActive = ViewDataTyped.CurrentSection.ProjectWorkflowSectionGrouping == grouping.Key && ViewDataTyped.CurrentSection != ProjectCreateSection.Instructions;
+                    var groupingHasCompletionStatus = ViewDataTyped.Project != null && grouping.Any(x => x.HasCompletionStatus);
+
+                    <li class="@(isGroupingActive ? "active" : "collapsed") workflowSectionGroup">
+                        @if (groupingHasCompletionStatus)
+                        {
+                            if (grouping.All(x => !x.HasCompletionStatus || x.IsComplete(ViewDataTyped.Project)))
+                            {
+                                <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator"></span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="workflowStatusPlaceholder"></span>
+                        }
+                        <span>@grouping.Key.ProjectWorkflowSectionGroupingDisplayName</span>
+                        <ul class="@(!isGroupingActive ? "collapsed" : null)">
+                            @foreach (var projectSection in grouping)
+                            {
+                                <li class="@(ViewDataTyped.CurrentSection == projectSection ? "active" : null) workflowSection">
+                                    <a href="@(projectSection.GetSectionUrl(ViewDataTyped.Project))"
+                                       class="@(projectSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                                        <span style="display: inline-block; width: 15%; vertical-align: top">
+                                            @if (projectSection.HasCompletionStatus && projectSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                                            {
+                                                if (projectSection.IsComplete(ViewDataTyped.Project))
+                                                {
+                                                    <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator" style="margin-right: 4px"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator" style="margin-right: 4px"></span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="workflowStatusPlaceholder"></span>
+                                            }
+                                        </span>
+                                        <span style="display: inline-block; width: 80%">
+                                            <span>@projectSection.ProjectCreateSectionDisplayName</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </nav>
     </div>
 
     <div id="main-container" class="col-sm-8 col-md-9">
