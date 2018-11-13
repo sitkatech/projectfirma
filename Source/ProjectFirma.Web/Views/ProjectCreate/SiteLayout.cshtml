@@ -33,32 +33,84 @@
     <script type="text/javascript">
         jQuery(document).ready(function () {
             jQuery(".workflowSectionGroup").not(".active").not(" #instructions").click(function (event) {
-                    if (jQuery(this).hasClass("expanded")) {
-                        if (!jQuery(event.target).is('a')) {
-                            jQuery(this).removeClass("expanded");
-                            jQuery(this).addClass("collapsed")
-                            jQuery(this).children("ul").addClass("collapsed");
-                            jQuery(this).children("ul").removeClass("expanded");
+                if (jQuery(this).hasClass("expanded")) {
+                    if (!jQuery(event.target).is('a')) {
+                        jQuery(this).removeClass("expanded");
+                        jQuery(this).addClass("collapsed")
+                        jQuery(this).children("ul").addClass("collapsed");
+                        jQuery(this).children("ul").removeClass("expanded");
 
-                        }
-                    }
-                    else {
-                        jQuery(this).addClass("expanded");
-                        jQuery(this).removeClass("collapsed");
-                        jQuery(this).children("ul").removeClass("collapsed");
-                        jQuery(this).children("ul").addClass("expanded");
                     }
                 }
+                else {
+                    jQuery(this).addClass("expanded");
+                    jQuery(this).removeClass("collapsed");
+                    jQuery(this).children("ul").removeClass("collapsed");
+                    jQuery(this).children("ul").addClass("expanded");
+                }
+            }
             );
         })
     </script>
 
+    <style>
+        hr {
+            border-top: 1px solid #ddd;
+        }
+
+        .moreActionsToggle .open > .moreActionsToggle .dropdown-toggle {
+            color: #3e72b0 !important;
+        }
+
+
+        .moreActionsToggle ul.dropdown-menu.moreActionsToggle li a,
+        .moreActionsToggle ul.dropdown-menu.moreActionsToggle li a:hover {
+            color: #3e72b0;
+        }
+
+        .moreActionsToggle .btn.dropdown-toggle {
+            border: none;
+            color: #3e72b0;
+        }
+
+        .glyphicon-chevron-down {
+            margin-left: 7px;
+            margin-top: 7px;
+        }
+    </style>
+
     @RenderSection("JavascriptAndStylesContent", false)
+}
+
+@section RightOfPageTitle{
+    <div class="dropdown moreActionsToggle">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            See more Actions
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li>
+                @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+            </li>
+            @if (ViewDataTyped.Project != null)
+            {
+                <li>
+                    <a href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Proposal Details</a>
+                </li>
+            }
+            @if (ViewDataTyped.CurrentPersonCanWithdraw && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                <li>
+                    @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string>(), null, null)
+                </li>
+            }
+        </ul>
+    </div>
 }
 
 @if (!Html.ViewData.ModelState.IsValid)
 {
-    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new {@class = "validation-summary-errors"})
+    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new { @class = "validation-summary-errors" })
 }
 
 @if (!ViewDataTyped.ProjectStateIsValidInWizard && ViewDataTyped.Project != null)
@@ -151,7 +203,7 @@
 
     <div id="main-container" class="col-sm-8 col-md-9">
         <div class="row"><div class="col-sm-12"><h3 style="margin-top: 5px; margin-bottom: 0px;">@ViewDataTyped.CurrentSection.GetProjectCreateSectionDisplayName()</h3></div></div>
-        <hr style="border-top: 1px solid #ddd;"/>
+        <hr style="border-top: 1px solid #ddd;" />
         @RenderBody()
         @if (ViewDataTyped.CurrentSection != ProjectCreateSection.Instructions)
         {
@@ -179,13 +231,6 @@
         </div>
         <div class="row">
             <div class="col-xs-6" style="padding-left: 0;">
-                <div class="pull-left">
-                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Proposal Details</a>
-                    @if (ViewDataTyped.CurrentPersonIsSubmitter && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
-                    {
-                        @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
-                    }
-                </div>
             </div>
             <div class="col-xs-6">
                 <div class="pull-right">
