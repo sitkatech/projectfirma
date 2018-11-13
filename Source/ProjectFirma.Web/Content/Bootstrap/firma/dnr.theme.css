@@ -37,10 +37,12 @@ h4 {
   margin-top: 0px;
 }
 a,
-a:visited {
+a:visited,
+.glyphicon-trash {
   color: #0000ff;
 }
-a:hover {
+a:hover,
+.glyphicon-trash:hover {
   color: #0000ff;
   text-decoration: none;
 }
