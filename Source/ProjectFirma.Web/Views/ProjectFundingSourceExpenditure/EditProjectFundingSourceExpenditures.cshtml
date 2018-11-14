@@ -109,8 +109,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <tbody>
             <tr>
                 <td>Amount:</td>
-                <td style="text-align: right" ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
-                    <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
+                <td ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
+                    <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
                 </td>
                 <td style="text-align: right; font-weight: bold;">
                     {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
