@@ -142,6 +142,12 @@ h6 {
   -ms-opacity: 1;
   opacity: 1;
 }
+.glyphicon-trash {
+  color: #337ab7;
+}
+.glyphicon-trash:hover {
+  color: #286090;
+}
 form .form-group {
   margin-top: 20px;
   margin-bottom: 20px;
