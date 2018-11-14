@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionBasics Basics = ProjectCreateSectionBasics.Instance;
         public static readonly ProjectCreateSectionLocationSimple LocationSimple = ProjectCreateSectionLocationSimple.Instance;
         public static readonly ProjectCreateSectionLocationDetailed LocationDetailed = ProjectCreateSectionLocationDetailed.Instance;
-        public static readonly ProjectCreateSectionWatershed Watershed = ProjectCreateSectionWatershed.Instance;
+        public static readonly ProjectCreateSectionGeospatialArea GeospatialArea = ProjectCreateSectionGeospatialArea.Instance;
         public static readonly ProjectCreateSectionExpectedPerformanceMeasures ExpectedPerformanceMeasures = ProjectCreateSectionExpectedPerformanceMeasures.Instance;
         public static readonly ProjectCreateSectionReportedPerformanceMeasures ReportedPerformanceMeasures = ProjectCreateSectionReportedPerformanceMeasures.Instance;
         public static readonly ProjectCreateSectionExpectedFunding ExpectedFunding = ProjectCreateSectionExpectedFunding.Instance;
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
+            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, GeospatialArea, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -125,6 +125,8 @@ namespace ProjectFirma.Web.Models
                     return ExpectedFunding;
                 case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
                     return ExpectedPerformanceMeasures;
+                case ProjectCreateSectionEnum.GeospatialArea:
+                    return GeospatialArea;
                 case ProjectCreateSectionEnum.Instructions:
                     return Instructions;
                 case ProjectCreateSectionEnum.LocationDetailed:
@@ -141,8 +143,6 @@ namespace ProjectFirma.Web.Models
                     return ReportedExpenditures;
                 case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
                     return ReportedPerformanceMeasures;
-                case ProjectCreateSectionEnum.Watershed:
-                    return Watershed;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -155,7 +155,7 @@ namespace ProjectFirma.Web.Models
         Basics = 2,
         LocationSimple = 3,
         LocationDetailed = 4,
-        Watershed = 5,
+        GeospatialArea = 5,
         ExpectedPerformanceMeasures = 6,
         ReportedPerformanceMeasures = 7,
         ExpectedFunding = 8,
@@ -191,10 +191,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false);
     }
 
-    public partial class ProjectCreateSectionWatershed : ProjectCreateSection
+    public partial class ProjectCreateSectionGeospatialArea : ProjectCreateSection
     {
-        private ProjectCreateSectionWatershed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectCreateSectionWatershed Instance = new ProjectCreateSectionWatershed(5, @"Watershed", @"Watersheds", 50, true);
+        private ProjectCreateSectionGeospatialArea(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus) {}
+        public static readonly ProjectCreateSectionGeospatialArea Instance = new ProjectCreateSectionGeospatialArea(5, @"GeospatialArea", @"GeospatialAreas", 50, true);
     }
 
     public partial class ProjectCreateSectionExpectedPerformanceMeasures : ProjectCreateSection

@@ -32,10 +32,10 @@ namespace ProjectFirma.Web.Views.Map
         public readonly double? ProjectLocationYCoord;
         public bool HasSimpleLocation;
         public bool HasDetailedLocation;
-        public bool HasWatersheds;
+        public bool HasGeospatialAreas;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties) 
-            : base(mapDivID, DefaultZoomLevel, GetAllWatershedMapLayers(LayerInitialVisibility.Hide), GetProjectBoundingBox(project))
+            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), GetProjectBoundingBox(project))
         {
             var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
             HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
@@ -53,13 +53,13 @@ namespace ProjectFirma.Web.Views.Map
                 Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));    
             }
 
-            HasWatersheds = project.GetProjectWatersheds().Any();
-            if (HasWatersheds)
+            HasGeospatialAreas = project.GetProjectGeospatialAreas().Any();
+            if (HasGeospatialAreas)
             {
-               project.GetProjectWatersheds()
+               project.GetProjectGeospatialAreas()
                 .ToList()
-                .ForEach(watershed => Layers.Add(new LayerGeoJson(watershed.DisplayName,
-                    new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+                .ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.DisplayName,
+                    new List<Models.GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                     LayerInitialVisibility.Show))); 
             }
         }

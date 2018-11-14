@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().ShowLeadImplementerLogoOnFactSheet;
         }
 
-        public static bool HasWatershedMapServiceUrl()
+        public static bool HasGeospatialAreaMapServiceUrl()
         {
             return !string.IsNullOrWhiteSpace(HttpRequestStorage.Tenant.GetTenantAttribute().MapServiceUrl);
         }

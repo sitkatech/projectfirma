@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly MapInitJson MapInitJson;
         public readonly string TypeAheadInputId;
-        public readonly string WatershedFieldDefinitionLabel;
+        public readonly string GeospatialAreaFieldDefinitionLabel;
         public readonly string ProjectLocationFieldDefinitionLabel;
-        public readonly string WatershedMapSericeLayerName;
+        public readonly string GeospatialAreaMapSericeLayerName;
         public readonly string MapServiceUrl;
         public readonly Feature CurrentFeature;
 
@@ -54,9 +54,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
-            WatershedFieldDefinitionLabel = Models.FieldDefinition.Watershed.GetFieldDefinitionLabel();
+            GeospatialAreaFieldDefinitionLabel = Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel();
             ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
-            WatershedMapSericeLayerName = tenantAttribute.WatershedLayerName;
+            GeospatialAreaMapSericeLayerName = tenantAttribute.GeospatialAreaLayerName;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             CurrentFeature = currentFeature;
         }

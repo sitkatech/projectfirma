@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     //    PerformanceMeasures,
     //    LocationSimple,
     //    LocationDetailed,
-    //    Watershed,
+    //    GeospatialArea,
     //    Classifications,
     //    Assessment,
     //    Notes,
@@ -46,11 +46,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsPerformanceMeasureSectionComplete { get; set; }
         public bool IsProjectLocationSimpleSectionComplete { get; set; }
         public bool IsProjectLocationDetailedSectionComplete { get; set; }
-        public bool IsWatershedSectionComplete { get; set; }
+        public bool IsGeospatialAreaSectionComplete { get; set; }
         public bool IsClassificationsComplete { get; set; }
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
-        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
+        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
         public static bool AreAllSectionsValidForProject(Models.Project project)
         {
             return Models.Project.GetApplicableProposalWizardSections(project).All(x => x.IsComplete(project));
@@ -68,8 +68,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposal.ProjectWatersheds.Select(x => x.WatershedID).ToList(), proposal.ProjectWatershedNotes).GetValidationResults();
-            IsWatershedSectionComplete = !editWatershedValidationResults.Any();
+            var editGeospatialAreaValidationResults = new EditProjectGeospatialAreasViewModel(proposal.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), proposal.ProjectGeospatialAreaNotes).GetValidationResults();
+            IsGeospatialAreaSectionComplete = !editGeospatialAreaValidationResults.Any();
 
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposal).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IsAssessmentComplete = false;
             IsProjectLocationSimpleSectionComplete = false;
             IsProjectLocationDetailedSectionComplete = false;
-            IsWatershedSectionComplete = false;
+            IsGeospatialAreaSectionComplete = false;
             IsNotesSectionComplete = false;
         }
     }

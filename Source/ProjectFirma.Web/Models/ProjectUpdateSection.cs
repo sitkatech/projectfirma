@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectUpdateSectionDisplayName()
         {
-            return this == Watersheds ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectUpdateSectionDisplayName;
+            return this == GeospatialAreas ? FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() : ProjectUpdateSectionDisplayName;
         }
     }
 
@@ -93,22 +93,22 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectUpdateSectionWatersheds
+    public partial class ProjectUpdateSectionGeospatialAreas
     {
         public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.IsProjectWatershedValid();
+            return projectUpdateBatch.IsProjectGeospatialAreaValid();
         }
 
         public override string GetSectionUrl(Project project)
         {
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Watershed(project)) : null;
+            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.GeospatialArea(project)) : null;
         }
 
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
-            return updateStatus.IsWatershedUpdated;
+            return updateStatus.IsGeospatialAreaUpdated;
         }
     }
 

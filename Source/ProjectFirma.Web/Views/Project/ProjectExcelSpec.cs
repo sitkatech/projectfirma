@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Project
                 {
                     AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.DisplayName)));
                 });
-            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
+            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", x => string.Join(",", x.ProjectGeospatialAreas.Select(pw => pw.GeospatialArea.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);
             AddColumn(Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel(), x => x.ProjectDescription);
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
             AddColumn(Models.FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(), x => x.UnfundedNeed());
             AddColumn("State", a => a.ProjectLocationStateProvince);
-            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.GetProjectWatershedNamesAsString());
+            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", a => a.GetProjectGeospatialAreaNamesAsString());
             AddColumn($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
     }
@@ -135,13 +135,13 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectWatershedExcelSpec : ExcelWorksheetSpec<Models.ProjectWatershed>
+    public class ProjectGeospatialAreaExcelSpec : ExcelWorksheetSpec<Models.ProjectGeospatialArea>
     {
-        public ProjectWatershedExcelSpec()
+        public ProjectGeospatialAreaExcelSpec()
         {
             AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", x => x.Watershed.DisplayName);
+            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", x => x.GeospatialArea.DisplayName);
         }
     }
 

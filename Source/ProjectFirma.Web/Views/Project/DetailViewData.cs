@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
-        public string EditWatershedsUrl { get; }
+        public string EditGeospatialAreasUrl { get; }
         public string EditSimpleProjectLocationUrl { get; }
         public string EditDetailedProjectLocationUrl { get; }
         public string EditProjectBoundingBoxUrl { get; }
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectNotificationGridName { get; }
         public string ProjectNotificationGridDataUrl { get; }
 
-        public string EditProjectWatershedFormID { get; }
+        public string EditProjectGeospatialAreaFormID { get; }
         public string EditProjectBoundingBoxFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.Project
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl,
-            string editWatershedsUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            string editGeospatialAreasUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems,
@@ -276,7 +276,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
-            EditWatershedsUrl = editWatershedsUrl;
+            EditGeospatialAreasUrl = editGeospatialAreasUrl;
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
 
@@ -305,7 +305,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
            
-            EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
+            EditProjectGeospatialAreaFormID = ProjectGeospatialAreaController.GetEditProjectGeospatialAreasFormID();
 
             ProjectStewardCannotEditUrl =
                 SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectStewardCannotEdit());

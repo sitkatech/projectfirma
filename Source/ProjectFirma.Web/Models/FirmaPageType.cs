@@ -88,9 +88,9 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl() => SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Index());
     }
 
-    public partial class FirmaPageTypeWatershedsList
+    public partial class FirmaPageTypeGeospatialAreasList
     {
-        public override string GetViewUrl() => SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.Index());
+        public override string GetViewUrl() => SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index());
     }
 
     public partial class FirmaPageTypeMyProjects

@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectCreateSectionDisplayName()
         {
-            return this == Watershed ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectCreateSectionDisplayName;
+            return this == GeospatialArea ? FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() : ProjectCreateSectionDisplayName;
         }
     }
 
@@ -91,17 +91,17 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectCreateSectionWatershed
+    public partial class ProjectCreateSectionGeospatialArea
     {
         public override bool IsComplete(Project project)
         {
-            var watershedValidationResults = new WatershedViewModel(project).GetValidationResults();
-            return !watershedValidationResults.Any();
+            var geospatialAreaValidationResults = new GeospatialAreaViewModel(project).GetValidationResults();
+            return !geospatialAreaValidationResults.Any();
         }
 
         public override string GetSectionUrl(Project project)
         {
-            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditWatershed(project.ProjectID)) : null;
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditGeospatialArea(project.ProjectID)) : null;
         }
     }
 

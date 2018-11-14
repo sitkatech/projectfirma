@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string watershedLayerName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string mapServiceUrl, string geospatialAreaLayerName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
             this.RecaptchaPublicKey = recaptchaPublicKey;
             this.RecaptchaPrivateKey = recaptchaPrivateKey;
             this.MapServiceUrl = mapServiceUrl;
-            this.WatershedLayerName = watershedLayerName;
+            this.GeospatialAreaLayerName = geospatialAreaLayerName;
             this.ShowProposalsToThePublic = showProposalsToThePublic;
             this.TaxonomyLevelID = taxonomyLevelID;
             this.AssociatePerfomanceMeasureTaxonomyLevelID = associatePerfomanceMeasureTaxonomyLevelID;
@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Models
         public string RecaptchaPublicKey { get; set; }
         public string RecaptchaPrivateKey { get; set; }
         public string MapServiceUrl { get; set; }
-        public string WatershedLayerName { get; set; }
+        public string GeospatialAreaLayerName { get; set; }
         public bool ShowProposalsToThePublic { get; set; }
         public int TaxonomyLevelID { get; set; }
         public int AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Models
             public const int RecaptchaPublicKey = 100;
             public const int RecaptchaPrivateKey = 100;
             public const int MapServiceUrl = 255;
-            public const int WatershedLayerName = 255;
+            public const int GeospatialAreaLayerName = 255;
         }
     }
 }

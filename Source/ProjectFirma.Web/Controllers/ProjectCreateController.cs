@@ -47,7 +47,7 @@ using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
-using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
@@ -71,8 +71,8 @@ using PerformanceMeasures = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeas
 using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewData;
 using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
-using WatershedViewData = ProjectFirma.Web.Views.ProjectCreate.WatershedViewData;
-using WatershedViewModel = ProjectFirma.Web.Views.ProjectCreate.WatershedViewModel;
+using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
+using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -679,7 +679,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationSimple(Project project, LocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Hide);
+            var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide);
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
             
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
@@ -733,7 +733,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}- Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
 
@@ -872,52 +872,52 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditWatershed(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new WatershedViewModel(project);
-            return ViewEditWatershed(project, viewModel);
+            var viewModel = new GeospatialAreaViewModel(project);
+            return ViewEditGeospatialArea(project, viewModel);
         }
 
-        private ViewResult ViewEditWatershed(Project project, WatershedViewModel viewModel)
+        private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel)
         {
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
-            var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
-            var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
+            var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
+            var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var editProjectWatershedsPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditWatershed(project, null));
-            var editProjectWatershedsFormId = GenerateEditProjectWatershedFormID(project);
+            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, null));
+            var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
 
-            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, tenantAttribute, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
-            proposalSectionsStatus.IsWatershedSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsWatershedSectionComplete;
-            var viewData = new WatershedViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
+            proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
+            var viewData = new GeospatialAreaViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
 
-            return RazorView<Views.ProjectCreate.Watershed, WatershedViewData, WatershedViewModel>(viewData, viewModel);
+            return RazorView<Views.ProjectCreate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditWatershed(ProjectPrimaryKey projectPrimaryKey, WatershedViewModel viewModel)
+        public ActionResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditWatershed(project, viewModel);
+                return ViewEditGeospatialArea(project, viewModel);
             }
-            var currentProjectWatersheds = project.ProjectWatersheds.ToList();
-            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
-            viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Watersheds successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Watershed);
+            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
+            var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
+            viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} GeospatialAreas successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.GeospatialArea);
         }
 
-        private static string GenerateEditProjectWatershedFormID(Project project)
+        private static string GenerateEditProjectGeospatialAreaFormID(Project project)
         {
             return $"editMapForProject{project.ProjectID}";
         }

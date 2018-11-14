@@ -81,9 +81,9 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranch;
         }
 
-        public List<Watershed> GetCanStewardProjectsWatersheds()
+        public List<GeospatialArea> GetCanStewardProjectsGeospatialAreas()
         {
-            return ProjectWatersheds.Select(x => x.Watershed).ToList();
+            return ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
         }
 
         public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
@@ -266,17 +266,17 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public HtmlString GetProjectWatershedNamesAsHyperlinks()
+        public HtmlString GetProjectGeospatialAreaNamesAsHyperlinks()
         {
-            return new HtmlString(ProjectWatersheds.Any()
-                ? string.Join(", ", ProjectWatersheds.OrderBy(x => x.Watershed.WatershedName).Select(x => x.Watershed.GetDisplayNameAsUrl()))
+            return new HtmlString(ProjectGeospatialAreas.Any()
+                ? string.Join(", ", ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
 
-        public string GetProjectWatershedNamesAsString()
+        public string GetProjectGeospatialAreaNamesAsString()
         {
-            return ProjectWatersheds.Any()
-                ? string.Join(", ", ProjectWatersheds.OrderBy(x => x.Watershed.WatershedName).Select(x => x.Watershed.WatershedName))
+            return ProjectGeospatialAreas.Any()
+                ? string.Join(", ", ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GeospatialAreaName))
                 : ViewUtilities.NaString;
         }
 
@@ -351,9 +351,9 @@ namespace ProjectFirma.Web.Models
             return DefaultBoundingBox;
         }
 
-        public IEnumerable<Watershed> GetProjectWatersheds()
+        public IEnumerable<GeospatialArea> GetProjectGeospatialAreas()
         {
-            return ProjectWatersheds.Select(x => x.Watershed);
+            return ProjectGeospatialAreas.Select(x => x.GeospatialArea);
         }
 
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
@@ -507,7 +507,7 @@ namespace ProjectFirma.Web.Models
         public ICollection<IEntityClassification> ProjectClassificationsForMap =>
             new List<IEntityClassification>(ProjectClassifications);
 
-        public bool HasProjectWatersheds => ProjectWatersheds.Any();
+        public bool HasProjectGeospatialAreas => ProjectGeospatialAreas.Any();
         public int FancyTreeNodeKey => ProjectID;
 
         IEnumerable<IProjectCustomAttribute> IProject.ProjectCustomAttributes

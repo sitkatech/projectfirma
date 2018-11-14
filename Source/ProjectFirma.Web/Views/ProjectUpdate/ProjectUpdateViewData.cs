@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string ProjectUpdatePhotosUrl { get; }
         public string ProjectUpdateLocationSimpleUrl { get; }
         public string ProjectUpdateLocationDetailedUrl { get; }
-        public string ProjectUpdateWatershedUrl { get; }
+        public string ProjectUpdateGeospatialAreaUrl { get; }
         public string ProjectUpdateNotesUrl { get; }
         public string ProjectUpdateExternalLinksUrl { get; }
         public string ProjectUpdateHistoryUrl { get; }
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdatePhotosUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(Project));
             ProjectUpdateLocationSimpleUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(Project));
             ProjectUpdateLocationDetailedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(Project));
-            ProjectUpdateWatershedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Watershed(Project));
+            ProjectUpdateGeospatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.GeospatialArea(Project));
             ProjectUpdateExternalLinksUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(Project));
             ProjectUpdateNotesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(Project));
             ProjectUpdateHistoryUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.History(Project));

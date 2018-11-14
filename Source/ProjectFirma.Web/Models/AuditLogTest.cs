@@ -412,8 +412,8 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        [Ignore] //Ignoring because this test doesn't work without at least one pre-existing entries in the watershed table
-        public void TestProjectWatershedAuditLogging()
+        [Ignore] //Ignoring because this test doesn't work without at least one pre-existing entries in the geospatialArea table
+        public void TestProjectGeospatialAreaAuditLogging()
         {
             // This is a test that is driven off looking for IDs, not strings...
             // -----------------------------------------------------------------
@@ -427,43 +427,43 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testProjectWatershed = TestFramework.TestProjectWatershed.Create(dbContext);
+            var testProjectGeospatialArea = TestFramework.TestProjectGeospatialArea.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Watershed \"{0}\" in Audit Log database entries.", testProjectWatershed.WatershedID));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for GeospatialArea \"{0}\" in Audit Log database entries.", testProjectGeospatialArea.GeospatialAreaID));
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .Any(al => al.ColumnName == "WatershedID" && al.OriginalValue != null && al.OriginalValue.Contains(testProjectWatershed.WatershedID.ToString(CultureInfo.InvariantCulture))));
+                    .Any(al => al.ColumnName == "GeospatialAreaID" && al.OriginalValue != null && al.OriginalValue.Contains(testProjectGeospatialArea.GeospatialAreaID.ToString(CultureInfo.InvariantCulture))));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newWatershed = HttpRequestStorage.DatabaseEntities.Watersheds.First(ws => ws.WatershedID != testProjectWatershed.WatershedID);
-            testProjectWatershed.WatershedID = newWatershed.WatershedID;
+            var newGeospatialArea = HttpRequestStorage.DatabaseEntities.GeospatialAreas.First(ws => ws.GeospatialAreaID != testProjectGeospatialArea.GeospatialAreaID);
+            testProjectGeospatialArea.GeospatialAreaID = newGeospatialArea.GeospatialAreaID;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
-            // Check that the audit log mentions this NEW ID in reference to our ProjectWatershed name
+            // Check that the audit log mentions this NEW ID in reference to our ProjectGeospatialArea name
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .Any(al => al.TableName == "ProjectWatershed" && al.ColumnName == "WatershedID" && al.NewValue.Contains(newWatershed.WatershedID.ToString(CultureInfo.InvariantCulture))));
+                    .Any(al => al.TableName == "ProjectGeospatialArea" && al.ColumnName == "GeospatialAreaID" && al.NewValue.Contains(newGeospatialArea.GeospatialAreaID.ToString(CultureInfo.InvariantCulture))));
 
             // Delete audit logging
             // --------------------
 
-            testProjectWatershed.DeleteProjectWatershed();
+            testProjectGeospatialArea.DeleteProjectGeospatialArea();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this ProjectWatershed name as deleted
+            // Check that the audit log mentions this ProjectGeospatialArea name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "ProjectWatershed" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testProjectWatershed.ProjectWatershedID) !=
+                    al => al.TableName == "ProjectGeospatialArea" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testProjectGeospatialArea.ProjectGeospatialAreaID) !=
                 null,
-                "Could not find deleted ProjectWatershed record");
+                "Could not find deleted ProjectGeospatialArea record");
         }
 
         [Test]
-        public void TestWatershedAuditLogging()
+        public void TestGeospatialAreaAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -474,34 +474,34 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testWatershed = TestFramework.TestWatershed.Create(dbContext);
+            var testGeospatialArea = TestFramework.TestGeospatialArea.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Watershed \"{0}\" in Audit Log database entries.", testWatershed.WatershedName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testWatershed.WatershedName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for GeospatialArea \"{0}\" in Audit Log database entries.", testGeospatialArea.GeospatialAreaName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testGeospatialArea.GeospatialAreaName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newWatershedName = TestFramework.MakeTestName("New Watershed", Watershed.FieldLengths.WatershedName);
-            testWatershed.WatershedName = newWatershedName;
+            var newGeospatialAreaName = TestFramework.MakeTestName("New GeospatialArea", GeospatialArea.FieldLengths.GeospatialAreaName);
+            testGeospatialArea.GeospatialAreaName = newGeospatialAreaName;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newWatershedName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newGeospatialAreaName)));
 
             // Delete audit logging
             // --------------------
 
-            testWatershed.DeleteWatershed();
+            testGeospatialArea.DeleteGeospatialArea();
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this Watershed name as deleted
+            // Check that the audit log mentions this GeospatialArea name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "Watershed" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testWatershed.WatershedID) != null,
-                "Could not find deleted Watershed record");
+                    al => al.TableName == "GeospatialArea" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testGeospatialArea.GeospatialAreaID) != null,
+                "Could not find deleted GeospatialArea record");
         }
 
         [Test]

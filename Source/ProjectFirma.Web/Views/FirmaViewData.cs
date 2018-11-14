@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Views
             });            
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));          
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", "Group2"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<GeospatialAreaController>(c => c.Index()), currentPerson, $"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", "Group2"));
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStewardOrganizationController>(c => c.Index()), currentPerson, $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()}", "Group3"));

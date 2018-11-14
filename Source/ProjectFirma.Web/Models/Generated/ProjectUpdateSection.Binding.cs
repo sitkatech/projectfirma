@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectUpdateSectionBasics Basics = ProjectUpdateSectionBasics.Instance;
         public static readonly ProjectUpdateSectionLocationSimple LocationSimple = ProjectUpdateSectionLocationSimple.Instance;
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
-        public static readonly ProjectUpdateSectionWatersheds Watersheds = ProjectUpdateSectionWatersheds.Instance;
+        public static readonly ProjectUpdateSectionGeospatialAreas GeospatialAreas = ProjectUpdateSectionGeospatialAreas.Instance;
         public static readonly ProjectUpdateSectionPerformanceMeasures PerformanceMeasures = ProjectUpdateSectionPerformanceMeasures.Instance;
         public static readonly ProjectUpdateSectionExpectedFunding ExpectedFunding = ProjectUpdateSectionExpectedFunding.Instance;
         public static readonly ProjectUpdateSectionExpenditures Expenditures = ProjectUpdateSectionExpenditures.Instance;
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watersheds, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, Organizations };
+            All = new List<ProjectUpdateSection> { Instructions, Basics, LocationSimple, LocationDetailed, GeospatialAreas, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -121,6 +121,8 @@ namespace ProjectFirma.Web.Models
                     return Expenditures;
                 case ProjectUpdateSectionEnum.ExternalLinks:
                     return ExternalLinks;
+                case ProjectUpdateSectionEnum.GeospatialAreas:
+                    return GeospatialAreas;
                 case ProjectUpdateSectionEnum.Instructions:
                     return Instructions;
                 case ProjectUpdateSectionEnum.LocationDetailed:
@@ -135,8 +137,6 @@ namespace ProjectFirma.Web.Models
                     return PerformanceMeasures;
                 case ProjectUpdateSectionEnum.Photos:
                     return Photos;
-                case ProjectUpdateSectionEnum.Watersheds:
-                    return Watersheds;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Models
         Basics = 2,
         LocationSimple = 3,
         LocationDetailed = 4,
-        Watersheds = 5,
+        GeospatialAreas = 5,
         PerformanceMeasures = 6,
         ExpectedFunding = 7,
         Expenditures = 8,
@@ -183,10 +183,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false);
     }
 
-    public partial class ProjectUpdateSectionWatersheds : ProjectUpdateSection
+    public partial class ProjectUpdateSectionGeospatialAreas : ProjectUpdateSection
     {
-        private ProjectUpdateSectionWatersheds(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectUpdateSectionWatersheds Instance = new ProjectUpdateSectionWatersheds(5, @"Watersheds", @"Watershed", 50, true);
+        private ProjectUpdateSectionGeospatialAreas(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus) {}
+        public static readonly ProjectUpdateSectionGeospatialAreas Instance = new ProjectUpdateSectionGeospatialAreas(5, @"GeospatialAreas", @"GeospatialArea", 50, true);
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures : ProjectUpdateSection

@@ -253,8 +253,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TagPrimaryKey tagPrimaryKey)
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectWatersheds = tagPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectWatersheds, gridSpec);
+            var projectGeospatialAreas = tagPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectGeospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

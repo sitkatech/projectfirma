@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectStewardshipAreaTypeDisplayName()
         {
-            return this == Watersheds ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectStewardshipAreaTypeDisplayName;
+            return this == GeospatialAreas ? FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() : ProjectStewardshipAreaTypeDisplayName;
         }
     }
 
@@ -65,27 +65,27 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectStewardshipAreaTypeWatersheds
+    public partial class ProjectStewardshipAreaTypeGeospatialAreas
     {
         public override List<PersonStewardshipAreaSimple> GetPersonStewardshipAreaSimples(Person person)
         {
-            return GetPersonStewardWatersheds(person).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
+            return GetPersonStewardGeospatialAreas(person).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
         }
 
         public override bool CanStewardProject(Person person, Project project)
         {
-            var canStewardProjectsWatershedsForProject = project.GetCanStewardProjectsWatersheds().Select(x => x.WatershedID).ToList();
-            return GetPersonStewardWatersheds(person).Any(x => canStewardProjectsWatershedsForProject.Contains(x.WatershedID));
+            var canStewardProjectsGeospatialAreasForProject = project.GetCanStewardProjectsGeospatialAreas().Select(x => x.GeospatialAreaID).ToList();
+            return GetPersonStewardGeospatialAreas(person).Any(x => canStewardProjectsGeospatialAreasForProject.Contains(x.GeospatialAreaID));
         }
 
         public override List<HtmlString> GetProjectStewardshipAreaHtmlStringList(Person person)
         {
-            return GetPersonStewardWatersheds(person).Select(x => x.Watershed.GetDisplayNameAsUrl()).ToList();
+            return GetPersonStewardGeospatialAreas(person).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()).ToList();
         }
 
-        private List<PersonStewardWatershed> GetPersonStewardWatersheds(Person person)
+        private List<PersonStewardGeospatialArea> GetPersonStewardGeospatialAreas(Person person)
         {
-            return person.PersonStewardWatersheds.OrderBy(x => x.Watershed.WatershedName).ToList();
+            return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).ToList();
         }
     }
 

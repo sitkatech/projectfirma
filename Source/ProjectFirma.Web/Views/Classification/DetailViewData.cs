@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Classification
             ClassificationDisplayNamePluralized = classification.ClassificationSystem.ClassificationSystemNamePluralized;
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
-            BasicProjectInfoGridName = "watershedProjectListGrid";
+            BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
                 ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.DisplayName}",

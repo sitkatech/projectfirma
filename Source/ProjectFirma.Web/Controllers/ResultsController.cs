@@ -350,9 +350,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return new JsonNetJArrayResult(new List<object>());
             }
-            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.Watersheds
+            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.GeospatialAreas
                 .ToList()
-                .Where(x => x.ProjectWatersheds.Any())
+                .Where(x => x.ProjectGeospatialAreas.Any())
                 .Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
 
@@ -366,7 +366,7 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
 
             var filteredProjectsWithLocationAreas = filteredProjects
-                .Where(x => !x.HasProjectLocationPoint && x.HasProjectWatersheds)
+                .Where(x => !x.HasProjectLocationPoint && x.HasProjectGeospatialAreas)
                 .ToList();
 
             projectLocationGroupsAsFancyTreeNodes.RemoveAll(

@@ -38,7 +38,7 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
 
     if (!projectLocationSummaryMapInitJson.HasDetailedLocation &&
         !projectLocationSummaryMapInitJson.HasSimpleLocation &&
-        !projectLocationSummaryMapInitJson.HasWatersheds) {
+        !projectLocationSummaryMapInitJson.HasGeospatialAreas) {
         this.blockMap();
     }
 };

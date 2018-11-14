@@ -101,28 +101,28 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
         }
        
 
-        public void UpdateModel(Person person, ObservableCollection<PersonStewardWatershed> allPersonStewardWatersheds)
+        public void UpdateModel(Person person, ObservableCollection<PersonStewardGeospatialArea> allPersonStewardGeospatialAreas)
         {
             if (PersonStewardshipAreaSimples == null)
             {
                 PersonStewardshipAreaSimples = new List<PersonStewardshipAreaSimple>();
             }
 
-            var personStewardWatershedsUpdated = PersonStewardshipAreaSimples.Select(x =>
+            var personStewardGeospatialAreasUpdated = PersonStewardshipAreaSimples.Select(x =>
             {
-                var personStewardWatershed = new PersonStewardWatershed(
+                var personStewardGeospatialArea = new PersonStewardGeospatialArea(
                     x.PersonStewardshipAreaID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), person.PersonID,
                     x.StewardshipAreaID.GetValueOrDefault()); // will never be null due to RequiredAttribute
-                return personStewardWatershed;
+                return personStewardGeospatialArea;
             }).ToList();
 
-            person.PersonStewardWatersheds.Merge(personStewardWatershedsUpdated,
-                allPersonStewardWatersheds,
-                (x, y) => x.PersonStewardWatershedID == y.PersonStewardWatershedID,
+            person.PersonStewardGeospatialAreas.Merge(personStewardGeospatialAreasUpdated,
+                allPersonStewardGeospatialAreas,
+                (x, y) => x.PersonStewardGeospatialAreaID == y.PersonStewardGeospatialAreaID,
                 (x, y) =>
                 {
                     x.PersonID = y.PersonID;
-                    x.WatershedID = y.WatershedID;
+                    x.GeospatialAreaID = y.GeospatialAreaID;
                 });
         }
     }

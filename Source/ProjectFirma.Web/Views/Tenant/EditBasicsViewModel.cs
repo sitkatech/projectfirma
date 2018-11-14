@@ -74,8 +74,8 @@ namespace ProjectFirma.Web.Views.Tenant
         [Url]
         public string MapServiceUrl { get; set; }
 
-        [DisplayName("Watershed Layer Name")]
-        public string WatershedLayerName { get; set; }
+        [DisplayName("GeospatialArea Layer Name")]
+        public string GeospatialAreaLayerName { get; set; }
 
         [DisplayName("External Data Source Enabled")]
         [Required]
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.Tenant
             AssociatePerfomanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             MinimumYear = tenantAttribute.MinimumYear;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
-            WatershedLayerName = tenantAttribute.WatershedLayerName;
+            GeospatialAreaLayerName = tenantAttribute.GeospatialAreaLayerName;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.MinimumYear = MinimumYear ?? 0;
 
             attribute.MapServiceUrl = MapServiceUrl;
-            attribute.WatershedLayerName = WatershedLayerName;
+            attribute.GeospatialAreaLayerName = GeospatialAreaLayerName;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
 

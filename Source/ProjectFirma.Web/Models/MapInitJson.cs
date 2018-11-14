@@ -55,24 +55,24 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public static List<LayerGeoJson> GetAllWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
+        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
 
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (MultiTenantHelpers.HasWatershedMapServiceUrl())
+            if (MultiTenantHelpers.HasGeospatialAreaMapServiceUrl())
             {
                 layerGeoJsons = new List<LayerGeoJson>
                 {
-                    Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, layerInitialVisibility)
+                    GeospatialArea.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, layerInitialVisibility)
                 };
             }
             else
             {
-                var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
-                if (watersheds.Any())
+                var geospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
+                if (geospatialAreas.Any())
                 {
-                    layerGeoJsons.Add(new LayerGeoJson("Watershed",
-                        watersheds.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
+                    layerGeoJsons.Add(new LayerGeoJson("GeospatialArea",
+                        geospatialAreas.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
                         layerInitialVisibility));
                 }
             }

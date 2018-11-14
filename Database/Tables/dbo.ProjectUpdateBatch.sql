@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[BudgetsDiffLog] [dbo].[html] NULL,
 	[ExternalLinksDiffLog] [dbo].[html] NULL,
 	[NotesDiffLog] [dbo].[html] NULL,
-	[WatershedComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[GeospatialAreaComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpectedFundingComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpectedFundingDiffLog] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

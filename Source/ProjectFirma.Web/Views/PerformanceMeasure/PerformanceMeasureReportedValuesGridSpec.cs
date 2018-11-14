@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             {
                 Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal);
             }
-            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", a => a.Project.GetProjectWatershedNamesAsHyperlinks(), 200, DhtmlxGridColumnFilterType.Html);
+            Add($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinks(), 200, DhtmlxGridColumnFilterType.Html);
         }
     }
 }

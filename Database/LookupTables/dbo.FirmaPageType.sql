@@ -13,7 +13,7 @@ values
 (14, 'TaxonomyTrunkList', 'Taxonomy Trunk List', 1),
 (15, 'FundingSourcesList', 'Funding Sources List', 1),
 (16, 'OrganizationsList', 'Organizations List', 1),
-(17, 'WatershedsList', 'Watersheds List', 1),
+(17, 'GeospatialAreasList', 'GeospatialAreas List', 1),
 (18, 'MyProjects', 'My Projects', 1),
 (20, 'ProjectResults', 'Project Results by Organization', 1),
 (22, 'ProjectMap', 'Project Map', 1),
