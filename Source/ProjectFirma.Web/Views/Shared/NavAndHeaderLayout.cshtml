@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-sm-12 col-md-4">
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex;margin-top: 17px;">
                             <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
-                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 4)"
+                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
                                    placeholder="@FieldDefinition.Project.GetFieldDefinitionLabel() Name or Description"
                                    style="margin-right: -5px; max-width: 300px; margin-left: auto;"/>
                                 <button id="searchButton" type="button" class="btn btn-default">
