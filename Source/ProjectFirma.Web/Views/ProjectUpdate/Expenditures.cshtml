@@ -155,6 +155,7 @@ else
 
         </div>
         <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinition.Project.GetFieldDefinitionLabel()'s funders</label>
+        <hr />
         <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
             <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
             <label ng-bind="getFundingSourceName(projectFundingSourceExpenditure)"></label>
@@ -165,7 +166,7 @@ else
                         <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
                             <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
                             <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                         </th>
                         <th style="text-align: right">Total</th>
                     </tr>

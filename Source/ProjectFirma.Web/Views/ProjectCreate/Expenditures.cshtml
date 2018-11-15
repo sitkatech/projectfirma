@@ -143,7 +143,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
 
             </div>
             <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinition.Project.GetFieldDefinitionLabel()'s funders</label>
-
+            <hr />
             <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
                 <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
                 <label ng-bind="getFundingSourceName(projectFundingSourceExpenditure)"></label>
