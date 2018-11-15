@@ -174,10 +174,8 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
                     </tbody>
                 </table>
             </div>
-            @if (Model.ProjectFundingSourceExpenditures != null) {
-                if (Model.ProjectFundingSourceExpenditures.Any()) { 
 
-            <div>
+            <div ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
                 <label>Total</label>
                 <table class="table table-responsive table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
                     <thead>
@@ -204,9 +202,6 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
                     </tbody>
                 </table>
             </div>
-            }
-            }
-
 
             <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName]">
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.ProjectID}}" />
