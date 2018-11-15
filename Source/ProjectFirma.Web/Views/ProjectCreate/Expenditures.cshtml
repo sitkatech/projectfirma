@@ -43,18 +43,6 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
         // ]]>
     </script>
-    <style>
-        input.sitkaCurrency {
-            width: 96px;
-            text-align: right;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #EditFundingSourceExpendituresApp td,
-        #EditFundingSourceExpendituresApp th {
-            min-width: 96px;
-        }
-    </style>
 }
 
 To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinition.Project.GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinition.CompletionYear.GetFieldDefinitionLabel()
@@ -99,7 +87,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(m=>m.ProjectID);
-        <div ng-app="ProjectFirmaApp" ng-controller="ExpendituresController" style="overflow-x: auto">
+        <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresController" style="overflow-x: auto">
 
             <hr/>
             <div style="margin-top: 5px">
