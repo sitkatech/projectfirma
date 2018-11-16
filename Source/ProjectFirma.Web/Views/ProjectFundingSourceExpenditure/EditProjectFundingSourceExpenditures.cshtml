@@ -35,12 +35,6 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(".selectpicker").selectpicker("refresh");
     // ]]>
 </script>
-<style>
-    #EditFundingSourceExpendituresApp td,
-    #EditFundingSourceExpendituresApp th {
-        min-width: 96px;
-    }
-</style>
 
 <div class="validationError">
     @Html.ValidationSummary()
@@ -74,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     data-container="body"
                     title="Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add"
                     data-width="100%">
-                <option value="null" disabled selected></option>
+                <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
                 <option ng-repeat="fundingSource in filteredFundingSources()"
                         value="{{fundingSource.FundingSourceID}}"
                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
@@ -109,8 +103,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <tbody>
             <tr>
                 <td>Amount:</td>
-                <td style="text-align: right" ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
-                    <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
+                <td ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
+                    <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
                 </td>
                 <td style="text-align: right; font-weight: bold;">
                     {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
@@ -119,39 +113,35 @@ Source code is available upon request via <support@sitkatech.com>.
             </tbody>
         </table>
     </div>
-    @if (Model.ProjectFundingSourceExpenditures != null)
-    {
-        if (Model.ProjectFundingSourceExpenditures.Any())
-        {
-            <div>
-                <label>Total</label>
-                <table class="table table-responsive table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
-                            <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
-                        </th>
-                        <th style="text-align: right">Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr style="font-weight: bold;">
-                        <td>All @FieldDefinition.FundingSource.GetFieldDefinitionLabel()s:</td>
-                        <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
-                            {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
-                        </td>
-                        <td style="text-align: right">
-                            {{getExpenditureTotalForCalendarYear() | currency:"$"}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        }
-    }
+
+    <div ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
+        <label>Total</label>
+        <table class="table table-responsive table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
+                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                        <span ng-bind="formatCalendarYear(calendarYear)"></span>
+                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                    </th>
+                    <th style="text-align: right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-weight: bold;">
+                    <td>All @FieldDefinition.FundingSource.GetFieldDefinitionLabel()s:</td>
+                    <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
+                        {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
+                    </td>
+                    <td style="text-align: right">
+                        {{getExpenditureTotalForCalendarYear() | currency:"$"}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(x => x.ProjectID)

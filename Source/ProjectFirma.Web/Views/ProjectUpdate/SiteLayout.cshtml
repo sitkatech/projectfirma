@@ -47,12 +47,87 @@
         }
     </style>
 
+    <style>
+        hr {
+            border-top: 1px solid #ddd;
+        }
+
+        .moreActionsToggle .open > .moreActionsToggle .dropdown-toggle {
+            color: #3e72b0 !important;
+        }
+
+
+        .moreActionsToggle ul.dropdown-menu.moreActionsToggle li a,
+        .moreActionsToggle ul.dropdown-menu.moreActionsToggle li a:hover {
+            color: #3e72b0;
+        }
+
+        .moreActionsToggle .btn.dropdown-toggle {
+            border: none;
+            color: #3e72b0;
+        }
+
+        .glyphicon-chevron-down {
+            margin-left: 7px;
+            margin-top: 7px;
+        }
+    </style>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery(".workflowSectionGroup").not(".active").not(" #instructions").click(function (event) {
+                if (jQuery(this).hasClass("expanded")) {
+                    if (!jQuery(event.target).is('a')) {
+                        jQuery(this).removeClass("expanded");
+                        jQuery(this).addClass("collapsed")
+                        jQuery(this).children("ul").addClass("collapsed");
+                        jQuery(this).children("ul").removeClass("expanded");
+
+                    }
+                }
+                else {
+                    jQuery(this).addClass("expanded");
+                    jQuery(this).removeClass("collapsed");
+                    jQuery(this).children("ul").removeClass("collapsed");
+                    jQuery(this).children("ul").addClass("expanded");
+                }
+            }
+            );
+        })
+    </script>
+
     @RenderSection("JavascriptAndStylesContent", false)
+}
+
+@section RightOfPageTitle
+{
+    <div class="dropdown moreActionsToggle">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            See more Actions
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li>
+                <a href="@ViewDataTyped.Project.GetDetailUrl()">Go back to Project</a>
+            </li>
+            @if (ViewDataTyped.HasUpdateStarted)
+            {
+                <li>
+                    @ModalDialogFormHelper.ModalDialogFormLink("Delete Entire Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete entire Update", new List<string>(),true)
+                </li>
+                <li>
+                    @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string>(), null)
+                </li>
+            }
+            <li>
+                <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl">Back to Update My Projects list</a>
+            </li>
+        </ul>
+    </div>
 }
 
 @if (!Html.ViewData.ModelState.IsValid)
 {
-    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new {@class = "validation-summary-errors"})
+    @Html.ValidationSummary("The page could not be saved because there were errors that need to be corrected:", new { @class = "validation-summary-errors" })
 }
 
 @if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
@@ -71,39 +146,85 @@
 }
 
 <div id="projectWizardContent" class="row">
-    <div id="tab-container" class="col-sm-4 col-md-3">
-        <ul>
-            @foreach (var projectUpdateSection in ViewDataTyped.ProjectUpdateSections)
-            {
-                <li class="@(ViewDataTyped.CurrentSection == projectUpdateSection ? "selected" : "selectable")">
-                    <a href="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project))"
-                       class="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
-                        @if (projectUpdateSection.HasCompletionStatus && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+    <div class="col-xs-12 col-sm-4 col-md-3" style="padding: 0;">
+        <nav id="wizardNav">
+            <ul class="nav nav-stacked">
+                <li class="@(ViewDataTyped.CurrentSection == ProjectUpdateSection.Instructions ? "active" : null) workflowSectionGroup" id="instructions">
+                    <a href="@ProjectUpdateSection.Instructions.GetSectionUrl(ViewDataTyped.Project)"
+                       style="display: block;">
+                        <span class="workflowStatusPlaceholder"></span>@ProjectUpdateSection.Instructions.ProjectUpdateSectionDisplayName
+                    </a>
+                </li>
+                @{
+                    var projectUpdateSectionGroupings = ViewDataTyped.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.Instructions }).GroupBy(x => x.ProjectWorkflowSectionGrouping);
+                }
+                @foreach (var grouping in projectUpdateSectionGroupings.OrderBy(x => x.Key.SortOrder))
+                {
+                    var isGroupingActive = ViewDataTyped.CurrentSection.ProjectWorkflowSectionGrouping == grouping.Key && ViewDataTyped.CurrentSection != ProjectUpdateSection.Instructions;
+                    var groupingHasCompletionStatus = ViewDataTyped.HasUpdateStarted && grouping.Any(x => x.HasCompletionStatus);
+
+                    <li class="@(isGroupingActive ? "active" : "collapsed") workflowSectionGroup">
+                        @if (groupingHasCompletionStatus)
                         {
-                            if (projectUpdateSection.IsComplete(ViewDataTyped.ProjectUpdateBatch))
+                            if (grouping.All(x => !x.HasCompletionStatus || x.IsComplete(ViewDataTyped.ProjectUpdateBatch)))
                             {
-                                <span class="pull-right statusIcon">
-                                    @Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)
-                                </span>
+                                <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
                             }
                             else
                             {
-                                <span class="pull-right statusIcon">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</span>
+                                <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator"></span>
                             }
                         }
-
-                        @projectUpdateSection.GetProjectUpdateSectionDisplayName()
-                        @if (projectUpdateSection.SectionIsUpdated(ViewDataTyped.UpdateStatus) && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                        else
                         {
-                            <span style="margin-left: 4px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "Section has been updated")</span>
+                            <span class="workflowStatusPlaceholder"></span>
                         }
-                    </a>
-                </li>
-            }
-        </ul>
+                        <span>@grouping.Key.ProjectWorkflowSectionGroupingDisplayName</span>
+                        <ul class="@(!isGroupingActive ? "collapsed" : null)">
+                            @foreach (var projectUpdateSection in grouping)
+                            {
+                                <li class="@(ViewDataTyped.CurrentSection == projectUpdateSection ? "active" : null) workflowSection">
+                                    <a href="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project))"
+                                       class="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                                        <span style="display: inline-block; width: 15%; vertical-align: top">
+                                            @if (projectUpdateSection.HasCompletionStatus && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                                            {
+                                                if (projectUpdateSection.IsComplete(ViewDataTyped.ProjectUpdateBatch))
+                                                {
+                                                    <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator" title="Section is incomplete"></span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="workflowStatusPlaceholder"></span>
+                                            }
+                                        </span>
 
+                                        <span style="display: inline-block; width: 80%">
+                                            <span>@projectUpdateSection.GetProjectUpdateSectionDisplayName() </span>
+                                            @if (projectUpdateSection.SectionIsUpdated(ViewDataTyped.UpdateStatus) && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                                            {
+                                                <span style="margin-left: 4px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "Section has been updated")</span>
+                                            }
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </nav>
     </div>
+
     <div id="main-container" class="col-sm-8 col-md-9">
+        <div class="row"><div class="col-sm-12"><h3 style="margin-top: 5px; margin-bottom: 0px;">@ViewDataTyped.CurrentSection.GetProjectUpdateSectionDisplayName()</h3></div></div>
+        <hr style="border-top: 1px solid #ddd;" />
         @RenderBody()
         @if (ViewDataTyped.CurrentSection != ProjectUpdateSection.Instructions)
         {
@@ -129,17 +250,6 @@
     </div>
     <div class="row">
         <div class="col-sm-9 col-md-9 col-xs-9" style="padding-left: 0; padding-bottom: 10px;">
-            <div class="pull-left">
-                <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()"><span class="glyphicon glyphicon-chevron-left"></span>Detail</a>
-                @if (!ViewDataTyped.ProjectUpdateBatch.IsNew)
-                {
-                    <i></i>
-                    @ModalDialogFormHelper.ModalDialogFormLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, string.Format("Delete {0} Update", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "Continue", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
-                    <i></i>
-                    @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string> { "btn btn-xs btn-firma" }, null)
-                }
-
-            </div>
         </div>
         <div class="col-sm-3 col-md-3 col-xs-3">
             <div class="pull-right">

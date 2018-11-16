@@ -626,6 +626,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(projectUpdateState, "ProjectUpdateState", primaryKey);
                     return projectUpdateState;
 
+                case "ProjectWorkflowSectionGrouping":
+                    var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
+                    return projectWorkflowSectionGrouping;
+
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);
 

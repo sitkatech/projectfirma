@@ -10,9 +10,7 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsComplete(ProjectUpdateBatch projectUpdateBatch);
         public abstract string GetSectionUrl(Project project);
         public abstract bool SectionIsUpdated(UpdateStatus updateStatus);
-
-
-        public string GetProjectUpdateSectionDisplayName()
+        public virtual string GetProjectUpdateSectionDisplayName()
         {
             return ProjectUpdateSectionDisplayName;
         }
@@ -109,6 +107,11 @@ namespace ProjectFirma.Web.Models
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
             return updateStatus.IsGeospatialAreaUpdated;
+        }
+
+        public override string GetProjectUpdateSectionDisplayName()
+        {
+            return this.ProjectUpdateSectionDisplayName;
         }
     }
 

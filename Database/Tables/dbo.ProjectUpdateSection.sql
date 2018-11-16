@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[ProjectUpdateSection](
 	[ProjectUpdateSectionDisplayName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SortOrder] [int] NOT NULL,
 	[HasCompletionStatus] [bit] NOT NULL,
+	[ProjectWorkflowSectionGroupingID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectUpdateSection_ProjectUpdateSectionID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateSectionID] ASC
@@ -21,3 +22,9 @@ CREATE TABLE [dbo].[ProjectUpdateSection](
 	[ProjectUpdateSectionName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[ProjectUpdateSection]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateSection_ProjectWorkflowSectionGrouping_ProjectWorkflowSectionGroupingID] FOREIGN KEY([ProjectWorkflowSectionGroupingID])
+REFERENCES [dbo].[ProjectWorkflowSectionGrouping] ([ProjectWorkflowSectionGroupingID])
+GO
+ALTER TABLE [dbo].[ProjectUpdateSection] CHECK CONSTRAINT [FK_ProjectUpdateSection_ProjectWorkflowSectionGrouping_ProjectWorkflowSectionGroupingID]

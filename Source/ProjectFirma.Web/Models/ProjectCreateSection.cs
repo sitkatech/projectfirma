@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
         public static List<ProjectCreateSection> ConditionalSections =>
             new List<ProjectCreateSection> {ExpectedFunding, Assessment, ReportedPerformanceMeasures, ReportedExpenditures};
 
-        public string GetProjectCreateSectionDisplayName()
+        public virtual string GetProjectCreateSectionDisplayName()
         {
             return ProjectCreateSectionDisplayName;
         }
@@ -102,6 +102,11 @@ namespace ProjectFirma.Web.Models
         public override string GetSectionUrl(Project project)
         {
             return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditGeospatialArea(project.ProjectID)) : null;
+        }
+
+        public override string GetProjectCreateSectionDisplayName()
+        {
+            return this.ProjectCreateSectionDisplayName;
         }
     }
 
