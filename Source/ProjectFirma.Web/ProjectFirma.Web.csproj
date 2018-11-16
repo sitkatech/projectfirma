@@ -350,6 +350,8 @@
     <Compile Include="Models\Generated\ProjectWatershedUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWatershedUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectWatershedUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWorkflowSectionGrouping.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWorkflowSectionGroupingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />

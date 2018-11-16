@@ -30,35 +30,29 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class ProjectCreateViewData : FirmaViewData
     {
-        public readonly Models.Project Project;
-
-        public readonly ProjectCreateSection CurrentSection;
-        public readonly List<ProjectCreateSection> ProjectCreateSections;
-
-        public readonly string ProposalListUrl;
-        public readonly string ProposalDetailUrl;
-        public readonly string ProvideFeedbackUrl;
-
-        public readonly string ProposalInstructionsUrl;
-        public readonly string ProposalBasicsUrl;
-        public readonly string HistoricProjectBasicsUrl;
-        public readonly string ProposalNotesUrl;
-        public readonly string ProposalPhotosUrl;
-        public readonly string SubmitUrl;
-        public readonly string ApproveUrl;
-        public readonly string ReturnUrl;
-        public readonly string WithdrawUrl;
-        public readonly string RejectUrl;
-
-        public readonly bool CurrentPersonIsSubmitter;
-        public readonly bool CurrentPersonIsApprover;
-
-        public readonly ProposalSectionsStatus ProposalSectionsStatus;
-        public readonly bool CanAdvanceStage;
-        public readonly bool ProjectStateIsValidInWizard;
+        public Models.Project Project { get; }
+        public ProjectCreateSection CurrentSection { get; }
+        public List<ProjectCreateSection> ProjectCreateSections { get; }
+        public string ProposalListUrl { get; }
+        public string ProposalDetailUrl { get; }
+        public string ProvideFeedbackUrl { get; }
+        public string ProposalInstructionsUrl { get; }
+        public string ProposalBasicsUrl { get; }
+        public string HistoricProjectBasicsUrl { get; }
+        public string ProposalNotesUrl { get; }
+        public string ProposalPhotosUrl { get; }
+        public string SubmitUrl { get; }
+        public string ApproveUrl { get; }
+        public string ReturnUrl { get; }
+        public string WithdrawUrl { get; }
+        public string RejectUrl { get; }
+        public bool CurrentPersonIsSubmitter { get; }
+        public bool CurrentPersonIsApprover { get; }
+        public ProposalSectionsStatus ProposalSectionsStatus { get; }
+        public bool CanAdvanceStage { get; }
+        public bool ProjectStateIsValidInWizard { get; }
         public bool CurrentPersonCanWithdraw { get; set; }
         public ProjectStage ProjectStage { get; set; }
-
 
         protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,

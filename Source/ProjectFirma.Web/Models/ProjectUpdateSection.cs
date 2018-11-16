@@ -10,11 +10,9 @@ namespace ProjectFirma.Web.Models
         public abstract bool IsComplete(ProjectUpdateBatch projectUpdateBatch);
         public abstract string GetSectionUrl(Project project);
         public abstract bool SectionIsUpdated(UpdateStatus updateStatus);
-
-
-        public string GetProjectUpdateSectionDisplayName()
+        public virtual string GetProjectUpdateSectionDisplayName()
         {
-            return this == Watersheds ? FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() : ProjectUpdateSectionDisplayName;
+            return ProjectUpdateSectionDisplayName;
         }
     }
 
@@ -109,6 +107,11 @@ namespace ProjectFirma.Web.Models
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
             return updateStatus.IsWatershedUpdated;
+        }
+
+        public override string GetProjectUpdateSectionDisplayName()
+        {
+            return FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized();
         }
     }
 
