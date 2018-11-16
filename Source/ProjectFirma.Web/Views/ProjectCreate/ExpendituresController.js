@@ -24,7 +24,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
-    $scope.resetFundingSourceToAdd = function() { $scope.FundingSourceToAdd = null; };
+    $scope.resetFundingSourceIDToAdd = function() { $scope.FundingSourceIDToAdd = null; };
 
     $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray = function() { return _($scope.AngularModel.ProjectFundingSourceExpenditures).pluck("CalendarYearExpenditures").flatten(); }
 
@@ -86,20 +86,21 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
 
     $scope.addRow = function()
     {
-        if (($scope.FundingSourceToAdd == null) || ($scope.ProjectIDToAdd == null))
+        if (($scope.FundingSourceIDToAdd == null) || ($scope.ProjectIDToAdd == null))
         {
             return;
         }
-        var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceToAdd.FundingSourceID, $scope.getCalendarYearRange());
+        var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd, $scope.getCalendarYearRange());
         $scope.AngularModel.ProjectFundingSourceExpenditures.push(newProjectFundingSourceExpenditure);
-        $scope.resetFundingSourceToAdd();
+        $scope.resetFundingSourceIDToAdd();
     };
 
     $scope.createNewRow = function(projectId, fundingSourceId, calendarYearsToAdd)
     {
+        var fundingSource = $scope.getFundingSource(fundingSourceId);
         var newProjectFundingSourceExpenditure = {
             ProjectID: projectId,
-            FundingSourceID: fundingSourceId,
+            FundingSourceID: fundingSource.FundingSourceID,
             CalendarYearExpenditures: _.map(calendarYearsToAdd, $scope.createNewCalendarYearExpenditureRow)
         };
         return newProjectFundingSourceExpenditure;
@@ -137,6 +138,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
     }
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.ShowOnlyProjectFunders = false;
-    $scope.resetFundingSourceToAdd();
+    $scope.resetFundingSourceIDToAdd();
     $scope.ProjectIDToAdd = $scope.AngularViewData.ProjectID;
 });

@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     data-container="body"
                     title="Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add"
                     data-width="100%">
-                <option value="null" disabled selected></option>
+                <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
                 <option ng-repeat="fundingSource in filteredFundingSources()"
                         value="{{fundingSource.FundingSourceID}}"
                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
