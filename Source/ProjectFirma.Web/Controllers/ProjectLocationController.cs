@@ -270,8 +270,11 @@ namespace ProjectFirma.Web.Controllers
                 }
                 .Where(x => x != null)
                 .ToList();
-            
-            layerGeoJsons.Add(GeospatialArea.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
+
+            foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().OrderBy(x => x.GeospatialAreaTypeName).ToList())
+            {
+                layerGeoJsons.Add(GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#90C3D4", 0.1m, LayerInitialVisibility.Hide));
+            }
             var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project);
             var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, boundingBox)
             {

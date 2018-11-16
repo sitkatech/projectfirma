@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectUpdateSectionDisplayName()
         {
-            return this == GeospatialAreas ? FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() : ProjectUpdateSectionDisplayName;
+            return ProjectUpdateSectionDisplayName;
         }
     }
 

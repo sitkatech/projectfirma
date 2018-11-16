@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
         public Feature MakeFeatureWithRelevantProperties()
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(GeospatialAreaFeature);
-            feature.Properties.Add(FieldDefinition.GeospatialArea.GetFieldDefinitionLabel(), GetDisplayNameAsUrl().ToString());
+            feature.Properties.Add(GeospatialAreaType.GeospatialAreaTypeName, GetDisplayNameAsUrl().ToString());
             return feature;
         }
 
@@ -69,17 +69,19 @@ namespace ProjectFirma.Web.Models
 
         public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
 
-        public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(string layerColor, decimal layerOpacity,
+        public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(GeospatialAreaType geospatialAreaType,
+            string layerColor, decimal layerOpacity,
             LayerInitialVisibility layerInitialVisibility)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            return new LayerGeoJson(FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized(), tenantAttribute.MapServiceUrl,
+            return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized, tenantAttribute.MapServiceUrl,
                 tenantAttribute.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
                 layerInitialVisibility);
         }
 
         public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(GeospatialArea geospatialArea, List<Project> projects)
         {
+            var geospatialAreaType = geospatialArea.GeospatialAreaType;
             var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
                 Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
@@ -91,14 +93,14 @@ namespace ProjectFirma.Web.Models
             if (MultiTenantHelpers.HasGeospatialAreaMapServiceUrl())
             {
 
-                layerGeoJsons.Add(GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show));
+                layerGeoJsons.Add(GetGeospatialAreaWmsLayerGeoJson(geospatialArea.GeospatialAreaType, "#59ACFF", 0.6m, LayerInitialVisibility.Show));
             }
             else
             {
-                var geospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
+                var geospatialAreas = geospatialAreaType.GeospatialAreas.ToList();
                 if (geospatialAreas.Any())
                 {
-                    layerGeoJsons.Add(new LayerGeoJson(FieldDefinition.GeospatialArea.GetFieldDefinitionLabel(),
+                    layerGeoJsons.Add(new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeName,
                         geospatialAreas.ToGeoJsonFeatureCollection(), "#59ACFF", 0.6m,
                         LayerInitialVisibility.Show));
                 }

@@ -32,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.GeospatialAreaType); }
 </div>
 
 <div class="container-fluid">
@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-6">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>@FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()</h2>
+                    <h2>@ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized</h2>
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

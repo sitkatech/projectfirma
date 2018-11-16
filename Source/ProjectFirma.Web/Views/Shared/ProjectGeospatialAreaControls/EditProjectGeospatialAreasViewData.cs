@@ -67,7 +67,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaNameByID = geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
             GeospatialAreaMapServiceLayerName = tenantAttribute.GeospatialAreaLayerName;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
-            GeospatialAreaFieldDefinitionLabel = Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel();
+            GeospatialAreaFieldDefinitionLabel =
+                geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType.GeospatialAreaTypeName;
         }
     }
 }

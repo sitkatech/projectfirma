@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
                 var geospatialArea = HttpRequestStorage.DatabaseEntities.AllGeospatialAreas.Find(GeospatialAreaID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var geospatialAreaName = geospatialArea != null ? geospatialArea.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {projectName}, {FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}: {geospatialAreaName}";
+                return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {projectName}, Geospatial Area: {geospatialAreaName}";
             }
         }
     }

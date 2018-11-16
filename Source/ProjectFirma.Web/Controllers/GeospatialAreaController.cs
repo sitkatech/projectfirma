@@ -40,19 +40,19 @@ namespace ProjectFirma.Web.Controllers
     public class GeospatialAreaController : FirmaBaseController
     {
         [GeospatialAreaViewFeature]
-        public ViewResult Index()
+        public ViewResult Index(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.GeospatialAreasList);
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var layerGeoJsons = new List<LayerGeoJson>();
             if (MultiTenantHelpers.HasGeospatialAreaMapServiceUrl())
             {
                 layerGeoJsons = new List<LayerGeoJson>
                 {
-                    GeospatialArea.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
+                    GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m, LayerInitialVisibility.Show)
                 };
             } else
             {
-                var geospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
+                var geospatialAreas = geospatialAreaType.GeospatialAreas.OrderBy(x => x.GeospatialAreaName).ToList();
                 if (geospatialAreas.Any())
                 {
                     layerGeoJsons.Add(new LayerGeoJson("GeospatialArea",
@@ -63,69 +63,18 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);
+            var viewData = new IndexViewData(CurrentPerson, geospatialAreaType, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [GeospatialAreaViewFeature]
-        public GridJsonNetJObjectResult<GeospatialArea> IndexGridJsonData()
+        public GridJsonNetJObjectResult<GeospatialArea> IndexGridJsonData(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
-            var geospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.OrderBy(x => x.GeospatialAreaName).ToList();
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var gridSpec = new IndexGridSpec(CurrentPerson, geospatialAreaType);
+            var geospatialAreas = geospatialAreaType.GeospatialAreas.OrderBy(x => x.GeospatialAreaName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        [HttpGet]
-        [GeospatialAreaManageFeature]
-        public PartialViewResult New()
-        {
-            var viewModel = new EditViewModel();
-            return ViewEdit(viewModel);
-        }
-
-        [HttpPost]
-        [GeospatialAreaManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewEdit(viewModel);
-            }
-            var geospatialArea = new GeospatialArea(string.Empty);
-            viewModel.UpdateModel(geospatialArea, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.AllGeospatialAreas.Add(geospatialArea);
-            return new ModalDialogFormJsonResult();
-        }
-
-        [HttpGet]
-        [GeospatialAreaManageFeature]
-        public PartialViewResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
-        {
-            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(geospatialArea);
-            return ViewEdit(viewModel);
-        }
-
-        [HttpPost]
-        [GeospatialAreaManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, EditViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewEdit(viewModel);
-            }
-            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
-            viewModel.UpdateModel(geospatialArea, CurrentPerson);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
-        {
-            var viewData = new EditViewData();
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
         [GeospatialAreaViewFeature]
@@ -174,8 +123,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !geospatialArea.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", SitkaRoute<GeospatialAreaController>.BuildLinkFromExpression(x => x.Detail(geospatialArea), "here"));
+                ? $"Are you sure you want to delete this {geospatialArea.GeospatialAreaType.GeospatialAreaTypeName} '{geospatialArea.GeospatialAreaName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialArea.GeospatialAreaType.GeospatialAreaTypeDefinition}", SitkaRoute<GeospatialAreaController>.BuildLinkFromExpression(x => x.Detail(geospatialArea), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

@@ -488,8 +488,11 @@ namespace ProjectFirma.Web.Controllers
 
             var projectGeospatialAreaSpec = new ProjectGeospatialAreaExcelSpec();
             var projectGeospatialAreas = (projects.SelectMany(p => p.ProjectGeospatialAreas)).ToList();
-            var wsProjectGeospatialAreas = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", projectGeospatialAreaSpec, projectGeospatialAreas);
-            workSheets.Add(wsProjectGeospatialAreas);
+            foreach (var geospatialAreaType in new List<GeospatialAreaType>())
+            {
+                var wsProjectGeospatialAreas = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized}", projectGeospatialAreaSpec, projectGeospatialAreas);
+                workSheets.Add(wsProjectGeospatialAreas);
+            }
 
             MultiTenantHelpers.GetClassificationSystems().ForEach(c =>
             {

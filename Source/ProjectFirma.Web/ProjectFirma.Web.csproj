@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -123,6 +123,9 @@
     <Compile Include="Models\Generated\GeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialArea.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaType.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GoogleChartType.Binding.cs" />
     <Compile Include="Models\Generated\GoogleChartTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStaging.Binding.cs" />
@@ -413,11 +416,13 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
+    <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.cs" />
     <Compile Include="Models\ProjectInternalNote.cs" />
     <Compile Include="Models\ProjectStewardshipAreaType.cs" />
     <Compile Include="Models\ProjectUpdateBatchModelExtensions.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="UnitTestCommon\TestGeospatialAreaType.cs" />
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
@@ -1622,10 +1627,6 @@
     <Compile Include="Views\Shared\ErrorViewData.cs" />
     <Compile Include="Views\Shared\TextControls\EditNote.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewData.cs" />
-    <Compile Include="Views\GeospatialArea\Edit.cs" />
-    <Compile Include="Views\GeospatialArea\EditViewData.cs" />
-    <Compile Include="Views\GeospatialArea\EditViewModel.cs" />
-    <Compile Include="Views\GeospatialArea\EditViewModelTest.cs" />
     <Compile Include="Views\GeospatialArea\Index.cs" />
     <Compile Include="Views\GeospatialArea\IndexGridSpec.cs" />
     <Compile Include="Views\GeospatialArea\IndexViewData.cs" />
@@ -3478,7 +3479,6 @@
     <Content Include="Views\Shared\FirmaLateLoadingIncludes.cshtml" />
     <Content Include="Views\Role\Detail.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\GeospatialArea\Edit.cshtml" />
     <Content Include="Views\GeospatialArea\Index.cshtml" />
     <Content Include="Views\GeospatialArea\Detail.cshtml" />
     <Content Include="Views\Shared\SupportForm.cshtml" />

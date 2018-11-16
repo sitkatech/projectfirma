@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="TestGeospatialArea.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.GeospatialArea
+using ProjectFirma.Web.Models;
+
+namespace ProjectFirma.Web.UnitTestCommon
 {
-    public class EditViewData : FirmaUserControlViewData
+    public static partial class TestFramework
     {
+        public static class TestGeospatialAreaType
+        {
+            public static GeospatialAreaType Create()
+            {
+                var geospatialAreaType = GeospatialAreaType.CreateNewBlank();
+                return geospatialAreaType;
+            }
+        }
     }
 }

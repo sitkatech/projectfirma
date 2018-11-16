@@ -20,23 +20,22 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class GeospatialAreaValidationResult
     {
-        public static readonly string MissingGeospatialAreaOrNotesMessage =
-            $"Select at least one {Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}, or if {Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()} information is unavailable/irrelevant provide explanatory information in the Notes section.";
-
         private readonly List<string> _warningMessages;
 
-        public GeospatialAreaValidationResult(bool isIncomplete)
+        public GeospatialAreaValidationResult(bool isIncomplete, GeospatialAreaType geospatialAreaType)
         {           
             _warningMessages = new List<string>();
 
             if (isIncomplete)
             {
-                _warningMessages.Add(MissingGeospatialAreaOrNotesMessage);
+                var geospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
+                _warningMessages.Add($"Select at least one {geospatialAreaTypeName}, or if {geospatialAreaTypeName} information is unavailable/irrelevant provide explanatory information in the Notes section.");
             }
         }
         public GeospatialAreaValidationResult(string customErrorMessage)

@@ -52,9 +52,9 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Select one or more @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().
-            You can select @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() by clicking on the map or searching by @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel() name. 
-            If your @FieldDefinition.Project.GetFieldDefinitionLabel() is not associated with any @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized(), please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field.
+            Select one or more geospatial areas to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().
+            You can select geospatial areas by clicking on the map or searching by geospatial area name.
+            If your @FieldDefinition.Project.GetFieldDefinitionLabel() is not associated with any geospatial areas, please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field.
         </p>
     </div>
 </div>
@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <input type="text"
                        id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId"
                        class="typeahead form-control"
-                       placeholder="Search by @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel() name"
+                       placeholder="Search by geospatial area name"
                        autocomplete="off" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" id="@string.Format("{0}Button", ViewDataTyped.ViewDataForAngular.TypeAheadInputId)" ng-click="selectFirstSuggestionFunction()">
@@ -77,14 +77,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
             </div>
             <div class="alert alert-warning" ng-if="!AngularModel.GeospatialAreaIDs || AngularModel.GeospatialAreaIDs.length < 1">
-                No @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() selected for this @FieldDefinition.Project.GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel().
+                No geospatial areas selected for this @FieldDefinition.Project.GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a geospatial area.
             </div>
             <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1">
                 <table class="table">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>@FieldDefinition.GeospatialArea.GetFieldDefinitionLabel() Name</th>
+                            <th>Geospatial Area Name</th>
                         </tr>
                     </thead>
                     <tbody>

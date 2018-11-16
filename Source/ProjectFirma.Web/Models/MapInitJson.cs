@@ -57,25 +57,15 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
-
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
+                .ToList();
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (MultiTenantHelpers.HasGeospatialAreaMapServiceUrl())
+            foreach (var geospatialAreaType in geospatialAreaTypes)
             {
-                layerGeoJsons = new List<LayerGeoJson>
-                {
-                    GeospatialArea.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, layerInitialVisibility)
-                };
+                layerGeoJsons.Add(GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m,
+                    layerInitialVisibility));
             }
-            else
-            {
-                var geospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
-                if (geospatialAreas.Any())
-                {
-                    layerGeoJsons.Add(new LayerGeoJson("GeospatialArea",
-                        geospatialAreas.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
-                        layerInitialVisibility));
-                }
-            }
+
             return layerGeoJsons;
         }
 

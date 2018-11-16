@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage {0}", FieldDefinitionEnum.GeospatialArea)]
+    [SecurityFeatureDescription("Manage Geospatial Area")]
     public class GeospatialAreaManageFeature : FirmaAdminFeature
     {
     }

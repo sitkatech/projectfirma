@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Common;
 
@@ -86,11 +88,6 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeTaxonomyBranchList
     {
         public override string GetViewUrl() => SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Index());
-    }
-
-    public partial class FirmaPageTypeGeospatialAreasList
-    {
-        public override string GetViewUrl() => SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index());
     }
 
     public partial class FirmaPageTypeMyProjects

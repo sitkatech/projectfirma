@@ -28,7 +28,8 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static GeospatialArea Create()
             {
-                var geospatialArea = GeospatialArea.CreateNewBlank();
+                var geospatialAreaType = TestGeospatialAreaType.Create();
+                var geospatialArea = GeospatialArea.CreateNewBlank(geospatialAreaType);
                 geospatialArea.GeospatialAreaName = MakeTestGeospatialAreaName();
                 return geospatialArea;
             }

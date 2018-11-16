@@ -1072,24 +1072,25 @@ namespace ProjectFirma.Web.Controllers
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, tenantAttribute, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);            
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus);
+            var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, GeospatialAreaType.CreateNewBlank());
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshProjectGeospatialArea(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult RefreshProjectGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshProjectGeospatialArea(viewModel);
+            return ViewRefreshProjectGeospatialArea(viewModel, geospatialAreaType);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshProjectGeospatialArea(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshProjectGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
@@ -1107,11 +1108,11 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewRefreshProjectGeospatialArea(ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewRefreshProjectGeospatialArea(ConfirmDialogFormViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the {FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the {geospatialAreaType.GeospatialAreaTypeName} data? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }       
 

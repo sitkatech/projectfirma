@@ -68,6 +68,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<FundingTypeData> FundingTypeDatas { get { return AllFundingTypeDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
+        public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MappedRegion> AllMappedRegions { get; set; }
@@ -333,6 +335,9 @@ namespace ProjectFirma.Web.Models
 
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
+
+                case "GeospatialAreaType":
+                    return GeospatialAreaTypes.GetGeospatialAreaType(primaryKey);
 
                 case "GoogleChartType":
                     var googleChartType = GoogleChartType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

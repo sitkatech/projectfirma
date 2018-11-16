@@ -1,0 +1,130 @@
+//  IMPORTANT:
+//  This file is generated. Your changes will be lost.
+//  Use the corresponding partial class for customizations.
+//  Source Table: [dbo].[GeospatialAreaType]
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Linq;
+using System.Web;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+
+namespace ProjectFirma.Web.Models
+{
+    [Table("[dbo].[GeospatialAreaType]")]
+    public partial class GeospatialAreaType : IHavePrimaryKey, IHaveATenantID
+    {
+        /// <summary>
+        /// Default Constructor; only used by EF
+        /// </summary>
+        protected GeospatialAreaType()
+        {
+            this.GeospatialAreas = new HashSet<GeospatialArea>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+        }
+
+        /// <summary>
+        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition) : this()
+        {
+            this.GeospatialAreaTypeID = geospatialAreaTypeID;
+            this.GeospatialAreaTypeName = geospatialAreaTypeName;
+            this.GeospatialAreaTypeNamePluralized = geospatialAreaTypeNamePluralized;
+            this.GeospatialAreaIntroContent = geospatialAreaIntroContent;
+            this.GeospatialAreaTypeDefinition = geospatialAreaTypeDefinition;
+        }
+
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public GeospatialAreaType(string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.GeospatialAreaTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            
+            this.GeospatialAreaTypeName = geospatialAreaTypeName;
+            this.GeospatialAreaTypeNamePluralized = geospatialAreaTypeNamePluralized;
+        }
+
+
+        /// <summary>
+        /// Creates a "blank" object of this type and populates primitives with defaults
+        /// </summary>
+        public static GeospatialAreaType CreateNewBlank()
+        {
+            return new GeospatialAreaType(default(string), default(string));
+        }
+
+        /// <summary>
+        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
+        /// </summary>
+        /// <returns></returns>
+        public bool HasDependentObjects()
+        {
+            return GeospatialAreas.Any();
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name};
+
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull()
+        {
+            DeleteFull(HttpRequestStorage.DatabaseEntities);
+        }
+
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteFull(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in GeospatialAreas.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+            dbContext.AllGeospatialAreaTypes.Remove(this);
+        }
+
+        [Key]
+        public int GeospatialAreaTypeID { get; set; }
+        public int TenantID { get; private set; }
+        public string GeospatialAreaTypeName { get; set; }
+        public string GeospatialAreaTypeNamePluralized { get; set; }
+        public string GeospatialAreaIntroContent { get; set; }
+        [NotMapped]
+        public HtmlString GeospatialAreaIntroContentHtmlString
+        { 
+            get { return GeospatialAreaIntroContent == null ? null : new HtmlString(GeospatialAreaIntroContent); }
+            set { GeospatialAreaIntroContent = value?.ToString(); }
+        }
+        public string GeospatialAreaTypeDefinition { get; set; }
+        [NotMapped]
+        public HtmlString GeospatialAreaTypeDefinitionHtmlString
+        { 
+            get { return GeospatialAreaTypeDefinition == null ? null : new HtmlString(GeospatialAreaTypeDefinition); }
+            set { GeospatialAreaTypeDefinition = value?.ToString(); }
+        }
+        [NotMapped]
+        public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
+
+        public virtual ICollection<GeospatialArea> GeospatialAreas { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+
+        public static class FieldLengths
+        {
+            public const int GeospatialAreaTypeName = 200;
+            public const int GeospatialAreaTypeNamePluralized = 200;
+        }
+    }
+}

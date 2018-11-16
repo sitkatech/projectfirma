@@ -54,7 +54,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
-            GeospatialAreaFieldDefinitionLabel = Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel();
             ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
             GeospatialAreaMapSericeLayerName = tenantAttribute.GeospatialAreaLayerName;
             MapServiceUrl = tenantAttribute.MapServiceUrl;

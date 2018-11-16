@@ -18,10 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
@@ -38,7 +41,11 @@ namespace ProjectFirma.Web.Views.Project
                 {
                     AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.DisplayName)));
                 });
-            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", x => string.Join(",", x.ProjectGeospatialAreas.Select(pw => pw.GeospatialArea.DisplayName)));
+            foreach (var geospatialAreaType in new List<GeospatialAreaType>())
+            {
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType).ToString());
+            }
+
             AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);
             AddColumn(Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel(), x => x.ProjectDescription);
@@ -47,7 +54,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
             AddColumn(Models.FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(), x => x.UnfundedNeed());
             AddColumn("State", a => a.ProjectLocationStateProvince);
-            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", a => a.GetProjectGeospatialAreaNamesAsString());
             AddColumn($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
     }
@@ -141,7 +147,10 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn($"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", x => x.GeospatialArea.DisplayName);
+            foreach (var geospatialAreaType in new List<GeospatialAreaType>())
+            {
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GeospatialArea.DisplayName);
+            }
         }
     }
 

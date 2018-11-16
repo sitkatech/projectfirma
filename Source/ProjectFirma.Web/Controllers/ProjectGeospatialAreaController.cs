@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()} were successfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {currentProjectGeospatialAreas.First().GeospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized} were successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }

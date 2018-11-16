@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetProjectStewardshipAreaTypeDisplayName()
         {
-            return this == GeospatialAreas ? FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized() : ProjectStewardshipAreaTypeDisplayName;
+            return ProjectStewardshipAreaTypeDisplayName;
         }
     }
 

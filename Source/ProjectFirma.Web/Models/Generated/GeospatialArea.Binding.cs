@@ -32,31 +32,45 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature) : this()
+        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.GeospatialAreaName = geospatialAreaName;
             this.GeospatialAreaFeature = geospatialAreaFeature;
+            this.GeospatialAreaTypeID = geospatialAreaTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(string geospatialAreaName) : this()
+        public GeospatialArea(string geospatialAreaName, int geospatialAreaTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.GeospatialAreaName = geospatialAreaName;
+            this.GeospatialAreaTypeID = geospatialAreaTypeID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public GeospatialArea(string geospatialAreaName, GeospatialAreaType geospatialAreaType) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.GeospatialAreaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.GeospatialAreaName = geospatialAreaName;
+            this.GeospatialAreaTypeID = geospatialAreaType.GeospatialAreaTypeID;
+            this.GeospatialAreaType = geospatialAreaType;
+            geospatialAreaType.GeospatialAreas.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static GeospatialArea CreateNewBlank()
+        public static GeospatialArea CreateNewBlank(GeospatialAreaType geospatialAreaType)
         {
-            return new GeospatialArea(default(string));
+            return new GeospatialArea(default(string), geospatialAreaType);
         }
 
         /// <summary>
@@ -110,6 +124,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string GeospatialAreaName { get; set; }
         public DbGeometry GeospatialAreaFeature { get; set; }
+        public int GeospatialAreaTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaID; } set { GeospatialAreaID = value; } }
 
@@ -117,6 +132,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectGeospatialArea> ProjectGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual GeospatialAreaType GeospatialAreaType { get; set; }
 
         public static class FieldLengths
         {

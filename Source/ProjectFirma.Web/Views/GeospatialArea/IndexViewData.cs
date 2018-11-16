@@ -32,13 +32,16 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, GeospatialAreaType geospatialAreaType, MapInitJson mapInitJson) : base(currentPerson)
         {
-            PageTitle = $"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}";
             MapInitJson = mapInitJson;
-            GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GeospatialAreaType = geospatialAreaType;
+            GridSpec = new IndexGridSpec(currentPerson, geospatialAreaType) {ObjectNameSingular = $"{geospatialAreaType.GeospatialAreaTypeName}", ObjectNamePlural = $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", SaveFiltersInCookie = true};
             GridName = "geospatialAreasGrid";
-            GridDataUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            GridDataUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(geospatialAreaType));
         }
+
+        public GeospatialAreaType GeospatialAreaType { get; }
     }
 }

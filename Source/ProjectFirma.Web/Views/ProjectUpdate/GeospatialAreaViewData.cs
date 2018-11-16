@@ -33,18 +33,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
+        public readonly GeospatialAreaType GeospatialAreaType;
 
         public GeospatialAreaViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             GeospatialAreaValidationResult geospatialAreaValidationResult,
-            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.GeospatialAreas, updateStatus, geospatialAreaValidationResult.GetWarningMessages())
+            UpdateStatus updateStatus, GeospatialAreaType geospatialAreaType) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.GeospatialAreas, updateStatus, geospatialAreaValidationResult.GetWarningMessages())
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectGeospatialArea(projectUpdate.ProjectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectGeospatialArea(projectUpdate.ProjectUpdateBatch.Project, geospatialAreaType));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
+            GeospatialAreaType = geospatialAreaType;
         } 
     }
 }

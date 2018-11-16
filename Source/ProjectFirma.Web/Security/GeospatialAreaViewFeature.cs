@@ -24,7 +24,7 @@ using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View {0}", FieldDefinitionEnum.GeospatialArea)]
+    [SecurityFeatureDescription("View Geospatial Area")]
     public class GeospatialAreaViewFeature : AnonymousUnclassifiedFeature
     {
     }

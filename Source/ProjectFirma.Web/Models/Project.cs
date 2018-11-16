@@ -266,10 +266,11 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public HtmlString GetProjectGeospatialAreaNamesAsHyperlinks()
+        public HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(GeospatialAreaType geospatialAreaType)
         {
-            return new HtmlString(ProjectGeospatialAreas.Any()
-                ? string.Join(", ", ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
+            var projectGeospatialAreas = ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            return new HtmlString(projectGeospatialAreas.Any()
+                ? string.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
 

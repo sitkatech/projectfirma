@@ -21,6 +21,7 @@
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.Store.FundingTypeData" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GeospatialArea" EntityType="ProjectFirma.Web.Models.Store.GeospatialArea" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GeospatialAreaType" EntityType="ProjectFirma.Web.Models.Store.GeospatialAreaType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.Store.ImportExternalProjectStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
@@ -180,6 +181,10 @@ FROM [dbo].[vGeoServerGeospatialArea] AS [vGeoServerGeospatialArea]</DefiningQue
     <AssociationSet Name="FK_FundingSource_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_FundingSource_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="FundingSources" EntitySet="FundingSource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.Store.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="GeospatialAreas" EntitySet="GeospatialArea" />
     </AssociationSet>
     <AssociationSet Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -999,6 +1004,21 @@ warning 6035: The relationship 'FK_ProjectGeospatialAreaUpdate_GeospatialArea_Ge
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="GeospatialAreaName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="GeospatialAreaFeature" Type="geometry" />
+    <Property Name="GeospatialAreaTypeID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="GeospatialAreaType">
+    <Key>
+      <PropertyRef Name="GeospatialAreaTypeID" />
+    </Key>
+    <Property Name="GeospatialAreaTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="GeospatialAreaTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="GeospatialAreaTypeNamePluralized" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="GeospatialAreaIntroContent" Type="varchar(max)" />
+    <Property Name="GeospatialAreaTypeDefinition" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
     <Key>
@@ -2372,6 +2392,18 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerGeospatialArea' does no
       </Principal>
       <Dependent Role="FundingSources">
         <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.Store.GeospatialAreaType" Multiplicity="1" />
+    <End Role="GeospatialAreas" Type="ProjectFirma.Web.Models.Store.GeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="GeospatialAreas">
+        <PropertyRef Name="GeospatialAreaTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -21,6 +21,7 @@
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
     <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.FundingTypeData" />
     <EntitySet Name="GeospatialArea" EntityType="ProjectFirma.Web.Models.GeospatialArea" />
+    <EntitySet Name="GeospatialAreaType" EntityType="ProjectFirma.Web.Models.GeospatialAreaType" />
     <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.ImportExternalProjectStaging" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
@@ -237,6 +238,10 @@
     <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="GeospatialAreas" EntitySet="GeospatialArea" />
     </AssociationSet>
     <AssociationSet Name="FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID">
       <End Role="GeospatialArea" EntitySet="GeospatialArea" />
@@ -980,9 +985,23 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="GeospatialAreaName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="GeospatialAreaFeature" Type="Geometry" />
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GeospatialAreaType" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreas" ToRole="GeospatialAreaType" />
     <NavigationProperty Name="PersonStewardGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="PersonStewardGeospatialAreas" />
     <NavigationProperty Name="ProjectGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="ProjectGeospatialAreas" />
     <NavigationProperty Name="ProjectGeospatialAreaUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="ProjectGeospatialAreaUpdates" />
+  </EntityType>
+  <EntityType Name="GeospatialAreaType">
+    <Key>
+      <PropertyRef Name="GeospatialAreaTypeID" />
+    </Key>
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaTypeNamePluralized" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaTypeDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="GeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="GeospatialAreas" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
     <Key>
@@ -2640,6 +2659,18 @@
       </Principal>
       <Dependent Role="ProjectFundingSourceRequestUpdates">
         <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.GeospatialAreaType" Multiplicity="1" />
+    <End Role="GeospatialAreas" Type="ProjectFirma.Web.Models.GeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="GeospatialAreas">
+        <PropertyRef Name="GeospatialAreaTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

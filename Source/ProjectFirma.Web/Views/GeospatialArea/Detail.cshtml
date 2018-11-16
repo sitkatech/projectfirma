@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </script>
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.GeospatialAreaTypeNamePluralized </a>
 </div>
 
 <div class="container-fluid">
@@ -91,13 +91,13 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                             <div class="panel-body">
                                 <p>
-                                    This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel().
+                                    This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
                                 </p>
                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
 
-                                <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized(), but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel() boundary.</p>
+                                <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @ViewDataTyped.GeospatialAreaTypeName boundary.</p>
                             </div>
                         </div>
                     </div>
@@ -112,11 +112,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
                                         @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
                                     </div>
-                                    <p>Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.GeospatialArea.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel().</p>
+                                    <p>Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple ViewDataTyped.GeospatialAreaTypeNamePluralized, the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @ViewDataTyped.GeospatialAreaTypeName.</p>
                                 }
                                 else
                                 {
-                                    <p class="systemText">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.GeospatialAreaTypeNamePluralized.</p>
                                 }
                             </div>
                         </div>
@@ -140,7 +140,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel(). To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @ViewDataTyped.GeospatialAreaTypeName are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.GeospatialAreaTypeName. To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
@@ -165,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="row">
                             <div class="col-xs-12">
                                 <p class="text-center">
-                                    There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.GeospatialArea.GetFieldDefinitionLabel().
+                                    There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.GeospatialAreaTypeName.
                                 </p>
                             </div>
                         </div>

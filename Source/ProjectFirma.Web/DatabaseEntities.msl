@@ -234,6 +234,19 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="GeospatialAreaName" ColumnName="GeospatialAreaName" />
           <ScalarProperty Name="GeospatialAreaFeature" ColumnName="GeospatialAreaFeature" />
+          <ScalarProperty Name="GeospatialAreaTypeID" ColumnName="GeospatialAreaTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GeospatialAreaType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.GeospatialAreaType">
+        <MappingFragment StoreEntitySet="GeospatialAreaType">
+          <ScalarProperty Name="GeospatialAreaTypeID" ColumnName="GeospatialAreaTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="GeospatialAreaTypeName" ColumnName="GeospatialAreaTypeName" />
+          <ScalarProperty Name="GeospatialAreaTypeNamePluralized" ColumnName="GeospatialAreaTypeNamePluralized" />
+          <ScalarProperty Name="GeospatialAreaIntroContent" ColumnName="GeospatialAreaIntroContent" />
+          <ScalarProperty Name="GeospatialAreaTypeDefinition" ColumnName="GeospatialAreaTypeDefinition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Views.GeospatialArea
     public class DetailViewData : FirmaViewData
     {
         public readonly Models.GeospatialArea GeospatialArea;
+        public readonly string GeospatialAreaTypeName;
+        public readonly string GeospatialAreaTypeNamePluralized;
         public readonly bool UserHasGeospatialAreaManagePermissions;
         public readonly string IndexUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
@@ -51,15 +53,17 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             MapInitJson = mapInitJson;
             ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = geospatialArea.GeospatialAreaName;
-            EntityName = $"{Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}";
+            GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
+            GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
+            EntityName = $"{GeospatialAreaTypeName}";
             UserHasGeospatialAreaManagePermissions = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
-            IndexUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index());
+            IndexUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index(geospatialArea.GeospatialAreaType));
 
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} in this {Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in this {Models.FieldDefinition.GeospatialArea.GetFieldDefinitionLabel()}",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} in this {GeospatialAreaTypeName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in this {GeospatialAreaTypeName}",
                 SaveFiltersInCookie = true
             };
           
