@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = geospatialArea.GeospatialAreaName;
             GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
-            GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
+            GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized;
             EntityName = $"{GeospatialAreaTypeName}";
             UserHasGeospatialAreaManagePermissions = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
             IndexUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index(geospatialArea.GeospatialAreaType));

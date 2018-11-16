@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionGeospatialAreas : ProjectUpdateSection
     {
         private ProjectUpdateSectionGeospatialAreas(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus) {}
-        public static readonly ProjectUpdateSectionGeospatialAreas Instance = new ProjectUpdateSectionGeospatialAreas(5, @"GeospatialAreas", @"GeospatialArea", 50, true);
+        public static readonly ProjectUpdateSectionGeospatialAreas Instance = new ProjectUpdateSectionGeospatialAreas(5, @"GeospatialAreas", @"Geospatial Areas", 50, true);
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures : ProjectUpdateSection

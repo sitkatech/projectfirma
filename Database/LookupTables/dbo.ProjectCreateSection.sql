@@ -6,7 +6,7 @@ values
 (2, 'Basics', 'Basics', 20, 1),
 (3, 'LocationSimple', 'Location - Simple', 30, 1),
 (4, 'LocationDetailed', 'Location - Detailed', 40, 0),
-(5, 'GeospatialArea', 'GeospatialAreas', 50, 1),
+(5, 'GeospatialArea', 'Geospatial Areas', 50, 1),
 (6, 'ExpectedPerformanceMeasures', 'Expected Performance Measures', 60, 1),
 (7, 'ReportedPerformanceMeasures', 'Reported Performance Measures', 70, 1),
 (8, 'ExpectedFunding', 'Expected Funding', 80, 0),

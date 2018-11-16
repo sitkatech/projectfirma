@@ -35,6 +35,10 @@ set ga.GeospatialAreaTypeID = gat.GeospatialAreaTypeID
 from dbo.GeospatialArea ga
 join dbo.GeospatialAreaType gat on ga.TenantID = gat.TenantID and gat.GeospatialAreaTypeName = 'Watershed'
 
+update dbo.GeospatialAreaType
+set GeospatialAreaTypeName = 'Region', GeospatialAreaTypeNamePluralized = 'Regions'
+where GeospatialAreaTypeID = 10
+
 alter table dbo.GeospatialArea alter column GeospatialAreaTypeID int not null
 
 delete from dbo.FieldDefinitionData 
