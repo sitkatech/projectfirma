@@ -685,8 +685,10 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
+            // Getting geospatial area from first ProjectGeospatialArea for now
+            var geospatialAreaType = project.ProjectGeospatialAreas.FirstOrDefault().GeospatialArea.GeospatialAreaType;
 
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, null, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaType, null, mapPostUrl, mapFormID);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;

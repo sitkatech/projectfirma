@@ -112,30 +112,13 @@
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Map Service Url</div>
                     <div class="col-sm-7" style="overflow-x: hidden;">
-                        @if (ViewDataTyped.TenantAttribute.MapServiceUrl != null)
-                        {
-                            <a class="wrapLongString" href="@ViewDataTyped.TenantAttribute.MapServiceUrl" target="_blank">
-                                @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
-                                @ViewDataTyped.TenantAttribute.MapServiceUrl
-                            </a>
-                        }
-                        else
-                        {
-                            <em>Map Service Url not set.</em>
-                        }
+                        <em>Map Service Url not set.</em>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">GeospatialArea Layer Name</div>
                     <div class="col-sm-7" style="overflow-x: hidden;">
-                        @if (ViewDataTyped.TenantAttribute.GeospatialAreaLayerName != null)
-                        {
-                            @ViewDataTyped.TenantAttribute.GeospatialAreaLayerName
-                        }
-                        else
-                        {
-                            <em>GeospatialArea Layer Name not set.</em>
-                        }
+                        <em>GeospatialArea Layer Name not set.</em>
                     </div>
                 </div>
                 <div class="row">

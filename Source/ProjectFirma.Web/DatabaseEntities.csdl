@@ -1001,6 +1001,8 @@
     <Property Name="GeospatialAreaTypeNamePluralized" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="GeospatialAreaIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="GeospatialAreaTypeDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="MapServiceUrl" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaLayerName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="GeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="GeospatialAreas" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
@@ -2206,8 +2208,6 @@
     <Property Name="ToolDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPublicKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPrivateKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="MapServiceUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="GeospatialAreaLayerName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShowProposalsToThePublic" Type="Boolean" Nullable="false" />
     <Property Name="TaxonomyLevelID" Type="Int32" Nullable="false" />
     <Property Name="AssociatePerfomanceMeasureTaxonomyLevelID" Type="Int32" Nullable="false" />

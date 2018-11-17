@@ -65,8 +65,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             FindGeospatialAreaByNameUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.FindGeospatialAreaByName(null));
             TypeAheadInputId = "geospatialAreaSearch";
             GeospatialAreaNameByID = geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
-            GeospatialAreaMapServiceLayerName = tenantAttribute.GeospatialAreaLayerName;
-            MapServiceUrl = tenantAttribute.MapServiceUrl;
+            GeospatialAreaMapServiceLayerName = geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType.GeospatialAreaLayerName;
+            MapServiceUrl = geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType.MapServiceUrl;
             GeospatialAreaFieldDefinitionLabel =
                 geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType.GeospatialAreaTypeName;
         }

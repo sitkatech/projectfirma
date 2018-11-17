@@ -247,6 +247,8 @@
           <ScalarProperty Name="GeospatialAreaTypeNamePluralized" ColumnName="GeospatialAreaTypeNamePluralized" />
           <ScalarProperty Name="GeospatialAreaIntroContent" ColumnName="GeospatialAreaIntroContent" />
           <ScalarProperty Name="GeospatialAreaTypeDefinition" ColumnName="GeospatialAreaTypeDefinition" />
+          <ScalarProperty Name="MapServiceUrl" ColumnName="MapServiceUrl" />
+          <ScalarProperty Name="GeospatialAreaLayerName" ColumnName="GeospatialAreaLayerName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1275,8 +1277,6 @@
           <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
           <ScalarProperty Name="RecaptchaPublicKey" ColumnName="RecaptchaPublicKey" />
           <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />
-          <ScalarProperty Name="MapServiceUrl" ColumnName="MapServiceUrl" />
-          <ScalarProperty Name="GeospatialAreaLayerName" ColumnName="GeospatialAreaLayerName" />
           <ScalarProperty Name="ShowProposalsToThePublic" ColumnName="ShowProposalsToThePublic" />
           <ScalarProperty Name="TaxonomyLevelID" ColumnName="TaxonomyLevelID" />
           <ScalarProperty Name="AssociatePerfomanceMeasureTaxonomyLevelID" ColumnName="AssociatePerfomanceMeasureTaxonomyLevelID" />

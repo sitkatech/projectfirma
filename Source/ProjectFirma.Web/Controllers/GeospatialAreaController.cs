@@ -44,22 +44,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (MultiTenantHelpers.HasGeospatialAreaMapServiceUrl())
+            layerGeoJsons = new List<LayerGeoJson>
             {
-                layerGeoJsons = new List<LayerGeoJson>
-                {
-                    GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m, LayerInitialVisibility.Show)
-                };
-            } else
-            {
-                var geospatialAreas = geospatialAreaType.GeospatialAreas.OrderBy(x => x.GeospatialAreaName).ToList();
-                if (geospatialAreas.Any())
-                {
-                    layerGeoJsons.Add(new LayerGeoJson("GeospatialArea",
-                        geospatialAreas.ToGeoJsonFeatureCollection(), "#59ACFF", 0.2m,
-                        LayerInitialVisibility.Show));
-                }
-            }
+                GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m, LayerInitialVisibility.Show)
+            };
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
 

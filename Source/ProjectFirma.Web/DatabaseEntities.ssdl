@@ -1019,6 +1019,8 @@ warning 6035: The relationship 'FK_GeospatialArea_GeospatialAreaType_GeospatialA
     <Property Name="GeospatialAreaTypeNamePluralized" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="GeospatialAreaIntroContent" Type="varchar(max)" />
     <Property Name="GeospatialAreaTypeDefinition" Type="varchar(max)" />
+    <Property Name="MapServiceUrl" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="GeospatialAreaLayerName" Type="varchar" Nullable="false" MaxLength="255" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
     <Key>
@@ -2144,8 +2146,6 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="ToolDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="RecaptchaPublicKey" Type="varchar" MaxLength="100" />
     <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />
-    <Property Name="MapServiceUrl" Type="varchar" MaxLength="255" />
-    <Property Name="GeospatialAreaLayerName" Type="varchar" MaxLength="255" />
     <Property Name="ShowProposalsToThePublic" Type="bit" Nullable="false" />
     <Property Name="TaxonomyLevelID" Type="int" Nullable="false" />
     <Property Name="AssociatePerfomanceMeasureTaxonomyLevelID" Type="int" Nullable="false" />

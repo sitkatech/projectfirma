@@ -107,8 +107,6 @@ namespace ProjectFirma.Web.Views.Tenant
             TaxonomyLevelID = tenantAttribute.TaxonomyLevelID;
             AssociatePerfomanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             MinimumYear = tenantAttribute.MinimumYear;
-            MapServiceUrl = tenantAttribute.MapServiceUrl;
-            GeospatialAreaLayerName = tenantAttribute.GeospatialAreaLayerName;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
@@ -133,8 +131,6 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             attribute.MinimumYear = MinimumYear ?? 0;
 
-            attribute.MapServiceUrl = MapServiceUrl;
-            attribute.GeospatialAreaLayerName = GeospatialAreaLayerName;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
 

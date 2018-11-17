@@ -30,10 +30,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string MapPostUrl;
 
-        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, Feature currentFeature, string mapPostUrl, string mapFormID)
+        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, GeospatialAreaType geospatialAreaType, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
-            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, currentFeature);
+            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, geospatialAreaType, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
         }
@@ -50,13 +50,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly Feature CurrentFeature;
 
         public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson,
-            TenantAttribute tenantAttribute, Feature currentFeature)
+            TenantAttribute tenantAttribute, GeospatialAreaType geospatialAreaType, Feature currentFeature)
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
             ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
-            GeospatialAreaMapSericeLayerName = tenantAttribute.GeospatialAreaLayerName;
-            MapServiceUrl = tenantAttribute.MapServiceUrl;
+            GeospatialAreaMapSericeLayerName = geospatialAreaType.GeospatialAreaLayerName;
+            MapServiceUrl = geospatialAreaType.MapServiceUrl;
             CurrentFeature = currentFeature;
         }
     }
