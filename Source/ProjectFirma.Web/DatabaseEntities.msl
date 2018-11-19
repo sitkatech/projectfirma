@@ -1136,6 +1136,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StaffTimeActivity">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.StaffTimeActivity">
+        <MappingFragment StoreEntitySet="StaffTimeActivity">
+          <ScalarProperty Name="StaffTimeActivityID" ColumnName="StaffTimeActivityID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="StaffTimeActivityHours" ColumnName="StaffTimeActivityHours" />
+          <ScalarProperty Name="StaffTimeActivityRate" ColumnName="StaffTimeActivityRate" />
+          <ScalarProperty Name="StaffTimeActivityTotalAmount" ColumnName="StaffTimeActivityTotalAmount" />
+          <ScalarProperty Name="StaffTimeActivityStartDate" ColumnName="StaffTimeActivityStartDate" />
+          <ScalarProperty Name="StaffTimeActivityEndDate" ColumnName="StaffTimeActivityEndDate" />
+          <ScalarProperty Name="StaffTimeActivityNotes" ColumnName="StaffTimeActivityNotes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="StateProvince">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.StateProvince">
         <MappingFragment StoreEntitySet="StateProvince">
@@ -1279,6 +1294,20 @@
           <ScalarProperty Name="VideoDescription" ColumnName="VideoDescription" />
           <ScalarProperty Name="VideoUploadDate" ColumnName="VideoUploadDate" />
           <ScalarProperty Name="VideoURL" ColumnName="VideoURL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TreatmentActivity">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TreatmentActivity">
+        <MappingFragment StoreEntitySet="TreatmentActivity">
+          <ScalarProperty Name="TreatmentActivityID" ColumnName="TreatmentActivityID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="TreatmentActivityTypeID" ColumnName="TreatmentActivityTypeID" />
+          <ScalarProperty Name="TreatmentActivityAcresTreated" ColumnName="TreatmentActivityAcresTreated" />
+          <ScalarProperty Name="TreatmentActivityStartDate" ColumnName="TreatmentActivityStartDate" />
+          <ScalarProperty Name="TreatmentActivityEndDate" ColumnName="TreatmentActivityEndDate" />
+          <ScalarProperty Name="TreatmentActivityNotes" ColumnName="TreatmentActivityNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
