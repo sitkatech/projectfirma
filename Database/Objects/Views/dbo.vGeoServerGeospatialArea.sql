@@ -5,17 +5,16 @@ go
 create view dbo.vGeoServerGeospatialArea
 as
 select
-	w.GeospatialAreaID,
-	w.GeospatialAreaID as PrimaryKey,
-	w.GeospatialAreaName,
-	w.GeospatialAreaFeature,
-	w.GeospatialAreaFeature as Ogr_Geometry,
+	ga.GeospatialAreaID,
+	ga.GeospatialAreaID as PrimaryKey,
+	ga.GeospatialAreaName,
+	ga.GeospatialAreaFeature,
+	ga.GeospatialAreaFeature as Ogr_Geometry,
 	t.TenantID,
 	t.TenantName,
-	coalesce(fdd.FieldDefinitionLabel, fd.FieldDefinitionDisplayName, 'GeospatialArea') as GeospatialAreaLabelName
+	gat.GeospatialAreaTypeName
 	
 from
-	dbo.GeospatialArea w
-	join dbo.Tenant t on w.TenantID = t.TenantID
-	left join dbo.FieldDefinitionData fdd on fdd.TenantID = t.TenantID and fdd.FieldDefinitionID = 48
-	left join dbo.FieldDefinition fd on fdd.FieldDefinitionID = fd.FieldDefinitionID
+	dbo.GeospatialArea ga
+	join dbo.GeospatialAreaType gat on ga.GeospatialAreaTypeID = gat.GeospatialAreaTypeID
+	join dbo.Tenant t on ga.TenantID = t.TenantID

@@ -183,36 +183,39 @@
                         <ul class="@(!isGroupingActive ? "collapsed" : null)">
                             @foreach (var projectUpdateSection in grouping)
                             {
+                                if (projectUpdateSection.GetProjectUpdateSectionDisplayName() == "Geospatial Areas")
+                                 {
+                                 }
                                 <li class="@(ViewDataTyped.CurrentSection == projectUpdateSection ? "active" : null) workflowSection">
-                                    <a href="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project))"
-                                       class="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
-                                        <span style="display: inline-block; width: 15%; vertical-align: top">
-                                            @if (projectUpdateSection.HasCompletionStatus && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
-                                            {
-                                                if (projectUpdateSection.IsComplete(ViewDataTyped.ProjectUpdateBatch))
-                                                {
-                                                    <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator" title="Section is incomplete"></span>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span class="workflowStatusPlaceholder"></span>
-                                            }
-                                        </span>
+                                         <a href="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project))"
+                                            class="@(projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) == null ? "disabled" : "")">
+                                             <span style="display: inline-block; width: 15%; vertical-align: top">
+                                                 @if (projectUpdateSection.HasCompletionStatus && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                                                 {
+                                                     if (projectUpdateSection.IsComplete(ViewDataTyped.ProjectUpdateBatch))
+                                                     {
+                                                         <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
+                                                     }
+                                                     else
+                                                     {
+                                                         <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator" title="Section is incomplete"></span>
+                                                     }
+                                                 }
+                                                 else
+                                                 {
+                                                     <span class="workflowStatusPlaceholder"></span>
+                                                 }
+                                             </span>
 
-                                        <span style="display: inline-block; width: 80%">
-                                            <span>@projectUpdateSection.GetProjectUpdateSectionDisplayName() </span>
-                                            @if (projectUpdateSection.SectionIsUpdated(ViewDataTyped.UpdateStatus) && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
-                                            {
-                                                <span style="margin-left: 4px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "Section has been updated")</span>
-                                            }
-                                        </span>
-                                    </a>
-                                </li>
+                                             <span style="display: inline-block; width: 80%">
+                                                 <span>@projectUpdateSection.GetProjectUpdateSectionDisplayName() </span>
+                                                 @if (projectUpdateSection.SectionIsUpdated(ViewDataTyped.UpdateStatus) && projectUpdateSection.GetSectionUrl(ViewDataTyped.Project) != null)
+                                                 {
+                                                     <span style="margin-left: 4px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "Section has been updated")</span>
+                                                 }
+                                             </span>
+                                         </a>
+                                     </li>
                             }
                         </ul>
                     </li>

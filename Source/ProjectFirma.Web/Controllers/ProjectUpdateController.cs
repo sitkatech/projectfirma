@@ -60,6 +60,7 @@ using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFu
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewModel;
+using GeospatialArea = ProjectFirma.Web.Models.GeospatialArea;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailed;
 using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewData;
 using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationDetailedViewModel;
@@ -753,9 +754,10 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
-            var geospatialAreaType = project.ProjectGeospatialAreas.FirstOrDefault().GeospatialArea.GeospatialAreaType;
 
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, tenantAttribute, geospatialAreaType, null, mapPostUrl, mapFormID);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
+                .ToList();
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, tenantAttribute, geospatialAreaTypes, null, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
@@ -1070,7 +1072,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, tenantAttribute, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail);
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);            
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, GeospatialAreaType.CreateNewBlank());

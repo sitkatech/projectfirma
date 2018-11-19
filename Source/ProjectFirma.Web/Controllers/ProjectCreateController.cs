@@ -58,6 +58,7 @@ using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFu
 using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using GeospatialArea = ProjectFirma.Web.Models.GeospatialArea;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
 using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewData;
 using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewModel;
@@ -685,10 +686,9 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
-            // Getting geospatial area from first ProjectGeospatialArea for now
-            var geospatialAreaType = project.ProjectGeospatialAreas.FirstOrDefault().GeospatialArea.GeospatialAreaType;
-
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaType, null, mapPostUrl, mapFormID);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
+                .ToList();
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaTypes, null, mapPostUrl, mapFormID);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
@@ -874,14 +874,15 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var viewModel = new GeospatialAreaViewModel(project);
-            return ViewEditGeospatialArea(project, viewModel);
+            return ViewEditGeospatialArea(project, viewModel, geospatialAreaType);
         }
 
-        private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel)
+        private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
@@ -889,11 +890,10 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, null));
+            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, geospatialAreaType));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
 
-            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, tenantAttribute, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, project.HasProjectLocationPoint, project.HasProjectLocationDetail);
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -905,12 +905,13 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaViewModel viewModel)
+        public ActionResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, GeospatialAreaViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditGeospatialArea(project, viewModel);
+                return ViewEditGeospatialArea(project, viewModel, geospatialAreaType);
             }
             var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;

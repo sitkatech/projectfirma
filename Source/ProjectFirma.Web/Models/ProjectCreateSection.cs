@@ -101,7 +101,8 @@ namespace ProjectFirma.Web.Models
 
         public override string GetSectionUrl(Project project)
         {
-            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditGeospatialArea(project.ProjectID)) : null;
+            var geospatialAreaType = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.FirstOrDefault();
+            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditGeospatialArea(project.ProjectID, geospatialAreaType)) : null;
         }
 
         public override string GetProjectCreateSectionDisplayName()

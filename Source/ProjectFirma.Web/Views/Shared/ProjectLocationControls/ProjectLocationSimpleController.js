@@ -3,6 +3,10 @@
         function ($scope, angularModelAndViewData) {
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+            $scope.hasGeospatialAreaTypeLayers = $scope.AngularViewData.GeospatialAreaMapSericeLayerNames.length > 0;
+            $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated =
+                $scope.AngularViewData.GeospatialAreaMapSericeLayerNames.join(",");
+
 
             $scope.selectedStyle = {
                 fillColor: "#FFFF00",
@@ -75,10 +79,7 @@
                     Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                 };
 
-                var geospatialAreaMapServiceLayerName = $scope.AngularViewData.GeospatialAreaMapSericeLayerName,
-                    mapServiceUrl = $scope.AngularViewData.MapServiceUrl;
-
-                if (Sitka.Methods.isUndefinedNullOrEmpty(geospatialAreaMapServiceLayerName) || Sitka.Methods.isUndefinedNullOrEmpty(mapServiceUrl)) {
+                if (!$scope.hasGeospatialAreaTypeLayers) {
                     setPointOnMap(latlng);
                     $scope.propertiesForPointOnMap = propertiesForDisplay;
                     if (callback) {
@@ -88,7 +89,7 @@
                 else {
                     var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
                         {
-                            typeName: geospatialAreaMapServiceLayerName,
+                            typeName: $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated,
                             cql_filter: "intersects(Ogr_Geometry, POINT(" +
                                 latlngWrapped.lat +
                                 " " +
@@ -96,7 +97,7 @@
                                 "))"
                         });
                     SitkaAjax.ajax({
-                            url: mapServiceUrl + L.Util.getParamString(parameters),
+                        url: $scope.AngularViewData.MapServiceUrl + L.Util.getParamString(parameters),
                             dataType: "json",
                             jsonpCallback: "getJson"
                         },
@@ -189,12 +190,12 @@
                     };
 
                     // Get the initial Location Information from the WMS service
-                    if ($scope.AngularViewData.MapServiceUrl && $scope.AngularViewData.GeospatialAreaMapSericeLayerName) {
+                    if ($scope.hasGeospatialAreaTypeLayers) {
                         SitkaAjax.ajax({
                                 url: $scope.AngularViewData.MapServiceUrl +
                                     L.Util.getParamString(L.Util.extend($scope.projectLocationMap.wfsParams,
                                         {
-                                            typeName: $scope.AngularViewData.GeospatialAreaMapSericeLayerName,
+                                            typeName: $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated,
                                             cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                                         })),
                                 dataType: "json",

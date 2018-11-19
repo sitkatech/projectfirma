@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Models;
 
@@ -30,10 +32,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string MapPostUrl;
 
-        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, GeospatialAreaType geospatialAreaType, Feature currentFeature, string mapPostUrl, string mapFormID)
+        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
-            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, geospatialAreaType, currentFeature);
+            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, geospatialAreaTypes, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
         }
@@ -43,20 +45,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly MapInitJson MapInitJson;
         public readonly string TypeAheadInputId;
-        public readonly string GeospatialAreaFieldDefinitionLabel;
         public readonly string ProjectLocationFieldDefinitionLabel;
-        public readonly string GeospatialAreaMapSericeLayerName;
+        public readonly List<string> GeospatialAreaMapSericeLayerNames;
         public readonly string MapServiceUrl;
         public readonly Feature CurrentFeature;
 
         public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson,
-            TenantAttribute tenantAttribute, GeospatialAreaType geospatialAreaType, Feature currentFeature)
+            TenantAttribute tenantAttribute, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature)
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
             ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
-            GeospatialAreaMapSericeLayerName = geospatialAreaType.GeospatialAreaLayerName;
-            MapServiceUrl = geospatialAreaType.MapServiceUrl;
+            GeospatialAreaMapSericeLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
+            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl;
             CurrentFeature = currentFeature;
         }
     }

@@ -56,8 +56,9 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
-            var geospatialAreaType = project.ProjectGeospatialAreas.FirstOrDefault().GeospatialArea.GeospatialAreaType;
-            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaType, null, mapPostUrl, mapFormID);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
+                .ToList();
+            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaTypes, null, mapPostUrl, mapFormID);
             return RazorPartialView<ProjectLocationSimple, ProjectLocationSimpleViewData, ProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 

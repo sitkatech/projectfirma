@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -38,12 +38,6 @@ namespace ProjectFirma.Web.Models
         public List<Project> GetAssociatedProjects(Person person)
         {
             return ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
-        }
-
-        public static bool IsGeospatialAreaNameUnique(IEnumerable<GeospatialArea> geospatialAreas, string geospatialAreaName, int currentGeospatialAreaID)
-        {
-            var geospatialArea = geospatialAreas.SingleOrDefault(x => x.GeospatialAreaID != currentGeospatialAreaID && string.Equals(x.GeospatialAreaName, geospatialAreaName, StringComparison.InvariantCultureIgnoreCase));
-            return geospatialArea == null;
         }
 
         public string AuditDescriptionString => GeospatialAreaName;
@@ -73,7 +67,6 @@ namespace ProjectFirma.Web.Models
             string layerColor, decimal layerOpacity,
             LayerInitialVisibility layerInitialVisibility)
         {
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.MapServiceUrl,
                 geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
                 layerInitialVisibility);
@@ -81,7 +74,6 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(GeospatialArea geospatialArea, List<Project> projects)
         {
-            var geospatialAreaType = geospatialArea.GeospatialAreaType;
             var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
                 Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
@@ -89,9 +81,14 @@ namespace ProjectFirma.Web.Models
                 new List<GeospatialArea> { geospatialArea }.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                 LayerInitialVisibility.Show);
 
-            var layerGeoJsons = new List<LayerGeoJson>{projectLayerGeoJson, geospatialAreaLayerGeoJson};
-            layerGeoJsons.Add(GetGeospatialAreaWmsLayerGeoJson(geospatialArea.GeospatialAreaType, "#59ACFF", 0.6m, LayerInitialVisibility.Show));
-            
+            var layerGeoJsons = new List<LayerGeoJson>
+            {
+                projectLayerGeoJson,
+                geospatialAreaLayerGeoJson,
+                GetGeospatialAreaWmsLayerGeoJson(geospatialArea.GeospatialAreaType, "#59ACFF", 0.6m,
+                    LayerInitialVisibility.Show)
+            };
+
             return layerGeoJsons;
         }     
 
