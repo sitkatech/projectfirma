@@ -239,6 +239,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(accomplishmentsDashboardFundingDisplayType, "AccomplishmentsDashboardFundingDisplayType", primaryKey);
                     return accomplishmentsDashboardFundingDisplayType;
 
+                case "ActivityType":
+                    var activityType = ActivityType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(activityType, "ActivityType", primaryKey);
+                    return activityType;
+
                 case "AssessmentGoal":
                     return AssessmentGoals.GetAssessmentGoal(primaryKey);
 
@@ -695,6 +700,11 @@ namespace ProjectFirma.Web.Models
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
+
+                case "TreatmentType":
+                    var treatmentType = TreatmentType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(treatmentType, "TreatmentType", primaryKey);
+                    return treatmentType;
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);
