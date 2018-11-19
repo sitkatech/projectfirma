@@ -376,9 +376,6 @@
     <Compile Include="Models\Generated\SnapshotProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotProjectType.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotProjectTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\StaffTimeActivity.Binding.cs" />
-    <Compile Include="Models\Generated\StaffTimeActivity.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\StaffTimeActivityPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvincePrimaryKey.Binding.cs" />
@@ -415,9 +412,6 @@
     <Compile Include="Models\Generated\TrainingVideo.Binding.cs" />
     <Compile Include="Models\Generated\TrainingVideo.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\TreatmentActivity.Binding.cs" />
-    <Compile Include="Models\Generated\TreatmentActivity.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\TreatmentActivityPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TreatmentType.Binding.cs" />
     <Compile Include="Models\Generated\TreatmentTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerWatershed.Binding.cs" />

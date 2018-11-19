@@ -90,7 +90,6 @@
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
     <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.SnapshotProject" />
-    <EntitySet Name="StaffTimeActivity" EntityType="ProjectFirma.Web.Models.StaffTimeActivity" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.StateProvince" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
@@ -101,7 +100,6 @@
     <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParameter" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="TrainingVideo" EntityType="ProjectFirma.Web.Models.TrainingVideo" />
-    <EntitySet Name="TreatmentActivity" EntityType="ProjectFirma.Web.Models.TreatmentActivity" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
@@ -591,14 +589,6 @@
     <AssociationSet Name="FK_SnapshotProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_StaffTimeActivity_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_StaffTimeActivity_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="StaffTimeActivities" EntitySet="StaffTimeActivity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TreatmentActivity_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_TreatmentActivity_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="TreatmentActivities" EntitySet="TreatmentActivity" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
@@ -1452,8 +1442,6 @@
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="Project" ToRole="SnapshotProjects" />
-    <NavigationProperty Name="StaffTimeActivities" Relationship="ProjectFirma.Web.Models.FK_StaffTimeActivity_Project_ProjectID" FromRole="Project" ToRole="StaffTimeActivities" />
-    <NavigationProperty Name="TreatmentActivities" Relationship="ProjectFirma.Web.Models.FK_TreatmentActivity_Project_ProjectID" FromRole="Project" ToRole="TreatmentActivities" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -2066,21 +2054,6 @@
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="SnapshotProjects" ToRole="Project" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="SnapshotProjects" ToRole="Snapshot" />
   </EntityType>
-  <EntityType Name="StaffTimeActivity">
-    <Key>
-      <PropertyRef Name="StaffTimeActivityID" />
-    </Key>
-    <Property Name="StaffTimeActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="StaffTimeActivityHours" Type="Int32" Nullable="false" />
-    <Property Name="StaffTimeActivityRate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="StaffTimeActivityTotalAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="StaffTimeActivityStartDate" Type="DateTime" Nullable="false" />
-    <Property Name="StaffTimeActivityEndDate" Type="DateTime" />
-    <Property Name="StaffTimeActivityNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_StaffTimeActivity_Project_ProjectID" FromRole="StaffTimeActivities" ToRole="Project" />
-  </EntityType>
   <EntityType Name="StateProvince">
     <Key>
       <PropertyRef Name="StateProvinceID" />
@@ -2232,20 +2205,6 @@
     <Property Name="VideoDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="VideoUploadDate" Type="DateTime" Nullable="false" />
     <Property Name="VideoURL" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-  </EntityType>
-  <EntityType Name="TreatmentActivity">
-    <Key>
-      <PropertyRef Name="TreatmentActivityID" />
-    </Key>
-    <Property Name="TreatmentActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="TreatmentActivityTypeID" Type="Int32" Nullable="false" />
-    <Property Name="TreatmentActivityAcresTreated" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="TreatmentActivityStartDate" Type="DateTime" Nullable="false" />
-    <Property Name="TreatmentActivityEndDate" Type="DateTime" />
-    <Property Name="TreatmentActivityNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_TreatmentActivity_Project_ProjectID" FromRole="TreatmentActivities" ToRole="Project" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>
@@ -3736,30 +3695,6 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_StaffTimeActivity_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="StaffTimeActivities" Type="ProjectFirma.Web.Models.StaffTimeActivity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="StaffTimeActivities">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TreatmentActivity_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="TreatmentActivities" Type="ProjectFirma.Web.Models.TreatmentActivity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="TreatmentActivities">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
