@@ -22,3 +22,11 @@ alter table dbo.GeospatialAreaType alter column GeospatialAreaLayerName varchar(
 -- Drop unneeded fields from TenantAttribute
 alter table dbo.TenantAttribute drop column MapServiceUrl
 alter table dbo.TenantAttribute drop column GeospatialAreaLayerName
+
+
+update dbo.GeospatialAreaType
+set GeospatialAreaLayerName = replace(GeospatialAreaLayerName, 'GeospatialArea', 'Watershed')
+
+update dbo.GeospatialAreaType
+set GeospatialAreaLayerName = replace(GeospatialAreaLayerName, 'Watershed', 'Region')
+where TenantID = 10

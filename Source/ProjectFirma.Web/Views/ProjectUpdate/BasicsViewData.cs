@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus,
             BasicsValidationResult basicsValidationResult,
             IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
-            : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.Basics, updateStatus, basicsValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
         {
             ProjectUpdate = projectUpdate;
             TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.DisplayName;

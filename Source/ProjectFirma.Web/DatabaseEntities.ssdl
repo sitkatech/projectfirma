@@ -111,7 +111,7 @@
 [vGeoServerGeospatialArea].[Ogr_Geometry] AS [Ogr_Geometry], 
 [vGeoServerGeospatialArea].[TenantID] AS [TenantID], 
 [vGeoServerGeospatialArea].[TenantName] AS [TenantName], 
-[vGeoServerGeospatialArea].[GeospatialAreaLabelName] AS [GeospatialAreaLabelName]
+[vGeoServerGeospatialArea].[GeospatialAreaTypeName] AS [GeospatialAreaTypeName]
 FROM [dbo].[vGeoServerGeospatialArea] AS [vGeoServerGeospatialArea]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
@@ -2181,6 +2181,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerGeospatialArea' does no
       <PropertyRef Name="GeospatialAreaName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
+      <PropertyRef Name="GeospatialAreaTypeName" />
     </Key>
     <Property Name="GeospatialAreaID" Type="int" Nullable="false" />
     <Property Name="PrimaryKey" Type="int" Nullable="false" />
@@ -2189,7 +2190,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerGeospatialArea' does no
     <Property Name="Ogr_Geometry" Type="geometry" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="GeospatialAreaLabelName" Type="varchar" MaxLength="300" />
+    <Property Name="GeospatialAreaTypeName" Type="varchar" Nullable="false" MaxLength="200" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />

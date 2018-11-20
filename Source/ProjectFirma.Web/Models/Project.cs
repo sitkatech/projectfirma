@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Models
 {
@@ -264,6 +265,17 @@ namespace ProjectFirma.Web.Models
             {
                 ProjectLocationStateProvince = ViewUtilities.NaString;
             }
+        }
+
+        public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
+        {
+            var incomplete = ProjectGeospatialAreas.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectGeospatialAreaNotes);
+            return new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
+        }
+
+        public bool IsProjectGeospatialAreaValid(GeospatialAreaType geospatialAreaType)
+        {
+            return ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
         public HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(GeospatialAreaType geospatialAreaType)
@@ -644,46 +656,19 @@ namespace ProjectFirma.Web.Models
             return true;
         }
 
-        private bool AreReportedPerformanceMeasuresRelevant()
+        public bool AreReportedPerformanceMeasuresRelevant()
         {
             return ProjectStage != ProjectStage.Proposal && ProjectStage != ProjectStage.PlanningDesign;
         }
 
-        private bool AreReportedExpendituresRelevant()
+        public bool AreReportedExpendituresRelevant()
         {
             return ProjectStage != ProjectStage.Proposal;
         }
 
-        public static List<ProjectCreateSection> GetApplicableProposalWizardSections(Project project)
+        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(Project project)
         {
-            var projectCreateSections = ProjectCreateSection.All.Except(ProjectCreateSection.ConditionalSections).ToList();
-
-            // These checks require the Basics section to have been completed and the pending project to have been saved
-            if (project != null)
-            {
-                if (project.IsExpectedFundingRelevant())
-                {
-                    projectCreateSections.Add(ProjectCreateSection.ExpectedFunding);
-                }
-
-                if (project.AreReportedExpendituresRelevant())
-                {
-                    projectCreateSections.Add(ProjectCreateSection.ReportedExpenditures);
-                }
-
-                if (project.AreReportedPerformanceMeasuresRelevant())
-                {
-                    projectCreateSections.Add(ProjectCreateSection.ReportedPerformanceMeasures);
-                }
-            }
-
-            // These checks can be performed regardless of whether the project has been saved or not
-            if (HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any())
-            {
-                projectCreateSections.Add(ProjectCreateSection.Assessment);
-            }
-
-            return projectCreateSections.OrderBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public string GetPlanningDesignStartYear()

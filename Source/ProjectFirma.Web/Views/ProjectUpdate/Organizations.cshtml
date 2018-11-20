@@ -52,7 +52,6 @@
                 <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
                 <div class="col-sm-8">
                     @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> {{"style", "width: 100%"}, {"class", "form-control"}})
-                    @Html.Hidden("Section", ViewDataTyped.CurrentSection)
                 </div>
             </div>
         </div>            

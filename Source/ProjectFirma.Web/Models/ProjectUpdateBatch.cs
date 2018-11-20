@@ -51,12 +51,18 @@ namespace ProjectFirma.Web.Models
 
         public ProjectUpdateHistory LatestProjectUpdateHistoryReturned => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Returned);
 
-        public bool IsReadyToSubmit => InEditableState && IsPassingAllValidationRules;
+        public bool IsReadyToSubmit => InEditableState && IsPassingAllValidationRules();
 
-        public bool IsReadyToApprove => IsPassingAllValidationRules;
+        public bool IsReadyToApprove => IsPassingAllValidationRules();
 
-        private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
-                                                    IsProjectLocationSimpleValid() && IsProjectGeospatialAreaValid();
+        private bool IsPassingAllValidationRules()
+        {
+            var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(IsProjectGeospatialAreaValid);
+            return AreProjectBasicsValid && AreExpendituresValid() &&
+                   ArePerformanceMeasuresValid() &&
+                   IsProjectLocationSimpleValid() &&
+                   areAllProjectGeospatialAreasValid;
+        }
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
@@ -462,19 +468,16 @@ namespace ProjectFirma.Web.Models
             return ValidateProjectLocationSimple().IsValid;
         }
 
-        public GeospatialAreaValidationResult ValidateProjectGeospatialArea()
+        public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
         {
-            var incomplete = ProjectGeospatialAreaUpdates.Count.Equals(0) &&
-                string.IsNullOrWhiteSpace(ProjectUpdate.ProjectGeospatialAreaNotes);
-            var geospatialAreaType = ProjectGeospatialAreaUpdates.FirstOrDefault().GeospatialArea.GeospatialAreaType;
+            var incomplete = ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectUpdate.ProjectGeospatialAreaNotes);
             var geospatialAreaValidationResult = new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
-
             return geospatialAreaValidationResult;
         }
 
-        public bool IsProjectGeospatialAreaValid()
+        public bool IsProjectGeospatialAreaValid(GeospatialAreaType geospatialAreaType)
         {
-            return ValidateProjectGeospatialArea().IsValid;
+            return ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
         public void SubmitToReviewer(Person currentPerson, DateTime transitionDate)
@@ -636,21 +639,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public List<ProjectUpdateSection> GetApplicableWizardSections()
+        public List<ProjectSectionSimple> GetApplicableWizardSections()
         {
-            var projectUpdateSections = ProjectUpdateSection.All.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding, ProjectUpdateSection.PerformanceMeasures }).ToList();
-            
-            if (Project.IsExpectedFundingRelevant())
-            {
-                projectUpdateSections.Add(ProjectUpdateSection.ExpectedFunding);
-            }
-
-            if (AreAccomplishmentsRelevant())
-            {
-                projectUpdateSections.Add(ProjectUpdateSection.PerformanceMeasures);
-            }
-
-            return projectUpdateSections.OrderBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(this, null)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
     }
 }

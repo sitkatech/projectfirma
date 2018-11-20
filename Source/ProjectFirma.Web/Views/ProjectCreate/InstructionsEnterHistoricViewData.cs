@@ -33,14 +33,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, ProjectCreateSection.Instructions, SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
+        public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
             PageTitle = $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
-        public InstructionsEnterHistoricViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, ProjectCreateSection.Instructions, proposalSectionsStatus)
+        public InstructionsEnterHistoricViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, "Instructions", proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;

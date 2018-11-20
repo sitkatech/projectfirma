@@ -13,37 +13,6 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProjectCreateSection> ConditionalSections =>
             new List<ProjectCreateSection> {ExpectedFunding, Assessment, ReportedPerformanceMeasures, ReportedExpenditures};
-
-        public virtual string GetProjectCreateSectionDisplayName()
-        {
-            return ProjectCreateSectionDisplayName;
-        }
-    }
-
-    public partial class ProjectCreateSectionInstructions
-    {
-        public override bool IsComplete(Project project)
-        {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            if (project == null)
-            {
-                return null;
-            }
-            else if (project.ProjectStage == ProjectStage.Proposal)
-            {
-                return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x =>
-                    x.InstructionsProposal(project.ProjectID));
-            }
-            else
-            {
-                return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x =>
-                    x.InstructionsEnterHistoric(project.ProjectID));
-            } 
-        }
     }
 
     public partial class ProjectCreateSectionBasics
@@ -68,6 +37,11 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
+
             var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
             return !locationSimpleValidationResults.Any();            
         }
@@ -82,6 +56,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -91,30 +69,14 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectCreateSectionGeospatialArea
-    {
-        public override bool IsComplete(Project project)
-        {
-            var geospatialAreaValidationResults = new GeospatialAreaViewModel(project).GetValidationResults();
-            return !geospatialAreaValidationResults.Any();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var geospatialAreaType = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.FirstOrDefault();
-            return Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditGeospatialArea(project.ProjectID, geospatialAreaType)) : null;
-        }
-
-        public override string GetProjectCreateSectionDisplayName()
-        {
-            return this.ProjectCreateSectionDisplayName;
-        }
-    }
-
     public partial class ProjectCreateSectionExpectedPerformanceMeasures
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(project).GetValidationResults();
             return !pmValidationResults.Any();
         }
@@ -129,6 +91,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             var pmValidationResults = new PerformanceMeasuresViewModel(
                 project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
@@ -149,6 +115,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             var assessmentValidationResults = new EditAssessmentViewModel(project.ProjectAssessmentQuestions.Select(x => new ProjectAssessmentQuestionSimple(x)).ToList()).GetValidationResults();
             return !assessmentValidationResults.Any();
         }
@@ -163,6 +133,11 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
+
             var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
 
             var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples).GetValidationResults();
@@ -179,6 +154,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             return Basics.IsComplete(project);
         }
 
@@ -192,6 +171,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             return Basics.IsComplete(project);
         }
 
@@ -205,6 +188,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             // todo: more complicated than that.
             return Basics.IsComplete(project);
         }
@@ -219,6 +206,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
                     projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project), project,
@@ -237,6 +228,10 @@ namespace ProjectFirma.Web.Models
     {
         public override bool IsComplete(Project project)
         {
+            if (project == null)
+            {
+                return false;
+            }
             var validationResults = new OrganizationsViewModel(project, null).GetValidationResults().ToList();
             return !validationResults.Any();
         }

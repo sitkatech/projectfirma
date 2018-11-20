@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
     public class EditProjectGeospatialAreasViewData : FirmaViewData
     {
+        public GeospatialAreaType GeospatialAreaType { get; }
         public readonly EditProjectGeospatialAreasViewDataForAngular ViewDataForAngular;
         public readonly string EditProjectGeospatialAreasFormID;
         public readonly string EditProjectGeospatialAreasUrl;
@@ -37,9 +38,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly bool HasProjectLocationDetail;
         public readonly string SimplePointMarkerImg;
 
-        public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson, List<Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl, string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail, GeospatialAreaType geospatialAreaType) : base(currentPerson)
+        public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson,
+            List<Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
+            string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
+            GeospatialAreaType geospatialAreaType) : base(currentPerson)
         {
-            ViewDataForAngular = new EditProjectGeospatialAreasViewDataForAngular(mapInitJson, geospatialAreasInViewModel, geospatialAreaType);
+            GeospatialAreaType = geospatialAreaType;
+            ViewDataForAngular =
+                new EditProjectGeospatialAreasViewDataForAngular(mapInitJson, geospatialAreasInViewModel,
+                    geospatialAreaType);
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;
             EditProjectGeospatialAreasUrl = editProjectGeospatialAreasUrl;
             HasProjectLocationPoint = hasProjectLocationPoint;
@@ -57,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public Dictionary<int, string> GeospatialAreaNameByID;
         public readonly string GeospatialAreaMapServiceLayerName;
         public readonly string MapServiceUrl;
-        public readonly string GeospatialAreaFieldDefinitionLabel;
+        public readonly string GeospatialAreaTypeName;
 
         public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson, List<Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType)
         {
@@ -67,7 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaNameByID = geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaType.MapServiceUrl;
-            GeospatialAreaFieldDefinitionLabel = geospatialAreaType.GeospatialAreaTypeName;
+            GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
         }
     }
 }

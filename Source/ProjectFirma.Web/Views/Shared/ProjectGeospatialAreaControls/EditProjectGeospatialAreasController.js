@@ -85,7 +85,7 @@ angular.module("ProjectFirmaApp")
 
                     },
                     function() {
-                        console.error("There was an error selecting the " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + " from list");
+                        console.error("There was an error selecting the " + $scope.AngularViewData.GeospatialAreaTypeName + " from list");
                     });
             }
 
@@ -126,7 +126,7 @@ angular.module("ProjectFirmaApp")
                     $scope.firmaMap.wmsParams);
 
                 $scope.firmaMap.selectedGeospatialAreaLayer = L.tileLayer.wms($scope.AngularViewData.MapServiceUrl, wmsParameters);
-                $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedGeospatialAreaLayer, "Selected " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + "s");
+                $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedGeospatialAreaLayer, "Selected " + $scope.AngularViewData.GeospatialAreaTypeName + "s");
                 $scope.firmaMap.map.addLayer($scope.firmaMap.selectedGeospatialAreaLayer);
 
                 // Update map extent to selected geospatialAreas
@@ -148,7 +148,7 @@ angular.module("ProjectFirmaApp")
                             $scope.firmaMap.map.fitBounds(new L.geoJSON(response).getBounds());
                         },
                         function () {
-                            console.error("There was an error setting map extent to the selected " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + "s");
+                            console.error("There was an error setting map extent to the selected " + $scope.AngularViewData.GeospatialAreaTypeName + "s");
                         });
                 }
             };

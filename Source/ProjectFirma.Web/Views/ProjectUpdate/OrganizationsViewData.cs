@@ -11,8 +11,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
 
-        public OrganizationsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, EditOrganizationsViewData editOrganizationsViewData, OrganizationsValidationResult organizationsValidationResult, ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData) : base(
-            currentPerson, projectUpdateBatch, currentSection, updateStatus, organizationsValidationResult.GetWarningMessages())
+        public OrganizationsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, EditOrganizationsViewData editOrganizationsViewData, OrganizationsValidationResult organizationsValidationResult, ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData) : base(
+            currentPerson, projectUpdateBatch, updateStatus, organizationsValidationResult.GetWarningMessages(), ProjectUpdateSection.Organizations.ProjectUpdateSectionDisplayName)
         {
             EditOrganizationsViewData = editOrganizationsViewData;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;

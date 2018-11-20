@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
         public ExpendituresViewData(Person currentPerson, Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(project));

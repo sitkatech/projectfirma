@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string ReportingYearLabel { get; }
 
         public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, UpdateStatus updateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.PerformanceMeasures, updateStatus, performanceMeasuresValidationResult.GetWarningMessages())
+            : base(currentPerson, projectUpdateBatch, updateStatus, performanceMeasuresValidationResult.GetWarningMessages(), ProjectUpdateSection.PerformanceMeasures.ProjectUpdateSectionDisplayName)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPerformanceMeasures(projectUpdateBatch.Project));

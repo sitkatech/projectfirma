@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
         public static bool AreAllSectionsValidForProject(Models.Project project)
         {
-            return Models.Project.GetApplicableProposalWizardSections(project).All(x => x.IsComplete(project));
+            return Models.Project.GetApplicableProposalWizardSections(project).All(x => x.IsComplete);
         }
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }

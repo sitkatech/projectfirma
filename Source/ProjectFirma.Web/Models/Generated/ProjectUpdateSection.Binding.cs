@@ -18,11 +18,9 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectUpdateSection : IHavePrimaryKey
     {
-        public static readonly ProjectUpdateSectionInstructions Instructions = ProjectUpdateSectionInstructions.Instance;
         public static readonly ProjectUpdateSectionBasics Basics = ProjectUpdateSectionBasics.Instance;
         public static readonly ProjectUpdateSectionLocationSimple LocationSimple = ProjectUpdateSectionLocationSimple.Instance;
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
-        public static readonly ProjectUpdateSectionGeospatialAreas GeospatialAreas = ProjectUpdateSectionGeospatialAreas.Instance;
         public static readonly ProjectUpdateSectionPerformanceMeasures PerformanceMeasures = ProjectUpdateSectionPerformanceMeasures.Instance;
         public static readonly ProjectUpdateSectionExpectedFunding ExpectedFunding = ProjectUpdateSectionExpectedFunding.Instance;
         public static readonly ProjectUpdateSectionExpenditures Expenditures = ProjectUpdateSectionExpenditures.Instance;
@@ -39,7 +37,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Instructions, Basics, LocationSimple, LocationDetailed, GeospatialAreas, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, Organizations };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, LocationDetailed, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -123,10 +121,6 @@ namespace ProjectFirma.Web.Models
                     return Expenditures;
                 case ProjectUpdateSectionEnum.ExternalLinks:
                     return ExternalLinks;
-                case ProjectUpdateSectionEnum.GeospatialAreas:
-                    return GeospatialAreas;
-                case ProjectUpdateSectionEnum.Instructions:
-                    return Instructions;
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return LocationDetailed;
                 case ProjectUpdateSectionEnum.LocationSimple:
@@ -147,11 +141,9 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectUpdateSectionEnum
     {
-        Instructions = 1,
         Basics = 2,
         LocationSimple = 3,
         LocationDetailed = 4,
-        GeospatialAreas = 5,
         PerformanceMeasures = 6,
         ExpectedFunding = 7,
         Expenditures = 8,
@@ -159,12 +151,6 @@ namespace ProjectFirma.Web.Models
         ExternalLinks = 10,
         NotesAndDocuments = 11,
         Organizations = 12
-    }
-
-    public partial class ProjectUpdateSectionInstructions : ProjectUpdateSection
-    {
-        private ProjectUpdateSectionInstructions(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionInstructions Instance = new ProjectUpdateSectionInstructions(1, @"Instructions", @"Instructions", 10, false, 1);
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -183,12 +169,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectUpdateSectionLocationDetailed(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false, 2);
-    }
-
-    public partial class ProjectUpdateSectionGeospatialAreas : ProjectUpdateSection
-    {
-        private ProjectUpdateSectionGeospatialAreas(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionGeospatialAreas Instance = new ProjectUpdateSectionGeospatialAreas(5, @"GeospatialAreas", @"Geospatial Areas", 50, true, 2);
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures : ProjectUpdateSection
@@ -230,6 +210,6 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionOrganizations : ProjectUpdateSection
     {
         private ProjectUpdateSectionOrganizations(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionOrganizations Instance = new ProjectUpdateSectionOrganizations(12, @"Organizations", @"Organizations", 55, true, 1);
+        public static readonly ProjectUpdateSectionOrganizations Instance = new ProjectUpdateSectionOrganizations(12, @"Organizations", @"Organizations", 25, true, 1);
     }
 }

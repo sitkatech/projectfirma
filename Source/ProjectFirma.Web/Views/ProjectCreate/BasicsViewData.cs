@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public BasicsViewData(Person currentPerson, IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
             IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
-            : base(currentPerson, ProjectCreateSection.Basics, instructionsPageUrl)
+            : base(currentPerson, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
-            : base(currentPerson, project, ProjectCreateSection.Basics, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.DisplayName;

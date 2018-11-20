@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -31,25 +33,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ProjectUpdateViewData : FirmaViewData
     {
-        public ProjectUpdateSection CurrentSection { get; }
-        public List<ProjectUpdateSection> ProjectUpdateSections { get; }
         public ProjectUpdateBatch ProjectUpdateBatch { get; }
         public Models.Project Project { get; }
         public Person PrimaryContactPerson { get; }
         public string ProjectUpdateMyProjectsUrl { get; }
-        public string ProjectUpdateInstructionsUrl { get; }
-        public string ProjectUpdateBasicsUrl { get; }
-        public string ProjectUpdatePerformanceMeasuresUrl { get; }
-        public string ProjectUpdateExpendituresUrl { get; }
-        public string ProjectUpdatePhotosUrl { get; }
-        public string ProjectUpdateLocationSimpleUrl { get; }
-        public string ProjectUpdateLocationDetailedUrl { get; }
-        public string ProjectUpdateGeospatialAreaUrl { get; }
-        public string ProjectUpdateNotesUrl { get; }
-        public string ProjectUpdateExternalLinksUrl { get; }
         public string ProjectUpdateHistoryUrl { get; }
         public string DeleteProjectUpdateUrl { get; }
-        public string ProjectUpdateExpectedFundingUrl { get; }
         public string SubmitUrl { get; }
         public string ApproveUrl { get; }
         public string ReturnUrl { get; }
@@ -63,32 +52,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool HasUpdateStarted { get; }
 
         public List<string> ValidationWarnings { get; set; }
+        public List<ProjectWorkflowSectionGrouping> ProjectWorkflowSectionGroupings { get; }
+        public string CurrentSectionDisplayName { get; }
+        public bool IsInstructionsPage { get;  }
+        public string InstructionsPageUrl { get; }
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection, UpdateStatus updateStatus, List<string> validationWarnings) : base(currentPerson, null)
+        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, List<string> validationWarnings, string currentSectionDisplayName) : base(currentPerson, null)
         {
-            CurrentSection = currentSection;
+            IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
+            InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(projectUpdateBatch.Project));
+            ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();                
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
-
-            ProjectUpdateSections = projectUpdateBatch.GetApplicableWizardSections();
-
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             HtmlPageTitle += $" - {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
             EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update";
             PageTitle = $"Update: {Project.DisplayName}";
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            ProjectUpdateInstructionsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(Project));
-            ProjectUpdateBasicsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Basics(Project));
-            ProjectUpdatePerformanceMeasuresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(Project));
-            ProjectUpdateExpectedFundingUrl =
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding((Project)));
-            ProjectUpdateExpendituresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(Project));
-            ProjectUpdatePhotosUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(Project));
-            ProjectUpdateLocationSimpleUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(Project));
-            ProjectUpdateLocationDetailedUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(Project));
-            ProjectUpdateGeospatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.GeospatialArea(Project));
-            ProjectUpdateExternalLinksUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(Project));
-            ProjectUpdateNotesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(Project));
             ProjectUpdateHistoryUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.History(Project));
             DeleteProjectUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DeleteProjectUpdate(Project));
             SubmitUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Submit(Project));
@@ -102,10 +82,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid;
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false);
+            UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
             ValidationWarnings = validationWarnings;
+            CurrentSectionDisplayName = currentSectionDisplayName;
         }
     }
 }

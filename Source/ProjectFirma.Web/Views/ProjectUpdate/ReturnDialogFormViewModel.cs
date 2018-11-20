@@ -50,9 +50,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case Models.ProjectUpdateSectionEnum.LocationDetailed:
                         projectUpdateBatch.LocationDetailedComment = SectionComments;
                         break;
-                    case Models.ProjectUpdateSectionEnum.GeospatialAreas:
-                        projectUpdateBatch.GeospatialAreaComment = SectionComments;
-                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

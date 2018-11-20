@@ -258,7 +258,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
             }
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Basics);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewBasics(ProjectUpdate projectUpdate, BasicsViewModel viewModel)
@@ -367,7 +368,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.PerformanceMeasuresComment = viewModel.Comments;
             }
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.PerformanceMeasures);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.PerformanceMeasures.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasuresViewModel viewModel)
@@ -497,7 +499,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExpendituresComment = viewModel.Comments;
             }
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Expenditures);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresViewModel viewModel)
@@ -598,7 +601,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
             }
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.ExpectedFunding);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.ExpectedFunding.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
@@ -734,7 +738,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.LocationSimpleComment = viewModel.Comments;
             }
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationSimple);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewLocationSimple(Project project, ProjectUpdateBatch projectUpdateBatch, LocationSimpleViewModel viewModel)
@@ -835,7 +840,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.LocationDetailedComment = viewModel.Comments;
             }
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationDetailed);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewLocationDetailed(ProjectUpdateBatch projectUpdateBatch, LocationDetailedViewModel viewModel)
@@ -1016,23 +1021,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult GeospatialArea(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }            
-            var viewModel = new GeospatialAreaViewModel(projectUpdateBatch,
-                projectUpdateBatch.GeospatialAreaComment);
-            return ViewGeospatialArea(project, projectUpdateBatch, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult GeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaViewModel viewModel)
+        public ActionResult GeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -1040,9 +1029,27 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var viewModel = new GeospatialAreaViewModel(projectUpdateBatch,
+                projectUpdateBatch.GeospatialAreaComment);
+            return ViewGeospatialArea(project, projectUpdateBatch, viewModel, geospatialAreaType);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult GeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, GeospatialAreaViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewGeospatialArea(project, projectUpdateBatch, viewModel);
+                return ViewGeospatialArea(project, projectUpdateBatch, viewModel, geospatialAreaType);
             }
             var currentProjectUpdateGeospatialAreas = projectUpdateBatch.ProjectGeospatialAreaUpdates.ToList();
             var allProjectUpdateGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaUpdates.Local;
@@ -1051,10 +1058,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
             }
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.GeospatialAreas);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
 
-        private ViewResult ViewGeospatialArea(Project project, ProjectUpdateBatch projectUpdateBatch, GeospatialAreaViewModel viewModel)
+        private ViewResult ViewGeospatialArea(Project project, ProjectUpdateBatch projectUpdateBatch, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
 
@@ -1063,19 +1070,18 @@ namespace ProjectFirma.Web.Controllers
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
-            var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea();
+            var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
                 $"project_{project.ProjectID}_EditMap", false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, null));
+            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType);
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);            
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, GeospatialAreaType.CreateNewBlank());
+            var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, geospatialAreaType);
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
 
@@ -1205,7 +1211,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Local;
             viewModel.UpdateModel(currentProjectExternalLinkUpdates, allProjectExternalLinkUpdates);
 
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.ExternalLinks);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewExternalLinks(ProjectUpdateBatch projectUpdateBatch, EditProjectExternalLinksViewModel viewModel)
@@ -2210,24 +2217,6 @@ namespace ProjectFirma.Web.Controllers
             return enumerable.Any();
         }
 
-        private static bool IsGeospatialAreaUpdated(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
-
-            var originalGeospatialAreaIDs = project.GetProjectGeospatialAreas().Select(x => x.GeospatialAreaID).ToList();
-            var updatedGeospatialAreaIDs = projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialAreaID).ToList();
-
-            if (!originalGeospatialAreaIDs.Any() && !updatedGeospatialAreaIDs.Any())
-                return false;
-
-            if (originalGeospatialAreaIDs.Count != updatedGeospatialAreaIDs.Count)
-                return true;
-            
-            var enumerable = originalGeospatialAreaIDs.Except(updatedGeospatialAreaIDs);
-            return enumerable.Any();
-        }
-
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffExternalLinks(ProjectPrimaryKey projectPrimaryKey)
@@ -2457,7 +2446,7 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} successfully saved.");
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.Organizations);
+                ProjectUpdateSection.Organizations.ProjectUpdateSectionDisplayName);
         }
 
         private ActionResult ViewOrganizations(ProjectUpdateBatch projectUpdateBatch, OrganizationsViewModel viewModel)
@@ -2477,8 +2466,7 @@ namespace ProjectFirma.Web.Controllers
             var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
 
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.RelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
-            var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch,
-                ProjectUpdateSection.Organizations, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
+            var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }
@@ -2492,7 +2480,6 @@ namespace ProjectFirma.Web.Controllers
             var isBudgetsUpdated = false;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
-            var isGeospatialAreaUpdated = IsGeospatialAreaUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isNotesUpdated = DiffNotesAndDocumentsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
@@ -2511,7 +2498,6 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,
                 isLocationDetailUpdated,
-                isGeospatialAreaUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated,
                 isExpectedFundingUpdated,
@@ -2544,12 +2530,13 @@ namespace ProjectFirma.Web.Controllers
             return calendarYearStrings;
         }
 
-        private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSection currentSection)
+        private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections();
+            var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
-            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(projectUpdateBatch.Project) : currentSection.GetSectionUrl(projectUpdateBatch.Project);
+            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
             return Redirect(nextSection);
         }
 

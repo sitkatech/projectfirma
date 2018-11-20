@@ -30,8 +30,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public GeospatialAreaViewData(Person currentPerson,
             Models.Project project,
+            GeospatialAreaType geospatialAreaType,
             ProposalSectionsStatus proposalSectionsStatus,
-            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentPerson, project, ProjectCreateSection.GeospatialArea, proposalSectionsStatus)
+            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentPerson, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
         }

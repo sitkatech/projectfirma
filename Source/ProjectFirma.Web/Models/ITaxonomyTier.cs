@@ -11,5 +11,6 @@ namespace ProjectFirma.Web.Models
         HtmlString GetDisplayNameAsUrl();
         List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures();
         string SummaryUrl { get; }
+        FancyTreeNode ToFancyTreeNode(Person currentPerson);
     }
 }

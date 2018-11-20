@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} successfully saved.");
 
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Basics);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -361,7 +361,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
-            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures);
+            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -413,7 +413,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
             viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project);
 
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedPerformanceMeasures);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedPerformanceMeasures.ProjectCreateSectionDisplayName);
         }
 
         private ViewResult ViewPerformanceMeasures(Project project, PerformanceMeasuresViewModel viewModel)
@@ -484,7 +484,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceRequests);
             SetMessageForDisplay("Expected Funding successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ExpectedFunding.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -534,7 +534,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);            
 
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
         }
 
         private ViewResult ViewExpenditures(Project project, List<int> calendarYearRange, ExpendituresViewModel viewModel)
@@ -596,7 +596,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassificationSystems, ProjectCreateSection.Classifications, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassificationSystems, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
@@ -615,7 +615,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project, currentProjectClassifications);
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -657,7 +657,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay("Assessment successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment.ProjectCreateSectionDisplayName);
         }
 
         private ViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
@@ -665,7 +665,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProjectCreateSection.Assessment, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProjectCreateSection.Assessment.ProjectCreateSectionDisplayName, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 
@@ -710,7 +710,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(project);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Location successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationSimple);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationSimple.ProjectCreateSectionDisplayName);
         }
 
 
@@ -762,7 +762,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -897,7 +897,7 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = new ProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
-            var viewData = new GeospatialAreaViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
+            var viewData = new GeospatialAreaViewData(CurrentPerson, project, geospatialAreaType, proposalSectionsStatus, editProjectLocationViewData);
 
             return RazorView<Views.ProjectCreate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
@@ -916,8 +916,8 @@ namespace ProjectFirma.Web.Controllers
             var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} GeospatialAreas successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.GeospatialArea);
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized} successfully saved.");
+            return GoToNextSection(viewModel, project, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
 
         private static string GenerateEditProjectGeospatialAreaFormID(Project project)
@@ -1334,11 +1334,12 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        private ActionResult GoToNextSection(FormViewModel viewModel, Project project, ProjectCreateSection currentSection)
+        private ActionResult GoToNextSection(FormViewModel viewModel, Project project, string currentSectionName)
         {
-            var applicableWizardSections = Project.GetApplicableProposalWizardSections(project);
+            var applicableWizardSections = Models.Project.GetApplicableProposalWizardSections(project);
+            var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
-            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.GetSectionUrl(project) : currentSection.GetSectionUrl(project);
+            var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
             return Redirect(nextSection);
         }
 
@@ -1396,7 +1397,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Organizations.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]

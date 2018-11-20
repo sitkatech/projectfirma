@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public LocationSimpleViewData(Person currentPerson,
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentPerson, project, ProjectCreateSection.LocationSimple, proposalSectionsStatus)
+            ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentPerson, project, ProjectCreateSection.LocationSimple.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
         }
