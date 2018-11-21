@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson, List<Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType)
         {
             MapInitJson = mapInitJson;
-            FindGeospatialAreaByNameUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.FindGeospatialAreaByName(null));
+            FindGeospatialAreaByNameUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.FindGeospatialAreaByName(geospatialAreaType, null));
             TypeAheadInputId = "geospatialAreaSearch";
             GeospatialAreaNameByID = geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;

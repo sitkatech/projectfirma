@@ -131,7 +131,6 @@ namespace ProjectFirma.Web.Controllers
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
-            var editGeospatialAreasUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.EditProjectGeospatialAreas(project));
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
@@ -173,6 +172,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
 
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
+
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
@@ -198,7 +199,6 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureExpectedsUrl,
                 editPerformanceMeasureActualsUrl,
                 editReportedExpendituresUrl,
-                editGeospatialAreasUrl,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
                 editExternalLinksUrl,
@@ -209,7 +209,7 @@ namespace ProjectFirma.Web.Controllers
                 projectOrganizationsDetailViewData,
                 classificationSystems,
                 ProjectLocationController.EditProjectBoundingBoxFormID,
-                projectCustomAttributeTypes);
+                projectCustomAttributeTypes, geospatialAreaTypes);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -269,7 +269,7 @@ namespace ProjectFirma.Web.Models
 
         public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
         {
-            var incomplete = ProjectGeospatialAreas.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectGeospatialAreaNotes);
+            var incomplete = ProjectGeospatialAreas.All(x => x.GeospatialArea?.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectGeospatialAreaNotes);
             return new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
         }
 

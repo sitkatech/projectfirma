@@ -1030,8 +1030,10 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-            var viewModel = new GeospatialAreaViewModel(projectUpdateBatch,
-                projectUpdateBatch.GeospatialAreaComment);
+            var geospatialAreaIDs = projectUpdateBatch.ProjectGeospatialAreaUpdates.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
+            var geospatialAreaNotes = projectUpdateBatch.ProjectUpdate.ProjectGeospatialAreaNotes;
+            //var geospatialAreaNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
+            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes, projectUpdateBatch.GeospatialAreaComment);
             return ViewGeospatialArea(project, projectUpdateBatch, viewModel, geospatialAreaType);
         }
 
@@ -1051,7 +1053,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewGeospatialArea(project, projectUpdateBatch, viewModel, geospatialAreaType);
             }
-            var currentProjectUpdateGeospatialAreas = projectUpdateBatch.ProjectGeospatialAreaUpdates.ToList();
+            var currentProjectUpdateGeospatialAreas = projectUpdateBatch.ProjectGeospatialAreaUpdates.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             var allProjectUpdateGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaUpdates.Local;
             viewModel.UpdateModelBatch(projectUpdateBatch, currentProjectUpdateGeospatialAreas, allProjectUpdateGeospatialAreas);
             if (projectUpdateBatch.IsSubmitted)
@@ -1066,7 +1068,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
            

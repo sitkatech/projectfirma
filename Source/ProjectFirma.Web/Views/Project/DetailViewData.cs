@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
-        public string EditGeospatialAreasUrl { get; }
+        public List<GeospatialAreaType> GeospatialAreaTypes { get; }
         public string EditSimpleProjectLocationUrl { get; }
         public string EditDetailedProjectLocationUrl { get; }
         public string EditProjectBoundingBoxUrl { get; }
@@ -114,13 +114,12 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
-            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl,
-            string editGeospatialAreasUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<GeospatialAreaType> geospatialAreaTypes)
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -276,7 +275,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
-            EditGeospatialAreasUrl = editGeospatialAreasUrl;
+            GeospatialAreaTypes = geospatialAreaTypes;
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
 
