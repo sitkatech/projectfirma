@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Models
             projectUpdateSections.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
                 .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
                     new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized, maxSortOrder + index + 1,
-                        true, this,
+                        !projectUpdateBatch.IsNew, this,
+                        projectUpdateBatch.IsNew ? null :
                         SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y =>
                             y.GeospatialArea(projectUpdateBatch.Project, geospatialAreaType)),
                         updateStatus != null && projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType),
