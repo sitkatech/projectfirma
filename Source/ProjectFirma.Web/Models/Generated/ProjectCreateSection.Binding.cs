@@ -18,11 +18,9 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectCreateSection : IHavePrimaryKey
     {
-        public static readonly ProjectCreateSectionInstructions Instructions = ProjectCreateSectionInstructions.Instance;
         public static readonly ProjectCreateSectionBasics Basics = ProjectCreateSectionBasics.Instance;
         public static readonly ProjectCreateSectionLocationSimple LocationSimple = ProjectCreateSectionLocationSimple.Instance;
         public static readonly ProjectCreateSectionLocationDetailed LocationDetailed = ProjectCreateSectionLocationDetailed.Instance;
-        public static readonly ProjectCreateSectionWatershed Watershed = ProjectCreateSectionWatershed.Instance;
         public static readonly ProjectCreateSectionExpectedPerformanceMeasures ExpectedPerformanceMeasures = ProjectCreateSectionExpectedPerformanceMeasures.Instance;
         public static readonly ProjectCreateSectionReportedPerformanceMeasures ReportedPerformanceMeasures = ProjectCreateSectionReportedPerformanceMeasures.Instance;
         public static readonly ProjectCreateSectionExpectedFunding ExpectedFunding = ProjectCreateSectionExpectedFunding.Instance;
@@ -41,7 +39,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Instructions, Basics, LocationSimple, LocationDetailed, Watershed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, LocationDetailed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -127,8 +125,6 @@ namespace ProjectFirma.Web.Models
                     return ExpectedFunding;
                 case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
                     return ExpectedPerformanceMeasures;
-                case ProjectCreateSectionEnum.Instructions:
-                    return Instructions;
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return LocationDetailed;
                 case ProjectCreateSectionEnum.LocationSimple:
@@ -143,8 +139,6 @@ namespace ProjectFirma.Web.Models
                     return ReportedExpenditures;
                 case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
                     return ReportedPerformanceMeasures;
-                case ProjectCreateSectionEnum.Watershed:
-                    return Watershed;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -153,11 +147,9 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectCreateSectionEnum
     {
-        Instructions = 1,
         Basics = 2,
         LocationSimple = 3,
         LocationDetailed = 4,
-        Watershed = 5,
         ExpectedPerformanceMeasures = 6,
         ReportedPerformanceMeasures = 7,
         ExpectedFunding = 8,
@@ -167,12 +159,6 @@ namespace ProjectFirma.Web.Models
         Photos = 13,
         NotesAndDocuments = 14,
         Organizations = 15
-    }
-
-    public partial class ProjectCreateSectionInstructions : ProjectCreateSection
-    {
-        private ProjectCreateSectionInstructions(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionInstructions Instance = new ProjectCreateSectionInstructions(1, @"Instructions", @"Instructions", 10, false, 1);
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -191,12 +177,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectCreateSectionLocationDetailed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false, 2);
-    }
-
-    public partial class ProjectCreateSectionWatershed : ProjectCreateSection
-    {
-        private ProjectCreateSectionWatershed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionWatershed Instance = new ProjectCreateSectionWatershed(5, @"Watershed", @"Watersheds", 50, true, 2);
     }
 
     public partial class ProjectCreateSectionExpectedPerformanceMeasures : ProjectCreateSection
@@ -250,6 +230,6 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectCreateSectionOrganizations : ProjectCreateSection
     {
         private ProjectCreateSectionOrganizations(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionOrganizations Instance = new ProjectCreateSectionOrganizations(15, @"Organizations", @"Organizations", 55, true, 1);
+        public static readonly ProjectCreateSectionOrganizations Instance = new ProjectCreateSectionOrganizations(15, @"Organizations", @"Organizations", 25, true, 1);
     }
 }

@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
         public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.Photos, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             var selectKeyImageUrl =
                 SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>

@@ -66,6 +66,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FundingTypeData> AllFundingTypeDatas { get; set; }
         public virtual IQueryable<FundingTypeData> FundingTypeDatas { get { return AllFundingTypeDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
+        public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
+        public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MappedRegion> AllMappedRegions { get; set; }
@@ -112,12 +116,12 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<PersonStewardGeospatialArea> AllPersonStewardGeospatialAreas { get; set; }
+        public virtual IQueryable<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get { return AllPersonStewardGeospatialAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
         public virtual IQueryable<PersonStewardOrganization> PersonStewardOrganizations { get { return AllPersonStewardOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PersonStewardTaxonomyBranch> AllPersonStewardTaxonomyBranches { get; set; }
         public virtual IQueryable<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get { return AllPersonStewardTaxonomyBranches.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<PersonStewardWatershed> AllPersonStewardWatersheds { get; set; }
-        public virtual IQueryable<PersonStewardWatershed> PersonStewardWatersheds { get { return AllPersonStewardWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectAssessmentQuestion> AllProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectBudget> AllProjectBudgets { get; set; }
@@ -156,6 +160,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectFundingSourceRequest> ProjectFundingSourceRequests { get { return AllProjectFundingSourceRequests.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceRequestUpdate> AllProjectFundingSourceRequestUpdates { get; set; }
         public virtual IQueryable<ProjectFundingSourceRequestUpdate> ProjectFundingSourceRequestUpdates { get { return AllProjectFundingSourceRequestUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectGeospatialArea> AllProjectGeospatialAreas { get; set; }
+        public virtual IQueryable<ProjectGeospatialArea> ProjectGeospatialAreas { get { return AllProjectGeospatialAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectGeospatialAreaUpdate> AllProjectGeospatialAreaUpdates { get; set; }
+        public virtual IQueryable<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get { return AllProjectGeospatialAreaUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImage> AllProjectImages { get; set; }
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
@@ -190,10 +198,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectUpdateHistory> ProjectUpdateHistories { get { return AllProjectUpdateHistories.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectUpdate> AllProjectUpdates { get; set; }
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectWatershed> AllProjectWatersheds { get; set; }
-        public virtual IQueryable<ProjectWatershed> ProjectWatersheds { get { return AllProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectWatershedUpdate> AllProjectWatershedUpdates { get; set; }
-        public virtual IQueryable<ProjectWatershedUpdate> ProjectWatershedUpdates { get { return AllProjectWatershedUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
@@ -226,9 +230,7 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<Watershed> AllWatersheds { get; set; }
-        public virtual IQueryable<Watershed> Watersheds { get { return AllWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<vGeoServerWatershed> vGeoServerWatersheds { get; set; }
+        public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
@@ -331,6 +333,12 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
 
+                case "GeospatialArea":
+                    return GeospatialAreas.GetGeospatialArea(primaryKey);
+
+                case "GeospatialAreaType":
+                    return GeospatialAreaTypes.GetGeospatialAreaType(primaryKey);
+
                 case "GoogleChartType":
                     var googleChartType = GoogleChartType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(googleChartType, "GoogleChartType", primaryKey);
@@ -430,14 +438,14 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
 
+                case "PersonStewardGeospatialArea":
+                    return PersonStewardGeospatialAreas.GetPersonStewardGeospatialArea(primaryKey);
+
                 case "PersonStewardOrganization":
                     return PersonStewardOrganizations.GetPersonStewardOrganization(primaryKey);
 
                 case "PersonStewardTaxonomyBranch":
                     return PersonStewardTaxonomyBranches.GetPersonStewardTaxonomyBranch(primaryKey);
-
-                case "PersonStewardWatershed":
-                    return PersonStewardWatersheds.GetPersonStewardWatershed(primaryKey);
 
                 case "ProjectApprovalStatus":
                     var projectApprovalStatus = ProjectApprovalStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -526,6 +534,12 @@ namespace ProjectFirma.Web.Models
                 case "ProjectFundingSourceRequestUpdate":
                     return ProjectFundingSourceRequestUpdates.GetProjectFundingSourceRequestUpdate(primaryKey);
 
+                case "ProjectGeospatialArea":
+                    return ProjectGeospatialAreas.GetProjectGeospatialArea(primaryKey);
+
+                case "ProjectGeospatialAreaUpdate":
+                    return ProjectGeospatialAreaUpdates.GetProjectGeospatialAreaUpdate(primaryKey);
+
                 case "ProjectImage":
                     return ProjectImages.GetProjectImage(primaryKey);
 
@@ -612,12 +626,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(projectUpdateState, "ProjectUpdateState", primaryKey);
                     return projectUpdateState;
 
-                case "ProjectWatershed":
-                    return ProjectWatersheds.GetProjectWatershed(primaryKey);
-
-                case "ProjectWatershedUpdate":
-                    return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
-
                 case "ProjectWorkflowSectionGrouping":
                     var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
@@ -695,9 +703,6 @@ namespace ProjectFirma.Web.Models
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
-
-                case "Watershed":
-                    return Watersheds.GetWatershed(primaryKey);
                 default:
                     throw new NotImplementedException(string.Format("No loader for type \"{0}\"", type.FullName));
             }

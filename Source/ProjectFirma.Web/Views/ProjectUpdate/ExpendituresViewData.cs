@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly int? StartYearForTotalOperatingCostCalculation;
 
         public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus, List<string> expendituresValidationErrors)
-            : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Expenditures, updateStatus, expendituresValidationErrors)
+            : base(currentPerson, projectUpdateBatch, updateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));

@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -31,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public abstract class ProjectCreateViewData : FirmaViewData
     {
         public Models.Project Project { get; }
-        public ProjectCreateSection CurrentSection { get; }
+        public string CurrentSectionDisplayName { get; }
         public List<ProjectCreateSection> ProjectCreateSections { get; }
         public string ProposalListUrl { get; }
         public string ProposalDetailUrl { get; }
@@ -52,29 +54,31 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool CanAdvanceStage { get; }
         public bool ProjectStateIsValidInWizard { get; }
         public bool CurrentPersonCanWithdraw { get; set; }
+        public bool IsInstructionsPage { get; }
+        public string InstructionsPageUrl { get;  }
+        public List<ProjectWorkflowSectionGrouping> ProjectWorkflowSectionGroupings { get; }
         public ProjectStage ProjectStage { get; set; }
 
         protected ProjectCreateViewData(Person currentPerson,
             Models.Project project,
-            ProjectCreateSection currentSection,
-            ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson)
+            string currentSectionDisplayName,
+            ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson, currentSectionDisplayName)
         {
-            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(project);
-            Check.Assert(project != null);
-            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics ||
+            Check.Assert(project != null, "Project should be created in database by this point so it cannot be null.");
+            Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase) ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
             CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
 
             Project = project;
-            CurrentSection = currentSection;
             ProposalSectionsStatus = proposalSectionsStatus;
             CanAdvanceStage = ProposalSectionsStatus.AreAllSectionsValidForProject(project);
             // ReSharper disable PossibleNullReferenceException
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
-
+            IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
+            InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
             var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             PageTitle = $"{pagetitle}: {project.DisplayName}";
 
@@ -95,14 +99,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
-        protected ProjectCreateViewData(Person currentPerson,
-            ProjectCreateSection currentSection, string proposalInstructionsUrl) : this(null, currentPerson)
+        protected ProjectCreateViewData(Person currentPerson, string currentSectionDisplayName, string proposalInstructionsUrl) : this(null, currentPerson, currentSectionDisplayName)
         {
-            Check.Assert(currentSection == ProjectCreateSection.Instructions || currentSection == ProjectCreateSection.Basics);
-            ProjectCreateSections = Models.Project.GetApplicableProposalWizardSections(null);
+            Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase));
 
             Project = null;
-            CurrentSection = currentSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
 
             ProposalInstructionsUrl = proposalInstructionsUrl;
@@ -119,16 +120,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         }
 
-        private ProjectCreateViewData(Models.Project project, Person currentPerson) : base(currentPerson)
+        private ProjectCreateViewData(Models.Project project, Person currentPerson, string currentSectionDisplayName) : base(currentPerson)
         {
             EntityName = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentPerson, project).HasPermission;
-
+            ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
+            CurrentSectionDisplayName = currentSectionDisplayName;
         }
-
-
     }
 }

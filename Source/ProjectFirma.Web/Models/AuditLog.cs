@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
             "ProjectDocumentUpdate",
             "PersonStewardOrganization",
             "PersonStewardTaxonomyBranch",
-            "PersonStewardWatershed"
+            "PersonStewardGeospatialArea"
         };
 
         public string AuditDescriptionDisplay

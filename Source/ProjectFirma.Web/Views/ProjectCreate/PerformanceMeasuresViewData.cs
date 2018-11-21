@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ReportingYearLabel { get; }
 
         public PerformanceMeasuresViewData(Person currentPerson, Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedPerformanceMeasures, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.ReportedPerformanceMeasures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPerformanceMeasures(project));

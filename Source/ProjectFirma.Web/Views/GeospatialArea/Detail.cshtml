@@ -1,0 +1,189 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using MoreLinq
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@inherits ProjectFirma.Web.Views.GeospatialArea.Detail
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
+
+<script type="text/javascript">
+
+    jQuery(function() {
+        jQuery("#resultsTab").on("shown.bs.tab", function() {
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+        jQuery("#overviewTab").on("shown.bs.tab", function () {
+            var gridName = @(ViewDataTyped.BasicProjectInfoGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName].resizeGridWidths();
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+    });
+</script>
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.GeospatialAreaTypeNamePluralized </a>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <ul class="nav nav-tabs" id="geospatialAreaDetailsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#geospatialAreaOverview" aria-controls="geospatialAreaOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
+            </li>
+            <li>
+                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="geospatialAreaOverview">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Map</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
+                                </p>
+                                <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
+                                </div>
+                                <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
+
+                                <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @ViewDataTyped.GeospatialAreaTypeName boundary.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                                {
+                                    <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
+                                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+                                    </div>
+                                    <p>Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple ViewDataTyped.GeospatialAreaTypeNamePluralized, the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @ViewDataTyped.GeospatialAreaTypeName.</p>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.GeospatialAreaTypeNamePluralized.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="performanceMeasures">
+                
+                    @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+                    {
+                        <p>
+                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @ViewDataTyped.GeospatialAreaTypeName are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.GeospatialAreaTypeName. To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                        </p>
+                        foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                        {
+                            <div class="row">
+                                @foreach (var performanceMeasureChartViewData in batch)
+                                {
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                        <div class="panel panelFirma">
+                                            <div class="panel-body">
+                                                <div style="width: 500px; margin: auto;">
+                                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="text-center">
+                                    There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.GeospatialAreaTypeName.
+                                </p>
+                            </div>
+                        </div>
+                    }
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(mapInitJson);
+
+        jQuery("#overviewTab").on("shown.bs.tab", function() {
+            map.map.invalidateSize();
+        });
+    });
+</script>

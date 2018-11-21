@@ -32,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
             return {
                 "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
                 "AngularViewData":
-                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None)),
             };
         });
     angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);

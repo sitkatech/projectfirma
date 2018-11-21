@@ -19,15 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
-
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public abstract class SiteLayout : LtInfo.Common.Mvc.TypedWebViewPage<ProjectUpdateViewData>
     {
-        protected string SetSelectedSectionStyle(ProjectUpdateSection currentSection, ProjectUpdateSection selectedProjectUpdateSection)
-        {
-            return selectedProjectUpdateSection == currentSection ? "selected" : "selectable";
-        }
     }
 }

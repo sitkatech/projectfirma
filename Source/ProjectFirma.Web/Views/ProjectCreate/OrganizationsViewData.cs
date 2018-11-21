@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public OrganizationsViewData(Person currentPerson,
             Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentPerson, project, ProjectCreateSection.Organizations, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentPerson, project, ProjectCreateSection.Organizations.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditOrganizationsViewData = editOrganizationsViewData;
         }

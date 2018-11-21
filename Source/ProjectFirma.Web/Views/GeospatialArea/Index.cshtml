@@ -1,0 +1,71 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.GeospatialArea.Index
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
+
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.GeospatialAreaType); }
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Map</h2>
+                </div>
+                <div class="panel-body">
+                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px; margin: 5px 0 5px 0">
+                    </div>
+                    <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>@ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized</h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        window.Sitka.map = new ProjectFirmaMaps.Map(mapInitJson);
+    });
+</script>

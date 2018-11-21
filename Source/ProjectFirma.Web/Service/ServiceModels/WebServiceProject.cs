@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Datum = "WGS84";
             
             ProjectState = project.ProjectLocationStateProvince;
-            ProjectWatershed = project.GetProjectWatershedNamesAsString();
+            ProjectGeospatialArea = project.GetProjectGeospatialAreaNamesAsString();
 
             ProjectDetailUrl = project.GetDetailUrl();
             ProjectFactSheetUrl = project.GetFactSheetUrl();
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string Datum { get; set; }
         [DataMember] public string ProjectRegion { get; set; }
         [DataMember] public string ProjectState { get; set; }
-        [DataMember] public string ProjectWatershed { get; set; }
+        [DataMember] public string ProjectGeospatialArea { get; set; }
 
         [DataMember] public string ProjectDetailUrl { get; set; }
         [DataMember] public string ProjectFactSheetUrl { get; set; }
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Add("Datum", x => x.Datum, 0);
             Add("ProjectRegion", x => x.ProjectRegion, 0);
             Add("ProjectState", x => x.ProjectState, 0);
-            Add("ProjectWatershed", x => x.ProjectWatershed, 0);
+            Add("ProjectGeospatialArea", x => x.ProjectGeospatialArea, 0);
             Add("ProjectDetailUrl", x => x.ProjectDetailUrl, 0);
             Add("ProjectFactSheetUrl", x => x.ProjectFactSheetUrl, 0);
         }

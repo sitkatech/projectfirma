@@ -20,6 +20,8 @@
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
     <EntitySet Name="FundingTypeData" EntityType="ProjectFirma.Web.Models.FundingTypeData" />
+    <EntitySet Name="GeospatialArea" EntityType="ProjectFirma.Web.Models.GeospatialArea" />
+    <EntitySet Name="GeospatialAreaType" EntityType="ProjectFirma.Web.Models.GeospatialAreaType" />
     <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.ImportExternalProjectStaging" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
@@ -43,9 +45,9 @@
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
     <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Person" />
+    <EntitySet Name="PersonStewardGeospatialArea" EntityType="ProjectFirma.Web.Models.PersonStewardGeospatialArea" />
     <EntitySet Name="PersonStewardOrganization" EntityType="ProjectFirma.Web.Models.PersonStewardOrganization" />
     <EntitySet Name="PersonStewardTaxonomyBranch" EntityType="ProjectFirma.Web.Models.PersonStewardTaxonomyBranch" />
-    <EntitySet Name="PersonStewardWatershed" EntityType="ProjectFirma.Web.Models.PersonStewardWatershed" />
     <EntitySet Name="Project" EntityType="ProjectFirma.Web.Models.Project" />
     <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProjectAssessmentQuestion" />
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
@@ -66,6 +68,8 @@
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceExpenditureUpdate" />
     <EntitySet Name="ProjectFundingSourceRequest" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceRequest" />
     <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceRequestUpdate" />
+    <EntitySet Name="ProjectGeospatialArea" EntityType="ProjectFirma.Web.Models.ProjectGeospatialArea" />
+    <EntitySet Name="ProjectGeospatialAreaUpdate" EntityType="ProjectFirma.Web.Models.ProjectGeospatialAreaUpdate" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.ProjectImage" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.ProjectImageUpdate" />
     <EntitySet Name="ProjectInternalNote" EntityType="ProjectFirma.Web.Models.ProjectInternalNote" />
@@ -82,8 +86,6 @@
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
     <EntitySet Name="ProjectUpdateConfiguration" EntityType="ProjectFirma.Web.Models.ProjectUpdateConfiguration" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
-    <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
-    <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.ProjectWatershedUpdate" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
     <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
@@ -100,8 +102,7 @@
     <EntitySet Name="TechnicalAssistanceParameter" EntityType="ProjectFirma.Web.Models.TechnicalAssistanceParameter" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="TrainingVideo" EntityType="ProjectFirma.Web.Models.TrainingVideo" />
-    <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
-    <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
+    <EntitySet Name="vGeoServerGeospatialArea" EntityType="ProjectFirma.Web.Models.vGeoServerGeospatialArea" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
       <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
@@ -237,6 +238,22 @@
     <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="GeospatialAreas" EntitySet="GeospatialArea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID">
+      <End Role="GeospatialArea" EntitySet="GeospatialArea" />
+      <End Role="PersonStewardGeospatialAreas" EntitySet="PersonStewardGeospatialArea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID">
+      <End Role="GeospatialArea" EntitySet="GeospatialArea" />
+      <End Role="ProjectGeospatialAreas" EntitySet="ProjectGeospatialArea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID">
+      <End Role="GeospatialArea" EntitySet="GeospatialArea" />
+      <End Role="ProjectGeospatialAreaUpdates" EntitySet="ProjectGeospatialAreaUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -426,6 +443,10 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PersonStewardGeospatialArea_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="PersonStewardGeospatialAreas" EntitySet="PersonStewardGeospatialArea" />
+    </AssociationSet>
     <AssociationSet Name="FK_PersonStewardOrganization_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="PersonStewardOrganizations" EntitySet="PersonStewardOrganization" />
@@ -433,10 +454,6 @@
     <AssociationSet Name="FK_PersonStewardTaxonomyBranch_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="PersonStewardTaxonomyBranches" EntitySet="PersonStewardTaxonomyBranch" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonStewardWatershed_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Person_PersonID">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="PersonStewardWatersheds" EntitySet="PersonStewardWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
@@ -506,10 +523,6 @@
       <End Role="TaxonomyBranch" EntitySet="TaxonomyBranch" />
       <End Role="PersonStewardTaxonomyBranches" EntitySet="PersonStewardTaxonomyBranch" />
     </AssociationSet>
-    <AssociationSet Name="FK_PersonStewardWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="PersonStewardWatersheds" EntitySet="PersonStewardWatershed" />
-    </AssociationSet>
     <AssociationSet Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID" Association="ProjectFirma.Web.Models.FK_Project_TaxonomyLeaf_TaxonomyLeafID">
       <End Role="TaxonomyLeaf" EntitySet="TaxonomyLeaf" />
       <End Role="Projects" EntitySet="Project" />
@@ -550,6 +563,10 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectFundingSourceRequests" EntitySet="ProjectFundingSourceRequest" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialArea_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectGeospatialAreas" EntitySet="ProjectGeospatialArea" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
@@ -581,10 +598,6 @@
     <AssociationSet Name="FK_ProjectUpdateBatch_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectWatershed_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -634,6 +647,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectGeospatialAreaUpdates" EntitySet="ProjectGeospatialAreaUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectImageUpdate_ProjectImage_ProjectImageID" Association="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectImage_ProjectImageID">
       <End Role="ProjectImage" EntitySet="ProjectImage" />
       <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
@@ -677,18 +694,6 @@
     <AssociationSet Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
-      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
-      <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectWatershedUpdate_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
@@ -971,6 +976,34 @@
     <Property Name="FundingTypeDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="FundingTypeShortName" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="SortOrder" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GeospatialArea">
+    <Key>
+      <PropertyRef Name="GeospatialAreaID" />
+    </Key>
+    <Property Name="GeospatialAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaFeature" Type="Geometry" />
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GeospatialAreaType" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreas" ToRole="GeospatialAreaType" />
+    <NavigationProperty Name="PersonStewardGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="PersonStewardGeospatialAreas" />
+    <NavigationProperty Name="ProjectGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="ProjectGeospatialAreas" />
+    <NavigationProperty Name="ProjectGeospatialAreaUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" FromRole="GeospatialArea" ToRole="ProjectGeospatialAreaUpdates" />
+  </EntityType>
+  <EntityType Name="GeospatialAreaType">
+    <Key>
+      <PropertyRef Name="GeospatialAreaTypeID" />
+    </Key>
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaTypeNamePluralized" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaIntroContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaTypeDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="MapServiceUrl" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaLayerName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="GeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="GeospatialAreas" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
     <Key>
@@ -1331,9 +1364,9 @@
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="PersonStewardGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_Person_PersonID" FromRole="Person" ToRole="PersonStewardGeospatialAreas" />
     <NavigationProperty Name="PersonStewardOrganizations" Relationship="ProjectFirma.Web.Models.FK_PersonStewardOrganization_Person_PersonID" FromRole="Person" ToRole="PersonStewardOrganizations" />
     <NavigationProperty Name="PersonStewardTaxonomyBranches" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID" FromRole="Person" ToRole="PersonStewardTaxonomyBranches" />
-    <NavigationProperty Name="PersonStewardWatersheds" Relationship="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Person_PersonID" FromRole="Person" ToRole="PersonStewardWatersheds" />
     <NavigationProperty Name="ProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProjectsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProjectsWhereYouAreTheProposingPerson" />
     <NavigationProperty Name="ProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProjectsWhereYouAreTheReviewedByPerson" />
@@ -1350,6 +1383,17 @@
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
     <NavigationProperty Name="TenantAttributesWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="TenantAttributesWhereYouAreThePrimaryContactPerson" />
+  </EntityType>
+  <EntityType Name="PersonStewardGeospatialArea">
+    <Key>
+      <PropertyRef Name="PersonStewardGeospatialAreaID" />
+    </Key>
+    <Property Name="PersonStewardGeospatialAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GeospatialArea" Relationship="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="PersonStewardGeospatialAreas" ToRole="GeospatialArea" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_Person_PersonID" FromRole="PersonStewardGeospatialAreas" ToRole="Person" />
   </EntityType>
   <EntityType Name="PersonStewardOrganization">
     <Key>
@@ -1373,17 +1417,6 @@
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_Person_PersonID" FromRole="PersonStewardTaxonomyBranches" ToRole="Person" />
     <NavigationProperty Name="TaxonomyBranch" Relationship="ProjectFirma.Web.Models.FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID" FromRole="PersonStewardTaxonomyBranches" ToRole="TaxonomyBranch" />
   </EntityType>
-  <EntityType Name="PersonStewardWatershed">
-    <Key>
-      <PropertyRef Name="PersonStewardWatershedID" />
-    </Key>
-    <Property Name="PersonStewardWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="PersonID" Type="Int32" Nullable="false" />
-    <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Person_PersonID" FromRole="PersonStewardWatersheds" ToRole="Person" />
-    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Watershed_WatershedID" FromRole="PersonStewardWatersheds" ToRole="Watershed" />
-  </EntityType>
   <EntityType Name="Project">
     <Key>
       <PropertyRef Name="ProjectID" />
@@ -1406,7 +1439,7 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
-    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="ProjectGeospatialAreaNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ProjectApprovalStatusID" Type="Int32" Nullable="false" />
     <Property Name="ProposingPersonID" Type="Int32" />
     <Property Name="ProposingDate" Type="DateTime" />
@@ -1432,6 +1465,7 @@
     <NavigationProperty Name="ProjectExternalLinks" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="Project" ToRole="ProjectExternalLinks" />
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceRequests" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequest_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceRequests" />
+    <NavigationProperty Name="ProjectGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_Project_ProjectID" FromRole="Project" ToRole="ProjectGeospatialAreas" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID" FromRole="Project" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectInternalNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Project_ProjectID" FromRole="Project" ToRole="ProjectInternalNotes" />
     <NavigationProperty Name="ProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID" FromRole="Project" ToRole="ProjectLocations" />
@@ -1440,7 +1474,6 @@
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
-    <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="Project" ToRole="SnapshotProjects" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
@@ -1676,6 +1709,28 @@
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_FundingSource_FundingSourceID" FromRole="ProjectFundingSourceRequestUpdates" ToRole="FundingSource" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectFundingSourceRequestUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
+  <EntityType Name="ProjectGeospatialArea">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GeospatialArea" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="ProjectGeospatialAreas" ToRole="GeospatialArea" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_Project_ProjectID" FromRole="ProjectGeospatialAreas" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="ProjectGeospatialAreaUpdate">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaUpdateID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GeospatialArea" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" FromRole="ProjectGeospatialAreaUpdates" ToRole="GeospatialArea" />
+    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectGeospatialAreaUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
   <EntityType Name="ProjectImage">
     <Key>
       <PropertyRef Name="ProjectImageID" />
@@ -1865,7 +1920,7 @@
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <Property Name="ProjectGeospatialAreaNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectUpdatesWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
@@ -1894,7 +1949,7 @@
     <Property Name="BudgetsDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinksDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="NotesDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="ExpectedFundingComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="ExpectedFundingDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="OrganizationsComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
@@ -1910,6 +1965,7 @@
     <NavigationProperty Name="ProjectExternalLinkUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExternalLinkUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceExpenditureUpdates" />
     <NavigationProperty Name="ProjectFundingSourceRequestUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceRequestUpdates" />
+    <NavigationProperty Name="ProjectGeospatialAreaUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectGeospatialAreaUpdates" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProjectLocationStagingUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectLocationStagingUpdates" />
     <NavigationProperty Name="ProjectLocationUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectLocationUpdates" />
@@ -1917,7 +1973,6 @@
     <NavigationProperty Name="ProjectOrganizationUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganizationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectOrganizationUpdates" />
     <NavigationProperty Name="ProjectUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdates" />
     <NavigationProperty Name="ProjectUpdateHistories" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdateHistories" />
-    <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectWatershedUpdates" />
   </EntityType>
   <EntityType Name="ProjectUpdateConfiguration">
     <Key>
@@ -1947,28 +2002,6 @@
     <Property Name="TransitionDate" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateHistories" ToRole="ProjectUpdateBatch" />
-  </EntityType>
-  <EntityType Name="ProjectWatershed">
-    <Key>
-      <PropertyRef Name="ProjectWatershedID" />
-    </Key>
-    <Property Name="ProjectWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="ProjectWatersheds" ToRole="Project" />
-    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="ProjectWatersheds" ToRole="Watershed" />
-  </EntityType>
-  <EntityType Name="ProjectWatershedUpdate">
-    <Key>
-      <PropertyRef Name="ProjectWatershedUpdateID" />
-    </Key>
-    <Property Name="ProjectWatershedUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
-    <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectWatershedUpdates" ToRole="ProjectUpdateBatch" />
-    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="ProjectWatershedUpdates" ToRole="Watershed" />
   </EntityType>
   <EntityType Name="RelationshipType">
     <Key>
@@ -2175,8 +2208,6 @@
     <Property Name="ToolDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPublicKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPrivateKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="MapServiceUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedLayerName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShowProposalsToThePublic" Type="Boolean" Nullable="false" />
     <Property Name="TaxonomyLevelID" Type="Int32" Nullable="false" />
     <Property Name="AssociatePerfomanceMeasureTaxonomyLevelID" Type="Int32" Nullable="false" />
@@ -2206,34 +2237,23 @@
     <Property Name="VideoUploadDate" Type="DateTime" Nullable="false" />
     <Property Name="VideoURL" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
   </EntityType>
-  <EntityType Name="Watershed">
+  <EntityType Name="vGeoServerGeospatialArea">
     <Key>
-      <PropertyRef Name="WatershedID" />
-    </Key>
-    <Property Name="WatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedFeature" Type="Geometry" />
-    <NavigationProperty Name="PersonStewardWatersheds" Relationship="ProjectFirma.Web.Models.FK_PersonStewardWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="PersonStewardWatersheds" />
-    <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
-    <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatershedUpdates" />
-  </EntityType>
-  <EntityType Name="vGeoServerWatershed">
-    <Key>
-      <PropertyRef Name="WatershedID" />
+      <PropertyRef Name="GeospatialAreaID" />
       <PropertyRef Name="PrimaryKey" />
-      <PropertyRef Name="WatershedName" />
+      <PropertyRef Name="GeospatialAreaName" />
       <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
+      <PropertyRef Name="GeospatialAreaTypeName" />
     </Key>
-    <Property Name="WatershedID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryKey" Type="Int32" Nullable="false" />
-    <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedFeature" Type="Geometry" />
+    <Property Name="GeospatialAreaName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaFeature" Type="Geometry" />
     <Property Name="Ogr_Geometry" Type="Geometry" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TenantName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedLabelName" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="GeospatialAreaTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
   </EntityType>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
     <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />
@@ -2640,6 +2660,54 @@
       </Principal>
       <Dependent Role="ProjectFundingSourceRequestUpdates">
         <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.GeospatialAreaType" Multiplicity="1" />
+    <End Role="GeospatialAreas" Type="ProjectFirma.Web.Models.GeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="GeospatialAreas">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID">
+    <End Role="GeospatialArea" Type="ProjectFirma.Web.Models.GeospatialArea" Multiplicity="1" />
+    <End Role="PersonStewardGeospatialAreas" Type="ProjectFirma.Web.Models.PersonStewardGeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialArea">
+        <PropertyRef Name="GeospatialAreaID" />
+      </Principal>
+      <Dependent Role="PersonStewardGeospatialAreas">
+        <PropertyRef Name="GeospatialAreaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID">
+    <End Role="GeospatialArea" Type="ProjectFirma.Web.Models.GeospatialArea" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreas" Type="ProjectFirma.Web.Models.ProjectGeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialArea">
+        <PropertyRef Name="GeospatialAreaID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreas">
+        <PropertyRef Name="GeospatialAreaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID">
+    <End Role="GeospatialArea" Type="ProjectFirma.Web.Models.GeospatialArea" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaUpdates" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialArea">
+        <PropertyRef Name="GeospatialAreaID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaUpdates">
+        <PropertyRef Name="GeospatialAreaID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3207,6 +3275,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PersonStewardGeospatialArea_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="PersonStewardGeospatialAreas" Type="ProjectFirma.Web.Models.PersonStewardGeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PersonStewardGeospatialAreas">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PersonStewardOrganization_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
     <End Role="PersonStewardOrganizations" Type="ProjectFirma.Web.Models.PersonStewardOrganization" Multiplicity="*" />
@@ -3227,18 +3307,6 @@
         <PropertyRef Name="PersonID" />
       </Principal>
       <Dependent Role="PersonStewardTaxonomyBranches">
-        <PropertyRef Name="PersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonStewardWatershed_Person_PersonID">
-    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
-    <End Role="PersonStewardWatersheds" Type="ProjectFirma.Web.Models.PersonStewardWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="PersonStewardWatersheds">
         <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3447,18 +3515,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PersonStewardWatershed_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
-    <End Role="PersonStewardWatersheds" Type="ProjectFirma.Web.Models.PersonStewardWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="PersonStewardWatersheds">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Project_TaxonomyLeaf_TaxonomyLeafID">
     <End Role="TaxonomyLeaf" Type="ProjectFirma.Web.Models.TaxonomyLeaf" Multiplicity="1" />
     <End Role="Projects" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
@@ -3579,6 +3635,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectGeospatialArea_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreas" Type="ProjectFirma.Web.Models.ProjectGeospatialArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreas">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectImage_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="ProjectImages" Type="ProjectFirma.Web.Models.ProjectImage" Multiplicity="*" />
@@ -3671,18 +3739,6 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectUpdateBatches">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectWatershed_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="ProjectWatersheds" Type="ProjectFirma.Web.Models.ProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectWatersheds">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3831,6 +3887,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaUpdates" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectImageUpdate_ProjectImage_ProjectImageID">
     <End Role="ProjectImage" Type="ProjectFirma.Web.Models.ProjectImage" Multiplicity="0..1" />
     <End Role="ProjectImageUpdates" Type="ProjectFirma.Web.Models.ProjectImageUpdate" Multiplicity="*" />
@@ -3960,42 +4028,6 @@
       </Principal>
       <Dependent Role="ProjectUpdateHistories">
         <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
-    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
-    <End Role="ProjectWatershedUpdates" Type="ProjectFirma.Web.Models.ProjectWatershedUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectUpdateBatch">
-        <PropertyRef Name="ProjectUpdateBatchID" />
-      </Principal>
-      <Dependent Role="ProjectWatershedUpdates">
-        <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectWatershed_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
-    <End Role="ProjectWatersheds" Type="ProjectFirma.Web.Models.ProjectWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProjectWatersheds">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectWatershedUpdate_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
-    <End Role="ProjectWatershedUpdates" Type="ProjectFirma.Web.Models.ProjectWatershedUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProjectWatershedUpdates">
-        <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -4,5 +4,5 @@ Insert Into dbo.ProjectStewardshipAreaType (ProjectStewardshipAreaTypeID, Projec
 Values
 (1,'ProjectStewardingOrganizations', 'Project Stewarding Organizations'),
 (2,'TaxonomyBranches', 'Taxonomy Branches'),
-(3,'Watersheds', 'Watersheds')
+(3,'GeospatialAreas', 'GeospatialAreas')
 GO

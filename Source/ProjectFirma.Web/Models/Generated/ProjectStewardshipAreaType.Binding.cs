@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectStewardshipAreaTypeProjectStewardingOrganizations ProjectStewardingOrganizations = ProjectStewardshipAreaTypeProjectStewardingOrganizations.Instance;
         public static readonly ProjectStewardshipAreaTypeTaxonomyBranches TaxonomyBranches = ProjectStewardshipAreaTypeTaxonomyBranches.Instance;
-        public static readonly ProjectStewardshipAreaTypeWatersheds Watersheds = ProjectStewardshipAreaTypeWatersheds.Instance;
+        public static readonly ProjectStewardshipAreaTypeGeospatialAreas GeospatialAreas = ProjectStewardshipAreaTypeGeospatialAreas.Instance;
 
         public static readonly List<ProjectStewardshipAreaType> All;
         public static readonly ReadOnlyDictionary<int, ProjectStewardshipAreaType> AllLookupDictionary;
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectStewardshipAreaType()
         {
-            All = new List<ProjectStewardshipAreaType> { ProjectStewardingOrganizations, TaxonomyBranches, Watersheds };
+            All = new List<ProjectStewardshipAreaType> { ProjectStewardingOrganizations, TaxonomyBranches, GeospatialAreas };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectStewardshipAreaType>(All.ToDictionary(x => x.ProjectStewardshipAreaTypeID));
         }
 
@@ -100,12 +100,12 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
+                case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
+                    return GeospatialAreas;
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
                     return ProjectStewardingOrganizations;
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
                     return TaxonomyBranches;
-                case ProjectStewardshipAreaTypeEnum.Watersheds:
-                    return Watersheds;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Models
     {
         ProjectStewardingOrganizations = 1,
         TaxonomyBranches = 2,
-        Watersheds = 3
+        GeospatialAreas = 3
     }
 
     public partial class ProjectStewardshipAreaTypeProjectStewardingOrganizations : ProjectStewardshipAreaType
@@ -131,9 +131,9 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectStewardshipAreaTypeTaxonomyBranches Instance = new ProjectStewardshipAreaTypeTaxonomyBranches(2, @"TaxonomyBranches", @"Taxonomy Branches");
     }
 
-    public partial class ProjectStewardshipAreaTypeWatersheds : ProjectStewardshipAreaType
+    public partial class ProjectStewardshipAreaTypeGeospatialAreas : ProjectStewardshipAreaType
     {
-        private ProjectStewardshipAreaTypeWatersheds(int projectStewardshipAreaTypeID, string projectStewardshipAreaTypeName, string projectStewardshipAreaTypeDisplayName) : base(projectStewardshipAreaTypeID, projectStewardshipAreaTypeName, projectStewardshipAreaTypeDisplayName) {}
-        public static readonly ProjectStewardshipAreaTypeWatersheds Instance = new ProjectStewardshipAreaTypeWatersheds(3, @"Watersheds", @"Watersheds");
+        private ProjectStewardshipAreaTypeGeospatialAreas(int projectStewardshipAreaTypeID, string projectStewardshipAreaTypeName, string projectStewardshipAreaTypeDisplayName) : base(projectStewardshipAreaTypeID, projectStewardshipAreaTypeName, projectStewardshipAreaTypeDisplayName) {}
+        public static readonly ProjectStewardshipAreaTypeGeospatialAreas Instance = new ProjectStewardshipAreaTypeGeospatialAreas(3, @"GeospatialAreas", @"GeospatialAreas");
     }
 }

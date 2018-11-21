@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EntityNotesViewData entityNotesViewData,
-            ProjectDocumentsDetailViewData projectDocumentsDetailViewData) : base(currentPerson, project, ProjectCreateSection.NotesAndDocuments, proposalSectionsStatus)
+            ProjectDocumentsDetailViewData projectDocumentsDetailViewData) : base(currentPerson, project, ProjectCreateSection.NotesAndDocuments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EntityNotesViewData = entityNotesViewData;
             ProjectDocumentsDetailViewData = projectDocumentsDetailViewData;

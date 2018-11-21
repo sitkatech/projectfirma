@@ -32,17 +32,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
-        
+
         public LocationSimpleViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
-            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSection.LocationSimple, updateStatus, locationSimpleValidationResult.GetWarningMessages())
+            ProjectLocationSummaryViewData projectLocationSummaryViewData,
+            LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(
+            currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus,
+            locationSimpleValidationResult.GetWarningMessages(),
+            ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
-            SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x =>
+                x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
+            SectionCommentsViewData = new SectionCommentsViewData(
+                projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
             ValidationWarnings = locationSimpleValidationResult.GetWarningMessages();
-        } 
+        }
     }
 }

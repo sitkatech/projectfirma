@@ -51,12 +51,18 @@ namespace ProjectFirma.Web.Models
 
         public ProjectUpdateHistory LatestProjectUpdateHistoryReturned => ProjectUpdateHistories.GetLatestProjectUpdateHistory(ProjectUpdateState.Returned);
 
-        public bool IsReadyToSubmit => InEditableState && IsPassingAllValidationRules;
+        public bool IsReadyToSubmit => InEditableState && IsPassingAllValidationRules();
 
-        public bool IsReadyToApprove => IsPassingAllValidationRules;
+        public bool IsReadyToApprove => IsPassingAllValidationRules();
 
-        private bool IsPassingAllValidationRules => AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() &&
-                                                    IsProjectLocationSimpleValid() && IsProjectWatershedValid();
+        private bool IsPassingAllValidationRules()
+        {
+            var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(IsProjectGeospatialAreaValid);
+            return AreProjectBasicsValid && AreExpendituresValid() &&
+                   ArePerformanceMeasuresValid() &&
+                   IsProjectLocationSimpleValid() &&
+                   areAllProjectGeospatialAreasValid;
+        }
 
         public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
 
@@ -117,8 +123,8 @@ namespace ProjectFirma.Web.Models
             // project locations - detailed
             ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
 
-            // project watershed
-            ProjectWatershedUpdate.CreateFromProject(projectUpdateBatch);
+            // project geospatialArea
+            ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
 
             // photos
             ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
@@ -270,10 +276,10 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectLocationStagingUpdates);
         }
 
-        public void DeleteProjectWatershedUpdates()
+        public void DeleteProjectGeospatialAreaUpdates()
         {
-            ProjectWatershedUpdates.DeleteProjectWatershedUpdate();
-            RefreshFromDatabase(ProjectWatershedUpdates);
+            ProjectGeospatialAreaUpdates.DeleteProjectGeospatialAreaUpdate();
+            RefreshFromDatabase(ProjectGeospatialAreaUpdates);
         }
 
         public void DeleteProjectOrganizationUpdates()
@@ -297,7 +303,7 @@ namespace ProjectFirma.Web.Models
             DeleteProjectNoteUpdates();
             DeleteProjectUpdateHistories();
             DeleteProjectUpdate();
-            DeleteProjectWatershedUpdates();
+            DeleteProjectGeospatialAreaUpdates();
             DeleteProjectOrganizationUpdates();
             DeleteProjectDocumentUpdates();
             this.DeleteProjectUpdateBatch();
@@ -462,19 +468,16 @@ namespace ProjectFirma.Web.Models
             return ValidateProjectLocationSimple().IsValid;
         }
 
-        public WatershedValidationResult ValidateProjectWatershed()
+        public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
         {
-            var incomplete = ProjectWatershedUpdates.Count.Equals(0) &&
-                string.IsNullOrWhiteSpace(ProjectUpdate.ProjectWatershedNotes);            
-
-            var watershedValidationResult = new WatershedValidationResult(incomplete);
-
-            return watershedValidationResult;
+            var incomplete = ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectUpdate.ProjectGeospatialAreaNotes);
+            var geospatialAreaValidationResult = new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
+            return geospatialAreaValidationResult;
         }
 
-        public bool IsProjectWatershedValid()
+        public bool IsProjectGeospatialAreaValid(GeospatialAreaType geospatialAreaType)
         {
-            return ValidateProjectWatershed().IsValid;
+            return ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
         public void SubmitToReviewer(Person currentPerson, DateTime transitionDate)
@@ -498,7 +501,7 @@ namespace ProjectFirma.Web.Models
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectWatershed> projectWatersheds, IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+            IList<ProjectGeospatialArea> projectGeospatialAreas, IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -515,7 +518,7 @@ namespace ProjectFirma.Web.Models
                 projectNotes,
                 projectImages,
                 projectLocations,
-                projectWatersheds,
+                projectGeospatialAreas,
                 projectFundingSourceRequests,
                 allProjectOrganizations,
                 allProjectDocuments,
@@ -548,7 +551,7 @@ namespace ProjectFirma.Web.Models
                 IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
                 IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
                 IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-                IList<ProjectWatershed> projectWatersheds,
+                IList<ProjectGeospatialArea> projectGeospatialAreas,
                 IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
                 IList<ProjectOrganization> allProjectOrganizations,
                 IList<ProjectDocument> allProjectDocuments,
@@ -589,9 +592,9 @@ namespace ProjectFirma.Web.Models
             // project location detailed
             ProjectLocationUpdate.CommitChangesToProject(this, projectLocations);
 
-            // project watershed
-            ProjectWatershedUpdate.CommitChangesToProject(this, projectWatersheds);
-            ProjectUpdate.CommitWatershedNotesToProject(Project);
+            // project geospatialArea
+            ProjectGeospatialAreaUpdate.CommitChangesToProject(this, projectGeospatialAreas);
+            ProjectUpdate.CommitGeospatialAreaNotesToProject(Project);
 
             // photos
             ProjectImageUpdate.CommitChangesToProject(this, projectImages);
@@ -636,21 +639,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public List<ProjectUpdateSection> GetApplicableWizardSections()
+        public List<ProjectSectionSimple> GetApplicableWizardSections()
         {
-            var projectUpdateSections = ProjectUpdateSection.All.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding, ProjectUpdateSection.PerformanceMeasures }).ToList();
-            
-            if (Project.IsExpectedFundingRelevant())
-            {
-                projectUpdateSections.Add(ProjectUpdateSection.ExpectedFunding);
-            }
-
-            if (AreAccomplishmentsRelevant())
-            {
-                projectUpdateSections.Add(ProjectUpdateSection.PerformanceMeasures);
-            }
-
-            return projectUpdateSections.OrderBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(this, null)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
     }
 }

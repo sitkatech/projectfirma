@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public readonly string PerformanceMeasuresUrl;
 
-        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSection.Instructions, updateStatus, new List<string>())
+        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), "Instructions")
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
         }

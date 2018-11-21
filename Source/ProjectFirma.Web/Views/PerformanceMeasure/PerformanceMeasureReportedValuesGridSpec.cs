@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
@@ -78,7 +80,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             {
                 Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal);
             }
-            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", a => a.Project.GetProjectWatershedNamesAsHyperlinks(), 200, DhtmlxGridColumnFilterType.Html);
+            foreach (var geospatialAreaType in new List<GeospatialAreaType>())
+            {
+                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
+            }
         }
     }
 }

@@ -30,24 +30,24 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly string ProjectLocationNotes;
         public readonly ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson;
-        public readonly string ProjectWatershedNotes;
-        public readonly List<Models.Watershed> Watersheds;
+        public readonly string ProjectGeospatialAreaNotes;
+        public readonly List<Models.GeospatialArea> GeospatialAreas;
         public readonly bool HasLocationNotes;
-        public readonly bool HasWatershedNotes;
+        public readonly bool HasGeospatialAreaNotes;
         public readonly bool HasLocationInformation;
-        public readonly bool HasWatersheds;
+        public readonly bool HasGeospatialAreas;
 
 
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
-            ProjectWatershedNotes = project.ProjectWatershedNotes;
-            Watersheds = project.GetProjectWatersheds().ToList();
+            ProjectGeospatialAreaNotes = project.ProjectGeospatialAreaNotes;
+            GeospatialAreas = project.GetProjectGeospatialAreas().ToList();
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
-            HasWatershedNotes = !string.IsNullOrWhiteSpace(project.ProjectWatershedNotes);
+            HasGeospatialAreaNotes = !string.IsNullOrWhiteSpace(project.ProjectGeospatialAreaNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
-            HasWatersheds = project.GetProjectWatersheds().Any();
+            HasGeospatialAreas = project.GetProjectGeospatialAreas().Any();
         }
     }
 }

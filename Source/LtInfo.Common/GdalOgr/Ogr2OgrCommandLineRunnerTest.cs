@@ -52,7 +52,7 @@ namespace LtInfo.Common.GdalOgr
 
             var gdalDataDirectoryInfo = new DirectoryInfo(@"C:\Program Files\GDAL\gdal-data");
             const string destinationTableName = "MyTableWithGeometry";
-            const string arcGisQuery = "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/FeatureServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json";
+            const string arcGisQuery = "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/GeospatialArea173811/FeatureServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json";
             // Act
             // ---
             const string sourceColumnName = "areasqkm";
@@ -63,7 +63,7 @@ namespace LtInfo.Common.GdalOgr
             // ------
 
             // Expecting a command line something like this:
-            //"C:\Program Files\GDAL\ogr2ogr.exe" -append -sql "select areasqkm as SquareKm from OGRGeoJSON --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -f MSSQLSpatial dbconnectionstring test.json "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/FeatureServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json" -nln SomeTableName"
+            //"C:\Program Files\GDAL\ogr2ogr.exe" -append -sql "select areasqkm as SquareKm from OGRGeoJSON --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -f MSSQLSpatial dbconnectionstring test.json "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/GeospatialArea173811/FeatureServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json" -nln SomeTableName"
 
             var expectedCommandLineArguments = new[]
             {
@@ -117,7 +117,7 @@ namespace LtInfo.Common.GdalOgr
         {
             // Arrange
             // -------
-            const string arcGisQuery = "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/FeatureServer/0/query?where=objectid%20IN%20%281%2C2%2C3%2C4%29&outfields=*&f=json";
+            const string arcGisQuery = "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/GeospatialArea173811/FeatureServer/0/query?where=objectid%20IN%20%281%2C2%2C3%2C4%29&outfields=*&f=json";
 
             const string destinationTableName = "test_table";
             const string sourceColumnName = "areasqkm";

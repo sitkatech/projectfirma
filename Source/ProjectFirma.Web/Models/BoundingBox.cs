@@ -224,9 +224,9 @@ namespace ProjectFirma.Web.Models
                 return new BoundingBox(new Point(project.ProjectLocationPoint), 0.001m);
             }
 
-            if (project.GetProjectWatersheds().Any())
+            if (project.GetProjectGeospatialAreas().Any())
             {
-                return new BoundingBox(project.GetProjectWatersheds().Select(x => x.WatershedFeature).ToList());
+                return new BoundingBox(project.GetProjectGeospatialAreas().Select(x => x.GeospatialAreaFeature).ToList());
             }
 
             if (MultiTenantHelpers.GetDefaultBoundingBox() != null)
@@ -234,9 +234,9 @@ namespace ProjectFirma.Web.Models
                 return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
             }
 
-            var watershedDbGeometries = HttpRequestStorage.DatabaseEntities.Watersheds.Select(x => x.WatershedFeature).ToList();
-            return watershedDbGeometries.Any()
-                ? new BoundingBox(watershedDbGeometries)
+            var geospatialAreaDbGeometries = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Select(x => x.GeospatialAreaFeature).ToList();
+            return geospatialAreaDbGeometries.Any()
+                ? new BoundingBox(geospatialAreaDbGeometries)
                 : MakeNewDefaultBoundingBox();
         }
 

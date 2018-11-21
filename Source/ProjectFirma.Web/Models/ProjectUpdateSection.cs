@@ -1,4 +1,5 @@
-﻿using ProjectFirma.Web.Controllers;
+﻿using System.Linq;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -13,24 +14,6 @@ namespace ProjectFirma.Web.Models
         public virtual string GetProjectUpdateSectionDisplayName()
         {
             return ProjectUpdateSectionDisplayName;
-        }
-    }
-
-    public partial class ProjectUpdateSectionInstructions
-    {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
-        {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return false;
         }
     }
 
@@ -88,30 +71,6 @@ namespace ProjectFirma.Web.Models
         public override bool SectionIsUpdated(UpdateStatus updateStatus)
         {
             return updateStatus.IsLocationDetailUpdated;
-        }
-    }
-
-    public partial class ProjectUpdateSectionWatersheds
-    {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
-        {
-            return projectUpdateBatch.IsProjectWatershedValid();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Watershed(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsWatershedUpdated;
-        }
-
-        public override string GetProjectUpdateSectionDisplayName()
-        {
-            return FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized();
         }
     }
 

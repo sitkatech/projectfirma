@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.User
 
             if (downgradingFromSteward)
             {
-                person.PersonStewardWatersheds.DeletePersonStewardWatershed();
+                person.PersonStewardGeospatialAreas.DeletePersonStewardGeospatialArea();
                 person.PersonStewardTaxonomyBranches.DeletePersonStewardTaxonomyBranch();
                 person.PersonStewardOrganizations.DeletePersonStewardOrganization();
             }

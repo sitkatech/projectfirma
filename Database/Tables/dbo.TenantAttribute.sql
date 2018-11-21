@@ -15,8 +15,6 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[ToolDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RecaptchaPublicKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[RecaptchaPrivateKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[MapServiceUrl] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[WatershedLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ShowProposalsToThePublic] [bit] NOT NULL,
 	[TaxonomyLevelID] [int] NOT NULL,
 	[AssociatePerfomanceMeasureTaxonomyLevelID] [int] NOT NULL,

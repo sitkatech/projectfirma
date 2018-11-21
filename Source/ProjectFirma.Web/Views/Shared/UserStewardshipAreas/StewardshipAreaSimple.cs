@@ -37,10 +37,10 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
             StewardshipAreaID = taxonomyBranch.TaxonomyBranchID;
             StewardshipAreaName = taxonomyBranch.DisplayName;
         }
-        public StewardshipAreaSimple(Models.Watershed watershed)
+        public StewardshipAreaSimple(Models.GeospatialArea geospatialArea)
         {
-            StewardshipAreaID = watershed.WatershedID;
-            StewardshipAreaName = watershed.DisplayName;
+            StewardshipAreaID = geospatialArea.GeospatialAreaID;
+            StewardshipAreaName = geospatialArea.DisplayName;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
     {
         TaxonomyLeaf TaxonomyLeaf { get; }
         ICollection<IEntityClassification> ProjectClassificationsForMap { get; }
-        bool HasProjectWatersheds { get; }
+        bool HasProjectGeospatialAreas { get; }
         int FancyTreeNodeKey { get; }
         bool HasProjectLocationPoint { get; }
         Feature MakePointFeatureWithRelevantProperties(DbGeometry projectProjectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup);

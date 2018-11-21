@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
-            layers.AddRange(MapInitJson.GetAllWatershedMapLayers(LayerInitialVisibility.Show));
+            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }

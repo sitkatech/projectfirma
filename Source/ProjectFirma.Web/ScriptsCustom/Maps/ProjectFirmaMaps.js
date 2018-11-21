@@ -405,31 +405,31 @@ ProjectFirmaMaps.Map.prototype.htmlPopupContents = function (allLayers) {
         var point = this.map.latLngToContainerPoint(latlng, this.map.getZoom()),
             size = this.map.getSize(),
 
-            watershedWMSParams = {
+            geospatialAreaWMSParams = {
                 service: 'WMS',
                 version: "1.1.1",
                 request: 'GetFeatureInfo',
-                layers: "Watershed",
+                layers: "GeospatialArea",
                 styles: "",
                 srs: 'EPSG:4326',
                 bbox: this.map.getBounds().toBBoxString(),
                 height: size.y,
                 width: size.x,
-                query_layers: "Watershed",
+                query_layers: "GeospatialArea",
                 info_format: 'application/json'
             };
 
-        watershedWMSParams['x'] = point.x;
-        watershedWMSParams['y'] = point.y;
+        geospatialAreaWMSParams['x'] = point.x;
+        geospatialAreaWMSParams['y'] = point.y;
 
         var ajaxCalls = [];
 
         for (var j = 0; j < wmsLayers.length; ++j) {
             var layer = wmsLayers[j];
-            if (layer.options.layers.includes("Watershed")) {
-                var query = layer._url + L.Util.getParamString(watershedWMSParams, null, true);            
+            if (layer.options.layers.includes("GeospatialArea")) {
+                var query = layer._url + L.Util.getParamString(geospatialAreaWMSParams, null, true);            
                 ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
-                    .then(function (response) { return self.formatWatershedResponse(response); }));
+                    .then(function (response) { return self.formatGeospatialAreaResponse(response); }));
             }            
         }        
 
@@ -495,13 +495,13 @@ ProjectFirmaMaps.Map.prototype.removeDuplicatesFromArray = function (originalArr
 
 
 
-    ProjectFirmaMaps.Map.prototype.formatWatershedResponse = function (json) {
+    ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
         var vectorLayerInfoHtmlForPopup = null;
-        if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("WatershedName")) {
+        if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("GeospatialAreaName")) {
 
-            var atag = "<a title='' href='/Watershed/Detail/" + json.features[0].properties.WatershedID + "'>" + json.features[0].properties.WatershedName + "</a>";
+            var atag = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaName + "</a>";
             vectorLayerInfoHtmlForPopup = {
-                label: json.features[0].properties.WatershedLabelName,
+                label: json.features[0].properties.GeospatialAreaLabelName,
                 link: atag
             }
         }

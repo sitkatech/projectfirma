@@ -3,6 +3,10 @@
         function ($scope, angularModelAndViewData) {
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+            $scope.hasGeospatialAreaTypeLayers = $scope.AngularViewData.GeospatialAreaMapSericeLayerNames.length > 0;
+            $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated =
+                $scope.AngularViewData.GeospatialAreaMapSericeLayerNames.join(",");
+
 
             $scope.selectedStyle = {
                 fillColor: "#FFFF00",
@@ -75,10 +79,7 @@
                     Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                 };
 
-                var watershedMapServiceLayerName = $scope.AngularViewData.WatershedMapSericeLayerName,
-                    mapServiceUrl = $scope.AngularViewData.MapServiceUrl;
-
-                if (Sitka.Methods.isUndefinedNullOrEmpty(watershedMapServiceLayerName) || Sitka.Methods.isUndefinedNullOrEmpty(mapServiceUrl)) {
+                if (!$scope.hasGeospatialAreaTypeLayers) {
                     setPointOnMap(latlng);
                     $scope.propertiesForPointOnMap = propertiesForDisplay;
                     if (callback) {
@@ -88,7 +89,7 @@
                 else {
                     var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
                         {
-                            typeName: watershedMapServiceLayerName,
+                            typeName: $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated,
                             cql_filter: "intersects(Ogr_Geometry, POINT(" +
                                 latlngWrapped.lat +
                                 " " +
@@ -96,7 +97,7 @@
                                 "))"
                         });
                     SitkaAjax.ajax({
-                            url: mapServiceUrl + L.Util.getParamString(parameters),
+                        url: $scope.AngularViewData.MapServiceUrl + L.Util.getParamString(parameters),
                             dataType: "json",
                             jsonpCallback: "getJson"
                         },
@@ -104,8 +105,8 @@
                             setPointOnMap(latlng);
                             if (response.features.length > 0) {
                                 var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                                propertiesForDisplay[$scope.AngularViewData.WatershedFieldDefinitionLabel] =
-                                    mergedProperties.WatershedName;
+                                propertiesForDisplay[$scope.AngularViewData.GeospatialAreaFieldDefinitionLabel] =
+                                    mergedProperties.GeospatialAreaName;
                             }
 
                             $scope.propertiesForPointOnMap = propertiesForDisplay;
@@ -175,7 +176,7 @@
                         });
 
                     $scope.propertiesForNamedArea = {};
-                    $scope.propertiesForNamedArea[$scope.AngularViewData.WatershedFieldDefinitionLabel] = $scope.AngularViewData.InitialWatershedName;
+                    $scope.propertiesForNamedArea[$scope.AngularViewData.GeospatialAreaFieldDefinitionLabel] = $scope.AngularViewData.InitialGeospatialAreaName;
                 }
 
                 if ($scope.AngularModel.ProjectLocationPointX && $scope.AngularModel.ProjectLocationPointY) {
@@ -189,12 +190,12 @@
                     };
 
                     // Get the initial Location Information from the WMS service
-                    if ($scope.AngularViewData.MapServiceUrl && $scope.AngularViewData.WatershedMapSericeLayerName) {
+                    if ($scope.hasGeospatialAreaTypeLayers) {
                         SitkaAjax.ajax({
                                 url: $scope.AngularViewData.MapServiceUrl +
                                     L.Util.getParamString(L.Util.extend($scope.projectLocationMap.wfsParams,
                                         {
-                                            typeName: $scope.AngularViewData.WatershedMapSericeLayerName,
+                                            typeName: $scope.GeospatialAreaMapSericeLayerNamesCommaSeparated,
                                             cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                                         })),
                                 dataType: "json",
@@ -205,11 +206,11 @@
                                     return;
 
                                 var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                                $scope.propertiesForPointOnMap[$scope.AngularViewData.WatershedFieldDefinitionLabel] = mergedProperties.WatershedName;
+                                $scope.propertiesForPointOnMap[$scope.AngularViewData.GeospatialAreaFieldDefinitionLabel] = mergedProperties.GeospatialAreaName;
                                 $scope.$apply();
                             },
                             function() {
-                                console.error("There was an error getting the initial " + $scope.AngularViewData.WatershedFieldDefinitionLabel + " name to display.");
+                                console.error("There was an error getting the initial " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + " name to display.");
                             });
                     }
                 }

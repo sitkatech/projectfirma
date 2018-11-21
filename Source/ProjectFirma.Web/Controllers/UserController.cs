@@ -353,9 +353,9 @@ namespace ProjectFirma.Web.Controllers
                     HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Load();
                     viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardTaxonomyBranches.Local);
                     break;
-                case ProjectStewardshipAreaTypeEnum.Watersheds:
-                    HttpRequestStorage.DatabaseEntities.Watersheds.Load();
-                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardWatersheds.Local);
+                case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
+                    HttpRequestStorage.DatabaseEntities.GeospatialAreas.Load();
+                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardGeospatialAreas.Local);
                     break;
                 default:
                     throw new InvalidOperationException(
@@ -382,9 +382,9 @@ namespace ProjectFirma.Web.Controllers
                     var allTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
                     viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allTaxonomyBranches, false);
                     break;
-                case ProjectStewardshipAreaTypeEnum.Watersheds:
-                    var allWatersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
-                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allWatersheds, false);
+                case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
+                    var allGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
+                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allGeospatialAreas, false);
                     break;
                 default:
                     throw new InvalidOperationException(
