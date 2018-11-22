@@ -41,7 +41,8 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var geospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(x => x.GeospatialAreaID).ToList();
-            var viewModel = new EditProjectGeospatialAreasViewModel(geospatialAreaIDs, project.ProjectGeospatialAreaNotes);
+            var geospatialAreaNotes = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x=> x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
+            var viewModel = new EditProjectGeospatialAreasViewModel(geospatialAreaIDs, geospatialAreaNotes);
             return ViewEditProjectGeospatialAreas(viewModel, project, geospatialAreaType);
         }
 

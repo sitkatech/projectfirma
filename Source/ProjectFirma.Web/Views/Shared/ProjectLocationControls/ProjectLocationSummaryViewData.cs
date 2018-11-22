@@ -30,24 +30,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly string ProjectLocationNotes;
         public readonly ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson;
-        public readonly string ProjectGeospatialAreaNotes;
         public readonly List<Models.GeospatialArea> GeospatialAreas;
         public readonly bool HasLocationNotes;
-        public readonly bool HasGeospatialAreaNotes;
         public readonly bool HasLocationInformation;
-        public readonly bool HasGeospatialAreas;
+        public Dictionary<int, string> DictionaryGeoNotes { get; }
 
 
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson)
+        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
-            ProjectGeospatialAreaNotes = project.ProjectGeospatialAreaNotes;
             GeospatialAreas = project.GetProjectGeospatialAreas().ToList();
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
-            HasGeospatialAreaNotes = !string.IsNullOrWhiteSpace(project.ProjectGeospatialAreaNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
-            HasGeospatialAreas = project.GetProjectGeospatialAreas().Any();
+            DictionaryGeoNotes = dictionaryGeoNotes;
+            GeospatialAreaTypes = geospatialAreaTypes;
         }
+
+        public List<GeospatialAreaType> GeospatialAreaTypes { get; }
     }
 }

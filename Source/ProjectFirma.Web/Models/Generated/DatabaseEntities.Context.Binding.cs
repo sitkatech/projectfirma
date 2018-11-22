@@ -162,6 +162,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectFundingSourceRequestUpdate> ProjectFundingSourceRequestUpdates { get { return AllProjectFundingSourceRequestUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectGeospatialArea> AllProjectGeospatialAreas { get; set; }
         public virtual IQueryable<ProjectGeospatialArea> ProjectGeospatialAreas { get { return AllProjectGeospatialAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectGeospatialAreaTypeNote> AllProjectGeospatialAreaTypeNotes { get; set; }
+        public virtual IQueryable<ProjectGeospatialAreaTypeNote> ProjectGeospatialAreaTypeNotes { get { return AllProjectGeospatialAreaTypeNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectGeospatialAreaTypeNoteUpdate> AllProjectGeospatialAreaTypeNoteUpdates { get; set; }
+        public virtual IQueryable<ProjectGeospatialAreaTypeNoteUpdate> ProjectGeospatialAreaTypeNoteUpdates { get { return AllProjectGeospatialAreaTypeNoteUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectGeospatialAreaUpdate> AllProjectGeospatialAreaUpdates { get; set; }
         public virtual IQueryable<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get { return AllProjectGeospatialAreaUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImage> AllProjectImages { get; set; }
@@ -536,6 +540,12 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectGeospatialArea":
                     return ProjectGeospatialAreas.GetProjectGeospatialArea(primaryKey);
+
+                case "ProjectGeospatialAreaTypeNote":
+                    return ProjectGeospatialAreaTypeNotes.GetProjectGeospatialAreaTypeNote(primaryKey);
+
+                case "ProjectGeospatialAreaTypeNoteUpdate":
+                    return ProjectGeospatialAreaTypeNoteUpdates.GetProjectGeospatialAreaTypeNoteUpdate(primaryKey);
 
                 case "ProjectGeospatialAreaUpdate":
                     return ProjectGeospatialAreaUpdates.GetProjectGeospatialAreaUpdate(primaryKey);

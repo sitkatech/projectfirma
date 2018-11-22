@@ -56,32 +56,32 @@ Source code is available upon request via <support@sitkatech.com>.
             <div id="projectLocationInformationContainer" style="padding-left: 20px"></div>
         </div>
     }
-    @if (ViewDataTyped.HasGeospatialAreas)
+    @foreach(var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
     {
         <div style="margin-bottom: 5px">
             <label>
-                Geospatial Areas Information
+                @geospatialAreaType.GeospatialAreaTypeNamePluralized Information
             </label>
             <ul class="noListStyle">
-                @foreach (var projectGeospatialArea in ViewDataTyped.GeospatialAreas.OrderBy(x => x.DisplayName))
+                @foreach (var geospatialArea in ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).OrderBy(x => x.DisplayName))
                 {
                     <li>
-                        <a href="@projectGeospatialArea.GetDetailUrl()">@projectGeospatialArea.DisplayName</a>
+                        <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.DisplayName</a>
                     </li>
                 }
             </ul>
         </div>
-    }
-    @if (ViewDataTyped.HasGeospatialAreaNotes)
-    {
-        <div style="margin-bottom: 5px">
-            <label>
-                Geospatial Areas Notes
-            </label>
-            <div style="padding-left: 20px">
-                @ViewDataTyped.ProjectGeospatialAreaNotes
+        if (ViewDataTyped.DictionaryGeoNotes.ContainsKey(geospatialAreaType.GeospatialAreaTypeID))
+        {
+            <div style="margin-bottom: 5px">
+                <label>
+                    @geospatialAreaType.GeospatialAreaTypeNamePluralized Notes
+                </label>
+                <div style="padding-left: 20px">
+                    @ViewDataTyped.DictionaryGeoNotes[geospatialAreaType.GeospatialAreaTypeID]
+                </div>
             </div>
-        </div>
+        }
     }
 </div>
 

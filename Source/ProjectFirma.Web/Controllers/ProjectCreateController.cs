@@ -879,7 +879,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var geospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
-            var geospatialAreaNotes = project.ProjectGeospatialAreaNotes;
+            var geospatialAreaNotes = project.ProjectGeospatialAreaTypeNotes.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.Notes).ToString();
             var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes);
             return ViewEditGeospatialArea(project, viewModel, geospatialAreaType);
         }

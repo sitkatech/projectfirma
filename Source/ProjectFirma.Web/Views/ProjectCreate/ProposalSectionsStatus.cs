@@ -58,31 +58,32 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }
 
-        public ProposalSectionsStatus(Models.Project proposal)
+        public ProposalSectionsStatus(Models.Project project)
         {
-            var basicsResults = new BasicsViewModel(proposal).GetValidationResults();
+            var basicsResults = new BasicsViewModel(project).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();
 
-            var locationSimpleValidationResults = new LocationSimpleViewModel(proposal).GetValidationResults();
+            var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
             IsProjectLocationSimpleSectionComplete = !locationSimpleValidationResults.Any();
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            var editGeospatialAreaValidationResults = new EditProjectGeospatialAreasViewModel(proposal.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), proposal.ProjectGeospatialAreaNotes).GetValidationResults();
+            var notes = project.ProjectGeospatialAreaTypeNotes;
+            var editGeospatialAreaValidationResults = new EditProjectGeospatialAreasViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project.ProjectGeospatialAreaNotes).GetValidationResults();
             IsGeospatialAreaSectionComplete = !editGeospatialAreaValidationResults.Any();
 
-            var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposal).GetValidationResults();
+            var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(project).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
 
-            var efValidationResults = new ExpectedFundingViewModel(proposal.ProjectFundingSourceRequests.ToList())
+            var efValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList())
                 .GetValidationResults();
             IsExpectedFundingSectionComplete = !efValidationResults.Any();
 
-            var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(proposal);
+            var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
             var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();
             IsClassificationsComplete = !classificationValidationResults.Any();
 
-            IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(proposal).All(simple => simple.Answer.HasValue);
+            IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(project).All(simple => simple.Answer.HasValue);
 
             IsNotesSectionComplete = IsBasicsSectionComplete; //there is no validation required on Notes
         }

@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValues =
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
-            ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
+            ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, new Dictionary<int, string>());
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
             KeyPhoto = project.KeyPhoto;

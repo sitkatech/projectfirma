@@ -600,7 +600,6 @@
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
-          <ScalarProperty Name="ProjectGeospatialAreaNotes" ColumnName="ProjectGeospatialAreaNotes" />
           <ScalarProperty Name="ProjectApprovalStatusID" ColumnName="ProjectApprovalStatusID" />
           <ScalarProperty Name="ProposingPersonID" ColumnName="ProposingPersonID" />
           <ScalarProperty Name="ProposingDate" ColumnName="ProposingDate" />
@@ -841,6 +840,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectGeospatialAreaTypeNote">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNote">
+        <MappingFragment StoreEntitySet="ProjectGeospatialAreaTypeNote">
+          <ScalarProperty Name="ProjectGeospatialAreaTypeNoteID" ColumnName="ProjectGeospatialAreaTypeNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="GeospatialAreaTypeID" ColumnName="GeospatialAreaTypeID" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectGeospatialAreaTypeNoteUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNoteUpdate">
+        <MappingFragment StoreEntitySet="ProjectGeospatialAreaTypeNoteUpdate">
+          <ScalarProperty Name="ProjectGeospatialAreaTypeNoteID" ColumnName="ProjectGeospatialAreaTypeNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="GeospatialAreaTypeID" ColumnName="GeospatialAreaTypeID" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectGeospatialAreaUpdate">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectGeospatialAreaUpdate">
         <MappingFragment StoreEntitySet="ProjectGeospatialAreaUpdate">
@@ -1022,7 +1043,6 @@
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
-          <ScalarProperty Name="ProjectGeospatialAreaNotes" ColumnName="ProjectGeospatialAreaNotes" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
         </MappingFragment>
       </EntityTypeMapping>
