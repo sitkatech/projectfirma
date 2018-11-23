@@ -201,12 +201,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div id="showBasinwideProjectsToast">
         <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinition.Project.GetFieldDefinitionLabelPluralized())">
-            <span class="glyphicon glyphicon-chevron-left"></span>Show regional @FieldDefinition.Project.GetFieldDefinitionLabel() list
+            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() with no Simple Location
         </a>
     </div>
     <div id="hideBasinwideProjectsToast" style="display: none">
         <a class="btn pull-right">
-            Hide regional @FieldDefinition.Project.GetFieldDefinitionLabel() list<span class="glyphicon glyphicon-chevron-right"></span>
+            Hide @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
 
@@ -224,7 +224,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <table id="projectLocationGroupTypeTree" class="table table-hover table-condensed" style="margin-bottom: 10px">
                         <colgroup>
                             <col style="width: auto; text-overflow: ellipsis" />
-                            <col style="width: 100px; text-align:right" />
+                            <col style="width: 150px; text-align:right" />
                         </colgroup>
                         <thead>
                             <tr>

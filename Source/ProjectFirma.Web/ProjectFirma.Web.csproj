@@ -562,7 +562,6 @@
     <Compile Include="Models\FundingTypeData.DatabaseContextExtensions.cs" />
     <Compile Include="Models\HslColor.cs" />
     <Compile Include="Models\IFundingSourceRequestAmount.cs" />
-    <Compile Include="Models\IMappableProject.cs" />
     <Compile Include="Models\OrganizationType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
