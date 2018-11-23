@@ -1026,6 +1026,8 @@ warning 6035: The relationship 'FK_ProjectGeospatialAreaUpdate_GeospatialArea_Ge
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="GeospatialAreaType">
     <Key>
@@ -1445,6 +1447,7 @@ warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantI
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectGeospatialArea_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectInternalNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1717,9 +1720,9 @@ warning 6035: The relationship 'FK_ProjectCustomAttributeUpdateValue_ProjectCust
   </EntityType>
   <EntityType Name="ProjectGeospatialAreaTypeNoteUpdate">
     <Key>
-      <PropertyRef Name="ProjectGeospatialAreaTypeNoteID" />
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteUpdateID" />
     </Key>
-    <Property Name="ProjectGeospatialAreaTypeNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectGeospatialAreaTypeNoteUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="GeospatialAreaTypeID" Type="int" Nullable="false" />
@@ -1908,6 +1911,7 @@ warning 6035: The relationship 'FK_ProjectExemptReportingYearUpdate_ProjectUpdat
 warning 6035: The relationship 'FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

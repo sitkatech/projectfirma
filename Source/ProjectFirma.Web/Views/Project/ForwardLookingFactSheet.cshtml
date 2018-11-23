@@ -321,11 +321,11 @@
         <div class="col-sm-12 col-md-6">
             <div style="margin-left: auto; margin-right: auto;">
                 <h4>Location</h4>
-                <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+                <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
                 <script type="text/javascript">
                 jQuery(document).ready(function()
                 {
-                    var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
+                    var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                     var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
                 });
                 </script>

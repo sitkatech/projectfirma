@@ -25,10 +25,20 @@ REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
 ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote] CHECK CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID]
 GO
+ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID_TenantID] FOREIGN KEY([GeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote] CHECK CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote] CHECK CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote] CHECK CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectGeospatialAreaTypeNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGeospatialAreaTypeNote_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

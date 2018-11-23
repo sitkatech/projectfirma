@@ -470,7 +470,8 @@ namespace ProjectFirma.Web.Models
 
         public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
         {
-            var incomplete = ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && string.IsNullOrWhiteSpace(ProjectUpdate.ProjectGeospatialAreaNotes);
+            var projectGeospatialAreaTypeNoteUpdate = ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
+            var incomplete = ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
             var geospatialAreaValidationResult = new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
             return geospatialAreaValidationResult;
         }
@@ -501,7 +502,9 @@ namespace ProjectFirma.Web.Models
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectGeospatialArea> projectGeospatialAreas, IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+            IList<ProjectGeospatialArea> projectGeospatialAreas, 
+            IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
+            IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -519,6 +522,7 @@ namespace ProjectFirma.Web.Models
                 projectImages,
                 projectLocations,
                 projectGeospatialAreas,
+                projectGeospatialAreaTypeNotes,
                 projectFundingSourceRequests,
                 allProjectOrganizations,
                 allProjectDocuments,
@@ -552,6 +556,7 @@ namespace ProjectFirma.Web.Models
                 IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
                 IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
                 IList<ProjectGeospatialArea> projectGeospatialAreas,
+                IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
                 IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
                 IList<ProjectOrganization> allProjectOrganizations,
                 IList<ProjectDocument> allProjectDocuments,
@@ -594,7 +599,7 @@ namespace ProjectFirma.Web.Models
 
             // project geospatialArea
             ProjectGeospatialAreaUpdate.CommitChangesToProject(this, projectGeospatialAreas);
-            ProjectUpdate.CommitGeospatialAreaNotesToProject(Project);
+            ProjectGeospatialAreaTypeNoteUpdate.CommitChangesToProject(this, projectGeospatialAreaTypeNotes);
 
             // photos
             ProjectImageUpdate.CommitChangesToProject(this, projectImages);

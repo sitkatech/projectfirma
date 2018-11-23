@@ -25,6 +25,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
+using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Service.ServiceModels
 {
@@ -51,7 +52,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Datum = "WGS84";
             
             ProjectState = project.ProjectLocationStateProvince;
-            ProjectGeospatialArea = project.GetProjectGeospatialAreaNamesAsString();
+            ProjectGeospatialArea = project.ProjectGeospatialAreas.Any()
+                ? string.Join(", ", project.ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GeospatialAreaName))
+                : ViewUtilities.NaString;
 
             ProjectDetailUrl = project.GetDetailUrl();
             ProjectFactSheetUrl = project.GetFactSheetUrl();

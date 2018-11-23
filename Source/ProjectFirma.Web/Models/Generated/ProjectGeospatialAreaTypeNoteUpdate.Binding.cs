@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectGeospatialAreaTypeNoteUpdate(int projectGeospatialAreaTypeNoteID, int projectUpdateBatchID, int geospatialAreaTypeID, string notes) : this()
+        public ProjectGeospatialAreaTypeNoteUpdate(int projectGeospatialAreaTypeNoteUpdateID, int projectUpdateBatchID, int geospatialAreaTypeID, string notes) : this()
         {
-            this.ProjectGeospatialAreaTypeNoteID = projectGeospatialAreaTypeNoteID;
+            this.ProjectGeospatialAreaTypeNoteUpdateID = projectGeospatialAreaTypeNoteUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.Notes = notes;
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
         public ProjectGeospatialAreaTypeNoteUpdate(int projectUpdateBatchID, int geospatialAreaTypeID, string notes) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectGeospatialAreaTypeNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectGeospatialAreaTypeNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Models
         public ProjectGeospatialAreaTypeNoteUpdate(ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType, string notes) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectGeospatialAreaTypeNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectGeospatialAreaTypeNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.Add(this);
@@ -107,13 +107,13 @@ namespace ProjectFirma.Web.Models
         }
 
         [Key]
-        public int ProjectGeospatialAreaTypeNoteID { get; set; }
+        public int ProjectGeospatialAreaTypeNoteUpdateID { get; set; }
         public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int GeospatialAreaTypeID { get; set; }
         public string Notes { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectGeospatialAreaTypeNoteID; } set { ProjectGeospatialAreaTypeNoteID = value; } }
+        public int PrimaryKey { get { return ProjectGeospatialAreaTypeNoteUpdateID; } set { ProjectGeospatialAreaTypeNoteUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }

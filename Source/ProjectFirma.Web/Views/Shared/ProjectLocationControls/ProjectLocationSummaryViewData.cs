@@ -36,11 +36,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public Dictionary<int, string> DictionaryGeoNotes { get; }
 
 
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes)
+        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<Models.GeospatialArea> geospatialAreas)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
-            GeospatialAreas = project.GetProjectGeospatialAreas().ToList();
+            GeospatialAreas = geospatialAreas;
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;

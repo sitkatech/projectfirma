@@ -58,7 +58,5 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IsExpectedFundingUpdated = isExpectedFundingUpdated;
             IsOrganizationsUpdated = isOrganizationsUpdated;
         }
-
-        
     }
 }

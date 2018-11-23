@@ -12,18 +12,18 @@ namespace ProjectFirma.Web.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static ProjectGeospatialAreaTypeNoteUpdate GetProjectGeospatialAreaTypeNoteUpdate(this IQueryable<ProjectGeospatialAreaTypeNoteUpdate> projectGeospatialAreaTypeNoteUpdates, int projectGeospatialAreaTypeNoteID)
+        public static ProjectGeospatialAreaTypeNoteUpdate GetProjectGeospatialAreaTypeNoteUpdate(this IQueryable<ProjectGeospatialAreaTypeNoteUpdate> projectGeospatialAreaTypeNoteUpdates, int projectGeospatialAreaTypeNoteUpdateID)
         {
-            var projectGeospatialAreaTypeNoteUpdate = projectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.ProjectGeospatialAreaTypeNoteID == projectGeospatialAreaTypeNoteID);
-            Check.RequireNotNullThrowNotFound(projectGeospatialAreaTypeNoteUpdate, "ProjectGeospatialAreaTypeNoteUpdate", projectGeospatialAreaTypeNoteID);
+            var projectGeospatialAreaTypeNoteUpdate = projectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.ProjectGeospatialAreaTypeNoteUpdateID == projectGeospatialAreaTypeNoteUpdateID);
+            Check.RequireNotNullThrowNotFound(projectGeospatialAreaTypeNoteUpdate, "ProjectGeospatialAreaTypeNoteUpdate", projectGeospatialAreaTypeNoteUpdateID);
             return projectGeospatialAreaTypeNoteUpdate;
         }
 
-        public static void DeleteProjectGeospatialAreaTypeNoteUpdate(this List<int> projectGeospatialAreaTypeNoteIDList)
+        public static void DeleteProjectGeospatialAreaTypeNoteUpdate(this List<int> projectGeospatialAreaTypeNoteUpdateIDList)
         {
-            if(projectGeospatialAreaTypeNoteIDList.Any())
+            if(projectGeospatialAreaTypeNoteUpdateIDList.Any())
             {
-                HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNoteUpdates.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreaTypeNoteUpdates.Where(x => projectGeospatialAreaTypeNoteIDList.Contains(x.ProjectGeospatialAreaTypeNoteID)));
+                HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNoteUpdates.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreaTypeNoteUpdates.Where(x => projectGeospatialAreaTypeNoteUpdateIDList.Contains(x.ProjectGeospatialAreaTypeNoteUpdateID)));
             }
         }
 
@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void DeleteProjectGeospatialAreaTypeNoteUpdate(this int projectGeospatialAreaTypeNoteID)
+        public static void DeleteProjectGeospatialAreaTypeNoteUpdate(this int projectGeospatialAreaTypeNoteUpdateID)
         {
-            DeleteProjectGeospatialAreaTypeNoteUpdate(new List<int> { projectGeospatialAreaTypeNoteID });
+            DeleteProjectGeospatialAreaTypeNoteUpdate(new List<int> { projectGeospatialAreaTypeNoteUpdateID });
         }
 
         public static void DeleteProjectGeospatialAreaTypeNoteUpdate(this ProjectGeospatialAreaTypeNoteUpdate projectGeospatialAreaTypeNoteUpdateToDelete)

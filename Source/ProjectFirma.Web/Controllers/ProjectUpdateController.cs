@@ -753,17 +753,15 @@ namespace ProjectFirma.Web.Controllers
                 false) {DisablePopups = true};
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
 
+            var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", true);
+                $"project_{project.ProjectID}_EditMap", true, geospatialAreas);
 
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
-
-            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
-                .ToList();            
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, tenantAttribute, geospatialAreaTypes, null, mapPostUrl, mapFormID);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), new List<GeospatialAreaType>());
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();            
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, geospatialAreaTypes, null, mapPostUrl, mapFormID);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), new List<GeospatialAreaType>(), new List<GeospatialArea>());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
@@ -1055,6 +1053,19 @@ namespace ProjectFirma.Web.Controllers
             var currentProjectUpdateGeospatialAreas = projectUpdateBatch.ProjectGeospatialAreaUpdates.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             var allProjectUpdateGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaUpdates.Local;
             viewModel.UpdateModelBatch(projectUpdateBatch, currentProjectUpdateGeospatialAreas, allProjectUpdateGeospatialAreas);
+            var projectGeospatialAreaTypeNoteUpdate = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
+            if (!string.IsNullOrWhiteSpace(viewModel.ProjectGeospatialAreaNotes))
+            {
+                if (projectGeospatialAreaTypeNoteUpdate == null)
+                {
+                    projectGeospatialAreaTypeNoteUpdate = new ProjectGeospatialAreaTypeNoteUpdate(projectUpdateBatch, geospatialAreaType, viewModel.ProjectGeospatialAreaNotes);
+                }
+                projectGeospatialAreaTypeNoteUpdate.Notes = viewModel.ProjectGeospatialAreaNotes;
+            }
+            else
+            {
+                projectGeospatialAreaTypeNoteUpdate?.DeleteFull();
+            }
             if (projectUpdateBatch.IsSubmitted)
             {
                 projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
@@ -1072,8 +1083,9 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
+            var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", false);
+                $"project_{project.ProjectID}_EditMap", false, geospatialAreas);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
@@ -1083,7 +1095,7 @@ namespace ProjectFirma.Web.Controllers
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
                 .ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes);            
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, geospatialAreaType);
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
@@ -1115,8 +1127,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectGeospatialAreaUpdates();
 
             // refresh the data
-            projectUpdate.LoadGeospatialAreaNotesFromProject(project);
             ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaTypeNoteUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -1312,6 +1324,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Load();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreaTypeNotes.Load();
+            var allProjectGeospatialAreaTypeNotes = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNotes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
@@ -1334,6 +1348,7 @@ namespace ProjectFirma.Web.Controllers
                 allProjectImages,
                 allProjectLocations,
                 allProjectGeospatialAreas,
+                allProjectGeospatialAreaTypeNotes,
                 allProjectFundingSourceRequests,
                 allProjectOrganizations,
                 allProjectDocuments,

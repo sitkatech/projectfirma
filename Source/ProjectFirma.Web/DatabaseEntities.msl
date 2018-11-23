@@ -854,7 +854,7 @@
     <EntitySetMapping Name="ProjectGeospatialAreaTypeNoteUpdate">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNoteUpdate">
         <MappingFragment StoreEntitySet="ProjectGeospatialAreaTypeNoteUpdate">
-          <ScalarProperty Name="ProjectGeospatialAreaTypeNoteID" ColumnName="ProjectGeospatialAreaTypeNoteID" />
+          <ScalarProperty Name="ProjectGeospatialAreaTypeNoteUpdateID" ColumnName="ProjectGeospatialAreaTypeNoteUpdateID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="GeospatialAreaTypeID" ColumnName="GeospatialAreaTypeID" />

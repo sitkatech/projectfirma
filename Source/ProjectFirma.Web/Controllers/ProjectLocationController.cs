@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
-using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -30,7 +29,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
-using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Map;
 
@@ -58,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
-            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, tenantAttribute, geospatialAreaTypes, null, mapPostUrl, mapFormID);
+            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
             return RazorPartialView<ProjectLocationSimple, ProjectLocationSimpleViewData, ProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 

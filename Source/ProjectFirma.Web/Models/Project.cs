@@ -72,14 +72,12 @@ namespace ProjectFirma.Web.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            var organization = ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
-            return organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
         }
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
         {
-            var taxonomyBranch = TaxonomyLeaf.TaxonomyBranch;
-            return taxonomyBranch;
+            return TaxonomyLeaf.TaxonomyBranch;
         }
 
         public List<GeospatialArea> GetCanStewardProjectsGeospatialAreas()
@@ -255,7 +253,6 @@ namespace ProjectFirma.Web.Models
 
         public void SetProjectLocationStateProvince(IEnumerable<StateProvince> stateProvinces)
         {
-
             if (HasProjectLocationPoint)
             {
                 var stateProvince = stateProvinces.FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(ProjectLocationPoint));
@@ -269,9 +266,8 @@ namespace ProjectFirma.Web.Models
 
         public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
         {
-            var noProjectGeospatialAreas = ProjectGeospatialAreas.All(x => x.GeospatialArea?.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID);
-            var projectGeospatialAreaNotes = ProjectGeospatialAreaTypeNotes.Where(x => x.ProjectID == ProjectID && x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID ).Select(x => x.Notes).ToString();
-            var incomplete = noProjectGeospatialAreas && string.IsNullOrWhiteSpace(projectGeospatialAreaNotes);
+            var projectGeospatialAreaTypeNoteUpdate = ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
+            var incomplete = ProjectGeospatialAreas.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
             return new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
         }
 
@@ -286,13 +282,6 @@ namespace ProjectFirma.Web.Models
             return new HtmlString(projectGeospatialAreas.Any()
                 ? string.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
-        }
-
-        public string GetProjectGeospatialAreaNamesAsString()
-        {
-            return ProjectGeospatialAreas.Any()
-                ? string.Join(", ", ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GeospatialAreaName))
-                : ViewUtilities.NaString;
         }
 
         public bool IsMyProject(Person person)
@@ -522,7 +511,6 @@ namespace ProjectFirma.Web.Models
         public ICollection<IEntityClassification> ProjectClassificationsForMap =>
             new List<IEntityClassification>(ProjectClassifications);
 
-        public bool HasProjectGeospatialAreas => ProjectGeospatialAreas.Any();
         public int FancyTreeNodeKey => ProjectID;
 
         IEnumerable<IProjectCustomAttribute> IProject.ProjectCustomAttributes
@@ -622,11 +610,6 @@ namespace ProjectFirma.Web.Models
             return ProjectStage == ProjectStage.Proposal;
         }
 
-        public bool IsNotApprovedProposal()
-        {
-            return IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
-        }
-
         public bool IsActiveProposal()
         {
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
@@ -670,7 +653,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(Project project)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, true)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public string GetPlanningDesignStartYear()

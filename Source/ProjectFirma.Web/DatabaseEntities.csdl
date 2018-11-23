@@ -1754,9 +1754,9 @@
   </EntityType>
   <EntityType Name="ProjectGeospatialAreaTypeNoteUpdate">
     <Key>
-      <PropertyRef Name="ProjectGeospatialAreaTypeNoteID" />
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteUpdateID" />
     </Key>
-    <Property Name="ProjectGeospatialAreaTypeNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectGeospatialAreaTypeNoteUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" />

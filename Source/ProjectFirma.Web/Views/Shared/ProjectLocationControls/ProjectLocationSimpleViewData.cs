@@ -32,10 +32,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string MapPostUrl;
 
-        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
+        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
-            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, geospatialAreaTypes, currentFeature);
+            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, geospatialAreaTypes, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
         }
@@ -50,8 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapServiceUrl;
         public readonly Feature CurrentFeature;
 
-        public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson,
-            TenantAttribute tenantAttribute, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature)
+        public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature)
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
