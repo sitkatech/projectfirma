@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectWorkflowSectionGrouping
     {
-        public abstract List<ProjectSectionSimple> GetProjectCreateSections(Project project);
+        public abstract List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus);
 
         protected List<ProjectSectionSimple> GetProjectCreateSectionsImpl(Project project,
             List<ProjectCreateSection> projectCreateSections)
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectWorkflowSectionGroupingOverview
     {
-        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project)
+        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
             return GetProjectCreateSectionsImpl(project, ProjectCreateSections);
         }
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectWorkflowSectionGroupingLocation
     {
-        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project)
+        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
             var projectCreateSections = GetProjectCreateSectionsImpl(project, ProjectCreateSections);
             var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
                             true, this,
                             SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(y =>
                                 y.EditGeospatialArea(project, geospatialAreaType)),
-                            project.IsProjectGeospatialAreaValid(geospatialAreaType), false));
+                            !ignoreStatus && project.IsProjectGeospatialAreaValid(geospatialAreaType), false));
 
             }
 
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectWorkflowSectionGroupingPerformanceMeasures
     {
 
-        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project)
+        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
             if (project != null && project.AreReportedPerformanceMeasuresRelevant())
             {
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectWorkflowSectionGroupingExpenditures
     {
-        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project)
+        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
             var projectCreateSections = ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding, ProjectCreateSection.ReportedExpenditures }).ToList();
             if (project != null && project.IsExpectedFundingRelevant())
@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.Models
 
     public partial class ProjectWorkflowSectionGroupingAdditionalData
     {
-        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project)
+        public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
             return GetProjectCreateSectionsImpl(project, ProjectCreateSections);
         }

@@ -36,55 +36,60 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [ProjectEditAsAdminFeature]
-        public PartialViewResult EditProjectGeospatialAreas(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult EditProjectGeospatialAreas(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditProjectGeospatialAreasViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project.ProjectGeospatialAreaNotes);
-            return ViewEditProjectGeospatialAreas(viewModel, project);
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var geospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(x => x.GeospatialAreaID).ToList();
+            var geospatialAreaNotes = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x=> x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
+            var viewModel = new EditProjectGeospatialAreasViewModel(geospatialAreaIDs, geospatialAreaNotes);
+            return ViewEditProjectGeospatialAreas(viewModel, project, geospatialAreaType);
         }
 
         [HttpPost]
         [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectGeospatialAreas(ProjectPrimaryKey projectPrimaryKey, EditProjectGeospatialAreasViewModel viewModel)
+        public ActionResult EditProjectGeospatialAreas(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, EditProjectGeospatialAreasViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditProjectGeospatialAreas(viewModel, project);
+                return ViewEditProjectGeospatialAreas(viewModel, project, geospatialAreaType);
             }
 
-            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
+            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {currentProjectGeospatialAreas.First().GeospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized} were successfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized} were successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditProjectGeospatialAreas(EditProjectGeospatialAreasViewModel viewModel, Project project)
+        private PartialViewResult ViewEditProjectGeospatialAreas(EditProjectGeospatialAreasViewModel viewModel,
+            Project project, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.EditProjectGeospatialAreas(project, null));
+            var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.EditProjectGeospatialAreas(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormID = GetEditProjectGeospatialAreasFormID();
 
-            var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID, project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreasInViewModel.FirstOrDefault().GeospatialAreaType);
+            var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID, project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType);
             return RazorPartialView<EditProjectGeospatialAreas, EditProjectGeospatialAreasViewData, EditProjectGeospatialAreasViewModel>(viewData, viewModel);
         }
 
         [AnonymousUnclassifiedFeature]
-        public JsonResult FindGeospatialAreaByName(string term)
+        public JsonResult FindGeospatialAreaByName(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, string term)
         {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var searchString = term.Trim();
             return Json(HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                .Where(x => x.GeospatialAreaName.Contains(searchString)).OrderBy(x => x.GeospatialAreaName).Take(20).ToList()
+                .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID && x.GeospatialAreaName.Contains(searchString)).OrderBy(x => x.GeospatialAreaName).Take(20).ToList()
                 .Select(x => new {x.GeospatialAreaName, x.GeospatialAreaID}).ToList(), JsonRequestBehavior.AllowGet);
         }
 

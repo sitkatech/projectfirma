@@ -290,6 +290,12 @@
     <Compile Include="Models\Generated\ProjectGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\ProjectGeospatialArea.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectGeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNote.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectGeospatialAreaUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectGeospatialAreaUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectGeospatialAreaUpdatePrimaryKey.Binding.cs" />
@@ -420,6 +426,7 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdate.cs" />
     <Compile Include="Models\ProjectInternalNote.cs" />
     <Compile Include="Models\ProjectSectionSimple.cs" />
     <Compile Include="Models\ProjectStewardshipAreaType.cs" />

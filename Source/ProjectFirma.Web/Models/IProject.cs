@@ -31,7 +31,6 @@ namespace ProjectFirma.Web.Models
         ProjectLocationSimpleType ProjectLocationSimpleType { get; }
         int ProjectLocationSimpleTypeID { get; set; }
         string ProjectLocationNotes { get; set; }
-        string ProjectGeospatialAreaNotes { get; set; }
 
         int? PlanningDesignStartYear { get; }
         int? ImplementationStartYear { get; }

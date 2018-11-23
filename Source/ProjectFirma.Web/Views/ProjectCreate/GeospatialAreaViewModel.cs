@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
@@ -36,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public GeospatialAreaViewModel(Models.Project project) : base(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project.ProjectGeospatialAreaNotes)
+        public GeospatialAreaViewModel(List<int> geospatialAreaIDs, string geospatialAreaNotes) : base(geospatialAreaIDs, geospatialAreaNotes)
         {
         }
         

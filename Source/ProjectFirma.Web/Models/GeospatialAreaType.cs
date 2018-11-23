@@ -1,8 +1,10 @@
 ﻿using System.Web;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class GeospatialAreaType : IFirmaPage
+    public partial class GeospatialAreaType : IFirmaPage, IAuditableEntity
     {
         public HtmlString FirmaPageContentHtmlString => GeospatialAreaIntroContentHtmlString;
 
@@ -13,5 +15,13 @@ namespace ProjectFirma.Web.Models
         {
             return string.Empty;
         }
+
+        public string GetEditGeospatialAreasUrl(Project project)
+        {
+            return SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(x =>
+                x.EditProjectGeospatialAreas(project.ProjectID, GeospatialAreaTypeID));
+        }
+
+        public string AuditDescriptionString => GeospatialAreaTypeName;
     }
 }

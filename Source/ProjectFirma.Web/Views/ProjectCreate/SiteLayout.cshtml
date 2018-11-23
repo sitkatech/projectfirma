@@ -141,7 +141,7 @@
                 @foreach (var projectWorkflowSectionGrouping in ViewDataTyped.ProjectWorkflowSectionGroupings.OrderBy(x => x.SortOrder))
 
                 {
-                    var projectCreateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectCreateSections(ViewDataTyped.Project);
+                    var projectCreateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectCreateSections(ViewDataTyped.Project, false);
                     if (projectCreateSectionsForGroup.Any())
                     {
                         var isGroupingActive = projectCreateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));

@@ -21,7 +21,6 @@ CREATE TABLE [dbo].[Project](
 	[EstimatedAnnualOperatingCost] [money] NULL,
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
-	[ProjectGeospatialAreaNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectApprovalStatusID] [int] NOT NULL,
 	[ProposingPersonID] [int] NULL,
 	[ProposingDate] [datetime] NULL,

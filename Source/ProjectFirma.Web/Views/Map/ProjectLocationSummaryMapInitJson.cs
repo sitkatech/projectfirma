@@ -28,37 +28,37 @@ namespace ProjectFirma.Web.Views.Map
     public class ProjectLocationSummaryMapInitJson : MapInitJson
     {
         private const int DefaultZoomLevel = 10;
-        public readonly double? ProjectLocationXCoord;
-        public readonly double? ProjectLocationYCoord;
-        public bool HasSimpleLocation;
-        public bool HasDetailedLocation;
-        public bool HasGeospatialAreas;
+        /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
+        public double? ProjectLocationXCoord { get; }
+        public double? ProjectLocationYCoord { get; }
+        public bool HasSimpleLocation { get; }
+        public bool HasDetailedLocation { get; }
+        public bool HasGeospatialAreas { get; }
+        /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties) 
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<Models.GeospatialArea> geospatialAreas) 
             : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), GetProjectBoundingBox(project))
         {
-            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
-            HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
-            if (HasSimpleLocation)
-            {
-                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
-                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
-            }
-
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
             if (HasDetailedLocation)
             {
+                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
+                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                 Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));    
             }
 
-            HasGeospatialAreas = project.GetProjectGeospatialAreas().Any();
+            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
+            HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
+            if (HasSimpleLocation)
+            {
+                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+            }
+
+            HasGeospatialAreas = geospatialAreas.Any();
             if (HasGeospatialAreas)
             {
-               project.GetProjectGeospatialAreas()
-                .ToList()
-                .ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.DisplayName,
+               geospatialAreas.ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.DisplayName,
                     new List<Models.GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                     LayerInitialVisibility.Show))); 
             }

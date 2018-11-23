@@ -69,6 +69,8 @@
     <EntitySet Name="ProjectFundingSourceRequest" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequest" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceRequestUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectGeospatialArea" EntityType="ProjectFirma.Web.Models.Store.ProjectGeospatialArea" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectGeospatialAreaTypeNote" EntityType="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectGeospatialAreaTypeNoteUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNoteUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectGeospatialAreaUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
@@ -513,6 +515,22 @@ FROM [dbo].[vGeoServerGeospatialArea] AS [vGeoServerGeospatialArea]</DefiningQue
     <AssociationSet Name="FK_ProjectGeospatialArea_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialArea_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectGeospatialAreas" EntitySet="ProjectGeospatialArea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="ProjectGeospatialAreaTypeNotes" EntitySet="ProjectGeospatialAreaTypeNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNote_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialAreaTypeNote_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectGeospatialAreaTypeNotes" EntitySet="ProjectGeospatialAreaTypeNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="ProjectGeospatialAreaTypeNoteUpdates" EntitySet="ProjectGeospatialAreaTypeNoteUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectGeospatialAreaTypeNoteUpdates" EntitySet="ProjectGeospatialAreaTypeNoteUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID">
       <End Role="GeospatialArea" EntitySet="GeospatialArea" />
@@ -1008,6 +1026,8 @@ warning 6035: The relationship 'FK_ProjectGeospatialAreaUpdate_GeospatialArea_Ge
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="GeospatialAreaType">
     <Key>
@@ -1427,6 +1447,7 @@ warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantI
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceRequest_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectGeospatialArea_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectInternalNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1459,7 +1480,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="EstimatedAnnualOperatingCost" Type="money" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
-    <Property Name="ProjectGeospatialAreaNotes" Type="varchar" MaxLength="4000" />
     <Property Name="ProjectApprovalStatusID" Type="int" Nullable="false" />
     <Property Name="ProposingPersonID" Type="int" />
     <Property Name="ProposingDate" Type="datetime" />
@@ -1688,6 +1708,26 @@ warning 6035: The relationship 'FK_ProjectCustomAttributeUpdateValue_ProjectCust
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="GeospatialAreaID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ProjectGeospatialAreaTypeNote">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaTypeNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="GeospatialAreaTypeID" Type="int" Nullable="false" />
+    <Property Name="Notes" Type="varchar" Nullable="false" MaxLength="4000" />
+  </EntityType>
+  <EntityType Name="ProjectGeospatialAreaTypeNoteUpdate">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteUpdateID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaTypeNoteUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
+    <Property Name="GeospatialAreaTypeID" Type="int" Nullable="false" />
+    <Property Name="Notes" Type="varchar" Nullable="false" MaxLength="4000" />
+  </EntityType>
   <EntityType Name="ProjectGeospatialAreaUpdate">
     <Key>
       <PropertyRef Name="ProjectGeospatialAreaUpdateID" />
@@ -1860,7 +1900,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
-    <Property Name="ProjectGeospatialAreaNotes" Type="varchar" MaxLength="4000" />
     <Property Name="PrimaryContactPersonID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1872,6 +1911,7 @@ warning 6035: The relationship 'FK_ProjectExemptReportingYearUpdate_ProjectUpdat
 warning 6035: The relationship 'FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3389,6 +3429,54 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerGeospatialArea' does no
       </Principal>
       <Dependent Role="ProjectGeospatialAreas">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.Store.GeospatialAreaType" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNotes" Type="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNotes">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNote_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNotes" Type="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNotes">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.Store.GeospatialAreaType" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNoteUpdates" Type="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNoteUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNoteUpdates">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNoteUpdates" Type="ProjectFirma.Web.Models.Store.ProjectGeospatialAreaTypeNoteUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNoteUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

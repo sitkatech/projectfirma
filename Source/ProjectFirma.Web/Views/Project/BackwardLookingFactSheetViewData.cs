@@ -24,7 +24,6 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using LtInfo.Common;
@@ -41,7 +40,6 @@ namespace ProjectFirma.Web.Views.Project
         public string SecuredFunding { get; }
         public string UnsecuredFunding { get; }
         public ImageGalleryViewData ImageGalleryViewData { get; }
-        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
         public List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
@@ -50,6 +48,7 @@ namespace ProjectFirma.Web.Views.Project
         public int ProjectImagesPerTimingGroup { get; }
         public List<string> ChartColorRange { get; }
         public List<Models.Classification> Classifications { get; }
+        public ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson { get; }
         public GoogleChartJson GoogleChartJson { get; }
         public int CalculatedChartHeight { get; }
         public string FactSheetPdfUrl { get; }
@@ -93,8 +92,6 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValues =
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
-            ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
-
             ChartID = $"fundingChartForProject{project.ProjectID}";
             KeyPhoto = project.KeyPhoto;
             ProjectImagesExceptKeyPhotoGroupedByTiming =
@@ -105,6 +102,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
             Classifications = project.ProjectClassifications.Select(x => x.Classification).ToList().SortByOrderThenName().ToList();
 
+            ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
             GoogleChartJson = projectFactSheetGoogleChart;
 
             ExpenditureGooglePieChartSlices = expenditureGooglePieChartSlices;

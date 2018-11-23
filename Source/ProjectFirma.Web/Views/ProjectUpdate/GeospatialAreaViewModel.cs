@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
@@ -42,8 +41,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public GeospatialAreaViewModel(ProjectUpdateBatch projectUpdateBatch, string comments)
-            : base(projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialAreaID).ToList(), projectUpdateBatch.ProjectUpdate.ProjectGeospatialAreaNotes)
+        public GeospatialAreaViewModel(List<int> geospatialAreaIDs,
+            string geospatialAreaNotes,
+            string comments)
+            : base(geospatialAreaIDs, geospatialAreaNotes)
         {
             Comments = comments;
         }

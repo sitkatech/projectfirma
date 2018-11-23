@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             var allGeospatialAreas = new List<Models.GeospatialArea> { geospatialArea1, geospatialArea2, geospatialArea3, geospatialArea4 };
 
             // Act
-            var viewModel = new EditProjectGeospatialAreasViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project.ProjectGeospatialAreaNotes);
+            var viewModel = new EditProjectGeospatialAreasViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), null);
 
             // Assert
             Assert.That(viewModel.GeospatialAreaIDs, Is.EquivalentTo(allGeospatialAreas.Select(x => x.GeospatialAreaID)));

@@ -69,6 +69,8 @@
     <EntitySet Name="ProjectFundingSourceRequest" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceRequest" />
     <EntitySet Name="ProjectFundingSourceRequestUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceRequestUpdate" />
     <EntitySet Name="ProjectGeospatialArea" EntityType="ProjectFirma.Web.Models.ProjectGeospatialArea" />
+    <EntitySet Name="ProjectGeospatialAreaTypeNote" EntityType="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNote" />
+    <EntitySet Name="ProjectGeospatialAreaTypeNoteUpdate" EntityType="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNoteUpdate" />
     <EntitySet Name="ProjectGeospatialAreaUpdate" EntityType="ProjectFirma.Web.Models.ProjectGeospatialAreaUpdate" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.ProjectImage" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.ProjectImageUpdate" />
@@ -254,6 +256,14 @@
     <AssociationSet Name="FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_GeospatialArea_GeospatialAreaID">
       <End Role="GeospatialArea" EntitySet="GeospatialArea" />
       <End Role="ProjectGeospatialAreaUpdates" EntitySet="ProjectGeospatialAreaUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="ProjectGeospatialAreaTypeNotes" EntitySet="ProjectGeospatialAreaTypeNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID">
+      <End Role="GeospatialAreaType" EntitySet="GeospatialAreaType" />
+      <End Role="ProjectGeospatialAreaTypeNoteUpdates" EntitySet="ProjectGeospatialAreaTypeNoteUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -567,6 +577,10 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectGeospatialAreas" EntitySet="ProjectGeospatialArea" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNote_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectGeospatialAreaTypeNotes" EntitySet="ProjectGeospatialAreaTypeNote" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
@@ -646,6 +660,10 @@
     <AssociationSet Name="FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectFundingSourceRequestUpdates" EntitySet="ProjectFundingSourceRequestUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectGeospatialAreaTypeNoteUpdates" EntitySet="ProjectGeospatialAreaTypeNoteUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
@@ -1004,6 +1022,8 @@
     <Property Name="MapServiceUrl" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="GeospatialAreaLayerName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="GeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="GeospatialAreas" />
+    <NavigationProperty Name="ProjectGeospatialAreaTypeNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="ProjectGeospatialAreaTypeNotes" />
+    <NavigationProperty Name="ProjectGeospatialAreaTypeNoteUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID" FromRole="GeospatialAreaType" ToRole="ProjectGeospatialAreaTypeNoteUpdates" />
   </EntityType>
   <EntityType Name="ImportExternalProjectStaging">
     <Key>
@@ -1439,7 +1459,6 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
-    <Property Name="ProjectGeospatialAreaNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ProjectApprovalStatusID" Type="Int32" Nullable="false" />
     <Property Name="ProposingPersonID" Type="Int32" />
     <Property Name="ProposingDate" Type="DateTime" />
@@ -1466,6 +1485,7 @@
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceRequests" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequest_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceRequests" />
     <NavigationProperty Name="ProjectGeospatialAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_Project_ProjectID" FromRole="Project" ToRole="ProjectGeospatialAreas" />
+    <NavigationProperty Name="ProjectGeospatialAreaTypeNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_Project_ProjectID" FromRole="Project" ToRole="ProjectGeospatialAreaTypeNotes" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID" FromRole="Project" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectInternalNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectInternalNote_Project_ProjectID" FromRole="Project" ToRole="ProjectInternalNotes" />
     <NavigationProperty Name="ProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID" FromRole="Project" ToRole="ProjectLocations" />
@@ -1720,6 +1740,30 @@
     <NavigationProperty Name="GeospatialArea" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID" FromRole="ProjectGeospatialAreas" ToRole="GeospatialArea" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialArea_Project_ProjectID" FromRole="ProjectGeospatialAreas" ToRole="Project" />
   </EntityType>
+  <EntityType Name="ProjectGeospatialAreaTypeNote">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaTypeNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" />
+    <Property Name="Notes" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="GeospatialAreaType" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID" FromRole="ProjectGeospatialAreaTypeNotes" ToRole="GeospatialAreaType" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNote_Project_ProjectID" FromRole="ProjectGeospatialAreaTypeNotes" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="ProjectGeospatialAreaTypeNoteUpdate">
+    <Key>
+      <PropertyRef Name="ProjectGeospatialAreaTypeNoteUpdateID" />
+    </Key>
+    <Property Name="ProjectGeospatialAreaTypeNoteUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
+    <Property Name="GeospatialAreaTypeID" Type="Int32" Nullable="false" />
+    <Property Name="Notes" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="GeospatialAreaType" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID" FromRole="ProjectGeospatialAreaTypeNoteUpdates" ToRole="GeospatialAreaType" />
+    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectGeospatialAreaTypeNoteUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
   <EntityType Name="ProjectGeospatialAreaUpdate">
     <Key>
       <PropertyRef Name="ProjectGeospatialAreaUpdateID" />
@@ -1920,7 +1964,6 @@
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ProjectGeospatialAreaNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectUpdatesWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
@@ -1965,6 +2008,7 @@
     <NavigationProperty Name="ProjectExternalLinkUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExternalLinkUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceExpenditureUpdates" />
     <NavigationProperty Name="ProjectFundingSourceRequestUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceRequestUpdates" />
+    <NavigationProperty Name="ProjectGeospatialAreaTypeNoteUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectGeospatialAreaTypeNoteUpdates" />
     <NavigationProperty Name="ProjectGeospatialAreaUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectGeospatialAreaUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectGeospatialAreaUpdates" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProjectLocationStagingUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectLocationStagingUpdates" />
@@ -2708,6 +2752,30 @@
       </Principal>
       <Dependent Role="ProjectGeospatialAreaUpdates">
         <PropertyRef Name="GeospatialAreaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNote_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.GeospatialAreaType" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNotes" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNotes">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNoteUpdate_GeospatialAreaType_GeospatialAreaTypeID">
+    <End Role="GeospatialAreaType" Type="ProjectFirma.Web.Models.GeospatialAreaType" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNoteUpdates" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNoteUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GeospatialAreaType">
+        <PropertyRef Name="GeospatialAreaTypeID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNoteUpdates">
+        <PropertyRef Name="GeospatialAreaTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3647,6 +3715,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNote_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNotes" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNotes">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectImage_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="ProjectImages" Type="ProjectFirma.Web.Models.ProjectImage" Multiplicity="*" />
@@ -3883,6 +3963,18 @@
         <PropertyRef Name="ProjectUpdateBatchID" />
       </Principal>
       <Dependent Role="ProjectFundingSourceRequestUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectGeospatialAreaTypeNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectGeospatialAreaTypeNoteUpdates" Type="ProjectFirma.Web.Models.ProjectGeospatialAreaTypeNoteUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
+      </Principal>
+      <Dependent Role="ProjectGeospatialAreaTypeNoteUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>

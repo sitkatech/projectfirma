@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public IEnumerable<int> GeospatialAreaIDs { get; set; }
 
         [DisplayName("Notes")]
-        [StringLength(Models.Project.FieldLengths.ProjectGeospatialAreaNotes)]
+        [StringLength(ProjectGeospatialAreaTypeNote.FieldLengths.Notes)]
         public string ProjectGeospatialAreaNotes { get; set; }
 
         /// <summary>
@@ -55,14 +55,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         {
             var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialArea(project.ProjectID, x)).ToList() ?? new List<ProjectGeospatialArea>();
             currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectID == y.ProjectID && x.GeospatialAreaID == y.GeospatialAreaID);
-            project.ProjectGeospatialAreaNotes = ProjectGeospatialAreaNotes;
         }
 
-        public void UpdateModel(Models.ProjectUpdateBatch project, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreas, IList<ProjectGeospatialAreaUpdate> allProjectGeospatialAreas)
+        public void UpdateModel(ProjectUpdateBatch project, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreas, IList<ProjectGeospatialAreaUpdate> allProjectGeospatialAreas)
         {
             var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialAreaUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectGeospatialAreaUpdate>();
             currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID);
-            project.ProjectUpdate.ProjectGeospatialAreaNotes = ProjectGeospatialAreaNotes;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

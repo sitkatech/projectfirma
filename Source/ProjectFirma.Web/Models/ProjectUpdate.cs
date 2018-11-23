@@ -46,8 +46,7 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             LoadUpdateFromProject(project);
-            LoadSimpleLocationFromProject(project);
-            LoadGeospatialAreaNotesFromProject(project);
+            LoadSimpleLocationFromProject(project);            
         }
 
         public void LoadUpdateFromProject(Project project)
@@ -66,11 +65,6 @@ namespace ProjectFirma.Web.Models
             ProjectLocationPoint = project.ProjectLocationPoint;
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
-        }
-
-        public void LoadGeospatialAreaNotesFromProject(Project project)
-        {
-            ProjectGeospatialAreaNotes = project.ProjectGeospatialAreaNotes;            
         }
 
         public void CommitChangesToProject(Project project)
@@ -92,18 +86,9 @@ namespace ProjectFirma.Web.Models
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
         }
 
-        public void CommitGeospatialAreaNotesToProject(Project project)
-        {
-            project.ProjectGeospatialAreaNotes = ProjectGeospatialAreaNotes;            
-        }
-
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
-
-        public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;
-
-        public double? ProjectLocationPointLongitude => HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null;
 
         public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
