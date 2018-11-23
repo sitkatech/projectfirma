@@ -41,13 +41,13 @@ namespace ProjectFirma.Web.Models
 
             project.ProjectLocationPoint = DbGeometry.PointFromText("POINT(29.11 40.11)", 4326);
 
-            var feature = Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject> {project}, true, true).Features.First();
+            var feature = Project.MappedPointsToGeoJsonFeatureCollection(new List<Project> {project}, true, true).Features.First();
 
-            foreach (var plft in ProjectLocationFilterType.All)
+            foreach (var projectLocationFilterType in ProjectLocationFilterType.All)
             {
-                Assert.That(feature.Properties.ContainsKey(plft.ProjectLocationFilterTypeNameWithIdentifier),
+                Assert.That(feature.Properties.ContainsKey(projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier),
                     "ProjectLocationFilterType {0} not present as a property of Project.",
-                    plft.ProjectLocationFilterTypeNameWithIdentifier);
+                    projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier);
             }
         }
     }

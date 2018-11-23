@@ -350,12 +350,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 return new JsonNetJArrayResult(new List<object>());
             }
-            var projectLocationGroupsAsFancyTreeNodes = HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                .ToList()
-                .Where(x => x.ProjectGeospatialAreas.Any())
-                .Select(x => x.ToFancyTreeNode(CurrentPerson))
-                .ToList();
-
             var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization
                 .GetProjectLocationFilterTypeFromFilterPropertyName();
             var filterFunction =
@@ -365,21 +359,60 @@ namespace ProjectFirma.Web.Controllers
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var filteredProjectsWithLocationAreas = filteredProjects
-                .Where(x => !x.HasProjectLocationPoint && x.HasProjectGeospatialAreas)
+            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint).ToList();
+
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+            var taxonomyTiersAsFancyTreeNodes = taxonomyLevel
+                .GetTaxonomyTiers().SortByOrderThenName().Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
-
-            projectLocationGroupsAsFancyTreeNodes.RemoveAll(
-                areaNameNode =>
-                    areaNameNode.Children.Count ==
-                    areaNameNode.Children.RemoveAll(projectNode =>
+            var projectsIDsThatDoNotHaveSimpleLocation = filteredProjectsWithLocationAreas
+                .Select(project => project.FancyTreeNodeKey.ToString()).ToList();
+            switch (taxonomyLevel.ToEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    PruneProjectsFromTaxonomyLeaves(taxonomyTiersAsFancyTreeNodes, projectsIDsThatDoNotHaveSimpleLocation);
+                    break;
+                case TaxonomyLevelEnum.Branch:
+                    PruneTaxonomyBranchesWithNoProjects(taxonomyTiersAsFancyTreeNodes, projectsIDsThatDoNotHaveSimpleLocation);
+                    break;
+                case TaxonomyLevelEnum.Trunk:
+                    foreach (var taxonomyTrunkNode in taxonomyTiersAsFancyTreeNodes)
                     {
-                        return !filteredProjectsWithLocationAreas
-                            .Select(project => project.FancyTreeNodeKey.ToString())
-                            .Contains(projectNode.Key);
-                    }));
+                        var taxonomyBranchNodes = taxonomyTrunkNode.Children.ToList();
+                        PruneTaxonomyBranchesWithNoProjects(taxonomyBranchNodes, projectsIDsThatDoNotHaveSimpleLocation);
+                        taxonomyTrunkNode.Children = taxonomyBranchNodes;
+                    }
+                    taxonomyTiersAsFancyTreeNodes.RemoveAll(x => !x.Children.Any());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
-            return new JsonNetJArrayResult(projectLocationGroupsAsFancyTreeNodes);
+            return new JsonNetJArrayResult(taxonomyTiersAsFancyTreeNodes);
+        }
+
+        private static void PruneTaxonomyBranchesWithNoProjects(List<FancyTreeNode> taxonomyBranchNodes,
+            List<string> projectsIDsThatDoNotHaveSimpleLocation)
+        {
+            foreach (var taxonomyBranchNode in taxonomyBranchNodes)
+            {
+                var taxonomyLeafNodes = taxonomyBranchNode.Children.ToList();
+                PruneProjectsFromTaxonomyLeaves(taxonomyLeafNodes, projectsIDsThatDoNotHaveSimpleLocation);
+                taxonomyBranchNode.Children = taxonomyLeafNodes;
+            }
+            taxonomyBranchNodes.RemoveAll(x => !x.Children.Any());
+
+        }
+
+        private static void PruneProjectsFromTaxonomyLeaves(List<FancyTreeNode> taxonomyLeafNodes,
+            List<string> projectsIDsThatDoNotHaveSimpleLocation)
+        {
+            foreach (var taxonomyLeafNode in taxonomyLeafNodes)
+            {
+                taxonomyLeafNode.Children.RemoveAll(x => !projectsIDsThatDoNotHaveSimpleLocation.Contains(x.Key));
+            }
+
+            taxonomyLeafNodes.RemoveAll(x => !x.Children.Any());
         }
 
         [SpendingByPerformanceMeasureByProjectViewFeature]

@@ -81,20 +81,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static string BuildCustomizedUrl(ProjectLocationFilterType filterType, string filterValues)
         {
-            return String.Format("{0}?{1}={2}&{3}={4}",
-                SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectMap()),
-                FilterByQueryStringParameter,
-                filterType.ProjectLocationFilterTypeName,
-                FilterValuesQueryStringParameter,
-                filterValues);
+            return $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectMap())}?{FilterByQueryStringParameter}={filterType.ProjectLocationFilterTypeName}&{FilterValuesQueryStringParameter}={filterValues}";
         }
 
         public static string BuildCustomizedUrl(ProjectLocationFilterType filterType, string filterValues, ProjectColorByType colorBy)
         {
-            return String.Format("{0}&{1}={2}", BuildCustomizedUrl(filterType, filterValues), ColorByQueryStringParameter, colorBy.ProjectColorByTypeName);
+            return $"{BuildCustomizedUrl(filterType, filterValues)}&{ColorByQueryStringParameter}={colorBy.ProjectColorByTypeName}";
         }
 
-        public static ProjectMapCustomization CreateDefaultCustomization(List<IMappableProject> projects, bool canViewProposals)
+        public static ProjectMapCustomization CreateDefaultCustomization(List<Models.Project> projects, bool canViewProposals)
         {
             return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues(canViewProposals));
         }
@@ -113,9 +108,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return projectStagesForMap;
         }
 
-        public static List<IMappableProject> ProjectsForMap(bool showProposals)
+        public static List<Models.Project> ProjectsForMap(bool showProposals)
         {
-            return new List<IMappableProject>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
+            return new List<Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
         }
     }

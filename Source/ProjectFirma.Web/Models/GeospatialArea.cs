@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Models
         public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(GeospatialArea geospatialArea, List<Project> projects)
         {
             var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
-                Project.MappedPointsToGeoJsonFeatureCollection(new List<IMappableProject>(projects), true, false),
+                Project.MappedPointsToGeoJsonFeatureCollection(projects, true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.DisplayName,
                 new List<GeospatialArea> { geospatialArea }.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,

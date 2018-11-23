@@ -38,7 +38,7 @@ using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class Project : IAuditableEntity, IMappableProject
+    public partial class Project : IAuditableEntity, IProject
     {
         public const int MaxLengthForProjectDescription = 700;
 
@@ -374,7 +374,7 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<IMappableProject> projects, bool addProjectProperties, bool useDetailedCustomPopup)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();

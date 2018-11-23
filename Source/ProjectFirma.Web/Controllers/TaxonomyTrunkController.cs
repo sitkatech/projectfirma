@@ -77,13 +77,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTrunk = taxonomyTrunkPrimaryKey.EntityObject;
             var taxonomyTrunkProjects = taxonomyTrunk.GetAssociatedProjects(CurrentPerson).ToList();
-            var projects = new List<IMappableProject>(taxonomyTrunkProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTrunk,
                 new List<int> {taxonomyTrunk.TaxonomyTrunkID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(projects, true, true), "red", 1,
+                    Project.MappedPointsToGeoJsonFeatureCollection(taxonomyTrunkProjects, true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyTrunkProjectMap");

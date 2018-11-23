@@ -83,13 +83,12 @@ namespace ProjectFirma.Web.Controllers
             var currentPersonCanViewProposals = CurrentPerson.CanViewProposals;
 
             var taxonomyLeafProjects = taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPersonCanViewProposals).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            var projects = new List<IMappableProject>(taxonomyLeafProjects);
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(projects, true, false), "red", 1,
+                    Project.MappedPointsToGeoJsonFeatureCollection(taxonomyLeafProjects, true, false), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyLeafProjectMap");
