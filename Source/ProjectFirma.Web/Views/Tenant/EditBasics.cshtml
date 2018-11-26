@@ -115,20 +115,5 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(x => x.ShowLeadImplementerLogoOnFactSheet)
         </div>
     </div>
-    <hr/>
-    <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.MapServiceUrl)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.MapServiceUrl, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.MapServiceUrl)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.GeospatialAreaLayerName)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.GeospatialAreaLayerName, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.GeospatialAreaLayerName)
-        </div>
-    </div>
 </div>
 }
