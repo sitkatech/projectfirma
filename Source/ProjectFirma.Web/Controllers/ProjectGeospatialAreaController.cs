@@ -61,7 +61,19 @@ namespace ProjectFirma.Web.Controllers
             var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
-
+            var projectGeospatialAreaTypeNote = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
+            if (!string.IsNullOrWhiteSpace(viewModel.ProjectGeospatialAreaNotes))
+            {
+                if (projectGeospatialAreaTypeNote == null)
+                {
+                    projectGeospatialAreaTypeNote = new ProjectGeospatialAreaTypeNote(project, geospatialAreaType, viewModel.ProjectGeospatialAreaNotes);
+                }
+                projectGeospatialAreaTypeNote.Notes = viewModel.ProjectGeospatialAreaNotes;
+            }
+            else
+            {
+                projectGeospatialAreaTypeNote?.DeleteFull();
+            }
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized} were successfully saved.");
 
             return new ModalDialogFormJsonResult();

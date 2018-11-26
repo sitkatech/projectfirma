@@ -58,15 +58,22 @@ Source code is available upon request via <support@sitkatech.com>.
     }
     @foreach(var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
     {
+        <hr />
         <div style="margin-bottom: 5px">
             <label>
-                @geospatialAreaType.GeospatialAreaTypeNamePluralized Information
+                @geospatialAreaType.GeospatialAreaTypeNamePluralized
             </label>
             <ul class="noListStyle">
                 @foreach (var geospatialArea in ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).OrderBy(x => x.DisplayName))
                 {
                     <li>
                         <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.DisplayName</a>
+                    </li>
+                }
+                @if (ViewDataTyped.GeospatialAreas.All(x => x.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID))
+                {
+                    <li style="list-style-type: none; margin-left: -40px;">
+                        None Selected
                     </li>
                 }
             </ul>

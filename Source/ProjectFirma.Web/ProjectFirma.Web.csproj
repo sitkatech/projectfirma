@@ -426,6 +426,7 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNote.cs" />
     <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdate.cs" />
     <Compile Include="Models\ProjectInternalNote.cs" />
     <Compile Include="Models\ProjectSectionSimple.cs" />
