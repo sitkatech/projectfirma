@@ -39,20 +39,20 @@ namespace ProjectFirma.Web.Views.Map
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<Models.GeospatialArea> geospatialAreas) 
             : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), GetProjectBoundingBox(project))
         {
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
-            HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
-            if (HasDetailedLocation)
-            {
-                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
-                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));    
-            }
-
             var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
             HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
             {
+                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
+                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                 Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+            }
+
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
+            HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
+            if (HasDetailedLocation)
+            {
+                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
             }
 
             HasGeospatialAreas = geospatialAreas.Any();

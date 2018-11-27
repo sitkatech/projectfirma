@@ -651,9 +651,9 @@ namespace ProjectFirma.Web.Models
             return ProjectStage != ProjectStage.Proposal;
         }
 
-        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(Project project)
+        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(Project project, bool ignoreStatus)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, true)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public string GetPlanningDesignStartYear()

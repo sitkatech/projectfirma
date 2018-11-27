@@ -1355,7 +1355,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult GoToNextSection(FormViewModel viewModel, Project project, string currentSectionName)
         {
-            var applicableWizardSections = Models.Project.GetApplicableProposalWizardSections(project);
+            var applicableWizardSections = Models.Project.GetApplicableProposalWizardSections(project, true);
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;

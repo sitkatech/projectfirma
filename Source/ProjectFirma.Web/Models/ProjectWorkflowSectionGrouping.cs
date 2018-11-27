@@ -11,9 +11,9 @@ namespace ProjectFirma.Web.Models
         public abstract List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus);
 
         protected List<ProjectSectionSimple> GetProjectCreateSectionsImpl(Project project,
-            List<ProjectCreateSection> projectCreateSections)
+            List<ProjectCreateSection> projectCreateSections, bool ignoreStatus)
         {
-            return projectCreateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(project), x.IsComplete(project), false, project != null && x.HasCompletionStatus)).OrderBy(x => x.SortOrder).ToList();
+            return projectCreateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(project), !ignoreStatus && x.IsComplete(project), false, project != null && x.HasCompletionStatus)).OrderBy(x => x.SortOrder).ToList();
         }
 
         public abstract List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
     {
         public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
-            return GetProjectCreateSectionsImpl(project, ProjectCreateSections);
+            return GetProjectCreateSectionsImpl(project, ProjectCreateSections, ignoreStatus);
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
     {
         public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
-            var projectCreateSections = GetProjectCreateSectionsImpl(project, ProjectCreateSections);
+            var projectCreateSections = GetProjectCreateSectionsImpl(project, ProjectCreateSections, ignoreStatus);
             var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
             IEnumerable<ProjectSectionSimple> projectSectionSimples;
             if (project == null)
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Models
         {
             if (project != null && project.AreReportedPerformanceMeasuresRelevant())
             {
-                return GetProjectCreateSectionsImpl(project, ProjectCreateSections);
+                return GetProjectCreateSectionsImpl(project, ProjectCreateSections, ignoreStatus);
             }
 
             return new List<ProjectSectionSimple>();
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Models
             {
                 projectCreateSections.Add(ProjectCreateSection.ReportedExpenditures);
             }
-            return GetProjectCreateSectionsImpl(project, projectCreateSections);
+            return GetProjectCreateSectionsImpl(project, projectCreateSections, ignoreStatus);
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Models
                 projectCreateSections.Add(ProjectCreateSection.Assessment);
             }
 
-            return GetProjectCreateSectionsImpl(project, projectCreateSections);
+            return GetProjectCreateSectionsImpl(project, projectCreateSections, ignoreStatus);
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
