@@ -10,9 +10,6 @@ namespace ProjectFirma.Web.Models
     {
         public abstract bool IsComplete(Project project);
         public abstract string GetSectionUrl(Project project);
-
-        public static List<ProjectCreateSection> ConditionalSections =>
-            new List<ProjectCreateSection> {ExpectedFunding, Assessment, ReportedPerformanceMeasures, ReportedExpenditures};
     }
 
     public partial class ProjectCreateSectionBasics
