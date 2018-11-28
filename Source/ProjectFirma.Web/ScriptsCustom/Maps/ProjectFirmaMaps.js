@@ -409,13 +409,13 @@ ProjectFirmaMaps.Map.prototype.htmlPopupContents = function (allLayers) {
                 service: 'WMS',
                 version: "1.1.1",
                 request: 'GetFeatureInfo',
-                layers: "GeospatialArea",
+                layers: wmsLayers[0].wmsParams.layers,
                 styles: "",
                 srs: 'EPSG:4326',
                 bbox: this.map.getBounds().toBBoxString(),
                 height: size.y,
                 width: size.x,
-                query_layers: "GeospatialArea",
+                query_layers: wmsLayers[0].wmsParams.layers,
                 info_format: 'application/json'
             };
 
@@ -426,11 +426,10 @@ ProjectFirmaMaps.Map.prototype.htmlPopupContents = function (allLayers) {
 
         for (var j = 0; j < wmsLayers.length; ++j) {
             var layer = wmsLayers[j];
-            if (layer.options.layers.includes("GeospatialArea")) {
-                var query = layer._url + L.Util.getParamString(geospatialAreaWMSParams, null, true);            
-                ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
-                    .then(function (response) { return self.formatGeospatialAreaResponse(response); }));
-            }            
+            var query = layer._url + L.Util.getParamString(geospatialAreaWMSParams, null, true);            
+            ajaxCalls.push(jQuery.when(jQuery.ajax({ url: query }))
+                .then(function (response) { return self.formatGeospatialAreaResponse(response); }));
+     
         }        
 
         this.carryOutPromises(ajaxCalls).then(
@@ -497,11 +496,11 @@ ProjectFirmaMaps.Map.prototype.removeDuplicatesFromArray = function (originalArr
 
     ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
         var vectorLayerInfoHtmlForPopup = null;
-        if (json.features.length > 0 && json.features[0].properties.hasOwnProperty("GeospatialAreaName")) {
+        if (json.features.length > 0) {
 
             var atag = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaName + "</a>";
             vectorLayerInfoHtmlForPopup = {
-                label: json.features[0].properties.GeospatialAreaLabelName,
+                label: json.features[0].properties.GeospatialAreaTypeName,
                 link: atag
             }
         }
