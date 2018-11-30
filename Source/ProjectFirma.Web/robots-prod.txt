@@ -37,3 +37,7 @@ Disallow: /Project/Find*
 Disallow: /SustainabilityDashboard*
 Disallow: /FileResource*
 Disallow: /Home/LogIn?*
+
+# A particularly aggressive crawler
+User-agent: BLEXBot
+Disallow: /

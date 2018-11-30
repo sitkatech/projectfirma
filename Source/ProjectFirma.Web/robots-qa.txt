@@ -25,3 +25,7 @@ Crawl-delay: 10
 # Everything else is disallowed
 # =============================
 Disallow: /
+
+# A particularly aggressive crawler
+User-agent: BLEXBot
+Disallow: /
