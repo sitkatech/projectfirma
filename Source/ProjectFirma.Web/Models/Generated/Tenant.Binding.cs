@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantJohnDayPartnership JohnDayPartnership = TenantJohnDayPartnership.Instance;
         public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
-        public static readonly TenantWashingtonDepartmentOfNaturalResources WashingtonDepartmentOfNaturalResources = TenantWashingtonDepartmentOfNaturalResources.Instance;
         public static readonly TenantActionAgendaForPugetSound ActionAgendaForPugetSound = TenantActionAgendaForPugetSound.Instance;
 
         public static readonly List<Tenant> All;
@@ -38,7 +37,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, WashingtonDepartmentOfNaturalResources, ActionAgendaForPugetSound };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -138,8 +137,6 @@ namespace ProjectFirma.Web.Models
                     return RCDProjectTracker;
                 case TenantEnum.SitkaTechnologyGroup:
                     return SitkaTechnologyGroup;
-                case TenantEnum.WashingtonDepartmentOfNaturalResources:
-                    return WashingtonDepartmentOfNaturalResources;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -157,7 +154,6 @@ namespace ProjectFirma.Web.Models
         JohnDayPartnership = 7,
         AshlandForestAllLandsRestorationInitiative = 8,
         IdahoAssociatonOfSoilConservationDistricts = 9,
-        WashingtonDepartmentOfNaturalResources = 10,
         ActionAgendaForPugetSound = 11
     }
 
@@ -213,12 +209,6 @@ namespace ProjectFirma.Web.Models
     {
         private TenantIdahoAssociatonOfSoilConservationDistricts(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts Instance = new TenantIdahoAssociatonOfSoilConservationDistricts(9, @"IdahoAssociatonOfSoilConservationDistricts", @"swcdemo.localhost.projectfirma.com", @"swcdemo.qa.projectfirma.com", @"swcdemo.projectfirma.com", DateTime.Parse("07/01/1990"), true, true);
-    }
-
-    public partial class TenantWashingtonDepartmentOfNaturalResources : Tenant
-    {
-        private TenantWashingtonDepartmentOfNaturalResources(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters) {}
-        public static readonly TenantWashingtonDepartmentOfNaturalResources Instance = new TenantWashingtonDepartmentOfNaturalResources(10, @"WashingtonDepartmentOfNaturalResources", @"wadnrforesthealth.localhost.projectfirma.com", @"wadnrforesthealth.qa.projectfirma.com", @"wadnrforesthealth.projectfirma.com", DateTime.Parse("01/01/1990"), false, false);
     }
 
     public partial class TenantActionAgendaForPugetSound : Tenant
