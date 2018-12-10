@@ -932,7 +932,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projectGeospatialAreaTypeNote?.DeleteFull();
+                projectGeospatialAreaTypeNote?.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
 
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized} successfully saved.");
@@ -1186,7 +1186,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
             var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" successfully deleted.";
-            project.DeleteFull();
+            project.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }

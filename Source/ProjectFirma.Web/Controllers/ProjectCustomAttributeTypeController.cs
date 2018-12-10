@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var message = $"{FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' successfully deleted!";
-            projectCustomAttributeType.DeleteFull();
+            projectCustomAttributeType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }

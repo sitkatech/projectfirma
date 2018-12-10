@@ -538,7 +538,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" successfully deleted.";
-            project.DeleteFull();
+            project.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }

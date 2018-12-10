@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projectGeospatialAreaTypeNote?.DeleteFull();
+                projectGeospatialAreaTypeNote?.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized} were successfully saved.");
 

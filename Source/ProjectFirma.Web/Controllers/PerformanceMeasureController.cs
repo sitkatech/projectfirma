@@ -368,7 +368,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
             }
-            performanceMeasure.DeleteFull();
+            performanceMeasure.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"Successfully deleted {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.PerformanceMeasureDisplayName}'!");
             return new ModalDialogFormJsonResult();
         }

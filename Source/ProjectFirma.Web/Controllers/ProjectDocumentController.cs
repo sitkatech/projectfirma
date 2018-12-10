@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectDocument, viewModel);
             }
 
-            projectDocument.FileResource.DeleteFull();
+            projectDocument.FileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Successfully deleted document \"{displayName}\".");
 
