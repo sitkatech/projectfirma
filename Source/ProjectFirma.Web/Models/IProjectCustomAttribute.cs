@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public interface IProjectCustomAttribute
+    public interface IProjectCustomAttribute : ICanDeleteFull
     {
         int ProjectCustomAttributeTypeID { get; set; }
         ProjectCustomAttributeType ProjectCustomAttributeType { get; set; }

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {

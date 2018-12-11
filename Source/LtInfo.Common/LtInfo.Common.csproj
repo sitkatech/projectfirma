@@ -257,11 +257,9 @@
     <Compile Include="EntityModelBinding\LtInfoEntityPrimaryKey.cs" />
     <Compile Include="LoggingFilters\UnsupportedHttpMethodHandler.cs" />
     <Compile Include="LtInfoVersionInfo.cs" />
-    <Compile Include="Models\IHaveATenantID.cs" />
     <Compile Include="Mvc\InMemorySessionStateStore.cs" />
     <Compile Include="PDFUtility.cs" />
     <Compile Include="SitkaWebConfiguration.cs" />
-    <Compile Include="MergeListHelper.cs" />
     <Compile Include="ModalDialog\ModalDialogFormHelper.cs" />
     <Compile Include="Models\EntityFrameworkHelpers.cs" />
     <Compile Include="Models\FormViewModel.cs" />
