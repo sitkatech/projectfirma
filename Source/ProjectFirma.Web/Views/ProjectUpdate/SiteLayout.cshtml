@@ -157,7 +157,7 @@
                 </li>
                 @foreach (var projectWorkflowSectionGrouping in ViewDataTyped.ProjectWorkflowSectionGroupings.OrderBy(x => x.SortOrder))
                 {
-                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.UpdateStatus);
+                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.UpdateStatus, false);
                     if (projectUpdateSectionsForGroup.Any())
                     {
                         var isGroupingActive = projectUpdateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));

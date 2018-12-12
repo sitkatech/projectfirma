@@ -81,15 +81,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     if (x.PerformanceMeasureActualSubcategoryOptionUpdates != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates =
-                            x.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou => ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.PerformanceMeasureSubcategoryOptionID))
-                                .Select(
-                                    y =>
-                                        new PerformanceMeasureActualSubcategoryOptionUpdate(performanceMeasureActual.PerformanceMeasureActualUpdateID,
-                                            y.PerformanceMeasureSubcategoryOptionID.Value,
-                                            y.PerformanceMeasureID,
-                                            y.PerformanceMeasureSubcategoryID))
-                                .ToList();
+                            x.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou =>
+                                ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.PerformanceMeasureSubcategoryOptionID))
+                            .Select(
+                                y =>
+                                    new PerformanceMeasureActualSubcategoryOptionUpdate(
+                                        performanceMeasureActual.PerformanceMeasureActualUpdateID,
+                                        y.PerformanceMeasureSubcategoryOptionID.Value,
+                                        y.PerformanceMeasureID,
+                                        y.PerformanceMeasureSubcategoryID))
+                            .ToList();
                     }
+
                     return performanceMeasureActual;
                 }).ToList();
             }

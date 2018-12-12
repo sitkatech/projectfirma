@@ -2552,7 +2552,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections();
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true);
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;

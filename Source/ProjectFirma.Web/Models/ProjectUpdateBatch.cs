@@ -644,9 +644,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public List<ProjectSectionSimple> GetApplicableWizardSections()
+        public List<ProjectSectionSimple> GetApplicableWizardSections(bool ignoreStatus)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(this, null)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(this, null, ignoreStatus)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
     }
 }

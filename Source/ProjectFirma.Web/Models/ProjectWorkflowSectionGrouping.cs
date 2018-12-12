@@ -17,12 +17,12 @@ namespace ProjectFirma.Web.Models
         }
 
         public abstract List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus);
+            UpdateStatus updateStatus, bool ignoreStatus);
 
         protected List<ProjectSectionSimple> GetProjectUpdateSectionsImpl(ProjectUpdateBatch projectUpdateBatch,
-            List<ProjectUpdateSection> projectUpdateSections, UpdateStatus updateStatus)
+            List<ProjectUpdateSection> projectUpdateSections, UpdateStatus updateStatus, bool ignoreStatus)
         {
-            return projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), x.IsComplete(projectUpdateBatch), updateStatus != null && x.SectionIsUpdated(updateStatus))).OrderBy(x => x.SortOrder).ToList();
+            return projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), !ignoreStatus && x.IsComplete(projectUpdateBatch), updateStatus != null && x.SectionIsUpdated(updateStatus))).OrderBy(x => x.SortOrder).ToList();
         }
     }
 
@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Models
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus)
+            UpdateStatus updateStatus, bool ignoreStatus)
         {
-            return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus);
+            return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus, ignoreStatus);
         }
     }
 
@@ -75,9 +75,9 @@ namespace ProjectFirma.Web.Models
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus)
+            UpdateStatus updateStatus, bool ignoreStatus)
         {
-            var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus);
+            var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus, ignoreStatus);
             var maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
             projectUpdateSections.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
                 .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
@@ -124,11 +124,11 @@ namespace ProjectFirma.Web.Models
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus)
+            UpdateStatus updateStatus, bool ignoreStatus)
         {
             if (projectUpdateBatch.AreAccomplishmentsRelevant())
             {
-                return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus);
+                return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus, ignoreStatus);
             }
 
             return  new List<ProjectSectionSimple>();
@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus)
+            UpdateStatus updateStatus, bool ignoreStatus)
         {
             var projectUpdateSections = ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding }).ToList();
             if (projectUpdateBatch.Project.IsExpectedFundingRelevant())
@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Models
                 projectUpdateSections.Add(ProjectUpdateSection.ExpectedFunding);
             }
 
-            return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSections, updateStatus);
+            return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSections, updateStatus, ignoreStatus);
         }
     }
 
@@ -179,9 +179,9 @@ namespace ProjectFirma.Web.Models
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
-            UpdateStatus updateStatus)
+            UpdateStatus updateStatus, bool ignoreStatus)
         {
-            return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus);
+            return GetProjectUpdateSectionsImpl(projectUpdateBatch, ProjectUpdateSections, updateStatus, ignoreStatus);
         }
     }
 }
