@@ -531,3 +531,6 @@ nav#wizardNav ul li.workflowSectionGroup ul li.active span {
     font-size: 32px;
   }
 }
+.homepageActionButtons a {
+  margin-top: 4px;
+}

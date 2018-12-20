@@ -139,11 +139,11 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 homepageActionButtons">
             @if (ViewDataTyped.DisplayActionButtons)
             {            
                 @ProjectCreateHelper.AddProjectButton()
-            <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
+                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
             }
             <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
             <div>
