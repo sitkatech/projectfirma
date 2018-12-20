@@ -61,6 +61,7 @@ body {
   font-size: 14px;
   background-color: #f5f8fa;
   color: #193D5B;
+  overflow-x: hidden;
 }
 input[disabled] {
   background-color: LightGray;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -454,6 +454,16 @@
     <Compile Include="Models\ProjectCustomAttributeUpdate.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateValue.cs" />
     <Compile Include="ScheduledJobs\ProjectUpdateNotificationHelper.cs" />
+    <Content Include="Content\Bootstrap\firma\actionagenda.theme.css">
+      <DependentUpon>actionagenda.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\actionagenda.theme.min.css">
+      <DependentUpon>actionagenda.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\iswcc.theme - Copy.css">
+      <DependentUpon>actionagenda.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\actionagenda.theme.less" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -738,6 +748,9 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\dnr.theme.min.css">
       <DependentUpon>dnr.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\iswcc.theme - Copy.min.css">
+      <DependentUpon>iswcc.theme - Copy.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\iswcc.theme.css">
       <DependentUpon>iswcc.theme.less</DependentUpon>
