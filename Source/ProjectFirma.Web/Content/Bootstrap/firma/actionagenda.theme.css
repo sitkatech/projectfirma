@@ -534,3 +534,6 @@ nav#wizardNav ul li.workflowSectionGroup ul li.active span {
 .homepageActionButtons a {
   margin-top: 4px;
 }
+#headerTenantDisplayName {
+  display: none;
+}
