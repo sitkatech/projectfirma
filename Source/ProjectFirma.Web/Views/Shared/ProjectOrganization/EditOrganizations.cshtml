@@ -35,9 +35,6 @@ Source code is available upon request via <support@sitkatech.com>.
     });
     jQuery(document).ready(function ()
     {
-
-
-
         angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["ProjectFirmaApp"]);
 
         jQuery(".selectpicker").selectpicker("refresh");
@@ -69,7 +66,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-12">
             <p>Select the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) and @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() that are associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
-            <p class="systemText">@FieldDefinition.Project.GetFieldDefinitionLabel() Funders are not set in this editor. They are determined by the @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() in the @FieldDefinition.Project.GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
+            <p class="systemText">@FieldDefinition.Project.GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() in the @FieldDefinition.Project.GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
         </div>
     </div>
 
@@ -144,10 +141,10 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-12"><label ng-bind="relationshipType.RelationshipTypeName"></label><sup ng-show="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-md-push-8">
+            <div class="col-md-3 col-md-push-9">
                 <p class="smallExplanationText" ng-bind="relationshipType.RelationshipTypeDescription"></p>
             </div>
-            <div class="col-md-8 col-md-pull-4">
+            <div class="col-md-9 col-md-pull-3">
                 <div class="row">
                     @*Selectpicker*@
                     <div class="col-md-12">
@@ -163,10 +160,13 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Add
                             </button>
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectOrganizationSimpleFromProjectLocation(relationshipType)"  ng-show="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject && relationshipType.RelationshipTypeHasOrganizationsWithSpatialBoundary">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                                Use Simple Location
+                            </button>
                         </div>
                     </div>
-                </div>
-
+                </div>                
                 <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.RelationshipTypeID)" ng-hide="relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
                     @*Selections*@
                     <div class="col-md-12">

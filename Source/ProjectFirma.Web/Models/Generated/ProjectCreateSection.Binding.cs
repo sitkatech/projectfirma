@@ -20,6 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectCreateSectionBasics Basics = ProjectCreateSectionBasics.Instance;
         public static readonly ProjectCreateSectionLocationSimple LocationSimple = ProjectCreateSectionLocationSimple.Instance;
+        public static readonly ProjectCreateSectionOrganizations Organizations = ProjectCreateSectionOrganizations.Instance;
         public static readonly ProjectCreateSectionLocationDetailed LocationDetailed = ProjectCreateSectionLocationDetailed.Instance;
         public static readonly ProjectCreateSectionExpectedPerformanceMeasures ExpectedPerformanceMeasures = ProjectCreateSectionExpectedPerformanceMeasures.Instance;
         public static readonly ProjectCreateSectionReportedPerformanceMeasures ReportedPerformanceMeasures = ProjectCreateSectionReportedPerformanceMeasures.Instance;
@@ -29,7 +30,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
         public static readonly ProjectCreateSectionNotesAndDocuments NotesAndDocuments = ProjectCreateSectionNotesAndDocuments.Instance;
-        public static readonly ProjectCreateSectionOrganizations Organizations = ProjectCreateSectionOrganizations.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, LocationDetailed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Organizations };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -149,7 +149,8 @@ namespace ProjectFirma.Web.Models
     {
         Basics = 2,
         LocationSimple = 3,
-        LocationDetailed = 4,
+        Organizations = 4,
+        LocationDetailed = 5,
         ExpectedPerformanceMeasures = 6,
         ReportedPerformanceMeasures = 7,
         ExpectedFunding = 8,
@@ -157,8 +158,7 @@ namespace ProjectFirma.Web.Models
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
-        NotesAndDocuments = 14,
-        Organizations = 15
+        NotesAndDocuments = 14
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -173,10 +173,16 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectCreateSectionLocationSimple Instance = new ProjectCreateSectionLocationSimple(3, @"LocationSimple", @"Location - Simple", 30, true, 2);
     }
 
+    public partial class ProjectCreateSectionOrganizations : ProjectCreateSection
+    {
+        private ProjectCreateSectionOrganizations(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionOrganizations Instance = new ProjectCreateSectionOrganizations(4, @"Organizations", @"Organizations", 40, true, 2);
+    }
+
     public partial class ProjectCreateSectionLocationDetailed : ProjectCreateSection
     {
         private ProjectCreateSectionLocationDetailed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false, 2);
+        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Location - Detailed", 40, false, 3);
     }
 
     public partial class ProjectCreateSectionExpectedPerformanceMeasures : ProjectCreateSection
@@ -225,11 +231,5 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectCreateSectionNotesAndDocuments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Documents and Notes", 140, false, 5);
-    }
-
-    public partial class ProjectCreateSectionOrganizations : ProjectCreateSection
-    {
-        private ProjectCreateSectionOrganizations(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionOrganizations Instance = new ProjectCreateSectionOrganizations(15, @"Organizations", @"Organizations", 25, true, 1);
     }
 }

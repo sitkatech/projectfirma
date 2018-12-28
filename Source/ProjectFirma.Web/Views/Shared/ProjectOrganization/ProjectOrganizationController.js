@@ -80,6 +80,14 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         return organizations;
     };
 
+    $scope.setProjectOrganizationSimpleFromProjectLocation = function (relationshipType) {
+        var organizationID = Number(
+            $scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.RelationshipTypeID].OrganizationID);
+
+        $scope.selectionChanged(organizationID, relationshipType);
+    };
+
+
     $scope.addProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
         $scope.AngularModel.ProjectOrganizationSimples.push({
             OrganizationID: Number(organizationID),

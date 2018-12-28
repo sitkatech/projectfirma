@@ -60,6 +60,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                         new ProjectOrganizationSimple(currentPerson.OrganizationID, x)));
                 }
             }
+
+            // Set a default relationship based on the project location simple for any relationships where this is possible
+            var releationshipTypesWithSpatialBoundaries = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList().Where(x =>
+                x.HasOrganizationsWithSpatialBoundary() && x.CanOnlyBeRelatedOnceToAProject);
+            foreach (var relationshipType in releationshipTypesWithSpatialBoundaries)
+            {
+                if (projectOrganizations.All(x => x.RelationshipTypeID != relationshipType.RelationshipTypeID))
+                {
+                    var organizationContainingProjectSimpleLocation = relationshipType.GetOrganizationContainingProjectSimpleLocation(project);
+                    if (organizationContainingProjectSimpleLocation != null)
+                    {
+                        ProjectOrganizationSimples.Add(new ProjectOrganizationSimple(
+                            organizationContainingProjectSimpleLocation.OrganizationID,
+                            relationshipType.RelationshipTypeID));
+                    }
+                }
+            }
         }
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)

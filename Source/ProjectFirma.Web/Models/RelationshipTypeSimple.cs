@@ -30,12 +30,14 @@ namespace ProjectFirma.Web.Models
             RelationshipTypeID = relationshipType.RelationshipTypeID;
             RelationshipTypeName = relationshipType.RelationshipTypeName;
             RelationshipTypeCanOnlyBeRelatedOnceToAProject = relationshipType.CanOnlyBeRelatedOnceToAProject;
+            RelationshipTypeHasOrganizationsWithSpatialBoundary = relationshipType.HasOrganizationsWithSpatialBoundary();
             RelationshipTypeDescription = relationshipType.RelationshipTypeDescription;
         }
 
         public int RelationshipTypeID { get; set; }
         public string RelationshipTypeName { get; set; }
         public bool RelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
+        public bool RelationshipTypeHasOrganizationsWithSpatialBoundary { get; set; }
         public string RelationshipTypeDescription { get; set; }
     }
 }

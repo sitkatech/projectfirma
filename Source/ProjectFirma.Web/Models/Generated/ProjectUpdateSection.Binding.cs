@@ -20,6 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectUpdateSectionBasics Basics = ProjectUpdateSectionBasics.Instance;
         public static readonly ProjectUpdateSectionLocationSimple LocationSimple = ProjectUpdateSectionLocationSimple.Instance;
+        public static readonly ProjectUpdateSectionOrganizations Organizations = ProjectUpdateSectionOrganizations.Instance;
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
         public static readonly ProjectUpdateSectionPerformanceMeasures PerformanceMeasures = ProjectUpdateSectionPerformanceMeasures.Instance;
         public static readonly ProjectUpdateSectionExpectedFunding ExpectedFunding = ProjectUpdateSectionExpectedFunding.Instance;
@@ -27,7 +28,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectUpdateSectionPhotos Photos = ProjectUpdateSectionPhotos.Instance;
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
         public static readonly ProjectUpdateSectionNotesAndDocuments NotesAndDocuments = ProjectUpdateSectionNotesAndDocuments.Instance;
-        public static readonly ProjectUpdateSectionOrganizations Organizations = ProjectUpdateSectionOrganizations.Instance;
 
         public static readonly List<ProjectUpdateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectUpdateSection> AllLookupDictionary;
@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, LocationDetailed, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, Organizations };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, PerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -143,14 +143,14 @@ namespace ProjectFirma.Web.Models
     {
         Basics = 2,
         LocationSimple = 3,
-        LocationDetailed = 4,
+        Organizations = 4,
+        LocationDetailed = 5,
         PerformanceMeasures = 6,
         ExpectedFunding = 7,
         Expenditures = 8,
         Photos = 9,
         ExternalLinks = 10,
-        NotesAndDocuments = 11,
-        Organizations = 12
+        NotesAndDocuments = 11
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -162,13 +162,19 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionLocationSimple : ProjectUpdateSection
     {
         private ProjectUpdateSectionLocationSimple(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionLocationSimple Instance = new ProjectUpdateSectionLocationSimple(3, @"LocationSimple", @"Location - Simple", 30, true, 2);
+        public static readonly ProjectUpdateSectionLocationSimple Instance = new ProjectUpdateSectionLocationSimple(3, @"LocationSimple", @"Location - Simple", 30, true, 1);
+    }
+
+    public partial class ProjectUpdateSectionOrganizations : ProjectUpdateSection
+    {
+        private ProjectUpdateSectionOrganizations(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionOrganizations Instance = new ProjectUpdateSectionOrganizations(4, @"Organizations", @"Organizations", 40, true, 1);
     }
 
     public partial class ProjectUpdateSectionLocationDetailed : ProjectUpdateSection
     {
         private ProjectUpdateSectionLocationDetailed(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(4, @"LocationDetailed", @"Location - Detailed", 40, false, 2);
+        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Location - Detailed", 50, false, 2);
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures : ProjectUpdateSection
@@ -205,11 +211,5 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectUpdateSectionNotesAndDocuments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionNotesAndDocuments Instance = new ProjectUpdateSectionNotesAndDocuments(11, @"NotesAndDocuments", @"Documents and Notes", 120, false, 5);
-    }
-
-    public partial class ProjectUpdateSectionOrganizations : ProjectUpdateSection
-    {
-        private ProjectUpdateSectionOrganizations(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionOrganizations Instance = new ProjectUpdateSectionOrganizations(12, @"Organizations", @"Organizations", 25, true, 1);
     }
 }
