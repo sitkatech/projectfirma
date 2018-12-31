@@ -2,8 +2,8 @@
 INSERT INTO dbo.GeospatialAreaType
            (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, GeospatialAreaTypeDefinition, MapServiceUrl, GeospatialAreaLayerName)
      VALUES
-           (9, 'Legislative District', 'Legislative Districs', null, null, 'https://mapserver.projectfirma.com/geoserver/SWCDemoProjectFirma/wms', 'SWCDemoProjectFirma:LegislativeDistrict'),
-		   (9, 'Congressional District', 'Congressional Districs', null, null, 'https://mapserver.projectfirma.com/geoserver/SWCDemoProjectFirma/wms', 'SWCDemoProjectFirma:CongressionalDistrict')
+           (9, 'Legislative District', 'Legislative Districts', null, null, 'https://mapserver.projectfirma.com/geoserver/SWCDemoProjectFirma/wms', 'SWCDemoProjectFirma:LegislativeDistrict'),
+		   (9, 'Congressional District', 'Congressional Districts', null, null, 'https://mapserver.projectfirma.com/geoserver/SWCDemoProjectFirma/wms', 'SWCDemoProjectFirma:CongressionalDistrict')
 
 declare @LegislativeDistrictGeospatialAreaTypeID int
 set @LegislativeDistrictGeospatialAreaTypeID = (select GeospatialAreaTypeID from dbo.GeospatialAreaType where GeospatialAreaLayerName = 'SWCDemoProjectFirma:LegislativeDistrict')
