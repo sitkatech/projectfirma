@@ -31,5 +31,13 @@ namespace ProjectFirma.Web.Models
         {
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
+
+        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        {
+            return project?.ProjectLocationPoint == null
+                ? new List<GeospatialArea>()
+                : geospatialAreas.Where(x =>
+                    x.GeospatialAreaFeature.Contains(project.ProjectLocationPoint)).ToList();
+        }
     }
 }

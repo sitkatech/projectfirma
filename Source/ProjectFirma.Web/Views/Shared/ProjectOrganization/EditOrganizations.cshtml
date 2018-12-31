@@ -165,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 Use Simple Location
                             </button>
                         </div>
-                        <p class="help-block alert alert-info" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">                        
+                        <p class="help-block alert alert-warning" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">                        
                             <span>The currently selected {{relationshipType.RelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated organizations boundary, or this may warrant updating either the simple location or the associated organization.</span>                        
                         </p>
                     </div>                   

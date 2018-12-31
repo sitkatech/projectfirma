@@ -171,4 +171,34 @@ angular.module("ProjectFirmaApp")
             };
 
             initializeMap();
+
+            $scope.canSetGeospatialAreaFromProjectLocation = function () {
+                return true; //TODO: Check whether project has a simple location
+            };
+
+            $scope.setGeospatialAreaFromProjectLocation = function () {
+                $scope.AngularModel.GeospatialAreaIDs = [];
+                _.forEach($scope.AngularViewData.GeospatialAreasContainingProjectSimpleLocation, function (geospatialAreaID) {
+                    $scope.AngularModel.GeospatialAreaIDs.push(geospatialAreaID);
+                });
+
+                updateSelectedGeospatialAreaLayer();
+            };
+
+            $scope.selectedGeospatialAreaDoesNotMatchProjectLocation = function () {
+                if (!$scope.canSetGeospatialAreaFromProjectLocation()) {
+                    return false;
+                }
+                if ($scope.AngularModel.GeospatialAreaIDs === null ||
+                    $scope.AngularModel.GeospatialAreaIDs.length === 0) {
+                    return true;
+                }
+                _.forEach($scope.AngularViewData.GeospatialAreasContainingProjectSimpleLocation, function (geospatialAreaID) {
+                    console.log($scope.AngularModel.GeospatialAreaIDs);
+                    if (!$scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                        return true;
+                    }
+                });
+                return false;
+            };
         });

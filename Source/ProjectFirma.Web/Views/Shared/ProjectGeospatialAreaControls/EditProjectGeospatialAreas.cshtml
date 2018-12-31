@@ -63,6 +63,16 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="EditProjectGeospatialAreasController">
     <div class="col-xs-12 col-md-4">
         <form action="@ViewDataTyped.EditProjectGeospatialAreasUrl" method="POST" id="@ViewDataTyped.EditProjectGeospatialAreasFormID">
+            <div class="input-group">
+                <button type="button" class="btn btn-sm btn-firma" ng-click="setGeospatialAreaFromProjectLocation()" ng-show="canSetGeospatialAreaFromProjectLocation()">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    Set from the Simple Location
+                </button>
+                <div class="alert alert-warning" ng-if="selectedGeospatialAreaDoesNotMatchProjectLocation()">
+                    <span>The currently selected area does not match the project simple location - this may be OK if the project location is outside the associated boundary, or may require updating either the simple location or the associated area.</span>
+                </div>
+            <hr/>
+            </div>
             <div class="input-group" id="scrollable-dropdown-menu" style="margin-bottom: 10px;">
                 @* ReSharper disable once UnknownCssClass *@
                 <input type="text"

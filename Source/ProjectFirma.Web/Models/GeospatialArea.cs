@@ -107,6 +107,6 @@ namespace ProjectFirma.Web.Models
         {
             var projects = GetAssociatedProjects(currentPerson);
             return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
-        }
+        }        
     }
 }
