@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionLocationSimple : ProjectUpdateSection
     {
         private ProjectUpdateSectionLocationSimple(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionLocationSimple Instance = new ProjectUpdateSectionLocationSimple(3, @"LocationSimple", @"Location - Simple", 30, true, 1);
+        public static readonly ProjectUpdateSectionLocationSimple Instance = new ProjectUpdateSectionLocationSimple(3, @"LocationSimple", @"Simple Location", 30, true, 1);
     }
 
     public partial class ProjectUpdateSectionOrganizations : ProjectUpdateSection
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectUpdateSectionLocationDetailed : ProjectUpdateSection
     {
         private ProjectUpdateSectionLocationDetailed(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Location - Detailed", 50, false, 2);
+        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 50, false, 2);
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures : ProjectUpdateSection

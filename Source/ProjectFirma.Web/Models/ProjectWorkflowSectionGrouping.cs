@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectWorkflowSectionGroupingAdditionalLocationData
+    public partial class ProjectWorkflowSectionGroupingSpatialInformation
     {
         public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {

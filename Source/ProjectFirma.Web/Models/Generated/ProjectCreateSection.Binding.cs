@@ -170,7 +170,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectCreateSectionLocationSimple : ProjectCreateSection
     {
         private ProjectCreateSectionLocationSimple(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionLocationSimple Instance = new ProjectCreateSectionLocationSimple(3, @"LocationSimple", @"Location - Simple", 30, true, 1);
+        public static readonly ProjectCreateSectionLocationSimple Instance = new ProjectCreateSectionLocationSimple(3, @"LocationSimple", @"Simple Location", 30, true, 1);
     }
 
     public partial class ProjectCreateSectionOrganizations : ProjectCreateSection
@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectCreateSectionLocationDetailed : ProjectCreateSection
     {
         private ProjectCreateSectionLocationDetailed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Location - Detailed", 40, false, 2);
+        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 40, false, 2);
     }
 
     public partial class ProjectCreateSectionExpectedPerformanceMeasures : ProjectCreateSection
