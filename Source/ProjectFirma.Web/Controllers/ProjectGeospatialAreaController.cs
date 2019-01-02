@@ -91,7 +91,14 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.EditProjectGeospatialAreas(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormID = GetEditProjectGeospatialAreasFormID();
 
-            var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID, project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType);
+            var geospatialAreaContainingProjectSimpleLocation =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
+                    .GetGeospatialAreasContainingProjectLocation(project).ToList();
+
+            var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
+                geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID,
+                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreaContainingProjectSimpleLocation);
             return RazorPartialView<EditProjectGeospatialAreas, EditProjectGeospatialAreasViewData, EditProjectGeospatialAreasViewModel>(viewData, viewModel);
         }
 

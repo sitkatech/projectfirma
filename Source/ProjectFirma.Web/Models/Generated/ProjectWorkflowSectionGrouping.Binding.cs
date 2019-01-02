@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
     public abstract partial class ProjectWorkflowSectionGrouping : IHavePrimaryKey
     {
         public static readonly ProjectWorkflowSectionGroupingOverview Overview = ProjectWorkflowSectionGroupingOverview.Instance;
-        public static readonly ProjectWorkflowSectionGroupingLocation Location = ProjectWorkflowSectionGroupingLocation.Instance;
+        public static readonly ProjectWorkflowSectionGroupingAdditionalLocationData AdditionalLocationData = ProjectWorkflowSectionGroupingAdditionalLocationData.Instance;
         public static readonly ProjectWorkflowSectionGroupingPerformanceMeasures PerformanceMeasures = ProjectWorkflowSectionGroupingPerformanceMeasures.Instance;
         public static readonly ProjectWorkflowSectionGroupingExpenditures Expenditures = ProjectWorkflowSectionGroupingExpenditures.Instance;
         public static readonly ProjectWorkflowSectionGroupingAdditionalData AdditionalData = ProjectWorkflowSectionGroupingAdditionalData.Instance;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectWorkflowSectionGrouping()
         {
-            All = new List<ProjectWorkflowSectionGrouping> { Overview, Location, PerformanceMeasures, Expenditures, AdditionalData };
+            All = new List<ProjectWorkflowSectionGrouping> { Overview, AdditionalLocationData, PerformanceMeasures, Expenditures, AdditionalData };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectWorkflowSectionGrouping>(All.ToDictionary(x => x.ProjectWorkflowSectionGroupingID));
         }
 
@@ -107,10 +107,10 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     return AdditionalData;
+                case ProjectWorkflowSectionGroupingEnum.AdditionalLocationData:
+                    return AdditionalLocationData;
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     return Expenditures;
-                case ProjectWorkflowSectionGroupingEnum.Location:
-                    return Location;
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     return Overview;
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
     public enum ProjectWorkflowSectionGroupingEnum
     {
         Overview = 1,
-        Location = 2,
+        AdditionalLocationData = 2,
         PerformanceMeasures = 3,
         Expenditures = 4,
         AdditionalData = 5
@@ -136,10 +136,10 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectWorkflowSectionGroupingOverview Instance = new ProjectWorkflowSectionGroupingOverview(1, @"Overview", @"Overview", 10);
     }
 
-    public partial class ProjectWorkflowSectionGroupingLocation : ProjectWorkflowSectionGrouping
+    public partial class ProjectWorkflowSectionGroupingAdditionalLocationData : ProjectWorkflowSectionGrouping
     {
-        private ProjectWorkflowSectionGroupingLocation(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
-        public static readonly ProjectWorkflowSectionGroupingLocation Instance = new ProjectWorkflowSectionGroupingLocation(2, @"Location", @"Location", 20);
+        private ProjectWorkflowSectionGroupingAdditionalLocationData(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
+        public static readonly ProjectWorkflowSectionGroupingAdditionalLocationData Instance = new ProjectWorkflowSectionGroupingAdditionalLocationData(2, @"AdditionalLocationData", @"Additional Location Data", 20);
     }
 
     public partial class ProjectWorkflowSectionGroupingPerformanceMeasures : ProjectWorkflowSectionGrouping

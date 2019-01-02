@@ -34,14 +34,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<OrganizationSimple> AllOrganizations { get; }
         public List<PersonSimple> AllPeople { get; }
         public List<RelationshipTypeSimple> AllRelationshipTypes { get; }
+        public Dictionary<int, OrganizationSimple> OrganizationContainingProjectSimpleLocation { get; }
         public RelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
         public int? DefaultPrimaryContactPersonID { get; }
         public string DefaultPrimaryContactPersonName { get; }
 
-        public EditOrganizationsViewData(IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
-        {
+        public EditOrganizationsViewData(IProject project, IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
+        {            
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
             AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
+
+            OrganizationContainingProjectSimpleLocation = allRelationshipTypes.ToDictionary(
+                x => x.RelationshipTypeID, x =>
+                {
+                    var organization = x.GetOrganizationContainingProjectSimpleLocation(project);
+                    return organization == null ? null : new OrganizationSimple(organization);
+                });
 
             var primaryContactRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
             PrimaryContactRelationshipTypeSimple = primaryContactRelationshipType != null

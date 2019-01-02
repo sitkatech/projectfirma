@@ -80,6 +80,49 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         return organizations;
     };
 
+    $scope.canSetOrganizationFromProjectLocation = function(relationshipType) {
+        if (!relationshipType.RelationshipTypeCanOnlyBeRelatedOnceToAProject ||
+            !relationshipType.RelationshipTypeHasOrganizationsWithSpatialBoundary) {
+            return false;
+        }
+
+        if ($scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.RelationshipTypeID] ===
+            null) {
+            return false;
+        }
+
+        return true;
+    };
+
+    $scope.setProjectOrganizationSimpleFromProjectLocation = function(relationshipType) {
+        if (!$scope.canSetOrganizationFromProjectLocation(relationshipType)) {
+            return;
+        }
+
+        var organizationID = Number(
+            $scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.RelationshipTypeID]
+            .OrganizationID);
+
+        $scope.selectionChanged(organizationID, relationshipType);
+    };
+
+    $scope.selectedOrgDoesNotMatchSpatialOrg = function (relationshipType) {
+
+        if (!$scope.canSetOrganizationFromProjectLocation(relationshipType)) {
+            return false;
+        }
+
+        var spatialOrganizationID = Number(
+            $scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.RelationshipTypeID].OrganizationID);
+
+        var projectOrganizationSimple =
+            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+                "RelationshipTypeID",
+                relationshipType.RelationshipTypeID);
+
+        return spatialOrganizationID !== projectOrganizationSimple.OrganizationID;
+    };
+
     $scope.addProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
         $scope.AngularModel.ProjectOrganizationSimples.push({
             OrganizationID: Number(organizationID),

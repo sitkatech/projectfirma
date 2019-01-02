@@ -1091,7 +1091,16 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson, geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId, projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType);
+            var geospatialAreaContainingProjectSimpleLocation =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
+                    .GetGeospatialAreasContainingProjectLocation(projectUpdate).ToList();
+
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
+                geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
+                projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType,
+                geospatialAreaContainingProjectSimpleLocation);
+
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
                 .ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
@@ -2482,7 +2491,7 @@ namespace ProjectFirma.Web.Controllers
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
-            var editOrganizationsViewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
+            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
 
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.RelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
