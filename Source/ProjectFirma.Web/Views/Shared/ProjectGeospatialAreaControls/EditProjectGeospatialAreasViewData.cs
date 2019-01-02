@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
             ViewDataForAngular =
                 new EditProjectGeospatialAreasViewDataForAngular(mapInitJson, geospatialAreasInViewModel,
-                    geospatialAreaType, GeospatialAreasContainingProjectSimpleLocation);
+                    geospatialAreaType, GeospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;
             EditProjectGeospatialAreasUrl = editProjectGeospatialAreasUrl;
             HasProjectLocationPoint = hasProjectLocationPoint;
@@ -69,17 +69,25 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly string MapServiceUrl;
         public readonly string GeospatialAreaTypeName;
         public readonly List<int> GeospatialAreasContainingProjectSimpleLocation;
+        public readonly bool HasProjectLocationPoint;
 
-        public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson, List<Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType, List<Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation)
+        public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson,
+            List<Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType,
+            List<Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, bool hasProjectLocationPoint)
         {
             MapInitJson = mapInitJson;
-            FindGeospatialAreaByNameUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.FindGeospatialAreaByName(geospatialAreaType, null));
+            FindGeospatialAreaByNameUrl =
+                SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c =>
+                    c.FindGeospatialAreaByName(geospatialAreaType, null));
             TypeAheadInputId = "geospatialAreaSearch";
-            GeospatialAreaNameByID = geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
+            GeospatialAreaNameByID =
+                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaType.MapServiceUrl;
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
-            GeospatialAreasContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
+            GeospatialAreasContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation
+                .Select(x => x.GeospatialAreaID).ToList();
+            HasProjectLocationPoint = hasProjectLocationPoint;
         }
     }
 }

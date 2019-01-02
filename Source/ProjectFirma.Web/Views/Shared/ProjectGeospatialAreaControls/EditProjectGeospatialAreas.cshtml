@@ -64,12 +64,15 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-xs-12 col-md-4">
         <form action="@ViewDataTyped.EditProjectGeospatialAreasUrl" method="POST" id="@ViewDataTyped.EditProjectGeospatialAreasFormID">
             <div class="input-group">
-                <button type="button" class="btn btn-sm btn-firma" ng-click="setGeospatialAreaFromProjectLocation()" ng-show="canSetGeospatialAreaFromProjectLocation()">
+                <button type="button" class="btn btn-sm btn-firma" ng-click="setGeospatialAreaFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
                     <span class="glyphicon glyphicon-map-marker"></span>
                     Set from the Simple Location
                 </button>
-                <div class="alert alert-warning" ng-if="selectedGeospatialAreaDoesNotMatchProjectLocation()">
-                    <span>The currently selected area does not match the project simple location - this may be OK if the project location is outside the associated boundary, or may require updating either the simple location or the associated area.</span>
+                <div class="alert alert-warning" ng-if="selectedGeospatialAreaDoesNotMatchProjectLocation() && canSetGeospatialAreaFromProjectLocation() && !noGeospatialAreasSelected()">
+                    <span>The currently selected @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName does not match the project simple location - this may be OK if the project location is outside the associated boundary, or may require updating either the simple location or the associated area.</span>
+                </div>
+                <div class="alert alert-warning" ng-if="!canSetGeospatialAreaFromProjectLocation()">
+                    <span>The Project Simple Location is not set, so the @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName can not be determined automatically.</span>
                 </div>
             <hr/>
             </div>
@@ -86,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </button>
                 </span>
             </div>
-            <div class="alert alert-warning" ng-if="!AngularModel.GeospatialAreaIDs || AngularModel.GeospatialAreaIDs.length < 1">
+            <div class="alert alert-warning" ng-if="noGeospatialAreasSelected()">
                 No @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized selected for this @FieldDefinition.Project.GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.
             </div>
             <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1">

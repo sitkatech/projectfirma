@@ -172,8 +172,12 @@ angular.module("ProjectFirmaApp")
 
             initializeMap();
 
+            $scope.noGeospatialAreasSelected = function () {
+                return !$scope.AngularModel.GeospatialAreaIDs || $scope.AngularModel.GeospatialAreaIDs.length < 1;
+            };
+
             $scope.canSetGeospatialAreaFromProjectLocation = function () {
-                return true; //TODO: Check whether project has a simple location
+                return $scope.AngularViewData.HasProjectLocationPoint;
             };
 
             $scope.setGeospatialAreaFromProjectLocation = function () {
@@ -185,7 +189,7 @@ angular.module("ProjectFirmaApp")
                 updateSelectedGeospatialAreaLayer();
             };
 
-            $scope.selectedGeospatialAreaDoesNotMatchProjectLocation = function () {
+            $scope.selectedGeospatialAreaDoesNotMatchProjectLocation = function () {                
                 if (!$scope.canSetGeospatialAreaFromProjectLocation()) {
                     return false;
                 }
@@ -193,12 +197,16 @@ angular.module("ProjectFirmaApp")
                     $scope.AngularModel.GeospatialAreaIDs.length === 0) {
                     return true;
                 }
+
+                var selectedAreaMatches = false;
+
                 _.forEach($scope.AngularViewData.GeospatialAreasContainingProjectSimpleLocation, function (geospatialAreaID) {
                     console.log($scope.AngularModel.GeospatialAreaIDs);
                     if (!$scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
-                        return true;
+                        selectedAreaMatches =  true;
+                        
                     }
-                });
-                return false;
+                });                
+                return selectedAreaMatches;
             };
         });
