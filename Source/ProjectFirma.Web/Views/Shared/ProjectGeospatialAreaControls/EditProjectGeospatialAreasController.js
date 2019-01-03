@@ -202,7 +202,6 @@ angular.module("ProjectFirmaApp")
                 var selectedAreaMatches = false;
 
                 _.forEach($scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
-                    console.log($scope.AngularModel.GeospatialAreaIDs);
                     if (!$scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
                         selectedAreaMatches =  true;
                         
