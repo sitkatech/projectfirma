@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ApprovalUtilities.Utilities;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly string EditProjectGeospatialAreasUrl;
         public readonly bool HasProjectLocationPoint;
         public readonly bool HasProjectLocationDetail;
-        public readonly List<Models.GeospatialArea> GeospatialAreasContainingProjectSimpleLocation;
+        public readonly List<Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation;
         public readonly string SimplePointMarkerImg;
 
         public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson,
@@ -45,11 +46,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaType geospatialAreaType, List<Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation) : base(currentPerson)
         {
             GeospatialAreaType = geospatialAreaType;
-            GeospatialAreasContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
+            GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
 
             ViewDataForAngular =
                 new EditProjectGeospatialAreasViewDataForAngular(mapInitJson, geospatialAreasInViewModel,
-                    geospatialAreaType, GeospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
+                    geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;
             EditProjectGeospatialAreasUrl = editProjectGeospatialAreasUrl;
             HasProjectLocationPoint = hasProjectLocationPoint;
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly string GeospatialAreaMapServiceLayerName;
         public readonly string MapServiceUrl;
         public readonly string GeospatialAreaTypeName;
-        public readonly List<int> GeospatialAreasContainingProjectSimpleLocation;
+        public readonly List<int> GeospatialAreaIDsContainingProjectSimpleLocation;
         public readonly bool HasProjectLocationPoint;
 
         public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson,
@@ -80,13 +81,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                 SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c =>
                     c.FindGeospatialAreaByName(geospatialAreaType, null));
             TypeAheadInputId = "geospatialAreaSearch";
-            GeospatialAreaNameByID =
-                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
+            
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaType.MapServiceUrl;
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
-            GeospatialAreasContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation
+
+            GeospatialAreaNameByID =
+                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
+
+            GeospatialAreaNameByID.AddAll(
+                geospatialAreasContainingProjectSimpleLocation
+                    .Where(x => !GeospatialAreaNameByID.ContainsKey(x.GeospatialAreaID)).ToDictionary(
+                        x => x.GeospatialAreaID,
+                        x => x.GeospatialAreaName));
+
+            GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation
                 .Select(x => x.GeospatialAreaID).ToList();
+
             HasProjectLocationPoint = hasProjectLocationPoint;
         }
     }

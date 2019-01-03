@@ -1091,7 +1091,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
 
-            var geospatialAreaContainingProjectSimpleLocation =
+            var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas
                     .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
                     .GetGeospatialAreasContainingProjectLocation(projectUpdate).ToList();
@@ -1099,7 +1099,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
                 projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType,
-                geospatialAreaContainingProjectSimpleLocation);
+                geospatialAreasContainingProjectSimpleLocation);
 
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)

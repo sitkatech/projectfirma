@@ -177,12 +177,13 @@ angular.module("ProjectFirmaApp")
             };
 
             $scope.canSetGeospatialAreaFromProjectLocation = function () {
-                return $scope.AngularViewData.HasProjectLocationPoint;
+                return $scope.AngularViewData.HasProjectLocationPoint &&
+                    $scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation.length > 0;
             };
 
             $scope.setGeospatialAreaFromProjectLocation = function () {
                 $scope.AngularModel.GeospatialAreaIDs = [];
-                _.forEach($scope.AngularViewData.GeospatialAreasContainingProjectSimpleLocation, function (geospatialAreaID) {
+                _.forEach($scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {                    
                     $scope.AngularModel.GeospatialAreaIDs.push(geospatialAreaID);
                 });
 
@@ -200,7 +201,7 @@ angular.module("ProjectFirmaApp")
 
                 var selectedAreaMatches = false;
 
-                _.forEach($scope.AngularViewData.GeospatialAreasContainingProjectSimpleLocation, function (geospatialAreaID) {
+                _.forEach($scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
                     console.log($scope.AngularModel.GeospatialAreaIDs);
                     if (!$scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
                         selectedAreaMatches =  true;
