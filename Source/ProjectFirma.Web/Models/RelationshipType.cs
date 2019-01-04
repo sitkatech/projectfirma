@@ -36,6 +36,11 @@ namespace ProjectFirma.Web.Models
                 return null;
             }
 
+            if (project.ProjectLocationPoint == null)
+            {
+                return null;
+            }
+
             var organizationsInThisRelatonshipTypeWithBoundary = OrganizationTypeRelationshipTypes.SelectMany(x =>
                 x.OrganizationType.Organizations.Where(y => y.OrganizationBoundary != null));
 
