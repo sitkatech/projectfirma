@@ -161,6 +161,9 @@ a:hover {
 .projectFirmaNavbar .glyphicon-menu-hamburger {
   color: #fff;
 }
+.factSheet .factSheetPrimaryLogo {
+  height: 120px;
+}
 footer#footer {
   position: relative;
   bottom: 0;
