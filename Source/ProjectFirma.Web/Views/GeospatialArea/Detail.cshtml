@@ -112,7 +112,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
                                         @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
                                     </div>
-                                    <p>Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple ViewDataTyped.GeospatialAreaTypeNamePluralized, the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @ViewDataTyped.GeospatialAreaTypeName.</p>
+                                    <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can span multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, therefore the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.GeospatialAreaTypeNamePluralized.</p>
                                 }
                                 else
                                 {

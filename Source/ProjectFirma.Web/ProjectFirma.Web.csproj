@@ -460,9 +460,6 @@
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.min.css">
       <DependentUpon>actionagenda.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\iswcc.theme - Copy.css">
-      <DependentUpon>actionagenda.theme.less</DependentUpon>
-    </Content>
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.less" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
@@ -748,9 +745,6 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\dnr.theme.min.css">
       <DependentUpon>dnr.theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\iswcc.theme - Copy.min.css">
-      <DependentUpon>iswcc.theme - Copy.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\iswcc.theme.css">
       <DependentUpon>iswcc.theme.less</DependentUpon>
