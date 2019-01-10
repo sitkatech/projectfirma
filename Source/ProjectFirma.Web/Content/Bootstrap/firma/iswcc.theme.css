@@ -1,5 +1,21 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Vollkorn:400,700');
-@import url('https://fonts.googleapis.com/css?family=Ruthie');
+﻿@font-face {
+  font-family: 'Vollkorn';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Vollkorn Regular'), local('Vollkorn-Regular'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb9GDoxxrvAnPhYGxkpaEg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Vollkorn';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb6GDoxxrvAnPhYGxGSTVg5jBA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ruthie';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ruthie'), local('Ruthie-Regular'), url(https://fonts.gstatic.com/s/ruthie/v9/gokvH63sGkdqXuUNkzRz.ttf) format('truetype');
+}
 html,
 body {
   height: 100%;
@@ -115,25 +131,31 @@ a:hover {
   background-color: transparent;
   border-color: #A5946A;
 }
-.projectFirmaNavbar .nav li ul.dropdown-menu {
+.projectFirmaNavbar .nav li ul.dropdown-menu,
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu {
   background-color: #FFF;
   border: 1px solid #A5946A;
   border-top: none;
 }
-.projectFirmaNavbar .nav li ul.dropdown-menu li a {
+.projectFirmaNavbar .nav li ul.dropdown-menu li a,
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu li a {
   font-weight: 400;
   font-family: "Segoe UI", sans-serif;
   color: #1C2329;
   background-color: #FFF;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
-.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu li a:active,
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus,
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu li a:focus {
   color: #1C2329;
   background-color: #EBECEC;
   text-decoration: none;
 }
-.projectFirmaNavbar .nav li ul.dropdown-menu .divider {
+.projectFirmaNavbar .nav li ul.dropdown-menu .divider,
+.projectFirmaNavbar .nav li .panelFirma .panelTitle ul.dropdown-menu .divider {
   background-color: #A5946A;
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
@@ -221,8 +243,8 @@ table.summaryLayout th,
 }
 /* First arrow */
 .firstArrow {
-  border-top-left-radius: .25rem;
-  border-bottom-left-radius: .25rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
 .firstArrow.current {
   background-color: #535971;
@@ -295,8 +317,8 @@ table.summaryLayout th,
 }
 /* Last arrow */
 .lastArrow {
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 .lastArrow.current {
   background-color: #535971;
