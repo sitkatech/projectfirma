@@ -37,11 +37,11 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ProjectUpdatesUrl;
         public readonly bool DisplayActionButtons;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<GeospatialAreaType> geospatialAreaTypes) : base(currentPerson, firmaPage)
         {
             PageTitle = $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List";
 
-            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>()) {ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>(), geospatialAreaTypes) {ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))

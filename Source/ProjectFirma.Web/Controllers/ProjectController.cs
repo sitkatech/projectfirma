@@ -357,7 +357,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, geospatialAreaTypes);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -365,7 +366,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypeDatas.ToDictionary(x => x.FundingTypeID);
-            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
+            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceRequests).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
