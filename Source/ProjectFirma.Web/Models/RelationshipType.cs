@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApprovalUtilities.SimpleLogger;
 using LtInfo.Common;
-using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
@@ -11,6 +9,8 @@ namespace ProjectFirma.Web.Models
 {
     public partial class RelationshipType : IAuditableEntity
     {
+        public const string RelationshipTypeNameFunder = "Funder";
+
         public bool CanDelete()
         {
             return !ProjectOrganizations.Any();

@@ -18,7 +18,6 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
@@ -33,17 +32,17 @@
             <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
             <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
         </tr>
-        @foreach (var relationshipType in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x.RelationshipTypeName))
+        @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
         {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipType == relationshipType).OrderBy(x => x.Organization.OrganizationName).ToList();
+            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
             <tr>
                 @if (projectOrganizations.Count > 1)
                 {
-                    <td>@(relationshipType.RelationshipTypeName + "s")</td>
+                    <td>@(relationshipTypeName + "s")</td>
                 }
                 else
                 {
-                    <td>@relationshipType.RelationshipTypeName</td>
+                    <td>@relationshipTypeName</td>
                 }
                 <td>
                     <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">

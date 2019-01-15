@@ -386,9 +386,10 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyLeafID", TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", string.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
                 var associatedOrganizations = this.GetAssociatedOrganizations();
-                foreach (var type in associatedOrganizations.Select(x => x.RelationshipType).Distinct())
+                var relationshipTypeNames = associatedOrganizations.Select(x => x.RelationshipTypeName).Distinct();
+                foreach (var relationshipTypeName in relationshipTypeNames)
                 {
-                    feature.Properties.Add($"{type.RelationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipType == type).Select(z => z.Organization.OrganizationID));
+                    feature.Properties.Add($"{relationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipTypeName.Equals(relationshipTypeName)).Select(z => z.Organization.OrganizationID));
                 }
 
                 if (useDetailedCustomPopup)
@@ -448,9 +449,7 @@ namespace ProjectFirma.Web.Models
 
         public string AssocatedOrganizationNames(Organization organization)
         {
-            var projectOrganizationAssocationNames = new List<string>();
-            this.GetAssociatedOrganizations().Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
-            return string.Join(", ", projectOrganizationAssocationNames);
+            return string.Join(", ", this.GetAssociatedOrganizations().Where(x => x.Organization.OrganizationID == organization.OrganizationID).Select(x => x.RelationshipTypeName));
         }
 
         public ProjectImage KeyPhoto

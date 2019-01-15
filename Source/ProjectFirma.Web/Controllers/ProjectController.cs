@@ -409,7 +409,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentPerson.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.Organization).Contains(CurrentPerson.Organization))
+                        x.GetAssociatedOrganizations().Select(y => y.Organization.OrganizationID).Contains(CurrentPerson.OrganizationID))
                     .ToList();
             }
             else

@@ -4,7 +4,7 @@
     {
         public Project Project { get; }
         public Organization Organization { get; }
-        public RelationshipType RelationshipType { get; }
+        public string RelationshipTypeName { get; }
         public string DisplayCssClass { get; }
 
 
@@ -12,7 +12,14 @@
         {
             Project = project;
             Organization = organization;
-            RelationshipType = relationshipType;
+            RelationshipTypeName = relationshipType.RelationshipTypeName;
+        }
+
+        public ProjectOrganizationRelationship(Project project, Organization organization, string relationshipTypeName)
+        {
+            Project = project;
+            Organization = organization;
+            RelationshipTypeName = relationshipTypeName;
         }
 
         public ProjectOrganizationRelationship(Project project, Organization organization, RelationshipType relationshipType, string displayCssClass) : this(project, organization, relationshipType)
