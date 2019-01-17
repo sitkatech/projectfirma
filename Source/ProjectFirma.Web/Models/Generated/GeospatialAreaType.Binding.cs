@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[GeospatialAreaType] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[GeospatialAreaType]")]
     public partial class GeospatialAreaType : IHavePrimaryKey, IHaveATenantID
     {
@@ -26,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.GeospatialAreas = new HashSet<GeospatialArea>();
             this.ProjectGeospatialAreaTypeNotes = new HashSet<ProjectGeospatialAreaTypeNote>();
             this.ProjectGeospatialAreaTypeNoteUpdates = new HashSet<ProjectGeospatialAreaTypeNoteUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int GeospatialAreaTypeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string GeospatialAreaTypeName { get; set; }
         public string GeospatialAreaTypeNamePluralized { get; set; }
         public string GeospatialAreaIntroContent { get; set; }

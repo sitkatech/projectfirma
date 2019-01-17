@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[FileResource] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[FileResource]")]
     public partial class FileResource : IHavePrimaryKey, IHaveATenantID
     {
@@ -37,7 +38,6 @@ namespace ProjectFirma.Web.Models
             this.TenantAttributesWhereYouAreTheTenantBannerLogoFileResource = new HashSet<TenantAttribute>();
             this.TenantAttributesWhereYouAreTheTenantSquareLogoFileResource = new HashSet<TenantAttribute>();
             this.TenantAttributesWhereYouAreTheTenantStyleSheetFileResource = new HashSet<TenantAttribute>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FileResourceID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FileResourceMimeTypeID { get; set; }
         public string OriginalBaseFilename { get; set; }
         public string OriginalFileExtension { get; set; }

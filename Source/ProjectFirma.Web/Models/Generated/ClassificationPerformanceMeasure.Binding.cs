@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ClassificationPerformanceMeasure] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ClassificationPerformanceMeasure]")]
     public partial class ClassificationPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ClassificationPerformanceMeasure()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ClassificationPerformanceMeasureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ClassificationID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryChart { get; set; }

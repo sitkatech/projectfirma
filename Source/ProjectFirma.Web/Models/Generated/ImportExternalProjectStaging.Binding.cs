@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ImportExternalProjectStaging] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ImportExternalProjectStaging]")]
     public partial class ImportExternalProjectStaging : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ImportExternalProjectStaging()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ImportExternalProjectStagingID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
         public string ProjectName { get; set; }

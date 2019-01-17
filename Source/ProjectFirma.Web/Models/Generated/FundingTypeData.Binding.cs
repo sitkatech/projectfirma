@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[FundingTypeData] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[FundingTypeData]")]
     public partial class FundingTypeData : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected FundingTypeData()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FundingTypeDataID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FundingTypeID { get; set; }
         public string FundingTypeDisplayName { get; set; }
         public string FundingTypeShortName { get; set; }

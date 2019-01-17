@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[AssessmentQuestion] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[AssessmentQuestion]")]
     public partial class AssessmentQuestion : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected AssessmentQuestion()
         {
             this.ProjectAssessmentQuestions = new HashSet<ProjectAssessmentQuestion>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AssessmentQuestionID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int AssessmentSubGoalID { get; set; }
         public string AssessmentQuestionText { get; set; }
         public DateTime? ArchiveDate { get; set; }

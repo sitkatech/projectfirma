@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TenantAttribute] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TenantAttribute]")]
     public partial class TenantAttribute : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TenantAttribute()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TenantAttributeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
         public int MinimumYear { get; set; }
         public int? PrimaryContactPersonID { get; set; }

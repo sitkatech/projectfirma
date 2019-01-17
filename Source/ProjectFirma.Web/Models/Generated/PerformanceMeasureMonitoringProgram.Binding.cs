@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PerformanceMeasureMonitoringProgram] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasureMonitoringProgram]")]
     public partial class PerformanceMeasureMonitoringProgram : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureMonitoringProgram()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureMonitoringProgramID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int MonitoringProgramID { get; set; }
         [NotMapped]

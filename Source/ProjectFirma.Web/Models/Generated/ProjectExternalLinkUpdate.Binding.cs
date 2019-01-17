@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectExternalLinkUpdate] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectExternalLinkUpdate]")]
     public partial class ProjectExternalLinkUpdate : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectExternalLinkUpdate()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectExternalLinkUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }

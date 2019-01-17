@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TrainingVideo] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TrainingVideo]")]
     public partial class TrainingVideo : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TrainingVideo()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TrainingVideoID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string VideoName { get; set; }
         public string VideoDescription { get; set; }
         public DateTime VideoUploadDate { get; set; }

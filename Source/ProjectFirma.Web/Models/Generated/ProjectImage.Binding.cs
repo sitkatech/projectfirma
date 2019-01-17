@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectImage] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectImage]")]
     public partial class ProjectImage : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectImage()
         {
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectImageID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FileResourceID { get; set; }
         public int ProjectID { get; set; }
         public int ProjectImageTimingID { get; set; }

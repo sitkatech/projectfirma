@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PersonStewardGeospatialArea] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PersonStewardGeospatialArea]")]
     public partial class PersonStewardGeospatialArea : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PersonStewardGeospatialArea()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PersonStewardGeospatialAreaID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PersonID { get; set; }
         public int GeospatialAreaID { get; set; }
         [NotMapped]

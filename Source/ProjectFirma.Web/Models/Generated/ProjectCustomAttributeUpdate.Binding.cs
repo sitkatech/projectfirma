@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectCustomAttributeUpdate] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectCustomAttributeUpdate]")]
     public partial class ProjectCustomAttributeUpdate : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectCustomAttributeUpdate()
         {
             this.ProjectCustomAttributeUpdateValues = new HashSet<ProjectCustomAttributeUpdateValue>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectCustomAttributeUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int ProjectCustomAttributeTypeID { get; set; }
         [NotMapped]

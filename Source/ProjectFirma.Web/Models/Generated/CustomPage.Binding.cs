@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[CustomPage] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[CustomPage]")]
     public partial class CustomPage : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected CustomPage()
         {
             this.CustomPageImages = new HashSet<CustomPageImage>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int CustomPageID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string CustomPageDisplayName { get; set; }
         public string CustomPageVanityUrl { get; set; }
         public int CustomPageDisplayTypeID { get; set; }

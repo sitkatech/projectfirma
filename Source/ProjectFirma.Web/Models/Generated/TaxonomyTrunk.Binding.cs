@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TaxonomyTrunk] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TaxonomyTrunk]")]
     public partial class TaxonomyTrunk : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTrunk()
         {
             this.TaxonomyBranches = new HashSet<TaxonomyBranch>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyTrunkID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string TaxonomyTrunkName { get; set; }
         public string TaxonomyTrunkDescription { get; set; }
         [NotMapped]

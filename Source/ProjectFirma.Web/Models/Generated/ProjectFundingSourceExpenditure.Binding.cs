@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectFundingSourceExpenditure] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectFundingSourceExpenditure]")]
     public partial class ProjectFundingSourceExpenditure : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectFundingSourceExpenditure()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectFundingSourceExpenditureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
         public int CalendarYear { get; set; }

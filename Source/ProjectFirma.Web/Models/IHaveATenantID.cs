@@ -25,6 +25,6 @@ namespace ProjectFirma.Web.Models
 {
     public interface IHaveATenantID : ICanDeleteFull
     {
-        int TenantID { get; }
+        int TenantID { get; set; }
     }
 }

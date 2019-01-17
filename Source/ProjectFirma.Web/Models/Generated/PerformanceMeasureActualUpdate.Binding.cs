@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PerformanceMeasureActualUpdate] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasureActualUpdate]")]
     public partial class PerformanceMeasureActualUpdate : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureActualUpdate()
         {
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureActualUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }

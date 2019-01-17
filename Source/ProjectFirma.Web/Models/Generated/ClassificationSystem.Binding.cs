@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ClassificationSystem] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ClassificationSystem]")]
     public partial class ClassificationSystem : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ClassificationSystem()
         {
             this.Classifications = new HashSet<Classification>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ClassificationSystemID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string ClassificationSystemName { get; set; }
         public string ClassificationSystemDefinition { get; set; }
         [NotMapped]

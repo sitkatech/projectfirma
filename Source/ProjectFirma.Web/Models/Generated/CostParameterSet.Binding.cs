@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[CostParameterSet] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[CostParameterSet]")]
     public partial class CostParameterSet : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected CostParameterSet()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int CostParameterSetID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public decimal InflationRate { get; set; }
         public int CurrentYearForPVCalculations { get; set; }
         public string Comment { get; set; }

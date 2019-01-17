@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectUpdateConfiguration] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectUpdateConfiguration]")]
     public partial class ProjectUpdateConfiguration : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectUpdateConfiguration()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectUpdateConfigurationID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DateTime? ProjectUpdateKickOffDate { get; set; }
         public DateTime? ProjectUpdateCloseOutDate { get; set; }
         public int? ProjectUpdateReminderInterval { get; set; }

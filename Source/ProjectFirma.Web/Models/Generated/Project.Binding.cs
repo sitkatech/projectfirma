@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[Project] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[Project]")]
     public partial class Project : IHavePrimaryKey, IHaveATenantID
     {
@@ -46,7 +47,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectTags = new HashSet<ProjectTag>();
             this.ProjectUpdateBatches = new HashSet<ProjectUpdateBatch>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int TaxonomyLeafID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectName { get; set; }

@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[SnapshotOrganizationTypeExpenditure] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SnapshotOrganizationTypeExpenditure]")]
     public partial class SnapshotOrganizationTypeExpenditure : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected SnapshotOrganizationTypeExpenditure()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotOrganizationTypeExpenditureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }

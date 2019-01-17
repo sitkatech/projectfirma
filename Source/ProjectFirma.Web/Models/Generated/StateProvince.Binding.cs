@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[StateProvince] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[StateProvince]")]
     public partial class StateProvince : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected StateProvince()
         {
             this.Counties = new HashSet<County>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int StateProvinceID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string StateProvinceName { get; set; }
         public string StateProvinceAbbreviation { get; set; }
         public DbGeometry StateProvinceFeature { get; set; }

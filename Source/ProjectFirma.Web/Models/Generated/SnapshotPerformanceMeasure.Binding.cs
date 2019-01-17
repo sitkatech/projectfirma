@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[SnapshotPerformanceMeasure] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SnapshotPerformanceMeasure]")]
     public partial class SnapshotPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected SnapshotPerformanceMeasure()
         {
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotPerformanceMeasureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }

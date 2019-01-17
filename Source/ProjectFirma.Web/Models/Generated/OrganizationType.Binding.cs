@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[OrganizationType] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[OrganizationType]")]
     public partial class OrganizationType : IHavePrimaryKey, IHaveATenantID
     {
@@ -26,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.Organizations = new HashSet<Organization>();
             this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
             this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationTypeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string OrganizationTypeName { get; set; }
         public string OrganizationTypeAbbreviation { get; set; }
         public string LegendColor { get; set; }

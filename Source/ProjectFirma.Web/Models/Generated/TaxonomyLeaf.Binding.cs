@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TaxonomyLeaf] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TaxonomyLeaf]")]
     public partial class TaxonomyLeaf : IHavePrimaryKey, IHaveATenantID
     {
@@ -25,7 +26,6 @@ namespace ProjectFirma.Web.Models
         {
             this.Projects = new HashSet<Project>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyLeafID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int TaxonomyBranchID { get; set; }
         public string TaxonomyLeafName { get; set; }
         public string TaxonomyLeafDescription { get; set; }

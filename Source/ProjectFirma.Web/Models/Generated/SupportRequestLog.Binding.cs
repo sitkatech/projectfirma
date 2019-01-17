@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[SupportRequestLog] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SupportRequestLog]")]
     public partial class SupportRequestLog : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected SupportRequestLog()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SupportRequestLogID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DateTime RequestDate { get; set; }
         public string RequestPersonName { get; set; }
         public string RequestPersonEmail { get; set; }

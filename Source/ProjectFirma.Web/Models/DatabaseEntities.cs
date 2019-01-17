@@ -100,17 +100,17 @@ namespace ProjectFirma.Web.Models
             {
                 foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
                 {
-                    var haveATenantID = entry.Entity as IHaveATenantID;
-                    var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;
-                    Check.Assert(editingCurrentTenant,
-                        "Editing or accessing an entity across tenant boundaries: " + entry.Entity);
+                    if (entry.Entity is IHaveATenantID haveATenantID)
+                    {
+                        haveATenantID.TenantID = tenantID;
+                    }
                 }
             }
 
             foreach (var entry in modifiedEntries)
             {
                 // For each changed record, get the audit record entries and add them
-                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext);
+                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
 
@@ -142,7 +142,7 @@ namespace ProjectFirma.Web.Models
             foreach (var entry in addedEntries)
             {
                 // For each added record, get the audit record entries and add them
-                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, objectContext);
+                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, objectContext, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
             // we need to save the audit log entries now

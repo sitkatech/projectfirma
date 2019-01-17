@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PerformanceMeasureSubcategoryOption] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasureSubcategoryOption]")]
     public partial class PerformanceMeasureSubcategoryOption : IHavePrimaryKey, IHaveATenantID
     {
@@ -27,7 +28,6 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }

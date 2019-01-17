@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static List<AuditLog> GetAuditLogRecordsForModifiedOrDeleted(DbEntityEntry dbEntry, Person person, ObjectContext objectContext)
+        public static List<AuditLog> GetAuditLogRecordsForModifiedOrDeleted(DbEntityEntry dbEntry, Person person, ObjectContext objectContext, int tenantID)
         {
             var result = new List<AuditLog>();
             var tableName = EntityFrameworkHelpers.GetTableName(dbEntry.Entity.GetType(), objectContext);
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Models
                 switch (dbEntry.State)
                 {
                     case EntityState.Deleted:
-                        var newAuditLog = CreateAuditLogEntryForDeleted(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted);
+                        var newAuditLog = CreateAuditLogEntryForDeleted(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted, tenantID);
                         result.Add(newAuditLog);
                         break;
 
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
                         var modifiedProperties = dbEntry.CurrentValues.PropertyNames.Where(p => dbEntry.Property(p).IsModified).Select(dbEntry.Property).ToList();
                         var auditLogs =
                             modifiedProperties.Select(
-                                modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Modified, modifiedProperty))
+                                modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Modified, modifiedProperty, tenantID))
                                 .Where(x => x != null)
                                 .ToList();
                         result.AddRange(auditLogs);
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// This has its own path because we need to call this after the initial savechanges to grab the new primary key id from the database
         /// </summary>
-        public static List<AuditLog> GetAuditLogRecordsForAdded(DbEntityEntry dbEntry, Person person, ObjectContext objectContext)
+        public static List<AuditLog> GetAuditLogRecordsForAdded(DbEntityEntry dbEntry, Person person, ObjectContext objectContext, int tenantID)
         {
             var result = new List<AuditLog>();
             var tableName = EntityFrameworkHelpers.GetTableName(dbEntry.Entity.GetType(), objectContext);
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Models
                 var modifiedProperties = dbEntry.CurrentValues.PropertyNames.Select(dbEntry.Property).Where(currentProperty => !IsPropertyChangeOfNullToNull(currentProperty)).ToList();
                 var auditLogs =
                     modifiedProperties.Select(
-                        modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Added, modifiedProperty))
+                        modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Added, modifiedProperty, tenantID))
                         .Where(x => x != null)
                         .ToList();
                 result.AddRange(auditLogs);
@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Models
             string tableName,
             Person person,
             DateTime changeDate,
-            AuditLogEventType auditLogEventType)
+            AuditLogEventType auditLogEventType, int tenantID)
         {
             var auditableEntityDeleted = GetIAuditableEntityFromEntity(dbEntry.Entity, tableName);
             var optionalAuditDescriptionString = auditLogEventType.GetAuditStringForOperationType(tableName, null, auditableEntityDeleted.AuditDescriptionString);
@@ -159,8 +159,7 @@ namespace ProjectFirma.Web.Models
                 "*ALL",
                 AuditLogEventType.Deleted.AuditLogEventTypeDisplayName,
                 null,
-                optionalAuditDescriptionString,
-                objectContext);
+                optionalAuditDescriptionString, tenantID);
             return auditLogEntry;
         }
 
@@ -174,7 +173,7 @@ namespace ProjectFirma.Web.Models
             Person person,
             DateTime changeDate,
             AuditLogEventType auditLogEventType,
-            DbPropertyEntry modifiedProperty)
+            DbPropertyEntry modifiedProperty, int tenantID)
         {
             var propertyName = modifiedProperty.Name;
             if (!string.Equals(propertyName, string.Format("{0}ID", tableName), StringComparison.InvariantCultureIgnoreCase) && !string.Equals(propertyName, "TenantID", StringComparison.InvariantCultureIgnoreCase))
@@ -188,8 +187,7 @@ namespace ProjectFirma.Web.Models
                     propertyName,
                     modifiedProperty.CurrentValue,
                     modifiedProperty.OriginalValue,
-                    optionalAuditDescriptionString,
-                    objectContext);
+                    optionalAuditDescriptionString, tenantID);
                 return auditLogEntry;
             }
             return null;
@@ -221,15 +219,15 @@ namespace ProjectFirma.Web.Models
             string propertyName,
             object newValue,
             object originalValue,
-            string optionalAuditDescriptionString,
-            ObjectContext objectContext)
+            string optionalAuditDescriptionString, int tenantID)
         {
             var recordID = (int) dbEntry.Property(PrimaryKeyName).CurrentValue;
             var newValueString = newValue != null ? newValue.ToString() : string.Empty;
             var auditLog = new AuditLog(person, changeDate, auditLogEventType, tableName, recordID, propertyName, newValueString)
             {
                 OriginalValue = originalValue != null ? originalValue.ToString() : null,
-                AuditDescription = optionalAuditDescriptionString
+                AuditDescription = optionalAuditDescriptionString,
+                TenantID = tenantID
             };
             AddAdditionalRecordColumns(dbEntry, tableName, auditLog);
             return auditLog;

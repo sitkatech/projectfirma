@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PerformanceMeasure] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasure]")]
     public partial class PerformanceMeasure : IHavePrimaryKey, IHaveATenantID
     {
@@ -36,7 +37,6 @@ namespace ProjectFirma.Web.Models
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string CriticalDefinitions { get; set; }
         [NotMapped]
         public HtmlString CriticalDefinitionsHtmlString

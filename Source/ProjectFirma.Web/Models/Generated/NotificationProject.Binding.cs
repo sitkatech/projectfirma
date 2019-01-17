@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[NotificationProject] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[NotificationProject]")]
     public partial class NotificationProject : IHavePrimaryKey, IHaveATenantID
     {
@@ -24,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected NotificationProject()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int NotificationProjectID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int NotificationID { get; set; }
         public int ProjectID { get; set; }
         [NotMapped]
