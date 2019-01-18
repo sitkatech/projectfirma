@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected AssessmentGoal()
         {
             this.AssessmentSubGoals = new HashSet<AssessmentSubGoal>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -96,7 +95,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AssessmentGoalID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int AssessmentGoalNumber { get; set; }
         public string AssessmentGoalTitle { get; set; }
         public string AssessmentGoalDescription { get; set; }

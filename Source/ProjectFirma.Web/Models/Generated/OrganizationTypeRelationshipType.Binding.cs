@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected OrganizationTypeRelationshipType()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationTypeRelationshipTypeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int OrganizationTypeID { get; set; }
         public int RelationshipTypeID { get; set; }
         [NotMapped]

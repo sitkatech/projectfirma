@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectGeospatialAreaTypeNote()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectGeospatialAreaTypeNoteID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int GeospatialAreaTypeID { get; set; }
         public string Notes { get; set; }

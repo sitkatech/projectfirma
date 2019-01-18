@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PersonStewardTaxonomyBranch()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PersonStewardTaxonomyBranchID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PersonID { get; set; }
         public int TaxonomyBranchID { get; set; }
         [NotMapped]

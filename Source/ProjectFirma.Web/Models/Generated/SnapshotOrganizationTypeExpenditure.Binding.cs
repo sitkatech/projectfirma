@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected SnapshotOrganizationTypeExpenditure()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotOrganizationTypeExpenditureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }

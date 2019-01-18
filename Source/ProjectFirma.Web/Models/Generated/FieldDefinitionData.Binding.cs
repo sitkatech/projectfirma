@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected FieldDefinitionData()
         {
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FieldDefinitionDataID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FieldDefinitionID { get; set; }
         public string FieldDefinitionDataValue { get; set; }
         [NotMapped]

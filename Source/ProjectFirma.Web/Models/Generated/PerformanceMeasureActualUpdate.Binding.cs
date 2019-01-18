@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureActualUpdate()
         {
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureActualUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }

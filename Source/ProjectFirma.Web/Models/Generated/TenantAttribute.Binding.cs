@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TenantAttribute()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -138,7 +137,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TenantAttributeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
         public int MinimumYear { get; set; }
         public int? PrimaryContactPersonID { get; set; }

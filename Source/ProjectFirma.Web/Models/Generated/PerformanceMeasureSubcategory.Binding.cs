@@ -29,7 +29,6 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.PerformanceMeasureSubcategoryOptions = new HashSet<PerformanceMeasureSubcategoryOption>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -134,7 +133,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureSubcategoryID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }

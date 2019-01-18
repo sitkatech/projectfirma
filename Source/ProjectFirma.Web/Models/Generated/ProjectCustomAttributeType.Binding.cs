@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Models
         {
             this.ProjectCustomAttributes = new HashSet<ProjectCustomAttribute>();
             this.ProjectCustomAttributeUpdates = new HashSet<ProjectCustomAttributeUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -118,7 +117,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectCustomAttributeTypeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string ProjectCustomAttributeTypeName { get; set; }
         public int ProjectCustomAttributeDataTypeID { get; set; }
         public int? MeasurementUnitTypeID { get; set; }

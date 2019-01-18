@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected MonitoringProgramDocument()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramDocumentID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FileResourceID { get; set; }
         public int MonitoringProgramID { get; set; }
         public string DisplayName { get; set; }

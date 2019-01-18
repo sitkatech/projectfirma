@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected FirmaHomePageImage()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FirmaHomePageImageID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FileResourceID { get; set; }
         public string Caption { get; set; }
         public int SortOrder { get; set; }

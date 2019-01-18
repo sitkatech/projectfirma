@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
             this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }

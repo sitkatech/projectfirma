@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected FieldDefinitionDataImage()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FieldDefinitionDataImageID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FieldDefinitionDataID { get; set; }
         public int FileResourceID { get; set; }
         [NotMapped]

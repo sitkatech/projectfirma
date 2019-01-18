@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectExternalLink()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectExternalLinkID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }

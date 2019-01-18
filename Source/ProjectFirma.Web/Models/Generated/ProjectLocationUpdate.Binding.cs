@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationUpdate()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +97,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public DbGeometry ProjectLocationUpdateGeometry { get; set; }
         public string Annotation { get; set; }

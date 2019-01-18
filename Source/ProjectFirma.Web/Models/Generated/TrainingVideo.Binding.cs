@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TrainingVideo()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TrainingVideoID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string VideoName { get; set; }
         public string VideoDescription { get; set; }
         public DateTime VideoUploadDate { get; set; }

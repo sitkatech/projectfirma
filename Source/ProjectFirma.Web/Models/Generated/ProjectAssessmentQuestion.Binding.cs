@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectAssessmentQuestion()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectAssessmentQuestionID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }

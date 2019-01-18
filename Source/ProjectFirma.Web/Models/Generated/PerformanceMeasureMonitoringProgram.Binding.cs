@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureMonitoringProgram()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureMonitoringProgramID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int MonitoringProgramID { get; set; }
         [NotMapped]

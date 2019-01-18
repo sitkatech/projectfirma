@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectUpdateHistoriesWhereYouAreTheUpdatePerson = new HashSet<ProjectUpdateHistory>();
             this.SupportRequestLogsWhereYouAreTheRequestPerson = new HashSet<SupportRequestLog>();
             this.TenantAttributesWhereYouAreThePrimaryContactPerson = new HashSet<TenantAttribute>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -287,7 +286,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PersonID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public Guid PersonGuid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

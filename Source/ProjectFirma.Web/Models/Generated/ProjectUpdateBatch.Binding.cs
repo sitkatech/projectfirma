@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
             this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -234,7 +233,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectUpdateBatchID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }

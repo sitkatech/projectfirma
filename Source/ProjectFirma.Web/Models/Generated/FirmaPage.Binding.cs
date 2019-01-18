@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected FirmaPage()
         {
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FirmaPageID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int FirmaPageTypeID { get; set; }
         public string FirmaPageContent { get; set; }
         [NotMapped]

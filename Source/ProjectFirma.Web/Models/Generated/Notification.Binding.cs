@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected Notification()
         {
             this.NotificationProjects = new HashSet<NotificationProject>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int NotificationID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int NotificationTypeID { get; set; }
         public int PersonID { get; set; }
         public DateTime NotificationDate { get; set; }

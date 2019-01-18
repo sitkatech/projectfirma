@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectTag()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectTagID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int TagID { get; set; }
         [NotMapped]

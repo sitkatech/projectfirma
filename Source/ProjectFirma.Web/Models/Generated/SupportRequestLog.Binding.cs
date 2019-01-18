@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected SupportRequestLog()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SupportRequestLogID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DateTime RequestDate { get; set; }
         public string RequestPersonName { get; set; }
         public string RequestPersonEmail { get; set; }

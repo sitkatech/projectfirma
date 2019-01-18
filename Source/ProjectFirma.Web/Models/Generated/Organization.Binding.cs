@@ -31,7 +31,6 @@ namespace ProjectFirma.Web.Models
             this.PersonStewardOrganizations = new HashSet<PersonStewardOrganization>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationShortName { get; set; }

@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectGeospatialArea()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectGeospatialAreaID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int GeospatialAreaID { get; set; }
         [NotMapped]

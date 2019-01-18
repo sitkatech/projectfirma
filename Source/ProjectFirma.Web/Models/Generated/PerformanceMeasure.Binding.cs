@@ -37,7 +37,6 @@ namespace ProjectFirma.Web.Models
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string CriticalDefinitions { get; set; }
         [NotMapped]
         public HtmlString CriticalDefinitionsHtmlString

@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected OrganizationBoundaryStaging()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationBoundaryStagingID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int OrganizationID { get; set; }
         public string FeatureClassName { get; set; }
         public string GeoJson { get; set; }

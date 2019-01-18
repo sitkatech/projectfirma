@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected AuditLog()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AuditLogID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PersonID { get; set; }
         public DateTime AuditLogDate { get; set; }
         public int AuditLogEventTypeID { get; set; }

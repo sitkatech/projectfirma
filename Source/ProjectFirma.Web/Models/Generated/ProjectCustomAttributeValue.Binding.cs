@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectCustomAttributeValue()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectCustomAttributeValueID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectCustomAttributeID { get; set; }
         public string AttributeValue { get; set; }
         [NotMapped]

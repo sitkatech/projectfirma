@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Models
         {
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -123,7 +122,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ClassificationID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string ClassificationDescription { get; set; }
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }

@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectBudgetUpdate()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectBudgetUpdateID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
         public int ProjectCostTypeID { get; set; }

@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureNote()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureNoteID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public string Note { get; set; }
         public int? CreatePersonID { get; set; }

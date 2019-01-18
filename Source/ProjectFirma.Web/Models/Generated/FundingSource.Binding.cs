@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
             this.ProjectFundingSourceRequests = new HashSet<ProjectFundingSourceRequest>();
             this.ProjectFundingSourceRequestUpdates = new HashSet<ProjectFundingSourceRequestUpdate>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FundingSourceID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int OrganizationID { get; set; }
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }

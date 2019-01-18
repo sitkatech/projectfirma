@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTrunk()
         {
             this.TaxonomyBranches = new HashSet<TaxonomyBranch>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -98,7 +97,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyTrunkID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string TaxonomyTrunkName { get; set; }
         public string TaxonomyTrunkDescription { get; set; }
         [NotMapped]

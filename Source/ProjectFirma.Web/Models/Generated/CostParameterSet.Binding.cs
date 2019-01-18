@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected CostParameterSet()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int CostParameterSetID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public decimal InflationRate { get; set; }
         public int CurrentYearForPVCalculations { get; set; }
         public string Comment { get; set; }

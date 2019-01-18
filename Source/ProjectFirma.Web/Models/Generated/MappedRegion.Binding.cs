@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected MappedRegion()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MappedRegionID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string RegionName { get; set; }
         public string RegionDisplayName { get; set; }
         public DbGeometry RegionFeature { get; set; }

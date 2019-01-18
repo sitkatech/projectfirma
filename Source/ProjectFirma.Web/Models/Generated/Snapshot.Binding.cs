@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }

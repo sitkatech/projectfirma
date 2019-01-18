@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyLeafPerformanceMeasure()
         {
 
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyLeafPerformanceMeasureID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public int TaxonomyLeafID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryTaxonomyLeaf { get; set; }

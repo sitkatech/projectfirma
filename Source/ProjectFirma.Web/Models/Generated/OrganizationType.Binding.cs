@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.Organizations = new HashSet<Organization>();
             this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
             this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -116,7 +115,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationTypeID { get; set; }
-        public int TenantID { get; private set; }
+        public int TenantID { get; set; }
         public string OrganizationTypeName { get; set; }
         public string OrganizationTypeAbbreviation { get; set; }
         public string LegendColor { get; set; }
