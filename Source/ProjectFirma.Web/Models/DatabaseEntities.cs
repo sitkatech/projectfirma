@@ -27,8 +27,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Transactions;
 using ProjectFirma.Web.Common;
-using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Models
@@ -45,7 +43,7 @@ namespace ProjectFirma.Web.Models
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))
             {
-                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope, false);
+                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope);
             }
         }
 
@@ -59,58 +57,35 @@ namespace ProjectFirma.Web.Models
         {
             return base.SaveChanges();
         }
-        
-        /// <summary>
-        /// This will allow persisting even when multiple tenants have been touched in the same context.
-        /// DO NOT USE THIS UNLESS YOU KNOW EXACTLY WHAT YOU'RE DOING AND EXACTLY WHY YOU'RE DOING IT.
-        /// The literal only use case for this should be that we're running a scheduled job that has to run for all tenants.
-        /// If that's not your use case, you should probably reconsider.
-        /// </summary>
-        public int SaveChangesOverridingTenantBounds()
-        {
-            var person = HttpRequestStorage.Person;
-            return SaveChangesOverridingTenantBounds(person);
-        }
 
-        // private so I didn't have to write the warning above twice.
-        private int SaveChangesOverridingTenantBounds(Person userPerson)
-        {
-            using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))
-            {
-                return SaveChangesImpl(userPerson, HttpRequestStorage.Tenant, scope, true);
-            }
-        }
-
-        private int SaveChangesImpl(Person person, Tenant tenant, TransactionScope scope, bool overrideTenantBounds)
+        private int SaveChangesImpl(Person person, Tenant tenant, TransactionScope scope)
         {
             ChangeTracker.DetectChanges();
 
             var dbEntityEntries = ChangeTracker.Entries().ToList();
             var addedEntries = dbEntityEntries.Where(e => e.State == EntityState.Added).ToList();
-            var modifiedEntries = dbEntityEntries.Where(e => e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
+            var modifiedEntries = dbEntityEntries
+                .Where(e => e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
             var objectContext = GetObjectContext();
 
             var tenantID = tenant.TenantID;
 
             /*
-             * This is an aggressive check to make sure we're not accidentally doing something like, e.g.,
-             * HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Load();
+             * This is where we are setting it to the TenantID of the current thread or HttpRequestStorage.Tenant;
              */
-            if (!overrideTenantBounds)
+            foreach (var entry in dbEntityEntries.Where(entry => (entry.State == EntityState.Added || entry.State == EntityState.Deleted || entry.State == EntityState.Modified) && entry.Entity is IHaveATenantID))
             {
-                foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
+                if (entry.Entity is IHaveATenantID haveATenantID && haveATenantID.TenantID <= 0)
                 {
-                    if (entry.Entity is IHaveATenantID haveATenantID)
-                    {
-                        haveATenantID.TenantID = tenantID;
-                    }
+                    haveATenantID.TenantID = tenantID;
                 }
             }
 
             foreach (var entry in modifiedEntries)
             {
                 // For each changed record, get the audit record entries and add them
-                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext, tenantID);
+                var auditRecordsForChange =
+                    AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
 
@@ -145,6 +120,7 @@ namespace ProjectFirma.Web.Models
                 var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, objectContext, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
+
             // we need to save the audit log entries now
             base.SaveChanges();
 

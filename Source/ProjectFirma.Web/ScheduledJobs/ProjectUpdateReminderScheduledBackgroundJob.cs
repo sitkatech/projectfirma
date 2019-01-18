@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 }
 
                 DbContext.AllNotifications.AddRange(notifications);
-                DbContext.SaveChangesOverridingTenantBounds();
+                DbContext.SaveChanges();
             }
         }
 
