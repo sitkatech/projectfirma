@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ImportExternalProjectStaging] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ImportExternalProjectStaging]")]
     public partial class ImportExternalProjectStaging : IHavePrimaryKey, IHaveATenantID
     {

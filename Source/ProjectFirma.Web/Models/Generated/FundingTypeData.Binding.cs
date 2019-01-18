@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[FundingTypeData] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[FundingTypeData]")]
     public partial class FundingTypeData : IHavePrimaryKey, IHaveATenantID
     {

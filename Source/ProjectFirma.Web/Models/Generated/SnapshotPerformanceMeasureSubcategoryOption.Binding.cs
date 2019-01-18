@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[SnapshotPerformanceMeasureSubcategoryOption] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SnapshotPerformanceMeasureSubcategoryOption]")]
     public partial class SnapshotPerformanceMeasureSubcategoryOption : IHavePrimaryKey, IHaveATenantID
     {

@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectCustomAttributeValue] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectCustomAttributeValue]")]
     public partial class ProjectCustomAttributeValue : IHavePrimaryKey, IHaveATenantID
     {

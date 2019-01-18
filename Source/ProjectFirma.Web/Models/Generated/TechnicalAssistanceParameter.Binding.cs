@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TechnicalAssistanceParameter] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TechnicalAssistanceParameter]")]
     public partial class TechnicalAssistanceParameter : IHavePrimaryKey, IHaveATenantID
     {

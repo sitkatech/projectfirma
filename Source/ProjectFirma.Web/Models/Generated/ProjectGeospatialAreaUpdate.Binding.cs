@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectGeospatialAreaUpdate] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectGeospatialAreaUpdate]")]
     public partial class ProjectGeospatialAreaUpdate : IHavePrimaryKey, IHaveATenantID
     {

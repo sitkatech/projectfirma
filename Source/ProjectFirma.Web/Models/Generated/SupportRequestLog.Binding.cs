@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[SupportRequestLog] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SupportRequestLog]")]
     public partial class SupportRequestLog : IHavePrimaryKey, IHaveATenantID
     {

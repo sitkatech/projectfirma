@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[ProjectExternalLink] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectExternalLink]")]
     public partial class ProjectExternalLink : IHavePrimaryKey, IHaveATenantID
     {

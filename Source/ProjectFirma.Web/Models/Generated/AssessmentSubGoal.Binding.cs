@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[AssessmentSubGoal] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[AssessmentSubGoal]")]
     public partial class AssessmentSubGoal : IHavePrimaryKey, IHaveATenantID
     {

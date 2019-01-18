@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[FirmaPageImage] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[FirmaPageImage]")]
     public partial class FirmaPageImage : IHavePrimaryKey, IHaveATenantID
     {

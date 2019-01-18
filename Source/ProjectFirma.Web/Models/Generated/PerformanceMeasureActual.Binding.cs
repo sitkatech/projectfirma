@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[PerformanceMeasureActual] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasureActual]")]
     public partial class PerformanceMeasureActual : IHavePrimaryKey, IHaveATenantID
     {

@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[FileResource] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[FileResource]")]
     public partial class FileResource : IHavePrimaryKey, IHaveATenantID
     {

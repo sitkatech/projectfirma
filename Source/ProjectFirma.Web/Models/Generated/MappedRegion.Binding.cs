@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[MappedRegion] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[MappedRegion]")]
     public partial class MappedRegion : IHavePrimaryKey, IHaveATenantID
     {

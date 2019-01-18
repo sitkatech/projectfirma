@@ -15,6 +15,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
+    // Table [dbo].[TaxonomyLeaf] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[TaxonomyLeaf]")]
     public partial class TaxonomyLeaf : IHavePrimaryKey, IHaveATenantID
     {
