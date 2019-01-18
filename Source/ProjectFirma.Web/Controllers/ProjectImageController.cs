@@ -72,6 +72,7 @@ namespace ProjectFirma.Web.Controllers
             var projectImage = new ProjectImage(project, true);
             viewModel.UpdateModel(projectImage, CurrentPerson);
             project.ProjectImages.Add(projectImage);
+            SetMessageForDisplay("Photo successfully created.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -102,6 +103,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(projectImage, viewModel);
             }
             viewModel.UpdateModel(projectImage, CurrentPerson);
+            SetMessageForDisplay("Photo successfully edited.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -141,6 +143,7 @@ namespace ProjectFirma.Web.Controllers
                     project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
                 firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] {firstNonKeyPhoto, projectImage}).ToList());
             }
+            SetMessageForDisplay("Photo successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
 
