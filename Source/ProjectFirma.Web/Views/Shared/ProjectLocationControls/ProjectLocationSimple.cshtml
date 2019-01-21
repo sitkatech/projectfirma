@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
@@ -70,14 +71,15 @@ Source code is available upon request via <support@sitkatech.com>.
         <form method="POST" action="@ViewDataTyped.MapPostUrl" id="@ViewDataTyped.MapFormID">
             @Html.LabelWithSugarFor(FieldDefinition.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
             <strong>How do you want to specify your simple @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()?</strong>
-            
+            <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></span>
+
             <div class="form-group">
                 <div class="radio">
                     <label class="noBold">
                         <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
                                ng-model="AngularModel.ProjectLocationSimpleType"
                                value="@ProjectLocationSimpleTypeEnum.PointOnMap"
-                               ng-click="toggleMap()"/>
+                               ng-click="toggleMap()" />
                         Plot a point on the map
                     </label>
                 </div>
@@ -104,7 +106,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div ng-show="getProjectLocationProperties()">
                 <hr />
-                <table class="summaryLayout" >
+                <table class="summaryLayout">
                     <tr>
                         <th colspan="2">Location Information</th>
                     </tr>
