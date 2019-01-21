@@ -155,10 +155,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl() => SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Pending());
     }
 
-    public partial class FirmaPageTypeMonitoringProgramsList
-    {
-        public override string GetViewUrl() => SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(x => x.Index());
-    }
     public partial class FirmaPageTypeProposeProjectInstructions
     {
         public override string GetViewUrl() => SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));

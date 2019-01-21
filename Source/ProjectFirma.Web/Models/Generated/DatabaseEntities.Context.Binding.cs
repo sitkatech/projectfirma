@@ -72,14 +72,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<MappedRegion> AllMappedRegions { get; set; }
-        public virtual IQueryable<MappedRegion> MappedRegions { get { return AllMappedRegions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<MonitoringProgramDocument> AllMonitoringProgramDocuments { get; set; }
-        public virtual IQueryable<MonitoringProgramDocument> MonitoringProgramDocuments { get { return AllMonitoringProgramDocuments.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<MonitoringProgramPartner> AllMonitoringProgramPartners { get; set; }
-        public virtual IQueryable<MonitoringProgramPartner> MonitoringProgramPartners { get { return AllMonitoringProgramPartners.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<MonitoringProgram> AllMonitoringPrograms { get; set; }
-        public virtual IQueryable<MonitoringProgram> MonitoringPrograms { get { return AllMonitoringPrograms.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -106,8 +98,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get { return AllPerformanceMeasureExpecteds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> AllPerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get { return AllPerformanceMeasureExpectedSubcategoryOptions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<PerformanceMeasureMonitoringProgram> AllPerformanceMeasureMonitoringPrograms { get; set; }
-        public virtual IQueryable<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get { return AllPerformanceMeasureMonitoringPrograms.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
@@ -204,16 +194,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
-        public virtual IQueryable<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get { return AllSnapshotOrganizationTypeExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotPerformanceMeasure> AllSnapshotPerformanceMeasures { get; set; }
-        public virtual IQueryable<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get { return AllSnapshotPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> AllSnapshotPerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual IQueryable<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get { return AllSnapshotPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotProject> AllSnapshotProjects { get; set; }
-        public virtual IQueryable<SnapshotProject> SnapshotProjects { get { return AllSnapshotProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<Snapshot> AllSnapshots { get; set; }
-        public virtual IQueryable<Snapshot> Snapshots { get { return AllSnapshots.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -351,22 +331,10 @@ namespace ProjectFirma.Web.Models
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
 
-                case "MappedRegion":
-                    return MappedRegions.GetMappedRegion(primaryKey);
-
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(measurementUnitType, "MeasurementUnitType", primaryKey);
                     return measurementUnitType;
-
-                case "MonitoringProgramDocument":
-                    return MonitoringProgramDocuments.GetMonitoringProgramDocument(primaryKey);
-
-                case "MonitoringProgramPartner":
-                    return MonitoringProgramPartners.GetMonitoringProgramPartner(primaryKey);
-
-                case "MonitoringProgram":
-                    return MonitoringPrograms.GetMonitoringProgram(primaryKey);
 
                 case "NotificationProject":
                     return NotificationProjects.GetNotificationProject(primaryKey);
@@ -416,9 +384,6 @@ namespace ProjectFirma.Web.Models
 
                 case "PerformanceMeasureExpectedSubcategoryOption":
                     return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
-
-                case "PerformanceMeasureMonitoringProgram":
-                    return PerformanceMeasureMonitoringPrograms.GetPerformanceMeasureMonitoringProgram(primaryKey);
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
@@ -648,26 +613,6 @@ namespace ProjectFirma.Web.Models
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
                     return role;
-
-                case "SnapshotOrganizationTypeExpenditure":
-                    return SnapshotOrganizationTypeExpenditures.GetSnapshotOrganizationTypeExpenditure(primaryKey);
-
-                case "SnapshotPerformanceMeasure":
-                    return SnapshotPerformanceMeasures.GetSnapshotPerformanceMeasure(primaryKey);
-
-                case "SnapshotPerformanceMeasureSubcategoryOption":
-                    return SnapshotPerformanceMeasureSubcategoryOptions.GetSnapshotPerformanceMeasureSubcategoryOption(primaryKey);
-
-                case "SnapshotProject":
-                    return SnapshotProjects.GetSnapshotProject(primaryKey);
-
-                case "SnapshotProjectType":
-                    var snapshotProjectType = SnapshotProjectType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(snapshotProjectType, "SnapshotProjectType", primaryKey);
-                    return snapshotProjectType;
-
-                case "Snapshot":
-                    return Snapshots.GetSnapshot(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

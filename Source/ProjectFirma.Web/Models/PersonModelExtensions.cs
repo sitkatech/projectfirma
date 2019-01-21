@@ -19,6 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -31,6 +34,8 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
+        public const int AnonymousPersonID = -999;
+
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
             return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.FullNameFirstLast);
@@ -98,6 +103,37 @@ namespace ProjectFirma.Web.Models
         public static string GetKeystoneEditLink(this Person person)
         {
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
+        }
+
+        /// <summary>
+        /// Needed for Keystone; basically <see cref="HttpRequestStorage.Person" /> is set to this fake
+        /// "Anonymous" person when we are not authenticated to not have to handle the null Person case.
+        /// Seems like MR and all the other RPs do this so following the pattern
+        /// </summary>
+        /// <returns></returns>
+        public static Person GetAnonymousSitkaUser()
+        {
+            var anonymousSitkaUser = new Person(AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
+            // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
+            return anonymousSitkaUser;
+        }
+
+        /// <summary>
+        /// List of Projects for which this Person is the primary contact
+        /// </summary>
+        public static List<Project> GetPrimaryContactProjects(this Person person, Person currentPerson)
+        {
+            var isPersonViewingThePrimaryContact = currentPerson.PersonID == person.PersonID;
+            if (isPersonViewingThePrimaryContact)
+            {
+                return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
+            }
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals).ToList();
+        }
+
+        public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, Person currentPerson)
+        {
+            return person.GetPrimaryContactProjects(currentPerson).Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
         }
     }
 }

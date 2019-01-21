@@ -23,10 +23,6 @@
     <EntitySet Name="GeospatialArea" EntityType="ProjectFirma.Web.Models.GeospatialArea" />
     <EntitySet Name="GeospatialAreaType" EntityType="ProjectFirma.Web.Models.GeospatialAreaType" />
     <EntitySet Name="ImportExternalProjectStaging" EntityType="ProjectFirma.Web.Models.ImportExternalProjectStaging" />
-    <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
-    <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
-    <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.MonitoringProgramDocument" />
-    <EntitySet Name="MonitoringProgramPartner" EntityType="ProjectFirma.Web.Models.MonitoringProgramPartner" />
     <EntitySet Name="Notification" EntityType="ProjectFirma.Web.Models.Notification" />
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.NotificationProject" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Organization" />
@@ -40,7 +36,6 @@
     <EntitySet Name="PerformanceMeasureActualUpdate" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActualUpdate" />
     <EntitySet Name="PerformanceMeasureExpected" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpected" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" />
-    <EntitySet Name="PerformanceMeasureMonitoringProgram" EntityType="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" />
     <EntitySet Name="PerformanceMeasureNote" EntityType="ProjectFirma.Web.Models.PerformanceMeasureNote" />
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
     <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" />
@@ -89,11 +84,6 @@
     <EntitySet Name="ProjectUpdateConfiguration" EntityType="ProjectFirma.Web.Models.ProjectUpdateConfiguration" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
-    <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
-    <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
-    <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
-    <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
-    <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.SnapshotProject" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.StateProvince" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
@@ -172,10 +162,6 @@
     <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MonitoringProgramDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
     </AssociationSet>
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
       <End Role="LogoFileResource" EntitySet="FileResource" />
@@ -269,22 +255,6 @@
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" EntitySet="ImportExternalProjectStaging" />
     </AssociationSet>
-    <AssociationSet Name="FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID">
-      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
-      <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID">
-      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
-      <End Role="MonitoringProgramPartners" EntitySet="MonitoringProgramPartner" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
-      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MonitoringProgramPartner_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="MonitoringProgramPartners" EntitySet="MonitoringProgramPartner" />
-    </AssociationSet>
     <AssociationSet Name="FK_Notification_Person_PersonID" Association="ProjectFirma.Web.Models.FK_Notification_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="Notifications" EntitySet="Notification" />
@@ -329,10 +299,6 @@
       <End Role="OrganizationType" EntitySet="OrganizationType" />
       <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
     </AssociationSet>
-    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
-      <End Role="OrganizationType" EntitySet="OrganizationType" />
-      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
-    </AssociationSet>
     <AssociationSet Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
       <End Role="RelationshipType" EntitySet="RelationshipType" />
       <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
@@ -361,10 +327,6 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureNotes" EntitySet="PerformanceMeasureNote" />
@@ -372,14 +334,6 @@
     <AssociationSet Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -444,14 +398,6 @@
     <AssociationSet Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
       <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
       <End Role="PerformanceMeasureSubcategoryOptions" EntitySet="PerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_PersonStewardGeospatialArea_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonStewardGeospatialArea_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
@@ -613,10 +559,6 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
     </AssociationSet>
-    <AssociationSet Name="FK_SnapshotProject_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
@@ -712,22 +654,6 @@
     <AssociationSet Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotProject_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID">
-      <End Role="SnapshotPerformanceMeasure" EntitySet="SnapshotPerformanceMeasure" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID" Association="ProjectFirma.Web.Models.FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID">
       <End Role="TaxonomyTrunk" EntitySet="TaxonomyTrunk" />
@@ -923,7 +849,6 @@
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="FirmaHomePageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaHomePageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaHomePageImages" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
-    <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
     <NavigationProperty Name="ProjectDocuments" Relationship="ProjectFirma.Web.Models.FK_ProjectDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectDocuments" />
     <NavigationProperty Name="ProjectDocumentUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectDocumentUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectDocumentUpdates" />
@@ -1041,53 +966,6 @@
     <Property Name="EstimatedCost" Type="Double" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID" FromRole="ImportExternalProjectStagingsWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
   </EntityType>
-  <EntityType Name="MappedRegion">
-    <Key>
-      <PropertyRef Name="MappedRegionID" />
-    </Key>
-    <Property Name="MappedRegionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="RegionName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="RegionDisplayName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="RegionFeature" Type="Geometry" Nullable="false" />
-  </EntityType>
-  <EntityType Name="MonitoringProgram">
-    <Key>
-      <PropertyRef Name="MonitoringProgramID" />
-    </Key>
-    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="MonitoringProgramName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="MonitoringApproach" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
-    <Property Name="MonitoringProgramUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramDocuments" />
-    <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramPartners" />
-    <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="PerformanceMeasureMonitoringPrograms" />
-  </EntityType>
-  <EntityType Name="MonitoringProgramDocument">
-    <Key>
-      <PropertyRef Name="MonitoringProgramDocumentID" />
-    </Key>
-    <Property Name="MonitoringProgramDocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
-    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="UploadDate" Type="DateTime" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="MonitoringProgramDocuments" ToRole="FileResource" />
-    <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgramDocuments" ToRole="MonitoringProgram" />
-  </EntityType>
-  <EntityType Name="MonitoringProgramPartner">
-    <Key>
-      <PropertyRef Name="MonitoringProgramPartnerID" />
-    </Key>
-    <Property Name="MonitoringProgramPartnerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
-    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgramPartners" ToRole="MonitoringProgram" />
-    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="MonitoringProgramPartners" ToRole="Organization" />
-  </EntityType>
   <EntityType Name="Notification">
     <Key>
       <PropertyRef Name="NotificationID" />
@@ -1128,7 +1006,6 @@
     <Property Name="OrganizationBoundary" Type="Geometry" />
     <NavigationProperty Name="LogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="OrganizationsWhereYouAreTheLogoFileResource" ToRole="LogoFileResource" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
-    <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="Organization" ToRole="MonitoringProgramPartners" />
     <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="Organizations" ToRole="OrganizationType" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="OrganizationsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="OrganizationBoundaryStagings" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="Organization" ToRole="OrganizationBoundaryStagings" />
@@ -1162,7 +1039,6 @@
     <Property Name="IsFundingType" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Organizations" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="Organizations" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="OrganizationTypeRelationshipTypes" />
-    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotOrganizationTypeExpenditures" />
   </EntityType>
   <EntityType Name="OrganizationTypeRelationshipType">
     <Key>
@@ -1202,11 +1078,8 @@
     <NavigationProperty Name="PerformanceMeasureActualUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpecteds" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureMonitoringPrograms" />
     <NavigationProperty Name="PerformanceMeasureNotes" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureNotes" />
     <NavigationProperty Name="PerformanceMeasureSubcategories" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureSubcategories" />
-    <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasures" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
     <NavigationProperty Name="TaxonomyLeafPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyLeafPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="TaxonomyLeafPerformanceMeasures" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActual">
@@ -1295,17 +1168,6 @@
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
     <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
   </EntityType>
-  <EntityType Name="PerformanceMeasureMonitoringProgram">
-    <Key>
-      <PropertyRef Name="PerformanceMeasureMonitoringProgramID" />
-    </Key>
-    <Property Name="PerformanceMeasureMonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="MonitoringProgram" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="PerformanceMeasure" />
-  </EntityType>
   <EntityType Name="PerformanceMeasureNote">
     <Key>
       <PropertyRef Name="PerformanceMeasureNoteID" />
@@ -1337,7 +1199,6 @@
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureSubcategoryOptions" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
   </EntityType>
   <EntityType Name="PerformanceMeasureSubcategoryOption">
     <Key>
@@ -1353,7 +1214,6 @@
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
@@ -1494,7 +1354,6 @@
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
-    <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="Project" ToRole="SnapshotProjects" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -2064,73 +1923,6 @@
     <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectOrganizationUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganizationUpdate_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizationUpdates" />
   </EntityType>
-  <EntityType Name="Snapshot">
-    <Key>
-      <PropertyRef Name="SnapshotID" />
-    </Key>
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotDate" Type="DateTime" Nullable="false" />
-    <Property Name="SnapshotNote" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectCount" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotOrganizationTypeExpenditures" />
-    <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotPerformanceMeasures" />
-    <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotProjects" />
-  </EntityType>
-  <EntityType Name="SnapshotOrganizationTypeExpenditure">
-    <Key>
-      <PropertyRef Name="SnapshotOrganizationTypeExpenditureID" />
-    </Key>
-    <Property Name="SnapshotOrganizationTypeExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="OrganizationType" />
-    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="Snapshot" />
-  </EntityType>
-  <EntityType Name="SnapshotPerformanceMeasure">
-    <Key>
-      <PropertyRef Name="SnapshotPerformanceMeasureID" />
-    </Key>
-    <Property Name="SnapshotPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="ActualValue" Type="Double" Nullable="false" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="SnapshotPerformanceMeasures" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="SnapshotPerformanceMeasures" ToRole="Snapshot" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" FromRole="SnapshotPerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
-  </EntityType>
-  <EntityType Name="SnapshotPerformanceMeasureSubcategoryOption">
-    <Key>
-      <PropertyRef Name="SnapshotPerformanceMeasureSubcategoryOptionID" />
-    </Key>
-    <Property Name="SnapshotPerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotPerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
-    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
-    <NavigationProperty Name="SnapshotPerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="SnapshotPerformanceMeasure" />
-  </EntityType>
-  <EntityType Name="SnapshotProject">
-    <Key>
-      <PropertyRef Name="SnapshotProjectID" />
-    </Key>
-    <Property Name="SnapshotProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotProjectTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="SnapshotProjects" ToRole="Project" />
-    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="SnapshotProjects" ToRole="Snapshot" />
-  </EntityType>
   <EntityType Name="StateProvince">
     <Key>
       <PropertyRef Name="StateProvinceID" />
@@ -2503,18 +2295,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MonitoringProgramDocument_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.MonitoringProgramDocument" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="MonitoringProgramDocuments">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
     <End Role="LogoFileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="0..1" />
     <End Role="OrganizationsWhereYouAreTheLogoFileResource" Type="ProjectFirma.Web.Models.Organization" Multiplicity="*" />
@@ -2791,54 +2571,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID">
-    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.MonitoringProgram" Multiplicity="1" />
-    <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.MonitoringProgramDocument" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MonitoringProgram">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Principal>
-      <Dependent Role="MonitoringProgramDocuments">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID">
-    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.MonitoringProgram" Multiplicity="1" />
-    <End Role="MonitoringProgramPartners" Type="ProjectFirma.Web.Models.MonitoringProgramPartner" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MonitoringProgram">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Principal>
-      <Dependent Role="MonitoringProgramPartners">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.MonitoringProgram" Multiplicity="1" />
-    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MonitoringProgram">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureMonitoringPrograms">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MonitoringProgramPartner_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
-    <End Role="MonitoringProgramPartners" Type="ProjectFirma.Web.Models.MonitoringProgramPartner" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="MonitoringProgramPartners">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Notification_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
     <End Role="Notifications" Type="ProjectFirma.Web.Models.Notification" Multiplicity="*" />
@@ -2971,18 +2703,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
-    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="1" />
-    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OrganizationType">
-        <PropertyRef Name="OrganizationTypeID" />
-      </Principal>
-      <Dependent Role="SnapshotOrganizationTypeExpenditures">
-        <PropertyRef Name="OrganizationTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
     <End Role="RelationshipType" Type="ProjectFirma.Web.Models.RelationshipType" Multiplicity="1" />
     <End Role="OrganizationTypeRelationshipTypes" Type="ProjectFirma.Web.Models.OrganizationTypeRelationshipType" Multiplicity="*" />
@@ -3067,18 +2787,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureMonitoringPrograms">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureNotes" Type="ProjectFirma.Web.Models.PerformanceMeasureNote" Multiplicity="*" />
@@ -3099,30 +2807,6 @@
         <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
       <Dependent Role="PerformanceMeasureSubcategories">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasures">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3316,30 +3000,6 @@
       </Principal>
       <Dependent Role="PerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
-    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategory">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
-    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasureSubcategoryOption">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3823,18 +3483,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SnapshotProject_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="SnapshotProjects" Type="ProjectFirma.Web.Models.SnapshotProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectBudgetUpdates" Type="ProjectFirma.Web.Models.ProjectBudgetUpdate" Multiplicity="*" />
@@ -4120,54 +3768,6 @@
       </Principal>
       <Dependent Role="ProjectUpdateHistories">
         <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotOrganizationTypeExpenditures">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasures">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotProject_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotProjects" Type="ProjectFirma.Web.Models.SnapshotProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID">
-    <End Role="SnapshotPerformanceMeasure" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SnapshotPerformanceMeasure">
-        <PropertyRef Name="SnapshotPerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="SnapshotPerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Models
         {
             this.Organizations = new HashSet<Organization>();
             this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
-            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
         }
 
         /// <summary>
@@ -74,13 +73,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Organizations.Any() || OrganizationTypeRelationshipTypes.Any() || SnapshotOrganizationTypeExpenditures.Any();
+            return Organizations.Any() || OrganizationTypeRelationshipTypes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(SnapshotOrganizationTypeExpenditure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeRelationshipType).Name};
 
 
         /// <summary>
@@ -106,11 +105,6 @@ namespace ProjectFirma.Web.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in SnapshotOrganizationTypeExpenditures.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -127,7 +121,6 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<Organization> Organizations { get; set; }
         public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
-        public virtual ICollection<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PeopleReceivingReminderGridSpec : GridSpec<Person>
     {
-        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person person)
+        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person currentPerson)
         {
             if (showCheckbox)
             {
@@ -38,12 +38,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
             Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
-                x => x.GetPrimaryContactUpdatableProjects(person).Count,
+                x => x.GetPrimaryContactUpdatableProjects(currentPerson).Count,
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates In Progress",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Submitted",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Returned",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates Approved",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();

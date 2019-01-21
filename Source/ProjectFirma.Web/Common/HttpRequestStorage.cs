@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Common
 
         public static Person Person
         {
-            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, Person.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
+            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
             set { SetValue(PersonKey, value); }
         }
 

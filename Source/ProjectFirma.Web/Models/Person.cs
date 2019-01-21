@@ -32,26 +32,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Person : IAuditableEntity, IKeystoneUser
     {
-        private const int AnonymousPersonID = -999;
-
-        /// <summary>
-        /// Needed for Keystone; basically <see cref="HttpRequestStorage.Person" /> is set to this fake
-        /// "Anonymous" person when we are not authenticated to not have to handle the null Person case.
-        /// Seems like MR and all the other RPs do this so following the pattern
-        /// </summary>
-        /// <returns></returns>
-        public static Person GetAnonymousSitkaUser()
-        {
-            var anonymousSitkaUser = new Person
-            {
-                PersonID = AnonymousPersonID,
-                RoleID = Role.Unassigned.RoleID
-            };
-            // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
-            return anonymousSitkaUser;
-        }
-
-        public bool IsAnonymousUser => PersonID == AnonymousPersonID;
+        public bool IsAnonymousUser => PersonID == PersonModelExtensions.AnonymousPersonID;
 
         public string FullNameFirstLast => $"{FirstName} {LastName}";
 
@@ -60,24 +41,6 @@ namespace ProjectFirma.Web.Models
         public string FullNameFirstLastAndOrgShortName => $"{FirstName} {LastName} ({Organization.OrganizationShortNameIfAvailable})";
 
         public string FullNameLastFirst => $"{LastName}, {FirstName}";
-
-        /// <summary>
-        /// List of Projects for which this Person is the primary contact
-        /// </summary>
-        public List<Project> GetPrimaryContactProjects(Person person)
-        {
-            var isPersonViewingThePrimaryContact = person.PersonID == PersonID;
-            if (isPersonViewingThePrimaryContact)
-            {
-                return ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
-            }
-            return ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(person.CanViewProposals).ToList();
-        }
-
-        public List<Project> GetPrimaryContactUpdatableProjects(Person person)
-        {
-            return GetPrimaryContactProjects(person).Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
-        }
 
         /// <summary>
         /// List of Organizations for which this Person is the primary contact

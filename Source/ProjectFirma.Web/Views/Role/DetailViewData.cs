@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Role
@@ -36,7 +35,6 @@ namespace ProjectFirma.Web.Views.Role
 
         public List<FeaturePermission> ApprovedFeatures;
         public List<FeaturePermission> DeniedFeatures;
-        public List<Person> PeopleWithRole;
         public readonly string RoleName;
         public readonly string RoleDescription;
 
