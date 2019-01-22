@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
+﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -115,12 +115,19 @@ namespace ProjectFirma.Web.Models
 
         public override List<ProjectSectionSimple> GetProjectCreateSections(Project project, bool ignoreStatus)
         {
-            if (project != null && project.AreReportedPerformanceMeasuresRelevant())
+            if (project == null)
             {
-                return GetProjectCreateSectionsImpl(project, ProjectCreateSections, ignoreStatus);
+                return new List<ProjectSectionSimple>();
             }
 
-            return new List<ProjectSectionSimple>();
+            if (project.AreReportedPerformanceMeasuresRelevant())
+            {
+                return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
+            }
+
+            return GetProjectCreateSectionsImpl(project,
+                new List<ProjectCreateSection> {ProjectCreateSection.ExpectedPerformanceMeasures}, ignoreStatus);
+
         }
 
         public override List<ProjectSectionSimple> GetProjectUpdateSections(ProjectUpdateBatch projectUpdateBatch,
