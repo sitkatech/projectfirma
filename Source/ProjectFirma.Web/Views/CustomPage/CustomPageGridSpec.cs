@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.CustomPage
         {            
             if (hasManagePermissions)
             {               
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         "Edit")),
                     30, DhtmlxGridColumnFilterType.None);
@@ -53,8 +53,8 @@ namespace ProjectFirma.Web.Views.CustomPage
                     null,
                     null), 80, DhtmlxGridColumnFilterType.None);
             }
-            Add("Page Name", a => a.CustomPageDisplayType != CustomPageDisplayType.Disabled ? UrlTemplate.MakeHrefString(a.AboutPageUrl, a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
-            Add("Has Content", a => a.HasPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Page Name", a => a.CustomPageDisplayType != CustomPageDisplayType.Disabled ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
+            Add("Has Content", a => a.HasPageContent().ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.CustomPageDisplayType.ToGridHeaderString(), a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("CustomPageID", a => a.CustomPageID, 0);
         }

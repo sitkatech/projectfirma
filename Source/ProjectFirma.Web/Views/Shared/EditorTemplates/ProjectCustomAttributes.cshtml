@@ -23,7 +23,7 @@
         <label class="col-sm-@colLeft control-label">
             @if (!string.IsNullOrWhiteSpace(attribute.ProjectCustomAttributeTypeDescription))
             {
-                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.ProjectCustomAttributeTypeName, attribute.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), attribute.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.ProjectCustomAttributeTypeName, attribute.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), ProjectCustomAttributeTypeModelExtensions.GetDescriptionUrl(attribute), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
             }
             @(attribute != null ? attribute.ProjectCustomAttributeTypeName : null)
             @if (attribute != null && attribute.IsRequired)

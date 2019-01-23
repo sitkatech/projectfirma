@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> IndexGridJsonData(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType)
         {
             var gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, CurrentPerson.IsApprover());
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.IsUpdatableViaProjectUpdateProcess);
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.IsUpdatableViaProjectUpdateProcess());
 
             switch (projectUpdateStatusFilterType)
             {
@@ -149,10 +149,10 @@ namespace ProjectFirma.Web.Controllers
                     projects = projects.Where(p => p.IsMyProject(CurrentPerson));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && p.IsUpdateMandatory && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
+                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && p.IsUpdateMandatory() && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && (!p.IsUpdateMandatory || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
+                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && (!p.IsUpdateMandatory() || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
                     projects = projects.Where(p =>
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     break;
             }
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects.OrderBy(x => x.DisplayName).ToList(), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects.OrderBy(x => x.GetDisplayName()).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -324,7 +324,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var performanceMeasureActualUpdateSimples =
-                projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(pam=>pam.PerformanceMeasure.DisplayName)
+                projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName())
                     .ThenByDescending(x => x.CalendarYear)
                     .Select(x => new PerformanceMeasureActualUpdateSimple(x))
                     .ToList();
@@ -416,7 +416,7 @@ namespace ProjectFirma.Web.Controllers
         private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project)
         {
             return GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,
-                $"We should have a {FieldDefinition.Project.GetFieldDefinitionLabel()} update batch when refreshing; didn't find one for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+                $"We should have a {FieldDefinition.Project.GetFieldDefinitionLabel()} update batch when refreshing; didn't find one for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
         }
 
         private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project, string message)
@@ -438,8 +438,8 @@ namespace ProjectFirma.Web.Controllers
 
             // refresh the data
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
-            ProjectExemptReportingYearUpdate.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectExemptReportingYearUpdateModelExtensions.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -547,8 +547,8 @@ namespace ProjectFirma.Web.Controllers
 
             // refresh the data
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
-            ProjectExemptReportingYearUpdate.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
-            ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+            ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -639,7 +639,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectFundingSourceRequestUpdates();
             // refresh data
-            ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectFundingSourceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -685,7 +685,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectImageUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
-            ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -950,7 +950,7 @@ namespace ProjectFirma.Web.Controllers
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
                 projectUpdateBatch.ProjectLocationStagingUpdates.ToList().DeleteProjectLocationStagingUpdate();
                 projectUpdateBatch.ProjectLocationStagingUpdates.Clear();
-                ProjectLocationStagingUpdate.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, projectUpdateBatch, CurrentPerson);
+                ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, projectUpdateBatch, CurrentPerson);
             }
             return ApproveGisUpload(project);
         }
@@ -1185,8 +1185,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectNoteUpdates();
             projectUpdateBatch.DeleteProjectDocumentUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
-            ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
-            ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -1276,7 +1276,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectExternalLinkUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
-            ProjectExternalLinkUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectExternalLinkUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -1294,7 +1294,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to approve for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}!");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to approve for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}!");
             Check.Require(projectUpdateBatch.IsSubmitted, $"The {FieldDefinition.Project.GetFieldDefinitionLabel()} is not in a state to be ready to be approved!");
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewApprove(projectUpdateBatch, viewModel);
@@ -1306,7 +1306,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Approve(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to approve for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}!");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to approve for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}!");
             Check.Require(projectUpdateBatch.IsSubmitted, $"The {FieldDefinition.Project.GetFieldDefinitionLabel()} is not in a state to be ready to be approved!");
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
 
@@ -1366,17 +1366,17 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
 
             NotificationProject.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
-            SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved!");
+            SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was approved!");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
         }
 
         private PartialViewResult ViewApprove(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to approve the updates to {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.DisplayName}?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to approve the updates to {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.GetDisplayName()}?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1432,7 +1432,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Submit(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewSubmit(projectUpdateBatch, viewModel);
         }
@@ -1443,18 +1443,18 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to submit for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
             NotificationProject.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.DisplayName}' was submitted.");
+            SetMessageForDisplay($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.GetDisplayName()}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
         private PartialViewResult ViewSubmit(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
         {
             //TODO: Change "for review" to specific reviewer as determined by tenant review 
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.DisplayName} for review?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.GetDisplayName()} for review?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1479,10 +1479,10 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatches.ForEach(pub =>
             {
                 pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
-                var peopleToNotify = peopleToCc.Union(pub.Project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+                var peopleToNotify = peopleToCc.Union(pub.Project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
                 NotificationProject.SendSubmittedMessage(peopleToNotify, pub);
             });
-            SetMessageForDisplay($"The update(s) for {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} {string.Join(", ", projectUpdateBatches.Select(x => x.Project.DisplayName))} have been submitted.");
+            SetMessageForDisplay($"The update(s) for {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} {string.Join(", ", projectUpdateBatches.Select(x => x.Project.GetDisplayName()))} have been submitted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1498,7 +1498,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Return(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to return for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to return for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             Check.Require(projectUpdateBatch.IsSubmitted, $"You cannot return a {FieldDefinition.Project.GetFieldDefinitionLabel()} Update that has not been submitted!");
             var viewModel = new ReturnDialogFormViewModel();
             return ViewReturn(projectUpdateBatch, viewModel);
@@ -1510,19 +1510,19 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Return(ProjectPrimaryKey projectPrimaryKey, ReturnDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to return for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to return for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             Check.Require(projectUpdateBatch.IsSubmitted, $"You cannot return a {FieldDefinition.Project.GetFieldDefinitionLabel()} Update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
             NotificationProject.SendReturnedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay($"The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} has been returned.");
+            SetMessageForDisplay($"The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} has been returned.");
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewReturn(ProjectUpdateBatch projectUpdate, ReturnDialogFormViewModel viewModel)
         {
-            var viewData = new ReturnDialogFormViewData($"Are you sure you want to return {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.DisplayName}?");
+            var viewData = new ReturnDialogFormViewData($"Are you sure you want to return {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdate.Project.GetDisplayName()}?");
             return RazorPartialView<ReturnDialogForm, ReturnDialogFormViewData, ReturnDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1531,7 +1531,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to delete for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to delete for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewDeleteProjectUpdate(viewModel, projectUpdateBatch);
         }
@@ -1542,7 +1542,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to delete for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update to delete for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             projectUpdateBatch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Update successfully deleted.");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
@@ -1550,7 +1550,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProjectUpdate(ConfirmDialogFormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete this update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName}?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete this update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()}?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1601,7 +1601,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<Project> GetProjectsWithNoContact()
         {
-            var projectsRequiringUpdate = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
+            var projectsRequiringUpdate = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
             return projectsRequiringUpdate.Where(x => x.GetPrimaryContact() == null).ToList();
         }
 
@@ -1610,7 +1610,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
             var projects =
-                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsEditableToThisPerson(CurrentPerson)).ToList();
+                HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess() && x.IsEditableToThisPerson(CurrentPerson)).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -1619,7 +1619,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> PeopleReceivingReminderGridJsonData(bool showCheckbox)
         {
             var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox, CurrentPerson);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess && x.IsEditableToThisPerson(CurrentPerson)).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess() && x.IsEditableToThisPerson(CurrentPerson)).ToList();
             var people = projects.GetPrimaryContactPeople();            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(people, gridSpec);
             return gridJsonNetJObjectResult;
@@ -1740,7 +1740,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var performanceMeasureReportedValuesOriginal = new List<IPerformanceMeasureReportedValue>(project.GetReportedPerformanceMeasures());
             var performanceMeasureReportedValuesUpdated = new List<IPerformanceMeasureReportedValue>(projectUpdateBatch.PerformanceMeasureActualUpdates);
             var calendarYearsForPerformanceMeasuresOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
@@ -1861,7 +1861,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExpendituresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
             var projectFundingSourceExpendituresOriginal = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearsOriginal = projectFundingSourceExpendituresOriginal.CalculateCalendarYearRangeForExpenditures(project);
@@ -1966,7 +1966,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExpectedFundingImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var projectFundingSourceRequestsOriginal = new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests.ToList());
             var projectFundingSourceRequestsUpdated = new List<IFundingSourceRequestAmount>(projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList());
             var originalHtml = GeneratePartialViewForOriginalFundingRequests(projectFundingSourceRequestsOriginal, projectFundingSourceRequestsUpdated);
@@ -2122,7 +2122,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DiffPhotos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var htmlDiffContainer = DiffPhotosImpl(projectUpdateBatch);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
@@ -2145,7 +2145,7 @@ namespace ProjectFirma.Web.Controllers
 
             foreach (var updatedImage in projectUpdateBatch.ProjectImageUpdates)
             {
-                var matchingOriginalImage = originalImages.SingleOrDefault(x => updatedImage.ProjectImageID.HasValue && updatedImage.ProjectImageID == x.EntityImageIDAsNullable);
+                var matchingOriginalImage = originalImages.SingleOrDefault(x => updatedImage.ProjectImageID.HasValue && updatedImage.ProjectImageID == x.GetEntityImageIDAsNullable());
                 if (matchingOriginalImage == null)
                 {
                     var placeHolderImage = new ProjectImage(updatedImage.FileResource,
@@ -2154,15 +2154,16 @@ namespace ProjectFirma.Web.Controllers
                         updatedImage.Caption,
                         updatedImage.Credit,
                         updatedImage.IsKeyPhoto,
-                        updatedImage.ExcludeFromFactSheet) {AdditionalCssClasses = new List<string>() {"added-photo"},};
-                    updatedImage.AdditionalCssClasses = new List<string>() { "added-photo" };
+                        updatedImage.ExcludeFromFactSheet);
+                    placeHolderImage.SetAdditionalCssClasses(new List<string> {"added-photo"});
+                    updatedImage.SetAdditionalCssClasses(new List<string> { "added-photo" });
                     originalImages.Add(placeHolderImage);
                 }
             }
 
             foreach (var originalImage in project.ProjectImages)
             {
-                var matchingUpdatedImage = updatedImages.SingleOrDefault(x => originalImage.ProjectImageID == x.EntityImageIDAsNullable);
+                var matchingUpdatedImage = updatedImages.SingleOrDefault(x => originalImage.ProjectImageID == x.GetEntityImageIDAsNullable());
                 if (matchingUpdatedImage == null)
                 {
                     var placeHolderImage = new ProjectImageUpdate(dummyProjectUpdateBatch,
@@ -2173,15 +2174,15 @@ namespace ProjectFirma.Web.Controllers
                         originalImage.ExcludeFromFactSheet)
                     {
                         FileResource = originalImage.FileResource,
-                        ProjectImageID = originalImage.ProjectImageID,
-                        AdditionalCssClasses = new List<string>() { "deleted-photo" }
+                        ProjectImageID = originalImage.ProjectImageID
                     };
-                    originalImage.AdditionalCssClasses = new List<string>() { "deleted-photo" };
+                    placeHolderImage.SetAdditionalCssClasses(new List<string> {"deleted-photo"});
+                    originalImage.SetAdditionalCssClasses(new List<string> { "deleted-photo" });
                     updatedImages.Add(placeHolderImage);
                 }
                 else
                 {
-                    originalImage.OrderBy = matchingUpdatedImage.CaptionOnFullView;
+                    originalImage.SetOrderBy(matchingUpdatedImage.GetCaptionOnFullView());
                 }
             }
 
@@ -2194,7 +2195,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForPhotos(IEnumerable<IFileResourcePhoto> images)
         {
-            var viewData = new ImageGalleryViewData(CurrentPerson, "ProjectImageDiff", images, false, string.Empty, string.Empty, false, x => x.CaptionOnFullView, "Photo");
+            var viewData = new ImageGalleryViewData(CurrentPerson, "ProjectImageDiff", images, false, string.Empty, string.Empty, false, x => x.GetCaptionOnFullView(), "Photo");
             var partialViewAsString = RenderPartialViewToString(ImageGalleryPartialViewPath, viewData);
             return partialViewAsString;
         }
@@ -2202,7 +2203,7 @@ namespace ProjectFirma.Web.Controllers
         private static bool IsLocationSimpleUpdated(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
             if (project.ProjectLocationSimpleTypeID != projectUpdateBatch.ProjectUpdate.ProjectLocationSimpleTypeID)
                 return true;
@@ -2227,7 +2228,7 @@ namespace ProjectFirma.Web.Controllers
         private static bool IsLocationDetailedUpdated(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
             var originalLocationDetailed = project.GetProjectLocationDetails().ToList();
             var updatedLocationDetailed = projectUpdateBatch.ProjectLocationUpdates;
@@ -2257,7 +2258,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExternalLinksImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var entityExternalLinksOriginal = new List<IEntityExternalLink>(project.ProjectExternalLinks);
             var entityExternalLinksUpdated = new List<IEntityExternalLink>(projectUpdateBatch.ProjectExternalLinkUpdates);
 
@@ -2321,7 +2322,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffNotesAndDocumentsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,$"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,$"There is no current {FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var entityNotesOriginal = new List<IEntityNote>(project.ProjectNotes);
             var entityNotesUpdated = new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates);
 
@@ -2350,7 +2351,7 @@ namespace ProjectFirma.Web.Controllers
             // find the ones that are only in the modified set and add them and mark them as "added"
             externalLinksOriginal.AddRange(
                 externalLinksUpdated.Where(x => !urlsInOriginal.Contains(x.Note))
-                    .Select(x => new EntityNote(x.LastUpdated, x.LastUpdatedBy, x.DeleteUrl, x.EditUrl, x.Note, HtmlDiffContainer.DisplayCssClassAddedElement))
+                    .Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
             externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.Note)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
@@ -2368,7 +2369,7 @@ namespace ProjectFirma.Web.Controllers
             // find the ones that are only in the original set and add them and mark them as "deleted"
             externalLinksUpdated.AddRange(
                 externalLinksOriginal.Where(x => !urlsInUpdated.Contains(x.Note))
-                    .Select(x => new EntityNote(x.LastUpdated, x.LastUpdatedBy, x.DeleteUrl, x.EditUrl, x.Note, HtmlDiffContainer.DisplayCssClassDeletedElement))
+                    .Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
             externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.Note)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
             return GeneratePartialViewForNotes(externalLinksUpdated);
@@ -2483,7 +2484,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationsValidationResult = projectUpdateBatch.ValidateOrganizations();
 
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
             if (!allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
@@ -2499,7 +2500,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }
 
-        private UpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
+        private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
             var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -2518,7 +2519,7 @@ namespace ProjectFirma.Web.Controllers
 
             var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
-            return new UpdateStatus(isBasicsUpdated,
+            return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -2587,7 +2588,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectOrganizationUpdates();
             // refresh data
-            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -2612,7 +2613,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffOrganizationsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
             var projectOrganizationsOriginal = new List<IProjectOrganization>(project.ProjectOrganizations.ToList());
             var projectOrganizationsUpdated = new List<IProjectOrganization>(projectUpdateBatch.ProjectOrganizationUpdates.ToList());
@@ -2706,7 +2707,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static string EmailContentPreview(string introContent)
         {
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
 
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",

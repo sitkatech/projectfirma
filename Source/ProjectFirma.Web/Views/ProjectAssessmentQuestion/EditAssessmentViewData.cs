@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
         public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals)
             : base(currentPerson, project)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             AssessmentGoals = assessmentGoals;
         }
     }

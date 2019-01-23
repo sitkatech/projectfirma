@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Project
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
             Models.FirmaPage firmaPageFactSheet) : base(currentPerson, project)
         {
-            PageTitle = project.DisplayName;
+            PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
 
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
@@ -86,14 +86,14 @@ namespace ProjectFirma.Web.Views.Project
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
-                x => x.CaptionOnFullView,
+                x => x.GetCaptionOnFullView(),
                 "Photo");
 
             PerformanceMeasureReportedValues =
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
-            KeyPhoto = project.KeyPhoto;
+            KeyPhoto = project.GetKeyPhoto();
             ProjectImagesExceptKeyPhotoGroupedByTiming =
                 project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
                     .GroupBy(x => x.ProjectImageTiming)
@@ -130,8 +130,8 @@ namespace ProjectFirma.Web.Views.Project
                         break;
                 }
             }
-            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
-            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
+            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.GetDisplayName();
+            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
             CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);

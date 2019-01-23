@@ -18,46 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Models
 {
     public interface IPerformanceMeasureValue
     {
-        Int32 PerformanceMeasureID { get; set; }
-        List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
+        int PerformanceMeasureID { get; set; }
+        List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions();
         PerformanceMeasure PerformanceMeasure { get; set; }
-        double? ReportedValue { get; }
-        string PerformanceMeasureSubcategoriesAsString { get; }
-    }
-
-    /// <summary>
-    /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
-    /// </summary>
-    public class VirtualPerformanceMeasureValue : IPerformanceMeasureValue
-    {
-        public VirtualPerformanceMeasureValue(PerformanceMeasureReportedValue performanceMeasureReportedValue)
-        {
-            PerformanceMeasure = performanceMeasureReportedValue.PerformanceMeasure;
-            PerformanceMeasureID = PerformanceMeasure.PerformanceMeasureID;
-            ReportedValue = performanceMeasureReportedValue.ReportedValue;
-            PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue.PerformanceMeasureSubcategoryOptions;
-            PerformanceMeasureSubcategoriesAsString =
-                performanceMeasureReportedValue.PerformanceMeasureSubcategoriesAsString;
-            ProjectID = performanceMeasureReportedValue.Project.ProjectID;
-            Project = performanceMeasureReportedValue.Project;
-            CalendarYear = performanceMeasureReportedValue.CalendarYear;
-        }
-
-        public int CalendarYear { get; set; }
-
-        public int ProjectID { get; set; }
-        public Project Project { get; private set; }
-        public int PerformanceMeasureID { get; set; }
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
-        public PerformanceMeasure PerformanceMeasure { get; set; }
-        public double? ReportedValue { get; }
-        public string PerformanceMeasureSubcategoriesAsString { get; }
+        double? GetReportedValue();
+        string GetPerformanceMeasureSubcategoriesAsString();
     }
 }

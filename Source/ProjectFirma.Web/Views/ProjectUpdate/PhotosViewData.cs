@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string DiffUrl;
         public readonly string ContinueUrl;
 
-        public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
+        public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
         {
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
             var selectKeyImageUrl = IsEditable ? SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int)) : string.Empty;
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
-                x => x.CaptionOnFullView,
+                x => x.GetCaptionOnFullView(),
                 "Photo");
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPhotos(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPhotos(projectUpdateBatch.Project));

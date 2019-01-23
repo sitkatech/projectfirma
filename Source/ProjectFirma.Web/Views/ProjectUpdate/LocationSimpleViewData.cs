@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData,
-            LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(
-            currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus,
+            LocationSimpleValidationResult locationSimpleValidationResult, ProjectUpdateStatus projectUpdateStatus) : base(
+            currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus,
             locationSimpleValidationResult.GetWarningMessages(),
             ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName)
         {

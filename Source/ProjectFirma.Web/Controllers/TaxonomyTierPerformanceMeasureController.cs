@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var taxonomyTierPerformanceMeasureSimples = performanceMeasure.GetTaxonomyTiers().Select(x =>
-                    new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID,
+                    new TaxonomyTierPerformanceMeasureSimple(x.Key.GetTaxonomyTierID(), x.First().PerformanceMeasureID,
                         x.First().IsPrimaryTaxonomyLeaf)).ToList();
-            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
+            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier().GetTaxonomyTierID();
             var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples, primaryTaxonomyTierID);
             return ViewEdit(viewModel, performanceMeasure);
         }
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, PerformanceMeasure performanceMeasure)
         {
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            var taxonomyBranchSimples = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyTier(x)).ToList();
+            var taxonomyBranchSimples = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(p => p.GetDisplayName()).ToList().Select(x => new TaxonomyTier(x)).ToList();
             var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyBranchSimples, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }

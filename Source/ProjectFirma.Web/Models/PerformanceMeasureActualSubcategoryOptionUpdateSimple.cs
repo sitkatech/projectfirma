@@ -47,26 +47,14 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureActualSubcategoryOptionUpdate performanceMeasureActualSubcategoryOptionUpdate) : this()
-        {
-            PerformanceMeasureActualSubcategoryOptionUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualSubcategoryOptionUpdateID;
-            PerformanceMeasureActualUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualUpdateID;
-            PerformanceMeasureSubcategoryOptionID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID;
-            PerformanceMeasureID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureID;
-            PerformanceMeasureSubcategoryID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryID;
-        }
-
         public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption,
             PerformanceMeasureActualUpdate performanceMeasureActualUpdate)
             : this(
                 performanceMeasureActualSubcategoryOption.PrimaryKey,
                 performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID,
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)
+                performanceMeasureActualSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
         {
         }
 

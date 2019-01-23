@@ -62,9 +62,9 @@ namespace ProjectFirma.Web.Views.Project
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
             Add($"Number Of {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => fundingTypes[x.FundingTypeID].FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 200);
             if (userHasTagManagePermissions)
             {
-                Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
+                Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, DhtmlxGridColumnFilterType.Html);
             }
 
             Add("# of Photos", x => x.ProjectImages.Count, 60);            

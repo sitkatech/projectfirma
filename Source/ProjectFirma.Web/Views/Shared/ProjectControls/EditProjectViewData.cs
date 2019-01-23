@@ -61,16 +61,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             TotalExpenditures = totalExpenditures;
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             FundingTypes = fundingTypes.OrderBy(x => x.GetFundingTypeSortOrder()).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
-            Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
+            Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.GetDisplayName());
             PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(
-                    x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.FullNameFirstLastAndOrgShortName,
+                    x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.GetFullNameFirstLastAndOrgShortName(),
                     $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
             DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
             TaxonomyLeafs = taxonomyLeafs.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
-            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson?.FullNameFirstLastAndOrgShortName ?? "nobody";
+            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() ?? "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
         }
     }

@@ -18,23 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using LtInfo.Common.Views;
-
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectGeospatialArea : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var geospatialArea = HttpRequestStorage.DatabaseEntities.AllGeospatialAreas.Find(GeospatialAreaID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var geospatialAreaName = geospatialArea != null ? geospatialArea.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {projectName}, Geospatial Area: {geospatialAreaName}";
-            }
+            return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {ProjectID}, Geospatial Area: {GeospatialAreaID}";
         }
     }
 }

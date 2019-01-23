@@ -40,9 +40,9 @@ namespace ProjectFirma.Web.Views.Organization
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Short Name", a => a.OrganizationShortName, 100);
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
+            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.GetPrimaryContactPersonAsUrl() : new HtmlString(a.GetPrimaryContactPersonAsString()), 120);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentPerson).Count, 90);
-            if (currentPerson.CanViewProposals)
+            if (currentPerson.CanViewProposals())
             {
                 Add($"# of {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetProposalsVisibleToUser(currentPerson).Count, 90);
             }

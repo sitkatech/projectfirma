@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.DisplayName, project.TotalExpenditures);
+            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
         }
 
         [HttpPost]
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.DisplayName, project.TotalExpenditures);
+                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
             }
             viewModel.UpdateModel(project, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditProjectViewModel viewModel, Project project, EditProjectType editProjectType, string taxonomyLeafDisplayName, decimal? totalExpenditures)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(ap => ap.DisplayName).ToList();
+            var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(ap => ap.GetDisplayName()).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
@@ -152,12 +152,12 @@ namespace ProjectFirma.Web.Controllers
             var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
-                project.DisplayName,
+                project.GetDisplayName(),
                 userHasEditProjectPermissions);
             var internalNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectInternalNotes)),
                 SitkaRoute<ProjectInternalNoteController>.BuildUrlFromExpression(x => x.New(project)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
-                project.DisplayName,
+                project.GetDisplayName(),
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasureReportedValues = project.GetReportedPerformanceMeasures();
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
-                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x=>x.PerformanceMeasure.SortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName)));
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x=>x.PerformanceMeasure.GetSortOrder()).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
                 FirmaHelpers.CalculateYearRanges(project.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear)),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Controllers
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
-                x => x.CaptionOnFullView,
+                x => x.GetCaptionOnFullView(),
                 "Photo");
             return imageGalleryViewData;
         }
@@ -296,7 +296,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
-            var expenditureGooglePieChartSlices = project.GetExpenditureGooglePieChartSlices();
+            var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
             var googleChartTitle = $"Investment by Funding Sector for: {project.ProjectName}";
             var googleChartType = GoogleChartType.PieChart;
@@ -404,7 +404,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
             var gridSpec = new PendingGridSpec(CurrentPerson);
-            var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects);
+            var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
             List<Project> filteredProposals;
             if (CurrentPerson.Role == Role.Normal)
             {
@@ -442,7 +442,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetPendingProjects(CurrentPerson.CanViewPendingProjects),
+                .GetPendingProjects(CurrentPerson.CanViewPendingProjects()),
                 "Pending Projects");
         }
 
@@ -523,7 +523,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = $"Are you sure you want to delete this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.DisplayName}'?";
+            var confirmMessage = $"Are you sure you want to delete this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.GetDisplayName()}'?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -539,7 +539,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
 
-            var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName}\" successfully deleted.";
+            var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.GetDisplayName()}\" successfully deleted.";
             project.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
@@ -570,7 +570,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
+                    .ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
             return projectsFound;
         }
 
@@ -590,7 +590,7 @@ namespace ProjectFirma.Web.Controllers
         public JsonResult Find(string term)
         {
             var projectFindResults = GetViewableProjectsFromSearchCriteria(term.Trim());
-            var results = projectFindResults.Take(ProjectsCountLimit).Select(p => new ListItem(p.DisplayName.ToEllipsifiedString(100), p.GetDetailUrl())).ToList();
+            var results = projectFindResults.Take(ProjectsCountLimit).Select(p => new ListItem(p.GetDisplayName().ToEllipsifiedString(100), p.GetDetailUrl())).ToList();
             if (projectFindResults.Count > ProjectsCountLimit)
             {
                 results.Add(
@@ -775,7 +775,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             var organization = CurrentPerson.Organization;
             var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
-                                                                                                                        organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.DisplayName).ToList();
+                                                                                                                        organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
         }

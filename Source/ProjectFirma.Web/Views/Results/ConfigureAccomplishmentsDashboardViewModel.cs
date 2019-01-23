@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public void UpdateModel(IQueryable<RelationshipType> relationshipTypes)
         {
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
                 AccomplishmentsButtonTextHtmlString;
             tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString =

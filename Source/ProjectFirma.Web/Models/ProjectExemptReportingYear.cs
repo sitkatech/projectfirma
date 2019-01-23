@@ -18,26 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectExemptReportingYear : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var projectDisplayName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, Calendar Year: {1}", projectDisplayName, CalendarYear);
-            }
-        }
-
-        public string GetCalendarYear()
-        {
-            return MultiTenantHelpers.FormatReportingYear(CalendarYear);
+            return $"Project: {ProjectID}, Calendar Year: {CalendarYear}";
         }
     }
 }

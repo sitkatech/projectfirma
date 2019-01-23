@@ -4,9 +4,12 @@ namespace ProjectFirma.Web.Models
 {
     public interface IProjectCustomAttributeValue : ICanDeleteFull
     {
-        int IProjectCustomAttributeValueID { get; set; }
-        int IProjectCustomAttributeID { get; set; }
+        void SetIProjectCustomAttributeValueID(int value);
+        int GetIProjectCustomAttributeValueID();
+        void SetIProjectCustomAttributeID(int value);
+        int GetIProjectCustomAttributeID();
         string AttributeValue { get; set; }
-        IProjectCustomAttribute IProjectCustomAttribute { get; set; }
+        void SetIProjectCustomAttribute(IProjectCustomAttribute value);
+        IProjectCustomAttribute GetIProjectCustomAttribute();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
 
 namespace ProjectFirma.Web.Models
 {
@@ -37,7 +36,7 @@ namespace ProjectFirma.Web.Models
 
         private List<PersonStewardOrganization> GetPersonStewardOrganizations(Person person)
         {
-            return person.PersonStewardOrganizations.OrderBy(x => x.Organization.DisplayName).ToList();
+            return person.PersonStewardOrganizations.OrderBy(x => x.Organization.GetDisplayName()).ToList();
         }
     }
 
@@ -61,7 +60,7 @@ namespace ProjectFirma.Web.Models
 
         private List<PersonStewardTaxonomyBranch> GetPersonStewardTaxonomyBranches(Person person)
         {
-            return person.PersonStewardTaxonomyBranches.OrderBy(x => x.TaxonomyBranch.SortOrder).ThenBy(x => x.TaxonomyBranch.DisplayName).ToList();
+            return person.PersonStewardTaxonomyBranches.OrderBy(x => x.TaxonomyBranch.GetSortOrder()).ThenBy(x => x.TaxonomyBranch.GetDisplayName()).ToList();
         }
     }
 

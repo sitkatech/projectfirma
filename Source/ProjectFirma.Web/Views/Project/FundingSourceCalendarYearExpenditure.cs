@@ -36,15 +36,15 @@ namespace ProjectFirma.Web.Views.Project
         }
         public string FundingSourceName
         {
-            get { return FundingSource == null ? "Unknown" : FundingSource.DisplayName; }
+            get { return FundingSource == null ? "Unknown" : FundingSource.GetDisplayName(); }
         }
         public string OrganizationName
         {
-            get { return FundingSource == null ? "Unknown" : FundingSource.Organization.DisplayName; }
+            get { return FundingSource == null ? "Unknown" : FundingSource.Organization.GetDisplayName(); }
         }
         public HtmlString FundingSourceNameAsUrl
         {
-            get { return FundingSource == null ? new HtmlString("Unknown") : FundingSource.DisplayNameAsUrl; }
+            get { return FundingSource == null ? new HtmlString("Unknown") : FundingSource.GetDisplayNameAsUrl(); }
         }
         public HtmlString OrganizationNameAsUrl
         {
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Project
                 foreach (var calendarYear in calendarYears)
                 {
                     current.CalendarYearExpenditure[calendarYear] =
-                        projectFundingSourceExpenditure.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.MonetaryAmount).Sum();
+                        projectFundingSourceExpenditure.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount()).Sum();
                 }
             }
             return fundingSourcesCrossJoinCalendarYears;

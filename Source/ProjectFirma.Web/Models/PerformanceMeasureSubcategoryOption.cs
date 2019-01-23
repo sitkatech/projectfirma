@@ -22,9 +22,9 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureSubcategoryOption : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get { return PerformanceMeasureSubcategoryOptionName; }
+            return PerformanceMeasureSubcategoryOptionName;
         }
     }
 }

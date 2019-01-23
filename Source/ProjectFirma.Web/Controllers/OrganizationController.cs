@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new IndexGridSpec(CurrentPerson, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.DisplayName).ToList();
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Organization {organization.DisplayName} successfully created.");
+            SetMessageForDisplay($"Organization {organization.GetDisplayName()} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(organization);
-            return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
+            return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
         }
 
         [HttpPost]
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
+                return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
             }
             viewModel.UpdateModel(organization, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -125,8 +125,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 activePeople.Add(currentPrimaryContactPerson);
             }
-            var people = activePeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
-                x => x.FullNameFirstLastAndOrg);
+            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);

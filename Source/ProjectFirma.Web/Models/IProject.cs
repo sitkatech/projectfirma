@@ -25,9 +25,9 @@ namespace ProjectFirma.Web.Models
 {
     public interface IProject
     {
-        int EntityID { get; }
+        int GetEntityID();
         DbGeometry ProjectLocationPoint { get; set; }
-        string DisplayName { get; }
+        string GetDisplayName();
         ProjectLocationSimpleType ProjectLocationSimpleType { get; }
         int ProjectLocationSimpleTypeID { get; set; }
         string ProjectLocationNotes { get; set; }
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
 
         decimal? EstimatedTotalCost { get; }
         decimal? EstimatedAnnualOperatingCost { get; }
-        IEnumerable<IProjectCustomAttribute> ProjectCustomAttributes { get; set; }
+        IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes();
 
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 

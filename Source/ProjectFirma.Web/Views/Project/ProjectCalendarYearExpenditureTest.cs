@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Project
 
             // Assert
             Assert.That(result.Count, Is.EqualTo(projects.Count));
-            ObjectApproval.ObjectApprover.VerifyWithJson(result.Select(x => new {x.Project.DisplayName, x.CalendarYearExpenditure}));
+            ObjectApproval.ObjectApprover.VerifyWithJson(result.Select(x => new {DisplayName = x.Project.GetDisplayName(), x.CalendarYearExpenditure}));
         }
     }
 }

@@ -21,49 +21,28 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class FundingSource : IAuditableEntity
     {
-        public string EditUrl
+        public string GetDisplayName() =>
+            $"{FundingSourceName} ({Organization.GetOrganizationShortNameIfAvailable()}){(!IsActive ? " (Inactive)" : string.Empty)}";
+
+        public string GetFixedLengthDisplayName()
         {
-            get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.Edit(FundingSourceID)); }
-        }
-
-        public string DeleteUrl
-        {
-            get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.DeleteFundingSource(FundingSourceID)); }
-        }
-
-        public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(SummaryUrl, DisplayName);
-
-        public string DisplayName =>
-            $"{FundingSourceName} ({Organization.OrganizationShortNameIfAvailable}){(!IsActive ? " (Inactive)" : string.Empty)}";
-
-        public string FixedLengthDisplayName
-        {
-            get
+            if (Organization.IsUnknown())
             {
-                if (Organization.IsUnknown)
-                {
-                    return Organization.OrganizationShortNameIfAvailable;
-                }
-                var organizationShortNameIfAvailable = $"({Organization.OrganizationShortNameIfAvailable})";
-                return organizationShortNameIfAvailable.Length < 45 ? $"{FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}" : $"{FundingSourceName} {organizationShortNameIfAvailable}";
+                return Organization.GetOrganizationShortNameIfAvailable();
             }
+
+            var organizationShortNameIfAvailable = $"({Organization.GetOrganizationShortNameIfAvailable()})";
+            return organizationShortNameIfAvailable.Length < 45
+                ? $"{FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}"
+                : $"{FundingSourceName} {organizationShortNameIfAvailable}";
         }
 
-
-        public string SummaryUrl
-        {
-            get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Detail(FundingSourceID)); }
-        }
 
         public static bool IsFundingSourceNameUnique(IEnumerable<FundingSource> fundingSources, string fundingSourceName, int currentFundingSourceID)
         {
@@ -72,21 +51,25 @@ namespace ProjectFirma.Web.Models
             return fundingSource == null;
         }
 
-        public int? ProjectsWhereYouAreTheFundingSourceMinCalendarYear
+        public int? GetProjectsWhereYouAreTheFundingSourceMinCalendarYear()
         {
-            get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Min(x => x.CalendarYear) : (int?) null; }
+            return ProjectFundingSourceExpenditures.Any()
+                ? ProjectFundingSourceExpenditures.Min(x => x.CalendarYear)
+                : (int?) null;
         }
 
-        public int? ProjectsWhereYouAreTheFundingSourceMaxCalendarYear
+        public int? GetProjectsWhereYouAreTheFundingSourceMaxCalendarYear()
         {
-            get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Max(x => x.CalendarYear) : (int?) null; }
+            return ProjectFundingSourceExpenditures.Any()
+                ? ProjectFundingSourceExpenditures.Max(x => x.CalendarYear)
+                : (int?) null;
         }
 
-        public string AuditDescriptionString => FundingSourceName;
+        public string GetAuditDescriptionString() => FundingSourceName;
 
         public List<Project> GetAssociatedProjects(Person person)
         {
-            return ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
     }
 }

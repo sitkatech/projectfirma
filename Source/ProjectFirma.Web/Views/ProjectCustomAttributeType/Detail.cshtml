@@ -15,7 +15,7 @@
 {
     @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
     {
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Attribute", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.ProjectCustomAttributeType.GetEditUrl(), "Edit Attribute", new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Attribute", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ProjectCustomAttributeTypeModelExtensions.GetEditUrl(ViewDataTyped.ProjectCustomAttributeType), "Edit Attribute", new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
     }
 }
 

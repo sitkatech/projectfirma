@@ -43,13 +43,13 @@
 </div>
     <div>
             @{ var classificationIndex = 0;}
-            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList())
+            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.GetDisplayName()).ToList())
             {
                 <div class="row" style="padding-top:20px">
                     <div class="col-xs-12 col-sm-4">
                         <label>
                             @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                            <span style="font-weight: bold">@classification.DisplayName</span>
+                            <span style="font-weight: bold">@classification.GetDisplayName()</span>
                         </label>
                         <div class="help-block">
                             @classification.ClassificationDescription
@@ -75,7 +75,7 @@
     // <![CDATA[
 
     jQuery(document).ready(function () {
-        @for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.DisplayName).ToList().Count; i++)
+        @for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.GetDisplayName()).ToList().Count; i++)
         {
             <text>
         var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");

@@ -46,10 +46,10 @@ namespace ProjectFirma.Web.Views.Organization
                 .NotEmpty()
                 .WithMessage("Organization name is required")
                 .Length(1, Models.Organization.FieldLengths.OrganizationName)
-                .Must((viewModel, organizationName) => Models.Organization.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
+                .Must((viewModel, organizationName) => Models.OrganizationModelExtensions.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationNameUnique);
             RuleFor(x => x.OrganizationShortName)
-                .Must((viewModel, organizationShortName) => Models.Organization.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
+                .Must((viewModel, organizationShortName) => Models.OrganizationModelExtensions.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationShortNameUnique);
             RuleFor(x => x.IsActive).NotEmpty().WithMessage("Is Active is required");
         }

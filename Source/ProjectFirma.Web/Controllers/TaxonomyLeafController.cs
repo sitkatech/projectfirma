@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals;
+            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
             var taxonomyLeafProjects = taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPersonCanViewProposals).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
@@ -88,14 +88,14 @@ namespace ProjectFirma.Web.Controllers
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(taxonomyLeafProjects, true, false), "red", 1,
+                    taxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyLeafProjectMap");
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals);
+                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
                 MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyLeaf);
-            return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.DisplayName);
+            return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.GetDisplayName());
         }
 
         [HttpPost]
@@ -185,7 +185,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.DisplayName);
+                return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.GetDisplayName());
             }
 
             viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
@@ -200,8 +200,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyBranchDisplayName)
         {
             var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList()
-                .OrderBy(x => x.DisplayName)
-                .ToSelectList(x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                .OrderBy(x => x.GetDisplayName())
+                .ToSelectList(x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.GetDisplayName());
             var viewData = new EditViewData(taxonomyBranches, taxonomyBranchDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -223,7 +223,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafDisplayName = FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyLeafDisplayName,
-                    taxonomyLeaf.DisplayName)
+                    taxonomyLeaf.GetDisplayName())
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyLeafDisplayName,
                     SitkaRoute<TaxonomyLeafController>.BuildLinkFromExpression(x => x.Detail(taxonomyLeaf), "here"));
 

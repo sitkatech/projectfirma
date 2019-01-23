@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Data.SqlTypes;
@@ -108,8 +108,11 @@ namespace LtInfo.Common.DbSpatial
         public static void Reduce(List<IHaveSqlGeometry> geometries)
         {
             const int thresholdInFeet = 1;
-            var thresholdInDegrees = FeetToAverageLatLonDegree(geometries.First().DbGeometry, thresholdInFeet);
-            geometries.ForEach(x => x.DbGeometry = x.SqlGeometry.MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
+            var thresholdInDegrees = FeetToAverageLatLonDegree(geometries.First().GetDbGeometry(), thresholdInFeet);
+            geometries.ForEach(x =>
+            {
+                x.SetDbGeometry(x.GetSqlGeometry().MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
+            });
         }
     }
 }

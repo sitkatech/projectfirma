@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public EditProposalClassificationsViewData(Person currentPerson, Models.Project project, List<Models.ClassificationSystem> classificationSystems, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSectionDisplayName, proposalSectionsStatus)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             ClassificationSystems = classificationSystems;
         }
     }

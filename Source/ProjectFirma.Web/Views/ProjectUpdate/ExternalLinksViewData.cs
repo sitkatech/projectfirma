@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string DiffUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;
 
-        public ExternalLinksViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData, string refreshUrl, string diffUrl)
-            : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName)
+        public ExternalLinksViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData, string refreshUrl, string diffUrl)
+            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngular;
             EntityExternalLinksViewData = entityExternalLinksViewData;

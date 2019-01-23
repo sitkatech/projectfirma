@@ -23,9 +23,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Keystone.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Models
 {
@@ -38,7 +40,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
-            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.FullNameFirstLast);
+            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
         }
 
         public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
@@ -57,7 +59,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
         {
-            var userString = person.FullNameFirstLast;
+            var userString = person.GetFullNameFirstLast();
             var orgUrl = person.Organization.GetShortNameAsUrl();
             return new HtmlString($"{userString} - {orgUrl}");
         }
@@ -128,12 +130,48 @@ namespace ProjectFirma.Web.Models
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
-            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals).ToList();
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals()).ToList();
         }
 
         public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, Person currentPerson)
         {
-            return person.GetPrimaryContactProjects(currentPerson).Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
+            return person.GetPrimaryContactProjects(currentPerson).Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
+        }
+
+        public static bool IsPersonAProjectOwnerWhoCanStewardProjects(this Person person)
+        {
+            var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
+            if (MultiTenantHelpers.GetProjectStewardshipAreaType() == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
+            {
+                return Role.ProjectSteward.RoleID == person.RoleID &&
+                       canStewardProjectsOrganizationRelationship != null &&
+                       canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
+                           x => x.OrganizationTypeID == person.Organization.OrganizationTypeID);
+            }
+
+            return Role.ProjectSteward.RoleID == person.RoleID;
+        }
+
+        public static void SetKeystoneUserClaims(this Person person, IKeystoneUserClaims keystoneUserClaims)
+        {
+            person.Organization = HttpRequestStorage.DatabaseEntities.Organizations.Where(x => x.OrganizationGuid.HasValue)
+                .SingleOrDefault(x => x.OrganizationGuid == keystoneUserClaims.OrganizationGuid);
+            person.Phone = keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
+            person.Email = keystoneUserClaims.Email;
+        }
+
+        public static bool CanViewProposals(this Person person) => MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsAnonymousOrUnassigned();
+
+        public static List<HtmlString> GetProjectStewardshipAreaHtmlStringList(this Person person)
+        {
+            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.GetProjectStewardshipAreaHtmlStringList(person);
+        }
+
+        public static bool CanViewPendingProjects(this Person person) => new PendingProjectsViewListFeature().HasPermissionByPerson(person);
+
+        public static bool CanStewardProject(this Person person, Project project)
+        {
+            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.CanStewardProject(person, project) ?? true;
         }
     }
 }

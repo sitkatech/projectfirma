@@ -20,121 +20,79 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Organization : IAuditableEntity
     {
-        public const string OrganizationSitka = "Sitka Technology Group";
-        public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
+        public string GetDisplayName() => IsUnknown()
+            ? "Unknown or unspecified"
+            : $"{OrganizationName}{(!String.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : String.Empty)}{(!IsActive ? " (Inactive)" : String.Empty)}";
 
-        public string DisplayName => IsUnknown ? "Unknown or unspecified" : $"{OrganizationName}{(!String.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : String.Empty)}{(!IsActive ? " (Inactive)" : String.Empty)}";
-        public string DisplayNameWithoutAbbreviation => IsUnknown ? "Unknown or unspecified" : $"{OrganizationName}{(!IsActive ? " (Inactive)" : String.Empty)}";
+        public string GetDisplayNameWithoutAbbreviation() => IsUnknown()
+            ? "Unknown or unspecified"
+            : $"{OrganizationName}{(!IsActive ? " (Inactive)" : String.Empty)}";
 
-        public string OrganizationNamePossessive
+        public string GetOrganizationNamePossessive()
         {
-            get
+            if (IsUnknown())
             {
-                if (IsUnknown)
-                {
-                    return OrganizationName;
-                }
-                var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
-                return $"{OrganizationName}{postFix}";
+                return OrganizationName;
             }
+
+            var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
+            return $"{OrganizationName}{postFix}";
         }
 
-        public string OrganizationShortNameIfAvailable
+        public string GetOrganizationShortNameIfAvailable()
         {
-            get
+            if (IsUnknown())
             {
-                if (IsUnknown)
-                {
-                    return "Unknown or Unassigned";
-                }
-                return OrganizationShortName ?? OrganizationName;
+                return "Unknown or Unassigned";
             }
+
+            return OrganizationShortName ?? OrganizationName;
         }
 
-        public HtmlString PrimaryContactPersonAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsUrl() : new HtmlString(ViewUtilities.NoneString);
+        public HtmlString GetPrimaryContactPersonAsUrl() => PrimaryContactPerson != null
+            ? PrimaryContactPerson.GetFullNameFirstLastAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
 
-        public HtmlString PrimaryContactPersonWithOrgAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString);
+        public HtmlString GetPrimaryContactPersonWithOrgAsUrl() => PrimaryContactPerson != null
+            ? PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
 
         /// <summary>
         /// Use for security situations where the user summary is not displayable, but the Organization is.
         /// </summary>
-        public HtmlString PrimaryContactPersonAsStringAndOrgAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString);
+        public HtmlString GetPrimaryContactPersonAsStringAndOrgAsUrl() => PrimaryContactPerson != null
+            ? PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
 
-        public string PrimaryContactPersonWithOrgAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLastAndOrg : ViewUtilities.NoneString;
+        public string GetPrimaryContactPersonWithOrgAsString() => PrimaryContactPerson != null
+            ? PrimaryContactPerson.GetFullNameFirstLastAndOrg()
+            : ViewUtilities.NoneString;
 
-        public string PrimaryContactPersonAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLast : ViewUtilities.NoneString;
+        public string GetPrimaryContactPersonAsString() => PrimaryContactPerson != null
+            ? PrimaryContactPerson.GetFullNameFirstLast()
+            : ViewUtilities.NoneString;
 
-        public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
-        {
-            var organization =
-                organizations.SingleOrDefault(x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationName, organizationName, StringComparison.InvariantCultureIgnoreCase));
-            return organization == null;
-        }
+        public string GetAuditDescriptionString() => OrganizationName;
 
-        public static bool IsOrganizationShortNameUniqueIfProvided(IEnumerable<Organization> organizations, string organizationShortName, int currentOrganizationID)
-        {
-            // Nulls don't trip the unique check
-            if (organizationShortName == null)
-            {
-                return true;
-            }
-            var existingOrganization =
-                organizations.SingleOrDefault(
-                    x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationShortName, organizationShortName, StringComparison.InvariantCultureIgnoreCase));
-            return existingOrganization == null;
-        }
+        public bool IsInKeystone() => OrganizationGuid.HasValue;
 
-        public string AuditDescriptionString => OrganizationName;
+        public bool IsUnknown() => !String.IsNullOrWhiteSpace(OrganizationName) &&
+                                   OrganizationName.Equals(OrganizationModelExtensions.OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
-        public bool IsInKeystone => OrganizationGuid.HasValue;
-
-        public bool IsUnknown => !String.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
-      
         public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary);
             feature.Properties.Add(OrganizationType.OrganizationTypeName, OrganizationName);
             return new FeatureCollection(new List<Feature> { feature });
-        }
-        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
-        {
-            var projects = this.GetAllActiveProjectsAndProposals(currentPerson).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
-        }
-
-        public bool CanBeAnApprovingOrganization()
-        {
-            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
-        }
-
-        public bool CanBeReportedInAccomplishmentsDashboard()
-        {
-            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
-                x.RelationshipTypeID == MultiTenantHelpers
-                    .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID);
-        }
-
-        public bool CanBeAPrimaryContactOrganization()
-        {
-            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
-        }
-
-        public bool CanStewardProjects()
-        {
-            return OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
         }
 
         public bool IsMyProject(Project project)

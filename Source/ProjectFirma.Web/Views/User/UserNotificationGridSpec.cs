@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.User
                 {
                     return new HtmlString(string.Empty);
                 }
-                return notificationProject.Project.DisplayNameAsUrl;
+                return notificationProject.Project.GetDisplayNameAsUrl();
             }, 200, DhtmlxGridColumnFilterType.Html);
         }
     }

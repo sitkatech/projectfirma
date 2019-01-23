@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             var errors = new List<ValidationResult>();
             var existingTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-            if (!Models.TaxonomyBranch.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
+            if (!Models.TaxonomyBranchModelExtensions.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyBranchName));
             }

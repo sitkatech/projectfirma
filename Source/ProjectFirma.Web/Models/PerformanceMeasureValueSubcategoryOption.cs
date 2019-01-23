@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 
@@ -28,9 +27,9 @@ namespace ProjectFirma.Web.Models
 {
     public class PerformanceMeasureValueSubcategoryOption
     {
-        public readonly int PrimaryKey;
-        public readonly PerformanceMeasure PerformanceMeasure;
-        public readonly PerformanceMeasureSubcategory PerformanceMeasureSubcategory;
+        public int PrimaryKey { get; }
+        public PerformanceMeasure PerformanceMeasure { get; }
+        public PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
 
         public PerformanceMeasureValueSubcategoryOption(int primaryKey, int performanceMeasureSubcategoryOptionID, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
@@ -41,14 +40,10 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategory = performanceMeasureSubcategory;
         }
 
-        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
-
-        public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
-
         private static IEnumerable<PerformanceMeasureValueSubcategoryOption> GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(IPerformanceMeasureValue performanceMeasureValue)
         {
             var performanceMeasure = performanceMeasureValue.PerformanceMeasure;
-            var selectedPerformanceMeasureValueSubcategoryOptions = performanceMeasureValue.PerformanceMeasureSubcategoryOptions;
+            var selectedPerformanceMeasureValueSubcategoryOptions = performanceMeasureValue.GetPerformanceMeasureSubcategoryOptions();
             // we need to get all possible subcategories for this performance measure and default it with empty values
             // we do this to prime the angular editor to have these performanceMeasureSubcategory dropdowns there, even if they didn't choose an option for that performanceMeasureSubcategory
             // since this part is optional when creating an expected value record
@@ -60,11 +55,11 @@ namespace ProjectFirma.Web.Models
                 selectedPerformanceMeasureValueSubcategoryOptions.Select(
                     x =>
                         new PerformanceMeasureValueSubcategoryOption(x.PrimaryKey,
-                            x.PerformanceMeasureSubcategoryOption == null ? ModelObjectHelpers.NotYetAssignedID : x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
+                            x.PerformanceMeasureSubcategoryOption?.PerformanceMeasureSubcategoryOptionID ?? ModelObjectHelpers.NotYetAssignedID,
                             x.PerformanceMeasure,
                             x.PerformanceMeasureSubcategory)).ToList();
             allPossiblePerformanceMeasureActualUpdateSubcategoryOptions.MergeUpdate(subcategoryOptionUpdateSimplesSelected,
-                (x, y) => x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID,
+                (x, y) => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID,
                 (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
             return allPossiblePerformanceMeasureActualUpdateSubcategoryOptions;
         }

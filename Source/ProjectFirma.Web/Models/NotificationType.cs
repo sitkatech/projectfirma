@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
 
         protected static HtmlString GetNotificationProjectDisplayNameAsHrefs(Notification notification)
         {
-            return new HtmlString(string.Join(", ", notification.NotificationProjects.OrderBy(x => x.Project.ProjectName).Select(x => x.Project.DisplayNameAsUrl)));
+            return new HtmlString(string.Join(", ", notification.NotificationProjects.OrderBy(x => x.Project.ProjectName).Select(x => x.Project.GetDisplayNameAsUrl())));
         }
     }
 

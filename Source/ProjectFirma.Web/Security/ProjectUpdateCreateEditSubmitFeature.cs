@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
+                return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
 
             if (contextModelObject.IsProposal())
@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update process.");
             }
 
-            if (!contextModelObject.IsUpdatableViaProjectUpdateProcess)
+            if (!contextModelObject.IsUpdatableViaProjectUpdateProcess())
             {
-                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} is not updatable via the {FieldDefinition.Project.GetFieldDefinitionLabel()} Update process");
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not updatable via the {FieldDefinition.Project.GetFieldDefinitionLabel()} Update process");
             }
 
             var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(person, contextModelObject).HasPermission || contextModelObject.IsMyProject(person);

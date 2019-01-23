@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Home
             FirmaHomePageCarouselImages = firmaHomePageImages;
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
+            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned();
         }
     }
 }

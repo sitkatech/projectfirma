@@ -21,10 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -50,65 +47,69 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public int? EntityImageIDAsNullable
+        public int? GetEntityImageIDAsNullable()
         {
-            get { return ProjectImageID; } 
-        }
-        public DateTime CreateDate
-        {
-            get { return FileResource.CreateDate; }
+            return ProjectImageID;
         }
 
-        public string DeleteUrl
+        public DateTime GetCreateDate()
         {
-            get { return SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.DeleteProjectImageUpdate(ProjectImageUpdateID)); }
+            return FileResource.CreateDate;
         }
 
-        public string CaptionOnFullView
+        public string GetDeleteUrl()
         {
-            get
-            {
-                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : string.Format("\r\nCredit: {0}", Credit);
-                return string.Format("{0}{1}", CaptionOnGallery, creditString);
-            }
+            return ProjectImageUpdateModelExtensions.GetDeleteUrlImpl(this);
         }
 
-        public string CaptionOnGallery
+        public string GetCaptionOnFullView()
         {
-            get { return string.Format("{0}\r\n(Timing: {1}) {2}", Caption, ProjectImageTiming.ProjectImageTimingDisplayName, FileResource.FileResourceDataLengthString); }
+            var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
+            return $"{GetCaptionOnGallery()}{creditString}";
         }
 
-        public string PhotoUrl
+        public string GetCaptionOnGallery()
         {
-            get { return FileResource.FileResourceUrl; }
+            return $"{Caption}\r\n(Timing: {ProjectImageTiming.ProjectImageTimingDisplayName}) {FileResource.FileResourceDataLengthString}";
         }
 
-        public string PhotoUrlScaledThumbnail
+        public string GetPhotoUrl()
         {
-            get { return FileResource.FileResourceUrlScaledThumbnail(150); }
+            return FileResource.FileResourceUrl;
         }
 
-        public string PhotoUrlScaledForPrint
+        public string GetPhotoUrlScaledThumbnail()
         {
-            get { return FileResource.FileResourceUrlScaledForPrint; }
+            return FileResource.FileResourceUrlScaledThumbnail(150);
         }
 
-        public string EditUrl
+        public string GetEditUrl()
         {
-            get { return SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.Edit(ProjectImageUpdateID)); }
+            return ProjectImageUpdateModelExtensions.GetEditUrlImpl(this);
         }
 
-        private List<string> _additionalCssClasses = new List<string>(); 
-        public List<string> AdditionalCssClasses
+        private List<string> _additionalCssClasses = new List<string>();
+
+        public void SetAdditionalCssClasses(List<string> value)
         {
-            get { return _additionalCssClasses; }
-            set { _additionalCssClasses = value; }
+            _additionalCssClasses = value;
         }
+
+        public List<string> GetAdditionalCssClasses()
+        {
+            return _additionalCssClasses;
+        }
+
         private object _orderBy;
-        public object OrderBy
+
+        public void SetOrderBy(object value)
         {
-            get { return _orderBy ?? CaptionOnFullView; }
-            set { _orderBy = value; }
+            _orderBy = value;
+        }
+
+        public object GetOrderBy()
+        {
+            return _orderBy ?? GetCaptionOnFullView();
         }
 
         public void SetAsKeyPhoto()
@@ -120,68 +121,6 @@ namespace ProjectFirma.Web.Models
         {
             IsKeyPhoto = true;
             projectImageUpdatesToSetAsNotTheKeyPhoto.ForEach(x => x.IsKeyPhoto = false);
-        }
-
-        public bool IsPersonTheCreator(Person person)
-        {
-            return FileResource.CreatePerson != null && person != null && person.PersonID == FileResource.CreatePersonID;
-        }
-
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectImageUpdates = project.ProjectImages.Select(pn =>
-            {
-                var currentFileResource = pn.FileResource;
-                var newFileResource = new FileResource(currentFileResource.FileResourceMimeType,
-                    currentFileResource.OriginalBaseFilename,
-                    currentFileResource.OriginalFileExtension,
-                    Guid.NewGuid(),
-                    currentFileResource.FileResourceData,
-                    currentFileResource.CreatePerson,
-                    currentFileResource.CreateDate);
-                return new ProjectImageUpdate(projectUpdateBatch, pn.ProjectImageTiming, pn.Caption, pn.Credit, pn.IsKeyPhoto, pn.ExcludeFromFactSheet)
-                {
-                    FileResource = newFileResource,
-                    ProjectImageID = pn.ProjectImageID
-                
-                };
-            }).ToList();
-        }
-
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectImage> allProjectImages)
-        {
-            var project = projectUpdateBatch.Project;
-            var projectImageUpdatesToCommit = new List<ProjectImage>();
-
-            if (projectUpdateBatch.ProjectImageUpdates.Any())
-            {
-                // Completely rebuild the list
-                projectImageUpdatesToCommit = projectUpdateBatch.ProjectImageUpdates.Select(x =>
-                {
-                    var currentFileResource = x.FileResource;
-                    return new ProjectImage(x.ProjectImageID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(),
-                        currentFileResource.FileResourceID,
-                        project.ProjectID,
-                        x.ProjectImageTimingID,
-                        x.Caption,
-                        x.Credit,
-                        x.IsKeyPhoto,
-                        x.ExcludeFromFactSheet);
-                }).ToList();
-            }
-
-            project.ProjectImages.Merge(projectImageUpdatesToCommit,
-                allProjectImages,
-                (x, y) => x.ProjectImageID == y.ProjectImageID,
-                (x, y) =>
-                {
-                    x.ProjectImageTimingID = y.ProjectImageTimingID;
-                    x.Caption = y.Caption;
-                    x.Credit = y.Credit;
-                    x.IsKeyPhoto = y.IsKeyPhoto;
-                    x.ExcludeFromFactSheet = y.ExcludeFromFactSheet;
-                });
         }
     }
 }

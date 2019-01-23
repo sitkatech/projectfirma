@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
 
             var projectsSpec = new ProjectAssessmentExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);

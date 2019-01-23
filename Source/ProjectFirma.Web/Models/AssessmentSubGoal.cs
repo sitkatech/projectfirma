@@ -20,35 +20,24 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class AssessmentSubGoal : IAuditableEntity
     {
-        public List<AssessmentQuestion> ActiveQuestions
+        public List<AssessmentQuestion> GetActiveQuestions()
         {
-            get { return AssessmentQuestions.Where(x => !x.IsArchived).ToList(); }
+            return AssessmentQuestions.Where(x => !x.IsArchived()).ToList();
         }
 
-        public string EditUrl
+        public string GetDisplayName()
         {
-            get
-            {
-                return SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.EditSubGoal(AssessmentSubGoalID));
-            }
+            return $"Sub Goal {AssessmentSubGoalNumber}: {AssessmentSubGoalTitle}";
         }
-        public string DisplayName
+
+        public string GetAuditDescriptionString()
         {
-            get { return string.Format("Sub Goal {0}: {1}", AssessmentSubGoalNumber, AssessmentSubGoalTitle); }
-        }
-        public string AuditDescriptionString
-        {
-            get
-            {
-                return DisplayName;
-            }
+            return GetDisplayName();
         }
     }
 }

@@ -25,6 +25,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using Keystone.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -58,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                if (!HttpRequestStorage.Tenant.GetTenantAttribute().IsActive)
+                if (!MultiTenantHelpers.GetTenantAttribute().IsActive)
                 {
                     var defaultTenant = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Where(x => x.IsActive).OrderBy(x => x.TenantID).First().Tenant;
                     var writeQueryString =

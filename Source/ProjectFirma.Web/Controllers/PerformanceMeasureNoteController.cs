@@ -24,7 +24,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers

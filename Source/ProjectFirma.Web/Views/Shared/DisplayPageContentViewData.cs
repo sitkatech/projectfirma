@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public DisplayPageContentViewData(Person currentPerson, IFirmaPage firmaPage, bool showEditButton) : base(currentPerson)
         {
-            PageTitle = firmaPage.FirmaPageDisplayName;            
+            PageTitle = firmaPage.GetFirmaPageDisplayName();            
             ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
         }
     }

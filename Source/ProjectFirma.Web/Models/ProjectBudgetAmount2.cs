@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
                     foreach (var calendarYear in calendarYears)
                     {
                         current.CalendarYearBudget[calendarYear] =
-                            projectBudgetAmount.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.MonetaryAmount).Sum();
+                            projectBudgetAmount.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount()).Sum();
                     }
                 }
             }

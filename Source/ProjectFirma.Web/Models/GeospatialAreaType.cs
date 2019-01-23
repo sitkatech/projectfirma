@@ -6,10 +6,10 @@ namespace ProjectFirma.Web.Models
 {
     public partial class GeospatialAreaType : IFirmaPage, IAuditableEntity
     {
-        public HtmlString FirmaPageContentHtmlString => GeospatialAreaIntroContentHtmlString;
+        public HtmlString GetFirmaPageContentHtmlString() => GeospatialAreaIntroContentHtmlString;
 
-        public string FirmaPageDisplayName => GeospatialAreaTypeName;
-        public bool HasPageContent => !string.IsNullOrWhiteSpace(GeospatialAreaIntroContent);
+        public string GetFirmaPageDisplayName() => GeospatialAreaTypeName;
+        public bool HasPageContent() => !string.IsNullOrWhiteSpace(GeospatialAreaIntroContent);
 
         public string GetEditPageContentUrl()
         {
@@ -22,6 +22,6 @@ namespace ProjectFirma.Web.Models
                 x.EditProjectGeospatialAreas(project.ProjectID, GeospatialAreaTypeID));
         }
 
-        public string AuditDescriptionString => GeospatialAreaTypeName;
+        public string GetAuditDescriptionString() => GeospatialAreaTypeName;
     }
 }

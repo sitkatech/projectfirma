@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Models
             ProjectAssessmentQuestionID = ModelObjectHelpers.NotYetAssignedID;
         }
 
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get { return string.Format("ProjectAssessmentQuestion: {0}", ProjectAssessmentQuestionID); }
+            return string.Format("ProjectAssessmentQuestion: {0}", ProjectAssessmentQuestionID);
         }
     }
 }

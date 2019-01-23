@@ -36,10 +36,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         {
             if (new TaxonomyTrunkManageFeature().HasPermissionByPerson(person))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.TaxonomyTrunkName), 240);
+            Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.TaxonomyTrunkName), 240);
             Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
             Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, DhtmlxGridColumnFormatType.None);

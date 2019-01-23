@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
             
             return forbidAdmin
                 ? new PermissionCheckResult(
-                    $"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
+                    $"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}")
                 : new PermissionCheckResult();
         }
 

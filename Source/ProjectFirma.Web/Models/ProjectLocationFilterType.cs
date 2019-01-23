@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Models
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Intersect(project.ProjectClassificationsForMap.Select(x => x.ClassificationID)).Any();
+            return project => filterValues.Intersect(project.GetProjectClassificationsForMap().Select(x => x.ClassificationID)).Any();
         }
 
         public override string DisplayName => FieldDefinition.Classification.GetFieldDefinitionLabel();

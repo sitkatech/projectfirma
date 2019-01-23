@@ -19,38 +19,34 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ProjectFirma.Web.Common;
 using Keystone.Common;
-using LtInfo.Common;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Person : IAuditableEntity, IKeystoneUser
     {
-        public bool IsAnonymousUser => PersonID == PersonModelExtensions.AnonymousPersonID;
+        public bool IsAnonymousUser() => PersonID == PersonModelExtensions.AnonymousPersonID;
 
-        public string FullNameFirstLast => $"{FirstName} {LastName}";
+        public string GetFullNameFirstLast() => $"{FirstName} {LastName}";
 
-        public string FullNameFirstLastAndOrg => $"{FirstName} {LastName} - {Organization.DisplayName}";
+        public string GetFullNameFirstLastAndOrg() => $"{FirstName} {LastName} - {Organization.GetDisplayName()}";
 
-        public string FullNameFirstLastAndOrgShortName => $"{FirstName} {LastName} ({Organization.OrganizationShortNameIfAvailable})";
+        public string GetFullNameFirstLastAndOrgShortName() =>
+            $"{FirstName} {LastName} ({Organization.GetOrganizationShortNameIfAvailable()})";
 
-        public string FullNameLastFirst => $"{LastName}, {FirstName}";
+        public string GetFullNameLastFirst() => $"{LastName}, {FirstName}";
 
         /// <summary>
         /// List of Organizations for which this Person is the primary contact
         /// </summary>
-        public List<Organization> PrimaryContactOrganizations
+        public List<Organization> GetPrimaryContactOrganizations()
         {
-            get { return OrganizationsWhereYouAreThePrimaryContactPerson.OrderBy(x => x.OrganizationName).ToList(); }
+            return OrganizationsWhereYouAreThePrimaryContactPerson.OrderBy(x => x.OrganizationName).ToList();
         }
 
-        public string AuditDescriptionString => FullNameFirstLast;
+        public string GetAuditDescriptionString() => GetFullNameFirstLast();
 
         public Notification GetMostRecentReminder()
         {
@@ -64,58 +60,23 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// All role names of BOTH types used by Keystone not for user display 
         /// </summary>
-        public IEnumerable<string> RoleNames
+        public IEnumerable<string> GetRoleNames()
         {
-            get
+            if (IsAnonymousUser())
             {
-                if (IsAnonymousUser)
-                {
-                    // the presence of roles switches you from being IsAuthenticated or not
-                    return new List<string>();
-                }
-                var roleNames = new List<string> {Role.RoleName};
-                return roleNames;
+                // the presence of roles switches you from being IsAuthenticated or not
+                return new List<string>();
             }
+
+            var roleNames = new List<string> {Role.RoleName};
+            return roleNames;
         }
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {
-            Organization = HttpRequestStorage.DatabaseEntities.Organizations.Where(x => x.OrganizationGuid.HasValue).SingleOrDefault(x => x.OrganizationGuid == keystoneUserClaims.OrganizationGuid);
-            Phone = keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
-            Email = keystoneUserClaims.Email;
+            PersonModelExtensions.SetKeystoneUserClaims(this, keystoneUserClaims);
         }
 
-        public bool CanStewardProject(Project project)
-        {
-            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.CanStewardProject(this, project) ?? true;
-        }
-
-        public bool PersonIsProjectOwnerWhoCanStewardProjects
-        {
-            get
-            {
-                var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
-                if (MultiTenantHelpers.GetProjectStewardshipAreaType() == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
-                {
-                    return Role.ProjectSteward.RoleID == RoleID &&
-                           canStewardProjectsOrganizationRelationship != null &&
-                           canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
-                               x => x.OrganizationTypeID == Organization.OrganizationTypeID);
-                }
-
-                return Role.ProjectSteward.RoleID == RoleID;
-            }
-        }
-
-        public List<HtmlString> GetProjectStewardshipAreaHtmlStringList()
-        {
-            return MultiTenantHelpers.GetProjectStewardshipAreaType()?.GetProjectStewardshipAreaHtmlStringList(this);
-        }
-
-        public bool IsAnonymousOrUnassigned => IsAnonymousUser || Role == Role.Unassigned;
-
-        public bool CanViewProposals => MultiTenantHelpers.ShowProposalsToThePublic() || !IsAnonymousOrUnassigned;       
-        public bool CanViewPendingProjects => new PendingProjectsViewListFeature().HasPermissionByPerson(this);
-
+        public bool IsAnonymousOrUnassigned() => IsAnonymousUser() || Role == Role.Unassigned;
     }
 }

@@ -18,70 +18,47 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
+    public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier
     {
-        public int? SortOrder
-        {
-            get => TaxonomyBranchSortOrder;
-            set => TaxonomyBranchSortOrder = value;
-        }
-        public int ID => TaxonomyBranchID;
+        public void SetSortOrder(int? value) => TaxonomyBranchSortOrder = value;
 
-        public string DeleteUrl
-        {
-            get { return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.DeleteTaxonomyBranch(TaxonomyBranchID)); }
-        }
+        public int? GetSortOrder() => TaxonomyBranchSortOrder;
+        public int GetID() => TaxonomyBranchID;
 
         public List<Project> GetAssociatedProjects(Person person)
         {
-            return TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
-        public int TaxonomyTierID => TaxonomyBranchID;
+        public int GetTaxonomyTierID() => TaxonomyBranchID;
 
-        public string DisplayName
+        public string GetDisplayName()
         {
-            get
-            {
-                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyBranchCode) ? string.Empty : string.Format("{0}: ", TaxonomyBranchCode);
-                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyBranchName);
-            }
+            var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyBranchCode)
+                ? string.Empty
+                : $"{TaxonomyBranchCode}: ";
+            return $"{taxonomyPrefix}{TaxonomyBranchName}";
         }
 
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName);
+            return UrlTemplate.MakeHrefString(GetDetailUrl(), GetDisplayName());
         }
 
-        public string SummaryUrl
+        public string GetDetailUrl()
         {
-            get { return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Detail(TaxonomyBranchID)); }
+            return TaxonomyBranchModelExtensions.GetDetailUrl(this);
         }
 
-        public string CustomizedMapUrl
-        {
-            get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyBranch, TaxonomyBranchID.ToString(), ProjectColorByType.ProjectStage); }
-        }
-
-        public static bool IsTaxonomyBranchNameUnique(IEnumerable<TaxonomyBranch> taxonomyBranches, string taxonomyBranchName, int currentTaxonomyBranchID)
-        {
-            var taxonomyBranch = taxonomyBranches.SingleOrDefault(x => x.TaxonomyBranchID != currentTaxonomyBranchID && String.Equals(x.TaxonomyBranchName, taxonomyBranchName, StringComparison.InvariantCultureIgnoreCase));
-            return taxonomyBranch == null;
-        }
-
-        public string AuditDescriptionString => TaxonomyBranchName;
+        public string GetAuditDescriptionString() => TaxonomyBranchName;
 
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
@@ -90,13 +67,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyBranchID.ToString(), false)
-            {
-                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTrunk.ThemeColor : ThemeColor,
-                MapUrl = CustomizedMapUrl,
-                Children = TaxonomyLeafs.SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentPerson)).ToList()
-            };
-            return fancyTreeNode;
+            return TaxonomyBranchModelExtensions.ToFancyTreeNode(this, currentPerson);
         }
     }
 }

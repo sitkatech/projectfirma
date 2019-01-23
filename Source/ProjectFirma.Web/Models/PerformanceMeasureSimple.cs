@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
                 performanceMeasure.MeasurementUnitTypeID,
                 performanceMeasure.PerformanceMeasureDisplayName,
                 performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName,
-                performanceMeasure.HasRealSubcategories,
+                performanceMeasure.HasRealSubcategories(),
                 performanceMeasure.GetDefinitionAndGuidanceUrl())
         {
         }

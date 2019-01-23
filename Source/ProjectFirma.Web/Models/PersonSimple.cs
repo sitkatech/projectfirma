@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
             PersonGuid = person.PersonGuid;
             FirstName = person.FirstName;
             LastName = person.LastName;
-            FullNameWithOrgShortName = $"{FirstName} {LastName} ({person.Organization.OrganizationShortNameIfAvailable})";
+            FullNameWithOrgShortName = $"{FirstName} {LastName} ({person.Organization.GetOrganizationShortNameIfAvailable()})";
             Email = person.Email;
             Phone = person.Phone;
             PasswordPdfK2SaltHash = person.PasswordPdfK2SaltHash;

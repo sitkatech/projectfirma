@@ -58,7 +58,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyLeafUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyLeafDisplayName, ViewDataTyped.TaxonomyLeaf.DisplayName), ViewDataTyped.UserHasTaxonomyLeafManagePermissions) Basics</h2>
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyLeafUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyLeafDisplayName, ViewDataTyped.TaxonomyLeaf.GetDisplayName()), ViewDataTyped.UserHasTaxonomyLeafManagePermissions) Basics</h2>
             </div>
             <div class="panel-body">
                 @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }

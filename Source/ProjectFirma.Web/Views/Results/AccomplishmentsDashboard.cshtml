@@ -148,7 +148,7 @@
                                     <select id="taxonomyTierDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
                                         @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers)
                                         {
-                                            <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.SummaryUrl">@taxonomyTier.DisplayName</option>
+                                            <option value="@taxonomyTier.GetTaxonomyTierID()" data-detailUrl="@taxonomyTier.GetDetailUrl()">@taxonomyTier.GetDisplayName()</option>
                                         }
                                     </select>
                                 </div>

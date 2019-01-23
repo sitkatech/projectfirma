@@ -18,57 +18,34 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Tag : IAuditableEntity
     {
-        public string EditUrl
+        public HtmlString GetDisplayNameAsUrl()
         {
-            get { return SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Edit(TagID)); }
+            return UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(this), GetDisplayName());
         }
 
-        public string DeleteUrl
+        public string GetDisplayName()
         {
-            get { return SitkaRoute<TagController>.BuildUrlFromExpression(c => c.DeleteTag(TagID)); }
+            return TagName;
         }
 
-        public HtmlString DisplayNameAsUrl
+        public string GetAuditDescriptionString()
         {
-            get { return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName); }
-        }
-
-        public string DisplayName
-        {
-            get { return TagName; }
-        }
-
-        public string SummaryUrl
-        {
-            get { return SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(TagName)); }
-        }
-
-        public string AuditDescriptionString
-        {
-            get { return TagName; }
+            return TagName;
         }
 
         public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            return ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
-        }
-
-        public static bool IsTagNameUnique(IEnumerable<Tag> tags, string tagName, int currentTagID)
-        {
-            var tag = tags.SingleOrDefault(x => x.TagID != currentTagID && String.Equals(x.TagName, tagName, StringComparison.InvariantCultureIgnoreCase));
-            return tag == null;
+            return ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
     }
 }

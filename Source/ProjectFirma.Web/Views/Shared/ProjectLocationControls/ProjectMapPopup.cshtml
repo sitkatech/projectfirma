@@ -63,7 +63,7 @@
             @if (ViewDataTyped.KeyPhoto != null)
             {
                 <div class="col-xs-4 text-center" style="padding: 0 5px">
-                    <img class="img-responsive" style="margin: 0 auto" src="@ViewDataTyped.KeyPhoto.PhotoUrlLargeScaledThumbnail" alt="@ViewDataTyped.KeyPhoto.CaptionOnGallery" />
+                    <img class="img-responsive" style="margin: 0 auto" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlLargeScaledThumbnail()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnGallery()" />
                 </div>
             }
             <div class="@(ViewDataTyped.KeyPhoto != null ? "col-xs-8" : "col-xs-12")">

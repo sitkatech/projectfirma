@@ -4,9 +4,9 @@ namespace ProjectFirma.Web.Models
 {
     public interface IFirmaPage
     {
-        HtmlString FirmaPageContentHtmlString { get; }
-        string FirmaPageDisplayName { get; }
-        bool HasPageContent { get; }
+        HtmlString GetFirmaPageContentHtmlString();
+        string GetFirmaPageDisplayName();
+        bool HasPageContent();
         string GetEditPageContentUrl();
     }
 }

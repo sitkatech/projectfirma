@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
         public MyOrganizationsProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
-            var organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
+            var organizationNamePossessive = currentPerson.Organization.GetOrganizationNamePossessive();
             PageTitle = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             ProjectsGridName = "myOrganizationsProjectListGrid";

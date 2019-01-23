@@ -120,28 +120,28 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div>
             <ul class="filmStrip" style="margin-top: 5px;">
-                @foreach (var galleryImage in ViewDataTyped.GalleryImages.OrderBy(x => x.OrderBy))
+                @foreach (var galleryImage in ViewDataTyped.GalleryImages.OrderBy(x => x.GetOrderBy()))
                 {
                     <li style="overflow: hidden">
-                        <div class="@Html.Raw(string.Join(" ", galleryImage.AdditionalCssClasses).HtmlEncodeWithBreaks())">
+                        <div class="@Html.Raw(string.Join(" ", galleryImage.GetAdditionalCssClasses()).HtmlEncodeWithBreaks())">
                             <div class="icons">
                                 <span data-image-id="@galleryImage.PrimaryKey" class="keyPhotoIcon @Html.Raw(galleryImage.IsKeyPhoto ? "setKeyPhoto" : string.Empty)">
                                     <img src="/Content/img/keys.png" alt="Key @ViewDataTyped.ImageEntityName" />
                                 </span>
                                 <span class="EditPhotoButtonClass">
-                                    @ModalDialogFormHelper.MakeEditIconLink(galleryImage.EditUrl, string.Format("Edit {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.UserCanAddPhotos)
+                                    @ModalDialogFormHelper.MakeEditIconLink(galleryImage.GetEditUrl(), string.Format("Edit {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.UserCanAddPhotos)
                                 </span>
                                 <span class="DeletePhotoButtonClass">
-                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), galleryImage.DeleteUrl, new List<string>(), ViewDataTyped.UserCanAddPhotos)
+                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), galleryImage.GetDeleteUrl(), new List<string>(), ViewDataTyped.UserCanAddPhotos)
                                 </span>
                                 &nbsp;
                             </div>
-                            <a class="@(ViewDataTyped.IsGalleryMode ? "gallery" : string.Empty)" rel="group" href="@galleryImage.PhotoUrl" title="@galleryImage.CaptionOnFullView" data-caption="@Html.Raw(galleryImage.CaptionOnFullView.HtmlEncode())">
+                            <a class="@(ViewDataTyped.IsGalleryMode ? "gallery" : string.Empty)" rel="group" href="@galleryImage.GetPhotoUrl()" title="@galleryImage.GetCaptionOnFullView()" data-caption="@Html.Raw(galleryImage.GetCaptionOnFullView().HtmlEncode())">
                                 <p class="img">
-                                    <img src="@galleryImage.PhotoUrlScaledThumbnail" alt="@galleryImage.CaptionOnFullView" />
+                                    <img src="@galleryImage.GetPhotoUrlScaledThumbnail()" alt="@galleryImage.GetCaptionOnFullView()" />
                                 </p>
                                 <div class="caption">
-                                    @Html.Raw(galleryImage.CaptionOnGallery.HtmlEncodeWithBreaks())
+                                    @Html.Raw(galleryImage.GetCaptionOnGallery().HtmlEncodeWithBreaks())
                                 </div>
                             </a>
                         </div>

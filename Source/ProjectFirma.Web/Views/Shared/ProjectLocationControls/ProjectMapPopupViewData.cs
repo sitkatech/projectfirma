@@ -53,15 +53,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public ProjectMapPopupViewData(Models.Project project, bool showDetailedInformation)
         {
             //Project = project;
-            DisplayName = project.DisplayName;
-            KeyPhoto = project.KeyPhoto;
-            Duration = project.Duration;
+            DisplayName = project.GetDisplayName();
+            KeyPhoto = project.GetKeyPhoto();
+            Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
             TaxonomyLeaf = project.TaxonomyLeaf;
             EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<Models.ClassificationSystem, string>();
-            MoreEnumerable.ForEach(project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(), x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.DisplayName).ToList())));
+            MoreEnumerable.ForEach(project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(), x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
             ClassificationsBySystem = dict;
 
             FactSheetUrl = project.GetFactSheetUrl();

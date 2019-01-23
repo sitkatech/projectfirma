@@ -36,11 +36,11 @@ namespace ProjectFirma.Web.Views.FundingSource
             var fundingSourceEditFeature = new FundingSourceEditFeature();
             if (fundingSourceEditFeature.HasPermissionByPerson(currentPerson))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, fundingSourceEditFeature.HasPermission(currentPerson, x).HasPermission, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceEditFeature.HasPermission(currentPerson, x).HasPermission, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add(Models.FieldDefinition.FundingSource.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 320, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.DisplayName), 300);
+            Add(Models.FieldDefinition.FundingSource.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);

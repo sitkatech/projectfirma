@@ -1,209 +1,96 @@
-﻿using System.Linq;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
-
-namespace ProjectFirma.Web.Models
+﻿namespace ProjectFirma.Web.Models
 {
     public partial class ProjectUpdateSection
     {
-        public abstract bool IsComplete(ProjectUpdateBatch projectUpdateBatch);
-        public abstract string GetSectionUrl(Project project);
-        public abstract bool SectionIsUpdated(UpdateStatus updateStatus);
-        public virtual string GetProjectUpdateSectionDisplayName()
+        public bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
         {
-            return ProjectUpdateSectionDisplayName;
+            return ProjectUpdateSectionModelExtensions.IsComplete(this, projectUpdateBatch);
         }
+
+        public string GetSectionUrl(Project project)
+        {
+            return ProjectUpdateSectionModelExtensions.GetSectionUrl(this, project);
+        }
+        public abstract bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus);
     }
 
     public partial class ProjectUpdateSectionBasics
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateBatch.AreProjectBasicsValid;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Basics(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsBasicsUpdated;
+            return projectUpdateStatus.IsBasicsUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionLocationSimple
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateBatch.IsProjectLocationSimpleValid();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsLocationSimpleUpdated;
+            return projectUpdateStatus.IsLocationSimpleUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionLocationDetailed
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsLocationDetailUpdated;
+            return projectUpdateStatus.IsLocationDetailUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionPerformanceMeasures
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateBatch.ArePerformanceMeasuresValid();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsPerformanceMeasuresUpdated;
+            return projectUpdateStatus.IsPerformanceMeasuresUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionExpenditures
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateBatch.AreExpendituresValid();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsExpendituresUpdated;
+            return projectUpdateStatus.IsExpendituresUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionPhotos
-    {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+    {        
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsPhotosUpdated;
+            return projectUpdateStatus.IsPhotosUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionExternalLinks
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsExternalLinksUpdated;
+            return projectUpdateStatus.IsExternalLinksUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionNotesAndDocuments
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsNotesUpdated;
+            return projectUpdateStatus.IsNotesUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionOrganizations
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateBatch.AreOrganizationsValid();
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Organizations(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsOrganizationsUpdated;
+            return projectUpdateStatus.IsOrganizationsUpdated;
         }
     }
 
     public partial class ProjectUpdateSectionExpectedFunding
     {
-        public override bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return true;
-        }
-
-        public override string GetSectionUrl(Project project)
-        {
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            return ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID) ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project)) : null;
-        }
-
-        public override bool SectionIsUpdated(UpdateStatus updateStatus)
-        {
-            return updateStatus.IsExpectedFundingUpdated;
+            return projectUpdateStatus.IsExpectedFundingUpdated;
         }
     }
 }

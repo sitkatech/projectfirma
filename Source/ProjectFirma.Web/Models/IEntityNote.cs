@@ -24,10 +24,15 @@ namespace ProjectFirma.Web.Models
 {
     public interface IEntityNote
     {
-        DateTime LastUpdated { get; }
-        string LastUpdatedBy { get; }
-        string DeleteUrl { get; }
-        string EditUrl { get; }
-        String Note { get; set; }
+        DateTime GetLastUpdated();
+        string GetLastUpdatedBy();
+        string GetDeleteUrl();
+        string GetEditUrl();
+        string Note { get; set; }
+        int PrimaryKey { get; set; }
+        DateTime CreateDate { get; set; }
+        Person CreatePerson { get; set; }
+        DateTime? UpdateDate { get; set; }
+        Person UpdatePerson { get; set; }
     }
 }

@@ -50,13 +50,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
 
         public BasicsViewData(Person currentPerson, Models.ProjectUpdate projectUpdate,
-            IEnumerable<ProjectStage> projectStages, decimal inflationRate, UpdateStatus updateStatus,
+            IEnumerable<ProjectStage> projectStages, decimal inflationRate, ProjectUpdateStatus projectUpdateStatus,
             BasicsValidationResult basicsValidationResult,
             IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
-            : base(currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
+            : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
         {
             ProjectUpdate = projectUpdate;
-            TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.DisplayName;
+            TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.GetDisplayName();
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             PlanningDesignStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);

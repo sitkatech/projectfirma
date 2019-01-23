@@ -152,11 +152,11 @@ else
                 }
 
                 <div class="visibleText">
-                    <h3>@classification.DisplayName</h3>
+                    <h3>@classification.GetDisplayName()</h3>
                     <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentPerson).Count() @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</p> 
                 </div>
                 <div class="overlay" style="background-color: @classification.ThemeColor">
-                    <h3>@classification.DisplayName</h3>
+                    <h3>@classification.GetDisplayName()</h3>
                     <p class="introText">@classification.ClassificationDescription.ToEllipsifiedStringClean(180)</p>
                 </div>
             </a>

@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteProjectImage(ProjectImage projectImage, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
-                $"Are you sure you want to delete this image from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImage.Project.DisplayName}'? ({projectImage.Caption})";
+                $"Are you sure you want to delete this image from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImage.Project.GetDisplayName()}'? ({projectImage.Caption})";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
             var project = projectImage.Project;
-            Project.DeleteProjectImages(new[] {projectImage});
+            new[] {projectImage}.DeleteProjectImages();
             // reset key photo if needed
             if (projectImage.IsKeyPhoto)
             {

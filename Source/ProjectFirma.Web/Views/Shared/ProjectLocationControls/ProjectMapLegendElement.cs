@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 },
                 {
                     MultiTenantHelpers.IsTaxonomyLevelTrunk() ? ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier,
-                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName)).ToList()
+                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.GetTaxonomyTierID(), x.ThemeColor, x.GetDisplayName())).ToList()
                 }
             };
 

@@ -45,18 +45,18 @@ namespace ProjectFirma.Web.Models
         {
             var activeProjects = projects.GetActiveProjects();
             var activeProposals = projects.GetActiveProposals(showProposals);
-            return activeProjects.Union(activeProposals, new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList();
+            return activeProjects.Union(activeProposals, new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static List<Project> GetActiveProjects(this IList<Project> projects)
         {
-            return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.DisplayName).ToList();
+            return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
         {
             return showProposals
-                ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.DisplayName).ToList()
+                ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.GetDisplayName()).ToList()
                 : new List<Project>();
         }
 
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
         {
-            return showPendingProjects? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.DisplayName).ToList() : new List<Project>();
+            return showPendingProjects? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
         }
 
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
         {
-            return projects.Where(x => x.IsUpdateMandatory).ToList();
+            return projects.Where(x => x.IsUpdateMandatory()).ToList();
         }
     }
 }

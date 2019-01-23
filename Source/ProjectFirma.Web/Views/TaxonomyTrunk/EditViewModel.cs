@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             var errors = new List<ValidationResult>();
 
             var existingTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
-            if (!Models.TaxonomyTrunk.IsTaxonomyTrunkNameUnique(existingTaxonomyTrunks, TaxonomyTrunkName, TaxonomyTrunkID))
+            if (!existingTaxonomyTrunks.IsTaxonomyTrunkNameUnique(TaxonomyTrunkName, TaxonomyTrunkID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyTrunkName));
             }

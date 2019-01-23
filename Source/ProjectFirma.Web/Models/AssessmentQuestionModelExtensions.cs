@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -32,12 +34,17 @@ namespace ProjectFirma.Web.Models
             var projectAssessmentQuestion = projectAssessmentQuestions != null && projectAssessmentQuestions.Any()
                 ? projectAssessmentQuestions.SingleOrDefault(x => x.AssessmentQuestionID == assessmentQuestion.AssessmentQuestionID)
                 : null;
-            var answer = projectAssessmentQuestion != null ? projectAssessmentQuestion.Answer : null;
+            var answer = projectAssessmentQuestion?.Answer;
             var fancyTreeNode = new FancyTreeNode(assessmentQuestion.AssessmentQuestionText, assessmentQuestion.AssessmentQuestionID.ToString(), false)
             {
                 Answer = answer.HasValue ? answer.ToYesNo() : ViewUtilities.NoAnswerProvided
             };
             return fancyTreeNode;
+        }
+
+        public static string GetEditUrl(this AssessmentQuestion assessmentQuestion)
+        {
+            return SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.EditQuestion(assessmentQuestion.AssessmentQuestionID));
         }
     }
 }

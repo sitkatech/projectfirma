@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
             var editClassificationSystemsUrl = new SitkaRoute<TenantController>(c => c.EditClassificationSystems()).BuildUrlFromExpression();
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditBasics()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
             return ViewEditBasics(viewModel);
         }
@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
         {
             var adminFeature = new FirmaAdminFeature();
-            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLast);
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.GetFullNameFirstLast());
             var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
@@ -245,7 +245,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditBoundingBox()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
             return ViewEditBoundingBox(viewModel, tenantAttribute);
         }
@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var tenant = HttpRequestStorage.Tenant;
-                var tenantAttribute = tenant.GetTenantAttribute();
+                var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
                 return ViewEditBoundingBox(viewModel, tenantAttribute);
             }
 
@@ -325,7 +325,7 @@ namespace ProjectFirma.Web.Controllers
                 return HttpNotFound();
             }
 
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var fileResource = tenantAttribute.TenantStyleSheetFileResource;
 
             Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantBannerLogoFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
         }
@@ -350,7 +350,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
@@ -372,7 +372,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantSquareLogoFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
         }
@@ -383,7 +383,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
@@ -405,7 +405,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantStyleSheetFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
         }
@@ -416,7 +416,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);

@@ -24,28 +24,49 @@ using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
-    public class EntityNote : IEntityNote
+    public class EntityNote
     {
-        public DateTime LastUpdated { get; private set; }
-        public string LastUpdatedBy { get; private set; }
-        public string DeleteUrl { get; private set; }
-        public string EditUrl { get; private set; }
+        private readonly string _deleteUrl;
+        private readonly string _editUrl;
+        private readonly string _lastUpdatedBy;
+        private readonly DateTime _lastUpdated;
+
         public string Note { get; set; }
+        public DateTime GetLastUpdated()
+        {
+            return _lastUpdated;
+        }
+
+        public string GetLastUpdatedBy()
+        {
+            return _lastUpdatedBy;
+        }
+
+        public string GetDeleteUrl()
+        {
+            return _deleteUrl;
+        }
+
+        public string GetEditUrl()
+        {
+            return _editUrl;
+        }
+
         public string DisplayCssClass { get; set; }
 
         public EntityNote(DateTime lastUpdated, string lastUpdatedBy, string deleteUrl, string editUrl, string note, string displayCssClass)
         {
-            LastUpdated = lastUpdated;
-            LastUpdatedBy = lastUpdatedBy;
-            DeleteUrl = deleteUrl;
-            EditUrl = editUrl;
+            _lastUpdated = lastUpdated;
+            _lastUpdatedBy = lastUpdatedBy;
+            _deleteUrl = deleteUrl;
+            _editUrl = editUrl;
             Note = note;
             DisplayCssClass = displayCssClass;
         }
 
         public static List<EntityNote> CreateFromEntityNote(List<IEntityNote> entityNotes)
         {
-            return entityNotes.Select(x => new EntityNote(x.LastUpdated, x.LastUpdatedBy, x.DeleteUrl, x.EditUrl, x.Note, null)).ToList();
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }
     }
 }

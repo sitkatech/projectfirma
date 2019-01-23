@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(tag, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Tag {tag.DisplayNameAsUrl} successfully created.");
+            SetMessageForDisplay($"Tag {tag.GetDisplayNameAsUrl()} successfully created.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
             if (viewModel.ProjectIDList != null)
             {
                 var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-                projectDisplayNames = projects.Select(x => x.DisplayName).ToList();
+                projectDisplayNames = projects.Select(x => x.GetDisplayName()).ToList();
             }
             var viewData = new BulkTagProjectsViewData(projectDisplayNames);
             return RazorPartialView<BulkTagProjects, BulkTagProjectsViewData, BulkTagProjectsViewModel>(viewData, viewModel);

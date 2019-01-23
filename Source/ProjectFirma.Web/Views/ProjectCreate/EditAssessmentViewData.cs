@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSectionDisplayName, proposalSectionsStatus)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             AssessmentGoals = assessmentGoals;
         }
     }

@@ -21,62 +21,42 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureExpected : IAuditableEntity, IPerformanceMeasureValue
     {
-        public string ExpectedValueDisplay
+        public string GetAuditDescriptionString()
         {
-            get { return GetExpectedValueDisplay(ExpectedValue, PerformanceMeasure); }
+            return $"Project: {ProjectID}, Performance Measure: {PerformanceMeasureID}, Expected Value: {ExpectedValue}";
         }
 
-        private static string GetExpectedValueDisplay(double? expectedValue, PerformanceMeasure performanceMeasure)
+        public string GetPerformanceMeasureSubcategoriesAsString()
         {
-            return performanceMeasure.MeasurementUnitType.DisplayValue(expectedValue);
-        }
-
-        public string AuditDescriptionString
-        {
-            get
+            if (PerformanceMeasure.HasRealSubcategories())
             {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var expectedValue = GetExpectedValueDisplay(ExpectedValue, performanceMeasure);
-                return $"Project: {projectName}, Performance Measure: {performanceMeasureName}, Expected Value: {expectedValue}";
+                return PerformanceMeasureExpectedSubcategoryOptions.Any()
+                    ? String.Join(", ",
+                        PerformanceMeasureExpectedSubcategoryOptions.OrderBy(x =>
+                                x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x => String.Format("[{0}: {1}]",
+                                x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
+                                x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                    : ViewUtilities.NoneString;
             }
+
+            return string.Empty;
         }
 
-        public string PerformanceMeasureSubcategoriesAsString
+        public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions()
         {
-            get
-            {
-                if (PerformanceMeasure.HasRealSubcategories)
-                {
-                    return PerformanceMeasureExpectedSubcategoryOptions.Any()
-                        ? String.Join(", ",
-                            PerformanceMeasureExpectedSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                                .Select(x => String.Format("[{0}: {1}]", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
-                        : ViewUtilities.NoneString;
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
+            return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureExpectedSubcategoryOptions.ToList());
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
+        public double? GetReportedValue()
         {
-            get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureExpectedSubcategoryOptions.ToList()); }
-        }
-        public double? ReportedValue
-        {
-            get { return ExpectedValue; }
+            return ExpectedValue;
         }
     }
 }

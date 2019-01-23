@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             var errors = new List<ValidationResult>();
 
             var existingTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
-            if (!Models.TaxonomyLeaf.IsTaxonomyLeafNameUnique(existingTaxonomyLeafs, TaxonomyLeafName, TaxonomyLeafID))
+            if (!Models.TaxonomyLeafModelExtensions.IsTaxonomyLeafNameUnique(existingTaxonomyLeafs, TaxonomyLeafName, TaxonomyLeafID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyLeafName));
             }

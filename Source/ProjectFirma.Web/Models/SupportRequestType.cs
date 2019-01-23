@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using System.Net.Mail;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -31,16 +30,17 @@ namespace ProjectFirma.Web.Models
             return SupportRequestTypeDisplayName;
         }
 
-        public virtual void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
+        public virtual void SetEmailRecipientsOfSupportRequest(DatabaseEntities databaseEntities,
+            MailMessage mailMessage, int defaultSupportPersonID)
         {
-            var supportPersons = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveSupportEmails();
+            var supportPersons = databaseEntities.People.GetPeopleWhoReceiveSupportEmails();
 
             if (!supportPersons.Any())
             {
-                var defaultSupportPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(FirmaWebConfiguration.DefaultSupportPersonID);
+                var defaultSupportPerson = databaseEntities.People.GetPerson(defaultSupportPersonID);
                 supportPersons.Add(defaultSupportPerson);
                 mailMessage.Body = string.Format("<p style=\"font-weight:bold\">Note: No users are currently configured to receive support emails. Defaulting to User: {0}</p>{1}",
-                    defaultSupportPerson.FullNameFirstLast,
+                    defaultSupportPerson.GetFullNameFirstLast(),
                     mailMessage.Body);
             }
             foreach (var supportPerson in supportPersons)
@@ -48,10 +48,6 @@ namespace ProjectFirma.Web.Models
                 mailMessage.To.Add(supportPerson.Email);
             }            
         }
-    }
-
-    public partial class SupportRequestTypeQuestionAboutPolicies
-    {
     }
 
     public partial class SupportRequestTypeReportBug
@@ -75,10 +71,6 @@ namespace ProjectFirma.Web.Models
     }
 
     public partial class SupportRequestTypeOther
-    {
-    }
-
-    public partial class SupportRequestTypeRequestToBeAddedToFtipList
     {
     }
 
@@ -106,9 +98,5 @@ namespace ProjectFirma.Web.Models
 
     public partial class SupportRequestTypeRequestOrganizationNameChange
     {
-        public override void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
-        {
-            mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
-        }
     }
 }

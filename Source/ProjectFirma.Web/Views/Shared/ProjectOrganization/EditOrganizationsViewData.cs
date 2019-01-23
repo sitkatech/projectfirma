@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 : null;
             AllRelationshipTypes = allRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new RelationshipTypeSimple(x)).ToList();
             DefaultPrimaryContactPersonID = defaultPrimaryContactPerson?.PersonID;
-            DefaultPrimaryContactPersonName = defaultPrimaryContactPerson?.FullNameFirstLastAndOrgShortName ?? "nobody";            
+            DefaultPrimaryContactPersonName = defaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() ?? "nobody";            
         }
     }
 }

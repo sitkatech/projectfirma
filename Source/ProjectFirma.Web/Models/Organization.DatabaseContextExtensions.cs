@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
     {
         public static List<Organization> GetActiveOrganizations(this IQueryable<Organization> organizations)
         {
-            return organizations.Where(x => x.IsActive).ToList().OrderBy(x => x.DisplayName).ToList();
+            return organizations.Where(x => x.IsActive).ToList().OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static Organization GetOrganizationByOrganizationGuid(this IQueryable<Organization> organizations, Guid organizationGuid)
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
 
         public static Organization GetUnknownOrganization(this IQueryable<Organization> organizations)
         {
-            return organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+            return organizations.Single(x => x.OrganizationName == OrganizationModelExtensions.OrganizationUnknown);
         }
     }
 }

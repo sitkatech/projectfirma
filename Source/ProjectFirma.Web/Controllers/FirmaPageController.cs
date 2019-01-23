@@ -18,39 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
-using System.Web;
+
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.FirmaPage;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class FirmaPageController : FirmaBaseController
     {
-        [FirmaPageViewListFeature]
-        public ViewResult Index()
-        {
-            var viewData = new IndexViewData(CurrentPerson);
-            return RazorView<Index, IndexViewData>(viewData);
-        }
-
-        [FirmaPageViewListFeature]
-        public GridJsonNetJObjectResult<FirmaPage> IndexGridJsonData()
-        {
-            var gridSpec = new FirmaPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(CurrentPerson));
-            var firmaPages = HttpRequestStorage.DatabaseEntities.FirmaPages.ToList()
-                .Where(x => new FirmaPageManageFeature().HasPermission(CurrentPerson, x).HasPermission)
-                .OrderBy(x => x.FirmaPageType.FirmaPageTypeDisplayName)
-                .ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FirmaPage>(firmaPages, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
         [HttpGet]
         [FirmaPageManageFeature]
         public PartialViewResult EditInDialog(FirmaPagePrimaryKey firmaPagePrimaryKey)
@@ -80,20 +59,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditViewData(ckEditorToolbar,
                 SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResource(firmaPage)));
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
-        }
-
-        [HttpGet]
-        [FirmaPageManageFeature]
-        public PartialViewResult FirmaPageDetails(FirmaPagePrimaryKey firmaPagePrimaryKey)
-        {
-            var firmaPage = firmaPagePrimaryKey.EntityObject;
-            var firmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
-            if (!firmaPage.HasPageContent)
-            {
-                firmaPageContentHtmlString = new HtmlString(string.Format("No page content for Page \"{0}\".", firmaPage.FirmaPageType.FirmaPageTypeDisplayName));
-            }
-            var viewData = new FirmaPageDetailsViewData(firmaPageContentHtmlString);
-            return RazorPartialView<FirmaPageDetails, FirmaPageDetailsViewData>(viewData);
         }
     }
 }

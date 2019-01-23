@@ -47,19 +47,19 @@ namespace ProjectFirma.Web.Security
             if (isProposal)
             {
                 return new PermissionCheckResult(
-                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is in the Proposal stage.");
+                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is in the Proposal stage.");
             }
             if (isPending)
             {
                 return new PermissionCheckResult(
-                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} because it is a Pending Project.");
+                    $"You cannot edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is a Pending Project.");
             }
             var isProjectStewardButCannotStewardThisProject = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject);
             var forbidAdmin = !HasPermissionByPerson(person) || isProjectStewardButCannotStewardThisProject;
             if (forbidAdmin)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
+                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
             return new PermissionCheckResult();
         }

@@ -18,67 +18,45 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyLeaf : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
+    public partial class TaxonomyLeaf : IAuditableEntity, ITaxonomyTier
     {
-        public int? SortOrder
-        {
-            get => TaxonomyLeafSortOrder;
-            set => TaxonomyLeafSortOrder = value;
-        }
-        public int ID => TaxonomyLeafID;
+        public void SetSortOrder(int? value) => TaxonomyLeafSortOrder = value;
 
-        public string DisplayName
+        public int? GetSortOrder() => TaxonomyLeafSortOrder;
+        public int GetID() => TaxonomyLeafID;
+
+        public string GetDisplayName()
         {
-            get
-            {
-                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyLeafCode) ? string.Empty : $"{TaxonomyLeafCode}: ";
-                return $"{taxonomyPrefix}{TaxonomyLeafName}";
-            }
+            var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyLeafCode) ? string.Empty : $"{TaxonomyLeafCode}: ";
+            return $"{taxonomyPrefix}{TaxonomyLeafName}";
         }
 
         public HtmlString GetDisplayNameAsUrl()
         {
             return TaxonomyLeafModelExtensions.GetDisplayNameAsUrl(this);
         }
-        public string SummaryUrl => this.GetSummaryUrl();
 
-        public string CustomizedMapUrl => ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyLeaf, TaxonomyLeafID.ToString(), ProjectColorByType.ProjectStage);
+        public string GetDetailUrl() => TaxonomyLeafModelExtensions.GetDetailUrl(this);
 
-        public int TaxonomyTierID => TaxonomyLeafID;
+        public int GetTaxonomyTierID() => TaxonomyLeafID;
 
-        public static bool IsTaxonomyLeafNameUnique(IEnumerable<TaxonomyLeaf> taxonomyLeafs, string taxonomyLeafName, int currentTaxonomyLeafID)
-        {
-            var taxonomyLeaf =
-                taxonomyLeafs.SingleOrDefault(
-                    x => x.TaxonomyLeafID != currentTaxonomyLeafID && String.Equals(x.TaxonomyLeafName, taxonomyLeafName, StringComparison.InvariantCultureIgnoreCase));
-            return taxonomyLeaf == null;
-        }
-
-        public string AuditDescriptionString => TaxonomyLeafName;
+        public string GetAuditDescriptionString() => TaxonomyLeafName;
 
         public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
-            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)}", TaxonomyLeafID.ToString(), false)
-            {
-                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyBranch.ThemeColor : ThemeColor,
-                MapUrl = CustomizedMapUrl,
-                Children = GetAssociatedProjects(currentPerson).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
-            };
-            return fancyTreeNode;
+            return TaxonomyLeafModelExtensions.ToFancyTreeNode(currentPerson, this);
         }
 
         public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            return Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
+            return Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()

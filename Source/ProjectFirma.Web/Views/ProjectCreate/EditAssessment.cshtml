@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="panel-body">
 
-                    @foreach (var assessmentQuestion in assessmentSubGoal.ActiveQuestions)
+                    @foreach (var assessmentQuestion in assessmentSubGoal.GetActiveQuestions())
                     {
                         <div class="row" style="margin: 5px 0">
                             <div class="col-md-9" style="padding-right: 20px">

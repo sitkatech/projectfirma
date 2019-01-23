@@ -33,12 +33,9 @@ namespace ProjectFirma.Web.Models
             Annotation = annotation;
         }
 
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                return "Shape deleted";
-            }
+            return "Shape deleted";
         }
 
         public DbGeometry ProjectLocationGeometry
@@ -47,15 +44,19 @@ namespace ProjectFirma.Web.Models
             set { ProjectLocationUpdateGeometry = value; }
         }
 
-        public DbGeometry DbGeometry
+        public void SetDbGeometry(DbGeometry value)
         {
-            get { return ProjectLocationUpdateGeometry; }
-            set { ProjectLocationUpdateGeometry = value; }
+            ProjectLocationUpdateGeometry = value;
         }
 
-        public SqlGeometry SqlGeometry
+        public DbGeometry GetDbGeometry()
         {
-            get { return ProjectLocationUpdateGeometry.ToSqlGeometry(); }
+            return ProjectLocationUpdateGeometry;
+        }
+
+        public SqlGeometry GetSqlGeometry()
+        {
+            return ProjectLocationUpdateGeometry.ToSqlGeometry();
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)

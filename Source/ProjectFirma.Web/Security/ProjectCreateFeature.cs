@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Security
         {
             if (!HasPermissionByPerson(person))
             {
-                return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.DisplayName}");
+                return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.GetDisplayName()}");
             }
 
             if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved)

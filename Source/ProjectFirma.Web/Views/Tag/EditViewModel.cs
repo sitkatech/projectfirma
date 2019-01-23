@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.Tag
             var errors = new List<ValidationResult>();
 
             var existingTags = HttpRequestStorage.DatabaseEntities.Tags.ToList();
-            if (!Models.Tag.IsTagNameUnique(existingTags, TagName, TagID))
+            if (!Models.TagModelExtensions.IsTagNameUnique(existingTags, TagName, TagID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.TagNameUnique, x => x.TagName));
             }

@@ -31,10 +31,10 @@ namespace ProjectFirma.Web.Views.Tag
         {            
             if (hasDeletePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(Models.TagModelExtensions.GetDeleteUrl(x), true), 30);
             }
 
-            Add(Models.FieldDefinition.TagName.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 200, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TagName.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(Models.TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.TagDescription.ToGridHeaderString(), a => a.TagDescription, 600);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
         }

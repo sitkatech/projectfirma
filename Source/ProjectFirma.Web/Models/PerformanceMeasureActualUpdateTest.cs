@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Models
             const int newCalendarYear = 2017;
 
             // Act && Assert
-            AssertClonePerformanceMeasureValueSuccessful(projectUpdateBatch, performanceMeasureActual, newCalendarYear, performanceMeasureActual.ReportedValue);
+            AssertClonePerformanceMeasureValueSuccessful(projectUpdateBatch, performanceMeasureActual, newCalendarYear, performanceMeasureActual.GetReportedValue());
 
             // Arrange: test cloning a PerformanceMeasureExpected
             var performanceMeasureExpected = TestFramework.TestPerformanceMeasureExpected.Create(-2001, project, performanceMeasure, 877);
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
                 performanceMeasure.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             // Act && Assert
-            AssertClonePerformanceMeasureValueSuccessful(projectUpdateBatch, performanceMeasureExpected, newCalendarYear, performanceMeasureExpected.ReportedValue);
+            AssertClonePerformanceMeasureValueSuccessful(projectUpdateBatch, performanceMeasureExpected, newCalendarYear, performanceMeasureExpected.GetReportedValue());
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Models
             const int endYear = 2014;
             const int numberOfYears = ((endYear - yearToStartFrom) + 1);
             var performanceMeasureValuesToClone = new List<IPerformanceMeasureValue> {performanceMeasureActual1, performanceMeasureActual2};
-            var result = PerformanceMeasureActualUpdate.CreatePerformanceMeasureActualUpdateRecordsForGivenYearToCurrentYear(projectUpdateBatch,
+            var result = PerformanceMeasureActualUpdateModelExtensions.CreatePerformanceMeasureActualUpdateRecordsForGivenYearToCurrentYear(projectUpdateBatch,
                 performanceMeasureValuesToClone,
                 yearToStartFrom,
                 endYear);
@@ -148,7 +148,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.False, "Precondition: no performance measure actual values");
             Assert.That(project.PerformanceMeasureExpecteds.Any(), Is.False, "Precondition: no performance measure expected values");
 
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             Assert.That(projectUpdateBatch.PerformanceMeasureActualUpdates.Count, Is.EqualTo(0), "Should not have any performance measure values");
         }
@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(project.PerformanceMeasureExpecteds.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // If no start year, it should only create for current year
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             IEnumerable<int> yearsExpected = new[] {currentYear};
             AssertFutureYearsCreatedCorrectly(projectUpdateBatch.PerformanceMeasureActualUpdates, project.PerformanceMeasureExpecteds, yearsExpected);
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Models
             project.ImplementationStartYear = 2010;
             yearsExpected = Enumerable.Range(project.ImplementationStartYear.Value, currentYear - project.ImplementationStartYear.Value + 1);
             // we expect the PM expected values to be copied from Start Year to current year
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             AssertFutureYearsCreatedCorrectly(projectUpdateBatch.PerformanceMeasureActualUpdates, project.PerformanceMeasureExpecteds, yearsExpected);
         }
 
@@ -296,7 +296,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Assert
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -396,7 +396,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Assert
             var maxEnteredYear = project.PerformanceMeasureActuals.Max(x => x.CalendarYear);
@@ -496,7 +496,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Assert
             var maxEnteredYear = project.PerformanceMeasureActuals.Max(x => x.CalendarYear);
@@ -538,7 +538,7 @@ namespace ProjectFirma.Web.Models
                 performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             // Act
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Assert
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -595,7 +595,7 @@ namespace ProjectFirma.Web.Models
             const int numberOfYears = ((endYear - yearToStartFrom) + 1);
             var yearsToFill = Enumerable.Range(yearToStartFrom, numberOfYears).Where(x => !projectExemptReportingYears.Select(y => y.CalendarYear).Contains(x)).ToList();
             var performanceMeasureValuesToClone = new List<IPerformanceMeasureValue> {performanceMeasureActual1, performanceMeasureActual2};
-            var result = PerformanceMeasureActualUpdate.CreatePerformanceMeasureActualUpdateRecordsForGivenYearToCurrentYear(projectUpdateBatch,
+            var result = PerformanceMeasureActualUpdateModelExtensions.CreatePerformanceMeasureActualUpdateRecordsForGivenYearToCurrentYear(projectUpdateBatch,
                 performanceMeasureValuesToClone,
                 yearToStartFrom,
                 endYear);
@@ -640,7 +640,7 @@ namespace ProjectFirma.Web.Models
             double? reportedValue)
         {
             // Act
-            var result = PerformanceMeasureActualUpdate.ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureValue, newCalendarYear, reportedValue);
+            var result = PerformanceMeasureActualUpdateModelExtensions.ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureValue, newCalendarYear, reportedValue);
 
             // Assert
             Assert.That(result.ProjectUpdateBatchID, Is.EqualTo(projectUpdateBatch.ProjectUpdateBatchID), $"Should have assigned it to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update batch");
@@ -648,7 +648,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(result.ActualValue, Is.EqualTo(reportedValue), "Should have cloned the reported value correctly");
             Assert.That(result.CalendarYear, Is.EqualTo(newCalendarYear), "Should be set to the new calendar year");
             Assert.That(result.PerformanceMeasureActualSubcategoryOptionUpdates.Select(PerformanceMeasureValueSubcategoryOptionToString),
-                Is.EquivalentTo(performanceMeasureValue.PerformanceMeasureSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)),
+                Is.EquivalentTo(performanceMeasureValue.GetPerformanceMeasureSubcategoryOptions().Select(PerformanceMeasureValueSubcategoryOptionToString)),
                 "Should have copied the performanceMeasureSubcategory options correctly");
         }
 
@@ -658,7 +658,7 @@ namespace ProjectFirma.Web.Models
                 pmev.PerformanceMeasureID,
                 year,
                 actualValueExpected,
-                string.Join(", ", pmev.PerformanceMeasureSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)));
+                string.Join(", ", pmev.GetPerformanceMeasureSubcategoryOptions().Select(PerformanceMeasureValueSubcategoryOptionToString)));
         }
 
         private static string PerformanceMeasureValueSubcategoryOptionToString(IPerformanceMeasureValueSubcategoryOption pmavsco)

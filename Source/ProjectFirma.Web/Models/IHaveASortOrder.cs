@@ -23,10 +23,11 @@ namespace ProjectFirma.Web.Models
 {
     public interface IHaveASortOrder
     {
-        string DisplayName { get; }
+        string GetDisplayName();
 
-        int? SortOrder { get; set; }
+        void SetSortOrder(int? value);
+        int? GetSortOrder();
 
-        int ID { get; }
+        int GetID();
     }
 }

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetDisplayNameAsUrl(this Classification classification)
         {
-            return UrlTemplate.MakeHrefString(GetDetailUrl(classification), classification.DisplayName);
+            return UrlTemplate.MakeHrefString(GetDetailUrl(classification), classification.GetDisplayName());
         }
     }
 }

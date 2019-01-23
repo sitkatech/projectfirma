@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Security
             if (forbidAdmin)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
+                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
             return new PermissionCheckResult();
         }

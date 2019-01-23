@@ -7,46 +7,55 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FirmaHomePageImage : IFileResourcePhoto, IAuditableEntity
     {
-        public DateTime CreateDate => FileResource.CreateDate;
+        public DateTime GetCreateDate() => FileResource.CreateDate;
 
-        public string DeleteUrl
+        public string GetDeleteUrl()
         {
-            get { return SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.DeleteFirmaHomePageImage(FirmaHomePageImageID)); }
+            return SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x =>
+                x.DeleteFirmaHomePageImage(FirmaHomePageImageID));
         }
 
         public bool IsKeyPhoto => false;
 
-        public string CaptionOnFullView => $"{CaptionOnGallery}";
+        public string GetCaptionOnFullView() => $"{GetCaptionOnGallery()}";
 
-        public string CaptionOnGallery => $"{Caption}\r\n{FileResource.FileResourceDataLengthString}";
+        public string GetCaptionOnGallery() => $"{Caption}\r\n{FileResource.FileResourceDataLengthString}";
 
-        public string PhotoUrl => FileResource.FileResourceUrl;
+        public string GetPhotoUrl() => FileResource.FileResourceUrl;
 
-        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail(150);
+        public string GetPhotoUrlScaledThumbnail() => FileResource.FileResourceUrlScaledThumbnail(150);
 
         public string PhotoUrlScaledForPrint => FileResource.FileResourceUrlScaledForPrint;
 
-        public string EditUrl
+        public string GetEditUrl()
         {
-            get { return SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.Edit(FirmaHomePageImageID)); }
+            return SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.Edit(FirmaHomePageImageID));
         }
 
-        public List<string> AdditionalCssClasses { get; set; } = new List<string>();
+        public void SetAdditionalCssClasses(List<string> value)
+        {
+            _additionalCssClasses = value;
+        }
+
+        public List<string> GetAdditionalCssClasses()
+        {
+            return _additionalCssClasses;
+        }
 
         private object _orderBy;
-        public object OrderBy
-        {
-            get => _orderBy ?? SortOrder;
-            set => _orderBy = value;
-        }
+        private List<string> _additionalCssClasses = new List<string>();
+
+        public void SetOrderBy(object value) => _orderBy = value;
+
+        public object GetOrderBy() => _orderBy ?? SortOrder;
 
         public bool IsPersonTheCreator(Person person)
         {
             return FileResource.CreatePerson != null && person != null && person.PersonID == FileResource.CreatePersonID;
         }
 
-        public string AuditDescriptionString => $"Image: {Caption}";
+        public string GetAuditDescriptionString() => $"Image: {Caption}";
 
-        public int? EntityImageIDAsNullable => FirmaHomePageImageID;
+        public int? GetEntityImageIDAsNullable() => FirmaHomePageImageID;
     }
 }

@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectImageUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to flag this photo for deletion from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImageUpdate.ProjectUpdateBatch.Project.DisplayName}'? ({projectImageUpdate.Caption})"
+                ? $"Are you sure you want to flag this photo for deletion from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImageUpdate.ProjectUpdateBatch.Project.GetDisplayName()}'? ({projectImageUpdate.Caption})"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Image");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

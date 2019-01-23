@@ -133,7 +133,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
                                     Basics
                                 </h3>
                             </div>
@@ -157,21 +157,20 @@
                                         <dt style="white-space: normal;">
                                             @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                                             {
-                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), ProjectCustomAttributeTypeModelExtensions.GetDescriptionUrl(projectCustomAttributeType), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
                                             }
                                             @projectCustomAttributeType.ProjectCustomAttributeTypeName
                                         </dt>
                                             <dd>
                                                 @if (projectCustomAttribute != null)
                                                 {
-                                                    @* ReSharper disable once ConvertIfStatementToConditionalTernaryExpression *@
                                                     if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
                                                     {
-                                                        @(StringToDateString(projectCustomAttribute.Values.Single().AttributeValue))
+                                                        @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
                                                     }
                                                     else
                                                     {
-                                                        @(string.Join(", ", projectCustomAttribute.Values.Select(x => x.AttributeValue)))
+                                                        string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue));
                                                     }
                                                 }
                                                 else
@@ -344,7 +343,7 @@
                             @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
                             @if (projectClassifications.Count > 0)
                                         {
-                                            foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x=>x.Classification.DisplayName).Batch(3))
+                                            foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x=>x.Classification.GetDisplayName()).Batch(3))
                                             {
                                     <div class="row" style="padding-top: 10px;">
                                         @foreach (var projectClassification in projectClassificationBatch)

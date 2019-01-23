@@ -19,67 +19,39 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectNoteUpdate : IEntityNote
     {
-        public DateTime LastUpdated
+        public DateTime GetLastUpdated()
         {
-            get { return UpdateDate ?? CreateDate; }
+            return UpdateDate ?? CreateDate;
         }
 
-        public string LastUpdatedBy
+        public string GetLastUpdatedBy()
         {
-            get
+            if (UpdatePersonID.HasValue)
             {
-                if (UpdatePersonID.HasValue)
-                {
-                    return UpdatePerson.FullNameFirstLast;
-                }
-                if (CreatePersonID.HasValue)
-                {
-                    return CreatePerson.FullNameFirstLast;
-                }
-                return "System";
+                return UpdatePerson.GetFullNameFirstLast();
             }
+
+            if (CreatePersonID.HasValue)
+            {
+                return CreatePerson.GetFullNameFirstLast();
+            }
+
+            return "System";
         }
 
-        public string DeleteUrl
+        public string GetDeleteUrl()
         {
-            get { return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(c => c.Delete(ProjectNoteUpdateID)); }
+            return ProjectNoteUpdateModelExtensions.GetDeleteUrlImpl(this);
         }
 
-        public string EditUrl
+        public string GetEditUrl()
         {
-            get { return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(c => c.Edit(ProjectNoteUpdateID)); }
-        }
-
-        public string CreatePersonName
-        {
-            get { return CreatePersonID.HasValue ? CreatePerson.FullNameFirstLast : string.Empty; }
-        }
-
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectNoteUpdates =
-                project.ProjectNotes.Select(
-                    pn => new ProjectNoteUpdate(projectUpdateBatch, pn.Note, pn.CreateDate) {CreatePerson = pn.CreatePerson, UpdateDate = pn.UpdateDate, UpdatePerson = pn.UpdatePerson}).ToList();
-        }
-
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectNote> allProjectNotes)
-        {
-            var project = projectUpdateBatch.Project;
-            var projectNotesFromProjectUpdate =
-                projectUpdateBatch.ProjectNoteUpdates.Select(
-                    x => new ProjectNote(project.ProjectID, x.Note, x.CreateDate) {CreatePersonID = x.CreatePersonID, UpdateDate = x.UpdateDate, UpdatePersonID = x.UpdatePersonID}).ToList();
-            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note);
+            return ProjectNoteUpdateModelExtensions.GetEditUrlImpl(this);
         }
     }
 }

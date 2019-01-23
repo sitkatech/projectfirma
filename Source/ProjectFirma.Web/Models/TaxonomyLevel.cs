@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class TaxonomyLevel
     {
         public abstract FieldDefinition GetFieldDefinition();
-        public abstract List<ITaxonomyTier> GetTaxonomyTiers();
+        public abstract List<ITaxonomyTier> GetTaxonomyTiers(DatabaseEntities databaseEntities);
     }
 
     public partial class TaxonomyLevelTrunk
@@ -17,9 +16,9 @@ namespace ProjectFirma.Web.Models
             return FieldDefinition.TaxonomyTrunk;
         }
 
-        public override List<ITaxonomyTier> GetTaxonomyTiers()
+        public override List<ITaxonomyTier> GetTaxonomyTiers(DatabaseEntities databaseEntities)
         {
-            return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList());
+            return new List<ITaxonomyTier>(databaseEntities.TaxonomyTrunks.ToList());
         }
     }
 
@@ -30,9 +29,9 @@ namespace ProjectFirma.Web.Models
             return FieldDefinition.TaxonomyBranch;
         }
 
-        public override List<ITaxonomyTier> GetTaxonomyTiers()
+        public override List<ITaxonomyTier> GetTaxonomyTiers(DatabaseEntities databaseEntities)
         {
-            return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList());
+            return new List<ITaxonomyTier>(databaseEntities.TaxonomyBranches.ToList());
         }
     }
 
@@ -43,9 +42,9 @@ namespace ProjectFirma.Web.Models
             return FieldDefinition.TaxonomyLeaf;
         }
 
-        public override List<ITaxonomyTier> GetTaxonomyTiers()
+        public override List<ITaxonomyTier> GetTaxonomyTiers(DatabaseEntities databaseEntities)
         {
-            return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList());
+            return new List<ITaxonomyTier>(databaseEntities.TaxonomyLeafs.ToList());
         }
     }
 }

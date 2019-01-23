@@ -45,8 +45,8 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="sortables-list">
     @foreach (var sortable in ViewDataTyped.Sortables.SortByOrderThenName().ToArray())
     {
-        <div data-id="@sortable.ID" data-displayName="@sortable.DisplayName" style="font-size: 11pt; margin-bottom: 4px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
-            @sortable.DisplayName
+        <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+            @sortable.GetDisplayName()
         </div>
     }
 </div>

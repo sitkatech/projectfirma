@@ -23,42 +23,22 @@ using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
-using MoreLinq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Project : IAuditableEntity, IProject
     {
-        public const int MaxLengthForProjectDescription = 700;
+        public int GetEntityID() => ProjectID;
 
-        public int EntityID => ProjectID;
+        public string GetAuditDescriptionString() => ProjectName;
 
-        public string AuditDescriptionString => ProjectName;
-
-        public string DisplayName => ProjectName;
-
-        public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
-
-        public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int? currentProjectID)
-        {
-            if (string.IsNullOrWhiteSpace(projectName))
-            {
-                return false;
-            }
-            var project = projects.SingleOrDefault(x => x.ProjectID != (currentProjectID ?? 0) && string.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
-            return project == null;
-        }
+        public string GetDisplayName() => ProjectName;
 
         public Organization GetPrimaryContactOrganization()
         {
@@ -85,23 +65,6 @@ namespace ProjectFirma.Web.Models
             return ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
         }
 
-        public IEnumerable<Organization> GetOrganizationsToReportInAccomplishments()
-        {
-            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
-            {
-                // Default is Funding Organizations
-                var organizations = ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                    .Union(ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization))
-                    .Distinct(new HavePrimaryKeyComparer<Organization>());
-                return organizations;
-            }
-            else
-            {
-                return ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
-                    .Select(x => x.Organization).ToList();
-            }
-        }
-
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
@@ -122,8 +85,8 @@ namespace ProjectFirma.Web.Models
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            decimal? securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
-            decimal? unsecuredFunding = GetUnsecuredFunding() == null ? null : GetUnsecuredFunding();
+            var securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
+            var unsecuredFunding = GetUnsecuredFunding() == null ? null : GetUnsecuredFunding();
 
             var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + unsecuredFunding ?? 0);
             if (noFundingSourceIdentifiedAmount >= 0)
@@ -140,27 +103,27 @@ namespace ProjectFirma.Web.Models
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }
         }
 
-        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
-        public bool HasProjectLocationDetail => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
-        
+        public bool HasProjectLocationPoint() => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail() => DetailedLocationToGeoJsonFeatureCollection().Features.Any();
+
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;
-        public List<ProjectUpdateHistory> ProjectUpdateHistories
+
+        public void SetProjectUpdateHistories(List<ProjectUpdateHistory> value)
         {
-            get
+            _projectUpdateHistories = value;
+            _hasCheckedProjectUpdateHistories = true;
+        }
+
+        public List<ProjectUpdateHistory> GetProjectUpdateHistories()
+        {
+            if (_hasCheckedProjectUpdateHistories)
             {
-                if (_hasCheckedProjectUpdateHistories)
-                {
-                    return _projectUpdateHistories;
-                }
-                ProjectUpdateHistories = ProjectUpdateBatches.SelectMany(x => x.ProjectUpdateHistories).ToList();
                 return _projectUpdateHistories;
             }
-            set
-            {
-                _projectUpdateHistories = value;
-                _hasCheckedProjectUpdateHistories = true;
-            }
+
+            SetProjectUpdateHistories(ProjectUpdateBatches.SelectMany(x => x.ProjectUpdateHistories).ToList());
+            return _projectUpdateHistories;
         }
 
         public ProjectUpdateBatch GetLatestNotApprovedUpdateBatch()
@@ -171,109 +134,50 @@ namespace ProjectFirma.Web.Models
         public ProjectUpdateBatch GetLatestApprovedUpdateBatch()
         {
             var projectUpdateBatches = ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();
-
-            return projectUpdateBatches.Any() ? projectUpdateBatches.MaxBy(x => x.LastUpdateDate) : null;
+            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
         }
 
         public ProjectUpdateBatch GetLatestUpdateBatch()
         {
             var projectUpdateBatches = ProjectUpdateBatches.ToList();
-
-            return projectUpdateBatches.Any() ? projectUpdateBatches.MaxBy(x => x.LastUpdateDate) : null;
+            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
         }
 
-        public bool IsUpdateMandatory
+        public bool IsUpdateMandatory()
         {
-            get
+            if (IsPendingProject())
             {
-                if (IsPendingProject())
-                {
-                    return false;
-                }
-
-                if (!IsUpdatableViaProjectUpdateProcess)
-                {
-                    return false;
-                }
-
-                var latestUpdateBatch = GetLatestUpdateBatch();
-
-                if (latestUpdateBatch == null)
-                {
-                    return true;
-                }
-
-                if (!latestUpdateBatch.IsApproved)
-                {
-                    return true;
-                }
-
                 return false;
             }
+
+            if (!IsUpdatableViaProjectUpdateProcess())
+            {
+                return false;
+            }
+
+            var latestUpdateBatch = GetLatestUpdateBatch();
+
+            if (latestUpdateBatch == null)
+            {
+                return true;
+            }
+
+            if (!latestUpdateBatch.IsApproved)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public bool IsUpdatableViaProjectUpdateProcess => !IsPendingProject() && (ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals());
-
-        public ProjectUpdateState GetLatestUpdateState()
-        {
-            if (!ProjectUpdateBatches.Any())
-                return null;
-
-            if (ProjectUpdateBatches.Count(x => x.ProjectUpdateState != ProjectUpdateState.Approved) > 1)
-                throw new Exception(FirmaValidationMessages.MoreThanOneProjectUpdateInProgress);
-
-            return ProjectUpdateBatches.MaxBy(x => x.LastUpdateDate).ProjectUpdateState;
-        }
+        public bool IsUpdatableViaProjectUpdateProcess() => !IsPendingProject() &&
+                                                            (ProjectStage.RequiresReportedExpenditures() ||
+                                                             ProjectStage.RequiresPerformanceMeasureActuals());
 
         public DateTime? GetLatestUpdateSubmittalDate()
         {
             var notNullSubmittalDates = ProjectUpdateBatches.Select(x => x.LatestSubmittalDate).Where(x => x.HasValue).ToList();
             return notNullSubmittalDates.Any() ? notNullSubmittalDates.Max() : null;
-        }
-
-        private string _projectLocationStateProvince;
-        private bool _hasSetProjectLocationStateProvince;
-        public string ProjectLocationStateProvince
-        {
-            get
-            {
-                if (_hasSetProjectLocationStateProvince)
-                {
-                    return _projectLocationStateProvince;
-                }
-                SetProjectLocationStateProvince(HttpRequestStorage.DatabaseEntities.StateProvinces.ToList());
-                return _projectLocationStateProvince;
-            }
-            set
-            {
-                _projectLocationStateProvince = value;
-                _hasSetProjectLocationStateProvince = true;
-            }
-        }
-
-        public void SetProjectLocationStateProvince(IEnumerable<StateProvince> stateProvinces)
-        {
-            if (HasProjectLocationPoint)
-            {
-                var stateProvince = stateProvinces.FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(ProjectLocationPoint));
-                ProjectLocationStateProvince = stateProvince != null ? stateProvince.StateProvinceAbbreviation : ViewUtilities.NaString;
-            }
-            else
-            {
-                ProjectLocationStateProvince = ViewUtilities.NaString;
-            }
-        }
-
-        public GeospatialAreaValidationResult ValidateProjectGeospatialArea(GeospatialAreaType geospatialAreaType)
-        {
-            var projectGeospatialAreaTypeNoteUpdate = ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
-            var incomplete = ProjectGeospatialAreas.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
-            return new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
-        }
-
-        public bool IsProjectGeospatialAreaValid(GeospatialAreaType geospatialAreaType)
-        {
-            return ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
         public HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(GeospatialAreaType geospatialAreaType)
@@ -286,7 +190,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return !person.IsAnonymousUser && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this) || person.PersonStewardOrganizations.Any(x=>x.Organization.IsMyProject(this)));
+            return !person.IsAnonymousUser() && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this) || person.PersonStewardOrganizations.Any(x=>x.Organization.IsMyProject(this)));
         }
 
         public bool IsPersonThePrimaryContact(Person person)
@@ -297,28 +201,6 @@ namespace ProjectFirma.Web.Models
             }
             var primaryContactPerson = GetPrimaryContact();
             return person.PersonID == primaryContactPerson?.PersonID;
-        }
-
-        public bool IsEditableToThisPerson(Person person)
-        {
-            return IsMyProject(person) || new ProjectApproveFeature().HasPermission(person, this).HasPermission;
-        }
-
-        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
-        {
-            var reportedPerformanceMeasures = GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(this));
-            }
-
-            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues()
@@ -333,7 +215,7 @@ namespace ProjectFirma.Web.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && HasProjectLocationPoint)
+            if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && HasProjectLocationPoint())
             {
                 featureCollection.Features.Add(MakePointFeatureWithRelevantProperties(ProjectLocationPoint, addProjectProperties, true));
             }
@@ -365,20 +247,12 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(List<Project> projects, bool addProjectProperties, bool useDetailedCustomPopup)
-        {
-            var featureCollection = new FeatureCollection();
-            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
-            return featureCollection;
-        }
-
         public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
             feature.Properties.Add("TaxonomyTrunkID", TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("ProjectStageID", ProjectStageID.ToString(CultureInfo.InvariantCulture));
-            feature.Properties.Add("Info", DisplayName);
+            feature.Properties.Add("Info", GetDisplayName());
             if (addProjectProperties)
             {
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
@@ -403,48 +277,42 @@ namespace ProjectFirma.Web.Models
                 
             }
             return feature;
-        }        
+        }
 
-        public string Duration
+        public string GetDuration()
         {
-            get
+            if (ImplementationStartYear == CompletionYear && ImplementationStartYear.HasValue)
             {
-                if (ImplementationStartYear == CompletionYear && ImplementationStartYear.HasValue)
-                {
-                    return ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture);
-                }
-
-                return
-                    $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
+                return ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture);
             }
+
+            return
+                $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
         }
 
         /// <summary>
         /// Returns a commma-separated list of organizations that doesn't include the lead implementer or the funders and only includes the relationships that are configured to show on the fact sheet
         /// </summary>
-        public string ProjectOrganizationNamesForFactSheet
+        public string GetProjectOrganizationNamesForFactSheet()
         {
-            get
-            {
-                // get the list of funders so we can exclude any that have other project associations
-                var fundingOrganizations = this.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
-                // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
-                var associatedOrganizations = ProjectOrganizations.Where(x=>x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
-                associatedOrganizations.RemoveAll(x=>x.OrganizationID == GetPrimaryContactOrganization()?.OrganizationID);
-                var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
-                    .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
-                    .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
-                    .Distinct().ToList();
-                return organizationNames.Any() ? string.Join(", ", organizationNames) : string.Empty;
-            }
+            // get the list of funders so we can exclude any that have other project associations
+            var fundingOrganizations = this.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
+            // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
+            var associatedOrganizations = ProjectOrganizations
+                .Where(x => x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
+            associatedOrganizations.RemoveAll(x => x.OrganizationID == GetPrimaryContactOrganization()?.OrganizationID);
+            var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
+                .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+                .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
+                .Distinct().ToList();
+            return organizationNames.Any() ? string.Join(", ", organizationNames) : string.Empty;
         }
 
-        public string FundingOrganizationNamesForFactSheet
+        public string GetFundingOrganizationNamesForFactSheet()
         {
-            get
-            {
-                return string.Join(", ", this.GetFundingOrganizations().OrderBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName));
-            }
+            return string.Join(", ",
+                this.GetFundingOrganizations().OrderBy(x => x.Organization.OrganizationName)
+                    .Select(x => x.Organization.OrganizationName));
         }
 
         public string AssocatedOrganizationNames(Organization organization)
@@ -452,52 +320,16 @@ namespace ProjectFirma.Web.Models
             return string.Join(", ", this.GetAssociatedOrganizations().Where(x => x.Organization.OrganizationID == organization.OrganizationID).Select(x => x.RelationshipTypeName));
         }
 
-        public ProjectImage KeyPhoto
+        public ProjectImage GetKeyPhoto()
         {
-            get { return ProjectImages.SingleOrDefault(x => x.IsKeyPhoto); }
+            return ProjectImages.SingleOrDefault(x => x.IsKeyPhoto);
         }
-
-        private DateTime _lastUpdateDate;
-        private bool _hasCheckedLastUpdateDate;
-        public DateTime LastUpdateDate
-        {
-            get
-            {
-                if (!_hasCheckedLastUpdateDate)
-                {
-                    LastUpdateDate = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(this).Max(x => x.AuditLogDate);
-                }
-                return _lastUpdateDate;
-            }
-            set
-            {
-                _lastUpdateDate = value;
-                _hasCheckedLastUpdateDate = true;
-            }
-        }
-
-        public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;
-
-        public double? ProjectLocationPointLongitude => HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null;
 
         public FancyTreeNode ToFancyTreeNode()
         {
             var fancyTreeNode = new FancyTreeNode(
-                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", FancyTreeNodeKey.ToString(), false) { ThemeColor = TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
+                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", ProjectID.ToString(), false) { ThemeColor = TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
             return fancyTreeNode;
-        }
-
-        /// <summary>
-        /// Note this will do a deep delete of this project image, meaning it will remove it from a ProjectImageUpdate if it is tied to that
-        /// </summary>
-        /// <param name="projectImages"></param>
-        public static void DeleteProjectImages(ICollection<ProjectImage> projectImages)
-        {
-            var projectImageFileResourceIDsToDelete = projectImages.Select(x => x.FileResourceID).ToList();
-            var projectImageIDsToDelete = projectImages.Select(x => x.ProjectImageID).ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectImageUpdates.Where(x => x.ProjectImageID.HasValue && projectImageIDsToDelete.Contains(x.ProjectImageID.Value)).ToList().DeleteProjectImageUpdate();
-            projectImages.DeleteProjectImage();
-            projectImageFileResourceIDsToDelete.DeleteFileResource();
         }
 
         public IEnumerable<Person> GetProjectStewards()
@@ -507,97 +339,9 @@ namespace ProjectFirma.Web.Models
                        .ToList() ?? new List<Person>();
         }
 
-        public ICollection<IEntityClassification> ProjectClassificationsForMap =>
-            new List<IEntityClassification>(ProjectClassifications);
+        public ICollection<IEntityClassification> GetProjectClassificationsForMap() => new List<IEntityClassification>(ProjectClassifications);
 
-        public int FancyTreeNodeKey => ProjectID;
-
-        IEnumerable<IProjectCustomAttribute> IProject.ProjectCustomAttributes
-        {
-            get => ProjectCustomAttributes;
-            set => ProjectCustomAttributes = (ICollection<ProjectCustomAttribute>) value;
-        }
-
-        public List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices()
-        {
-            var sortOrder = 0;
-            var googlePieChartSlices = new List<GooglePieChartSlice>();
-            var expendituresDictionary = ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
-                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
-
-            var groupingFundingSources = expendituresDictionary.Keys.GroupBy(x => x.Organization.OrganizationType, new HavePrimaryKeyComparer<OrganizationType>());
-            foreach (var groupingFundingSource in groupingFundingSources)
-            {
-                var sectorColor = ColorTranslator.FromHtml(groupingFundingSource.Key.LegendColor);
-                var sectorColorHsl = new HslColor(sectorColor.R, sectorColor.G, sectorColor.B);
-
-                groupingFundingSource.OrderBy(x => x.FundingSourceName)
-                    .ForEach((fundingSource, index) =>
-                    {
-                        var luminosity = 100.0 * (groupingFundingSource.Count() - index - 1) /
-                                         groupingFundingSource.Count() + 120;
-                        var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
-                            luminosity));
-
-                        googlePieChartSlices.Add(new GooglePieChartSlice(fundingSource.FixedLengthDisplayName, Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color));
-                    });
-            }
-            return googlePieChartSlices;
-        }
-
-        public List<GooglePieChartSlice> GetFundingSourceRequestGooglePieChartSlices()
-        {
-            var sortOrder = 0;
-            var googlePieChartSlices = new List<GooglePieChartSlice>();
-
-            var securedAmountsDictionary = ProjectFundingSourceRequests.Where(x => x.SecuredAmount > 0)
-                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.SecuredAmount));
-            var unsecuredAmountsDictionary = ProjectFundingSourceRequests.Where(x => x.UnsecuredAmount > 0)
-                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.UnsecuredAmount));
-
-            var securedColorHsl = new { hue = 96.0, sat = 60.0 };
-            var unsecuredColorHsl = new { hue = 33.3, sat = 240.0 };
-
-            securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).ForEach((fundingSourceDictionaryItem, index) =>
-            {
-                var fundingSource = fundingSourceDictionaryItem.Key;
-                var fundingAmount = fundingSourceDictionaryItem.Value;
-
-                var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
-                var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-
-                googlePieChartSlices.Add(new GooglePieChartSlice("Secured Funding: " + fundingSource.FixedLengthDisplayName, Convert.ToDouble(fundingAmount), sortOrder++, color));
-
-            });
-
-            unsecuredAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).ForEach((fundingSourceDictionaryItem, index) =>
-            {
-                var fundingSource = fundingSourceDictionaryItem.Key;
-                var fundingAmount = fundingSourceDictionaryItem.Value;
-
-                var luminosity = 100.0 * (unsecuredAmountsDictionary.Count - index - 1) / unsecuredAmountsDictionary.Count + 120;
-                var color = ColorTranslator.ToHtml(new HslColor(unsecuredColorHsl.hue, unsecuredColorHsl.sat, luminosity));
-
-                googlePieChartSlices.Add(new GooglePieChartSlice("Targeted Funding: " + fundingSource.FixedLengthDisplayName, Convert.ToDouble(fundingAmount), sortOrder++, color));
-            });
-
-            return googlePieChartSlices;
-        }
-
-        public List<GooglePieChartSlice> GetRequestAmountGooglePieChartSlices()
-        {
-            var requestAmountsDictionary = GetFundingSourceRequestGooglePieChartSlices();
-            var noFundingSourceIdentifiedAmount = Convert.ToDouble(EstimatedTotalCost ?? 0) - requestAmountsDictionary.Sum(x => x.Value);
-            if (noFundingSourceIdentifiedAmount > 0)
-            {
-                var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
-                requestAmountsDictionary.Add(new GooglePieChartSlice("No Funding Source Identified", noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
-            }
-            return requestAmountsDictionary;
-        }
+        IEnumerable<IProjectCustomAttribute> IProject.GetProjectCustomAttributes() => ProjectCustomAttributes;
 
         public bool IsActiveProject()
         {
@@ -648,24 +392,6 @@ namespace ProjectFirma.Web.Models
         public bool AreReportedExpendituresRelevant()
         {
             return ProjectStage != ProjectStage.Proposal;
-        }
-
-        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(Project project, bool ignoreStatus)
-        {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
-        }
-
-        public string GetPlanningDesignStartYear()
-        {
-            return PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(PlanningDesignStartYear.Value) : null;
-        }
-        public string GetCompletionYear()
-        {
-            return CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(CompletionYear.Value) : null;
-        }
-        public string GetImplementationStartYear()
-        {
-            return ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ImplementationStartYear.Value) : null;
         }
     }
 }

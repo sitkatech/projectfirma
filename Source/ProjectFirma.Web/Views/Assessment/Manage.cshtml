@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="panel panel-default">
         <div class="panel-heading" style="padding: 5px 15px">
-            <h2 class="panel-title" style="border: none; margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentGoal.EditUrl, "Edit Goal", ViewDataTyped.HasEditPermissions) @assessmentGoal.DisplayName</h2>
+            <h2 class="panel-title" style="border: none; margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentGoal.GetEditUrl(), "Edit Goal", ViewDataTyped.HasEditPermissions) @assessmentGoal.GetDisplayName()</h2>
             <p style="margin-bottom: 5px;">
                 Description: <i>@assessmentGoal.AssessmentGoalDescription</i>
             </p>
@@ -59,7 +59,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @foreach (var assessmentSubGoal in assessmentGoal.AssessmentSubGoals)
             {
 
-                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentSubGoal.EditUrl, "Edit PerformanceMeasure", ViewDataTyped.HasEditPermissions) @assessmentSubGoal.DisplayName </h2>
+                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentSubGoal.GetEditUrl(), "Edit PerformanceMeasure", ViewDataTyped.HasEditPermissions) @assessmentSubGoal.GetDisplayName() </h2>
                 <p>
                     Description: <i>@assessmentSubGoal.AssessmentSubGoalDescription</i>
                 </p>
@@ -68,13 +68,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     @foreach (var assessmentQuestion in assessmentSubGoal.AssessmentQuestions.Where(x => x.ArchiveDate == null))
                     {
                         <li class="list-group-item activeQuestion">
-                            @ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText
+                            @ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.GetEditUrl(), "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText
                         </li>
                     }
                     @foreach (var assessmentQuestion in assessmentSubGoal.AssessmentQuestions.Where(x => x.ArchiveDate.HasValue))
                     {
                         <li class="list-group-item inactiveQuestion">
-                            <span>@ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText <i>Archived on: @assessmentQuestion.ArchiveDate.ToStringDate()</i></span>
+                            <span>
+                                @ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.GetEditUrl(), "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText <i>Archived on: @assessmentQuestion.ArchiveDate.ToStringDate()</i></span>
                         </li>
                     }
                 </ul>

@@ -19,16 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class FirmaPage : IFirmaPage
     {
-        public string FirmaPageDisplayName => FirmaPageType.FirmaPageTypeDisplayName;
-        public bool HasPageContent => !string.IsNullOrWhiteSpace(FirmaPageContent);
+        public HtmlString GetFirmaPageContentHtmlString()
+        {
+            return FirmaPageContentHtmlString;
+        }
+
+        public string GetFirmaPageDisplayName() => FirmaPageType.FirmaPageTypeDisplayName;
+        public bool HasPageContent() => !string.IsNullOrWhiteSpace(FirmaPageContent);
 
         public static FirmaPage GetFirmaPageByPageType(FirmaPageType firmaPageType)
         {
@@ -39,7 +44,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetEditPageContentUrl()
         {
-            return SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(this));
+            return FirmaPageModelExtensions.GetEditPageContentUrl(this);
         }
     }
 }

@@ -21,10 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common.Models;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
@@ -50,50 +47,50 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public DateTime CreateDate => FileResource.CreateDate;
+        public DateTime GetCreateDate() => FileResource.CreateDate;
 
-        public string DeleteUrl
+        public string GetDeleteUrl()
         {
-            get { return SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.DeleteProjectImage(ProjectImageID)); }
+            return ProjectImageModelExtensions.GetDeleteUrl(this);
         }
 
-        public string CaptionOnFullView
+        public string GetCaptionOnFullView()
         {
-            get
-            {
-                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
-                return $"{CaptionOnGallery}{creditString}";
-            }
+            var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
+            return $"{GetCaptionOnGallery()}{creditString}";
         }
 
-        public string CaptionOnGallery =>
+        public string GetCaptionOnGallery() =>
             $"{Caption}\r\n(Timing: {ProjectImageTiming.ProjectImageTimingDisplayName}) {FileResource.FileResourceDataLengthString}";
 
-        public string PhotoUrl => FileResource.FileResourceUrl;
+        public string GetPhotoUrl() => FileResource.FileResourceUrl;
 
-        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail(150);
-        public string PhotoUrlLargeScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail(200);
+        public string GetPhotoUrlScaledThumbnail() => FileResource.FileResourceUrlScaledThumbnail(150);
+        public string GetPhotoUrlLargeScaledThumbnail() => FileResource.FileResourceUrlScaledThumbnail(200);
 
-        public string PhotoUrlScaledForPrint => FileResource.FileResourceUrlScaledForPrint;
+        public string GetPhotoUrlScaledForPrint() => FileResource.FileResourceUrlScaledForPrint;
 
-        public string EditUrl
+        public string GetEditUrl()
         {
-            get { return SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.Edit(ProjectImageID)); }
+            return ProjectImageModelExtensions.GetEditUrl(this);
         }
 
-        private List<string> _additionalCssClasses = new List<string>();
-        public List<string> AdditionalCssClasses
+        public void SetAdditionalCssClasses(List<string> value)
         {
-            get => _additionalCssClasses;
-            set => _additionalCssClasses = value;
+            _additionalCssClasses = value;
+        }
+
+        public List<string> GetAdditionalCssClasses()
+        {
+            return _additionalCssClasses;
         }
 
         private object _orderBy;
-        public object OrderBy
-        {
-            get => _orderBy ?? CaptionOnFullView;
-            set => _orderBy = value;
-        }
+        private List<string> _additionalCssClasses = new List<string>();
+
+        public void SetOrderBy(object value) => _orderBy = value;
+
+        public object GetOrderBy() => _orderBy ?? GetCaptionOnFullView();
 
         public void SetAsKeyPhoto()
         {
@@ -106,21 +103,11 @@ namespace ProjectFirma.Web.Models
             projectImagesToSetAsNotTheKeyPhoto.ForEach(x => x.IsKeyPhoto = false);
         }
 
-        public bool IsPersonTheCreator(Person person)
+        public string GetAuditDescriptionString()
         {
-            return FileResource.CreatePerson != null && person != null && person.PersonID == FileResource.CreatePersonID;
+            return $"Project: {ProjectID}, Image: {Caption}";
         }
 
-        public string AuditDescriptionString
-        {
-            get
-            {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"Project: {projectName}, Image: {Caption}";
-            }
-        }
-
-        public int? EntityImageIDAsNullable => ProjectImageID;
+        public int? GetEntityImageIDAsNullable() => ProjectImageID;
     }
 }

@@ -19,59 +19,44 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectNote : IAuditableEntity, IEntityNote
     {
-        public DateTime LastUpdated
+        public DateTime GetLastUpdated()
         {
-            get { return UpdateDate ?? CreateDate; }
+            return UpdateDate ?? CreateDate;
         }
 
-        public string LastUpdatedBy
+        public string GetLastUpdatedBy()
         {
-            get
+            if (UpdatePersonID.HasValue)
             {
-                if (UpdatePersonID.HasValue)
-                {
-                    return UpdatePerson.FullNameFirstLast;
-                }
-                if (CreatePersonID.HasValue)
-                {
-                    return CreatePerson.FullNameFirstLast;
-                }
-                return "System";
+                return UpdatePerson.GetFullNameFirstLast();
             }
-        }
 
-        public string DeleteUrl
-        {
-            get { return SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(c => c.DeleteProjectNote(ProjectNoteID)); }
-        }
-
-        public string EditUrl
-        {
-            get { return SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(c => c.Edit(ProjectNoteID)); }
-        }
-
-        public string CreatePersonName
-        {
-            get { return CreatePersonID.HasValue ? CreatePerson.FullNameFirstLast : string.Empty; }
-        }
-
-        public string AuditDescriptionString
-        {
-            get
+            if (CreatePersonID.HasValue)
             {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"Project: {projectName}";
+                return CreatePerson.GetFullNameFirstLast();
             }
+
+            return "System";
+        }
+
+        public string GetDeleteUrl()
+        {
+            return ProjectNoteModelExtensions.GetDeleteUrl(this);
+        }
+
+        public string GetEditUrl()
+        {
+            return ProjectNoteModelExtensions.GetEditUrl(this);
+        }
+
+        public string GetAuditDescriptionString()
+        {
+            return $"Project: {ProjectID}";
         }
     }
 }

@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyLeaf = taxonomyLeaf;
-            PageTitle = taxonomyLeaf.DisplayName;
+            PageTitle = taxonomyLeaf.GetDisplayName();
             var fieldDefinitionTaxonomyLeaf = Models.FieldDefinition.TaxonomyLeaf;
             var taxonomyLeafDisplayName = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabel();
             EntityName = taxonomyLeafDisplayName;

@@ -18,23 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectClassification : IEntityClassification, IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var projectDeleted = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var classificationDeleted = HttpRequestStorage.DatabaseEntities.AllClassifications.Find(ClassificationID);
-                var projectName = projectDeleted != null ? projectDeleted.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var classificationName = classificationDeleted != null ? classificationDeleted.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, Classification: {1}", projectName, classificationName);
-            }
+            return $"Project: {ProjectID}, Classification: {ClassificationID}";
         }
 
         public ProjectClassification(int projectID, int classificationID, string projectClassificationNotes)

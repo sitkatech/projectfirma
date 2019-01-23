@@ -1,19 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectGeospatialAreaUpdate : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var geospatialArea = GeospatialArea != null ? GeospatialArea.DisplayName : ViewUtilities.NotFoundString;
-                var projectUpdate = ProjectUpdateBatch != null ? ProjectUpdateBatch.ProjectUpdate.DisplayName : ViewUtilities.NotFoundString;
-                return $"GeospatialArea: {geospatialArea}, {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update: {projectUpdate}";
-            }
+            return $"GeospatialArea: {GeospatialAreaID}, {FieldDefinition.Project.GetFieldDefinitionLabel()} Update Batch: {ProjectUpdateBatchID}";
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)

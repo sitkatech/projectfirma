@@ -59,10 +59,12 @@ Source code is available upon request via <support@sitkatech.com>.
 <p>In order to submit an update, all required information must be provided. You will see some icons next to some pages – here is what they mean:</p>
 <ul style="list-style-type: none; padding: 0">
     <li class="iconRow">
-        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this update)
+        <div class="iconDefinition">
+            @LtInfo.Common.BootstrapWrappers.BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-warning-sign red",
+                "Required information has not been completely provided (not ready to submit)")</div> Required information has not been completely provided (you can't submit this update)
     </li>
     <li class="iconRow">
-        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.SectionHasUpdatesIcon)</div> This section has been updated - Use the "Show Changes" button to see changes
+        <div class="iconDefinition">@LtInfo.Common.BootstrapWrappers.BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "This section has been updated")</div> This section has been updated - Use the "Show Changes" button to see changes
     </li>
 </ul>
 

@@ -20,55 +20,36 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureActual : IAuditableEntity, IPerformanceMeasureValue
     {
-        public string ActualValueDisplay => GetActualValueDisplay(ActualValue, PerformanceMeasure);
-
-        private static string GetActualValueDisplay(double expectedValue, PerformanceMeasure performanceMeasure)
+        public string GetAuditDescriptionString()
         {
-            return performanceMeasure.MeasurementUnitType.DisplayValue(expectedValue);
+            return $"Project: {ProjectID}, Performance Measure: {PerformanceMeasureID}, Actual Value: {ActualValue}";
         }
 
-        public string AuditDescriptionString
+        public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions() =>
+            new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions.ToList());
+
+        public double? GetReportedValue() => ActualValue;
+
+        public string GetPerformanceMeasureSubcategoriesAsString()
         {
-            get
+            if (PerformanceMeasure.HasRealSubcategories())
             {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var actualValue = GetActualValueDisplay(ActualValue, performanceMeasure);
-                return
-                    $"Project: {projectName}, Performance Measure: {performanceMeasureName}, Actual Value: {actualValue}";
+                return PerformanceMeasureActualSubcategoryOptions.Any()
+                    ? string.Join("\r\n",
+                        PerformanceMeasureActualSubcategoryOptions.OrderBy(x =>
+                                x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x =>
+                                $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}"))
+                    : ViewUtilities.NoneString;
             }
-        }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions => new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions.ToList());
-        public double? ReportedValue => ActualValue;
-
-        public string PerformanceMeasureSubcategoriesAsString
-        {
-            get
-            {
-                if (PerformanceMeasure.HasRealSubcategories)
-                {
-                    return PerformanceMeasureActualSubcategoryOptions.Any()
-                        ? string.Join("\r\n",
-                            PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                                .Select(x =>
-                                    $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}"))
-                        : ViewUtilities.NoneString;
-                }
-                else
-                {
-                    return string.Empty;
-                }
-        }
+            return string.Empty;
         }
     }
 }

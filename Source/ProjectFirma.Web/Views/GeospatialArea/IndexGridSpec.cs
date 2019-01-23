@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
     {
         public IndexGridSpec(Person person, GeospatialAreaType geospatialAreaType)
         {
-            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 300, DhtmlxGridColumnFilterType.Html);
+            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(person).Count, 65);
         }
     }

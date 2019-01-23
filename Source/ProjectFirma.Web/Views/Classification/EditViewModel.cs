@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Classification
         public EditViewModel(Models.Classification classification)
         {
             ClassificationID = classification.ClassificationID;
-            DisplayName = classification.DisplayName;
+            DisplayName = classification.GetDisplayName();
             ClassificationDescription = classification.ClassificationDescription;
             GoalStatement = classification.GoalStatement;
             ThemeColor = classification.ThemeColor;

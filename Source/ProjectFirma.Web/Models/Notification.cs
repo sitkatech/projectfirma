@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.Email;
 
 namespace ProjectFirma.Web.Models
@@ -44,7 +43,7 @@ namespace ProjectFirma.Web.Models
 
         public static void SendMessage(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc)
         {
-            mailMessage.From = DoNotReplyMailAddress();
+            mailMessage.From = NotificationModelExtensions.DoNotReplyMailAddress();
             foreach (var email in emailsToSendTo)
             {
                 mailMessage.To.Add(email);
@@ -58,11 +57,6 @@ namespace ProjectFirma.Web.Models
                 mailMessage.CC.Add(emailToCc);
             }            
             SitkaSmtpClient.Send(mailMessage);
-        }
-
-        public static MailAddress DoNotReplyMailAddress()
-        {
-            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, MultiTenantHelpers.GetToolDisplayName());
         }
     }
 }

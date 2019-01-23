@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             PerformanceMeasureName = performanceMeasure.PerformanceMeasureDisplayName;
             PerformanceMeasureUnits = performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
 
-            if (performanceMeasure.HasRealSubcategories)
+            if (performanceMeasure.HasRealSubcategories())
             {
                 var currentSubcategoryIndex = 1;
                 foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)

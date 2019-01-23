@@ -2,14 +2,11 @@
 {
     public partial class CustomPageImage : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var customPage = CustomPage;
-                var customPageDisplayName = customPage?.CustomPageDisplayName ?? "Unknown";
-                return $"Custom About Page Image: {customPageDisplayName}";
-            }
+            var customPage = CustomPage;
+            var customPageDisplayName = customPage?.CustomPageDisplayName ?? "Unknown";
+            return $"Custom About Page Image: {customPageDisplayName}";
         }
     }
 }

@@ -85,9 +85,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="padding: 20px;">
             <h1>
                 <span style="vertical-align: top">
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", ViewDataTyped.ClassificationDisplayName, ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", ViewDataTyped.ClassificationDisplayName, ViewDataTyped.Classification.GetDisplayName()), ViewDataTyped.UserHasClassificationManagePermissions)
                 </span>
-                @ViewDataTyped.Classification.DisplayName
+                @ViewDataTyped.Classification.GetDisplayName()
             </h1>
             <p style="border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.ClassificationDescription</p>
             <p style="font-style: italic; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
@@ -98,7 +98,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="margin-right: 10px">
         @if (ViewDataTyped.Classification.KeyImageFileResource != null)
         {
-            <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResource.FileResourceUrl"><img src="@ViewDataTyped.Classification.KeyImageUrlLarge" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
+            <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResource.FileResourceUrl"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
         }
         </div>
     </div>

@@ -18,29 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureActualSubcategoryOption : IAuditableEntity, IPerformanceMeasureValueSubcategoryOption
     {
-        public string PerformanceMeasureSubcategoryOptionName =>
+        public string GetPerformanceMeasureSubcategoryOptionName() =>
             PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
 
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var performanceMeasureSubcategoryOption = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategoryOptions.Find(PerformanceMeasureSubcategoryOptionID);
-                var performanceMeasureSubcategory = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategories.Find(PerformanceMeasureSubcategoryID);
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
-                var performanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption != null ? performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : ViewUtilities.NotFoundString;
-                var performanceMeasureSubcategoryName = performanceMeasureSubcategory != null ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : ViewUtilities.NotFoundString;
-                var performanceMeasureName = performanceMeasure != null ? performanceMeasure.PerformanceMeasureDisplayName : ViewUtilities.NotFoundString;
-                return
-                    $"Performance Measure: {performanceMeasureName}, PerformanceMeasureSubcategory: {performanceMeasureSubcategoryName}, PerformanceMeasureSubcategory Option: {performanceMeasureSubcategoryOptionName}";
-            }
+            return $"Performance Measure: {PerformanceMeasureID}, PerformanceMeasureSubcategory: {PerformanceMeasureSubcategoryID}, PerformanceMeasureSubcategory Option: {PerformanceMeasureSubcategoryOptionID}";
         }
     }
 }

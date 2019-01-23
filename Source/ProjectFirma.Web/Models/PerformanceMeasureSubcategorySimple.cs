@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
             PerformanceMeasureID = performanceMeasureSubcategory.PerformanceMeasureID;
             PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
-            ShowOnChart = performanceMeasureSubcategory.ShowOnChart;
+            ShowOnChart = performanceMeasureSubcategory.ShowOnChart();
             PerformanceMeasureSubcategoryOptions = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.ToList().Select(x => new PerformanceMeasureSubcategoryOptionSimple(x)).ToList();
         }
 

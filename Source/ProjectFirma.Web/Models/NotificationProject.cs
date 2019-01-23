@@ -50,19 +50,18 @@ namespace ProjectFirma.Web.Models
             }
 
             var emailsToSendTo = peopleToNotify.Select(x => x.Email).ToList();
-            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was submitted";
+            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was submitted";
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
             var message = $@"
-<p>The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} on {
+<p>The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} on {
                     latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()
-                } was just submitted by {submitterPerson.FullNameFirstLastAndOrg}.</p>
+                } was just submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
 <a href=""{instructionsUrl}"">View this {FieldDefinition.Project.GetFieldDefinitionLabel()} update</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
 
-            var mailMessage1 = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
-            var mailMessage = mailMessage1;
+            var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch, mailMessage, emailsToSendTo, submitterEmails, new List<string>(), NotificationType.ProjectUpdateSubmitted);
         }
@@ -74,12 +73,12 @@ namespace ProjectFirma.Web.Models
             var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
             var emailsToSendTo = new List<string> { submitterPerson.Email };
 
-            var personNames = submitterPerson.FullNameFirstLast;
+            var personNames = submitterPerson.GetFullNameFirstLast();
             var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += $" and {primaryContactPerson.FullNameFirstLast}";
+                personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
             }
 
             var approverPerson = projectUpdateBatch.LastUpdatePerson;
@@ -87,9 +86,9 @@ namespace ProjectFirma.Web.Models
             var message = $@"
 Dear {personNames},
 <p>
-    The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} on {
+    The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} on {
                     latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()
-                } was approved by {approverPerson.FullNameFirstLastAndOrg}.
+                } was approved by {approverPerson.GetFullNameFirstLastAndOrg()}.
 </p>
 <p>
     There is no action for you to take - this is simply a notification email. The updates for this {FieldDefinition.Project.GetFieldDefinitionLabel()} are now visible to the general public on this {FieldDefinition.Project.GetFieldDefinitionLabel()}'s detail page:
@@ -101,7 +100,7 @@ Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} i
 {$"- {MultiTenantHelpers.GetToolDisplayName()} team"}
 ";
 
-            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved";
+            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was approved";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch,
@@ -119,12 +118,12 @@ Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} i
             var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
             var emailsToSendTo = new List<string> { submitterPerson.Email };
 
-            var personNames = submitterPerson.FullNameFirstLast;
+            var personNames = submitterPerson.GetFullNameFirstLast();
             var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += $" and {primaryContactPerson.FullNameFirstLast}";
+                personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
             }
 
             var returnerPerson = projectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson;
@@ -133,9 +132,9 @@ Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} i
 Dear {personNames},
 <p>
     The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {
-                    projectUpdateBatch.Project.DisplayName
+                    projectUpdateBatch.Project.GetDisplayName()
                 } on {latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()} has been returned by {
-                    returnerPerson.FullNameFirstLastAndOrg
+                    returnerPerson.GetFullNameFirstLastAndOrg()
                 }.
 </p>
 <p>
@@ -151,9 +150,8 @@ Thank you,<br />
 ";
 
             var subject =
-                $"The update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} has been returned - please review and re-submit";
-            var mailMessage1 = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
-            var mailMessage = mailMessage1;
+                $"The update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} has been returned - please review and re-submit";
+            var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch,
                 mailMessage,
@@ -167,12 +165,12 @@ Thank you,<br />
         public static void SendSubmittedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $"A {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
+            var subject = $"A {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
-<p>A new {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}, “{project.DisplayName}”, was submitted.</p>
+<p>A new {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}, “{project.GetDisplayName()}”, was submitted.</p>
 <p>The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was submitted on {project.ProposingDate.ToStringDate()} by {
-                    submitterPerson.FullNameFirstLastAndOrg
+                    submitterPerson.GetFullNameFirstLastAndOrg()
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
 <a href=""{basicsUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
@@ -194,12 +192,12 @@ Thank you,<br />
         {
             Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
             var submitterPerson = project.ProposingPerson;
-            var subject = $"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.DisplayName.ToEllipsifiedString(80)}\" was approved!";
+            var subject = $"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.GetDisplayName().ToEllipsifiedString(80)}\" was approved!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
-<p>Dear {submitterPerson.FullNameFirstLastAndOrg},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.FullNameFirstLastAndOrg}.</p>
+<p>Dear {submitterPerson.GetFullNameFirstLastAndOrg()},</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List</a> and is visible to the public via the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} detail page.</p>
 <p><a href=""{detailUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
@@ -225,12 +223,12 @@ Thank you,<br />
         public static void SendReturnedMessage(Project project)
         {
             var submitterPerson = project.ProposingPerson;
-            var subject = $@"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ""{project.DisplayName.ToEllipsifiedString(80)}"" was not approved";
+            var subject = $@"Your {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was not approved";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
-<p>Dear {submitterPerson.FullNameFirstLast},</p>
+<p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
-<p>The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was returned by {project.ReviewedByPerson.FullNameFirstLastAndOrg}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} can move forward.</p>
+<p>The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} can move forward.</p>
 <a href=""{basicsUrl}"">View this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
@@ -277,7 +275,7 @@ Thank you,<br />
 
         private static List<Person> GetProjectStewardPeople(Project project)
         {
-            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
     }
 }

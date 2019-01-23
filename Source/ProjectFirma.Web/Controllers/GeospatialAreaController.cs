@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
             var layerGeoJsons = new List<LayerGeoJson>();
             layerGeoJsons = new List<LayerGeoJson>
             {
-                GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m, LayerInitialVisibility.Show)
+                geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
             };
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"geospatialArea_{geospatialArea.GeospatialAreaID}_Map";
 
             var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentPerson);
-            var layers = GeospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(geospatialArea, associatedProjects);
+            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(geospatialArea.GeospatialAreaFeature));
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);

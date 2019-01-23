@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditPerformanceMeasureActualsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.SortOrder).ThenBy(pam=>pam.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
+            var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.GetSortOrder()).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var endYear = DateTime.Now.Year;

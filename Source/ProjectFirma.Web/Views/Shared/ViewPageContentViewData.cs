@@ -14,10 +14,10 @@ namespace ProjectFirma.Web.Views.Shared
 
         public ViewPageContentViewData(IFirmaPage firmaPage, bool showEditButton)
         {
-            FirmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
-            FirmaPageDisplayName = firmaPage.FirmaPageDisplayName;
+            FirmaPageContentHtmlString = firmaPage.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = firmaPage.GetFirmaPageDisplayName();
             ShowEditButton = showEditButton;
-            HasPageContent = firmaPage.HasPageContent;
+            HasPageContent = firmaPage.HasPageContent();
             EditPageContentUrl = firmaPage.GetEditPageContentUrl();
         }
 

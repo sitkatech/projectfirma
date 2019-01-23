@@ -25,15 +25,13 @@ namespace ProjectFirma.Web.Models
 {
     public interface IPerformanceMeasureReportedValue
     {
-        string PerformanceMeasureName { get; }
-        string PerformanceMeasureUrl { get; }
-        MeasurementUnitType MeasurementUnitType { get; }
-        List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
-        string PerformanceMeasureSubcategoriesAsString { get; }
-        string ReportedValueDisplay { get; }
-        double? ReportedValue { get; }
-        Int32 PerformanceMeasureID { get; }
-        Int32 CalendarYear { get; }
+        string GetPerformanceMeasureName();
+        MeasurementUnitType GetMeasurementUnitType();
+        List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions();
+        string GetPerformanceMeasureSubcategoriesAsString();
+        double? GetReportedValue();
+        int PerformanceMeasureID { get; }
+        int CalendarYear { get; }
         PerformanceMeasure PerformanceMeasure { get; }
     }
 }

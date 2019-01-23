@@ -26,9 +26,9 @@ namespace ProjectFirma.Web.Models
 {
     public partial class CostParameterSet : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get { return string.Format("Inflation Rate: {0}", InflationRate.ToStringPercent()); }
+            return string.Format("Inflation Rate: {0}", InflationRate.ToStringPercent());
         }
 
         public static int? StartYearForTotalCostCalculations(IProject project)

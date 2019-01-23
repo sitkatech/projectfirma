@@ -21,92 +21,27 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using LtInfo.Common.GeoJson;
 using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class GeospatialArea : IAuditableEntity
     {
-        public string DisplayName => GeospatialAreaName;
+        public string GetDisplayName() => GeospatialAreaName;
 
         public List<Project> GetAssociatedProjects(Person person)
         {
-            return ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
-        public string AuditDescriptionString => GeospatialAreaName;
+        public string GetAuditDescriptionString() => GeospatialAreaName;
 
         public Feature MakeFeatureWithRelevantProperties()
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(GeospatialAreaFeature);
-            feature.Properties.Add(GeospatialAreaType.GeospatialAreaTypeName, GetDisplayNameAsUrl().ToString());
+            feature.Properties.Add(GeospatialAreaType.GeospatialAreaTypeName, this.GetDisplayNameAsUrl().ToString());
             return feature;
         }
-
-        public HtmlString GetDisplayNameAsUrl()
-        {
-            return UrlTemplate.MakeHrefString(GetDetailUrl(), DisplayName);
-        }
-
-        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
-
-        public string GetDetailUrl()
-        {
-            return DetailUrlTemplate.ParameterReplace(GeospatialAreaID);
-        }
-
-        public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
-
-        public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(GeospatialAreaType geospatialAreaType,
-            string layerColor, decimal layerOpacity,
-            LayerInitialVisibility layerInitialVisibility)
-        {
-            return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.MapServiceUrl,
-                geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
-                layerInitialVisibility);
-        }
-
-        public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(GeospatialArea geospatialArea, List<Project> projects)
-        {
-            var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
-                Project.MappedPointsToGeoJsonFeatureCollection(projects, true, false),
-                "#ffff00", 1, LayerInitialVisibility.Show);
-            var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.DisplayName,
-                new List<GeospatialArea> { geospatialArea }.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
-                LayerInitialVisibility.Show);
-
-            var layerGeoJsons = new List<LayerGeoJson>
-            {
-                projectLayerGeoJson,
-                geospatialAreaLayerGeoJson,
-                GetGeospatialAreaWmsLayerGeoJson(geospatialArea.GeospatialAreaType, "#59ACFF", 0.6m,
-                    LayerInitialVisibility.Show)
-            };
-
-            return layerGeoJsons;
-        }     
-
-        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
-        {
-            var fancyTreeNode = new FancyTreeNode(GeospatialAreaName, GeospatialAreaName, false) {MapUrl = null};
-
-            var projectChildren = GetAssociatedProjects(currentPerson).OrderBy(x => x.DisplayName)
-                .Select(x => x.ToFancyTreeNode()).ToList();
-            fancyTreeNode.Children = projectChildren.ToList();
-
-            return fancyTreeNode;
-        }
-
-        public PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(PerformanceMeasure performanceMeasure, Person currentPerson)
-        {
-            var projects = GetAssociatedProjects(currentPerson);
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
-        }        
     }
 }

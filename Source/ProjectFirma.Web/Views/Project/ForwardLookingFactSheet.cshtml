@@ -84,7 +84,7 @@
             @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
-                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().DisplayNameWithoutAbbreviation" />
+                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
             }
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
@@ -126,7 +126,7 @@
                 </div>
             }
             @{
-                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.FundingOrganizationNamesForFactSheet;
+                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
             }
             @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
             {
@@ -141,7 +141,7 @@
             }
 
             @{
-                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet;
+                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
             }
             @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
             {
@@ -162,7 +162,7 @@
                     @if (ViewDataTyped.Project.GetPrimaryContact() != null)
                     {
                         <span>
-                            @ViewDataTyped.Project.GetPrimaryContact().FullNameFirstLast (@ViewDataTyped.Project.GetPrimaryContact().Email)
+                            @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
                         </span>
                     }
                     else
@@ -182,7 +182,7 @@
                     <strong>Duration</strong>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    @ViewDataTyped.Project.Duration
+                    @ViewDataTyped.Project.GetDuration()
                 </div>
             </div>
             <div class="row">
@@ -243,9 +243,9 @@
                         {
                             if (performanceMeasureGroup.Key.IsAggregatable)
                             {
-                                if (performanceMeasureGroup.Any(x => x.ReportedValue != null))
+                                if (performanceMeasureGroup.Any(x => x.GetReportedValue() != null))
                                 {
-                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
+                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue())) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
                                 }
                                 else
                                 {
@@ -264,7 +264,7 @@
                                         <li>
                                             @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName)
                                             <strong>
-                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureExpectedValues.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
+                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureExpectedValues.Sum(x => x.GetReportedValue())) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
                                             </strong>
                                         </li>
                                     }
@@ -288,7 +288,7 @@
                                 @foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
                                 {
 
-                                    <li>@classification.DisplayName</li>
+                                    <li>@classification.GetDisplayName()</li>
                                 }
                             </ul>
                         }
@@ -305,7 +305,7 @@
             @if (ViewDataTyped.KeyPhoto != null)
             {
                 <div class="keyPhoto">
-                    <img class="img-responsive" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
+                    <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
                     <span class="captionText">@ViewDataTyped.KeyPhoto.Caption</span>
                 </div>
             }
@@ -370,7 +370,7 @@
                             @foreach (var projectImage in projectImageBatch)
                             {
                                 <div class="col-sm-12 col-md-6">
-                                    <img class="img-responsive" src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                                    <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
                                     <div class="captionText">@projectImage.Caption</div>
                                 </div>
                             }

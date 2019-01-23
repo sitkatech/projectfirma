@@ -94,7 +94,7 @@ else
             <ul>
                 @foreach (var person in ViewDataTyped.PeopleToNotify)
                 {
-                    <li>@person.FullNameFirstLastAndOrg</li>
+                    <li>@person.GetFullNameFirstLastAndOrg()</li>
                 }
             </ul>
         </div>

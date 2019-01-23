@@ -95,7 +95,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.GetPlanningDesignStartYear().</p>
+                <p class="form-control-static">@(ProjectUpdateModelExtensions.GetPlanningDesignStartYear(ViewDataTyped.ProjectUpdate)).</p>
             }
         </div>
     </div>
@@ -219,7 +219,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tr>
                     <td>
                         @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                        @if (ViewDataTyped.UpdateStatus.IsBasicsUpdated)
+                        @if (ViewDataTyped.ProjectUpdateStatus.IsBasicsUpdated)
                         {
                             @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Basics", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                         }

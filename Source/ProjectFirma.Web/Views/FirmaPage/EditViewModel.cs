@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.FirmaPage
         
         public EditViewModel(Models.FirmaPage firmaPage)
         {
-            FirmaPageContentHtmlString = firmaPage != null ? firmaPage.FirmaPageContentHtmlString : null;
+            FirmaPageContentHtmlString = firmaPage != null ? firmaPage.GetFirmaPageContentHtmlString() : null;
         }
 
         public void UpdateModel(Models.FirmaPage firmaPage)

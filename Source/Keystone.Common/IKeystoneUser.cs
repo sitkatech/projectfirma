@@ -4,7 +4,7 @@ namespace Keystone.Common
 {
     public interface IKeystoneUser
     {
-        IEnumerable<string> RoleNames { get; }
+        IEnumerable<string> GetRoleNames();
         void SetKeystoneUserClaims(IKeystoneUserClaims keystoneClaims);
     }
 }

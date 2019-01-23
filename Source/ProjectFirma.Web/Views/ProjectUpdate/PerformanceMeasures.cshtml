@@ -243,7 +243,7 @@ else
                     <div class="row">
                         <div class="col-xs-6">
                             @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                            @if (ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated)
+                            @if (ViewDataTyped.ProjectUpdateStatus.IsPerformanceMeasuresUpdated)
                             {
                                 @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                             }

@@ -52,11 +52,11 @@ namespace ProjectFirma.Web.Views.FundingSource
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
-            PageTitle = fundingSource.DisplayName;
+            PageTitle = fundingSource.GetDisplayName();
             EntityName = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            EditFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Edit(fundingSource));
+            EditFundingSourceUrl = fundingSource.GetEditUrl();
 
             var projectFundingSourceExpenditures = FundingSource.ProjectFundingSourceExpenditures.ToList();
             CalendarYearsForProjectExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);

@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Security
 
         public virtual bool HasPermissionByPerson(Person person)
         {
-            if (!HttpRequestStorage.Tenant.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned)
+            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned())
             {
                 return false;
             }

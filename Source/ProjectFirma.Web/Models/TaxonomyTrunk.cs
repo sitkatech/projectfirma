@@ -18,93 +18,68 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class TaxonomyTrunk : IAuditableEntity, ITaxonomyTier, IHaveASortOrder
+    public partial class TaxonomyTrunk : IAuditableEntity, ITaxonomyTier
     {
-        public int? SortOrder
-        {
-            get => TaxonomyTrunkSortOrder;
-            set => TaxonomyTrunkSortOrder = value;
-        }
-        public int ID => TaxonomyTrunkID;
+        public void SetSortOrder(int? value) => TaxonomyTrunkSortOrder = value;
 
-        public string DeleteUrl
+        public int? GetSortOrder() => TaxonomyTrunkSortOrder;
+        public int GetID() => TaxonomyTrunkID;
+
+        public string GetDeleteUrl()
         {
-            get { return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(c => c.DeleteTaxonomyTrunk(TaxonomyTrunkID)); }
+            return TaxonomyTrunkModelExtensions.GetDeleteUrl(this);
         }
 
-        public int TaxonomyTierID => TaxonomyTrunkID;
+        public int GetTaxonomyTierID() => TaxonomyTrunkID;
 
-        public string DisplayName
+        public string GetDisplayName()
         {
-            get
-            {
-                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyTrunkCode) ? string.Empty : string.Format("{0}: ", TaxonomyTrunkCode);
-                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTrunkName);
-            }
+            var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyTrunkCode)
+                ? string.Empty
+                : $"{TaxonomyTrunkCode}: ";
+            return $"{taxonomyPrefix}{TaxonomyTrunkName}";
         }
 
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName);
+            return TaxonomyTrunkModelExtensions.GetDisplayNameAsUrl(this);
         }
 
-        public string SummaryUrl
+        public string GetDetailUrl()
         {
-            get { return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(x => x.Detail(TaxonomyTrunkID)); }
-        }
-
-        public string CustomizedMapUrl
-        {
-            get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyTrunk, TaxonomyTrunkID.ToString(), ProjectColorByType.ProjectStage); }
+            return TaxonomyTrunkModelExtensions.GetDetailUrl(this);
         }
 
         public List<Project> GetAssociatedProjects(Person currentPerson)
         {
-            return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals);
+            return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
-        public static bool IsTaxonomyTrunkNameUnique(IEnumerable<TaxonomyTrunk> taxonomyTrunks, string taxonomyTrunkName, int currentTaxonomyTrunkID)
+        public string GetAuditDescriptionString()
         {
-            var taxonomyTrunk = taxonomyTrunks.SingleOrDefault(x => x.TaxonomyTrunkID != currentTaxonomyTrunkID && String.Equals(x.TaxonomyTrunkName, taxonomyTrunkName, StringComparison.InvariantCultureIgnoreCase));
-            return taxonomyTrunk == null;
+            return GetDisplayName();
         }
 
-        public string AuditDescriptionString
+        public List<TaxonomyLeaf> GetTaxonomyLeafs()
         {
-            get { return DisplayName; }
-        }
-
-        public List<TaxonomyLeaf> TaxonomyLeafs
-        {
-            get { return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs).OrderBy(x => x.TaxonomyLeafName).ToList(); }
+            return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs).OrderBy(x => x.TaxonomyLeafName).ToList();
         }
 
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
-            return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(x => x.PerformanceMeasure).ToList();
+            return GetTaxonomyLeafs().SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(x => x.PerformanceMeasure).ToList();
         }
 
         public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTrunkID.ToString(), true)
-            {
-                ThemeColor = ThemeColor,
-                MapUrl = CustomizedMapUrl,
-                Children = TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentPerson)).ToList()
-            };
-            return fancyTreeNode;
+            return TaxonomyTrunkModelExtensions.ToFancyTreeNode(this, currentPerson);
         }
     }
 }

@@ -41,13 +41,13 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
-                Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.TaxonomyTrunk.SummaryUrl, a.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName), 250);
+                Add(Models.FieldDefinition.TaxonomyTrunk.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.TaxonomyTrunk.GetDetailUrl(), a.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName), 250);
             }
             if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
-                Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.SummaryUrl, a.TaxonomyBranch.TaxonomyBranchName), 300);
+                Add(Models.FieldDefinition.TaxonomyBranch.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.GetDetailUrl(), a.TaxonomyBranch.TaxonomyBranchName), 300);
             }
-            Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TaxonomyLeaf.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
             Add("Description", a => a.TaxonomyLeafDescriptionHtmlString, 350);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add($"# of {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);

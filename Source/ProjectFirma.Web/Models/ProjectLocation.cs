@@ -31,23 +31,24 @@ namespace ProjectFirma.Web.Models
             Annotation = annotation;
         }
 
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                return "Shape deleted";
-            }
+            return "Shape deleted";
         }
 
-        public DbGeometry DbGeometry
+        public void SetDbGeometry(DbGeometry value)
         {
-            get { return ProjectLocationGeometry; }
-            set { ProjectLocationGeometry = value; }
+            ProjectLocationGeometry = value;
         }
 
-        public SqlGeometry SqlGeometry
+        public DbGeometry GetDbGeometry()
         {
-            get { return ProjectLocationGeometry.ToSqlGeometry(); }
+            return ProjectLocationGeometry;
+        }
+
+        public SqlGeometry GetSqlGeometry()
+        {
+            return ProjectLocationGeometry.ToSqlGeometry();
         }
     }
 }

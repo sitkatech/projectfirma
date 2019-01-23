@@ -70,16 +70,14 @@ namespace ProjectFirma.Web.Models
             "PersonStewardGeospatialArea"
         };
 
-        public string AuditDescriptionDisplay
+        public string GetAuditDescriptionDisplay()
         {
-            get
+            if (string.IsNullOrWhiteSpace(AuditDescription))
             {
-                if (string.IsNullOrWhiteSpace(AuditDescription))
-                {
-                    return AuditLogEventType.GetAuditStringForOperationType(ColumnName, OriginalValue, NewValue);
-                }
-                return AuditDescription;
+                return AuditLogEventType.GetAuditStringForOperationType(ColumnName, OriginalValue, NewValue);
             }
+
+            return AuditDescription;
         }
 
         public static List<AuditLog> GetAuditLogRecordsForModifiedOrDeleted(DbEntityEntry dbEntry, Person person, ObjectContext objectContext, int tenantID)
@@ -150,7 +148,7 @@ namespace ProjectFirma.Web.Models
             AuditLogEventType auditLogEventType, int tenantID)
         {
             var auditableEntityDeleted = GetIAuditableEntityFromEntity(dbEntry.Entity, tableName);
-            var optionalAuditDescriptionString = auditLogEventType.GetAuditStringForOperationType(tableName, null, auditableEntityDeleted.AuditDescriptionString);
+            var optionalAuditDescriptionString = auditLogEventType.GetAuditStringForOperationType(tableName, null, auditableEntityDeleted.GetAuditDescriptionString());
             var auditLogEntry = CreateAuditLogEntryImpl(dbEntry,
                 tableName,
                 person,
@@ -319,7 +317,7 @@ namespace ProjectFirma.Web.Models
             if (entityKey != null)
             {
                 var auditableEntity = GetIAuditableEntityFromEntityKey(objectContext, entityKey, entityName);
-                return auditableEntity.AuditDescriptionString;
+                return auditableEntity.GetAuditDescriptionString();
             }
             return null;
         }

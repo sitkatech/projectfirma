@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
             this.num = num;
         }
 
-        public BootstrapTag(Tag tag) : this(tag.TagName, tag.TagName, tag.SummaryUrl, tag.ProjectTags.Count)
+        public BootstrapTag(Tag tag) : this(tag.TagName, tag.TagName, TagModelExtensions.GetDetailUrl(tag), tag.ProjectTags.Count)
         {
         }
     }

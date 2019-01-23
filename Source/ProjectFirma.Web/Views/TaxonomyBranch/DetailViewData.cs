@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
-            PageTitle = taxonomyBranch.DisplayName;
+            PageTitle = taxonomyBranch.GetDisplayName();
             var taxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
             TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
             TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();

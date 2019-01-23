@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ClassificationSystem : IAuditableEntity, IFieldDefinitionData, IFieldDefinition
     {
-        public string AuditDescriptionString => ClassificationSystemName;
+        public string GetAuditDescriptionString() => ClassificationSystemName;
 
         public string ClassificationSystemNamePluralized => FieldDefinition.PluralizationService.Pluralize(ClassificationSystemName);
 

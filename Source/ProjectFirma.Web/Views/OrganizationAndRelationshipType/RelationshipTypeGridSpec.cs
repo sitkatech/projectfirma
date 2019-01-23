@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
                         $"Edit {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} \"{a.RelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             foreach (var organizationType in allOrganizationTypes)
             {
-                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmptyForGrid(), 90);
+                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganizationType(organizationType).ToCheckboxImageOrEmptyForGrid(), 90);
             }
 
             GroupingHeader =

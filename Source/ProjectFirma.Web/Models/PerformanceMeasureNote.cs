@@ -19,59 +19,44 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureNote : IAuditableEntity, IEntityNote
     {
-        public DateTime LastUpdated
+        public DateTime GetLastUpdated()
         {
-            get { return UpdateDate ?? CreateDate; }
+            return UpdateDate ?? CreateDate;
         }
 
-        public string LastUpdatedBy
+        public string GetLastUpdatedBy()
         {
-            get
+            if (UpdatePersonID.HasValue)
             {
-                if (UpdatePersonID.HasValue)
-                {
-                    return UpdatePerson.FullNameFirstLast;
-                }
-                if (CreatePersonID.HasValue)
-                {
-                    return CreatePerson.FullNameFirstLast;
-                }
-                return "System";
+                return UpdatePerson.GetFullNameFirstLast();
             }
-        }
 
-        public string DeleteUrl
-        {
-            get { return SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.DeletePerformanceMeasureNote(PerformanceMeasureNoteID)); }
-        }
-
-        public string EditUrl
-        {
-            get { return SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.Edit(PerformanceMeasureNoteID)); }
-        }
-
-        public string CreatePersonName
-        {
-            get { return CreatePersonID.HasValue ? CreatePerson.FullNameFirstLast : string.Empty; }
-        }
-
-        public string AuditDescriptionString
-        {
-            get
+            if (CreatePersonID.HasValue)
             {
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
-                var pmName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"Performance Measure: {pmName}";
+                return CreatePerson.GetFullNameFirstLast();
             }
+
+            return "System";
+        }
+
+        public string GetDeleteUrl()
+        {
+            return PerformanceMeasureNoteModelExtensions.GetDeleteUrl(this);
+        }
+
+        public string GetEditUrl()
+        {
+            return PerformanceMeasureNoteModelExtensions.GetEditUrl(this);
+        }
+
+        public string GetAuditDescriptionString()
+        {
+            return $"Performance Measure: {PerformanceMeasureID} Note";
         }
     }
 }

@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
-            PageTitle = taxonomyTrunk.DisplayName;
+            PageTitle = taxonomyTrunk.GetDisplayName();
             EntityName = TaxonomyTrunkDisplayName;
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 

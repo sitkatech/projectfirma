@@ -1,46 +1,23 @@
-﻿using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
-
-namespace ProjectFirma.Web.Models
+﻿namespace ProjectFirma.Web.Models
 {
     public partial class ProjectCustomAttributeUpdateValue : IAuditableEntity, IProjectCustomAttributeValue
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var projectCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.GetProjectCustomAttributeUpdate(ProjectCustomAttributeUpdateID);
-                var projectUpdateBatch = projectCustomAttribute?.ProjectUpdateBatch ??
-                              HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.GetProjectUpdateBatch(
-                                  projectCustomAttribute?.ProjectUpdateBatchID ?? ModelObjectHelpers.NotYetAssignedID);
-                var projectCustomAttributeType = projectCustomAttribute?.ProjectCustomAttributeType ??
-                                                 HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes
-                                                     .GetProjectCustomAttributeType(
-                                                         projectCustomAttribute?.ProjectCustomAttributeTypeID ??
-                                                         ModelObjectHelpers.NotYetAssignedID);
-                return
-                    $"Custom Attribute Value (type: {projectCustomAttributeType?.ProjectCustomAttributeTypeName ?? "<Type Not Found>"}, " +
-                    $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update: {projectUpdateBatch?.ProjectUpdate.DisplayName ?? "<{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Not Found>"}, " +
-                    $"value = \"{AttributeValue}\")";
-            }
+            return $"Custom Attribute Value (ID: {ProjectCustomAttributeUpdateID}, value = \"{AttributeValue}\")";
         }
 
-        public int IProjectCustomAttributeValueID
-        {
-            get => ProjectCustomAttributeUpdateValueID;
-            set => ProjectCustomAttributeUpdateValueID = value;
-        }
+        public void SetIProjectCustomAttributeValueID(int value) => ProjectCustomAttributeUpdateValueID = value;
 
-        public int IProjectCustomAttributeID
-        {
-            get => ProjectCustomAttributeUpdateID;
-            set => ProjectCustomAttributeUpdateID = value;
-        }
+        public int GetIProjectCustomAttributeValueID() => ProjectCustomAttributeUpdateValueID;
 
-        public IProjectCustomAttribute IProjectCustomAttribute
-        {
-            get => ProjectCustomAttributeUpdate;
-            set => ProjectCustomAttributeUpdate = (ProjectCustomAttributeUpdate) value;
-        }
+        public void SetIProjectCustomAttributeID(int value) => ProjectCustomAttributeUpdateID = value;
+
+        public int GetIProjectCustomAttributeID() => ProjectCustomAttributeUpdateID;
+
+        public void SetIProjectCustomAttribute(IProjectCustomAttribute value) =>
+            ProjectCustomAttributeUpdate = (ProjectCustomAttributeUpdate) value;
+
+        public IProjectCustomAttribute GetIProjectCustomAttribute() => ProjectCustomAttributeUpdate;
     }
 }

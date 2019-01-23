@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 
@@ -22,13 +21,13 @@ namespace ProjectFirma.Web.Models
 
         public ProjectCustomAttributes(IProject project)
         {
-            Attributes = project.ProjectCustomAttributes
+            Attributes = project.GetProjectCustomAttributes()
                 .Select(x => new ProjectCustomAttributeSimple
                 {
                     ProjectCustomAttributeTypeID = x.ProjectCustomAttributeTypeID,
-                    ProjectCustomAttributeValues = x.Values
+                    ProjectCustomAttributeValues = x.GetCustomAttributeValues()
                         .Select(y =>
-                            y.IProjectCustomAttribute.ProjectCustomAttributeType.ProjectCustomAttributeDataType ==
+                            y.GetIProjectCustomAttribute().ProjectCustomAttributeType.ProjectCustomAttributeDataType ==
                             ProjectCustomAttributeDataType.DateTime
                                 ? DateTime.Parse(y.AttributeValue).ToShortDateString()
                                 : y.AttributeValue)
@@ -141,7 +140,7 @@ namespace ProjectFirma.Web.Models
         {
             existingProjectCustomAttributeValues.Merge(projectCustomAttributeValuesToUpdate,
                 projectCustomAttributeValuesInDatabase,
-                (x, y) => x.IProjectCustomAttributeID == y.IProjectCustomAttributeID &&
+                (x, y) => x.GetIProjectCustomAttributeID() == y.GetIProjectCustomAttributeID() &&
                           x.AttributeValue == y.AttributeValue);
         }
 

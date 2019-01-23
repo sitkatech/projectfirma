@@ -63,9 +63,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(),
                 95);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => Models.ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.GetSecuredFunding(), 95, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
 
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                 $"<span style=\"display:none\">Ready to</span> {submitText}",
                                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y => y.Submit(x)),
                                 500,
-                                $"{submitText} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName}",
+                                $"{submitText} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.GetDisplayName()}",
                                 true,
                                 "Continue",
                                 "Cancel",
@@ -141,22 +141,22 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     if (latestNotApprovedUpdateBatch == null)
                     {
                         return MakeAlertButton("Unable to View",
-                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because no Update is in progress. The most recent Update was already approved.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has already been approved</span>");
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because no Update is in progress. The most recent Update was already approved.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has already been approved</span>");
                     }
                     if (latestNotApprovedUpdateBatch.IsCreated)
                     {
                         return MakeAlertButton("Unable to View",
-                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because a new Update has already been started. Go to the All My Projects list to edit the new Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: A new Update has been started</span>");
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because a new Update has already been started. Go to the All My Projects list to edit the new Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: A new Update has been started</span>");
                     }
-                    if (latestNotApprovedUpdateBatch.IsReturned && x.IsUpdateMandatory)
+                    if (latestNotApprovedUpdateBatch.IsReturned && x.IsUpdateMandatory())
                     {
                         return MakeAlertButton("Unable to View",
-                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because the Update has been returned for mandatory correction. Go to the My Projects Requiring an Update list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because the Update has been returned for mandatory correction. Go to the My Projects Requiring an Update list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
-                    if (latestNotApprovedUpdateBatch.IsReturned && !x.IsUpdateMandatory)
+                    if (latestNotApprovedUpdateBatch.IsReturned && !x.IsUpdateMandatory())
                     {
                         return MakeAlertButton("Unable to View",
-                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
 
                     return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), _canStewardProjects ? "Review" : "View", new Dictionary<string, string> {{"class", "btn btn-xs btn-firma"}});
@@ -172,7 +172,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     var latestUpdateState = x.GetLatestUpdateState();
 
-                    if (!x.IsUpdateMandatory && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
+                    if (!x.IsUpdateMandatory() && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
                     {
                         return
                             ModalDialogFormHelper.ModalDialogFormLink("Begin",
@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public static ProjectUpdateHistory GetLastProjectUpdateHistoryOfTransition(Models.Project x)
         {
-            return x.ProjectUpdateHistories.Where(y => y.ProjectUpdateState == ProjectUpdateState.Submitted).OrderByDescending(y => y.TransitionDate).FirstOrDefault();
+            return x.GetProjectUpdateHistories().Where(y => y.ProjectUpdateState == ProjectUpdateState.Submitted).OrderByDescending(y => y.TransitionDate).FirstOrDefault();
         }
 
         public enum ProjectUpdateStatusFilterTypeEnum

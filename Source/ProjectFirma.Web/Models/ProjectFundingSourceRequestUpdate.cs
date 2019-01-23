@@ -19,49 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class ProjectFundingSourceRequestUpdate : IFundingSourceRequestAmount
+    public partial class ProjectFundingSourceRequestUpdate : IFundingSourceRequestAmount, IAuditableEntity
     {
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
+        public string GetAuditDescriptionString()
         {
-            var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectFundingSourceRequestUpdates = project.ProjectFundingSourceRequests.Select(
-                projectFundingSourceRequest =>
-                    new ProjectFundingSourceRequestUpdate(projectUpdateBatch,
-                        projectFundingSourceRequest.FundingSource)
-                    {
-                        SecuredAmount = projectFundingSourceRequest.SecuredAmount,
-                        UnsecuredAmount = projectFundingSourceRequest.UnsecuredAmount
-                    }
-            ).ToList();
-        }
-
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<ProjectFundingSourceRequest> allProjectFundingSourceRequests)
-        {
-            var project = projectUpdateBatch.Project;
-            var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
-                .ProjectFundingSourceRequestUpdates
-                .Select(x => new ProjectFundingSourceRequest(project.ProjectID, x.FundingSource.FundingSourceID)
-                    {
-                        SecuredAmount = x.SecuredAmount,
-                        UnsecuredAmount = x.UnsecuredAmount
-                    }
-                ).ToList();
-            project.ProjectFundingSourceRequests.Merge(projectFundingSourceExpectedFundingFromProjectUpdate,
-                allProjectFundingSourceRequests,
-                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
-                (x, y) =>
-                {
-                    x.SecuredAmount = y.SecuredAmount;
-                    x.UnsecuredAmount = y.UnsecuredAmount;
-                });
+            return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {UnsecuredAmount.ToStringCurrency()}";
         }
     }
 }

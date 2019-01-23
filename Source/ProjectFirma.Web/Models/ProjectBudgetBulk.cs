@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
                 projectBudget.ProjectID == ProjectID && projectBudget.FundingSourceID == FundingSourceID &&
                 projectBudget.ProjectCostTypeID == ProjectCostTypeID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID and CostTypeID");
-            CalendarYearBudgets.Add(new CalendarYearMonetaryAmount(projectBudget.CalendarYear, projectBudget.MonetaryAmount));
+            CalendarYearBudgets.Add(new CalendarYearMonetaryAmount(projectBudget.CalendarYear, projectBudget.GetMonetaryAmount()));
         }
 
         public List<ProjectBudget> ToProjectBudgets()

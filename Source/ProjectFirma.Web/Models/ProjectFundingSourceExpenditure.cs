@@ -18,48 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectFundingSourceExpenditure : IAuditableEntity, IFundingSourceExpenditure
     {
-        public decimal? MonetaryAmount
+        public decimal? GetMonetaryAmount()
         {
-            get { return ExpenditureAmount; }
+            return ExpenditureAmount;
         }
 
-        public string ExpenditureAmountDisplay
+        public string GetAuditDescriptionString()
         {
-            get { return ExpenditureAmount.ToStringCurrency(); }
-        }
-
-        public string AuditDescriptionString
-        {
-            get
-            {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var fundingSource = HttpRequestStorage.DatabaseEntities.AllFundingSources.Find(FundingSourceID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var fundingSourceName = fundingSource != null ? fundingSource.AuditDescriptionString : ViewUtilities.NotFoundString;
-                var expenditureAmount = ExpenditureAmountDisplay;
-                return $"Project: {projectName}, Funding Source: {fundingSourceName}, Year: {CalendarYear},  Expenditure: {expenditureAmount}";
-            }
-        }
-
-        public static IEnumerable<CalendarYearReportedValue> ToCalendarYearReportedValues(IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
-        {
-            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
-            return yearRange.OrderBy(cy => cy).Select(cy =>
-            {
-                var pmavForThisCalendaYear = projectFundingSourceExpenditures.Where(x => x.CalendarYear == cy).ToList();
-                return new CalendarYearReportedValue(cy, pmavForThisCalendaYear.Any() ? (double?) pmavForThisCalendaYear.Sum(y => y.ExpenditureAmount) : null);
-            });
+            var expenditureAmount = ExpenditureAmount.ToStringCurrency();
+            return
+                $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Year: {CalendarYear},  Expenditure: {expenditureAmount}";
         }
     }
 }

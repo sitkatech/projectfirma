@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-7">
-                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.DisplayName) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.GetDisplayName()) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
             </div>
         </div>
         i++;
@@ -65,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-6">
-                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyBranch ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyBranch ? new HtmlString(ViewDataTyped.TaxonomyBranch.DisplayName) : ViewDataTyped.TaxonomyBranch.GetDisplayNameAsUrl())</span>
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyBranch ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyBranch ? new HtmlString(ViewDataTyped.TaxonomyBranch.GetDisplayName()) : ViewDataTyped.TaxonomyBranch.GetDisplayNameAsUrl())</span>
             </div>
         </div>
     }
@@ -77,7 +77,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-5">
-                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyLeaf ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyLeaf ? new HtmlString(ViewDataTyped.TaxonomyLeaf.DisplayName) : ViewDataTyped.TaxonomyLeaf.GetDisplayNameAsUrl())</span>
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyLeaf ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyLeaf ? new HtmlString(ViewDataTyped.TaxonomyLeaf.GetDisplayName()) : ViewDataTyped.TaxonomyLeaf.GetDisplayNameAsUrl())</span>
             </div>
         </div>
     }
@@ -89,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.Project, string.Format("{0}", FieldDefinition.ProjectName.GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-4">
-                <span class="taxonomyLink selected">@ViewDataTyped.Project.DisplayName</span>
+                <span class="taxonomyLink selected">@ViewDataTyped.Project.GetDisplayName()</span>
             </div>
         </div>
     }

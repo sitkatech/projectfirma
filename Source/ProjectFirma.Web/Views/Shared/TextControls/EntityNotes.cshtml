@@ -34,13 +34,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (ViewDataTyped.Notes.Any())
 {
     <table class="summaryLayout">
-        @foreach (var entityNote in ViewDataTyped.Notes.OrderByDescending(x => x.LastUpdated))
+        @foreach (var entityNote in ViewDataTyped.Notes.OrderByDescending(x => x.GetLastUpdated()))
         {
             <tr class="@entityNote.DisplayCssClass">
-                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.EditUrl, string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.DeleteUrl, new List<string>(), ViewDataTyped.CanEditNotes)</td>
-                <td>@entityNote.LastUpdated.ToStringDateTime()</td>
-                <td>@entityNote.LastUpdatedBy</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
+                <td>@entityNote.GetLastUpdated().ToStringDateTime()</td>
+                <td>@entityNote.GetLastUpdatedBy()</td>
                 <td>@Html.Raw(entityNote.Note.HtmlEncodeWithBreaks())</td>
             </tr>
         }

@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Organization
                 FileResourceData.SaveAs(gdbFile.FullName);
                 HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization.OrganizationBoundaryStagings.ToList());
                 organization.OrganizationBoundaryStagings.Clear();
-                OrganizationBoundaryStaging.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, organization);
+                OrganizationModelExtensions.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, organization);
             }
         }
 

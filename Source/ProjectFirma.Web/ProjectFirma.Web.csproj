@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\FirmaPageModelExtensions.cs" />
+    <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
@@ -396,14 +399,45 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\IHaveATenantID.cs" />
+    <Compile Include="Models\NotificationModelExtensions.cs" />
+    <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureActualUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.cs" />
+    <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
+    <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
+    <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
+    <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectDocumentModelExtensions.cs" />
+    <Compile Include="Models\ProjectDocumentUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectExemptReportingYearUpdate.cs" />
+    <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectGeospatialAreaTypeNote.cs" />
     <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdate.cs" />
+    <Compile Include="Models\ProjectImageModelExtensions.cs" />
+    <Compile Include="Models\ProjectImageUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectInternalNote.cs" />
+    <Compile Include="Models\ProjectInternalNoteModelExtensions.cs" />
+    <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
+    <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectNoteModelExtensions.cs" />
+    <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectOrganizationUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectSectionSimple.cs" />
     <Compile Include="Models\ProjectStewardshipAreaType.cs" />
     <Compile Include="Models\ProjectUpdateBatchModelExtensions.cs" />
+    <Compile Include="Models\ProjectUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectUpdateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectWorkflowSectionGrouping.cs" />
+    <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
+    <Compile Include="Models\RelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\TagModelExtensions.cs" />
+    <Compile Include="Models\TaxonomyBranchModelExtensions.cs" />
+    <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
+    <Compile Include="Models\VirtualPerformanceMeasureValueSubcategoryOption.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialAreaType.cs" />
     <Compile Include="Views\Home\TrainingVideo.cs" />
@@ -460,7 +494,6 @@
     <Compile Include="Models\ImportExternalProjectStaging.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternal.cs" />
-    <Compile Include="Models\ProjectExternalImportDataException.cs" />
     <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\TaxonomyLeafPerformanceMeasureTest.cs" />
@@ -611,7 +644,6 @@
     <Compile Include="Views\Project\ProjectOrganizationForDiff.cs" />
     <Compile Include="Views\Results\OrganizationAccomplishments.cs" />
     <Compile Include="Views\Results\OrganizationAccomplishmentsViewData.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
     <Compile Include="Views\Results\AccomplishmentsDashboard.cs" />
     <Compile Include="Views\Results\AccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Results\ParticipatingOrganizations.cs" />
@@ -657,8 +689,8 @@
     <Compile Include="Views\Shared\RelatedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cs" />
     <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewModel.cs" />
-    <Compile Include="Views\Shared\UserStewardshipAreas\StewardshipAreaSimple.cs" />
-    <Compile Include="Views\Shared\UserStewardshipAreas\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\StewardshipAreaSimple.cs" />
+    <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasViewData.cs" />
     <Compile Include="Views\Shared\ViewGoogleChart.cs" />
     <Compile Include="Views\Shared\ViewGoogleChartViewData.cs" />
@@ -956,7 +988,6 @@
     <Compile Include="Models\ProjectOrganization.cs" />
     <Compile Include="Models\RelationshipType.cs" />
     <Compile Include="Models\RelationshipTypeSimple.cs" />
-    <Compile Include="Models\Tenant.cs" />
     <Compile Include="Security\OrganizationAndRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\OrganizationAndRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
@@ -993,10 +1024,7 @@
     <Compile Include="Models\TaxonomyLeafPerformanceMeasure.cs" />
     <Compile Include="Models\TaxonomyTierPerformanceMeasureSimple.cs" />
     <Compile Include="Models\TaxonomyTrunk.cs" />
-    <Compile Include="Models\TaxonomyTrunkForReporting.cs" />
-    <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TaxonomyBranch.cs" />
-    <Compile Include="Models\TaxonomyBranchOrganizationTypeExpenditure.cs" />
     <Compile Include="Models\TaxonomyTier.cs" />
     <Compile Include="Models\TaxonomyLeaf.cs" />
     <Compile Include="Models\TaxonomyLeafModelExtensions.cs" />
@@ -1034,8 +1062,7 @@
     <Compile Include="Models\IAssessmentQuestionAnswer.cs" />
     <Compile Include="Models\ProjectAssessmentQuestion.cs" />
     <Compile Include="Models\ProjectAssessmentQuestionSimple.cs" />
-    <Compile Include="Models\Goal.cs" />
-    <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\AssessmentGoal.cs" />
     <Compile Include="Models\AssessmentQuestionModelExtensions.cs" />
     <Compile Include="Models\AssessmentQuestion.cs" />
     <Compile Include="Models\AssessmentSubGoal.cs" />
@@ -1173,7 +1200,6 @@
     <Compile Include="Models\LayerInitialVisibility.cs" />
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
     <Compile Include="Models\ProjectClassificationSimple.cs" />
-    <Compile Include="Models\OrganizationTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
@@ -1241,7 +1267,6 @@
     <Compile Include="Controllers\FieldDefinitionController.cs" />
     <Compile Include="Views\Shared\GoogleChartConfigurationViewModel.cs" />
     <Compile Include="Models\IRole.cs" />
-    <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Security\FirmaAdminFeature.cs" />
     <Compile Include="Security\FirmaPageManageFeature.cs" />
     <Compile Include="Security\FieldDefinitionManageFeature.cs" />
@@ -1271,8 +1296,6 @@
     <Compile Include="Controllers\PerformanceMeasureNoteController.cs" />
     <Compile Include="Models\PerformanceMeasureNote.cs" />
     <Compile Include="Controllers\FirmaBaseController.cs" />
-    <Compile Include="Models\ReportedValueForDisplay.cs" />
-    <Compile Include="Models\ReportingCategoryForDisplay.cs" />
     <Compile Include="Common\FieldDefinitionDisplayAttribute.cs" />
     <Compile Include="Models\AuditLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\EntityNote.cs" />
@@ -1283,7 +1306,6 @@
     <Compile Include="Models\IProjectLocation.cs" />
     <Compile Include="Models\IProjectLocationStaging.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdate.cs" />
-    <Compile Include="Models\ProjectFundingSourceExpenditureUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\ProjectBasicsUpdateDiff.cs" />
     <Compile Include="Models\ProjectUpdateTest.cs" />
@@ -1366,7 +1388,7 @@
     <Compile Include="Views\ProjectUpdate\SectionComments.cs" />
     <Compile Include="Views\ProjectUpdate\SectionCommentsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\SiteLayout.cs" />
-    <Compile Include="Views\ProjectUpdate\UpdateStatus.cs" />
+    <Compile Include="Models\ProjectUpdateStatus.cs" />
     <Compile Include="Views\Project\BasicProjectInfoGridSpec.cs" />
     <Compile Include="Views\Project\EditFeaturedProjects.cs" />
     <Compile Include="Views\Project\EditFeaturedProjectsViewData.cs" />
@@ -1850,13 +1872,12 @@
     <Compile Include="Models\OrganizationModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureModelExtensions.cs" />
     <Compile Include="Models\CostTest.cs" />
-    <Compile Include="Models\ProjectFundingSourceExpenditure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditureModelExtensions.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ICalendarYearMonetaryAmount.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\AuditLogEventType.cs" />
     <Compile Include="Models\CalendarYearReportedValue.cs" />
     <Compile Include="Models\FirmaPage.cs" />
-    <Compile Include="Models\FirmaPageType.cs" />
     <Compile Include="Models\County.cs" />
     <Compile Include="Models\FieldDefinition.cs" />
     <Compile Include="Models\FileResourceOrientation.cs" />
@@ -1910,12 +1931,10 @@
     <Compile Include="Models\ProjectChangeLogTest.cs" />
     <Compile Include="Models\ProjectExemptReportingYear.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
-    <Compile Include="Models\ProjectExemptReportingYearUpdate.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditure.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdate.cs" />
-    <Compile Include="Models\ProjectFundingSourceOrganizationTypeExpenditure.cs" />
     <Compile Include="Models\ProjectImage.cs" />
     <Compile Include="Models\ProjectImageUpdate.cs" />
     <Compile Include="Models\ProjectNote.cs" />
@@ -1931,7 +1950,6 @@
     <Compile Include="Models\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProjectUpdateHistoryTest.cs" />
     <Compile Include="Models\ProjectGeospatialArea.cs" />
-    <Compile Include="Models\OrganizationTypeExpenditure.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SupportRequestLog.cs" />
     <Compile Include="Models\Classification.cs" />
@@ -2123,11 +2141,6 @@
     <Content Include="Content\css\jquery.ui.firma.css" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
-    <Compile Include="Views\FirmaPage\FirmaPageDetails.cs" />
-    <Compile Include="Views\FirmaPage\FirmaPageDetailsViewData.cs" />
-    <Compile Include="Views\FirmaPage\FirmaPageGridSpec.cs" />
-    <Compile Include="Views\FirmaPage\Index.cs" />
-    <Compile Include="Views\FirmaPage\IndexViewData.cs" />
     <Compile Include="Views\FieldDefinition\Edit.cs" />
     <Compile Include="Views\FieldDefinition\EditViewData.cs" />
     <Compile Include="Views\FieldDefinition\EditViewModel.cs" />
@@ -3401,8 +3414,6 @@
     <Content Include="Views\Shared\FieldDefinitionDetails.cshtml" />
     <Content Include="Views\FieldDefinition\Edit.cshtml" />
     <Content Include="Views\Shared\TextControls\EntityNotes.cshtml" />
-    <Content Include="Views\FirmaPage\FirmaPageDetails.cshtml" />
-    <Content Include="Views\FirmaPage\Index.cshtml" />
     <Content Include="Views\Shared\SitkaRecaptcha.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Percentage.cshtml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js.map">

@@ -19,9 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using LtInfo.Common.Models;
-
 namespace ProjectFirma.Web.Models
 {
     public interface IPerformanceMeasureValueSubcategoryOption
@@ -29,35 +26,10 @@ namespace ProjectFirma.Web.Models
         int PerformanceMeasureID { get; }
         int PerformanceMeasureSubcategoryID { get; }
         PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
-        string PerformanceMeasureSubcategoryOptionName { get; }
+        string GetPerformanceMeasureSubcategoryOptionName();
         PerformanceMeasure PerformanceMeasure { get; }
         PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         int PrimaryKey { get; }
         int PerformanceMeasureSubcategoryOptionID { get; }
-    }
-
-    /// <summary>
-    /// This exists so that overrides of <see cref="PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues"/> can set their Subcategory/Options in a customized way
-    /// </summary>
-    public class VirtualPerformanceMeasureValueSubcategoryOption : IPerformanceMeasureValueSubcategoryOption
-    {
-        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
-        public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
-        public PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
-        public string PerformanceMeasureSubcategoryOptionName { get; }
-        public PerformanceMeasure PerformanceMeasure { get; }
-        public PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
-        public int PrimaryKey => ModelObjectHelpers.NotYetAssignedID;
-        public int PerformanceMeasureSubcategoryOptionID { get; }
-
-        public VirtualPerformanceMeasureValueSubcategoryOption(
-            PerformanceMeasureSubcategory performanceMeasureSubcategory)
-        {
-            PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.NotYetAssignedID;
-            PerformanceMeasureSubcategory = performanceMeasureSubcategory;
-            PerformanceMeasure = PerformanceMeasureSubcategory.PerformanceMeasure;
-            PerformanceMeasureSubcategoryOptionName =
-                performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
-        }
     }
 }

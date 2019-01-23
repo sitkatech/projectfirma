@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
         public ProjectSimple(Project project)
         {
             ProjectID = project.ProjectID;
-            DisplayName = project.DisplayName;
+            DisplayName = project.GetDisplayName();
         }
 
         public ProjectSimple(int projectID, string displayName)

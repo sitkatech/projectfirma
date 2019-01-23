@@ -25,6 +25,7 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.Models
             {
                 return null;
             }
-            throw new NotImplementedException($"PerformanceMeasure {0} is not reported in the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Tracker!  No way to edit {FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}!");
+            throw new NotImplementedException($"PerformanceMeasure {0} is not reported in the {FieldDefinition.Project.GetFieldDefinitionLabel()} Tracker!  No way to edit {FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}!");
         }
 
         public static bool IsPerformanceMeasureDisplayNameUnique(IEnumerable<PerformanceMeasure> performanceMeasures, string performanceMeasureDisplayName, int currentPerformanceMeasureID)
@@ -92,6 +93,51 @@ namespace ProjectFirma.Web.Models
         public static IEnumerable<PerformanceMeasure> GetReportablePerformanceMeasures()
         {
             return HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(x => !x.PerformanceMeasureDataSourceType.IsCustomCalculation);
+        }
+
+        public static IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers(this PerformanceMeasure performanceMeasure)
+        {
+            Func<TaxonomyLeafPerformanceMeasure, ITaxonomyTier> groupingFunc;
+            switch (MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().ToEnum)
+            {
+                case TaxonomyLevelEnum.Trunk:
+                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+                    break;
+                case TaxonomyLevelEnum.Branch:
+                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
+                    break;
+                case TaxonomyLevelEnum.Leaf:
+                    groupingFunc = x => x.TaxonomyLeaf;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+
+            var taxonomyBranchPerformanceMeasureGroupedByLevel = performanceMeasure.TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
+            return taxonomyBranchPerformanceMeasureGroupedByLevel;
+        }
+
+        public static List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues(Person currentPerson, PerformanceMeasure performanceMeasure)
+        {
+            var groupByProjectAndSubcategory =
+                performanceMeasure.GetReportedPerformanceMeasureValues(currentPerson)
+                    .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
+                    .GroupBy(x => new {x.Project, PerformanceMeasureSubcategoriesAsString = x.GetPerformanceMeasureSubcategoriesAsString()})
+                    .ToList();
+
+            return
+                groupByProjectAndSubcategory.Select(
+                    reportedValuesGroup =>
+                        new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project,
+                            reportedValuesGroup.First().GetPerformanceMeasureSubcategoryOptions(),
+                            performanceMeasure,
+                            reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
+        }
+
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this List<Project> projects, PerformanceMeasure performanceMeasure)
+        {
+            var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(performanceMeasure, projects);
+            return PerformanceMeasureSubcategory.MakeGoogleChartJsons(performanceMeasure, reportedValues);
         }
     }
 }

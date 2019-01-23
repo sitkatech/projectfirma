@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectStewardOrganizationList);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.DisplayName)
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.GetDisplayName())
                 .ToList();
             var viewData = new IndexViewData(CurrentPerson, organizations, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Organization> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.DisplayName)
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => x.CanBeAnApprovingOrganization()).OrderBy(x => x.GetDisplayName())
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations, gridSpec);
             return gridJsonNetJObjectResult;

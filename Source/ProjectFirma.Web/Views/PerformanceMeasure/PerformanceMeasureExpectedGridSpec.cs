@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public PerformanceMeasureExpectedGridSpec(Models.PerformanceMeasure performanceMeasure)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(),
-                a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName),
+                a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.GetDisplayName()),
                 350,
                 DhtmlxGridColumnFilterType.Html);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())

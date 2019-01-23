@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
             var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
-            PageTitle = $"{pagetitle}: {project.DisplayName}";
+            PageTitle = $"{pagetitle}: {project.GetDisplayName()}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));

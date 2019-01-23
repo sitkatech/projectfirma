@@ -160,9 +160,9 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
         <span style="font-weight: bold">Color @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
-            @foreach (var colorByType in ProjectColorByType.All.Where(x => x.IsRelevantToTenant))
+            @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
             {
-                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.DisplayName">@colorByType.DisplayName</option>
+                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.GetDisplayName()">@colorByType.GetDisplayName()</option>
             }
         </select>
 

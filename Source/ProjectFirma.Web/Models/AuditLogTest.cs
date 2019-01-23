@@ -112,10 +112,10 @@ namespace ProjectFirma.Web.Models
             var objectStateEntry = objectContext.ObjectStateManager.GetObjectStateEntry(dbEntry.Entity);
             var objectByKey = objectContext.GetObjectByKey(objectStateEntry.EntityKey);
             var auditableEntityDeleted = (IAuditableEntity) objectByKey;
-            var result = auditableEntityDeleted.AuditDescriptionString;
+            var result = auditableEntityDeleted.GetAuditDescriptionString();
 
             // Assert
-            Assert.That(result, Is.EqualTo(testProject.AuditDescriptionString));
+            Assert.That(result, Is.EqualTo(testProject.GetAuditDescriptionString()));
         }
 
         [Test]
@@ -520,8 +520,8 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Classification \"{0}\" in Audit Log database entries.", testClassification.DisplayName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testClassification.DisplayName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Classification \"{0}\" in Audit Log database entries.", testClassification.GetDisplayName()));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testClassification.GetDisplayName())));
 
             // Change audit logging
             // --------------------

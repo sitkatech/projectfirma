@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Assessment
     {
         public ProjectAssessmentExcelSpec()
         {
-            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.DisplayName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.GetDisplayName());
 
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
             {
@@ -51,8 +51,8 @@ namespace ProjectFirma.Web.Views.Assessment
         public QuestionsExcelSpec()
         {
             AddColumn("Question ID", question => question.AssessmentQuestionID);
-            AddColumn("Goal", question => question.AssessmentSubGoal.AssessmentGoal.DisplayName);
-            AddColumn("Sub Goal", question => question.AssessmentSubGoal.DisplayName);
+            AddColumn("Goal", question => question.AssessmentSubGoal.AssessmentGoal.GetDisplayName());
+            AddColumn("Sub Goal", question => question.AssessmentSubGoal.GetDisplayName());
             AddColumn("Question", question => question.AssessmentQuestionText);
             AddColumn("Count of Yes Answers", question => question.GetCountOfYesAnswers());
             AddColumn("Count of No Answers", question => question.GetCountOfNoAnswers());

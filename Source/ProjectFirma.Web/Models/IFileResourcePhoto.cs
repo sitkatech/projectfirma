@@ -25,19 +25,20 @@ namespace ProjectFirma.Web.Models
 {
     public interface IFileResourcePhoto
     {
-        int? EntityImageIDAsNullable { get; }
-        DateTime CreateDate { get; }
+        int? GetEntityImageIDAsNullable();
+        DateTime GetCreateDate();
         int PrimaryKey { get; }
         FileResource FileResource { get; set; }
-        string DeleteUrl { get; }
+        string GetDeleteUrl();
         bool IsKeyPhoto { get; }
-        string CaptionOnFullView { get; }
-        string CaptionOnGallery { get; }
+        string GetCaptionOnFullView();
+        string GetCaptionOnGallery();
         string Caption { get; set; }
-        string PhotoUrl { get; }
-        string PhotoUrlScaledThumbnail { get; }
-        string EditUrl { get; }
-        List<string> AdditionalCssClasses { get; }
-        object OrderBy { get; set; }
+        string GetPhotoUrl();
+        string GetPhotoUrlScaledThumbnail();
+        string GetEditUrl();
+        List<string> GetAdditionalCssClasses();
+        void SetOrderBy(object value);
+        object GetOrderBy();
     }
 }

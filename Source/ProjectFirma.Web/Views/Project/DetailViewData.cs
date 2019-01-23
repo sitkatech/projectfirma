@@ -18,8 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Models;
@@ -122,7 +123,7 @@ namespace ProjectFirma.Web.Views.Project
             IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<GeospatialAreaType> geospatialAreaTypes)
             : base(currentPerson, project)
         {
-            PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
+            PageTitle = project.GetDisplayName().ToEllipsifiedStringClean(110);
             BreadCrumbTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Detail";
 
             ProjectStages = projectStages;
@@ -218,7 +219,7 @@ namespace ProjectFirma.Web.Views.Project
                 BackToProjectsText = $"Back to all {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
 
-                if (currentPerson.PersonIsProjectOwnerWhoCanStewardProjects)
+                if (currentPerson.IsPersonAProjectOwnerWhoCanStewardProjects())
                 {
                     if (currentPerson.CanStewardProject(project))
                     {
@@ -319,6 +320,11 @@ namespace ProjectFirma.Web.Views.Project
                 EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission);
+        }
+
+        public string StringToDateString(string stringDate)
+        {
+            return DateTime.TryParse(stringDate, out var date) ? date.ToShortDateString() : null;
         }
     }
 }

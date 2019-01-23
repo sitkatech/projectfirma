@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Role
         {
             Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.Organization.DisplayName, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.Organization.GetDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Last Activity", a => a.LastActivityDate.ToString(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);            
         }
     }

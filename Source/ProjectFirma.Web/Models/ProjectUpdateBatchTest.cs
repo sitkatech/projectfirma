@@ -704,7 +704,7 @@ namespace ProjectFirma.Web.Models
                     Assert.That(result,
                         Is.EquivalentTo(new List<string>
                         {
-                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}", fundingSources.First().DisplayName, string.Join(", ", expectedMissingYears))
+                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}", fundingSources.First().GetDisplayName(), string.Join(", ", expectedMissingYears))
                         }),
                         assertionMessage);
                 }

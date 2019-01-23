@@ -6,11 +6,11 @@ namespace ProjectFirma.Web.Models
 {
     public interface ITaxonomyTier : IHaveASortOrder
     {
-        int TaxonomyTierID { get; }
+        int GetTaxonomyTierID();
         string ThemeColor { get; }
         HtmlString GetDisplayNameAsUrl();
         List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures();
-        string SummaryUrl { get; }
+        string GetDetailUrl();
         FancyTreeNode ToFancyTreeNode(Person currentPerson);
     }
 }

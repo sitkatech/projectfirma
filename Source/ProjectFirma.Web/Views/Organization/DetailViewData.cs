@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.Organization
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentPerson)
         {
             Organization = organization;
-            PageTitle = organization.DisplayName;
+            PageTitle = organization.GetDisplayName();
             EntityName = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
 
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.Organization
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -142,7 +142,7 @@ namespace ProjectFirma.Web.Views.Organization
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
                                         (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
                                          CurrentPerson.OrganizationID == organization.OrganizationID);
-            ShowProposals = currentPerson.CanViewProposals;
+            ShowProposals = currentPerson.CanViewProposals();
             ProposalsPanelHeader = MultiTenantHelpers.ShowProposalsToThePublic()
                 ? Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()
                 : $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";
@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Views.Organization
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -160,13 +160,13 @@ namespace ProjectFirma.Web.Views.Organization
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     tc => tc.ProposalsGridJsonData(organization));
 
-            ShowPendingProjects = currentPerson.CanViewPendingProjects;
+            ShowPendingProjects = currentPerson.CanViewPendingProjects();
 
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 

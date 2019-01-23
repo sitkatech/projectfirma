@@ -22,8 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Models
 {
@@ -31,13 +29,8 @@ namespace ProjectFirma.Web.Models
     {
         public List<Project> GetAssociatedProjectsWithReportedValues(Person person)
         {
-            return PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
-
-        public List<Project> GetAssociatedProjectsWithExpectedValues(Person person)
-        {
-            return PerformanceMeasureExpecteds.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals);
-        }     
 
         public int ReportedProjectsCount(Person currentPerson)
         {
@@ -46,32 +39,10 @@ namespace ProjectFirma.Web.Models
 
         public ITaxonomyTier GetPrimaryTaxonomyTier()
         {
-            var taxonomyBranchPerformanceMeasureGroupedByLevel = GetTaxonomyTiers();
+            var taxonomyBranchPerformanceMeasureGroupedByLevel = this.GetTaxonomyTiers();
             return taxonomyBranchPerformanceMeasureGroupedByLevel
                 .Where(group => group.Any(x => x.IsPrimaryTaxonomyLeaf))
                 .Select(group => group.Key).FirstOrDefault();
-        }
-
-        public IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers()
-        {
-            Func<TaxonomyLeafPerformanceMeasure, ITaxonomyTier> groupingFunc;
-            switch (MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().ToEnum)
-            {
-                case TaxonomyLevelEnum.Trunk:
-                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
-                    break;
-                case TaxonomyLevelEnum.Branch:
-                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
-                    break;
-                case TaxonomyLevelEnum.Leaf:
-                    groupingFunc = x => x.TaxonomyLeaf;
-                    break;
-                default:
-                    throw new ArgumentException();
-            }
-
-            var taxonomyBranchPerformanceMeasureGroupedByLevel = TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
-            return taxonomyBranchPerformanceMeasureGroupedByLevel;
         }
 
         public List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories()
@@ -100,17 +71,17 @@ namespace ProjectFirma.Web.Models
        
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(List<Project> projects)
         {
-            return PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(this, projects);
+            return PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(HttpRequestStorage.DatabaseEntities, this, projects);
         }
 
         public decimal? TotalExpenditure(Person currentPerson)
         {
-            return SubcategoriesTotalReportedValues(currentPerson).Sum(x => x.CalculateWeightedTotalExpenditure());
+            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, this).Sum(x => x.CalculateWeightedTotalExpenditure());
         }
 
         public decimal? TotalExpenditurePerPerformanceMeasureUnit(Person currentPerson)
         {
-            var totalReportedValues = SubcategoriesTotalReportedValues(currentPerson).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
+            var totalReportedValues = PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, this).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
             if (Math.Abs(totalReportedValues) < Double.Epsilon)
             {
                 return null;
@@ -118,65 +89,36 @@ namespace ProjectFirma.Web.Models
             return TotalExpenditure(currentPerson) / (decimal)totalReportedValues;
         }
 
-        public List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues(Person currentPerson)
+        public string GetAuditDescriptionString() => PerformanceMeasureDisplayName;
+
+        public bool HasRealSubcategories()
         {
-            var groupByProjectAndSubcategory =
-                GetReportedPerformanceMeasureValues(currentPerson)
-                    .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
-                    .GroupBy(x => new {x.Project, x.PerformanceMeasureSubcategoriesAsString})
-                    .ToList();
-
-            return
-                groupByProjectAndSubcategory.Select(
-                    reportedValuesGroup =>
-                        new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project,
-                            reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions,
-                            this,
-                            reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
-        }
-
-        public string AuditDescriptionString => PerformanceMeasureDisplayName;
-
-        public bool HasRealSubcategories
-        {
-            get
-            {
-                return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1);
-            }
+            return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1);
         }
 
         public List<PerformanceMeasureSubcategory> GetSubcategoriesForPerformanceMeasureChart()
         {
-            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart).ToList();
+            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart()).ToList();
         }
 
         public int GetRealSubcategoryCount()
         {
-            return HasRealSubcategories ? PerformanceMeasureSubcategories.Count : 0;
-        }
-
-        public List<GoogleChartJson> GetGoogleChartJsonDictionary(List<Project> projects)
-        {
-            var reportedValues = GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this, projects);
-            var googleChartJsons = PerformanceMeasureSubcategory.MakeGoogleChartJsons(this, reportedValues);
-            return googleChartJsons;
+            return HasRealSubcategories() ? PerformanceMeasureSubcategories.Count : 0;
         }
 
         public List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(PerformanceMeasure performanceMeasure, List<Project> projects)
         {
-            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(
-                    performanceMeasure,
-                    projects);
+            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(HttpRequestStorage.DatabaseEntities, performanceMeasure, projects);
 
             var performanceMeasureActualsFiltered =
                 projects?.Any() == true ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList() : performanceMeasureValues;
 
-            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, pirv.PerformanceMeasureSubcategoriesAsString, pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
+            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
             var projectPerformanceMeasureReportingPeriodValues = groupByProjectAndSubcategory.Select(reportedValuesGroup =>
             {
                 var project = reportedValuesGroup.Key.Project;
-                var performanceMeasureReportingPeriodSubcategoryOptionReportedValues = reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions.OrderBy(y =>
+                var performanceMeasureReportingPeriodSubcategoryOptionReportedValues = reportedValuesGroup.First().GetPerformanceMeasureSubcategoryOptions().OrderBy(y =>
                     y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).Select(
                     (y, index) =>
                     {
@@ -185,14 +127,14 @@ namespace ProjectFirma.Web.Models
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
                                     reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
-                                    reportedValuesGroup.Sum(x => x.ReportedValue ?? 0));
+                                    reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0));
                         }
                         else
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
                                     reportedValuesGroup.Key.CalendarYear,
-                                    reportedValuesGroup.Sum(x => x.ReportedValue ?? 0), y.PerformanceMeasureSubcategory, y.PerformanceMeasureSubcategoryOptionName);
+                                    reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0), y.PerformanceMeasureSubcategory, y.GetPerformanceMeasureSubcategoryOptionName());
                         }
                     }).ToList();
 
@@ -202,13 +144,14 @@ namespace ProjectFirma.Web.Models
             return projectPerformanceMeasureReportingPeriodValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.Project.ProjectName).ToList();
         }
 
-        public string DisplayName => PerformanceMeasureDisplayName;
-        public int? SortOrder { get => PerformanceMeasureSortOrder; set => PerformanceMeasureSortOrder = value; }
-        public int ID => PerformanceMeasureID;
+        public string GetDisplayName() => PerformanceMeasureDisplayName;
+        public void SetSortOrder(int? value) => PerformanceMeasureSortOrder = value;
+        public int? GetSortOrder() => PerformanceMeasureSortOrder;
+        public int GetID() => PerformanceMeasureID;
 
         public double? TotalReportedValueWithNonZeroExpenditures(Person currentPerson)
         {
-            return SubcategoriesTotalReportedValues(currentPerson).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, this).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
         }   
 
     }

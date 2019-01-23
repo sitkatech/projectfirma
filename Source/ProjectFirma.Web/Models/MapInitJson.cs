@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
             var layerGeoJsons = new List<LayerGeoJson>();
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
-                layerGeoJsons.Add(GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m,
+                layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
                     layerInitialVisibility));
             }
 
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Models
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
-                GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m,
+                geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
                     layerInitialVisibility)
             };
 

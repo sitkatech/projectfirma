@@ -45,10 +45,10 @@ namespace ProjectFirma.Web.Security
         {
             if (!HasPermissionByPerson(person))
             {
-                return new PermissionCheckResult($"You don't have permission to view {contextModelObject.DisplayName}");
+                return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (contextModelObject.IsProposal() && person.IsAnonymousUser)
+            if (contextModelObject.IsProposal() && person.IsAnonymousUser())
             {
                 // do not allow if user is anonymous and do not show proposals to public
                 if (!MultiTenantHelpers.ShowProposalsToThePublic())

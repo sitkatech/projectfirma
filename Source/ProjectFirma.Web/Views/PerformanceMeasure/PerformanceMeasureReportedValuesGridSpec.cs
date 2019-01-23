@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            if (performanceMeasure.HasRealSubcategories)
+            if (performanceMeasure.HasRealSubcategories())
             {
                 foreach (var performanceMeasureSubcategory in
                     performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x =>
@@ -73,12 +73,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             if (performanceMeasure.IsAggregatable)
             {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal,
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
                     DhtmlxGridColumnAggregationType.Total);
             }
             else
             {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal);
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal);
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {

@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Tenant
             Add("Primary Contact",
                 t =>
                     t.PrimaryContactPerson != null
-                        ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.FullNameFirstLast).ToHTMLFormattedString()
+                        ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.GetFullNameFirstLast()).ToHTMLFormattedString()
                         : new HtmlString(""),
                 200,
                 DhtmlxGridColumnFilterType.Html);

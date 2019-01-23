@@ -41,9 +41,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
             <tr>
                 <td>@performanceMeasureExpected.PerformanceMeasure.GetDisplayNameAsUrl()</td>
-                <td>@performanceMeasureExpected.PerformanceMeasureSubcategoriesAsString</td>
+                <td>@performanceMeasureExpected.GetPerformanceMeasureSubcategoriesAsString()</td>
                 <td style="text-align: right;">
-                    @(performanceMeasureExpected.ReportedValue.HasValue ? new HtmlString(performanceMeasureExpected.ReportedValue + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
+                    @(performanceMeasureExpected.GetReportedValue().HasValue ? new HtmlString(performanceMeasureExpected.GetReportedValue() + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
 
             </tr>
         }

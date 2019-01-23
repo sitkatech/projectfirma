@@ -2,10 +2,11 @@
 {
     public interface IEntityDocument
     {
-        string DeleteUrl { get; }
-        string EditUrl { get; }
+        string GetDeleteUrl();
+        string GetEditUrl();
         FileResource FileResource { get; set; }
-        string DisplayCssClass { get; set; }
+        void SetDisplayCssClass(string value);
+        string GetDisplayCssClass();
         string DisplayName { get; set; }
         string Description { get; set; }
     }

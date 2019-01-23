@@ -19,35 +19,26 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Common;
-
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectColorByType
     {
-        public abstract string DisplayName { get; }
-        public abstract bool IsRelevantToTenant { get; }
+        public abstract string GetDisplayName();
     }
 
     public partial class ProjectColorByTypeTaxonomyTrunk
     {
-        public override string DisplayName => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
-
-        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelTrunk();
+        public override string GetDisplayName() => FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectColorByTypeProjectStage
     {
-        public override string DisplayName => ProjectColorByTypeDisplayName;
-
-        public override bool IsRelevantToTenant => true;
+        public override string GetDisplayName() => ProjectColorByTypeDisplayName;
     }
 
     public partial class ProjectColorByTypeTaxonomyBranch
     {
-        public override string DisplayName => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
-
-        public override bool IsRelevantToTenant => MultiTenantHelpers.IsTaxonomyLevelBranch();
+        public override string GetDisplayName() => FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
     }
 
 }

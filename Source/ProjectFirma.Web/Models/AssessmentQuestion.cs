@@ -19,28 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Linq;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class AssessmentQuestion : IAuditableEntity
     {
-        public bool IsArchived
-        {
-            get { return ArchiveDate.HasValue; }
-        }
-        public string AuditDescriptionString
-        {
-            get { return string.Format("Question: {0}", AssessmentQuestionID); }
-        }
+        public bool IsArchived() => ArchiveDate.HasValue;
 
-        public string EditUrl
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                return SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.EditQuestion(AssessmentQuestionID));
-            }
+            return $"Question: {AssessmentQuestionID}";
         }
 
         public int GetCountOfYesAnswers()

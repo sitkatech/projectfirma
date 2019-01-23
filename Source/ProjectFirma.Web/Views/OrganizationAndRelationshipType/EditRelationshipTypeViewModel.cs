@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
-            if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
+            if (!RelationshipTypeModelExtensions.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
                 yield return new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.",
                     x => x.RelationshipTypeName);

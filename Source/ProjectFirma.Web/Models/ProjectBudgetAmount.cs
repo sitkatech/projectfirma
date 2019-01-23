@@ -51,10 +51,10 @@ namespace ProjectFirma.Web.Models
                     x =>
                         new ProjectBudgetAmount(x.FundingSourceID,
                             x.FundingSource.FundingSourceName,
-                            x.FundingSource.DisplayNameAsUrl.ToString(),
+                            x.FundingSource.GetDisplayNameAsUrl().ToString(),
                             x.ProjectCostType,
                             x.CalendarYear,
-                            x.MonetaryAmount,
+                            x.GetMonetaryAmount(),
                             true)).ToList();
         }
 

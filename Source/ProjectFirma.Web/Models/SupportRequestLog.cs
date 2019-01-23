@@ -20,11 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Net.Mail;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -33,11 +31,11 @@ namespace ProjectFirma.Web.Models
         public static SupportRequestLog Create(Person person)
         {
             var supportRequest = CreateNewBlank(SupportRequestType.Other);
-            if (person != null && !person.IsAnonymousUser)
+            if (person != null && !person.IsAnonymousUser())
             {
                 supportRequest.RequestPerson = person;
                 supportRequest.RequestPersonID = person.PersonID;
-                supportRequest.RequestPersonName = person.FullNameFirstLast;
+                supportRequest.RequestPersonName = person.GetFullNameFirstLast();
                 supportRequest.RequestPersonEmail = person.Email;
                 if (person.Organization != null)
                 {
@@ -48,17 +46,9 @@ namespace ProjectFirma.Web.Models
             return supportRequest;
         }
 
-        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType)
-        {
-            SendMessage(ipAddress, userAgent, currentUrl, supportRequestType, null);
-        }
-
-        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, Project project)
+        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, DatabaseEntities databaseEntities, int defaultSupportPersonID)
         {
             var subject = $"Support Request for Project Firma - {DateTime.Now.ToStringDateTime()}";
-            var projectSummaryUrl = project == null
-                ? string.Empty
-                : $"<strong>{FieldDefinition.Project.GetFieldDefinitionLabel()}:</strong> <a href=\"{SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project))}\">{project.DisplayName}</a><br />";
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
     <strong>{0}</strong><br />
@@ -66,29 +56,28 @@ namespace ProjectFirma.Web.Models
     <strong>From:</strong> {1} - {2}<br />
     <strong>Email:</strong> {3}<br />
     <strong>Phone:</strong> {4}<br />
-    {5}
     <br />
-    <strong>Subject:</strong> {6}<br />
+    <strong>Subject:</strong> {5}<br />
     <br />
     <strong>Description:</strong><br />
-    {7}
+    {6}
     <br />
     <br />
     <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
-    LOGIN: {8}<br />
-    IP ADDRESS: {9}<br />
-    USERAGENT: {10}<br />
-    URL FROM: {11}<br />
+    LOGIN: {7}<br />
+    IP ADDRESS: {8}<br />
+    USERAGENT: {9}<br />
+    URL FROM: {10}<br />
     <br />
     </div>
-    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {12}</div>.
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {11}</div>.
 </div>
-", subject, RequestPersonName, RequestPersonOrganization ?? "(not provided)", RequestPersonEmail, RequestPersonPhone ?? "(not provided)", projectSummaryUrl,
+", subject, RequestPersonName, RequestPersonOrganization ?? "(not provided)", RequestPersonEmail, RequestPersonPhone ?? "(not provided)",
                 supportRequestType.SupportRequestTypeDisplayName,
                 RequestDescription.HtmlEncodeWithBreaks(),
-                RequestPerson != null ? $"{RequestPerson.FullNameFirstLast} (UserID {RequestPerson.PersonID})" : "(anonymous user)",
+                RequestPerson != null ? $"{RequestPerson.GetFullNameFirstLast()} (UserID {RequestPerson.PersonID})" : "(anonymous user)",
                 ipAddress,
                 userAgent,
                 currentUrl,
@@ -100,7 +89,7 @@ namespace ProjectFirma.Web.Models
             mailMessage.ReplyToList.Add(RequestPersonEmail);
 
             // TO field
-            SupportRequestType.SetEmailRecipientsOfSupportRequest(mailMessage);
+            SupportRequestType.SetEmailRecipientsOfSupportRequest(databaseEntities, mailMessage, defaultSupportPersonID);
 
             SitkaSmtpClient.Send(mailMessage);
         }

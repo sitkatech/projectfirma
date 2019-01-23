@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Models
             const int newCalendarYear = 2017;
 
             // Act && Assert
-            var newProjectBudgetUpdate = ProjectBudgetUpdate.CloneProjectBudget(projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.MonetaryAmount);
-            AssertCloneProjectBudgetSuccessful(newProjectBudgetUpdate, projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.MonetaryAmount);
+            var newProjectBudgetUpdate = ProjectBudgetUpdate.CloneProjectBudget(projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.GetMonetaryAmount());
+            AssertCloneProjectBudgetSuccessful(newProjectBudgetUpdate, projectUpdateBatch, projectBudget1, newCalendarYear, projectBudget1.GetMonetaryAmount());
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Models
                     projectUpdateBatch.ProjectBudgetUpdates.SingleOrDefault(
                         x =>
                             x.ProjectCostTypeID == ProjectBudget.ProjectCostTypeID && x.CalendarYear == ProjectBudget.CalendarYear &&
-                            x.FundingSourceID == ProjectBudget.FundingSourceID && x.MonetaryAmount == ProjectBudget.MonetaryAmount);
+                            x.FundingSourceID == ProjectBudget.FundingSourceID && x.GetMonetaryAmount() == ProjectBudget.GetMonetaryAmount());
                 AssertCloneProjectBudgetSuccessful(projectBudgetUpdate, projectUpdateBatch, ProjectBudget);
             }
         }
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(newProjectBudgetUpdate.ProjectCostTypeID, Is.EqualTo(ProjectBudgetAmount.ProjectCostTypeID), $"Should have cloned transporation {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} cost type correctly");
             Assert.That(newProjectBudgetUpdate.FundingSourceID, Is.EqualTo(ProjectBudgetAmount.FundingSourceID), "Should have cloned funding source correctly");
             Assert.That(newProjectBudgetUpdate.CalendarYear, Is.EqualTo(ProjectBudgetAmount.CalendarYear), "Should be set to the new calendar year");
-            Assert.That(newProjectBudgetUpdate.MonetaryAmount, Is.EqualTo(ProjectBudgetAmount.MonetaryAmount), "Should be set to the new budget amount");
+            Assert.That(newProjectBudgetUpdate.GetMonetaryAmount(), Is.EqualTo(ProjectBudgetAmount.GetMonetaryAmount()), "Should be set to the new budget amount");
         }
 
         private static void AssertCloneProjectBudgetSuccessful(ProjectBudgetUpdate newProjectBudgetUpdate, ProjectUpdateBatch projectUpdateBatch, IProjectBudgetAmount ProjectBudgetAmount, int newCalendarYear, decimal? budgetedAmount)
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(newProjectBudgetUpdate.ProjectCostTypeID, Is.EqualTo(ProjectBudgetAmount.ProjectCostTypeID), $"Should have cloned transporation {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} cost type correctly");
             Assert.That(newProjectBudgetUpdate.FundingSourceID, Is.EqualTo(ProjectBudgetAmount.FundingSourceID), "Should have cloned funding source correctly");
             Assert.That(newProjectBudgetUpdate.CalendarYear, Is.EqualTo(newCalendarYear), "Should be set to the new calendar year");
-            Assert.That(newProjectBudgetUpdate.MonetaryAmount, Is.EqualTo(budgetedAmount), "Should be set to the new budget amount");
+            Assert.That(newProjectBudgetUpdate.GetMonetaryAmount(), Is.EqualTo(budgetedAmount), "Should be set to the new budget amount");
         }
     }
 }

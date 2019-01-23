@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectClassificationsForProjectViewData(Models.Project project, Models.ClassificationSystem classificationSystem)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             ClassificationSystem = classificationSystem;
         }
     }

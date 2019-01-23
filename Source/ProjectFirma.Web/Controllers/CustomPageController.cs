@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var customPage = customPagePrimaryKey.EntityObject;
             var customPageContentHtmlString = customPage.CustomPageContentHtmlString;
-            if (!customPage.HasPageContent)
+            if (!customPage.HasPageContent())
             {
                 customPageContentHtmlString = new HtmlString(string.Format("No page content for Page \"{0}\".", customPage.CustomPageDisplayName));
             }

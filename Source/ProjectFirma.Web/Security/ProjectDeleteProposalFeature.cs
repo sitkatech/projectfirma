@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            var permissionDeniedMessage = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} is not deletable by you";
+            var permissionDeniedMessage = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not deletable by you";
             if (new ProjectDeleteFeature().HasPermission(person, contextModelObject).HasPermission)
             {
                 return new PermissionCheckResult();

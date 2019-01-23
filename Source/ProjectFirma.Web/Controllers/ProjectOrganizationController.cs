@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditOrganizations(EditOrganizationsViewModel viewModel, Project project)
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
             if (!allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);

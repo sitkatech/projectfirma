@@ -97,25 +97,25 @@ namespace ProjectFirma.Web.Models
             var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentPerson);
 
             // basics & map
-            ProjectUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // expenditures
-            ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // project expenditures exempt reporting years
-            ProjectExemptReportingYearUpdate.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+            ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // expenditures exempt explanation
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
 
             // Expected Funding
-            ProjectFundingSourceRequestUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectFundingSourceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // performance measures
-            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // project performance measures exempt reporting years
-            ProjectExemptReportingYearUpdate.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
+            ProjectExemptReportingYearUpdateModelExtensions.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // project exempt reporting years reason
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
@@ -127,23 +127,23 @@ namespace ProjectFirma.Web.Models
             ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
 
             // photos
-            ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
 
             // external links
-            ProjectExternalLinkUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectExternalLinkUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // notes
-            ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // organizations
-            ProjectOrganizationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Documents
-            ProjectDocumentUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Custom attributes
-            ProjectCustomAttributeUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             return projectUpdateBatch;
         }
@@ -567,10 +567,10 @@ namespace ProjectFirma.Web.Models
             ProjectUpdate.CommitChangesToProject(Project);
 
             // expenditures
-            ProjectFundingSourceExpenditureUpdate.CommitChangesToProject(this, projectFundingSourceExpenditures);
+            ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(this, projectFundingSourceExpenditures);
 
             // expected funding
-            ProjectFundingSourceRequestUpdate.CommitChangesToProject(this, projectFundingSourceRequests);
+            ProjectFundingSourceRequestUpdateModelExtensions.CommitChangesToProject(this, projectFundingSourceRequests);
 
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //  project budgets
@@ -580,11 +580,11 @@ namespace ProjectFirma.Web.Models
             if (!NewStageIsPlanningDesign)
             {
                 // performance measures
-                PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals,
+                PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(this, performanceMeasureActuals,
                     performanceMeasureActualSubcategoryOptions);
 
                 // project exempt reporting years
-                ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
+                ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(this, projectExemptReportingYears);
 
                 // project exempt reporting years reason
                 Project.PerformanceMeasureActualYearsExemptionExplanation =
@@ -602,23 +602,23 @@ namespace ProjectFirma.Web.Models
             ProjectGeospatialAreaTypeNoteUpdate.CommitChangesToProject(this, projectGeospatialAreaTypeNotes);
 
             // photos
-            ProjectImageUpdate.CommitChangesToProject(this, projectImages);
+            ProjectImageUpdateModelExtensions.CommitChangesToProject(this, projectImages);
             IsPhotosUpdated = false;
 
             // external links
-            ProjectExternalLinkUpdate.CommitChangesToProject(this, projectExternalLinks);
+            ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(this, projectExternalLinks);
 
             // notes
-            ProjectNoteUpdate.CommitChangesToProject(this, projectNotes);
+            ProjectNoteUpdateModelExtensions.CommitChangesToProject(this, projectNotes);
 
             // Organizations
-            ProjectOrganizationUpdate.CommitChangesToProject(this, allProjectOrganizations);
+            ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(this, allProjectOrganizations);
 
             // Documents
-            ProjectDocumentUpdate.CommitChangesToProject(this, allProjectDocuments);
+            ProjectDocumentUpdateModelExtensions.CommitChangesToProject(this, allProjectDocuments);
 
             // Project Custom Attributes
-            ProjectCustomAttributeUpdate.CommitChangesToProject(this, allProjectCustomAttributes, allProjectCustomAttributeValues);
+            ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(this, allProjectCustomAttributes, allProjectCustomAttributeValues);
         }
 
         public void RejectSubmission(Person currentPerson, DateTime transitionDate)

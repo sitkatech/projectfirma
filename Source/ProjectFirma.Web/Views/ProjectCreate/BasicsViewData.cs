@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(currentPerson, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
-            ProjectDisplayName = project.DisplayName;
+            ProjectDisplayName = project.GetDisplayName();
             AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
         }
 

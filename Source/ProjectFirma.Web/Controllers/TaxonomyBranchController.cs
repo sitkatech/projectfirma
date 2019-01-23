@@ -81,9 +81,9 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyBranchProjects = taxonomyBranch.GetAssociatedProjects(CurrentPerson).ToList();
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(taxonomyBranchProjects, true, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyBranchProjectMap");
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var canHaveAssociatedPerformanceMeasures = associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch;
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyBranch = taxonomyBranchPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyBranch);
-            return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.DisplayName);
+            return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.GetDisplayName());
         }
 
         [HttpPost]
@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyBranch = taxonomyBranchPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.DisplayName);
+                return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.GetDisplayName());
             }
             viewModel.UpdateModel(taxonomyBranch, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -157,8 +157,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTrunkDisplayName)
         {
             var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList()
-                .OrderBy(x => x.DisplayName)
-                .ToSelectList(x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                .OrderBy(x => x.GetDisplayName())
+                .ToSelectList(x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.GetDisplayName());
             var viewData = new EditViewData(taxonomyTrunks, taxonomyTrunkDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -177,7 +177,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !taxonomyBranch.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Count() > 1;
             var taxonomyBranchDisplayName = FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyBranchDisplayName, taxonomyBranch.DisplayName)
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyBranchDisplayName, taxonomyBranch.GetDisplayName())
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyBranchDisplayName, SitkaRoute<TaxonomyBranchController>.BuildLinkFromExpression(x => x.Detail(taxonomyBranch), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

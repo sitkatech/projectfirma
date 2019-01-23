@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -28,9 +30,9 @@ namespace ProjectFirma.Web.Models
     {
         public static FancyTreeNode ToFancyTreeNode(this AssessmentSubGoal assessmentSubGoal, List<IQuestionAnswer> projectAssessmentQuestionsDict)
         {
-            var fancyTreeNode = new FancyTreeNode(assessmentSubGoal.DisplayName, assessmentSubGoal.AssessmentGoalID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode(assessmentSubGoal.GetDisplayName(), assessmentSubGoal.AssessmentGoalID.ToString(), false)
             {
-                Children = assessmentSubGoal.ActiveQuestions.Select(x => x.ToFancyTreeNode(projectAssessmentQuestionsDict)).ToList()
+                Children = assessmentSubGoal.GetActiveQuestions().Select(x => x.ToFancyTreeNode(projectAssessmentQuestionsDict)).ToList()
             };
             return fancyTreeNode;
         }
@@ -42,16 +44,21 @@ namespace ProjectFirma.Web.Models
             foreach (var assessmentGoalGrouping in assessmentSubGoals.GroupBy(x => x.AssessmentGoal).OrderBy(x => x.Key.AssessmentGoalNumber))
             {
                 var assessmentGoal = assessmentGoalGrouping.Key;
-                var topLevelGroup = new SelectListGroup() { Name = assessmentGoal.DisplayName };
-                groups.Add(assessmentGoal.DisplayName, topLevelGroup);
+                var topLevelGroup = new SelectListGroup() { Name = assessmentGoal.GetDisplayName() };
+                groups.Add(assessmentGoal.GetDisplayName(), topLevelGroup);
 
                 foreach (var assessmentSubGoal in assessmentGoalGrouping.OrderBy(x => x.AssessmentSubGoalNumber))
                 {
-                    selectListItems.Add(new SelectListItem { Value = assessmentSubGoal.AssessmentSubGoalID.ToString(), Text = assessmentSubGoal.DisplayName, Group = topLevelGroup });
+                    selectListItems.Add(new SelectListItem { Value = assessmentSubGoal.AssessmentSubGoalID.ToString(), Text = assessmentSubGoal.GetDisplayName(), Group = topLevelGroup });
                 }
 
             }
             return selectListItems;
+        }
+
+        public static string GetEditUrl(this AssessmentSubGoal assessmentSubGoal)
+        {
+            return SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.EditSubGoal(assessmentSubGoal.AssessmentSubGoalID));
         }
     }
 }

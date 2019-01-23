@@ -52,26 +52,13 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public PerformanceMeasureActualSubcategoryOptionSimple(PerformanceMeasureActualSubcategoryOption performanceMeasureActualSubcategoryOption) : this()
-        {
-            PerformanceMeasureActualSubcategoryOptionID = performanceMeasureActualSubcategoryOption.PerformanceMeasureActualSubcategoryOptionID;
-            PerformanceMeasureActualID = performanceMeasureActualSubcategoryOption.PerformanceMeasureActualID;
-            // It shouldn't ever happen that PerformanceMeasureSubcategoryOptionID is null in the database, but if it is it will come back as a -1 which will break validation on the front-end.
-            PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.IsRealPrimaryKeyValue(performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID) ? (int?)performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID : null;
-            PerformanceMeasureID = performanceMeasureActualSubcategoryOption.PerformanceMeasureID;
-            PerformanceMeasureSubcategoryID = performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID;
-        }
-
         public PerformanceMeasureActualSubcategoryOptionSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption, PerformanceMeasureActual performanceMeasureActual)
             : this(
                 performanceMeasureActualSubcategoryOption.PrimaryKey,
                 performanceMeasureActual.PerformanceMeasureActualID,
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)
+                performanceMeasureActualSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
         {
         }
     }

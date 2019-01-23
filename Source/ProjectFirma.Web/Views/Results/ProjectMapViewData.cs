@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string ProjectLocationsUrl;
         public readonly string FilteredProjectsWithLocationAreasUrl;
 
-        public ProjectMapViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
+        public ProjectMapViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes) : base(currentPerson, firmaPage)
         {
             PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -44,6 +45,9 @@ namespace ProjectFirma.Web.Views.Results
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsUrl = projectLocationsUrl;
             FilteredProjectsWithLocationAreasUrl = filteredProjectsWithLocationAreasUrl;
+            ProjectColorByTypes = projectColorByTypes;
         }
+
+        public List<ProjectColorByType> ProjectColorByTypes { get; }
     }
 }

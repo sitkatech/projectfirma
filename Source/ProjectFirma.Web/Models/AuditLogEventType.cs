@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 
 namespace ProjectFirma.Web.Models
 {
@@ -31,7 +30,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetAuditStringForOperationType(string entityName, string auditDescriptionStringForOriginalValue, string auditDescriptionStringForNewValue)
         {
-            return String.Format("{0}: set to {1}", entityName, auditDescriptionStringForNewValue);
+            return $"{entityName}: set to {auditDescriptionStringForNewValue}";
         }
     }
 
@@ -39,7 +38,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetAuditStringForOperationType(string entityName, string auditDescriptionStringForOriginalValue, string auditDescriptionStringForNewValue)
         {
-            return String.Format("{0}: {1} changed to {2}", entityName, auditDescriptionStringForOriginalValue, auditDescriptionStringForNewValue);
+            return $"{entityName}: {auditDescriptionStringForOriginalValue} changed to {auditDescriptionStringForNewValue}";
         }
     }
 
@@ -47,7 +46,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetAuditStringForOperationType(string entityName, string auditDescriptionStringForOriginalValue, string auditDescriptionStringForNewValue)
         {
-            return String.Format("{0}: deleted {1}", entityName, auditDescriptionStringForNewValue);
+            return $"{entityName}: deleted {auditDescriptionStringForNewValue}";
         }
     }
 }

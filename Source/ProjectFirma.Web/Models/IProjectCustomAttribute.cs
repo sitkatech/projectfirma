@@ -7,6 +7,7 @@ namespace ProjectFirma.Web.Models
     {
         int ProjectCustomAttributeTypeID { get; set; }
         ProjectCustomAttributeType ProjectCustomAttributeType { get; set; }
-        IEnumerable<IProjectCustomAttributeValue> Values { get; set; }
+        void SetCustomAttributeValues(IEnumerable<IProjectCustomAttributeValue> value);
+        IEnumerable<IProjectCustomAttributeValue> GetCustomAttributeValues();
     }
 }

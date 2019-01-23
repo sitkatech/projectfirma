@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.DisplayName).ToList();
+            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {fundingSource.DisplayName} successfully created.");
+            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {fundingSource.GetDisplayName()} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -143,11 +143,11 @@ namespace ProjectFirma.Web.Controllers
 
             // If ProjectFundingSourceExpenditures is empty, ToGoogleChart returns null...
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.DisplayName,
-                    taxonomyTrunks.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.DisplayName,
+                .ToGoogleChart(x => x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName(),
+                    taxonomyTrunks.Select(x => x.GetDisplayName()).ToList(),
+                    x => x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName(),
                     chartContainerID,
-                    fundingSource.DisplayName);
+                    fundingSource.GetDisplayName());
 
             // Which makes this guy bork (bork bork bork)
             googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var name = fundingSource.DisplayName;
+            var name = fundingSource.GetDisplayName();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);

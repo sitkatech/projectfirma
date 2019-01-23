@@ -65,7 +65,7 @@ namespace Keystone.Common
         {
             if (userIdentity is ClaimsIdentity claimsIdentity)
             {
-                user.RoleNames.ToList().ForEach(role => claimsIdentity.Claims.Add(new Claim(ClaimTypes.Role, role)));
+                user.GetRoleNames().ToList().ForEach(role => claimsIdentity.Claims.Add(new Claim(ClaimTypes.Role, role)));
             }
         }
 

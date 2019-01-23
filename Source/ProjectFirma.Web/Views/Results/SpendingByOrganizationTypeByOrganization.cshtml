@@ -39,9 +39,9 @@ Source code is available upon request via <support@sitkatech.com>.
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
             <td style="text-align: right">
-                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.GetTaxonomyTierID()))
                 {
-                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.GetTaxonomyTierID()].Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()
                 }
                 else
                 {
@@ -50,9 +50,9 @@ Source code is available upon request via <support@sitkatech.com>.
             </td>
             }
             <td style="text-align: right">
-                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.GetTaxonomyTierID()))
                 {
-                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.GetTaxonomyTierID()].Sum(x => x.ExpenditureAmount).ToStringCurrency()
                 }
                 else
                 {

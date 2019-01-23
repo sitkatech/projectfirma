@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Models
         public TaxonomyTier(ITaxonomyTier taxonomyTier)
             : this()
         {
-            TaxonomyTierID = taxonomyTier.TaxonomyTierID;
-            DisplayName = taxonomyTier.DisplayName;
+            TaxonomyTierID = taxonomyTier.GetTaxonomyTierID();
+            DisplayName = taxonomyTier.GetDisplayName();
         }
 
         public int TaxonomyTierID { get; set; }

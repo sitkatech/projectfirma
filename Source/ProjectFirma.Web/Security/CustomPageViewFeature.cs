@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(Person person, CustomPage contextModelObject)
         {           
             var isVisible = contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Public ||
-                            (!person.IsAnonymousUser &&
+                            (!person.IsAnonymousUser() &&
                              contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Protected);
             if (isVisible)
             {

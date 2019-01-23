@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
 
             //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.ToList().Where(x => x.ClassificationSystem == classificationSystem).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple {ClassificationID = x.ClassificationID}).ToList();
+                HttpRequestStorage.DatabaseEntities.Classifications.ToList().Where(x => x.ClassificationSystem == classificationSystem).OrderBy(x => x.GetDisplayName()).Select(x => new ProjectClassificationSimple {ClassificationID = x.ClassificationID}).ToList();
 
             foreach (var selectedClassification in selectedProjectClassifications)
             {

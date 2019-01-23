@@ -54,14 +54,14 @@ Source code is available upon request via <support@sitkatech.com>.
                             <a href="@featuredProject.GetFactSheetUrl()" style="font-weight: bold">@featuredProject.ProjectName</a>
                         </div>
                         <div class="row">
-                            @if (featuredProject.KeyPhoto != null)
+                            @if (featuredProject.GetKeyPhoto() != null)
                             {
                                 <div class="col-sm-6">
-                                    <a class="gallery" href="@featuredProject.KeyPhoto.PhotoUrl" title="@featuredProject.KeyPhoto.CaptionOnFullView" data-caption="@Html.Raw(featuredProject.KeyPhoto.CaptionOnFullView.HtmlEncodeWithBreaks())">
-                                        <img style="width: 100%" src="@featuredProject.KeyPhoto.FileResource.FileResourceUrlScaledForPrint" alt="@featuredProject.KeyPhoto.CaptionOnFullView" />
+                                    <a class="gallery" href="@featuredProject.GetKeyPhoto().GetPhotoUrl()" title="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" data-caption="@Html.Raw(featuredProject.GetKeyPhoto().GetCaptionOnFullView().HtmlEncodeWithBreaks())">
+                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.FileResourceUrlScaledForPrint" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" />
                                     </a>
                                     <br />
-                                    <div>@featuredProject.KeyPhoto.Caption</div>
+                                    <div>@featuredProject.GetKeyPhoto().Caption</div>
                                 </div>
                             }
                             <div class="col-sm-6">
@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     </tr>
                                     <tr>
                                         <th>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</th>
-                                        <td>@featuredProject.ProjectOrganizationNamesForFactSheet</td>
+                                        <td>@featuredProject.GetProjectOrganizationNamesForFactSheet()</td>
                                     </tr>
                                     <tr>
                                         <th>Stage</th>
@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     </tr>
                                     <tr>
                                         <th>Duration</th>
-                                        <td>@featuredProject.Duration</td>
+                                        <td>@featuredProject.GetDuration()</td>
                                     </tr>
                                 </table>
                                 <div style="margin-top: 20px">

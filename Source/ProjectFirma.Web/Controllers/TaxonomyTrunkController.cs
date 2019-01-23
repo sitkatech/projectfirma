@@ -82,14 +82,14 @@ namespace ProjectFirma.Web.Controllers
                 new List<int> {taxonomyTrunk.TaxonomyTrunkID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(taxonomyTrunkProjects, true, true), "red", 1,
+                    taxonomyTrunkProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyTrunkProjectMap");
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals);
+                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
                 MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
@@ -188,7 +188,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTrunkDisplayName = FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyTrunkDisplayName,
-                    taxonomyTrunk.DisplayName)
+                    taxonomyTrunk.GetDisplayName())
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyTrunkDisplayName,
                     SitkaRoute<TaxonomyTrunkController>.BuildLinkFromExpression(x => x.Detail(taxonomyTrunk), "here"));
 

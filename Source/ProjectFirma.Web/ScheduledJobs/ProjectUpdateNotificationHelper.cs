@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     x.MyProjectsRequiringAnUpdate());
 
             var emailContent = GetEmailContentWithGeneratedSignature(projectsRequiringAnUpdateUrl,
-                person.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings));
+                person.GetFullNameFirstLast(), String.Join("<br/>", projectListAsHtmlStrings));
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             IReadOnlyCollection<Project> projects)
         {
             var projectsRemaining = projects;
-            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.DisplayName).Select(project =>
+            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.GetDisplayName()).Select(project =>
             {
                 var projectUrl =
                     SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>

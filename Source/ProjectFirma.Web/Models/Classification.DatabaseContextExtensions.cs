@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
     {
         public static Classification GetClassificationByClassificationName(this IQueryable<Classification> classifications, string displayName)
         {
-            var classification = classifications.SingleOrDefault(x => x.DisplayName == displayName);
+            var classification = classifications.SingleOrDefault(x => x.GetDisplayName() == displayName);
             Check.RequireNotNullThrowNotFound(classification, FieldDefinition.Classification.GetFieldDefinitionLabel(), displayName);
             return classification;
         }

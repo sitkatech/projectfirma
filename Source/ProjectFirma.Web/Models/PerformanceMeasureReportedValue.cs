@@ -22,28 +22,30 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public class PerformanceMeasureReportedValue : IPerformanceMeasureReportedValue
     {
         public readonly Project Project;
-        public int CalendarYear { get; private set; }
-        public PerformanceMeasure PerformanceMeasure { get; private set; }
-        public double? ReportedValue { get; private set; }
+        private readonly double? _reportedValue;
+        public int CalendarYear { get; }
+        public PerformanceMeasure PerformanceMeasure { get; }
+
+        public double? GetReportedValue()
+        {
+            return _reportedValue;
+        }
 
         public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
 
-        public string PerformanceMeasureName => PerformanceMeasure.PerformanceMeasureDisplayName;
+        public string GetPerformanceMeasureName() => PerformanceMeasure.PerformanceMeasureDisplayName;
 
-        public string PerformanceMeasureUrl => PerformanceMeasure.GetSummaryUrl();
-
-        public string ProjectName => Project.DisplayName;
+        public string ProjectName => Project.GetDisplayName();
 
         public string ProjectUrl => Project.GetDetailUrl();
 
-        public MeasurementUnitType MeasurementUnitType => PerformanceMeasure.MeasurementUnitType;
+        public MeasurementUnitType GetMeasurementUnitType() => PerformanceMeasure.MeasurementUnitType;
 
         public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
 
@@ -51,7 +53,7 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasure = performanceMeasureActual.PerformanceMeasure;
             CalendarYear = performanceMeasureActual.CalendarYear;
-            ReportedValue = performanceMeasureActual.ActualValue;
+            _reportedValue = performanceMeasureActual.ActualValue;
             Project = performanceMeasureActual.Project;
             PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>(performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions);
         }
@@ -60,36 +62,28 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasure = performanceMeasure;
             CalendarYear = calendarYear;
-            ReportedValue = reportedValue;
+            _reportedValue = reportedValue;
             Project = project;
             PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>();
         }
 
-        public string PerformanceMeasureSubcategoriesAsString
+        public string GetPerformanceMeasureSubcategoriesAsString()
         {
-            get
-            {
-                return PerformanceMeasureActualSubcategoryOptions.Any()
-                    ? string.Join("\r\n",
-                        PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x =>
-                                $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOptionName}"))
-                    : ViewUtilities.NoneString;
-            }
+            return PerformanceMeasureActualSubcategoryOptions.Any()
+                ? string.Join("\r\n",
+                    PerformanceMeasureActualSubcategoryOptions.OrderBy(x =>
+                            x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                        .Select(x =>
+                            $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.GetPerformanceMeasureSubcategoryOptionName()}"))
+                : ViewUtilities.NoneString;
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions => new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);
-
-        public string ReportedValueDisplay => MeasurementUnitType.DisplayValue(ReportedValue);
+        public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions() =>
+            new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);
 
         public static List<PerformanceMeasureReportedValue> MakeFromList(IEnumerable<PerformanceMeasureActual> performanceMeasureActuals)
         {
             return performanceMeasureActuals.Select(x => new PerformanceMeasureReportedValue(x)).ToList();
-        }
-
-        public string GetCalendarYearDisplay()
-        {
-            return MultiTenantHelpers.FormatReportingYear(CalendarYear);
         }
     }
 }

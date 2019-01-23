@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CurrentPerson = currentPerson;
             SendPreviewEmailUrl = sendPreviewEmailUrl;
             PersonLabel = peopleToNotify.Count > 1 ? "People" : "Person";
-            SupportEmail = Notification.DoNotReplyMailAddress().Address;
+            SupportEmail = NotificationModelExtensions.DoNotReplyMailAddress().Address;
         }
     }
 }

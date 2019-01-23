@@ -1,51 +1,42 @@
 using System;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectInternalNote : IEntityNote, IAuditableEntity
     {
-        public DateTime LastUpdated
+        public DateTime GetLastUpdated()
         {
-            get { return UpdateDate ?? CreateDate; }
+            return UpdateDate ?? CreateDate;
         }
 
-        public string LastUpdatedBy
+        public string GetLastUpdatedBy()
         {
-            get
+            if (UpdatePersonID.HasValue)
             {
-                if (UpdatePersonID.HasValue)
-                {
-                    return UpdatePerson.FullNameFirstLast;
-                }
-                if (CreatePersonID.HasValue)
-                {
-                    return CreatePerson.FullNameFirstLast;
-                }
-                return "System";
+                return UpdatePerson.GetFullNameFirstLast();
             }
-        }
 
-        public string DeleteUrl
-        {
-            get { return SitkaRoute<ProjectInternalNoteController>.BuildUrlFromExpression(c => c.DeleteProjectInternalNote(this)); }
-        }
-
-        public string EditUrl
-        {
-            get { return SitkaRoute<ProjectInternalNoteController>.BuildUrlFromExpression(c => c.Edit(this)); }
-        }
-
-        public string AuditDescriptionString
-        {
-            get
+            if (CreatePersonID.HasValue)
             {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return $"Project: {projectName}";
+                return CreatePerson.GetFullNameFirstLast();
             }
+
+            return "System";
+        }
+
+        public string GetDeleteUrl()
+        {
+            return ProjectInternalNoteModelExtensions.GetDeleteUrl(this);
+        }
+
+        public string GetEditUrl()
+        {
+            return ProjectInternalNoteModelExtensions.GetEditUrl(this);
+        }
+
+        public string GetAuditDescriptionString()
+        {
+            return $"Project: {ProjectID} Note updated";
         }
     }
 }

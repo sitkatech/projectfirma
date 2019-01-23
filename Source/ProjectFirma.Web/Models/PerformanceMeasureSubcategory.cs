@@ -33,28 +33,29 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureSubcategory : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get { return PerformanceMeasureSubcategoryDisplayName; }
+            return PerformanceMeasureSubcategoryDisplayName;
         }
-        public bool ShowOnChart => !String.IsNullOrWhiteSpace(ChartConfigurationJson);
+
+        public bool ShowOnChart() => !String.IsNullOrWhiteSpace(ChartConfigurationJson);
 
         public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
             var performanceMeasureReportingPeriods = projectPerformanceMeasureReportingPeriodValues.Select(x => x.PerformanceMeasureReportingPeriod).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureReportingPeriod>()).ToList();
             var googleChartJsons = new List<GoogleChartJson>();
-            foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart))
+            foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart()))
             {
                 var performanceMeasureSubcategory = groupedBySubcategory.Key;
                 Check.RequireNotNull(performanceMeasureSubcategory.ChartConfigurationJson, "All PerformanceMeasure Subcategories need to have a Google Chart Configuration Json");
                 var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
-                var chartColumns = performanceMeasure.HasRealSubcategories ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.DisplayName };
+                var chartColumns = performanceMeasure.HasRealSubcategories() ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.GetDisplayName() };
                 var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
                     : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.CanCalculateTotal);
-                var legendTitle = performanceMeasure.HasRealSubcategories ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.DisplayName;
+                var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                     x.SaveChartConfiguration(performanceMeasure,
@@ -150,7 +151,7 @@ namespace ProjectFirma.Web.Models
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.DisplayName, GoogleChartColumnDataType.String) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.GetDisplayName(), GoogleChartColumnDataType.String) };
             googleChartColumns.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate).Select(x =>
                 new GoogleChartColumn(x.PerformanceMeasureReportingPeriodID.ToString(), x.PerformanceMeasureReportingPeriodLabel, GoogleChartColumnDataType.Number.ColumnDataType)));
 

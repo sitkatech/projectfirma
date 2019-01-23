@@ -2,14 +2,11 @@ namespace ProjectFirma.Web.Models
 {
     public partial class OrganizationTypeRelationshipType : IAuditableEntity
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var organizationType = OrganizationType?.OrganizationTypeName;
-                var relationshipType = RelationshipType?.RelationshipTypeName;
-                return $"Organization Type: {organizationType}, Relationship Type: {relationshipType}";
-            }
+            var organizationType = OrganizationType?.OrganizationTypeName;
+            var relationshipType = RelationshipType?.RelationshipTypeName;
+            return $"Organization Type: {organizationType}, Relationship Type: {relationshipType}";
         }
     }
 }

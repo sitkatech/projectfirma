@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             GeospatialAreaValidationResult geospatialAreaValidationResult,
-            UpdateStatus updateStatus, GeospatialAreaType geospatialAreaType) : base(currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus, geospatialAreaValidationResult.GetWarningMessages(), geospatialAreaType.GeospatialAreaTypeNamePluralized)
+            ProjectUpdateStatus projectUpdateStatus, GeospatialAreaType geospatialAreaType) : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, geospatialAreaValidationResult.GetWarningMessages(), geospatialAreaType.GeospatialAreaTypeNamePluralized)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;

@@ -85,7 +85,7 @@
                     <div class="col-sm-7">
                         @if (ViewDataTyped.PrimaryContactRoute != null)
                         {
-                            @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.FullNameFirstLast)))
+                            @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.GetFullNameFirstLast())))
                         }
                         else
                         {

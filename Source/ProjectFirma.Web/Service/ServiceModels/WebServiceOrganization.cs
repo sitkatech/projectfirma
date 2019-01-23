@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             OrganizationName = organization.OrganizationName;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationType = organization.OrganizationType?.OrganizationTypeName;
-            PrimaryContact = organization.PrimaryContactPersonAsString;
+            PrimaryContact = organization.GetPrimaryContactPersonAsString();
             ProjectCount = organization.GetAllActiveProjectsAndProposals(PersonModelExtensions.GetAnonymousSitkaUser()).Count;
             FundingSourceCount = organization.FundingSources.Count;
             UserCount = organization.People.Count;

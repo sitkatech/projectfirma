@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 
@@ -30,8 +29,8 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectUpdate : IProject
     {
-        public int EntityID => ProjectUpdateID;
-        public string DisplayName => ProjectUpdateBatch.Project.DisplayName;
+        public int GetEntityID() => ProjectUpdateID;
+        public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
 
         public decimal? UnfundedNeed => EstimatedTotalCost - GetSecuredFunding();
 
@@ -92,11 +91,7 @@ namespace ProjectFirma.Web.Models
 
         public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
-        public IEnumerable<IProjectCustomAttribute> ProjectCustomAttributes
-        {
-            get => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
-            set => ProjectUpdateBatch.ProjectCustomAttributeUpdates = (ICollection<ProjectCustomAttributeUpdate>) value;
-        }
+        public IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes() => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
@@ -133,37 +128,12 @@ namespace ProjectFirma.Web.Models
             }
             return featureCollection;
         }
-        
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var projectUpdate = new ProjectUpdate(projectUpdateBatch);
-            HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
-        }
-
-        public static void CommitToProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var projectUpdate = new ProjectUpdate(projectUpdateBatch);
-            HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
-        }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
         public Organization GetPrimaryContactOrganization()
         {
             return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
-        }
-
-        public string GetPlanningDesignStartYear()
-        {
-            return PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(PlanningDesignStartYear.Value) : null;
-        }
-        public string GetCompletionYear()
-        {
-            return CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(CompletionYear.Value) : null;
-        }
-        public string GetImplementationStartYear()
-        {
-            return ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ImplementationStartYear.Value) : null;
         }
     }
 }

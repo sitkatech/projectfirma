@@ -20,22 +20,15 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectExternalLink : IAuditableEntity, IEntityExternalLink
     {
-        public string AuditDescriptionString
+        public string GetAuditDescriptionString()
         {
-            get
-            {
-                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
-                var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, External Link Label: {1}, External Link Url: {2}", projectName, ExternalLinkLabel, ExternalLinkLabel);
-            }
+            return $"Project: {ProjectID}, External Link Label: {ExternalLinkLabel}, External Link Url: {ExternalLinkLabel}";
         }
 
         public HtmlString GetExternalLinkAsUrl()

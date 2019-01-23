@@ -30,35 +30,35 @@ namespace ProjectFirma.Web.Models
     {
         public List<Project> GetAssociatedProjects(Person person)
         {
-            return ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals).ToList();
+            return ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals()).ToList();
         }
 
-        public string KeyImageUrlLarge => KeyImageFileResource != null ? KeyImageFileResource.FileResourceUrlScaledForPrint : "http://placehold.it/280x210";
+        public string GetKeyImageUrlLarge() => KeyImageFileResource != null
+            ? KeyImageFileResource.FileResourceUrlScaledForPrint
+            : "http://placehold.it/280x210";
 
         public string GetDeleteUrl()
         {
             return SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.DeleteClassification(ClassificationID));
         }
 
-        public string KeyImageScaledForThumbnail
-        {
-            get { return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(KeyImageFileResource.FileResourceGUIDAsString, 287, 180)); }
-        }
-
         public static bool IsDisplayNameUnique(IEnumerable<Classification> classifications, string displayName, int currentClassificationID)
         {
-            var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && String.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
+            var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && string.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
             return classification == null;
         }
 
-        public string AuditDescriptionString => DisplayName;
+        public string GetAuditDescriptionString() => DisplayName;
 
-        public int? SortOrder
+        public string GetDisplayName()
         {
-            get => ClassificationSortOrder;
-            set => ClassificationSortOrder = value;
+            return DisplayName;
         }
 
-        public int ID => ClassificationID;
+        public void SetSortOrder(int? value) => ClassificationSortOrder = value;
+
+        public int? GetSortOrder() => ClassificationSortOrder;
+
+        public int GetID() => ClassificationID;
     }
 }

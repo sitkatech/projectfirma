@@ -35,11 +35,11 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn($"Non-Lead Implementing {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
-                x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.Organization.DisplayName)));
+                x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.Organization.GetDisplayName())));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
                 {
-                    AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.DisplayName)));
+                    AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));
                 });
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel(), x => x.EstimatedTotalCost);
             AddColumn(Models.FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
             AddColumn(Models.FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(), x => x.UnfundedNeed());
-            AddColumn("State", a => a.ProjectLocationStateProvince);
+            AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
     }
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} ID", x => x.Organization.OrganizationID);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Name", x => x.Organization.OrganizationName);
-            AddColumn($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.PrimaryContactPersonWithOrgAsString);
+            AddColumn($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.GetPrimaryContactPersonWithOrgAsString());
             AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Relationship To {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x => x.RelationshipTypeName);
         }
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}", x => x.Note);
-            AddColumn("Create Person", x => x.CreatePersonName);
+            AddColumn("Create Person", x => (x.CreatePersonID.HasValue ? x.CreatePerson.GetFullNameFirstLast() : string.Empty));
             AddColumn("Create Date", x => x.CreateDate);
         }
     }
@@ -115,15 +115,15 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn($"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}", x => x.ReportedValue);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Name", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 1 ? x.GetPerformanceMeasureSubcategoryOptions()[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Option", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 1 ? x.GetPerformanceMeasureSubcategoryOptions()[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Name", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 2 ? x.GetPerformanceMeasureSubcategoryOptions()[1].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Option", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 2 ? x.GetPerformanceMeasureSubcategoryOptions()[1].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Name", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 3 ? x.GetPerformanceMeasureSubcategoryOptions()[2].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Option", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 3 ? x.GetPerformanceMeasureSubcategoryOptions()[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Name", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 4 ? x.GetPerformanceMeasureSubcategoryOptions()[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Option", x => x.GetPerformanceMeasureSubcategoryOptions().Count > 4 ? x.GetPerformanceMeasureSubcategoryOptions()[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}", x => x.GetReportedValue());
         }
     }
 
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GeospatialArea.DisplayName);
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GeospatialArea.GetDisplayName());
             }
         }
     }
@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabel(), x => x.Classification.DisplayName);
+            AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabel(), x => x.Classification.GetDisplayName());
         }
     }
 }

@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Models
     {
         public string ExpenditureAmountDisplay
         {
-            get { return MonetaryAmount.ToStringCurrency(); }
+            get { return GetMonetaryAmount().ToStringCurrency(); }
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             projectUpdateBatch.ProjectBudgetUpdates =
-                projectUpdateBatch.Project.ProjectBudgets.Select(tpb => CloneProjectBudget(projectUpdateBatch, tpb, tpb.CalendarYear, tpb.MonetaryAmount)).ToList();
+                projectUpdateBatch.Project.ProjectBudgets.Select(tpb => CloneProjectBudget(projectUpdateBatch, tpb, tpb.CalendarYear, tpb.GetMonetaryAmount())).ToList();
         }
 
         public static ProjectBudgetUpdate CloneProjectBudget(ProjectUpdateBatch projectUpdateBatch, IProjectBudgetAmount projectBudgetAmount, int calendarYear, decimal? budgetedAmount)
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             var projectBudgetsFromProjectUpdate =
                 projectUpdateBatch.ProjectBudgetUpdates.Select(
-                    x => new ProjectBudget(project.ProjectID, x.FundingSource.FundingSourceID, x.ProjectCostTypeID, x.CalendarYear, x.MonetaryAmount ?? 0)).ToList();
+                    x => new ProjectBudget(project.ProjectID, x.FundingSource.FundingSourceID, x.ProjectCostTypeID, x.CalendarYear, x.GetMonetaryAmount() ?? 0)).ToList();
             project.ProjectBudgets.Merge(projectBudgetsFromProjectUpdate,
                 allProjectBudgets,
                 (x, y) =>
@@ -56,9 +56,9 @@ namespace ProjectFirma.Web.Models
                 (x, y) => x.BudgetedAmount = y.BudgetedAmount);
         }
 
-        public decimal? MonetaryAmount
+        public decimal? GetMonetaryAmount()
         {
-            get { return BudgetedAmount ?? 0; }
+            return BudgetedAmount ?? 0;
         }
 
         public int ProjectID

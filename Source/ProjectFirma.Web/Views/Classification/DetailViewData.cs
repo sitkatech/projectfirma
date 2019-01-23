@@ -56,8 +56,8 @@ namespace ProjectFirma.Web.Views.Classification
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
                 SaveFiltersInCookie = true
             };
 

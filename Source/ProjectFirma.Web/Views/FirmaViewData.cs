@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Views
             MultiTenantHelpers.GetCustomPages().ForEach(x =>
             {
                 var isVisible = x.CustomPageDisplayType == CustomPageDisplayType.Public ||
-                                (!currentPerson.IsAnonymousUser &&
+                                (!currentPerson.IsAnonymousUser() &&
                                  x.CustomPageDisplayType == CustomPageDisplayType.Protected);
                 if (isVisible)
                 {
@@ -204,7 +204,6 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ManageHomePageImages()), currentPerson, "Homepage Configuration", "Group2"));
 
             // Group 3 - Content Editing stuff
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Custom Page Content", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Custom Labels & Definitions", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentPerson, "Custom About Pages", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentPerson, "Custom Attributes", "Group3"));

@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireNotNull(_person, string.Format("The provided token {0} = \"{1}\" is not associated with a person. Cannot check for access to feature \"{2}\"", WebServiceTokenModelBinder.WebServiceTokenParameterName, _tokenGuid, feature.FeatureName));
             var hasPermission = feature.HasPermissionByPerson(_person);
             Check.Require(hasPermission, string.Format("Web service token \"{0}\" is for person \"{1}\" PersonID={2}, but that person does not have access to feature \"{3}\""
-                , _tokenGuid, _person.FullNameFirstLast, _person.PersonID
+                , _tokenGuid, _person.GetFullNameFirstLast(), _person.PersonID
                 , feature.FeatureName));
         }
 

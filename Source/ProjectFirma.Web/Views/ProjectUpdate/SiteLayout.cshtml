@@ -23,7 +23,6 @@
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Common
 @inherits SiteLayout
 
 @{
@@ -78,7 +77,7 @@
                 if (jQuery(this).hasClass("expanded")) {
                     if (!jQuery(event.target).is('a')) {
                         jQuery(this).removeClass("expanded");
-                        jQuery(this).addClass("collapsed")
+                        jQuery(this).addClass("collapsed");
                         jQuery(this).children("ul").addClass("collapsed");
                         jQuery(this).children("ul").removeClass("expanded");
 
@@ -157,7 +156,7 @@
                 </li>
                 @foreach (var projectWorkflowSectionGrouping in ViewDataTyped.ProjectWorkflowSectionGroupings.OrderBy(x => x.SortOrder))
                 {
-                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.UpdateStatus, false);
+                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.ProjectUpdateStatus, false);
                     if (projectUpdateSectionsForGroup.Any())
                     {
                         var isGroupingActive = projectUpdateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
@@ -239,11 +238,11 @@
             <div class="pull-left">
                 @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
                 {
-                    <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
+                    <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.GetFullNameFirstLastAndOrgShortName() on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
                 }
                 else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
                 {
-                    <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
+                    <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.GetFullNameFirstLastAndOrg() on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
                 }
             </div>
         </div>
@@ -255,15 +254,15 @@
             <div class="pull-right">
                 @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                 }
                 else if (ViewDataTyped.ShowApproveAndReturnButton)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                     if (ViewDataTyped.IsReadyToApprove)
                     {
                         <span>
-                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                         </span>
                     }
                     else

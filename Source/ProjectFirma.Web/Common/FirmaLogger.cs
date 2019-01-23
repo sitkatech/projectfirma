@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Common
         public override string GetUserAndSessionInformationForError(HttpContext context)
         {
             var person = HttpRequestStorage.Person;
-            if (person.IsAnonymousUser)
+            if (person.IsAnonymousUser())
             {
                 return "User: Anonymous";
             }
             string organizationName = person.Organization.OrganizationName;
             return
-                $"User: {person.FullNameFirstLast}{Environment.NewLine}LogonName: {person.Email}{Environment.NewLine}PersonID: {person.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}";
+                $"User: {person.GetFullNameFirstLast()}{Environment.NewLine}LogonName: {person.Email}{Environment.NewLine}PersonID: {person.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}";
         }
     }
 }

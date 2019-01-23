@@ -1,26 +1,30 @@
-﻿using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-
-namespace ProjectFirma.Web.Models
+﻿namespace ProjectFirma.Web.Models
 {
     public partial class ProjectDocument : IAuditableEntity, IEntityDocument
     {
-        public string AuditDescriptionString => $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \" {Project?.ProjectName ?? "<Not Found>"}\" document \"{DisplayName ?? "<Not Found>"}\"";
-        public string DeleteUrl {
-            get
-            {
-                return SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x =>
-                    x.Delete(ProjectDocumentID));
-            }
-        }
-        public string EditUrl
+        private string _displayCssClass;
+
+        public string GetAuditDescriptionString() =>
+            $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \" {Project?.ProjectName ?? "<Not Found>"}\" document \"{DisplayName ?? "<Not Found>"}\"";
+
+        public string GetDeleteUrl()
         {
-            get
-            {
-                return SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x =>
-                    x.Edit(ProjectDocumentID));
-            }
+            return ProjectDocumentModelExtensions.GetDeleteUrl(this);
         }
-        public string DisplayCssClass { get; set; }
+
+        public string GetEditUrl()
+        {
+            return ProjectDocumentModelExtensions.GetEditUrl(this);
+        }
+
+        public void SetDisplayCssClass(string value)
+        {
+            _displayCssClass = value;
+        }
+
+        public string GetDisplayCssClass()
+        {
+            return _displayCssClass;
+        }
     }
 }

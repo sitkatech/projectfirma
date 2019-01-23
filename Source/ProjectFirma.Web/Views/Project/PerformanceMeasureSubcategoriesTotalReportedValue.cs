@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public string ProjectName
         {
-            get { return Project.DisplayName; }
+            get { return Project.GetDisplayName(); }
         }
         public string ProjectUrl
         {
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project)
                 .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
-                .Sum(x => x.ReportedValue ?? 0);
+                .Sum(x => x.GetReportedValue() ?? 0);
             if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)
             {
                 return null;

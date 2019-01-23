@@ -74,14 +74,14 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var reportedValues in groupedByPerformanceMeasure)
             {
                 var performanceMeasure = reportedValues.Key;
-                var groupBy = reportedValues.GroupBy(x => x.PerformanceMeasureSubcategoriesAsString).ToList();
+                var groupBy = reportedValues.GroupBy(x => x.GetPerformanceMeasureSubcategoriesAsString()).ToList();
                 var subcategoriesReportedValues =
                     groupBy
                         .Select(
                             subcategoriesReportedValue =>
                             {
-                                return new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().PerformanceMeasureSubcategoryOptions,
-                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.ReportedValue)));
+                                return new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().GetPerformanceMeasureSubcategoryOptions(),
+                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.GetReportedValue())));
                             })                                
                         .ToList();
                 var orderedSubcategoryReportedValues = subcategoriesReportedValues.OrderBy(srv =>

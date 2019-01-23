@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Taxonomy);
             var topLevelTaxonomyTierAsFancyTreeNodes = MultiTenantHelpers.GetTaxonomyLevel()
-                .GetTaxonomyTiers().SortByOrderThenName().Select(x => x.ToFancyTreeNode(CurrentPerson))
+                .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).SortByOrderThenName().Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
             var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);
