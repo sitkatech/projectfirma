@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
 @inherits EditProjectBoundingBox
@@ -8,12 +8,12 @@
 @Html.ValidationSummary()
 
 <p>
-    Update the custom map extent for this @FieldDefinition.Project.GetFieldDefinitionLabel(), which is used to set the zoom level and center of maps that this @FieldDefinition.Project.GetFieldDefinitionLabel() appears in. The extent for a @FieldDefinition.Project.GetFieldDefinitionLabel() map is set according to these rules:
+    Update the custom map extent for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), which is used to set the zoom level and center of maps that this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() appears in. The extent for a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() map is set according to these rules:
     <ul>
         <li>If a custom map extent is provided, the map will always center on the custom extent</li>
-        <li>If no custom extent is provided, the map will center on the @FieldDefinition.Project.GetFieldDefinitionLabel() detailed location</li>
-        <li>If no detailed location is provided, the map will center on the @FieldDefinition.Project.GetFieldDefinitionLabel() simple location</li>
-        <li>If no simple location is provided, the map will center on the @FieldDefinition.Project.GetFieldDefinitionLabel() geospatialAreas</li>
+        <li>If no custom extent is provided, the map will center on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() detailed location</li>
+        <li>If no detailed location is provided, the map will center on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() simple location</li>
+        <li>If no simple location is provided, the map will center on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() geospatialAreas</li>
         <li>If none of the above are provided, the map will display "Location Not Specified"</li>
     </ul>
 </p>

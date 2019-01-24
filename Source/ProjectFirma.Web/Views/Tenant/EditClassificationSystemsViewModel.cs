@@ -5,7 +5,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditClassificationSystemsViewModel(Models.Tenant tenant)
+        public EditClassificationSystemsViewModel(ProjectFirmaModels.Models.Tenant tenant)
         {
             TenantID = tenant.TenantID;
             ClassificationSystemSimples = MultiTenantHelpers.GetClassificationSystems().Select(x => new ClassificationSystemSimple(x)).ToList();
@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Views.Tenant
             }
         }
 
-        public void UpdateModel(Person currentPerson, List<Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<Models.ClassificationSystem> allClassificationSystems)
+        public void UpdateModel(Person currentPerson, List<ProjectFirmaModels.Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems)
         {
-            var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new Models.ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
+            var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new ProjectFirmaModels.Models.ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
                 x.ClassificationSystemName, 
                 x.ClassificationSystemDefinition?.ToString(), 
                 null)).ToList();

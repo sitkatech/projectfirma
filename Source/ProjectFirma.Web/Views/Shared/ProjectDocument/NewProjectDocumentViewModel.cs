@@ -6,7 +6,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
@@ -19,11 +19,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 
         [Required]
         [DisplayName("Display Name")]
-        [StringLength(Models.ProjectDocument.FieldLengths.DisplayName, ErrorMessage = "200 character maximum")]
+        [StringLength(ProjectFirmaModels.Models.ProjectDocument.FieldLengths.DisplayName, ErrorMessage = "200 character maximum")]
         public string DisplayName { get; set; }
 
         [DisplayName("Description")]
-        [StringLength(Models.ProjectDocument.FieldLengths.Description, ErrorMessage = "1000 character maximum.")]
+        [StringLength(ProjectFirmaModels.Models.ProjectDocument.FieldLengths.Description, ErrorMessage = "1000 character maximum.")]
         public string Description { get; set; }
 
         // can be the ID of a Project or a ProjectUpdateBatch depending on whether this ViewModel or its child type is invoked.
@@ -33,16 +33,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         /// Needed by ModelBinder
         /// </summary>
         public NewProjectDocumentViewModel() { }
-        public NewProjectDocumentViewModel(Models.Project project)
+        public NewProjectDocumentViewModel(ProjectFirmaModels.Models.Project project)
         {
             ParentID = project.ProjectID;
         }
 
-        public void UpdateModel(Models.Project project, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFile(File, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectDocument = new Models.ProjectDocument(project.ProjectID, fileResource.FileResourceID, DisplayName)
+            var projectDocument = new ProjectFirmaModels.Models.ProjectDocument(project.ProjectID, fileResource.FileResourceID, DisplayName)
             {
                 Description = Description
             };
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             if (HttpRequestStorage.DatabaseEntities.ProjectDocuments.Where(x => x.ProjectID == ParentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>($"The Display Name must be unique for each Document attached to a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", m=>m.DisplayName));
+                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>($"The Display Name must be unique for each Document attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", m=>m.DisplayName));
             }
 
             return validationResults;

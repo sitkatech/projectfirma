@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(Models.ProjectImageUpdate projectImageUpdate, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.ProjectImageUpdate projectImageUpdate, Person person)
         {
             base.UpdateModel(projectImageUpdate, person);
             projectImageUpdate.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);

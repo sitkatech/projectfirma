@@ -23,12 +23,13 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -93,10 +94,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewSupportImpl(viewModel, string.Empty);
             }
-            var supportRequestLog = SupportRequestLog.Create(CurrentPerson);
+            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentPerson);
             viewModel.UpdateModel(supportRequestLog, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
-            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);               
+            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);               
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();
         }
@@ -123,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public PartialViewResult ProposalFeedback()
         {
-            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {FieldDefinition.Proposal.GetFieldDefinitionLabel()} wizard: " + Environment.NewLine);
+            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()} wizard: " + Environment.NewLine);
         }
 
         [AnonymousUnclassifiedFeature]
@@ -157,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public PartialViewResult UpdateFeedback()
         {
-            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update wizard: " + Environment.NewLine);
+            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update wizard: " + Environment.NewLine);
         }
 
         [AnonymousUnclassifiedFeature]

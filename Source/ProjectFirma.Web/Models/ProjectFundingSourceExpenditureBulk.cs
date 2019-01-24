@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public class ProjectFundingSourceExpenditureBulk
     {

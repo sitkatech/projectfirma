@@ -23,13 +23,14 @@ using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFunding;
@@ -97,12 +98,12 @@ namespace ProjectFirma.Web.Views.Project
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
-        public List<Models.ClassificationSystem> ClassificationSystems { get; }
+        public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
-        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
+        public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
 
 
-        public DetailViewData(Person currentPerson, Models.Project project, List<ProjectStage> projectStages,
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectFundingDetailViewData projectFundingDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
@@ -118,13 +119,13 @@ namespace ProjectFirma.Web.Views.Project
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
-            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<Models.ClassificationSystem> classificationSystems,
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<GeospatialAreaType> geospatialAreaTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<GeospatialAreaType> geospatialAreaTypes)
             : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName().ToEllipsifiedStringClean(110);
-            BreadCrumbTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Detail";
+            BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
 
             ProjectStages = projectStages;
 
@@ -137,25 +138,25 @@ namespace ProjectFirma.Web.Views.Project
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
             var backToAllProposalsText = "Back to all Proposals";
             var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
-            var backToAllPendingProjectsText = $"Back to all Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+            var backToAllPendingProjectsText = $"Back to all Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            if (project.IsRejected())
+            if (ProjectFirmaModels.Models.ProjectModelExtensions.IsRejected(project))
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
                     projectApprovalStatus == ProjectApprovalStatus.Draft ||
                     projectApprovalStatus == ProjectApprovalStatus.Returned
-                        ? $"Edit Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}"
-                        : $"Review Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+                        ? $"Edit Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
+                        : $"Review Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                if (project.IsProposal())
+                if (ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project))
                 {
                     ProjectListUrl = proposedProjectListUrl;
                     BackToProjectsText = backToAllProposalsText;
                 }
-                else if (project.IsPendingProject())
+                else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsPendingProject(project))
                 {
                     ProjectListUrl = pendingProjectsListUrl;
                     BackToProjectsText = backToAllPendingProjectsText;
@@ -164,10 +165,10 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
-                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
+                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
                 }
             }            
-            else if (project.IsProposal())
+            else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project))
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
@@ -183,17 +184,17 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
-                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
+                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
                 }
             }
-            else if (project.IsPendingProject())
+            else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsPendingProject(project))
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
                     projectApprovalStatus == ProjectApprovalStatus.Draft ||
                     projectApprovalStatus == ProjectApprovalStatus.Returned
-                        ? $"Edit Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}"
-                        : $"Review Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+                        ? $"Edit Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
+                        : $"Review Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
@@ -202,7 +203,7 @@ namespace ProjectFirma.Web.Views.Project
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
                     projectAlerts.Add(
-                        $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is pending. Any edits to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} must be made using the Add New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} workflow.");
+                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is pending. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
                 }
             }
             else
@@ -212,11 +213,11 @@ namespace ProjectFirma.Web.Views.Project
                     latestUpdateState == ProjectUpdateState.Submitted ||
                     latestUpdateState == ProjectUpdateState.Returned
                         ? "Review Update"
-                        : $"Update {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+                        : $"Update {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
                 ProjectWizardUrl = project.GetProjectUpdateUrl();
                 CanLaunchProjectOrProposalWizard = userHasProjectUpdatePermissions;
                 ProjectListUrl = FullProjectListUrl;
-                BackToProjectsText = $"Back to all {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+                BackToProjectsText = $"Back to all {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
 
                 if (currentPerson.IsPersonAProjectOwnerWhoCanStewardProjects())
@@ -224,26 +225,26 @@ namespace ProjectFirma.Web.Views.Project
                     if (currentPerson.CanStewardProject(project))
                     {
                         projectAlerts.Add(
-                            $"You are a {Models.FieldDefinition.ProjectSteward.GetFieldDefinitionLabel()} for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may edit this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
+                            $"You are a {FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. You may edit this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} by using the <i class=\"glyphicon glyphicon-edit\"></i> icon on each panel.<br/>");
                     }
                     else
                     {
                         projectAlerts.Add(
-                            $"You are a {Models.FieldDefinition.ProjectSteward.GetFieldDefinitionLabel()}, but not for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}. You may only edit {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} that are associated with your {Models.FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel()}.");
+                            $"You are a {FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel()}, but not for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. You may only edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} that are associated with your {FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabel()}.");
                     }
                 }
             }
 
             
-            if (project.GetLatestNotApprovedUpdateBatch() != null)
+            if (ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {
-                    projectAlerts.Add($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
+                    projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }
                 else
                 {
-                    projectAlerts.Add($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has an Update in progress.");
+                    projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has an Update in progress.");
                 }
             }
 
@@ -287,8 +288,8 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates",
                 SaveFiltersInCookie = true
             };
             ProjectUpdateBatchGridName = "projectUpdateBatch";

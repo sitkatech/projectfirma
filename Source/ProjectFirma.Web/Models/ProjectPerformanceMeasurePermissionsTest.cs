@@ -20,11 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     [TestFixture]
     public class ProjectPerformanceMeasurePermissionsTest

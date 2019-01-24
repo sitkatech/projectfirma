@@ -19,20 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectBasicsViewData
     {
-        public Models.Project Project { get; }
+        public ProjectFirmaModels.Models.Project Project { get; }
         public bool UserHasProjectBudgetManagePermissions { get; }
         public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
-        public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel)
+        public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project, bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
@@ -49,13 +51,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
         public int? StartYearForTotalOperatingCostCalculation { get; }
 
-        public ProjectBasicsCalculatedCosts(Models.Project project)
+        public ProjectBasicsCalculatedCosts(ProjectFirmaModels.Models.Project project)
         {
-            CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(project);
+            CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(project);
             EditInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
-            InflationRate = Models.CostParameterSet.GetLatestInflationRate();
-            TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(project);
-            StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(project);
+            InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
+            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(project);
+            StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
         }
     }
 }

@@ -25,6 +25,7 @@ using LtInfo.Common;
 using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -39,19 +40,19 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public EditSubcategoriesAndOptionsViewModel(Models.PerformanceMeasure performanceMeasure)
+        public EditSubcategoriesAndOptionsViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureSubcategorySimples = performanceMeasure.PerformanceMeasureSubcategories.ToList().Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
         }
 
-        public void UpdateModel(Models.PerformanceMeasure performanceMeasure)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             var performanceMeasureSubcategoriesFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategories.Local;
             var performanceMeasureSubcategoryOptionsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategoryOptions.Local;
 
             var performanceMeasureSubcategoriesToUpdate = PerformanceMeasureSubcategorySimples.Select(x =>
             {
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
                     x.PerformanceMeasureSubcategoryDisplayName);
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
                 performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
@@ -59,7 +60,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
                         (y, index) =>
                             new PerformanceMeasureSubcategoryOption(
-                                new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
+                                new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false,true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
                                 y.PerformanceMeasureSubcategoryOptionName,
                                 false)
                             {

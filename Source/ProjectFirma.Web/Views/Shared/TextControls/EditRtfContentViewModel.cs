@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         /// <summary>
         /// Used by PerformanceMeasure Guidance
         /// </summary>
-        public void UpdateModel(Models.PerformanceMeasure performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType)
         {
             switch (performanceMeasureRichTextType)
             {

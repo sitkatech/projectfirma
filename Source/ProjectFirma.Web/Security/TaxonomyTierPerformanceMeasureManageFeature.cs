@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} for {1} {2}", FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized(), MultiTenantHelpers.GetPerformanceMeasureName(), contextModelObject.PerformanceMeasureDisplayName));
+                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} for {1} {2}", FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized(), MultiTenantHelpers.GetPerformanceMeasureName(), contextModelObject.PerformanceMeasureDisplayName));
             }
 
             return new PermissionCheckResult();

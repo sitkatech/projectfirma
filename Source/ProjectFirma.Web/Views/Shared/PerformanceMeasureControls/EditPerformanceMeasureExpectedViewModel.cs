@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             PerformanceMeasureExpecteds = performanceMeasureExpecteds.ToList();
         }
 
-        public virtual void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, Models.Project project)
+        public virtual void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, ProjectFirmaModels.Models.Project project)
         {
             // Remove all existing associations
             currentPerformanceMeasureExpecteds.ForEach(pmav =>

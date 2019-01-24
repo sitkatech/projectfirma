@@ -23,7 +23,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.User;
@@ -33,7 +33,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
-using Organization = ProjectFirma.Web.Models.Organization;
+using Organization = ProjectFirmaModels.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -128,8 +128,8 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{FieldDefinition.Project.GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} where {person.GetFullNameFirstLast()} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Controllers
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
-                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
+                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
                     $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {
                             person.FirstName
-                        } is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for one or more {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}!");
+                        } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
             }
             if (!ModelState.IsValid)
             {
@@ -251,13 +251,13 @@ namespace ProjectFirma.Web.Controllers
             UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
             if (keystoneUser == null)
             {
-                SetErrorForDisplay($"Person not added. The {FieldDefinition.Username.GetFieldDefinitionLabel()} was not found in Keystone");
+                SetErrorForDisplay($"Person not added. The {FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()} was not found in Keystone");
                 return new ModalDialogFormJsonResult();    
             }
             
             if (!keystoneUser.OrganizationGuid.HasValue)
             {
-                SetErrorForDisplay($"Person not added. They have no {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
+                SetErrorForDisplay($"Person not added. They have no {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
             }
 
             KeystoneDataService.Organization keystoneOrganization = null;
@@ -267,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
             }
             catch (Exception)
             {
-                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
+                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
             }
 
             if (keystoneOrganization == null)
@@ -363,7 +363,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
 
-            SetMessageForDisplay($"Assigned {FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()} successfully changed for {person.GetFullNameFirstLast()}.");
+            SetMessageForDisplay($"Assigned {FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()} successfully changed for {person.GetFullNameFirstLast()}.");
             return new ModalDialogFormJsonResult();
         }
 

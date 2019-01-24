@@ -18,9 +18,10 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using MoreLinq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications
 
 <style>
@@ -36,7 +37,7 @@
 @using (Html.BeginForm())
 {
     <div>
-        Click the checkboxes below to associate this @FieldDefinition.Project.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
+        Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinitionEnum.Classification, FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
 
@@ -59,7 +60,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-8">
                         <div>
-                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, FieldDefinition.Project.GetFieldDefinitionLabel()), new List<string> {"form-control"})
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), new List<string> {"form-control"})
                         </div>
                         @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
                         @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)

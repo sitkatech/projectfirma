@@ -24,15 +24,16 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public abstract class ProjectCreateViewData : FirmaViewData
     {
-        public Models.Project Project { get; }
+        public ProjectFirmaModels.Models.Project Project { get; }
         public string CurrentSectionDisplayName { get; }
         public List<ProjectCreateSection> ProjectCreateSections { get; }
         public string ProposalListUrl { get; }
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectStage ProjectStage { get; set; }
 
         protected ProjectCreateViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             string currentSectionDisplayName,
             ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson, currentSectionDisplayName)
         {
@@ -79,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             // ReSharper restore PossibleNullReferenceException
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
-            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" : $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
             PageTitle = $"{pagetitle}: {project.GetDisplayName()}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
@@ -120,9 +121,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         }
 
-        private ProjectCreateViewData(Models.Project project, Person currentPerson, string currentSectionDisplayName) : base(currentPerson)
+        private ProjectCreateViewData(ProjectFirmaModels.Models.Project project, Person currentPerson, string currentSectionDisplayName) : base(currentPerson)
         {
-            EntityName = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}";
+            EntityName = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);

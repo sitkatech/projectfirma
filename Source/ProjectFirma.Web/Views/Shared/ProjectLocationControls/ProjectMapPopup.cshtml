@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
@@ -70,7 +70,7 @@
                 <dl class="inline">
                     <dt><strong>Duration:</strong></dt>
                     <dd>@ViewDataTyped.Duration</dd>
-                    <dt><strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel():</strong></dt>
+                    <dt><strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel():</strong></dt>
                     <dd>@ViewDataTyped.ProjectStage.ProjectStageDisplayName</dd>
                     @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                     {
@@ -86,7 +86,7 @@
                     }
                     <dt><strong>@ViewDataTyped.TaxonomyLeafDisplayName:</strong></dt>
                     <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</dd>
-                    <dt><strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel():</strong></dt>
+                    <dt><strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel():</strong></dt>
                     <dd>@ViewDataTyped.EstimatedTotalCost</dd>
                     @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
                     {
@@ -100,7 +100,7 @@
             <div class="col-xs-12 text-center">
                 <span>
                     @ViewDataTyped.DetailLinkDescriptor
-                    <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet</a>
+                    <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet</a>
                 </span>
             </div>
         </div>
@@ -110,7 +110,7 @@ else
 {
     <div style="max-width: 200px">
         <div class="text-center">
-            <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
+            <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
         </div>
     </div>
 }

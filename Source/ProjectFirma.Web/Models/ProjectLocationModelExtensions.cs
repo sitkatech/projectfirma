@@ -23,7 +23,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class ProjectLocationModelExtensions
     {

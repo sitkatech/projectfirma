@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
@@ -27,6 +27,7 @@
 @using Newtonsoft.Json.Converters
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ViewGoogleChart
 
     <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
@@ -132,7 +133,7 @@
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
                 {
                     <small style="font-weight: normal;" class="pull-right">
-                        @Html.LabelWithSugarFor(FieldDefinition.ChartLastUpdatedDate, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, "Last Updated"):
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ChartLastUpdatedDate, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, "Last Updated"):
                         @ViewDataTyped.LastUpdatedDate.ToStringDate()
                     </small>
                 }

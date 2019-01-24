@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.GeospatialArea.Detail
 
@@ -91,20 +91,20 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                             <div class="panel-body">
                                 <p>
-                                    This map displays the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
+                                    This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
                                 </p>
                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
 
-                                <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @ViewDataTyped.GeospatialAreaTypeName boundary.</p>
+                                <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, but are mapped in a single location. Therefore some @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() may appear outside of the @ViewDataTyped.GeospatialAreaTypeName boundary.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
+                                <h2>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() and @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()</h2>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
@@ -112,11 +112,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
                                         @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
                                     </div>
-                                    <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can span multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, therefore the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.GeospatialAreaTypeNamePluralized.</p>
+                                    <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() can span multiple @ViewDataTyped.GeospatialAreaTypeNamePluralized, therefore the @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.GeospatialAreaTypeNamePluralized.</p>
                                 }
                                 else
                                 {
-                                    <p class="systemText">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.GeospatialAreaTypeName.</p>
+                                    <p class="systemText">No @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.GeospatialAreaTypeName.</p>
                                 }
                             </div>
                         </div>
@@ -126,7 +126,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+                                <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
                             </div>
                             <div class="panel-body">
                                 @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -140,7 +140,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() results within this @ViewDataTyped.GeospatialAreaTypeName are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.GeospatialAreaTypeName. To see the full results for a @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel(), click the @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() name in the chart title.
+                            The reported @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() results within this @ViewDataTyped.GeospatialAreaTypeName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.GeospatialAreaTypeName. To see the full results for a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), click the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
@@ -165,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="row">
                             <div class="col-xs-12">
                                 <p class="text-center">
-                                    There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.GeospatialAreaTypeName.
+                                    There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.GeospatialAreaTypeName.
                                 </p>
                             </div>
                         </div>

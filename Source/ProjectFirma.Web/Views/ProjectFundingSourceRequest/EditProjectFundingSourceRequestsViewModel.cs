@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -41,16 +41,16 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceRequest
         }
 
         public EditProjectFundingSourceRequestsViewModel(
-            List<Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
+            List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
             ProjectFundingSourceRequests = projectFundingSourceRequests
                 .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
         }
 
-        public void UpdateModel(List<Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
-            IList<Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
         {
-            var projectFundingSourceRequestsUpdated = new List<Models.ProjectFundingSourceRequest>();
+            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceRequest>();
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list

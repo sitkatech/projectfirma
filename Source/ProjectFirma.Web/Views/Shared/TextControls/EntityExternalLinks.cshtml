@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.TextControls.EntityExternalLinks
 
 @if (ViewDataTyped.ExternalLinks.Any())
@@ -36,5 +36,5 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 else
 {
-    <p class="systemText">No @FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized() entered.</p>
+    <p class="systemText">No @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized() entered.</p>
 }

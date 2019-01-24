@@ -20,8 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectOrganization.EditOrganizations
 
 <script type="text/javascript">
@@ -65,8 +66,8 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
     <div class="row">
         <div class="col-md-12">
-            <p>Select the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) and @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() that are associated with your @FieldDefinition.Project.GetFieldDefinitionLabel(). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
-            <p class="systemText">@FieldDefinition.Project.GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() in the @FieldDefinition.Project.GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
+            <p>Select the @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()) and @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() that are associated with your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
+            <p class="systemText">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
         </div>
     </div>
 
@@ -105,7 +106,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="smallExplanationText">@FieldDefinition.ProjectPrimaryContact.GetFieldDefinitionDescription()</div>
+            <div class="smallExplanationText">@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionDescription()</div>
         </div>
         <div class="col-md-12">
             <div class="row">
@@ -113,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-md-12">
                     <div class="input-group" style="width: 100%;">
                         <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
-                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple != null" value="null" ng-selected="isPersonSelected(null)">Use the {{AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName}}'s @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel())</option>
+                            <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple != null" value="null" ng-selected="isPersonSelected(null)">Use the {{AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName}}'s @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel())</option>
                             <option ng-if="AngularViewData.PrimaryContactRelationshipTypeSimple == null" value="null" ng-selected="isPersonSelected(null)">Select One</option>
                             <option ng-repeat="person in AngularViewData.AllPeople"
                                     ng-bind="person.FullNameWithOrgShortName"
@@ -122,10 +123,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         </select>
                     </div>
                     <p class="help-block alert alert-info" ng-show="isPersonSelected(null)">
-                        <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">The default @(FieldDefinition.ProjectPrimaryContact.GetFieldDefinitionLabel()) is the person set as the @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) for the <span ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName"></span>, if there is one.</span>
-                        <span>Currently, this means <span style="font-weight: bold" ng-bind="primaryContactOrganizationPersonDisplayName(AngularViewData.PrimaryContactRelationshipTypeSimple)"></span> will be the @(FieldDefinition.ProjectPrimaryContact.GetFieldDefinitionLabel()).</span>
+                        <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">The default @(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()) is the person set as the @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()) for the <span ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.RelationshipTypeName"></span>, if there is one.</span>
+                        <span>Currently, this means <span style="font-weight: bold" ng-bind="primaryContactOrganizationPersonDisplayName(AngularViewData.PrimaryContactRelationshipTypeSimple)"></span> will be the @(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()).</span>
                         <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null && primaryContactOrganizationHasNoPrimaryContact(AngularViewData.PrimaryContactRelationshipTypeSimple)">
-                            Consider setting a @(FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()) for <a href="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).DetailUrl}}" alt="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName}}" ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName"></a>.
+                            Consider setting a @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()) for <a href="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).DetailUrl}}" alt="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName}}" ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName"></a>.
                         </span>
                     </p>
                 </div>
@@ -175,7 +176,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <span>
                             <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.RelationshipTypeID); $event.preventDefault();">
-                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()"></i>
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
                             </a>
                         </span><span ng-bind="organization.OrganizationName"></span>
                     </div>

@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Returns the <see cref="ProjectFirma.Web.Models.Person.PersonID"/> associated with this <see cref="WebServiceToken"/>.
+        /// Returns the <see cref="ProjectFirmaModels.Models.Person.PersonID"/> associated with this <see cref="WebServiceToken"/>.
         /// In unit test situation using <see cref="WebServiceTokenGuidForUnitTests"/> that would be Ray Lee's person ID for now
         /// Might want to introduce a system person at some point.
         /// </summary>

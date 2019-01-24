@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -17,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EditOrganizationsViewData = editOrganizationsViewData;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
             SectionCommentsViewData =
-                new SectionCommentsViewData(projectUpdateBatch.OrganizationsComment, projectUpdateBatch.IsReturned);
+                new SectionCommentsViewData(projectUpdateBatch.OrganizationsComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshOrganizations(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffOrganizations(projectUpdateBatch.Project));
         }

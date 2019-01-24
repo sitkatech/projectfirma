@@ -22,9 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
@@ -45,14 +47,11 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Index()
         {
-            var firmaPageTypeHomePage = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
-            var firmaPageByPageTypeHomePage = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePage);
+            var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
 
-            var firmaPageTypeHomePageAdditionalInfo = FirmaPageType.ToType(FirmaPageTypeEnum.HomeAdditionalInfo);
-            var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePageAdditionalInfo);
+            var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPageTypeEnum.HomeAdditionalInfo.GetFirmaPage();
 
-            var firmaPageTypeHomePageMapInfo = FirmaPageType.ToType(FirmaPageTypeEnum.HomeMapInfo);
-            var firmaPageByPageTypeHomePageMapInfo = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePageMapInfo);
+            var firmaPageByPageTypeHomePageMapInfo = FirmaPageTypeEnum.HomeMapInfo.GetFirmaPage();
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
@@ -60,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow, currentPersonCanViewProposals);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized()}", projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "ProjectLocationsMap")
                 {
@@ -93,9 +92,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
-            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
-
+            var firmaPage = firmaPageTypeEnum.GetFirmaPage();
             var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentPerson, firmaPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
@@ -147,8 +144,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Training()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Training);
-            List<Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
+            var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
+            List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
             var viewData = new TrainingVideoViewData(CurrentPerson, firmaPage, trainingVideos);
             return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
         }
@@ -157,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult StyleGuide()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Training);
+            var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
             var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
             return RazorView<StyleGuide, StyleGuideViewData>(viewData);
         }

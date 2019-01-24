@@ -32,6 +32,7 @@ using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.CustomPage
@@ -41,12 +42,12 @@ namespace ProjectFirma.Web.Views.CustomPage
         public int CustomPageID { get; set; }
 
         [Required]
-        [StringLength(Models.CustomPage.FieldLengths.CustomPageDisplayName)]
+        [StringLength(ProjectFirmaModels.Models.CustomPage.FieldLengths.CustomPageDisplayName)]
         [DisplayName("Page Name")]
         public string CustomPageDisplayName { get; set; }
 
         [Required]
-        [StringLength(Models.CustomPage.FieldLengths.CustomPageVanityUrl)]
+        [StringLength(ProjectFirmaModels.Models.CustomPage.FieldLengths.CustomPageVanityUrl)]
         [DisplayName("Vanity Url")]
         public string CustomPageVanityUrl { get; set; }
 
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web.Views.CustomPage
         {
         }
 
-        public EditViewModel(Models.CustomPage customPage)
+        public EditViewModel(ProjectFirmaModels.Models.CustomPage customPage)
         {
             CustomPageID = customPage.CustomPageID;
             CustomPageDisplayName = customPage.CustomPageDisplayName;
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;            
         }
 
-        public void UpdateModel(Models.CustomPage customPage, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, Person currentPerson)
         {
             customPage.CustomPageDisplayName = CustomPageDisplayName;
             customPage.CustomPageVanityUrl = CustomPageVanityUrl;

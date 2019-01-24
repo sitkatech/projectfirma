@@ -21,10 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 
@@ -32,7 +34,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.Organization Organization;
+        public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
         public readonly string EditOrganizationUrl;
         public readonly string EditBoundaryUrl;
@@ -79,16 +81,16 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfProjectsContributedTo { get; }
 
         public DetailViewData(Person currentPerson,
-            Models.Organization organization,
+            ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
-            List<Models.PerformanceMeasure> performanceMeasures, 
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentPerson)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
-            EntityName = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}";
+            EntityName = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
@@ -101,8 +103,8 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectsIncludingLeadImplementingGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false)
                 {
-                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -112,14 +114,14 @@ namespace ProjectFirma.Web.Views.Organization
                     tc => tc.ProjectsIncludingLeadImplementingGridJsonData(organization));
 
             ProjectStewardOrLeadImplementorFieldDefinitionName = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship()
-                ? Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()
+                ? FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()
                 : "Lead Implementer";
 
             ProjectFundingSourceExpendituresForOrganizationGridSpec =
                 new ProjectFundingSourceExpendituresForOrganizationGridSpec(organization)
                 {
-                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()}",
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -140,18 +142,18 @@ namespace ProjectFirma.Web.Views.Organization
 
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
-                                        (CurrentPerson.RoleID != Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
+                                        (CurrentPerson.RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
                                          CurrentPerson.OrganizationID == organization.OrganizationID);
             ShowProposals = currentPerson.CanViewProposals();
             ProposalsPanelHeader = MultiTenantHelpers.ShowProposalsToThePublic()
-                ? Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()
-                : $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";
+                ? FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()
+                : $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";
 
             ProposalsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
                 {
-                    ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -165,8 +167,8 @@ namespace ProjectFirma.Web.Views.Organization
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
                 {
-                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
                     SaveFiltersInCookie = true
                 };
 
@@ -179,10 +181,10 @@ namespace ProjectFirma.Web.Views.Organization
             var allAssociatedProjects = Organization.GetAllAssociatedProjects();
             NumberOfStewardedProjects = allAssociatedProjects
                 .Distinct()
-                .Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
+                .Count(x => ProjectFirmaModels.Models.ProjectModelExtensions.IsActiveProject(x) && ProjectFirmaModels.Models.ProjectModelExtensions.GetCanStewardProjectsOrganization(x) == Organization);
             NumberOfLeadImplementedProjects = allAssociatedProjects
                 .Distinct()
-                .Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
+                .Count(x => ProjectFirmaModels.Models.ProjectModelExtensions.IsActiveProject(x) && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.Distinct().ToList().GetActiveProjects().Count;
         }
     }

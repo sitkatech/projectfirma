@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectImageUpdate
@@ -29,12 +29,12 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
     {
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCaption)]
-        [StringLength(Models.ProjectImageUpdate.FieldLengths.Caption)]
+        [StringLength(ProjectFirmaModels.Models.ProjectImageUpdate.FieldLengths.Caption)]
         public string Caption { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCredit)]
-        [StringLength(Models.ProjectImageUpdate.FieldLengths.Credit)]
+        [StringLength(ProjectFirmaModels.Models.ProjectImageUpdate.FieldLengths.Credit)]
         public string Credit { get; set; }
 
         [Required]
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
         {
         }
 
-        public EditViewModel(Models.ProjectImageUpdate projectImageUpdate)
+        public EditViewModel(ProjectFirmaModels.Models.ProjectImageUpdate projectImageUpdate)
         {
             Caption = projectImageUpdate.Caption;
             Credit = projectImageUpdate.Credit;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
             ExcludeFromFactSheet = projectImageUpdate.ExcludeFromFactSheet;
         }
 
-        public virtual void UpdateModel(Models.ProjectImageUpdate projectImageUpdate, Person person)
+        public virtual void UpdateModel(ProjectFirmaModels.Models.ProjectImageUpdate projectImageUpdate, Person person)
         {
             projectImageUpdate.Caption = Caption;
             projectImageUpdate.Credit = Credit;

@@ -22,9 +22,10 @@ using System;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.CostParameterSet;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -33,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public ViewResult Detail()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CostParameterSet);
+            var firmaPage = FirmaPageTypeEnum.CostParameterSet.GetFirmaPage();
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
             var viewData = new DetailViewData(CurrentPerson, firmaPage, costParameterSet);
             return RazorView<Detail, DetailViewData>(viewData);

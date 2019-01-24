@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
@@ -34,17 +35,17 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public FeaturedListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
             GridName = "featuredListGrid";
             GridSpec = new FeaturesListProjectGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects()), $"Edit Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}"),
-                CreateEntityActionPhrase = $"Add/Remove Featured {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}"
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects()), $"Edit Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"),
+                CreateEntityActionPhrase = $"Add/Remove Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"
             };
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.FeaturedListGridJsonData());
         }

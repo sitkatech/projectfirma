@@ -1,6 +1,6 @@
 ﻿using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class ProjectUpdateModelExtensions
     {

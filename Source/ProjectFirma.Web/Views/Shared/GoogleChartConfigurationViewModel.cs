@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "chartType")]
         public string ChartType { get; set; }
 
-        public void UpdateModel(Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID)
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);

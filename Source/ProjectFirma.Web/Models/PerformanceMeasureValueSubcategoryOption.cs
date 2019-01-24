@@ -18,10 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,7 +42,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategory = performanceMeasureSubcategory;
         }
 
-        private static IEnumerable<PerformanceMeasureValueSubcategoryOption> GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(IPerformanceMeasureValue performanceMeasureValue)
+        public static IEnumerable<PerformanceMeasureValueSubcategoryOption> GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(IPerformanceMeasureValue performanceMeasureValue)
         {
             var performanceMeasure = performanceMeasureValue.PerformanceMeasure;
             var selectedPerformanceMeasureValueSubcategoryOptions = performanceMeasureValue.GetPerformanceMeasureSubcategoryOptions();

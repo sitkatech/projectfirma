@@ -18,18 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@inherits ProjectFirma.Web.Views.FieldDefinition.Index
+@inherits ProjectFirma.Web.Views.FieldDefinitionEnum.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
 <p>
-    Use this page to update the definitions for fields used in this system. These definitions provide guidance or help to users who are viewing or editing information in this system. These definitions are visible to users when viewing a page or editor that lists these fields (e.g. the summary page for a @FieldDefinition.Project.GetFieldDefinitionLabel(), and its popup editors).
+    Use this page to update the definitions for fields used in this system. These definitions provide guidance or help to users who are viewing or editing information in this system. These definitions are visible to users when viewing a page or editor that lists these fields (e.g. the summary page for a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), and its popup editors).
 </p>
 
 <div class="container-fluid">

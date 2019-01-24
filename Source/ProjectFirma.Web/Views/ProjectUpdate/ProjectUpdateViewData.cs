@@ -25,15 +25,17 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ProjectUpdateViewData : FirmaViewData
     {
         public ProjectUpdateBatch ProjectUpdateBatch { get; }
-        public Models.Project Project { get; }
+        public ProjectFirmaModels.Models.Project Project { get; }
         public Person PrimaryContactPerson { get; }
         public string ProjectUpdateMyProjectsUrl { get; }
         public string ProjectUpdateHistoryUrl { get; }
@@ -64,8 +66,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
-            HtmlPageTitle += $" - {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
-            EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update";
+            HtmlPageTitle += $" - {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates";
+            EntityName = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update";
             PageTitle = $"Update: {Project.GetDisplayName()}";
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             ProjectUpdateHistoryUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.History(Project));
@@ -75,10 +77,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ReturnUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Return(Project));
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.UpdateFeedback());
             var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(CurrentPerson, Project).HasPermission;
-            ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted && isApprover;
-            IsEditable = projectUpdateBatch.InEditableState || ShowApproveAndReturnButton;
-            IsReadyToApprove = projectUpdateBatch.IsReadyToApprove;
-            AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid;
+            ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted() && isApprover;
+            IsEditable = projectUpdateBatch.InEditableState() || ShowApproveAndReturnButton;
+            IsReadyToApprove = projectUpdateBatch.IsReadyToApprove();
+            AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
             ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false);

@@ -21,8 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using NUnit.Framework;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
@@ -53,8 +53,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             var projectOrganization3 = TestFramework.TestProjectOrganization.Create(project, organization3);
             
            
-            var projectOrganizations = new List<Models.ProjectOrganization>();
-            var viewModel = new EditOrganizationsViewModel(project, projectOrganizations, Person.CreateNewBlank(Models.Role.Normal, Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
+            var projectOrganizations = new List<ProjectFirmaModels.Models.ProjectOrganization>();
+            var viewModel = new EditOrganizationsViewModel(project, projectOrganizations, Person.CreateNewBlank(ProjectFirmaModels.Models.Role.Normal, ProjectFirmaModels.Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
 
             //TODO tests
         }

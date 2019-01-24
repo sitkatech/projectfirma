@@ -25,7 +25,7 @@ using LtInfo.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     /// <summary>
     /// example: Jurisdiction layer or Road layer

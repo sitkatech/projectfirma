@@ -24,7 +24,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier
     {

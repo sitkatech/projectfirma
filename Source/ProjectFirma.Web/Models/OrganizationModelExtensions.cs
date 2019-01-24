@@ -30,10 +30,11 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class OrganizationModelExtensions
     {
@@ -80,7 +81,7 @@ namespace ProjectFirma.Web.Models
             return organizationsToShow.GroupBy(x => x.OrganizationType, (organizationType, organizationList) =>
             {
                 return new LayerGeoJson(
-                    $"{organizationType.OrganizationTypeName} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
+                    $"{organizationType.OrganizationTypeName} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                     new FeatureCollection(organizationList.Select(organization =>
                     {
                         var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(organization.OrganizationBoundary);
@@ -128,7 +129,7 @@ namespace ProjectFirma.Web.Models
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                return allActiveProjectsAndProposals.Where(x => x.GetCanStewardProjectsOrganization() == organization).ToList();
+                return allActiveProjectsAndProposals.Where(x => ProjectModelExtensions.GetCanStewardProjectsOrganization(x) == organization).ToList();
             }
 
             return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == organization).ToList();

@@ -22,7 +22,7 @@ using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Common

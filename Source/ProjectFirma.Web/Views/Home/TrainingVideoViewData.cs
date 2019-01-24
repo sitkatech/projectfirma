@@ -19,16 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Home
 {
     public class TrainingVideoViewData : FirmaViewData
     {
 
-        public List<Models.TrainingVideo> TrainingVideos { get; }
+        public List<ProjectFirmaModels.Models.TrainingVideo> TrainingVideos { get; }
 
-        public TrainingVideoViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.TrainingVideo> trainingVideos) : base(currentPerson, firmaPage)
+        public TrainingVideoViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos) : base(currentPerson, firmaPage)
         {
             PageTitle = "Training";
             EntityName = "Stormwater Tools";

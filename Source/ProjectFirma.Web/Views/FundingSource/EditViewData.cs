@@ -28,14 +28,14 @@ namespace ProjectFirma.Web.Views.FundingSource
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> Organizations;
-        public readonly Models.Person CurrentPerson;
+        public readonly ProjectFirmaModels.Models.Person CurrentPerson;
         public readonly bool AllowPersonToSetOrganization;
 
-        public EditViewData(IEnumerable<SelectListItem> organizations, Models.Person currentPerson)
+        public EditViewData(IEnumerable<SelectListItem> organizations, ProjectFirmaModels.Models.Person currentPerson)
         {
             Organizations = organizations;
             CurrentPerson = currentPerson;
-            AllowPersonToSetOrganization = new List<Models.Role> { Models.Role.Admin, Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
+            AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
         }
     }
 }

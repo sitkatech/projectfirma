@@ -18,9 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Common;
 
@@ -28,7 +30,7 @@ namespace ProjectFirma.Web.Views.Tag
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.Tag Tag;
+        public readonly ProjectFirmaModels.Models.Tag Tag;
         public readonly string EditTagUrl;
         public readonly string ManageTagsUrl;
         public readonly bool UserHasTagManagePermissions;
@@ -36,7 +38,7 @@ namespace ProjectFirma.Web.Views.Tag
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
 
-        public DetailViewData(Person currentPerson, Models.Tag tag) : base(currentPerson)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tag tag) : base(currentPerson)
         {
             Tag = tag;            
             PageTitle = tag.TagName;
@@ -50,8 +52,8 @@ namespace ProjectFirma.Web.Views.Tag
 
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this Tag",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this Tag",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this Tag",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this Tag",
                 SaveFiltersInCookie = true
             };
             

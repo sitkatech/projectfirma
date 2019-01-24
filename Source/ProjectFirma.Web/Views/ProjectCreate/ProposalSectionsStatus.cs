@@ -24,7 +24,7 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -40,14 +40,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
-        public static bool AreAllSectionsValidForProject(Models.Project project)
+        public static bool AreAllSectionsValidForProject(ProjectFirmaModels.Models.Project project)
         {
             return project.GetApplicableProposalWizardSections(false).All(x => x.IsComplete);
         }
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }
 
-        public ProposalSectionsStatus(Models.Project project, List<GeospatialAreaType> geospatialAreaTypes)
+        public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes)
         {
             var basicsResults = new BasicsViewModel(project).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();

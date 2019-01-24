@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -49,18 +49,18 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
             {
-                return new PermissionCheckResult($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has been approved and can no longer be edited through this wizard.");
+                return new PermissionCheckResult($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been approved and can no longer be edited through this wizard.");
             }
 
             if (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
             {
-                return new PermissionCheckResult($"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} has been rejected and can no longer be edited through this wizard.");
+                return new PermissionCheckResult($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been rejected and can no longer be edited through this wizard.");
             }
 
             var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);
             if (!projectIsEditableByUser)
             {
-                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
+                return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

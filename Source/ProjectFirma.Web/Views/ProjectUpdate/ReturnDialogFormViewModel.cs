@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -35,19 +35,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 switch (ProjectUpdateSectionEnum.Value)
                 {
-                    case Models.ProjectUpdateSectionEnum.Basics:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Basics:
                         projectUpdateBatch.BasicsComment = SectionComments;
                         break;
-                    case Models.ProjectUpdateSectionEnum.Expenditures:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Expenditures:
                         projectUpdateBatch.ExpendituresComment = SectionComments;
                         break;
-                    case Models.ProjectUpdateSectionEnum.PerformanceMeasures:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.PerformanceMeasures:
                         projectUpdateBatch.PerformanceMeasuresComment = SectionComments;
                         break;
-                    case Models.ProjectUpdateSectionEnum.LocationSimple:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.LocationSimple:
                         projectUpdateBatch.LocationSimpleComment = SectionComments;
                         break;
-                    case Models.ProjectUpdateSectionEnum.LocationDetailed:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.LocationDetailed:
                         projectUpdateBatch.LocationDetailedComment = SectionComments;
                         break;
                     default:

@@ -23,9 +23,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ApprovalUtilities.Utilities;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
@@ -37,13 +39,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly string EditProjectGeospatialAreasUrl;
         public readonly bool HasProjectLocationPoint;
         public readonly bool HasProjectLocationDetail;
-        public readonly List<Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation;
+        public readonly List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation;
         public readonly string SimplePointMarkerImg;
 
         public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson,
-            List<Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
             string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
-            GeospatialAreaType geospatialAreaType, List<Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation) : base(currentPerson)
+            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation) : base(currentPerson)
         {
             GeospatialAreaType = geospatialAreaType;
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
@@ -73,8 +75,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly bool HasProjectLocationPoint;
 
         public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson,
-            List<Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType,
-            List<Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, bool hasProjectLocationPoint)
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType,
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, bool hasProjectLocationPoint)
         {
             MapInitJson = mapInitJson;
             FindGeospatialAreaByNameUrl =

@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -30,6 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.TaxonomyTrunk.Detail
@@ -71,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTrunkDescription)</h2>
+                <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunkDescription)</h2>
             </div>
             <div class="panel-body">
                 <div>
@@ -82,14 +83,14 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ViewDataTyped.TaxonomyTrunkDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
+                <h2>@ViewDataTyped.TaxonomyTrunkDisplayName @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() Map</h2>
             </div>
             <div style="padding: 10px">
                 To zoom, hold down Shift and drag a rectangle.
                 <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </div>
-                Some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() operate over larger areas and are not represented on the map, but are listed in the @FieldDefinition.Project.GetFieldDefinitionLabel() grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+                Some @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() operate over larger areas and are not represented on the map, but are listed in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
         </div>
 
@@ -106,7 +107,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
                         @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.SortByOrderThenName())
                         {
@@ -136,7 +137,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
                         @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTrunk.GetTaxonomyLeafs().SortByOrderThenName())
                         {
@@ -182,7 +183,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
-            <a href="@ViewDataTyped.FullProjectListUrl">@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
+            <a href="@ViewDataTyped.FullProjectListUrl">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</a>
         </h2>
     </div>
     <div class="panel-body">

@@ -22,9 +22,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ApprovalUtilities.Utilities;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Controllers
 {

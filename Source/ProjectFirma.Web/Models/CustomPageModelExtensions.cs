@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -18,11 +19,6 @@ namespace ProjectFirma.Web.Models
         {
             return customPages.SingleOrDefault(x =>
                        x.CustomPageID != currentCustomPageID && string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.InvariantCultureIgnoreCase)) == null;
-        }
-
-        public static string GetEditPageContentUrl(this CustomPage customPage)
-        {
-            return SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(customPage));
         }
 
         public static string GetAboutPageUrl(this CustomPage customPage) =>

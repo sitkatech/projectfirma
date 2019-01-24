@@ -21,8 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -37,7 +38,7 @@ namespace ProjectFirma.Web.Views.Results
         public string SpendingByOrganizationTypeAndOrganizationUrl { get; }
         public string ParticipatingOrganizationsUrl { get; }
 
-        public List<Models.Organization> Organizations { get; }
+        public List<ProjectFirmaModels.Models.Organization> Organizations { get; }
         public List<int> CalendarYears { get; }
         public int DefaultBeginYear { get; }
         public int DefaultEndYear { get; }
@@ -48,12 +49,12 @@ namespace ProjectFirma.Web.Views.Results
         public string ConfigureAccomplishmentsDashboardUrl { get; set; }
         public TenantAttribute TenantAttribute { get; set; }
 
-        public AccomplishmentsDashboardViewData(Person currentPerson, Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
-            List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
+        public AccomplishmentsDashboardViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
+            List<ProjectFirmaModels.Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
             List<ITaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentPerson, firmaPage)
         {
-            var accomplishmentsDashboardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
-                .GetFieldDefinitionLabelPluralized();
+            var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
+                .ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = "Accomplishments Dashboard";
             TenantAttribute = tenantAttribute;
             Organizations = organizations;
@@ -67,7 +68,7 @@ namespace ProjectFirma.Web.Views.Results
             OrganizationDetailUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int));
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
             AccomplishmentsDashboardOrganizationTypeName = accomplishmentsDashboardOrganizationTypeName;
-            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.ToType().GetFieldDefinition().ToType().GetFieldDefinitionLabel();
             HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             ConfigureAccomplishmentsDashboardUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.ConfigureAccomplishmentsDashboard());
         }

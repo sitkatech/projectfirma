@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using LtInfo.Common
@@ -45,26 +45,26 @@ Source code is available upon request via <support@sitkatech.com>.
     </script>
 }
 
-To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinition.Project.GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinition.CompletionYear.GetFieldDefinitionLabel()
-(or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your @FieldDefinition.Project.GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized().
+To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()
+(or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the current year). If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized().
 <hr />
 <div style="margin: 10px 0">
     <p>
-        Other financial information for this @FieldDefinition.Project.GetFieldDefinitionLabel() that might be helpful:
+        Other financial information for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that might be helpful:
     </p>
 
     @if (ViewDataTyped.Project.FundingType == FundingType.Capital)
     {
-        <div style="width: 300px">@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</span></div>
     }
     else if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
     {
         <table>
             <tr>
                 <td style="width: 200px">
-                   @FieldDefinition.EstimatedAnnualOperatingCost.GetFieldDefinitionLabel():
+                   @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel():
                 </td>
                 <td>
                     <span style="font-weight: bold">@ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()</span>
@@ -93,7 +93,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
             <div style="margin-top: 5px">
                 <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
                     <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
-                    What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no expenditures to report?
+                    What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report?
                 </a>
                 <div ng-show="AngularViewData.ShowNoExpendituresExplanation" >
                     Select the years for which you have no expenditures to report and provide a brief explanation.
@@ -111,7 +111,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
             <hr />
 
             <div style="display: inline-block; margin-right: 5px; vertical-align: top">
-                @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
+                @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:
             </div>
             <br/>
             <div class="input-group">
@@ -119,9 +119,9 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
                         class="selectpicker"
                         data-live-search="true"
                         data-container="body"
-                        title="Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add"
+                        title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
                         data-width="70%">
-                    <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
+                    <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
                     <option ng-repeat="fundingSource in filteredFundingSources()"
                             value="{{fundingSource.FundingSourceID}}"
                             ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
@@ -136,7 +136,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
                 <br />
 
             </div>
-            <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinition.Project.GetFieldDefinitionLabel()'s funders</label>
+            <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s funders</label>
             <hr />
             <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
                 <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
@@ -185,7 +185,7 @@ To enter your @FieldDefinition.Project.GetFieldDefinitionLabel()'s annual expend
                     </thead>
                     <tbody>
                     <tr style="font-weight: bold;">
-                        <td>All @FieldDefinition.FundingSource.GetFieldDefinitionLabel()s:</td>
+                        <td>All @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()s:</td>
                         <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
                             {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
                         </td>

@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 {
@@ -32,19 +32,19 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 
         public bool Standalone { get; }
 
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<Models.Organization> allOrganizations,  bool standalone)
+        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> allOrganizations,  bool standalone)
             : base(currentPerson)
         {
             ViewDataForAngular = new EditViewDataForAngular(allOrganizations);
             Standalone = standalone;
         }
 
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<Models.TaxonomyBranch> allTaxonomyBranches, bool standalone) : base(currentPerson)
+        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.TaxonomyBranch> allTaxonomyBranches, bool standalone) : base(currentPerson)
         {
             ViewDataForAngular = new EditViewDataForAngular(allTaxonomyBranches);
             Standalone = standalone;
         }
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<Models.GeospatialArea> allGeospatialAreas, bool standalone) : base(currentPerson)
+        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.GeospatialArea> allGeospatialAreas, bool standalone) : base(currentPerson)
         {
             ViewDataForAngular = new EditViewDataForAngular(allGeospatialAreas);
             Standalone = standalone;
@@ -54,16 +54,16 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
         {
             public List<StewardshipAreaSimple> AllStewardshipAreas{ get; }
 
-            public EditViewDataForAngular(List<Models.Organization> allOrganizations)
+            public EditViewDataForAngular(List<ProjectFirmaModels.Models.Organization> allOrganizations)
             {
                 AllStewardshipAreas = allOrganizations.OrderBy(x => x.GetDisplayName()).Select(x => new StewardshipAreaSimple(x)).ToList();
             }
 
-            public EditViewDataForAngular(List<Models.TaxonomyBranch> allTaxonomyBranches)
+            public EditViewDataForAngular(List<ProjectFirmaModels.Models.TaxonomyBranch> allTaxonomyBranches)
             {
                 AllStewardshipAreas = allTaxonomyBranches.OrderBy(x => x.GetDisplayName()).Select(x => new StewardshipAreaSimple(x)).ToList();
             }
-            public EditViewDataForAngular(List<Models.GeospatialArea> allGeospatialAreas)
+            public EditViewDataForAngular(List<ProjectFirmaModels.Models.GeospatialArea> allGeospatialAreas)
             {
                 AllStewardshipAreas = allGeospatialAreas.OrderBy(x => x.GetDisplayName()).Select(x => new StewardshipAreaSimple(x)).ToList();
             }

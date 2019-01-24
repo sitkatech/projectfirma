@@ -26,7 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanStewardProjects))
             {
                 yield return new SitkaValidationResult<EditRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
+                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
                     m => m.CanStewardProjects);
             }
 
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
             {
                 yield return new SitkaValidationResult<EditRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
+                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
                     m => m.IsPrimaryContact);
             }
         }

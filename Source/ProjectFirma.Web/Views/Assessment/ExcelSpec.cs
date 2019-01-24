@@ -21,18 +21,18 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Assessment
 {
-    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<Models.Project>
+    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.Project>
     {
         public ProjectAssessmentExcelSpec()
         {
-            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.GetDisplayName());
+            AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", project => project.GetDisplayName());
 
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
             {

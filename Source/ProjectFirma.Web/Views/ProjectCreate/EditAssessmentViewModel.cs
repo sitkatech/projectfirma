@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -43,12 +43,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }   
  
 
-        public void UpdateModel(Models.Project project)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
             project.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
             foreach (var simple in ProjectAssessmentQuestionSimples)
             {
-                project.ProjectAssessmentQuestions.Add(new Models.ProjectAssessmentQuestion(simple));
+                project.ProjectAssessmentQuestions.Add(new ProjectFirmaModels.Models.ProjectAssessmentQuestion(simple));
             }                       
         }
 

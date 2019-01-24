@@ -24,24 +24,24 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class SpendingByOrganizationTypeByOrganizationViewData : FirmaUserControlViewData
     {
         public List<OrganizationType> OrganizationTypes { get; }
-        public List<Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
+        public List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
         public List<ITaxonomyTier> TaxonomyTiers { get; }
         public string TaxonomyTierDisplayName { get; }
-        public Dictionary<int, IEnumerable<Models.ProjectFundingSourceExpenditure>> ProjectFundingSourceExpendituresByTaxonomyTierID { get; }
+        public Dictionary<int, IEnumerable<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>> ProjectFundingSourceExpendituresByTaxonomyTierID { get; }
 
-        public SpendingByOrganizationTypeByOrganizationViewData(TenantAttribute tenantAttribute, List<OrganizationType> organizationTypes, List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<ITaxonomyTier> taxonomyTiers)
+        public SpendingByOrganizationTypeByOrganizationViewData(TenantAttribute tenantAttribute, List<OrganizationType> organizationTypes, List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<ITaxonomyTier> taxonomyTiers)
         {
             OrganizationTypes = organizationTypes;
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
             TaxonomyTiers = taxonomyTiers;
-            TaxonomyTierDisplayName = TaxonomyTierHelpers.GetFieldDefinitionForTaxonomyLevel(tenantAttribute.TaxonomyLevel).GetFieldDefinitionLabel();
+            TaxonomyTierDisplayName = TaxonomyTierHelpers.ToType().GetFieldDefinitionForTaxonomyLevel(tenantAttribute.TaxonomyLevel).ToType().GetFieldDefinitionLabel();
 
             ProjectFundingSourceExpendituresByTaxonomyTierID = ProjectFundingSourceExpenditures.GroupBy(x => {
                     switch (tenantAttribute.TaxonomyLevel.ToEnum)
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Results
                             throw new ArgumentOutOfRangeException();
                     }
                 })
-                .ToDictionary(x => x.Key, x => x.ToList() as IEnumerable<Models.ProjectFundingSourceExpenditure>);
+                .ToDictionary(x => x.Key, x => x.ToList() as IEnumerable<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>);
         }
 
     }

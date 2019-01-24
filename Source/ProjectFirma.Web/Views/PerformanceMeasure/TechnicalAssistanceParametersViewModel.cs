@@ -5,7 +5,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
 }
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public class TechnicalAssistanceParameterSimple
     {

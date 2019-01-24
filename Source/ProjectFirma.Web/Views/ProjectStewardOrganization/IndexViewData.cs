@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectStewardOrganization
 {
@@ -31,17 +32,17 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
-        public readonly List<Models.Organization> ProjectStewardOrganizations;
+        public readonly List<ProjectFirmaModels.Models.Organization> ProjectStewardOrganizations;
 
-        public IndexViewData(Person currentPerson, List<Models.Organization> projectStewardOrganizations, Models.FirmaPage firmaPage)
+        public IndexViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> projectStewardOrganizations, ProjectFirmaModels.Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}";
 
             GridSpec = new IndexGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.ProjectStewardOrganizationDisplayName.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

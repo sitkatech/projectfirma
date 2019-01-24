@@ -28,13 +28,14 @@ using System.Web.Mvc;
 using ClosedXML.Excel;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PerformanceMeasuresList);
+            var firmaPage = FirmaPageTypeEnum.PerformanceMeasuresList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -392,10 +393,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var excelWorkbook = new XLWorkbook();
-            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}");
+            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}");
 
             var row = 1;
-            var fieldDefinitionLabel = FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();
+            var fieldDefinitionLabel = FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel();
             foreach (var performanceMeasure in performanceMeasures)
             {
                 var performanceMeasureHeaderCell = ws.Cell(row, 1);
@@ -407,7 +408,7 @@ namespace ProjectFirma.Web.Controllers
                 unitsHeaderCell.SetDataType(XLCellValues.Text);
                 unitsHeaderCell.Style.Font.SetBold();
                 var subcategoryHeaderCell = ws.Cell(row, 3);
-                subcategoryHeaderCell.SetValue(FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel());
+                subcategoryHeaderCell.SetValue(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel());
                 subcategoryHeaderCell.SetDataType(XLCellValues.Text);
                 subcategoryHeaderCell.Style.Font.SetBold();
                 var numberOfOptionsHeaderCell = ws.Cell(row, 4);
@@ -463,7 +464,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(IQueryable<PerformanceMeasure> performanceMeasures, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(performanceMeasures), FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized());
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(performanceMeasures), FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
@@ -481,7 +482,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(new List<IHaveASortOrder>(performanceMeasures));
-            SetMessageForDisplay($"Successfully Updated {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} Sort Order");
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
 

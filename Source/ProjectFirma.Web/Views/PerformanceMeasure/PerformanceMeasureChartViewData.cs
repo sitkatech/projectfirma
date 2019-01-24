@@ -21,9 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
@@ -32,7 +34,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     public class PerformanceMeasureChartViewData : FirmaUserControlViewData
     {
         private const int DefaultHeight = 350;
-        public readonly Models.PerformanceMeasure PerformanceMeasure;
+        public readonly ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HyperlinkPerformanceMeasureName;
         public readonly List<GoogleChartJson> GoogleChartJsons;
         public readonly bool CanManagePerformanceMeasures;
@@ -44,12 +46,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure,
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             int height,
             Person currentPerson,
             bool showLastUpdatedDate,
             bool fromPerformanceMeasureDetailPage,
-            List<Models.Project> projects)
+            List<ProjectFirmaModels.Models.Project> projects)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
@@ -79,7 +81,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, List<Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
             currentPerson,
@@ -89,7 +91,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public PerformanceMeasureChartViewData(Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption, List<Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
             currentPerson,

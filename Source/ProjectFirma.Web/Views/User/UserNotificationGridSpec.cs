@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 
@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.User
                 x => x.NotificationType.GetFullDescriptionFromUserPerspective(x),
                 500,
                 DhtmlxGridColumnFilterType.Html);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x =>
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x =>
             {
                 if (x.NotificationType == NotificationType.ProjectUpdateReminder)
                 {

@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -43,26 +43,26 @@ namespace ProjectFirma.Web.Views.ProjectExternalLink
             ProjectExternalLinks = projectExternalLinks;
         }
 
-        public void UpdateModel(List<Models.ProjectExternalLink> currentProjectExternalLinks, IList<Models.ProjectExternalLink> allProjectExternalLinks)
+        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectExternalLink> currentProjectExternalLinks, IList<ProjectFirmaModels.Models.ProjectExternalLink> allProjectExternalLinks)
         {
-            var projectExternalLinksUpdated = new List<Models.ProjectExternalLink>();
+            var projectExternalLinksUpdated = new List<ProjectFirmaModels.Models.ProjectExternalLink>();
             if (ProjectExternalLinks != null)
             {
                 // Completely rebuild the list
-                projectExternalLinksUpdated = ProjectExternalLinks.Select(x => new Models.ProjectExternalLink(x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
+                projectExternalLinksUpdated = ProjectExternalLinks.Select(x => new ProjectFirmaModels.Models.ProjectExternalLink(x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
             }
             currentProjectExternalLinks.Merge(projectExternalLinksUpdated,
                 allProjectExternalLinks,
                 (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl);
         }
 
-        public void UpdateModel(List<Models.ProjectExternalLinkUpdate> currentProjectExternalLinkUpdates, IList<Models.ProjectExternalLinkUpdate> allProjectExternalLinkUpdates)
+        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectExternalLinkUpdate> currentProjectExternalLinkUpdates, IList<ProjectFirmaModels.Models.ProjectExternalLinkUpdate> allProjectExternalLinkUpdates)
         {
-            var projectExternalLinksUpdated = new List<Models.ProjectExternalLinkUpdate>();
+            var projectExternalLinksUpdated = new List<ProjectFirmaModels.Models.ProjectExternalLinkUpdate>();
             if (ProjectExternalLinks != null)
             {
                 // Completely rebuild the list
-                projectExternalLinksUpdated = ProjectExternalLinks.Select(x => new Models.ProjectExternalLinkUpdate(x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
+                projectExternalLinksUpdated = ProjectExternalLinks.Select(x => new ProjectFirmaModels.Models.ProjectExternalLinkUpdate(x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
             }
             currentProjectExternalLinkUpdates.Merge(projectExternalLinksUpdated,
                 allProjectExternalLinkUpdates,

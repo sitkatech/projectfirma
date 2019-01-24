@@ -26,7 +26,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditTenantLogoViewModel(Models.Tenant tenant)
+        public EditTenantLogoViewModel(ProjectFirmaModels.Models.Tenant tenant)
         {
             TenantID = tenant.TenantID;
         }

@@ -1,6 +1,7 @@
-﻿using ProjectFirma.Web.Common;
+﻿using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -8,7 +9,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public string ValidateImportExternalProjectDataUrl { get; set; }
 
-        public ImportExternalViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public ImportExternalViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Import Project";
             ValidateImportExternalProjectDataUrl =

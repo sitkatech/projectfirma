@@ -6,7 +6,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 {
@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public int ProjectCustomAttributeTypeID { get; set; }
 
         [Required]
-        [StringLength(Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeName)]
+        [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeName)]
         [DisplayName("Name of Attribute")]
         public string ProjectCustomAttributeTypeName { get; set; }
 
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public bool? IsRequired { get; set; }
 
         [DisplayName("Description")]
-        [StringLength(Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
+        [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
         public string ProjectCustomAttributeTypeDesription { get; set; }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         {
         }
 
-        public EditViewModel(Models.ProjectCustomAttributeType projectCustomAttributeType)
+        public EditViewModel(ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
         {
             ProjectCustomAttributeTypeID = projectCustomAttributeType.ProjectCustomAttributeTypeID;
             ProjectCustomAttributeTypeName = projectCustomAttributeType.ProjectCustomAttributeTypeName;
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         }
 
 
-        public void UpdateModel(Models.ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
         {
             projectCustomAttributeType.ProjectCustomAttributeTypeName = ProjectCustomAttributeTypeName;
             projectCustomAttributeType.ProjectCustomAttributeDataTypeID = ProjectCustomAttributeDataTypeID ?? ModelObjectHelpers.NotYetAssignedID;
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 .Where(x => x.ProjectCustomAttributeTypeName == ProjectCustomAttributeTypeName)
                 .Any(x => x.ProjectCustomAttributeTypeID != ProjectCustomAttributeTypeID))
             {
-                yield return new ValidationResult($"A {Models.FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} with this name already exists.");
+                yield return new ValidationResult($"A {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} with this name already exists.");
             }
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectCustomAttributeTypeID))

@@ -21,6 +21,7 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Controllers
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectImageUpdate.Edit
 @using (Html.BeginForm<ProjectImageUpdateController>(x => x.Edit(ViewDataTyped.ProjectImageUpdate, null), FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

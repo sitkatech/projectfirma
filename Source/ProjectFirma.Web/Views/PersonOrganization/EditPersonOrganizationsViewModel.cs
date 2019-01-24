@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.PersonOrganization
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.PersonOrganization
             OrganizationIDs = organizationIDs;
         }
 
-        public void UpdateModel(Person person, List<Models.Organization> allOrganizations)
+        public void UpdateModel(Person person, List<ProjectFirmaModels.Models.Organization> allOrganizations)
         {
             // Remove all existing associations
             var currentOrgsForWhichIAmPrimaryContact = allOrganizations.Where(o => o.PrimaryContactPersonID == person.PersonID).ToList();

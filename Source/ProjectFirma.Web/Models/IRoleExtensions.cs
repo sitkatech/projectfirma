@@ -18,33 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
     public static class IRoleExtensions
     {
-        /// <summary>
-        /// Note AnonymousRole should not use this!
-        /// </summary>
-        public static string GetSummaryUrl(this IRole role)
-        {
-            if (role is AnonymousRole)
-            {
-                return SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Anonymous());
-            }
-            else
-            {
-                return SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(role.RoleID));
-            }
-
-        }
-
         public static List<FeaturePermission> GetFeaturePermissions(this IRole role, Type baseFeatureType)
         {
             var featurePermissions = new List<FeaturePermission>();

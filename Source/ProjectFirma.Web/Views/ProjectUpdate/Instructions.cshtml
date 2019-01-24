@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
@@ -45,16 +45,16 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
 }
 
-<p>This @FieldDefinition.Project.GetFieldDefinitionLabel() Update wizard is used to submit annual @FieldDefinition.Project.GetFieldDefinitionLabel() updates. All @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
-    in the Planning/Design, Implementation, or Post-Implementation stage are required to submit annual updates. @Html.LinkWithFieldDefinitionFor(FieldDefinition.ProjectStage, String.Format("View {0} Definitions", FieldDefinition.ProjectStage.GetFieldDefinitionLabel()), LabelWithSugarForExtensions.DefaultPopupWidth, new List<string> {"fieldDefinitionLink"})</p>
+<p>This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update wizard is used to submit annual @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() updates. All @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
+    in the Planning/Design, Implementation, or Post-Implementation stage are required to submit annual updates. @Html.LinkWithFieldDefinitionFor(FieldDefinitionEnum.ProjectStage, String.Format("View {0} Definitions", FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()), LabelWithSugarForExtensions.DefaultPopupWidth, new List<string> {"fieldDefinitionLink"})</p>
 
-<p>The various aspects of a @FieldDefinition.Project.GetFieldDefinitionLabel() that are available for update can be seen on the left. Several of these sections are optional, but others are required:</p>
+<p>The various aspects of a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that are available for update can be seen on the left. Several of these sections are optional, but others are required:</p>
 <ul class="instructionList">
-    <li><strong>Basics:</strong> <i>You must enter the @FieldDefinition.Project.GetFieldDefinitionLabel()'s start and completion dates</i></li>
-    <li><strong>Location - Simple:</strong> <i>You must input your @FieldDefinition.Project.GetFieldDefinitionLabel()'s location via an interactive map or provide a short location description </i></li>
+    <li><strong>Basics:</strong> <i>You must enter the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s start and completion dates</i></li>
+    <li><strong>Location - Simple:</strong> <i>You must input your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s location via an interactive map or provide a short location description </i></li>
     <li><strong>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</strong> <i>You must enter an accomplishment value for at least one @MultiTenantHelpers.GetPerformanceMeasureName()per year (or indicate you have no accomplishments)</i></li>
     <li><strong>Expenditures:</strong> <i>You must enter at least one Expenditure per year (if you spent nothing, enter a $0 expenditure)</i></li>
-    <li><strong>Budgets:</strong> <i>You must enter @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Project.GetFieldDefinitionLabel() budgets</i></li>
+    <li><strong>Budgets:</strong> <i>You must enter @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() budgets</i></li>
 </ul>
 <p>In order to submit an update, all required information must be provided. You will see some icons next to some pages – here is what they mean:</p>
 <ul style="list-style-type: none; padding: 0">
@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </li>
 </ul>
 
-<p>Submitting this update will notify the reviewer. Your updates will be approved or returned to you for corrections/clarifications. The official @FieldDefinition.Project.GetFieldDefinitionLabel() record will not be modified until the update is approved.</p>
+<p>Submitting this update will notify the reviewer. Your updates will be approved or returned to you for corrections/clarifications. The official @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record will not be modified until the update is approved.</p>
 <p>Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help, and to see the reporting guidance for a specific @MultiTenantHelpers.GetPerformanceMeasureName(). You can also see this same guidance on the Detail pages available from the list of  <a href="@ViewDataTyped.PerformanceMeasuresUrl" target="_blank">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>.
 </p>
 <p>
@@ -77,6 +77,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="text-right">
-        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">@(ViewDataTyped.ProjectUpdateBatch.IsNew ? "Begin Update" : "Continue")<span class='glyphicon glyphicon-chevron-right'></span></button>
+        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">
+            @(ViewDataTyped.ProjectUpdateBatch.IsNew() ? "Begin Update" : "Continue")<span class='glyphicon glyphicon-chevron-right'></span></button>
     </div>
 }

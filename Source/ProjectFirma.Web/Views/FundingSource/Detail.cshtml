@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -37,14 +37,14 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.ManageFundingSourcesUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.ManageFundingSourcesUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()</a>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-5">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit {0} - {1}", FieldDefinition.FundingSource.GetFieldDefinitionLabel(), ViewDataTyped.FundingSource.GetDisplayName()), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(), ViewDataTyped.FundingSource.GetDisplayName()), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -56,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-7">@Html.Raw(ViewDataTyped.FundingSource.FundingSourceDescription.HtmlEncodeWithBreaks())</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.Organization)</div>
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization)</div>
                         <div class="col-xs-7">@ViewDataTyped.FundingSource.Organization.GetDisplayNameAsUrl()</div>
                     </div>
                     <div class="row">
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-7">@ViewDataTyped.FundingSource.IsActive.ToYesNo()</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.FundingSourceAmount)</div>
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceAmount)</div>
                         <div class="col-xs-7">
                             @if (ViewDataTyped.FundingSource.FundingSourceAmount != null)
                             {
@@ -82,7 +82,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-lg-7">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
+                    Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()
                 </div>
                 <div class="panel-body">
                     @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
@@ -93,7 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     else
                     {
-                        <p class="systemText">No expenditures to report for this @FieldDefinition.FundingSource.GetFieldDefinitionLabel().</p>
+                        <p class="systemText">No expenditures to report for this @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</p>
                     }
                 </div>
             </div>            
@@ -103,7 +103,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
+                    @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -115,7 +115,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    Expected Funding by @FieldDefinition.Project.GetFieldDefinitionLabel()
+                    Expected Funding by @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceRequestsGridSpec, ViewDataTyped.ProjectFundingSourceRequestsGridName, ViewDataTyped.ProjectFundingSourceRequestsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

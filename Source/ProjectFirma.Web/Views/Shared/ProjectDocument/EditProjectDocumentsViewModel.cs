@@ -11,11 +11,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
     {
         [Required]
         [DisplayName("Display Name")]
-        [StringLength(Models.ProjectDocument.FieldLengths.DisplayName, ErrorMessage = "200 character maximum")]
+        [StringLength(ProjectFirmaModels.Models.ProjectDocument.FieldLengths.DisplayName, ErrorMessage = "200 character maximum")]
         public string DisplayName { get; set; }
         
         [DisplayName("Description")]
-        [StringLength(Models.ProjectDocument.FieldLengths.Description, ErrorMessage = "1000 character maximum.")]
+        [StringLength(ProjectFirmaModels.Models.ProjectDocument.FieldLengths.Description, ErrorMessage = "1000 character maximum.")]
         public string Description { get; set; }
 
         // can be the ID of a Project or a ProjectUpdateBatch depending on whether this ViewModel or its child type is invoked.
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         {
         }
 
-        public EditProjectDocumentsViewModel(Models.ProjectDocument projectDocument)
+        public EditProjectDocumentsViewModel(ProjectFirmaModels.Models.ProjectDocument projectDocument)
         {
             ParentID = projectDocument.ProjectID;
             DocumentID = projectDocument.ProjectDocumentID;
@@ -36,19 +36,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             Description = projectDocument.Description;
         }
 
-        public EditProjectDocumentsViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        public EditProjectDocumentsViewModel(ProjectFirmaModels.Models.ProjectDocumentUpdate projectDocumentUpdate)
         {
             DisplayName = projectDocumentUpdate.DisplayName;
             Description = projectDocumentUpdate.Description;
         }
 
-        public void UpdateModel(Models.ProjectDocument projectDocument)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectDocument projectDocument)
         {
             projectDocument.DisplayName = DisplayName;
             projectDocument.Description = Description;
         }
 
-        public void UpdateModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectDocumentUpdate projectDocumentUpdate)
         {
             projectDocumentUpdate.DisplayName = DisplayName;
             projectDocumentUpdate.Description = Description;

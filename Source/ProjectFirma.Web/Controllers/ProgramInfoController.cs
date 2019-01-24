@@ -23,6 +23,7 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProgramInfo;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Taxonomy()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Taxonomy);
+            var firmaPage = FirmaPageTypeEnum.Taxonomy.GetFirmaPage();
             var topLevelTaxonomyTierAsFancyTreeNodes = MultiTenantHelpers.GetTaxonomyLevel()
                 .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).SortByOrderThenName().Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();

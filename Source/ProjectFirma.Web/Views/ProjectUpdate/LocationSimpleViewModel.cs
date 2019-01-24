@@ -22,9 +22,10 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.DbSpatial;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public void UpdateModelBatch(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.ProjectUpdate;
-            project.ProjectLocationSimpleTypeID = Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
+            project.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
             switch (ProjectLocationSimpleType)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:

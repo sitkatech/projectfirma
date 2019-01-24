@@ -24,10 +24,12 @@ using System.Linq;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 
@@ -35,7 +37,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.GeospatialArea GeospatialArea;
+        public readonly ProjectFirmaModels.Models.GeospatialArea GeospatialArea;
         public readonly string GeospatialAreaTypeName;
         public readonly string GeospatialAreaTypeNamePluralized;
         public readonly bool UserHasGeospatialAreaManagePermissions;
@@ -47,7 +49,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
-        public DetailViewData(Person currentPerson, Models.GeospatialArea geospatialArea, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, List<Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.GeospatialArea geospatialArea, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
         {
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
@@ -62,8 +64,8 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} in this {GeospatialAreaTypeName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in this {GeospatialAreaTypeName}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} in this {GeospatialAreaTypeName}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in this {GeospatialAreaTypeName}",
                 SaveFiltersInCookie = true
             };
           

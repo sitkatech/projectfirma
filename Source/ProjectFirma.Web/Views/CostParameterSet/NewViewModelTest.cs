@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.UnitTestCommon;
+
 using LtInfo.Common;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.CostParameterSet
 {
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.CostParameterSet
             // Arrange
             var BudgetInflation = TestFramework.TestCostParameterSet.Create();
             var viewModel = new NewViewModel(BudgetInflation);
-            viewModel.Comment = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.Comment), Models.CostParameterSet.FieldLengths.Comment);
+            viewModel.Comment = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.Comment), ProjectFirmaModels.Models.CostParameterSet.FieldLengths.Comment);
 
             // Act
             viewModel.UpdateModel(BudgetInflation, TestFramework.TestPerson.Create());

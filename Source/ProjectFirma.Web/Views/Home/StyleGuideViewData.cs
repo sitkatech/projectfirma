@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 
 namespace ProjectFirma.Web.Views.Home
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Home
     {
        
 
-        public StyleGuideViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage) : base(currentPerson, firmaPageHomePage)
+        public StyleGuideViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage) : base(currentPerson, firmaPageHomePage)
         {
             PageTitle = "Style Guide";
 

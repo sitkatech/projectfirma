@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [SitkaFileExtensions("zip")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public void UpdateModel(Models.Project project, Person person)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
         {
             //projectLocation.FileResource = FileResource.CreateNewFromHttpPostedFile(FileResourceData, person);
         }

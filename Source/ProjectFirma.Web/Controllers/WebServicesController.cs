@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Service;
@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.WebServices;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 

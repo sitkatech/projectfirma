@@ -1,5 +1,5 @@
 using System;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Views.Shared

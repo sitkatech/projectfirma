@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Tag
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.Tag
             ProjectDisplayNames = projectDisplayNames;
             FindTagUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Find(null));
 
-            ProjectLabel = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" + (ProjectDisplayNames.Count > 1 ? "s" : String.Empty);
+            ProjectLabel = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" + (ProjectDisplayNames.Count > 1 ? "s" : String.Empty);
 
         }
     }

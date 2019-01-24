@@ -23,12 +23,13 @@ using System.Net.Mail;
 using System.Security.Principal;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using Keystone.Common;
 using LtInfo.Common;
 using LtInfo.Common.Email;
-using Person = ProjectFirma.Web.Models.Person;
+using LtInfo.Common.Mvc;
+using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -192,11 +193,11 @@ namespace ProjectFirma.Web.Controllers
         private static void SendNewOrganizationCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
             var organization = person.Organization;
-            var subject = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} added: {person.Organization.GetDisplayName()}";
+            var subject = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} added: {person.Organization.GetDisplayName()}";
 
             var message = $@"
 <div style='font-size: 12px; font-family: Arial'>
-    <strong>{FieldDefinition.Organization.GetFieldDefinitionLabel()} created:</strong> {organization.GetDisplayNameAsUrl()}<br />
+    <strong>{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} created:</strong> {organization.GetDisplayNameAsUrl()}<br />
     <strong>Created on:</strong> {DateTime.Now}<br />
     <strong>Created because:</strong> New user logged in<br />
     <strong>New user:</strong> {person.GetFullNameFirstLast()} ({person.Email})<br />
@@ -205,9 +206,9 @@ namespace ProjectFirma.Web.Controllers
         You may want to <a href=""{
                     SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization
                         .OrganizationID))
-                }"">add detail for this {FieldDefinition.Organization.GetFieldDefinitionLabel()}</a> such as its abbreviation, {
-                    FieldDefinition.OrganizationType.GetFieldDefinitionLabel()
-                }, website, logo, etc. This will make its {FieldDefinition.Organization.GetFieldDefinitionLabel()} summary page display better.
+                }"">add detail for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}</a> such as its abbreviation, {
+                    FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()
+                }, website, logo, etc. This will make its {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} summary page display better.
     </p>
     <br />
     <br />

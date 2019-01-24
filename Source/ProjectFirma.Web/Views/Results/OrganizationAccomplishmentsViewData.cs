@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Views.Results
@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.Results
         {
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
             TaxonomyTier = taxonomyTier;
-            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
-            var fieldDefinitionForPerformanceMeasure = Models.FieldDefinition.PerformanceMeasure;
-            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel();
-            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
-            OrganizationDisplayName = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.ToType().GetFieldDefinition().ToType().GetFieldDefinitionLabel();
+            var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure;
+            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabel();
+            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized();
+            OrganizationDisplayName = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
         }
     }
 }

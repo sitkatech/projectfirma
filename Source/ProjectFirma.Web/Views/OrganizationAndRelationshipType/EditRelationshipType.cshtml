@@ -20,7 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
-@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Common
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.EditRelationshipType
               
 
@@ -113,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
 
             <hr />
-            <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinition.Project.GetFieldDefinitionLabel() with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
+            <p>Select which @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with this @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()</p>
             <div class="form-group">
                 <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
                 <div class="col-xs-12 col-sm-9">

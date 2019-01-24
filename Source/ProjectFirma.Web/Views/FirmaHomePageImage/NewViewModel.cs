@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
         [SitkaFileExtensions("jpg|jpeg|gif|png|tiff|bmp")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(Models.FirmaHomePageImage firmaHomePageImage, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, Person person)
         {
             base.UpdateModel(firmaHomePageImage, person);
             firmaHomePageImage.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);

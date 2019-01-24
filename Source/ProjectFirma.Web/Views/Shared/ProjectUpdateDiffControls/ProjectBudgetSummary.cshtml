@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls.ProjectBudgetSummary
@@ -49,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <col />
         </colgroup>
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>

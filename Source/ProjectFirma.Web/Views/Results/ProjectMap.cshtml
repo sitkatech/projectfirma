@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
 @using Newtonsoft.Json
@@ -158,7 +158,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
-        <span style="font-weight: bold">Color @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
+        <span style="font-weight: bold">Color @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
             {
@@ -166,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </select>
 
-        <span style="font-weight: bold">Filter @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
+        <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
         <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @{
                 var displayGroup = -1;
@@ -196,17 +196,17 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div style="font-weight: bold;">
-        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
+        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
     </div>
 
     <div id="showBasinwideProjectsToast">
-        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinition.Project.GetFieldDefinitionLabelPluralized())">
-            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() with no Simple Location
+        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
+            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location
         </a>
     </div>
     <div id="hideBasinwideProjectsToast" style="display: none">
         <a class="btn pull-right">
-            Hide @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
+            Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
 
@@ -218,7 +218,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div id="projectsWithLocationAreaToast" style="display: none; padding: 0 8px 8px 8px">
                 <p>
-                    Some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() do not have a simple location and are not represented by a point on the map, but are listed here.
+                    Some @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() do not have a simple location and are not represented by a point on the map, but are listed here.
                 </p>
                 <div style="clear: both; white-space: nowrap; overflow-x: hidden; overflow-y: auto; max-height: 750px">
                     <table id="projectLocationGroupTypeTree" class="table table-hover table-condensed" style="margin-bottom: 10px">

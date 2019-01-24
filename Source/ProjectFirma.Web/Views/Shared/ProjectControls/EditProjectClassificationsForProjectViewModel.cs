@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectClassificationSimples = projectClassificationSimples;
         }
 
-        public void UpdateModel(Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
         {
             foreach (var projectClassificationSimple in projectClassificationSimples)
             {
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             if (!ProjectClassificationSimples.Any(x => x.Selected))
             {
                 validationResults.Add(new ValidationResult(
-                    $"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} System."));
+                    $"You must select at least one {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} per {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} System."));
             }
 
             return validationResults;

@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectDocumentUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete \"{projectDocumentUpdate.DisplayName}\" from this {FieldDefinition.Project.GetFieldDefinitionLabel()}?"
+                ? $"Are you sure you want to delete \"{projectDocumentUpdate.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Document");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

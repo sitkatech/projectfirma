@@ -23,7 +23,7 @@ using System.ServiceModel;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Service.ServiceModels;
 using LtInfo.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Service
 {

@@ -25,7 +25,7 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
@@ -35,6 +35,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
+            var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
 
             List<Organization> organizations;
@@ -263,14 +264,14 @@ namespace ProjectFirma.Web.Controllers
                 colorByValue = ProjectMapCustomization.DefaultColorByType;
             }
 
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
+            var firmaPage = FirmaPageTypeEnum.ProjectMap.GetFirmaPage();
 
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
 
             var initialCustomization =
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson =
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
@@ -428,7 +429,7 @@ namespace ProjectFirma.Web.Controllers
         [SpendingByPerformanceMeasureByProjectViewFeature]
         public ViewResult SpendingByPerformanceMeasureByProject(int? performanceMeasureID)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByPerformanceMeasureByProject);
+            var firmaPage = FirmaPageTypeEnum.SpendingByPerformanceMeasureByProject.GetFirmaPage();
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var selectedPerformanceMeasure = performanceMeasureID.HasValue
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)

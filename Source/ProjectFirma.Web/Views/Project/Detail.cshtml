@@ -20,7 +20,7 @@
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -32,6 +32,7 @@
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
@@ -127,7 +128,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-10">
-                <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Overview</h2>
+                <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Overview</h2>
                 <div class="row">
                     <div class="col-md-12 col-lg-7">
                         <div class="panel panelFirma">
@@ -146,7 +147,7 @@
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>
-                                        @FieldDefinition.Project.FieldDefinitionDisplayName Attributes
+                                        @FieldDefinitionEnum.Project.FieldDefinitionDisplayName Attributes
                                     </h3>
                                 </div>
                                 <div class="panel-body">
@@ -198,15 +199,15 @@
                                         </h3>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="editLocationDropdownButton" style="top: 36px; left: auto;">
-                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Simple", ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
-                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Detailed", ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
+                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Simple", ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
+                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Detailed", ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
                                         
                                         @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
                                         {
                                             <li>@ModalDialogFormHelper.ModalDialogFormLink(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.GetEditGeospatialAreasUrl(ViewDataTyped.Project), string.Format("Edit {0}", geospatialAreaType.GeospatialAreaTypeNamePluralized), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectGeospatialAreaFormID)</li>
                                         }
                                         
-                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Map Extent", ViewDataTyped.EditProjectBoundingBoxUrl, string.Format("Edit {0} - Map Extent", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectBoundingBoxFormID)</li>
+                                        <li>@ModalDialogFormHelper.ModalDialogFormLink("Map Extent", ViewDataTyped.EditProjectBoundingBoxUrl, string.Format("Edit {0} - Map Extent", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectBoundingBoxFormID)</li>
                                     </ul>
                                 }
                                 else
@@ -235,7 +236,7 @@
                     <div class="panel-heading panelTitle">
                         <h3>
                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
-                            @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()
+                            @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -263,13 +264,13 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        @if (ViewDataTyped.Project.IsProposal())
+                        @if (ProjectModelExtensions.IsProposal(ViewDataTyped.Project))
                         {
-                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
                         else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
                         {
-                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
+                            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
                         }
                         else
                         {
@@ -288,19 +289,19 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost)</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
                         </div>
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
                         </div>
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed)</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
                             @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
                                         {
-                                <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))</div>
+                                <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding))</div>
                             }
                         </div>
                         <hr />
@@ -313,14 +314,14 @@
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                            @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                            @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                         </h3>
                     </div>
                     <div class="panel-body">
-                        @if (ViewDataTyped.Project.IsProposal())
+                        @if (ProjectModelExtensions.IsProposal(ViewDataTyped.Project))
                         {
-                            <p>Reported Expenditures are not relevant for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                            <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
                         else
                         {
@@ -359,14 +360,14 @@
                             }
                             else
                             {
-                                    <p class="systemText">No @classificationSystem.ClassificationSystemNamePluralized set for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No @classificationSystem.ClassificationSystemNamePluralized set for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
                             }
                         </div>
                     </div>
 
                 }
 
-                <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</h2>
+                <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Documents</h3>
@@ -396,8 +397,8 @@
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
-                            @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ExternalLinks.FieldDefinitionDisplayName
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.FieldDefinitionDisplayName
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -422,7 +423,7 @@
                     <h2 class="sectionHeader">Administrative</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
-                            <h3>@FieldDefinition.Project.GetFieldDefinitionLabel() Update History</h3>
+                            <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
                         </div>
                         <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Organization
 
 @inherits ApproveUploadGis
@@ -18,7 +18,7 @@
         <ul>
             <li>To zoom, hold <strong>Shift</strong> and drag mouse to desired viewport.</li>
             <li>Switch between Feature Groups using the map control in the upper-right corner.</li>
-            <li>Select a polygon feature to represent the @(FieldDefinition.Organization.GetFieldDefinitionLabel()) boundary.</li>
+            <li>Select a polygon feature to represent the @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()) boundary.</li>
         </ul>
         <div id="@ViewDataTyped.MapInitJson.MapDivID" class="organizationBoundaryMap"></div>
     </div>

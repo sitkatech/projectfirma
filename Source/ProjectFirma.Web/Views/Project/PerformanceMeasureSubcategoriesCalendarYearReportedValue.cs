@@ -22,12 +22,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class PerformanceMeasureSubcategoriesCalendarYearReportedValue
     {
-        private readonly Models.PerformanceMeasure _performanceMeasure;
+        private readonly ProjectFirmaModels.Models.PerformanceMeasure _performanceMeasure;
         public int PerformanceMeasureID
         {
             get { return _performanceMeasure.PerformanceMeasureID; }
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<SubcategoriesReportedValue> SubcategoriesReportedValues;
         public string DisplayCssClass;
 
-        public PerformanceMeasureSubcategoriesCalendarYearReportedValue(Models.PerformanceMeasure performanceMeasure, List<SubcategoriesReportedValue> subcategoriesReportedValues, string displayCssClass)            
+        public PerformanceMeasureSubcategoriesCalendarYearReportedValue(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, List<SubcategoriesReportedValue> subcategoriesReportedValues, string displayCssClass)            
         {
             _performanceMeasure = performanceMeasure;
             SubcategoriesReportedValues = subcategoriesReportedValues;

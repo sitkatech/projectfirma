@@ -24,9 +24,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public int TaxonomyLeafID { get; set; }
 
         [Required]
-        [StringLength(Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName)]
+        [StringLength(ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName)]
         [DisplayName("Name")]
         public string TaxonomyLeafName { get; set; }
 
@@ -57,7 +58,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         {
         }
 
-        public EditViewModel(Models.TaxonomyLeaf taxonomyLeaf)
+        public EditViewModel(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf)
         {
             TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
             TaxonomyLeafName = taxonomyLeaf.TaxonomyLeafName;
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ThemeColor = taxonomyLeaf.ThemeColor;
         }
 
-        public void UpdateModel(Models.TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf, Person currentPerson)
         {
             taxonomyLeaf.TaxonomyLeafName = TaxonomyLeafName;
             taxonomyLeaf.TaxonomyLeafDescriptionHtmlString = TaxonomyLeafDescription;
@@ -82,7 +83,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             var errors = new List<ValidationResult>();
 
             var existingTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
-            if (!Models.TaxonomyLeafModelExtensions.IsTaxonomyLeafNameUnique(existingTaxonomyLeafs, TaxonomyLeafName, TaxonomyLeafID))
+            if (!TaxonomyLeafModelExtensions.IsTaxonomyLeafNameUnique(existingTaxonomyLeafs, TaxonomyLeafName, TaxonomyLeafID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyLeafName));
             }

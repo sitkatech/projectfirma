@@ -20,21 +20,21 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class SearchResultsViewData : FirmaViewData
     {
-        public readonly List<Models.Project> EntitySearchResults;
+        public readonly List<ProjectFirmaModels.Models.Project> EntitySearchResults;
         public readonly string SearchCriteria;
         public Func<String, string> UrlGeneratingFunctor;
 
-        public SearchResultsViewData(Person currentPerson, List<Models.Project> entitySearchResults, string searchCriteria) : base(currentPerson)
+        public SearchResultsViewData(Person currentPerson, List<ProjectFirmaModels.Models.Project> entitySearchResults, string searchCriteria) : base(currentPerson)
         {
             EntitySearchResults = entitySearchResults;
             SearchCriteria = searchCriteria;
-            PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Search";
+            PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Search";
         }
     }
 }

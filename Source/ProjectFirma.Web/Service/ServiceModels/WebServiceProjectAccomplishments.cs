@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
                 }
                 else
                 {
-                    throw new NotImplementedException($"Cannot handle more than four {FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} on a {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
+                    throw new NotImplementedException($"Cannot handle more than four {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} on a {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()}");
                 }
                 currentPMSubcategoryIndex++;
             }

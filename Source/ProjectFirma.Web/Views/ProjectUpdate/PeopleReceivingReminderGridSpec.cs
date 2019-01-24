@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 
@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 AddCheckBoxColumn();
                 Add("PersonID", x => x.PersonID, 0);
             }
-            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
+            Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Requiring Update",
                 x => x.GetPrimaryContactUpdatableProjects(currentPerson).Count,
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
-                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
+                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
+                        var latestApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(y);
                         return latestNotApprovedUpdateBatch == null &&
                                (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate());
                     });
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
                     });
                 },
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
                     });
                 },
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
                     });
                 },
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
+                        var latestApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(y);
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();
                     });
                 },

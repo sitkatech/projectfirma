@@ -25,9 +25,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
@@ -57,10 +58,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             ProjectExemptReportingYears = projectExemptReportingYears;
         }
 
-        public void UpdateModel(List<Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
-            IList<Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
+        public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
+            IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
-            Models.Project project)
+            ProjectFirmaModels.Models.Project project)
         {
             UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions);
             var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
@@ -77,8 +78,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 
-        private void UpdateModelImpl(List<Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
-            IList<Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
+        private void UpdateModelImpl(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
+            IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions)
         {
             // Remove all existing associations
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 // Completely rebuild the list
                 foreach (var x in PerformanceMeasureActuals)
                 {
-                    var performanceMeasureActual = new Models.PerformanceMeasureActual(x.ProjectID.Value, x.PerformanceMeasureID.Value, x.CalendarYear.Value, x.ActualValue.Value);
+                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.ProjectID.Value, x.PerformanceMeasureID.Value, x.CalendarYear.Value, x.ActualValue.Value);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
                     if (x.PerformanceMeasureActualSubcategoryOptions != null)
                     {
@@ -143,7 +144,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 
             performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));
 
-            performanceMeasureActualsWithDuplicatesDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.")));
+            performanceMeasureActualsWithDuplicatesDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.")));
 
             performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
                 errors.Add(new ValidationResult(

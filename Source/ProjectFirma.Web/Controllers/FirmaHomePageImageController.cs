@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.FirmaHomePageImage;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;

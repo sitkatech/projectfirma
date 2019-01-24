@@ -25,7 +25,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits Manage
 
 @{
@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.ProjectsWithNoContactCount > 0)
 {
-    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() which require an update but do not have a @FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel(). No reminders will be sent for these @FieldDefinition.Project.GetFieldDefinitionLabelPluralized().</p>
+    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() which require an update but do not have a @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel(). No reminders will be sent for these @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().</p>
 }
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
@@ -54,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
-            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, string.Format("Edit {0} Update Configuration", FieldDefinition.Project.GetFieldDefinitionLabel()), 950, true)
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, string.Format("Edit {0} Update Configuration", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, true)
             Configure Notifications
         </h2>
     </div>
@@ -64,18 +64,18 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-xs-5">
-                        <label>Enable @FieldDefinition.Project.GetFieldDefinitionLabel() Update Reminders?</label>
+                        <label>Enable @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Reminders?</label>
                     </div>
                     <div class="col-xs-7">
-                        @ViewDataTyped.ProjectUpdateConfiguration.EnableProjectUpdateReminders.ToYesNo()
+                        @ViewDataTyped.ProjectUpdateSetting.EnableProjectUpdateReminders.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">@FieldDefinition.ProjectUpdateKickOffDate.GetFieldDefinitionLabel()</label>
+                        <label class="left_indent">@FieldDefinitionEnum.ProjectUpdateKickOffDate.ToType().GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateKickOffDate.Value.ToShortDateString() : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.Value.ToShortDateString() : "Not Set")
                     </div>
                 </div>
                 <div class="row">
@@ -92,15 +92,15 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>Send Periodic Reminders?</label>
                     </div>
                     <div class="col-xs-7">
-                        @ViewDataTyped.ProjectUpdateConfiguration.SendPeriodicReminders.ToYesNo()
+                        @ViewDataTyped.ProjectUpdateSetting.SendPeriodicReminders.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">@FieldDefinition.ProjectUpdateReminderInterval.GetFieldDefinitionLabel()</label>
+                        <label class="left_indent">@FieldDefinitionEnum.ProjectUpdateReminderInterval.ToType().GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateReminderInterval.ToString() + " days" : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateReminderInterval.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateReminderInterval.ToString() + " days" : "Not Set")
                     </div>
                 </div>
                 <div class="row">
@@ -118,15 +118,15 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>Send Close-out Notification?</label>
                     </div>
                     <div class="col-xs-7">
-                        @ViewDataTyped.ProjectUpdateConfiguration.SendCloseOutNotification.ToYesNo()
+                        @ViewDataTyped.ProjectUpdateSetting.SendCloseOutNotification.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">@FieldDefinition.ProjectUpdateCloseOutDate.GetFieldDefinitionLabel()</label>
+                        <label class="left_indent">@FieldDefinitionEnum.ProjectUpdateCloseOutDate.ToType().GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateConfiguration.ProjectUpdateCloseOutDate.Value.ToShortDateString() : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.Value.ToShortDateString() : "Not Set")
                     </div>
                 </div>
                 <div class="row">
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabelPluralized() Receiving Notification</h2>
+        <h2>@FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabelPluralized() Receiving Notification</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -153,7 +153,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@FieldDefinition.Project.GetFieldDefinitionLabel() Update Status</h2>
+        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Status</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

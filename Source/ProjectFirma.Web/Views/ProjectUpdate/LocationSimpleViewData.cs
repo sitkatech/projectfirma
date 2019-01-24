@@ -19,8 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly SectionCommentsViewData SectionCommentsViewData;
 
         public LocationSimpleViewData(Person currentPerson,
-            Models.ProjectUpdate projectUpdate,
+            ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData,
             LocationSimpleValidationResult locationSimpleValidationResult, ProjectUpdateStatus projectUpdateStatus) : base(

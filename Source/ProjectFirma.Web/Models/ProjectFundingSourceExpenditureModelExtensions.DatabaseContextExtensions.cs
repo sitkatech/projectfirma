@@ -24,7 +24,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class ProjectFundingSourceExpenditureModelExtensions
     {
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
                 isStacked,
                 googleChartType,
                 googleChartDataTable,
-                new GoogleChartAxis(FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), null, null),
+                new GoogleChartAxis(FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel(), null, null),
                 new List<GoogleChartAxis> { googleChartAxis });
             var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            var columnLabel = FieldDefinition.ReportingYear.GetFieldDefinitionLabel();
+            var columnLabel = FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel();
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(columnLabel, columnLabel, "string") };
             googleChartColumns.AddRange(
                 sortedYearCategoryDictionary.Select(

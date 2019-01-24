@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
@@ -41,8 +41,8 @@ Source code is available upon request via <support@sitkatech.com>.
     </script>
 
 }
-    <p>Enter the expected funding for your @FieldDefinition.Project.GetFieldDefinitionLabel(). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.</p>
-    <p>The Unfunded Need is the difference between the @FieldDefinition.Project.GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
+    <p>Enter the expected funding for your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.</p>
+    <p>The Unfunded Need is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
 
 <hr />
 
@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
         <div class="form-group">
-            <label class="control-label">@FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:</label>
+            <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
             <div class="input-group">
                 <select ng-model="FundingSourceToAdd"
                         data-live-search="true"
@@ -58,7 +58,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         data-title="Select a Funding Source to Add"
                         data-width="100%" class="selectpicker"
                         data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
-                    <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
+                    <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
                 </select>
                 <span class="input-group-btn">
                     <button class="btn btn-firma" type="button" ng-click="addRow()">
@@ -75,9 +75,9 @@ Source code is available upon request via <support@sitkatech.com>.
             <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
                 <tr>
                     <th></th>
-                    <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding)</th>
+                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding)</th>
                     <th style="text-align: right">Total</th>
                 </tr>
                 <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
@@ -121,7 +121,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div style="margin: 10px 0px; padding: 5px 10px;">
             <p>
-                <label class="control-label">Summary of Total @FieldDefinition.Project.GetFieldDefinitionLabel() Costs and Funding:</label>
+                <label class="control-label">Summary of Total @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Costs and Funding:</label>
             </p>
             @if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
                 {
@@ -147,7 +147,7 @@ Source code is available upon request via <support@sitkatech.com>.
             else
             {
                 <div class="row">
-                    <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost):</div>
+                    <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost):</div>
                     <div class="col-sm-3 text-right">
                         <span>
                             {{ AngularViewData.EstimatedTotalCost | currency:"$"}}
@@ -156,7 +156,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding):</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{getSecuredTotal() | currency:"$"}}
@@ -165,7 +165,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed):</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
@@ -174,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-sm-6 text-right" ng-show="getUnsecuredTotal() > 0">
                             (<span>
                                  {{(getUnsecuredTotal()) | currency:"$"}}
-                            </span> identified as @Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding))
+                            </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding))
                         </div>
                     </div>
             }

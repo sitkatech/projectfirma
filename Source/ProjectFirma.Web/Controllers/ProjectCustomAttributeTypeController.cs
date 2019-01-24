@@ -5,6 +5,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomAttributeType;
@@ -17,7 +18,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Manage()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeTypesList);
+            var firmaPage = FirmaPageTypeEnum.ManageProjectCustomAttributeTypesList.GetFirmaPage();
             var viewData = new ManageViewData(CurrentPerson, firmaPage);
             return RazorView<Manage, ManageViewData>(viewData);
         }
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} succesfully created.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -91,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeType projectCustomAttributeType)
         {
-            var instructionsFirmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageProjectCustomAttributeTypeInstructions);
+            var instructionsFirmaPage = FirmaPageTypeEnum.ManageProjectCustomAttributeTypeInstructions.GetFirmaPage();
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID)
                 ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID))
                 : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
@@ -120,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProjectCustomAttributeType(ProjectCustomAttributeType projectCustomAttributeType, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} \"{projectCustomAttributeType.ProjectCustomAttributeTypeName}\"?", true);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} \"{projectCustomAttributeType.ProjectCustomAttributeTypeName}\"?", true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -135,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectCustomAttributeType(projectCustomAttributeType, viewModel);
             }
 
-            var message = $"{FieldDefinition.ProjectCustomAttribute.GetFieldDefinitionLabel()} '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' successfully deleted!";
+            var message = $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} '{projectCustomAttributeType.ProjectCustomAttributeTypeName}' successfully deleted!";
             projectCustomAttributeType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();

@@ -21,9 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -41,22 +43,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public int ProjectsWithNoContactCount { get; }
         public string EditProjectUpdateConfigurationUrl { get; }
-        public ProjectUpdateConfiguration ProjectUpdateConfiguration { get; }
+        public ProjectUpdateSetting ProjectUpdateSetting { get; }
         public string KickOffIntroPreviewUrl { get; }
         public string ReminderIntroPreviewUrl { get; }
         public string CloseOutIntroPreviewUrl { get; }
 
         public ManageViewData(Person currentPerson,
-            Models.FirmaPage firmaPage,
+            ProjectFirmaModels.Models.FirmaPage firmaPage,
             string customNotificationUrl,
             ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
             string projectsRequiringUpdateGridDataUrl,
             PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
             string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount,
-            ProjectUpdateConfiguration projectUpdateConfiguration) : base(currentPerson, firmaPage)
+            ProjectUpdateSetting projectUpdateSetting) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
-            PageTitle = $"Manage {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates";
+            var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            PageTitle = $"Manage {fieldDefinitionLabelProject} Updates";
             ReportingYear = reportingYear;
 
             ProjectsRequiringUpdateGridDataUrl = projectsRequiringUpdateGridDataUrl;
@@ -66,7 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PeopleReceivingReminderGridDataUrl = peopleReceivingReminderGridDataUrl;
             ProjectsWithNoContactCount = projectsWithNoContactCount;
 
-            ProjectUpdateConfiguration = projectUpdateConfiguration ?? ProjectUpdateConfiguration.CreateNewBlank();
+            ProjectUpdateSetting = projectUpdateSetting;
 
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";

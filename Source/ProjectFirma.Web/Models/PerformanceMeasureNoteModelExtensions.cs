@@ -1,5 +1,6 @@
 ﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {

@@ -24,12 +24,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -171,8 +172,8 @@ namespace ProjectFirma.Web.Models
                 taxonomyLeaf.TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = String.IsNullOrWhiteSpace(taxonomyLeaf.ThemeColor) ? taxonomyLeaf.TaxonomyBranch.ThemeColor : taxonomyLeaf.ThemeColor,
-                MapUrl = TaxonomyLeafModelExtensions.GetCustomizedMapUrl(taxonomyLeaf),
-                Children = taxonomyLeaf.GetAssociatedProjects(currentPerson).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
+                MapUrl = GetCustomizedMapUrl(taxonomyLeaf),
+                Children = taxonomyLeaf.GetAssociatedProjects(currentPerson).Select(x => ProjectModelExtensions.ToFancyTreeNode(x)).OrderBy(x => x.Title).ToList()
             };
             return fancyTreeNode;
         }

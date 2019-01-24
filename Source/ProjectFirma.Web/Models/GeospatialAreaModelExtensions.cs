@@ -24,11 +24,12 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class GeospatialAreaModelExtensions
     {
@@ -70,7 +71,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(this GeospatialArea geospatialArea, List<Project> projects)
         {
-            var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
+            var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                 projects.MappedPointsToGeoJsonFeatureCollection(true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GetDisplayName(),

@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Controllers
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.FirmaHomePageImage.Edit
 @using (Html.BeginForm<FirmaHomePageImageController>(x => x.Edit(ViewDataTyped.FirmaHomePageImage.FirmaHomePageImageID, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
 {

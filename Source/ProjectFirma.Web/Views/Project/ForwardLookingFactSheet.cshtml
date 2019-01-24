@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Project
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.Views
@@ -71,7 +71,7 @@
 <div class="container noPrint">
     <div style="margin: 15px 0;">
         <div class="pull-right">
-            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
+            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
             <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
@@ -98,13 +98,13 @@
                 </div>
             </div>
             @{
-                var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
+                var stewardingOrganization = ProjectModelExtensions.GetCanStewardProjectsOrganization(ViewDataTyped.Project);
             }
             @if (stewardingOrganization != null)
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong>
+                        <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
@@ -126,7 +126,7 @@
                 </div>
             }
             @{
-                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
+                var projectFundingOrganizationNamesForFactSheet = ProjectModelExtensions.GetFundingOrganizationNamesForFactSheet(ViewDataTyped.Project);
             }
             @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
             {
@@ -141,13 +141,13 @@
             }
 
             @{
-                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
+                var projectOtherOrganizationNamesForFactSheet = ProjectModelExtensions.GetProjectOrganizationNamesForFactSheet(ViewDataTyped.Project);
             }
             @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
+                        <strong>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         @projectOtherOrganizationNamesForFactSheet
@@ -173,7 +173,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel()</strong>
+                    <strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
@@ -187,13 +187,13 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
+                    <strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.EstimatedTotalCost
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
+                    <strong> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.SecuredFunding
@@ -207,7 +207,7 @@
                     @ViewDataTyped.NoFundingSourceIdentified
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong> @FieldDefinition.UnsecuredFunding.GetFieldDefinitionLabel()</strong>
+                    <strong> @FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.UnsecuredFunding
@@ -393,6 +393,6 @@
         </div>
     </div>
 
-    <div class="pull-right onlyOnPrint"><hr />@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-right onlyOnPrint"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 

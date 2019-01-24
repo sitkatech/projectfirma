@@ -27,9 +27,11 @@ using Keystone.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     /// <summary>
     /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object

@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesSummary
@@ -51,8 +51,8 @@ Source code is available upon request via <support@sitkatech.com>.
             <col>
         </colgroup>
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYearDisplay</th>

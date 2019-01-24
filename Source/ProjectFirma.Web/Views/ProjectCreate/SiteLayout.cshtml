@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
@@ -118,11 +118,11 @@
     <div class="alert alert-info" style="margin-bottom: 10px">
         @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
         {
-            <span>This @FieldDefinition.Project.GetFieldDefinitionLabel() has been approved and can no longer be edited through this wizard.</span>
+            <span>This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has been approved and can no longer be edited through this wizard.</span>
         }
         @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
         {
-            <span>This @FieldDefinition.Project.GetFieldDefinitionLabel() has been rejected and can no longer be edited through this wizard.</span>
+            <span>This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has been rejected and can no longer be edited through this wizard.</span>
         }
     </div>
 }
@@ -225,7 +225,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="pull-right">
-                    <span>New @FieldDefinition.Project.GetFieldDefinitionLabel() Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
+                    <span>New @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status: <span style="font-weight: bold">@ViewDataTyped.Project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName</span></span>
                 </div>
             </div>
         </div>

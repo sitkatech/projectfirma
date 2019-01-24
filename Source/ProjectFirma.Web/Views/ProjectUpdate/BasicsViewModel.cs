@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.Models;
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
+        [StringLength(ProjectFirmaModels.Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public BasicsViewModel(Models.ProjectUpdate projectUpdate, string comments)
+        public BasicsViewModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, string comments)
         {
             ProjectDescription = projectUpdate.ProjectDescription;
             ProjectStageID = projectUpdate.ProjectStageID;
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
         }
 
-        public void UpdateModel(Models.ProjectUpdate projectUpdate, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, Person currentPerson)
         {
             projectUpdate.ProjectDescription = ProjectDescription;
             projectUpdate.ProjectStageID = ProjectStageID;
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (isCompletedOrPostImplementation && CompletionYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage; the Completion Year must be less than or equal to the current year",
+                    $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage; the Completion Year must be less than or equal to the current year",
                     m => m.CompletionYear);
             }
         }

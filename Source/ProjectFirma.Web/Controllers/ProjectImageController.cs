@@ -22,7 +22,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.ProjectImage;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteProjectImage(ProjectImage projectImage, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
-                $"Are you sure you want to delete this image from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImage.Project.GetDisplayName()}'? ({projectImage.Caption})";
+                $"Are you sure you want to delete this image from {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectImage.Project.GetDisplayName()}'? ({projectImage.Caption})";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

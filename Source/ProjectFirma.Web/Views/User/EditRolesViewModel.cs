@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.User
@@ -57,9 +57,9 @@ namespace ProjectFirma.Web.Views.User
 
         public void UpdateModel(Person person, Person currentPerson)
         {
-            var downgradingFromSteward = person.Role == Models.Role.ProjectSteward &&
-                                         RoleID != Models.Role.ProjectSteward.RoleID &&
-                                         RoleID != Models.Role.Admin.RoleID && RoleID != Models.Role.SitkaAdmin.RoleID;
+            var downgradingFromSteward = person.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
+                                         RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&
+                                         RoleID != ProjectFirmaModels.Models.Role.Admin.RoleID && RoleID != ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID;
             
             person.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
@@ -93,8 +93,8 @@ namespace ProjectFirma.Web.Views.User
             //    {
             //        yield return new SitkaValidationResult<EditRolesViewModel, int?>(
             //            $"Cannot assign role {Models.Role.ProjectSteward.RoleDisplayName} to a person " +
-            //            $"whose {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} cannot " +
-            //            $"steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}.",
+            //            $"whose {Models.FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} cannot " +
+            //            $"steward {Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}.",
             //            m => m.RoleID);
             //    }
             //}

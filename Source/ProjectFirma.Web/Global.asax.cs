@@ -13,7 +13,7 @@ using LtInfo.Common.LoggingFilters;
 using LtInfo.Common.Mvc;
 using Microsoft.IdentityModel.Web;
 using Microsoft.IdentityModel.Web.Configuration;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 using SitkaRouteTableEntry = ProjectFirma.Web.Common.SitkaRouteTableEntry;
 using System.Web;

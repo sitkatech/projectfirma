@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Views.Shared
             //Never show title
             TitlePosition = "none";
 
-            if (googleChartType == Models.GoogleChartType.PieChart)
+            if (googleChartType == ProjectFirmaModels.Models.GoogleChartType.PieChart)
             {
                 Legend.SetLegendPosition(GoogleChartLegendPosition.None);
             }

@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class DetailViewData : FirmaViewData
     {
-        public Models.TaxonomyLeaf TaxonomyLeaf { get; }
+        public ProjectFirmaModels.Models.TaxonomyLeaf TaxonomyLeaf { get; }
         public bool UserHasTaxonomyLeafManagePermissions { get; }
         public string EditTaxonomyLeafUrl { get; }
         public string IndexUrl { get; }
@@ -56,7 +57,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
 
         public DetailViewData(Person currentPerson,
-            Models.TaxonomyLeaf taxonomyLeaf,
+            ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
@@ -64,8 +65,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         {
             TaxonomyLeaf = taxonomyLeaf;
             PageTitle = taxonomyLeaf.GetDisplayName();
-            var fieldDefinitionTaxonomyLeaf = Models.FieldDefinition.TaxonomyLeaf;
-            var taxonomyLeafDisplayName = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabel();
+            var fieldDefinitionTaxonomyLeaf = FieldDefinitionEnum.TaxonomyLeaf;
+            var taxonomyLeafDisplayName = fieldDefinitionTaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             EntityName = taxonomyLeafDisplayName;
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -79,8 +80,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             BasicProjectInfoGridName = "taxonomyLeafProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",
                 SaveFiltersInCookie = true
             };
 
@@ -88,7 +89,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf, taxonomyLevel);
 
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
-            TaxonomyLeafDisplayNamePluralized = fieldDefinitionTaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayNamePluralized = fieldDefinitionTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;

@@ -22,7 +22,7 @@
 @using LtInfo.Common.DesignByContract
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Controllers
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using LtInfo.Common.HtmlHelperExtensions
 @using Microsoft.Web.Mvc
@@ -63,11 +63,11 @@
     To enter your project's annual accomplishments:
     <ul>
         <li>Select and add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
-        <li>For each @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), select the appropriate @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() options</li>
+        <li>For each @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), select the appropriate @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() options</li>
         <li>Enter the accomplishment value</li>
         <li>
             You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your project's Start and Completion
-            Years (or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, string.Format("current {0}", FieldDefinition.ReportingYear.GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
+            Years (or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinitionEnum.ReportingYear, string.Format("current {0}", FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
         </li>
     </ul>
     Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view reporting guidance
@@ -84,7 +84,7 @@
                     <div style="margin-top: 5px">
                         <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
                             <i ng-class="AngularViewData.ShowExemptYears ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
-                            What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+                            What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no accomplishments to report?
                         </a>
                         <div ng-show="AngularViewData.ShowExemptYears" >
                             Select the years for which you have no accomplishments to report and provide a brief explanation.

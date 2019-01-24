@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
             if (contextModelObject.ProjectStage == ProjectStage.PlanningDesign)
             {
                 return new PermissionCheckResult(
-                    $"Reported {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Planning/Design stage.");
+                    $"Reported {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Planning/Design stage.");
             }
             return base.HasPermission(person, contextModelObject);
         }

@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -29,15 +29,15 @@ namespace ProjectFirma.Web.Security
 
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum).ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum1).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum2).ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2, FieldDefinitionEnum fieldDefinitionEnum3)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum3).GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum1).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum2).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum3).ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string descriptionMessage)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using LtInfo.Common.GdalOgr;
 using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class ProjectLocationStagingModelExtensions
     {

@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.Results
     {
         public int? PerformanceMeasureID { get; set; }
 
-        public Models.PerformanceMeasure PerformanceMeasure { get; set; }
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; set; }
 
         /// <summary>
         /// Needed by Model Binder
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Results
         {
         }
 
-        public SpendingByPerformanceMeasureByProjectViewModel(int? performanceMeasureID, Models.PerformanceMeasure performanceMeasure)
+        public SpendingByPerformanceMeasureByProjectViewModel(int? performanceMeasureID, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureID = performanceMeasureID;
             PerformanceMeasure = performanceMeasure;

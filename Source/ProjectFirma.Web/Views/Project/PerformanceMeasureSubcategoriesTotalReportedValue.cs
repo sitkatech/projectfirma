@@ -22,19 +22,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class PerformanceMeasureSubcategoriesTotalReportedValue
     {
-        public readonly Models.Project Project;
-        public Models.PerformanceMeasure PerformanceMeasure { get; private set; }
+        public readonly ProjectFirmaModels.Models.Project Project;
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; private set; }
         public readonly List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions;
         public double? TotalReportedValue { get; private set; }
 
-        public PerformanceMeasureSubcategoriesTotalReportedValue(Models.Project project, List<IPerformanceMeasureValueSubcategoryOption> subcategoryOptions, Models.PerformanceMeasure performanceMeasure, double? totalReportedValue)
+        public PerformanceMeasureSubcategoriesTotalReportedValue(ProjectFirmaModels.Models.Project project, List<IPerformanceMeasureValueSubcategoryOption> subcategoryOptions, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, double? totalReportedValue)
         {
             Project = project;
             PerformanceMeasureActualSubcategoryOptions = subcategoryOptions;

@@ -21,8 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public readonly List<CalendarYearString> CalendarYearStrings;
         public readonly bool ShowExemptYears;
 
-        private EditPerformanceMeasureActualsViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, Models.Project project, bool showExemptYears)
+        private EditPerformanceMeasureActualsViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, ProjectFirmaModels.Models.Project project, bool showExemptYears)
         {
             ShowExemptYears = showExemptYears;
             ProjectID = project.ProjectID;
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             CalendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
         }
 
-        public EditPerformanceMeasureActualsViewData(Models.Project project, List<Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
+        public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
             : this(new List<ProjectSimple> {new ProjectSimple(project)}, allPerformanceMeasures, project, showExemptYears)
         {
         }

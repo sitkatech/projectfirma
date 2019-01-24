@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectStewardOrganization.Index
 @section JavascriptAndStylesContent
 {
@@ -71,7 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <h4 class="list-group-item-heading">@organization.OrganizationName</h4>
                         @{
                             var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(ViewDataTyped.CurrentPerson).Count;
-                            var projectCountLabel = projectCount.Equals(1) ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
+                            var projectCountLabel = projectCount.Equals(1) ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized();
                         }
                         <p class="list-group-item-text">
                             @projectCount @projectCountLabel

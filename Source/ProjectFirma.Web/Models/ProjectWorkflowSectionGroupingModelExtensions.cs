@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public static class ProjectWorkflowSectionGroupingModelExtensions
     {
@@ -33,19 +35,19 @@ namespace ProjectFirma.Web.Models
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding, ProjectCreateSection.ReportedExpenditures }).ToList();
-                    if (project != null && project.IsExpectedFundingRelevant())
+                    if (project != null && ProjectModelExtensions.IsExpectedFundingRelevant(project))
                     {
                         projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ExpectedFunding);
                     }
 
-                    if (project != null && project.AreReportedExpendituresRelevant())
+                    if (project != null && ProjectModelExtensions.AreReportedExpendituresRelevant(project))
                     {
                         projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ReportedExpenditures);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForExpenditures, ignoreStatus);
 
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
-                    if (project != null && project.AreReportedPerformanceMeasuresRelevant())    
+                    if (project != null && ProjectModelExtensions.AreReportedPerformanceMeasuresRelevant(project))    
                     {
                         return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                     }
@@ -99,11 +101,11 @@ namespace ProjectFirma.Web.Models
                     projectUpdateSections.AddRange(geospatialAreaTypes
                         .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
                             new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized, maxSortOrder + index + 1,
-                                !projectUpdateBatch.IsNew, projectWorkflowSectionGrouping,
-                                projectUpdateBatch.IsNew ? null :
+                                !projectUpdateBatch.IsNew(), projectWorkflowSectionGrouping,
+                                projectUpdateBatch.IsNew() ? null :
                                     SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y =>
                                         y.GeospatialArea(projectUpdateBatch.Project, geospatialAreaType)),
-                                projectUpdateStatus != null && projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType),
+                                projectUpdateStatus != null && ProjectUpdateBatchModelExtensions.IsProjectGeospatialAreaValid(projectUpdateBatch, geospatialAreaType),
                                 projectUpdateStatus != null && IsGeospatialAreaUpdated(projectUpdateBatch, geospatialAreaType)
                             )));
                     return projectUpdateSections;

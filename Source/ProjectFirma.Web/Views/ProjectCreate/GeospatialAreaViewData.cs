@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData;
 
         public GeospatialAreaViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             GeospatialAreaType geospatialAreaType,
             ProposalSectionsStatus proposalSectionsStatus,
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentPerson, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)

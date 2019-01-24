@@ -1,18 +1,19 @@
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
     public class EditBoundaryViewData : FirmaViewData
     {
-        public readonly Models.Organization Organization;
+        public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly string EditBoundaryUrl;
         public readonly string ApproveGisUploadUrl;
         public readonly string OrganizationDetailUrl;
 
-        public EditBoundaryViewData(Person currentPerson, Models.Organization organization) : base(currentPerson)
+        public EditBoundaryViewData(Person currentPerson, ProjectFirmaModels.Models.Organization organization) : base(currentPerson)
         {
             PageTitle = "Edit Organization Boundary";
 

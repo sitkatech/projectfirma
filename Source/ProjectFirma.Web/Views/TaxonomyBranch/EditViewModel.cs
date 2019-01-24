@@ -24,7 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public int TaxonomyBranchID { get; set; }
 
         [Required]
-        [StringLength(Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName)]
+        [StringLength(ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName)]
         [DisplayName("Name")]
         public string TaxonomyBranchName { get; set; }
 
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
         }
 
-        public EditViewModel(Models.TaxonomyBranch taxonomyBranch)
+        public EditViewModel(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch)
         {
             TaxonomyBranchID = taxonomyBranch.TaxonomyBranchID;
             TaxonomyBranchName = taxonomyBranch.TaxonomyBranchName;
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             ThemeColor = taxonomyBranch.ThemeColor;
         }
 
-        public void UpdateModel(Models.TaxonomyBranch taxonomyBranch, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, Person currentPerson)
         {
             taxonomyBranch.TaxonomyBranchName = TaxonomyBranchName;
             taxonomyBranch.TaxonomyBranchDescriptionHtmlString = TaxonomyBranchDescription;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             var errors = new List<ValidationResult>();
             var existingTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-            if (!Models.TaxonomyBranchModelExtensions.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
+            if (!ProjectFirmaModels.Models.TaxonomyBranchModelExtensions.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyBranchName));
             }

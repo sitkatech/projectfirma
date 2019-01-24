@@ -24,9 +24,9 @@ namespace ProjectFirma.Web.Views.Home
 {
     public class FeaturedProjectsViewData : FirmaUserControlViewData
     {
-        public readonly List<Models.Project> FeaturedProjects;
+        public readonly List<ProjectFirmaModels.Models.Project> FeaturedProjects;
 
-        public FeaturedProjectsViewData(List<Models.Project> featureProjects )
+        public FeaturedProjectsViewData(List<ProjectFirmaModels.Models.Project> featureProjects )
         {
             FeaturedProjects = featureProjects;
         }

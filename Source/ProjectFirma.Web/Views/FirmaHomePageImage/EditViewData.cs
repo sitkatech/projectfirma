@@ -26,9 +26,9 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly Models.FirmaHomePageImage FirmaHomePageImage;
+        public readonly ProjectFirmaModels.Models.FirmaHomePageImage FirmaHomePageImage;
 
-        public EditViewData(Models.FirmaHomePageImage firmaHomePageImage)
+        public EditViewData(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage)
         {
             FirmaHomePageImage = firmaHomePageImage;
         }

@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.CostParameterSet
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.CostParameterSet
         [Required]
         public int CostParameterSetID { get; set; }
 
-        [StringLength(Models.CostParameterSet.FieldLengths.Comment)]
+        [StringLength(ProjectFirmaModels.Models.CostParameterSet.FieldLengths.Comment)]
         [DisplayName("Comment")]
         public string Comment { get; set; }
 
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.CostParameterSet
         {
         }
 
-        public NewViewModel(Models.CostParameterSet costParameterSet)
+        public NewViewModel(ProjectFirmaModels.Models.CostParameterSet costParameterSet)
         {
             CostParameterSetID = costParameterSet.CostParameterSetID;
             InflationRate = costParameterSet.InflationRate;
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.CostParameterSet
             Comment = costParameterSet.Comment;
         }
         
-        public void UpdateModel(Models.CostParameterSet costParameterSet, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.CostParameterSet costParameterSet, Person currentPerson)
         {
             costParameterSet.InflationRate = InflationRate;
             costParameterSet.CurrentYearForPVCalculations = CurrentYearForPVCalculations;

@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
@@ -188,7 +188,7 @@
 }
 else
 {
-    <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName().ToLower() accomplishments entered for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName().ToLower() accomplishments entered for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
 }
 
 @if (ViewDataTyped.ExemptReportingYears.Any())

@@ -25,10 +25,10 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using LtInfo.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Keystone.Common;
 using LtInfo.Common.DesignByContract;
-using Person = ProjectFirma.Web.Models.Person;
+using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Common
 {

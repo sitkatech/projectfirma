@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         public readonly int? ProjectID;
         public readonly bool UsePanelLayout;
 
-        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
+        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
         {
             ProjectID = projectID;
             AllPerformanceMeasures = allPerformanceMeasures.SortByOrderThenName().Select(x => new PerformanceMeasureSimple(x)).ToList();
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             UsePanelLayout = usePanelLayout;
         }
 
-        public EditPerformanceMeasureExpectedViewData(Models.Project project, List<Models.PerformanceMeasure> allPerformanceMeasures)
+        public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
             : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true)
         {
         }

@@ -31,11 +31,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public LocationSimpleViewModel(Models.Project project) : base(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes)
+        public LocationSimpleViewModel(ProjectFirmaModels.Models.Project project) : base(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes)
         {
         }
         
-        public void UpdateModel(Models.Project project)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
             base.UpdateModel(project);
         }

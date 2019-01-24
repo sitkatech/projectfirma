@@ -27,7 +27,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Tenant.Detail
@@ -106,18 +106,18 @@
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowProposalsToThePublic.GetFieldDefinitionLabel()</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ShowProposalsToThePublic, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowProposalsToThePublic.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinition.Project.GetFieldDefinitionLabel() External Data Source Enabled</div>
+                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinition.ShowLeadImplementerLogoOnFactSheet, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowLeadImplementerLogoOnFactSheet.GetFieldDefinitionLabel()
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet.ToType().GetFieldDefinitionLabel()
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ShowLeadImplementerLogoOnFactSheet.ToYesNo()
@@ -258,16 +258,16 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
-                @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                @FieldDefinition.ClassificationSystem.GetFieldDefinitionLabel()
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                @FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()
             </div>
             <div class="panel-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.ClassificationSystemName)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName)</th>
                             <th>@Html.Label("Description")</th>
                         </tr>
                     </thead>

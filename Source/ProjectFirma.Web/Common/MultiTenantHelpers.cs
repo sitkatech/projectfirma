@@ -25,8 +25,10 @@ using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Common
@@ -42,17 +44,17 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTaxonomySystemName()
         {
-            return FieldDefinition.TaxonomySystemName.GetFieldDefinitionLabel();
+            return FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel();
         }
 
         public static string GetTaxonomyLeafDisplayNameForProject()
         {
-            return FieldDefinition.TaxonomyLeafDisplayNameForProject.GetFieldDefinitionLabel();
+            return FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel();
         }
 
         public static string GetPerformanceMeasureName()
         {
-            return FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();
+            return FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel();
         }
 
         public static string GetPerformanceMeasureNamePluralized()
@@ -236,9 +238,9 @@ namespace ProjectFirma.Web.Common
                 .AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
 
-        public static ProjectUpdateConfiguration GetProjectUpdateConfiguration()
+        public static ProjectUpdateSetting GetProjectUpdateConfiguration()
         {
-            return HttpRequestStorage.DatabaseEntities.ProjectUpdateConfigurations.SingleOrDefault(x =>
+            return HttpRequestStorage.DatabaseEntities.ProjectUpdateSettings.SingleOrDefault(x =>
                 x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
 

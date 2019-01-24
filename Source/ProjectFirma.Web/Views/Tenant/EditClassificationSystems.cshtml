@@ -23,7 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Tenant
 @inherits EditClassificationSystems
 
@@ -41,7 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>@Html.LabelWithSugarFor(FieldDefinition.ClassificationSystemName, "Name")</th>
+                        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName, "Name")</th>
                         <th>@Html.Label("Definition")</th>
                     </tr>
                     </thead>

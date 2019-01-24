@@ -26,8 +26,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public BasicsViewModelValidator()
         {
-            RuleFor(x => x.ProjectDescription).NotEmpty().WithName(Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel());
-            RuleFor(x => x.ProjectStageID).NotEmpty().WithName(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel());
+            RuleFor(x => x.ProjectDescription).NotEmpty().WithName(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel());
+            RuleFor(x => x.ProjectStageID).NotEmpty().WithName(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel());
         }
     }
 }

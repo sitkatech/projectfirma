@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
@@ -29,7 +29,7 @@
     <div style="overflow-x: auto">
         <table class="table table-striped table-condensed table-hover">
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderByDescending(x => x.CalendarYear))
                 {
                     <th class="text-right">
@@ -80,5 +80,5 @@
 }
 @if (!ViewDataTyped.FundingSourceExpenditures.Any())
 {
-    <p class="systemText">No Expenditures have been reported for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No Expenditures have been reported for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
 }

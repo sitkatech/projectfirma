@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -18,12 +18,12 @@ namespace ProjectFirma.Web.Security
         {
             if (!HasPermissionByPerson(person))
             {
-                return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
+                return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
 
             if (person.RoleID == Role.ProjectSteward.RoleID && contextModelObject.OrganizationID != person.OrganizationID)
             {
-                return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it does not belong to your {FieldDefinition.Organization.GetFieldDefinitionLabel()}");
+                return new PermissionCheckResult($"You don't have permission to edit or delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it does not belong to your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}");
             }
 
             return new PermissionCheckResult();

@@ -24,10 +24,11 @@ using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
@@ -39,15 +40,15 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(OrganizationTypeModelExtensions.GetDeleteUrl(x), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
-                        $"Edit {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
+                        $"Edit {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
                     30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
+            Add($"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
             Add("Is Default?", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
             Add("Is Funding Type?", a => a.IsFundingType.ToCheckboxImageOrEmptyForGrid(), 80);
-            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
+            Add($"Show on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
             Add("Legend Color", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
         }
 

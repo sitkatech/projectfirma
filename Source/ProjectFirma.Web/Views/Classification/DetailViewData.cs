@@ -19,9 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
 
@@ -29,7 +30,7 @@ namespace ProjectFirma.Web.Views.Classification
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.Classification Classification;
+        public readonly ProjectFirmaModels.Models.Classification Classification;
         public readonly string EditClassificationUrl;
         public readonly string IndexUrl;
         public readonly bool UserHasClassificationManagePermissions;
@@ -41,7 +42,7 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string ClassificationDisplayName;
         public readonly string ClassificationDisplayNamePluralized;
 
-        public DetailViewData(Person currentPerson, Models.Classification classification)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Classification classification)
             : base(currentPerson)
         {
             Classification = classification;
@@ -56,8 +57,8 @@ namespace ProjectFirma.Web.Views.Classification
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
                 SaveFiltersInCookie = true
             };
 

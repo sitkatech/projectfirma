@@ -19,8 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly GeospatialAreaType GeospatialAreaType;
 
         public GeospatialAreaViewData(Person currentPerson,
-            Models.ProjectUpdate projectUpdate,
+            ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             GeospatialAreaValidationResult geospatialAreaValidationResult,

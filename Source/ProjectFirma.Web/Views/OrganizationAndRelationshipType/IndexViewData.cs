@@ -22,9 +22,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
@@ -41,24 +42,24 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
-            PageTitle = $"Manage {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Manage {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}";
 
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
-            OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (hasManagePermissions)
             {
-                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), $"Create a new {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}");
+                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), $"Create a new {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}");
             }
 
             OrganizationTypeGridName = "organizationTypeGrid";
             OrganizationTypeGridDataUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(otc => otc.OrganizationTypeGridJsonData());
 
-            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = $"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (hasManagePermissions)
             {
-                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()}");
+                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}");
             }
 
             RelationshipTypeGridName = "relationshipTypeGrid";

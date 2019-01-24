@@ -18,10 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,6 +46,17 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetDisplayNameAsUrl(this Classification classification)
         {
             return UrlTemplate.MakeHrefString(GetDetailUrl(classification), classification.GetDisplayName());
+        }
+
+        public static string GetDeleteUrl(this Classification classification)
+        {
+            return SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.DeleteClassification(classification.ClassificationID));
+        }
+
+        public static bool IsDisplayNameUnique(IEnumerable<Classification> classifications, string displayName, int currentClassificationID)
+        {
+            var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && String.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
+            return classification == null;
         }
     }
 }

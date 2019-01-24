@@ -20,8 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.ComponentModel;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -30,9 +31,9 @@ namespace ProjectFirma.Web.Common
     {
         public IFieldDefinition FieldDefinition { get; private set; }
 
-        public FieldDefinitionDisplayAttribute(FieldDefinitionEnum fieldDefinitionEnum) : base(Models.FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel())
+        public FieldDefinitionDisplayAttribute(FieldDefinitionEnum fieldDefinitionEnum) : base(fieldDefinitionEnum.ToType().GetFieldDefinitionLabel())
         {
-            FieldDefinition = Models.FieldDefinition.ToType(fieldDefinitionEnum);
+            FieldDefinition = fieldDefinitionEnum.ToType();
         }
     }
 }

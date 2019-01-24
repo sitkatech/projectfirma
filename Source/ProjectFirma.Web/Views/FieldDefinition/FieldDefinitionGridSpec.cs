@@ -22,12 +22,13 @@ using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class FieldDefinitionGridSpec : GridSpec<Models.FieldDefinition>
+    public class FieldDefinitionGridSpec : GridSpec<ProjectFirmaModels.Models.FieldDefinition>
     {
         public FieldDefinitionGridSpec(bool hasManagePermissions)
         {            
@@ -40,11 +41,11 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                             new Dictionary<string, string> {{"target", "_blank"}}),
                     30, DhtmlxGridColumnFilterType.None);
             }
-            Add("Custom Label", a => a.HasCustomFieldLabel() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
+            Add("Custom Label", a => a.HasCustomFieldLabel() ? a.ToType().GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
             Add("Default Label", a => a.FieldDefinitionDisplayName, 200);
             Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Custom Field Definition?", a => a.HasCustomFieldDefinition().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Custom Definition", a => a.HasCustomFieldDefinition() ? a.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString.ToString() : string.Empty, 0);
+            Add("Custom Definition", a => a.HasCustomFieldDefinition() ? a.ToType().GetFieldDefinitionData().FieldDefinitionDataValueHtmlString.ToString() : string.Empty, 0);
             Add("Default Definition", a => a.DefaultDefinitionHtmlString.ToString(), 0);
         }
     }

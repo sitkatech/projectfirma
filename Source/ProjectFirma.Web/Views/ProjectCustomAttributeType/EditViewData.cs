@@ -6,7 +6,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
@@ -25,8 +25,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             IEnumerable<MeasurementUnitType> measurementUnitTypes,
             List<ProjectCustomAttributeDataType> projectCustomAttributeDataTypes,
             string submitUrl,
-            Models.FirmaPage instructionsFirmaPage,
-            Models.ProjectCustomAttributeType projectCustomAttributeType)
+            ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
+            ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
             : base(currentPerson)
         {
             EntityName = "Attribute Type";

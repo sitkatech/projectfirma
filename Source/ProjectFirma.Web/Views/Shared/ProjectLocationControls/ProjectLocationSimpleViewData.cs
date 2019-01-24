@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
-            ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
+            ProjectLocationFieldDefinitionLabel = FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel();
             GeospatialAreaMapSericeLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl;
             CurrentFeature = currentFeature;

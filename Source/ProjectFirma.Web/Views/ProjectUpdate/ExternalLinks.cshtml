@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks
 
 <div ng-app="ProjectFirmaApp" ng-controller="ProjectExternalLinkController">
@@ -46,7 +46,7 @@
             </script>
 
             <p class="systemText">
-                You may add one or more links to external web pages that further describe this @FieldDefinition.Project.GetFieldDefinitionLabel() or are related to it. URLs must start with "http".
+                You may add one or more links to external web pages that further describe this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() or are related to it. URLs must start with "http".
             </p>
             <hr />
             <label>External Link to Add:</label>
@@ -93,7 +93,7 @@
                 @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
                 @if (ViewDataTyped.ProjectUpdateStatus.IsExternalLinksUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                 }
             </td>
             <td style="text-align: right; white-space: nowrap">

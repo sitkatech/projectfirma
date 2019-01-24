@@ -21,9 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using LtInfo.Common.BootstrapWrappers;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
@@ -40,14 +41,14 @@ namespace ProjectFirma.Web.Views.Home
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
-        public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
+        public readonly List<ProjectFirmaModels.Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
         public readonly string ProposeNewProjectUrl;
         public readonly string ProjectUpdatesUrl;
         public readonly bool DisplayActionButtons;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, Models.FirmaPage firmaPageMapInfo,
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage, ProjectFirmaModels.Models.FirmaPage firmaPageAdditionalInfo, ProjectFirmaModels.Models.FirmaPage firmaPageMapInfo,
             FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
+            List<ProjectFirmaModels.Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 

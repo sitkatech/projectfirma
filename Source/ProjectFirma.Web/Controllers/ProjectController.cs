@@ -27,7 +27,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectUpdate;
@@ -41,7 +41,9 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -135,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false, geospatialAreas);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
@@ -286,7 +288,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} because it has been terminated.");
+            Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
             return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project) : ViewForwardLookingFactSheet(project);
         }
         private ViewResult ViewBackwardLookingFactSheet(Project project)
@@ -294,7 +296,7 @@ namespace ProjectFirma.Web.Controllers
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
@@ -305,8 +307,7 @@ namespace ProjectFirma.Web.Controllers
                 googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
-            var firmaPageTypeFactSheetCustomText = FirmaPageType.ToType(FirmaPageTypeEnum.FactSheetCustomText);
-            var firmaPageFactSheetCustomText = FirmaPage.GetFirmaPageByPageType(firmaPageTypeFactSheetCustomText);
+            var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
@@ -317,7 +318,7 @@ namespace ProjectFirma.Web.Controllers
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =
@@ -329,8 +330,7 @@ namespace ProjectFirma.Web.Controllers
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType,
                 googleChartDataTable, null);
-            var firmaPageTypeFactSheetCustomText = FirmaPageType.ToType(FirmaPageTypeEnum.FactSheetCustomText);
-            var firmaPageFactSheetCustomText = FirmaPage.GetFirmaPageByPageType(firmaPageTypeFactSheetCustomText);
+            var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
                 googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText);
@@ -356,7 +356,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectList);
+            var firmaPage = FirmaPageTypeEnum.FullProjectList.GetFirmaPage();
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var viewData = new IndexViewData(CurrentPerson, firmaPage, geospatialAreaTypes);
             return RazorView<Index, IndexViewData>(viewData);
@@ -377,7 +377,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsInProposalStageViewListFeature]
         public ViewResult Proposed()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Proposals);
+            var firmaPage = FirmaPageTypeEnum.Proposals.GetFirmaPage();
             var viewData = new ProposedViewData(CurrentPerson, firmaPage);
             return RazorView<Proposed, ProposedViewData>(viewData);
         }
@@ -395,7 +395,7 @@ namespace ProjectFirma.Web.Controllers
         [PendingProjectsViewListFeature]
         public ViewResult Pending()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PendingProjects);
+            var firmaPage = FirmaPageTypeEnum.PendingProjects.GetFirmaPage();
             var viewData = new PendingViewData(CurrentPerson, firmaPage);
             return RazorView<Pending, PendingViewData>(viewData);
         }
@@ -425,7 +425,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects(),
-                FieldDefinition.Project.GetFieldDefinitionLabelPluralized());
+                FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized());
         }
 
         [ProjectsViewFullListFeature]
@@ -434,7 +434,7 @@ namespace ProjectFirma.Web.Controllers
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
                     .GetProposalsVisibleToUser(CurrentPerson),
-                FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized());
+                FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized());
         }
 
         [ProjectsViewFullListFeature]
@@ -449,7 +449,7 @@ namespace ProjectFirma.Web.Controllers
         private ExcelResult FullDatabaseExcelDownloadImpl(List<Project> projects, string workbookTitle)
         {
             var projectsSpec = new ProjectExcelSpec();
-            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
+            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
             {
@@ -458,17 +458,17 @@ namespace ProjectFirma.Web.Controllers
 
 
             var projectsDescriptionSpec = new ProjectDescriptionExcelSpec();
-            var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectDescription.GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
+            var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
             workSheets.Add(wsProjectDescriptions);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizations()).ToList();
-            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
+            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
-            var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
+            var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
             workSheets.Add(wsProjectNotes);
 
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
@@ -487,14 +487,14 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
-            var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
+            var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
             workSheets.Add(wsProjectFundingSourceExpenditures);
 
             var projectGeospatialAreaSpec = new ProjectGeospatialAreaExcelSpec();
             var projectGeospatialAreas = projects.SelectMany(p => p.ProjectGeospatialAreas).ToList();
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                var wsProjectGeospatialAreas = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized}", projectGeospatialAreaSpec, projectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList());
+                var wsProjectGeospatialAreas = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaTypeNamePluralized}", projectGeospatialAreaSpec, projectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList());
                 workSheets.Add(wsProjectGeospatialAreas);
             }
 
@@ -523,7 +523,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = $"Are you sure you want to delete this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.GetDisplayName()}'?";
+            var confirmMessage = $"Are you sure you want to delete this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{project.GetDisplayName()}'?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -539,7 +539,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
 
-            var message = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.GetDisplayName()}\" successfully deleted.";
+            var message = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{project.GetDisplayName()}\" successfully deleted.";
             project.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
@@ -606,7 +606,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectManageFeaturedFeature]
         public ViewResult FeaturedList()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FeaturedProjectList);
+            var firmaPage = FirmaPageTypeEnum.FeaturedProjectList.GetFirmaPage();
             var viewData = new FeaturedListViewData(CurrentPerson, firmaPage);
             return RazorView<FeaturedList, FeaturedListViewData>(viewData);
         }
@@ -658,7 +658,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult FullProjectListSimple()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectListSimple);
+            var firmaPage = FirmaPageTypeEnum.FullProjectListSimple.GetFirmaPage();
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
             var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
@@ -686,16 +686,16 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new ConfirmDialogFormViewData($@"
 <div>
-An update for this {FieldDefinition.Project.GetFieldDefinitionLabel()} was already submitted for this {
-                    FieldDefinition.ReportingYear.GetFieldDefinitionLabel()
-                } {dateDisplayText}. If {FieldDefinition.Project.GetFieldDefinitionLabel()} information has changed, 
+An update for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was already submitted for this {
+                    FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel()
+                } {dateDisplayText}. If {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} information has changed, 
 any new information you'd like to provide will be added to the {
-                    FieldDefinition.Project.GetFieldDefinitionLabel()
+                    FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
                 }. Thanks for being proactive!
 </div>
 <div>
 <hr />
-Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
+Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update?
 </div>");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -747,7 +747,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
 
         public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditures)
         {
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
             var chartRowCs = fundingSourceExpenditures.Select(x =>
             {
                 var organizationTypeRowV = new GoogleChartRowV(x.Label);
@@ -764,7 +764,7 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult MyOrganizationsProjects()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.MyOrganizationsProjects);
+            var firmaPage = FirmaPageTypeEnum.MyOrganizationsProjects.GetFirmaPage();
             var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage);
             return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
@@ -797,10 +797,10 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         [ProjectsViewFullListFeature]
         public PartialViewResult DenyCreateProject()
         {
-            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
-            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
-            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
-            var projectRelationshipTypeLabel = FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel();
+            var projectStewardLabel = FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
+            var projectRelationshipTypeLabel = FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Steward {projectLabel}\" {projectRelationshipTypeLabel}."
@@ -814,9 +814,9 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         [ProjectCreateNewFeature]
         public PartialViewResult ProjectStewardCannotEdit()
         {
-            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
-            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
-            var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+            var projectStewardLabel = FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {projectLabel} because it does not belong to your {organizationLabel}."
@@ -832,8 +832,8 @@ Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
         {
             var projectCreateUrl =
                 SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(projectPrimaryKey));
-            var projectStewardLabel = FieldDefinition.ProjectSteward.GetFieldDefinitionLabel();
-            var proposalLabel = FieldDefinition.Proposal.GetFieldDefinitionLabel();
+            var projectStewardLabel = FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel();
+            var proposalLabel = FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the proposal."

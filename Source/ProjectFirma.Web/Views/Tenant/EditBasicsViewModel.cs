@@ -26,7 +26,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditBasicsViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
+        public EditBasicsViewModel(ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
             TenantDisplayName = tenantAttribute.TenantDisplayName;
@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Views.Tenant
                 var primaryContact = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
                 if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
-                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
                 }
             }
 

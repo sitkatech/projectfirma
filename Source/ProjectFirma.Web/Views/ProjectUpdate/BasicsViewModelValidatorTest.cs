@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.UnitTestCommon;
+
 using FluentValidation.TestHelper;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -28,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class BasicsViewModelValidatorTest
     {
         private BasicsViewModelValidator _validator;
-        private Models.ProjectUpdate _projectUpdate;
+        private ProjectFirmaModels.Models.ProjectUpdate _projectUpdate;
 
         [SetUp]
         public void Setup()
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [Test]
         public void ShouldNotHaveErrorWhenProjectDescriptionIsSpecified()
         {
-            _validator.ShouldNotHaveValidationErrorFor(x => x.ProjectDescription, TestFramework.MakeTestName("Random Text", Models.ProjectUpdate.FieldLengths.ProjectDescription));
+            _validator.ShouldNotHaveValidationErrorFor(x => x.ProjectDescription, TestFramework.MakeTestName("Random Text", ProjectFirmaModels.Models.ProjectUpdate.FieldLengths.ProjectDescription));
         }
     }
 }

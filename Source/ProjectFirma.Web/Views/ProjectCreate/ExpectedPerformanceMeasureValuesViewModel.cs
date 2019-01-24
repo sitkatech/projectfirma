@@ -21,16 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedPerformanceMeasureValuesViewModel : EditPerformanceMeasureExpectedViewModel, IValidatableObject
     {
-        [StringLength(Models.Project.FieldLengths.PerformanceMeasureNotes)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureNotes)]
         public string PerformanceMeasureNotes { get; set; }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpectedPerformanceMeasureValuesViewModel(Models.Project project)
+        public ExpectedPerformanceMeasureValuesViewModel(ProjectFirmaModels.Models.Project project)
             : base(project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.GetSortOrder()).ThenBy(x=>x.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
             PerformanceMeasureNotes = project.PerformanceMeasureNotes;
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public override void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds,
             IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds,
             IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions,
-            Models.Project project)
+            ProjectFirmaModels.Models.Project project)
         {
             project.PerformanceMeasureNotes = PerformanceMeasureNotes;
 

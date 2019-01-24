@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Project.FullProjectListSimple
@@ -30,10 +30,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <table class="table table-striped table-hover table-condensed">
     <tr style="background-color: #999">     
-        <th colspan="2">@Html.LabelWithSugarFor(FieldDefinition.ProjectName)</th>        
-        <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectStage)</th>
-        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)</th>
-        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinition.CompletionYear)</th>
+        <th colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectName)</th>        
+        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStage)</th>
+        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear)</th>
+        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.CompletionYear)</th>
     </tr>
     @foreach (var project in ViewDataTyped.Projects)
     {

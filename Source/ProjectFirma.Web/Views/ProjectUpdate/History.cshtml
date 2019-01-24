@@ -18,11 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @inherits ProjectFirma.Web.Views.ProjectUpdate.History
 
-The following is the high-level summary of the history for this @FieldDefinition.Project.GetFieldDefinitionLabel() update.
+The following is the high-level summary of the history for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() update.
 <div style="margin: 10px 0 10px 0">Last Updated: @ViewDataTyped.ProjectUpdateBatch.LastUpdateDate.ToStringDateTime() - @Html.Raw(ViewDataTyped.ProjectUpdateBatch.LastUpdatePerson.GetFullNameFirstLastAndOrgAsUrl())</div>
 <hr/>
 <table class="summaryLayout" style="margin-top: 10px">

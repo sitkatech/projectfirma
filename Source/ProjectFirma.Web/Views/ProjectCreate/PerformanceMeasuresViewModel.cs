@@ -25,9 +25,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -54,21 +55,21 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectExemptReportingYears = projectExemptReportingYears;
         }
 
-        public void UpdateModel(List<Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
-            IList<Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
+        public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
+            IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
-            Models.Project project)
+            ProjectFirmaModels.Models.Project project)
         {
             var currentPerformanceMeasureActualSubcategoryOptions =
                 currentPerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList();
-            var performanceMeasureActualsUpdated = new List<Models.PerformanceMeasureActual>();
+            var performanceMeasureActualsUpdated = new List<ProjectFirmaModels.Models.PerformanceMeasureActual>();
 
             if (PerformanceMeasureActuals != null)
             {
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
                 {
-                    var performanceMeasureActual = new Models.PerformanceMeasureActual(x.PerformanceMeasureActualID.GetValueOrDefault(),
+                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.PerformanceMeasureActualID.GetValueOrDefault(),
                         x.ProjectID.GetValueOrDefault(),
                         x.PerformanceMeasureID.GetValueOrDefault(),
                         x.CalendarYear.GetValueOrDefault(),

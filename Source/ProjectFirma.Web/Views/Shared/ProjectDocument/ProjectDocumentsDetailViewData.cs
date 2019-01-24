@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
     public class ProjectDocumentsDetailViewData
     {
-        public ProjectDocumentsDetailViewData(Models.Project project, Person currentPerson)
+        public ProjectDocumentsDetailViewData(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             Project = project;
             CurrentPerson = currentPerson;
@@ -21,13 +22,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(c => c.Delete(UrlTemplate.Parameter1Int)));
 
             UserHasProjectManagePermissions =
-                Project.IsProposal() ?
+                ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(Project) ?
                 new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission
                  : new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
             ProjectDocumentEditAsAdminFeature = new ProjectDocumentEditAsAdminFeature();
         }
 
-        public ProjectDocumentsDetailViewData(Models.Project project, Person currentPerson, bool showNewButton) : this(project, currentPerson)
+        public ProjectDocumentsDetailViewData(ProjectFirmaModels.Models.Project project, Person currentPerson, bool showNewButton) : this(project, currentPerson)
         {
             UserHasProjectManagePermissions = UserHasProjectManagePermissions && showNewButton;
         }
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 
         public bool ShowDownload { get; }
 
-        public Models.Project Project { get; set; }
+        public ProjectFirmaModels.Models.Project Project { get; set; }
         public string NewProjectDocumentUrl { get; set; }
         public UrlTemplate<int> EditProjectDocumentUrlTemplate { get; set; }
         public UrlTemplate<int> DeleteProjectDocumentUrlTemplate { get; set; }

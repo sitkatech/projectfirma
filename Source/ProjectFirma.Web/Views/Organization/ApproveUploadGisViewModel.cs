@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Organization Boundary"), Required]
         public string OrganizationBoundaryWkt { get; set; }
 
-        public void UpdateModel(Models.Organization organization)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization)
         {
             organization.OrganizationBoundary = DbGeometry.FromText(OrganizationBoundaryWkt);
         }

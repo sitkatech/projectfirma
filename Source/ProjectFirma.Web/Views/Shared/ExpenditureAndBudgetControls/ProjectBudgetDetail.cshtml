@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetDetail
@@ -31,7 +31,7 @@ else
 {
     <table class="gridLayout" style="width: 100%">
         <tr>
-            <th style="text-align: left">@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
+            <th style="text-align: left">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
             {
                 <th>

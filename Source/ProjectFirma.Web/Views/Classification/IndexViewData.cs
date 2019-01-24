@@ -21,9 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.Classification
         public string EditSortOrderUrl { get; }
         public bool HasClassificationManagePermissions { get; }
 
-        public IndexViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
 

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public PerformanceMeasureChartExcelSpec(List<GoogleChartColumn> googleChartColumns)
         {
-            AddColumn(Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), x => x.Year);
+            AddColumn(FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel(), x => x.Year);
 
             foreach (var googleChartColumn in googleChartColumns)
             {

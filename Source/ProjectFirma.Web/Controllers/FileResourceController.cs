@@ -25,7 +25,7 @@ using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
@@ -217,7 +217,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
-            var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
+            var image = new FieldDefinitionDataImage(fieldDefinition.ToType().GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
             HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDataImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }

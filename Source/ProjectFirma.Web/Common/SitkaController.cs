@@ -27,7 +27,6 @@ using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Principal;
 using System.Web.Mvc;
 using DHTMLX.Export.Excel;
 using LtInfo.Common;
@@ -57,7 +56,7 @@ namespace ProjectFirma.Web.Common
 
         protected override void OnException(ExceptionContext filterContext)
         {
-             var lastError = filterContext.Exception;
+            var lastError = filterContext.Exception;
             if (lastError is SitkaRecordNotAuthorizedException && IsCurrentUserAnonymous())
             {
                 var requestUrl = Request.Url != null ? Request.Url.ToString() : String.Empty;
@@ -125,12 +124,6 @@ namespace ProjectFirma.Web.Common
         /// </summary>
         protected abstract ISitkaDbContext SitkaDbContext { get; }
 
-        public interface ISitkaDbContext
-        {
-            DbContext GetDbContext();
-            int SaveChanges(IPrincipal user);
-        }
-
 
         private static bool IsSetToAutomaticallyCallEntityFrameworkSaveChangesAttribute(ActionExecutedContext filterContext)
         {
@@ -145,7 +138,7 @@ namespace ProjectFirma.Web.Common
                 // We only need to detect changes when we know we are saving
                 try
                 {
-                    SitkaDbContext.SaveChanges(User);
+                    SitkaDbContext.SaveChanges();
                 }
                 catch (DbEntityValidationException ex)
                 {

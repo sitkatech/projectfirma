@@ -11,7 +11,7 @@ using LtInfo.Common.GdalOgr;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.Organization
         [Required, DisplayName("GIS File to Upload"), SitkaFileExtensions("zip")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public void UpdateModel(Models.Organization organization)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization)
         {
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".gdb.zip"))
             {

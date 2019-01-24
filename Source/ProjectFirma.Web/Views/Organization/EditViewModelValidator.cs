@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Views.Organization
     public class EditViewModelValidator : AbstractValidator<EditViewModel>
     {
         // Validators are singletons, so this list must be initialized every time.
-        public Func<IList<Models.Organization>> Organizations = () =>
+        public Func<IList<ProjectFirmaModels.Models.Organization>> Organizations = () =>
         {
             HttpRequestStorage.DatabaseEntities.Organizations.Load();
             return HttpRequestStorage.DatabaseEntities.AllOrganizations.Local;
         };
 
-        public EditViewModelValidator(IList<Models.Organization> organizations) : this()
+        public EditViewModelValidator(IList<ProjectFirmaModels.Models.Organization> organizations) : this()
         {
             Organizations = (() => organizations);
         }
@@ -45,11 +45,11 @@ namespace ProjectFirma.Web.Views.Organization
             RuleFor(x => x.OrganizationName)
                 .NotEmpty()
                 .WithMessage("Organization name is required")
-                .Length(1, Models.Organization.FieldLengths.OrganizationName)
-                .Must((viewModel, organizationName) => Models.OrganizationModelExtensions.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
+                .Length(1, ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationName)
+                .Must((viewModel, organizationName) => ProjectFirmaModels.Models.OrganizationModelExtensions.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationNameUnique);
             RuleFor(x => x.OrganizationShortName)
-                .Must((viewModel, organizationShortName) => Models.OrganizationModelExtensions.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
+                .Must((viewModel, organizationShortName) => ProjectFirmaModels.Models.OrganizationModelExtensions.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationShortNameUnique);
             RuleFor(x => x.IsActive).NotEmpty().WithMessage("Is Active is required");
         }

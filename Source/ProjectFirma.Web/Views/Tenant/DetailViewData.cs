@@ -19,16 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.Tenant Tenant;
+        public readonly ProjectFirmaModels.Models.Tenant Tenant;
         public readonly TenantAttribute TenantAttribute;
         public readonly string EditBasicsUrl;
         public readonly string EditBoundingBoxUrl;
@@ -47,7 +49,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute,
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
             string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl,
             string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName,

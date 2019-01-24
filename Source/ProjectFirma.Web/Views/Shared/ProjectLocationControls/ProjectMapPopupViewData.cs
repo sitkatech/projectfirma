@@ -25,7 +25,7 @@ using ApprovalUtilities.Utilities;
 using LtInfo.Common;
 using MoreLinq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -39,18 +39,18 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string ClassificationDisplayNamePluralized { get; private set; }
 
         public string DisplayName { get; set; }
-        public Models.ProjectImage KeyPhoto { get; set; }
+        public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; set; }
         public string Duration { get; set; }
         public ProjectStage ProjectStage { get; set; }
-        public Models.TaxonomyLeaf TaxonomyLeaf { get; set; }
+        public ProjectFirmaModels.Models.TaxonomyLeaf TaxonomyLeaf { get; set; }
         public string EstimatedTotalCost { get; set; }
-        public Dictionary<Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
+        public Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string FactSheetUrl { get; set; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
         public bool ShowDetailedInformation { get; }
 
-        public ProjectMapPopupViewData(Models.Project project, bool showDetailedInformation)
+        public ProjectMapPopupViewData(ProjectFirmaModels.Models.Project project, bool showDetailedInformation)
         {
             //Project = project;
             DisplayName = project.GetDisplayName();
@@ -60,12 +60,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             TaxonomyLeaf = project.TaxonomyLeaf;
             EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
             
-            var dict = new Dictionary<Models.ClassificationSystem, string>();
+            var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();
             MoreEnumerable.ForEach(project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(), x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
             ClassificationsBySystem = dict;
 
             FactSheetUrl = project.GetFactSheetUrl();
-            DetailLinkDescriptor = project.IsProposal() ? $"This {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} expenditures & results, see the";
+            DetailLinkDescriptor = ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project) ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} expenditures & results, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 
@@ -74,10 +74,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         private void InitializeDisplayNames()
         {
-            TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
-            TaxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
-            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
+            TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
+            ClassificationDisplayNamePluralized = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized();
         }
     }
 }

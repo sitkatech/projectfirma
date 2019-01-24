@@ -1,5 +1,7 @@
 ﻿using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -12,16 +14,34 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool HasPageContent;
         public readonly string EditPageContentUrl;
 
-        public ViewPageContentViewData(IFirmaPage firmaPage, bool showEditButton)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton)
         {
             FirmaPageContentHtmlString = firmaPage.GetFirmaPageContentHtmlString();
             FirmaPageDisplayName = firmaPage.GetFirmaPageDisplayName();
             ShowEditButton = showEditButton;
             HasPageContent = firmaPage.HasPageContent();
-            EditPageContentUrl = firmaPage.GetEditPageContentUrl();
+            EditPageContentUrl = SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(firmaPage));
         }
 
-        public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton)
+        {
+            FirmaPageContentHtmlString = customPage.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = customPage.GetFirmaPageDisplayName();
+            ShowEditButton = showEditButton;
+            HasPageContent = customPage.HasPageContent();
+            EditPageContentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(customPage));
+        }
+
+        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, bool showEditButton)
+        {
+            FirmaPageContentHtmlString = geospatialAreaType.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = geospatialAreaType.GetFirmaPageDisplayName();
+            ShowEditButton = showEditButton;
+            HasPageContent = geospatialAreaType.HasPageContent();
+            EditPageContentUrl = string.Empty;
+        }
+
+        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, Person currentPerson)
             : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
         {
         }

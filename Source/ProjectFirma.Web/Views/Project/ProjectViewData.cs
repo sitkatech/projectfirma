@@ -18,19 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public abstract class ProjectViewData : FirmaViewData
     {
-        public Models.Project Project { get; }
+        public ProjectFirmaModels.Models.Project Project { get; }
 
-        protected ProjectViewData(Person currentPerson, Models.Project project) : base(currentPerson, null)
+        protected ProjectViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson, null)
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;
-            EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+            EntityName = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
         }
     }
 }

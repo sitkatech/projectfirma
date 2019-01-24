@@ -22,9 +22,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public int PerformanceMeasureID { get; set; }
 
         [Required]
-        [StringLength(Models.PerformanceMeasure.FieldLengths.PerformanceMeasureDisplayName)]
+        [StringLength(ProjectFirmaModels.Models.PerformanceMeasure.FieldLengths.PerformanceMeasureDisplayName)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasure)]
         public string PerformanceMeasureDisplayName { get; set; }
 
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public EditViewModel(Models.PerformanceMeasure performanceMeasure)
+        public EditViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             PerformanceMeasureDisplayName = performanceMeasure.PerformanceMeasureDisplayName;
@@ -70,7 +71,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             IsAggregatable = performanceMeasure.IsAggregatable;
         }
 
-        public void UpdateModel(Models.PerformanceMeasure performanceMeasure, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             performanceMeasure.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
             performanceMeasure.PerformanceMeasureTypeID = PerformanceMeasureTypeID.Value;

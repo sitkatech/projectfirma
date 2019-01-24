@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using System.Diagnostics
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex;margin-top: 17px;">
                             <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
                                    name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
-                                   placeholder="@FieldDefinition.Project.GetFieldDefinitionLabel() Name or Description"
+                                   placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
                                    style="margin-right: -5px; max-width: 300px; margin-left: auto;"/>
                                 <button id="searchButton" type="button" class="btn btn-default">
                                     <span class="sr-only">Search</span>

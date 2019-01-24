@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 
 @inherits ProjectFirma.Web.Views.CostParameterSet.New
@@ -28,7 +28,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <table class="dialogFormLayout">
         <tr>
              <th>
-                @Html.LabelWithSugarFor(FieldDefinition.GlobalInflationRate):
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.GlobalInflationRate):
             </th>
             <td>
                 @Html.EditorFor(p => p.InflationRate)
@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </tr>
         <tr>
              <th>
-                @Html.LabelWithSugarFor(FieldDefinition.CurrentYearForPVCalculations):
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CurrentYearForPVCalculations):
             </th>
             <td>
                 @Html.EditorFor(p => p.CurrentYearForPVCalculations)

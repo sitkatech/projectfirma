@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.PerformanceMeasureActual.EditPerformanceMeasureActuals
@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="margin-top: 5px">
             <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
                 <i ng-class="AngularViewData.ShowExemptYears ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
-                What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+                What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no accomplishments to report?
             </a>
             <div ng-show="AngularViewData.ShowExemptYears">
                 Select the years for which there are no accomplishments to report and provide a brief explanation.

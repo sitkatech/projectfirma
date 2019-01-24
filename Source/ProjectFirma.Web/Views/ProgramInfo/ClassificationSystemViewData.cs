@@ -21,9 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -32,12 +33,12 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 {
     public class ClassificationSystemViewData : FirmaViewData
     {
-        public readonly List<Models.Classification> Classifications;
-        public readonly Models.ClassificationSystem ClassificationSystem;
+        public readonly List<ProjectFirmaModels.Models.Classification> Classifications;
+        public readonly ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem;
         public readonly bool ShowEditButton;
         public readonly string EditPageContentUrl;
 
-        public ClassificationSystemViewData(Person currentPerson, Models.ClassificationSystem classificationSystem) : base(currentPerson)
+        public ClassificationSystemViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
             PageTitle = classificationSystem.ClassificationSystemNamePluralized;
             Classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();

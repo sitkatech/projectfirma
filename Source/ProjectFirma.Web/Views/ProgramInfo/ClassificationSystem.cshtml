@@ -21,6 +21,7 @@
 @using LtInfo.Common
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProgramInfo.ClassificationSystem
 @section JavascriptAndStylesContent
@@ -153,7 +154,7 @@ else
 
                 <div class="visibleText">
                     <h3>@classification.GetDisplayName()</h3>
-                    <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentPerson).Count() @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</p> 
+                    <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentPerson).Count() @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p> 
                 </div>
                 <div class="overlay" style="background-color: @classification.ThemeColor">
                     <h3>@classification.GetDisplayName()</h3>

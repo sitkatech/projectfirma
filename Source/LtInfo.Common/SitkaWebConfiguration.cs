@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace LtInfo.Common
@@ -32,6 +31,7 @@ namespace LtInfo.Common
         public static string SitkaEmailRedirect = SitkaConfiguration.GetRequiredAppSetting("SitkaEmailRedirect");
         public static readonly bool IsEmailEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("IsEmailEnabled"));
         public static readonly string MailLogBcc = SitkaConfiguration.GetRequiredAppSetting("MailLogBcc");
+        public static readonly string DatabaseConnectionString = SitkaConfiguration.GetRequiredAppSetting("DatabaseConnectionString");
 
         public static readonly TimeSpan CacheStaticContentTimeSpan = TimeSpan.Parse(SitkaConfiguration.GetRequiredAppSetting("CacheStaticContentTimeSpan"));
 

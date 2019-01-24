@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ClassificationSystem;
 
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditInDialog(EditPageContentViewModel viewModel, Models.ClassificationSystem classificationSystem)
+        private PartialViewResult ViewEditInDialog(EditPageContentViewModel viewModel, ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
             var viewData = new EditPageContentViewData(ckEditorToolbar);

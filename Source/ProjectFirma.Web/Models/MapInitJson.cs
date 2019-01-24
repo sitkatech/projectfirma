@@ -24,6 +24,7 @@ using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -85,7 +86,7 @@ namespace ProjectFirma.Web.Models
             var layerGeoJsons = new List<LayerGeoJson>();
             if (project.ProjectLocationPoint != null)
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                     new FeatureCollection(new List<Feature>
                     {
                         DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
@@ -95,7 +96,22 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(IProject project)
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(ProjectUpdate projectUpdate)
+        {
+            var layerGeoJsons = new List<LayerGeoJson>();
+            if (projectUpdate.ProjectLocationPoint != null)
+            {
+                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(projectUpdate));                
+            }
+            var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
+            if (detailedLocationGeoJsonFeatureCollection.Features.Any())
+            {
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
+            }
+            return layerGeoJsons;
+        }
+
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(Project project)
         {
             var layerGeoJsons = new List<LayerGeoJson>();
             if (project.ProjectLocationPoint != null)
@@ -105,7 +121,7 @@ namespace ProjectFirma.Web.Models
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;
         }

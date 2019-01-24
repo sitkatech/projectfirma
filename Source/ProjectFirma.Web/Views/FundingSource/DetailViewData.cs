@@ -22,8 +22,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
@@ -31,7 +32,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.FundingSource FundingSource;
+        public readonly ProjectFirmaModels.Models.FundingSource FundingSource;
         public readonly bool UserHasFundingSourceManagePermissions;
         public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
         public readonly string EditFundingSourceUrl;
@@ -44,16 +45,16 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly string ProjectCalendarYearExpendituresGridDataUrl;
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
-        public readonly GridSpec<Models.ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridSpec;
+        public readonly GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridSpec;
         public readonly string ProjectFundingSourceRequestsGridName;
         public readonly string ProjectFundingSourceRequestsGridDataUrl;
 
-        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec) : base(currentPerson)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec) : base(currentPerson)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
             PageTitle = fundingSource.GetDisplayName();
-            EntityName = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
+            EntityName = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
@@ -63,8 +64,8 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             ProjectCalendarYearExpendituresGridSpec = new ProjectCalendarYearExpendituresGridSpec(CalendarYearsForProjectExpenditures)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

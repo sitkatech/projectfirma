@@ -27,6 +27,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.RouteTableBuilderTestFolder.Areas.MyTestArea1.Controllers;
 using LtInfo.Common.RouteTableBuilderTestFolder.Controllers;
 using NUnit.Framework;

@@ -20,17 +20,18 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class SpendingByPerformanceMeasureByProjectViewData : FirmaViewData
     {        
-        public readonly Models.PerformanceMeasure SelectedPerformanceMeasure;
-        public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
+        public readonly ProjectFirmaModels.Models.PerformanceMeasure SelectedPerformanceMeasure;
+        public readonly List<ProjectFirmaModels.Models.PerformanceMeasure> PerformanceMeasures;
         public readonly string SpendingByPerformanceMeasureByProjectUrl;
 
         public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
@@ -40,12 +41,12 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string GridDataUrl;
 
         public SpendingByPerformanceMeasureByProjectViewData(Person currentPerson,
-            Models.FirmaPage firmaPage,
-            List<Models.PerformanceMeasure> performanceMeasures,
-            Models.PerformanceMeasure selectedPerformanceMeasure,
+            ProjectFirmaModels.Models.FirmaPage firmaPage,
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
+            ProjectFirmaModels.Models.PerformanceMeasure selectedPerformanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
         {
-            PageTitle = string.Format("Spending by {0} for Selected {1}", Models.FieldDefinition.Project.GetFieldDefinitionLabel(), MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
+            PageTitle = string.Format("Spending by {0} for Selected {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
 
             PerformanceMeasures = performanceMeasures;
             SelectedPerformanceMeasure = selectedPerformanceMeasure;

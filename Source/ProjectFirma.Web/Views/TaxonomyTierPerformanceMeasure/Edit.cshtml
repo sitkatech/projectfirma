@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure.Edit
@@ -110,7 +110,7 @@
                 @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Primary {0}?", ViewDataTyped.TaxonomyTierDisplayName))
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.IsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Primary {0}?", ViewDataTyped.TaxonomyTierDisplayName))
             </div>
         </div>
         <div class="form-group" ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures | orderBy:getTaxonomyTierName">

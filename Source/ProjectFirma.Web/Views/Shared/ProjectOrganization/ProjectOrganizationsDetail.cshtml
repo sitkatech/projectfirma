@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
@@ -29,8 +29,8 @@
 {
     <table class="summaryLayout table table-borderless">
         <tr>
-            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectRelationshipType)</th>
+            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization)</th>
         </tr>
         @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
         {
@@ -68,7 +68,7 @@ else
 <hr />
 <div class="row">
     <div class="col-xs-3">
-        @Html.LabelWithSugarFor(FieldDefinition.ProjectPrimaryContact)
+        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact)
     </div>
 
     <div class="col-xs-9">
