@@ -18,8 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", function($scope, $timeout, angularModelAndViewData)
-{
+angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", function($scope, $timeout, angularModelAndViewData) {
+
+    $scope.performanceMeasureTooltip = function(performanceMeasureExpected) {
+        var displayName = $scope.getPerformanceMeasureName(performanceMeasureExpected);
+        var definitionAndGuidanceUrl = $scope.getPerformanceMeasureDefinitionAndGuidanceUrl(performanceMeasureExpected);
+        ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(event.target),
+            displayName,
+            definitionAndGuidanceUrl,
+            430);
+    };
+
+    $scope.getPerformanceMeasureDefinitionAndGuidanceUrl = function (performanceMeasureExpected) {
+        var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
+        return performanceMeasureToFind.DefinitionAndGuidanceUrl;
+    };
+
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
     }

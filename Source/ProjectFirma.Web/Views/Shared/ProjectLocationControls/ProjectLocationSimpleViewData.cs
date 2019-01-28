@@ -29,9 +29,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationSimpleViewData : FirmaViewData
     {
-        public readonly ProjectLocationSimpleViewDataForAngular ViewDataForAngular;
-        public readonly string MapFormID;
-        public readonly string MapPostUrl;
+        public ProjectLocationSimpleViewDataForAngular ViewDataForAngular { get; }
+        public string MapFormID { get; }
+        public string MapPostUrl { get; }
 
         public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
@@ -39,17 +39,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, geospatialAreaTypes, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
+            FieldDefinitionForProjectLocation = FieldDefinitionEnum.ProjectLocation.ToType();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
         }
+
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectLocation { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
     }
 
     public class ProjectLocationSimpleViewDataForAngular
     {
-        public readonly MapInitJson MapInitJson;
-        public readonly string TypeAheadInputId;
-        public readonly string ProjectLocationFieldDefinitionLabel;
-        public readonly List<string> GeospatialAreaMapSericeLayerNames;
-        public readonly string MapServiceUrl;
-        public readonly Feature CurrentFeature;
+        public MapInitJson MapInitJson { get; }
+        public string TypeAheadInputId { get; }
+        public string ProjectLocationFieldDefinitionLabel { get; }
+        public List<string> GeospatialAreaMapSericeLayerNames { get; }
+        public string MapServiceUrl { get; }
+        public Feature CurrentFeature { get; }
 
         public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature)
         {

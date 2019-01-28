@@ -18,21 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class EditProposalClassificationsViewData : ProjectCreateViewData
     {
-        public readonly List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems;
-        public readonly string ProjectName;
-        
+        public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
+        public string ProjectName { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
+
         public EditProposalClassificationsViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSectionDisplayName, proposalSectionsStatus)
         {
             ProjectName = project.GetDisplayName();
             ClassificationSystems = classificationSystems;
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForClassification = FieldDefinitionEnum.Classification.ToType();
         }
     }
 }

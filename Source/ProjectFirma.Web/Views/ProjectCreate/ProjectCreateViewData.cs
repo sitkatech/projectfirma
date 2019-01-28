@@ -24,11 +24,10 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -36,7 +35,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public ProjectFirmaModels.Models.Project Project { get; }
         public string CurrentSectionDisplayName { get; }
-        public List<ProjectCreateSection> ProjectCreateSections { get; }
         public string ProposalListUrl { get; }
         public string ProposalDetailUrl { get; }
         public string ProvideFeedbackUrl { get; }
@@ -80,8 +78,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
-            InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
-            var pageTitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" : $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
+
+            InstructionsPageUrl = project.ProjectStage == ProjectStage.Proposal
+                ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x =>
+                    x.InstructionsProposal(project.ProjectID))
+                : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x =>
+                    x.InstructionsEnterHistoric(project.ProjectID));
+
+            var fieldDefinitionLabelForProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var pageTitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {fieldDefinitionLabelForProject}" : $"Add {fieldDefinitionLabelForProject}";
             PageTitle = $"{pageTitle}: {project.GetDisplayName()}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));

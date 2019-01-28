@@ -122,6 +122,7 @@
     <Compile Include="Models\ProjectUpdateBatchTest.cs" />
     <Compile Include="Models\ProjectUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectUpdateSectionModelExtensions.cs" />
+    <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
     <Compile Include="Models\RelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />

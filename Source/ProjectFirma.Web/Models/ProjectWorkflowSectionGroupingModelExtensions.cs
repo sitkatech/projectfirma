@@ -46,12 +46,17 @@ namespace ProjectFirma.Web.Models
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForExpenditures, ignoreStatus);
 
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
-                    if (project != null && project.AreReportedPerformanceMeasuresRelevant())    
+                    if (project == null)
                     {
-                        return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
+                        return new List<ProjectSectionSimple>();
                     }
 
-                    return new List<ProjectSectionSimple>();
+                    if (project.AreReportedPerformanceMeasuresRelevant())
+                    {
+                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
+                    }
+
+                    return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedPerformanceMeasures }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                     var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
