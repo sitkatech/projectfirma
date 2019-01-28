@@ -19,22 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ProjectFirmaModels.Models
 {
     public partial class Classification : IAuditableEntity, IHaveASortOrder
     {
-        public List<Project> GetAssociatedProjects(Person person)
-        {
-            return ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals()).ToList();
-        }
-
-        public string GetKeyImageUrlLarge() => KeyImageFileResource != null
-            ? KeyImageFileResource.FileResourceUrlScaledForPrint
-            : "http://placehold.it/280x210";
-
         public string GetAuditDescriptionString() => DisplayName;
 
         public string GetDisplayName()

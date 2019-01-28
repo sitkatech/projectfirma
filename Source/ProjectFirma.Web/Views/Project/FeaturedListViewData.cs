@@ -21,19 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class FeaturedListViewData : FirmaViewData
     {
-        public readonly FeaturesListProjectGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public FeaturesListProjectGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
         public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -57,7 +55,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, true)
         {
             Add("# of Photos", x => x.ProjectImages.Count, 100);
-            Add(string.Format("Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
+            Add($"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 
@@ -29,7 +30,7 @@
 
         @if (ViewDataTyped.ShowDownload)
         {
-        <a href="@projectDocument.FileResource.FileResourceUrl">
+        <a href="@projectDocument.FileResource.GetFileResourceUrl()">
             @projectDocument.DisplayName
             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
         </a>

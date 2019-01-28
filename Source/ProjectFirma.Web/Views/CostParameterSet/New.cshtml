@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 
 @inherits ProjectFirma.Web.Views.CostParameterSet.New
 
@@ -28,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <table class="dialogFormLayout">
         <tr>
              <th>
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.GlobalInflationRate):
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.GlobalInflationRate.ToType()):
             </th>
             <td>
                 @Html.EditorFor(p => p.InflationRate)
@@ -37,7 +39,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </tr>
         <tr>
              <th>
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.CurrentYearForPVCalculations):
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CurrentYearForPVCalculations.ToType()):
             </th>
             <td>
                 @Html.EditorFor(p => p.CurrentYearForPVCalculations)

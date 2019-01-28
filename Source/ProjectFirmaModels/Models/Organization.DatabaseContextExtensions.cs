@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
 
         public static Organization GetUnknownOrganization(this IQueryable<Organization> organizations)
         {
-            return organizations.Single(x => x.OrganizationName == OrganizationModelExtensions.OrganizationUnknown);
+            return organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
         }
     }
 }

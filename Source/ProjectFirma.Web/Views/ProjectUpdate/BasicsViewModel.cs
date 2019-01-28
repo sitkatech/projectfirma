@@ -27,6 +27,7 @@ using ProjectFirmaModels.Models;
 using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(ProjectFirmaModels.Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
+        [StringLength(ProjectModelExtensions.MaxLengthForProjectDescription)]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]

@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Project
                 });
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => ProjectFirmaModels.Models.ProjectModelExtensions.GetProjectGeospatialAreaNamesAsHyperlinks(x, geospatialAreaType).ToString());
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType).ToString());
             }
 
             AddColumn(FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel(), x => x.ImplementationStartYear);

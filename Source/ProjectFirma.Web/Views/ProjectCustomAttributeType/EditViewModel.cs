@@ -6,6 +6,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType

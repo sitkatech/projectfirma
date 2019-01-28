@@ -3,6 +3,7 @@ using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
@@ -22,7 +23,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(c => c.Delete(UrlTemplate.Parameter1Int)));
 
             UserHasProjectManagePermissions =
-                ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(Project) ?
+                Project.IsProposal() ?
                 new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission
                  : new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
             ProjectDocumentEditAsAdminFeature = new ProjectDocumentEditAsAdminFeature();

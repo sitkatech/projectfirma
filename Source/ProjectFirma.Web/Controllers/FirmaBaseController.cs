@@ -26,6 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using log4net;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Controllers

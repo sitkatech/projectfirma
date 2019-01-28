@@ -21,10 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ApprovalUtilities.Utilities;
 using LtInfo.Common;
-using MoreLinq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -61,11 +60,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();
-            MoreEnumerable.ForEach(project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(), x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
+            project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct().ToList().ForEach(x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
             ClassificationsBySystem = dict;
 
             FactSheetUrl = project.GetFactSheetUrl();
-            DetailLinkDescriptor = ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project) ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} expenditures & results, see the";
+            DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} expenditures & results, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 

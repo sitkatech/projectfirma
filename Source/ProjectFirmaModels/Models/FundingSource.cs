@@ -18,58 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
     public partial class FundingSource : IAuditableEntity
     {
-        public string GetDisplayName() =>
-            $"{FundingSourceName} ({Organization.GetOrganizationShortNameIfAvailable()}){(!IsActive ? " (Inactive)" : string.Empty)}";
-
-        public string GetFixedLengthDisplayName()
-        {
-            if (Organization.IsUnknown())
-            {
-                return Organization.GetOrganizationShortNameIfAvailable();
-            }
-
-            var organizationShortNameIfAvailable = $"({Organization.GetOrganizationShortNameIfAvailable()})";
-            return organizationShortNameIfAvailable.Length < 45
-                ? $"{FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}"
-                : $"{FundingSourceName} {organizationShortNameIfAvailable}";
-        }
-
-
-        public static bool IsFundingSourceNameUnique(IEnumerable<FundingSource> fundingSources, string fundingSourceName, int currentFundingSourceID)
-        {
-            var fundingSource =
-                fundingSources.SingleOrDefault(x => x.FundingSourceID != currentFundingSourceID && String.Equals(x.FundingSourceName, fundingSourceName, StringComparison.InvariantCultureIgnoreCase));
-            return fundingSource == null;
-        }
-
-        public int? GetProjectsWhereYouAreTheFundingSourceMinCalendarYear()
-        {
-            return ProjectFundingSourceExpenditures.Any()
-                ? ProjectFundingSourceExpenditures.Min(x => x.CalendarYear)
-                : (int?) null;
-        }
-
-        public int? GetProjectsWhereYouAreTheFundingSourceMaxCalendarYear()
-        {
-            return ProjectFundingSourceExpenditures.Any()
-                ? ProjectFundingSourceExpenditures.Max(x => x.CalendarYear)
-                : (int?) null;
-        }
-
         public string GetAuditDescriptionString() => FundingSourceName;
-
-        public List<Project> GetAssociatedProjects(Person person)
-        {
-            return ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
-        }
     }
 }

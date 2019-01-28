@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.ProjectTaxonomy
 
 <style>
@@ -49,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 taxonomyBasicsPanelLabel">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunk, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunk.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-7">
                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTrunk ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTrunk ? new HtmlString(ViewDataTyped.TaxonomyTrunk.GetDisplayName()) : ViewDataTyped.TaxonomyTrunk.GetDisplayNameAsUrl())</span>
@@ -62,7 +63,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-6">
                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyBranch ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyBranch ? new HtmlString(ViewDataTyped.TaxonomyBranch.GetDisplayName()) : ViewDataTyped.TaxonomyBranch.GetDisplayNameAsUrl())</span>
@@ -74,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-5">
                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyLeaf ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyLeaf ? new HtmlString(ViewDataTyped.TaxonomyLeaf.GetDisplayName()) : ViewDataTyped.TaxonomyLeaf.GetDisplayNameAsUrl())</span>
@@ -86,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.Project, string.Format("{0}", FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()))
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType(), string.Format("{0}", FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-4">
                 <span class="taxonomyLink selected">@ViewDataTyped.Project.GetDisplayName()</span>

@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (KeyImageFileResourceData != null)
             {
-                classification.KeyImageFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentPerson);
+                classification.KeyImageFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentPerson);
             }
             classification.ThemeColor = ThemeColor;
 

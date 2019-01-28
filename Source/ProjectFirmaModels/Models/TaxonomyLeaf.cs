@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IFileResourcePhoto.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="TaxonomyLeaf.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,27 +18,30 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public interface IFileResourcePhoto
+    public partial class TaxonomyLeaf : IAuditableEntity, IHaveASortOrder
     {
-        int? GetEntityImageIDAsNullable();
-        DateTime GetCreateDate();
-        int PrimaryKey { get; }
-        FileResource FileResource { get; set; }
-        string GetDeleteUrl();
-        bool IsKeyPhoto { get; }
-        string GetCaptionOnFullView();
-        string GetCaptionOnGallery();
-        string Caption { get; set; }
-        string GetPhotoUrl();
-        string GetPhotoUrlScaledThumbnail();
-        string GetEditUrl();
-        List<string> GetAdditionalCssClasses();
-        void SetOrderBy(object value);
-        object GetOrderBy();
+        public void SetSortOrder(int? value) => TaxonomyLeafSortOrder = value;
+
+        public int? GetSortOrder() => TaxonomyLeafSortOrder;
+        public int GetID() => TaxonomyLeafID;
+
+        public string GetDisplayName()
+        {
+            var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyLeafCode) ? string.Empty : $"{TaxonomyLeafCode}: ";
+            return $"{taxonomyPrefix}{TaxonomyLeafName}";
+        }
+
+        public string GetAuditDescriptionString() => TaxonomyLeafName;
+
+        public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
+        {
+            return TaxonomyLeafPerformanceMeasures.GroupBy(x => x.PerformanceMeasure).ToList();
+        }
     }
 }

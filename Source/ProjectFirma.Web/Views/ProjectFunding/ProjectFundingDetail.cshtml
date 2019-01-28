@@ -20,7 +20,8 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFunding.ProjectFundingDetail
 <div class="table-responsive">
 
@@ -29,9 +30,9 @@
         <div style="overflow-x: auto">
             <table class="table table-striped table-condensed table-hover">
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding)</th>
+                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
                     <th class="text-right">Total</th>
                 </tr>
                 @foreach (var projectFundingSourceRequest in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))

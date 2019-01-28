@@ -26,6 +26,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource

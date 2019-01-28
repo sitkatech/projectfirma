@@ -113,22 +113,6 @@ namespace ProjectFirmaModels.Models
             return ProjectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea);
         }
 
-        public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
-        {
-            return ProjectUpdateBatch.ProjectLocationUpdates.ToGeoJsonFeatureCollection();
-        }
-
-        public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
-        {
-            var featureCollection = new FeatureCollection();
-
-            if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && ProjectLocationPoint != null)
-            {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationPoint));
-            }
-            return featureCollection;
-        }
-
         public Person GetPrimaryContact() => PrimaryContactPerson ?? GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
         public Organization GetPrimaryContactOrganization()

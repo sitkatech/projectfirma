@@ -123,7 +123,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (clearOutTaxonomyLeafPerformanceMeasures)
             {
-                HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Select(x => x.TaxonomyLeafPerformanceMeasureID).ToList().DeleteTaxonomyLeafPerformanceMeasure();
+                var taxonomyLeafPerformanceMeasures = HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.ToList();
+                foreach (var taxonomyLeafPerformanceMeasure in taxonomyLeafPerformanceMeasures)
+                {                    
+                    taxonomyLeafPerformanceMeasure.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             // if we are shrinking the number of tiers, we need to collapse child records to hidden parent record(s) named "Default"
@@ -144,7 +148,11 @@ namespace ProjectFirma.Web.Controllers
                         taxonomyBranch.TaxonomyTrunk = newTaxonomyTrunkDefault;
                     }
                     HttpRequestStorage.DatabaseEntities.SaveChanges();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
+                    foreach (var taxonomyTrunk in taxonomyTrunks)
+                    {
+                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
                 }
                 else if (newTaxonomyLevel == TaxonomyLevel.Leaf)
                 {
@@ -158,8 +166,17 @@ namespace ProjectFirma.Web.Controllers
                         taxonomyLeaf.TaxonomyBranch = newTaxonomyBranchDefault;
                     }
                     HttpRequestStorage.DatabaseEntities.SaveChanges();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).Select(x => x.TaxonomyBranchID).ToList().DeleteTaxonomyBranch();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).ToList();
+                    foreach (var taxonomyBranch in taxonomyBranches)
+                    {
+                        taxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
+
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
+                    foreach (var taxonomyTrunk in taxonomyTrunks)
+                    {
+                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
                 }
             }
 
@@ -357,7 +374,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantBannerLogoFileResource.DeleteFileResource();
+            tenantAttribute.TenantBannerLogoFileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -390,7 +407,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantSquareLogoFileResource.DeleteFileResource();
+            tenantAttribute.TenantSquareLogoFileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -423,7 +440,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantStyleSheetFileResource.DeleteFileResource();
+            tenantAttribute.TenantStyleSheetFileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

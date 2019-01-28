@@ -23,9 +23,10 @@ using System.Collections.Generic;
 using System.Web;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {

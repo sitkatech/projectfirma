@@ -26,6 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Service.ServiceModels
 {

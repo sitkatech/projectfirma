@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.Results.SpendingByOrganizationTypeByOrganization
 
@@ -32,16 +31,16 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         <th style="text-align: right">Total</th>
     </tr>
-    @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers.SortByOrderThenName())
+    @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers.OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase))
     {
         <tr>
-            <td>@taxonomyTier.GetDisplayNameAsUrl()</td>
+            <td>@taxonomyTier.DisplayNameAsUrl</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
             <td style="text-align: right">
-                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.GetTaxonomyTierID()))
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
                 {
-                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.GetTaxonomyTierID()].Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Where(x => x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).Sum(x => x.ExpenditureAmount).ToStringCurrency()
                 }
                 else
                 {
@@ -50,9 +49,9 @@ Source code is available upon request via <support@sitkatech.com>.
             </td>
             }
             <td style="text-align: right">
-                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.GetTaxonomyTierID()))
+                @if (ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID.ContainsKey(taxonomyTier.TaxonomyTierID))
                 {
-                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.GetTaxonomyTierID()].Sum(x => x.ExpenditureAmount).ToStringCurrency()
+                    @ViewDataTyped.ProjectFundingSourceExpendituresByTaxonomyTierID[taxonomyTier.TaxonomyTierID].Sum(x => x.ExpenditureAmount).ToStringCurrency()
                 }
                 else
                 {

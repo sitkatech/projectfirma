@@ -18,14 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectImage : IFileResourcePhoto, IAuditableEntity
+    public partial class ProjectImage : IAuditableEntity
     {
         public ProjectImage(Project project, bool userHasPermissionToSetKeyPhoto)
             : this(ModelObjectHelpers.NotYetAssignedID, project.ProjectID, ProjectImageTiming.Unknown.ProjectImageTimingID, string.Empty, string.Empty, false, false)
@@ -47,51 +47,6 @@ namespace ProjectFirmaModels.Models
             }
         }
 
-        public DateTime GetCreateDate() => FileResource.CreateDate;
-
-        public string GetDeleteUrl()
-        {
-            return ProjectImageModelExtensions.GetDeleteUrl(this);
-        }
-
-        public string GetCaptionOnFullView()
-        {
-            var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
-            return $"{GetCaptionOnGallery()}{creditString}";
-        }
-
-        public string GetCaptionOnGallery() =>
-            $"{Caption}\r\n(Timing: {ProjectImageTiming.ProjectImageTimingDisplayName}) {FileResource.FileResourceDataLengthString}";
-
-        public string GetPhotoUrl() => FileResource.FileResourceUrl;
-
-        public string GetPhotoUrlScaledThumbnail() => FileResource.FileResourceUrlScaledThumbnail(150);
-        public string GetPhotoUrlLargeScaledThumbnail() => FileResource.FileResourceUrlScaledThumbnail(200);
-
-        public string GetPhotoUrlScaledForPrint() => FileResource.FileResourceUrlScaledForPrint;
-
-        public string GetEditUrl()
-        {
-            return ProjectImageModelExtensions.GetEditUrl(this);
-        }
-
-        public void SetAdditionalCssClasses(List<string> value)
-        {
-            _additionalCssClasses = value;
-        }
-
-        public List<string> GetAdditionalCssClasses()
-        {
-            return _additionalCssClasses;
-        }
-
-        private object _orderBy;
-        private List<string> _additionalCssClasses = new List<string>();
-
-        public void SetOrderBy(object value) => _orderBy = value;
-
-        public object GetOrderBy() => _orderBy ?? GetCaptionOnFullView();
-
         public void SetAsKeyPhoto()
         {
             SetAsKeyPhoto(Project.ProjectImages.Where(x => x.ProjectImageID != ProjectImageID).ToList());
@@ -107,7 +62,5 @@ namespace ProjectFirmaModels.Models
         {
             return $"Project: {ProjectID}, Image: {Caption}";
         }
-
-        public int? GetEntityImageIDAsNullable() => ProjectImageID;
     }
 }

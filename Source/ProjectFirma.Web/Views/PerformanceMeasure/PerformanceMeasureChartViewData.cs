@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -56,7 +55,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = projects.GetGoogleChartJsonDictionary(performanceMeasure);
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects);
 
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;

@@ -29,12 +29,13 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ProjectUpdateBatchGridSpec : GridSpec<ProjectUpdateBatch>
     {
-        private DateTime _detailTrackingStartDate = new DateTime(2016, 3, 8);
+        private readonly DateTime _detailTrackingStartDate = new DateTime(2016, 3, 8);
 
         public ProjectUpdateBatchGridSpec()
         {

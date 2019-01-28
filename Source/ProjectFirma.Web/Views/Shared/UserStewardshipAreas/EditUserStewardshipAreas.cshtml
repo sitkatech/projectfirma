@@ -19,8 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.UserStewardshipAreas.EditUserStewardshipAreas
 <script type="text/javascript">
     // <![CDATA[
@@ -86,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <table class="table table-condensed">
             <tr>
                 <th></th>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStewardshipArea)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStewardshipArea.ToType())</th>
                 <th></th>
             </tr>
             <tr ng-repeat="personStewardshipAreaSimple in AngularModel.PersonStewardshipAreaSimples | orderBy: getStewardshipAreaDisplayName">

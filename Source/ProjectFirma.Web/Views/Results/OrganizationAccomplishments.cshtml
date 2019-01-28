@@ -20,13 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using MoreLinq
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Results.OrganizationAccomplishments
 
 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
 {
     <p>
-        The reported @ViewDataTyped.PerformanceMeasureDisplayName results for the @ViewDataTyped.TaxonomyTierDisplayName @ViewDataTyped.TaxonomyTier.GetDisplayNameAsUrl() within this @ViewDataTyped.OrganizationDisplayName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(). To see the full results for a @ViewDataTyped.PerformanceMeasureDisplayName, click the @ViewDataTyped.PerformanceMeasureDisplayName name in the chart title.
+        The reported @ViewDataTyped.PerformanceMeasureDisplayName results for the @ViewDataTyped.TaxonomyTierDisplayName @ViewDataTyped.TaxonomyTier.DisplayNameAsUrl within this @ViewDataTyped.OrganizationDisplayName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(). To see the full results for a @ViewDataTyped.PerformanceMeasureDisplayName, click the @ViewDataTyped.PerformanceMeasureDisplayName name in the chart title.
     </p>
     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
     {

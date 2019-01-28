@@ -31,6 +31,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Organization.Detail
 
@@ -121,7 +122,7 @@
                                     {
                                         <div class="col-xs-1">
                                             <div style="text-align: center;">
-                                                <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                                <img src="@ViewDataTyped.Organization.LogoFileResource.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
                                             </div>
                                         </div>
                                     }
@@ -136,11 +137,11 @@
                                             <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationShortName</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType)</div>
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
                                             <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact)</div>
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
                                             <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())</div>
                                         </div>
                                         <div class="row">
@@ -157,7 +158,7 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
                                 <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()</a>
 
                                 <span class="pull-right">

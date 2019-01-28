@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -51,5 +53,13 @@ namespace ProjectFirma.Web.Common
                 LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition, popupWidth,
                     LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, fieldDefinitionDisplayName).ToString();
         }
+
+        public static string ToGridHeaderString(this ClassificationSystem classificationSystem)
+        {
+            return
+                LabelWithSugarForExtensions.LabelWithSugarFor(classificationSystem, classificationSystem.ClassificationSystemName.Replace(" ", ""), LabelWithSugarForExtensions.DefaultPopupWidth,
+                    LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, false, classificationSystem.ClassificationSystemName, classificationSystem.GetContentUrl()).ToString();
+        }
+
     }
 }

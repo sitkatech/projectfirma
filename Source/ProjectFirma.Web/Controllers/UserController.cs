@@ -32,6 +32,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
 using Organization = ProjectFirmaModels.Models.Organization;
 
@@ -116,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDelete(person, viewModel);
             }
-            person.DeletePerson();
+            person.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

@@ -19,25 +19,27 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
+using TaxonomyTierSimple = ProjectFirma.Web.Models.TaxonomyTierSimple;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public List<TaxonomyTier> AllTaxonomyTiers { get; }
+        public List<TaxonomyTierSimple> AllTaxonomyTiers { get; }
         public PerformanceMeasureSimple PerformanceMeasure { get; }
         public string TaxonomyTierDisplayName { get; }
         public string TaxonomyTierDisplayNamePluralized { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTaxonomyTier { get; }
 
-        public EditViewData(PerformanceMeasureSimple performanceMeasure, List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
+        public EditViewData(PerformanceMeasureSimple performanceMeasure, List<TaxonomyTierSimple> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
             PerformanceMeasure = performanceMeasure;
             AllTaxonomyTiers = taxonomyTiers;
-            FieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.ToType().GetFieldDefinition();
-            TaxonomyTierDisplayName = FieldDefinitionForTaxonomyTier.ToType().GetFieldDefinitionLabel();
-            TaxonomyTierDisplayNamePluralized = FieldDefinitionForTaxonomyTier.ToType().GetFieldDefinitionLabelPluralized();
+            FieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
+            TaxonomyTierDisplayName = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel();
+            TaxonomyTierDisplayNamePluralized = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabelPluralized();
         }
     }
 }

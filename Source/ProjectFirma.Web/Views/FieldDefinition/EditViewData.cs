@@ -19,8 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
@@ -28,9 +26,9 @@ namespace ProjectFirma.Web.Views.FieldDefinition
 {
     public class EditViewData : FirmaViewData
     {
-        public readonly string FileBrowserImageUploadUrl;
-        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinition;
-        public readonly string CancelUrl;
+        public string FileBrowserImageUploadUrl { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinition { get; }
+        public string CancelUrl { get; }
 
         public EditViewData(Person currentPerson, ProjectFirmaModels.Models.FieldDefinition fieldDefinition) : base(currentPerson)
         {

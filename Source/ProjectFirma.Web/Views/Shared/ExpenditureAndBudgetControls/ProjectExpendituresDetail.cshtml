@@ -20,8 +20,9 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresDetail
 
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
@@ -29,7 +30,7 @@
     <div style="overflow-x: auto">
         <table class="table table-striped table-condensed table-hover">
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderByDescending(x => x.CalendarYear))
                 {
                     <th class="text-right">

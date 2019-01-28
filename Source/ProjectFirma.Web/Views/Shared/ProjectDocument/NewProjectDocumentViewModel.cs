@@ -6,6 +6,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFile(File, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectDocument = new ProjectFirmaModels.Models.ProjectDocument(project.ProjectID, fileResource.FileResourceID, DisplayName)
             {
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFile(File, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectDocument = new ProjectDocumentUpdate(projectUpdateBatch.ProjectID, fileResource.FileResourceID, DisplayName)
             {
@@ -63,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            FileResource.ValidateFileSize(File, validationResults, "File");
+            FileResourceModelExtensions.ValidateFileSize(File, validationResults, "File");
 
             if (HttpRequestStorage.DatabaseEntities.ProjectDocuments.Where(x => x.ProjectID == ParentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))

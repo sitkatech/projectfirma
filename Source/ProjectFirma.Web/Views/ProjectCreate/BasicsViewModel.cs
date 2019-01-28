@@ -26,6 +26,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -115,13 +116,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectDescription = ProjectDescription;
             project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
             project.FundingTypeID = FundingTypeID;
-            if (FundingTypeID == FundingType.Capital.FundingTypeID)
+            if (FundingTypeID == (int) FundingTypeEnum.Capital)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.EstimatedAnnualOperatingCost = null;
                 
             }
-            else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
+            else if (FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
             {
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;

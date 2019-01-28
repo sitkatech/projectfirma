@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             if (projects.Count <= 0) return new List<Notification>();
 
             var mailMessage = GenerateReminderForPerson(primaryContactPerson, projects);
-            var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
+            var sendProjectUpdateReminderMessage = NotificationModelExtensions.SendMessageAndLogNotification(mailMessage,
                 new List<string> {primaryContactPerson.Email},
                 new List<string>(),
                 new List<string>(),
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         private string GetReminderMessageSignature(bool isPreview)
         {
-            var logoUrl = isPreview ? ToolLogo.FileResourceUrl : "cid:tool-logo";
+            var logoUrl = isPreview ? ToolLogo.GetFileResourceUrl() : "cid:tool-logo";
 
             return $@"
 Thank you,<br />

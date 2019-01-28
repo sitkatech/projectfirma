@@ -26,6 +26,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectImage
 {
@@ -39,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, Person person)
         {
             base.UpdateModel(projectImage, person);
-            projectImage.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            projectImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
             if (projectImage.Project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
             {
                 projectImage.IsKeyPhoto = true;
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
             return errors;
         }
     }

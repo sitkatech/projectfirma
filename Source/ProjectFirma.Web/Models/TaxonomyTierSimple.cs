@@ -18,25 +18,43 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirmaModels.Models
+
+using ProjectFirmaModels.Models;
+
+namespace ProjectFirma.Web.Models
 {
-    public class TaxonomyTier
+    public class TaxonomyTierSimple
     {
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public TaxonomyTier()
+        public TaxonomyTierSimple()
         {
         }
 
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public TaxonomyTier(ITaxonomyTier taxonomyTier)
-            : this()
+        public TaxonomyTierSimple(TaxonomyBranch taxonomyBranch) : this()
         {
-            TaxonomyTierID = taxonomyTier.GetTaxonomyTierID();
-            DisplayName = taxonomyTier.GetDisplayName();
+            TaxonomyTierID = taxonomyBranch.TaxonomyBranchID;
+            DisplayName = taxonomyBranch.GetDisplayName();
+        }
+        public TaxonomyTierSimple(TaxonomyTrunk taxonomyTrunk) : this()
+        {
+            TaxonomyTierID = taxonomyTrunk.TaxonomyTrunkID;
+            DisplayName = taxonomyTrunk.GetDisplayName();
+        }
+        public TaxonomyTierSimple(TaxonomyLeaf taxonomyLeaf) : this()
+        {
+            TaxonomyTierID = taxonomyLeaf.TaxonomyLeafID;
+            DisplayName = taxonomyLeaf.GetDisplayName();
+        }
+
+        public TaxonomyTierSimple(TaxonomyTier taxonomyTier) : this()
+        {
+            TaxonomyTierID = taxonomyTier.TaxonomyTierID;
+            DisplayName = taxonomyTier.DisplayName;
         }
 
         public int TaxonomyTierID { get; set; }

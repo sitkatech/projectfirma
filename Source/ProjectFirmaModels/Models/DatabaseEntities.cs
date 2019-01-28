@@ -33,11 +33,6 @@ namespace ProjectFirmaModels.Models
     {
         public Person Person { get; set; }
 
-        public DatabaseEntities(Person person) : this()
-        {
-            Person = person;
-        }
-
         public int SaveChanges(Person userPerson)
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))

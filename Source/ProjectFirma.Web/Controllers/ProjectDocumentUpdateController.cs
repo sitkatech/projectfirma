@@ -5,6 +5,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -101,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectDocumentUpdate, viewModel);
             }
             projectDocumentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            projectDocumentUpdate.DeleteProjectDocumentUpdate();
+            projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

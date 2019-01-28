@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
@@ -33,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
 
         public ProjectLocationFilterTypeSimple(ProjectLocationFilterType projectLocationFilterType)
         {
-            DisplayName = projectLocationFilterType.DisplayName;
+            DisplayName = projectLocationFilterType.GetDisplayName();
             ProjectLocationFilterTypeName = projectLocationFilterType.ProjectLocationFilterTypeName;
             ProjectLocationFilterTypeNameWithIdentifier =
                 projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier;

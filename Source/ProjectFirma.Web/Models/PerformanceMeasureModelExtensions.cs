@@ -97,19 +97,19 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(x => !x.PerformanceMeasureDataSourceType.IsCustomCalculation);
         }
 
-        public static IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers(this PerformanceMeasure performanceMeasure)
+        public static IEnumerable<IGrouping<TaxonomyTier, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTiers(this PerformanceMeasure performanceMeasure)
         {
-            Func<TaxonomyLeafPerformanceMeasure, ITaxonomyTier> groupingFunc;
+            Func<TaxonomyLeafPerformanceMeasure, TaxonomyTier> groupingFunc;
             switch (MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().ToEnum)
             {
                 case TaxonomyLevelEnum.Trunk:
-                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+                    groupingFunc = x => new TaxonomyTier(x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk);
                     break;
                 case TaxonomyLevelEnum.Branch:
-                    groupingFunc = x => x.TaxonomyLeaf.TaxonomyBranch;
+                    groupingFunc = x => new TaxonomyTier(x.TaxonomyLeaf.TaxonomyBranch);
                     break;
                 case TaxonomyLevelEnum.Leaf:
-                    groupingFunc = x => x.TaxonomyLeaf;
+                    groupingFunc = x => new TaxonomyTier(x.TaxonomyLeaf);
                     break;
                 default:
                     throw new ArgumentException();
@@ -206,7 +206,7 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson).Distinct().Count();
         }
 
-        public static ITaxonomyTier GetPrimaryTaxonomyTier(this PerformanceMeasure performanceMeasure)
+        public static TaxonomyTier GetPrimaryTaxonomyTier(this PerformanceMeasure performanceMeasure)
         {
             var taxonomyBranchPerformanceMeasureGroupedByLevel = performanceMeasure.GetTaxonomyTiers();
             return taxonomyBranchPerformanceMeasureGroupedByLevel

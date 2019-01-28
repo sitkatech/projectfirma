@@ -21,18 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views;
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
     public class BulkTagProjectsViewData : FirmaUserControlViewData
     {
-        public readonly string FindTagUrl;
-        public readonly List<string> ProjectDisplayNames;
-        public readonly string ProjectLabel;
+        public string FindTagUrl { get; }
+        public List<string> ProjectDisplayNames { get; }
+        public string ProjectLabel { get; }
 
         public BulkTagProjectsViewData(List<string> projectDisplayNames)
         {

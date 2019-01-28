@@ -29,7 +29,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.OrganizationAndRelationshipType;
-
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -165,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganizationType(organizationType, viewModel);
             }
-            organizationType.DeleteOrganizationType();
+            organizationType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -269,11 +269,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteRelationshipType(relationshipType, viewModel);
             }
-
-            relationshipType.OrganizationTypeRelationshipTypes.DeleteOrganizationTypeRelationshipType();
-            relationshipType.DeleteRelationshipType();
+            relationshipType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
-
     }
 }

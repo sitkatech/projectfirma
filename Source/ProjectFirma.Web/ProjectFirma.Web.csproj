@@ -53,27 +53,30 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\CostParameterSetModelExtensions.cs" />
     <Compile Include="Models\CostTest.cs" />
+    <Compile Include="Models\EntityDocument.cs" />
+    <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
     <Compile Include="Models\FileResourceModelExtensions.cs" />
+    <Compile Include="Models\FileResourcePhoto.cs" />
     <Compile Include="Models\FileResourceTest.cs" />
-    <Compile Include="Models\FirmaHomePageImage.cs" />
+    <Compile Include="Models\FirmaHomePageImageModelExtensions.cs" />
     <Compile Include="Models\FirmaPageModelExtensions.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Common\MergeListHelper.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
-    <Compile Include="Models\Generated\FirmaHomePageImage.Binding.cs" />
-    <Compile Include="Models\Generated\TaxonomyBranch.Binding.cs" />
-    <Compile Include="Models\Generated\TaxonomyLeaf.Binding.cs" />
-    <Compile Include="Models\Generated\TaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\FundingSourceSimple.cs" />
+    <Compile Include="Models\FundingTypeModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
+    <Compile Include="Models\NotificationTypeModelExtensions.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureActualSimple.cs" />
@@ -85,10 +88,13 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Models\PersonSimple.cs" />
+    <Compile Include="Models\ProjectColorByTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributes.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
@@ -105,6 +111,7 @@
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
     <Compile Include="Models\ProjectImageUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectInternalNoteModelExtensions.cs" />
+    <Compile Include="Models\ProjectLocationFilterTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
@@ -119,11 +126,13 @@
     <Compile Include="Models\RelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
+    <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
     <Compile Include="Models\TagModelExtensions.cs" />
-    <Compile Include="Models\TaxonomyBranch.cs" />
     <Compile Include="Models\TaxonomyBranchModelExtensions.cs" />
-    <Compile Include="Models\TaxonomyLeaf.cs" />
-    <Compile Include="Models\TaxonomyTrunk.cs" />
+    <Compile Include="Models\TaxonomyLevelModelExtensions.cs" />
+    <Compile Include="Models\TaxonomyTier.cs" />
+    <Compile Include="Models\TaxonomyTierHelpers.cs" />
+    <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\Home\TrainingVideo.cs" />
@@ -1010,7 +1019,6 @@
     <Compile Include="Views\Results\ProjectMap.cs" />
     <Compile Include="Views\Results\ProjectMapViewData.cs" />
     <Compile Include="Views\Results\ProjectMapViewDataTest.cs" />
-    <Compile Include="Views\Results\FundingSourceCalendarYearExpenditureExcelSpec.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProject.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectGridSpec.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectViewData.cs" />
@@ -1032,8 +1040,6 @@
     <Compile Include="Views\FirmaViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresDetail.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresDetailViewData.cs" />
-    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetDetail.cs" />
-    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetDetailViewData.cs" />
     <Compile Include="Views\Shared\HtmlDiffContainer.cs" />
     <Compile Include="Views\Shared\HtmlDiffSummary.cs" />
     <Compile Include="Views\Shared\HtmlDiffSummaryViewData.cs" />
@@ -1075,8 +1081,6 @@
     <Compile Include="Views\Shared\ProjectLocationControls\ProjectMapPopupViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresSummaryViewData.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetSummary.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetSummaryViewData.cs" />
     <Compile Include="Views\Tag\BulkTagProjects.cs" />
     <Compile Include="Views\Tag\BulkTagProjectsViewData.cs" />
     <Compile Include="Views\Tag\BulkTagProjectsViewModel.cs" />
@@ -2945,7 +2949,6 @@
     <Content Include="Views\Shared\PerformanceMeasureControls\PerformanceMeasureReportedValuesGrouped.cshtml" />
     <Content Include="Views\Shared\PerformanceMeasureControls\PerformanceMeasureReportedValuesSummary.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresDetail.cshtml" />
-    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetDetail.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProject.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectClassificationsForProject.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasics.cshtml" />
@@ -2960,7 +2963,6 @@
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSummary.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectMapPopup.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresSummary.cshtml" />
-    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetSummary.cshtml" />
     <Content Include="Views\ProjectAssessmentQuestion\EditAssessment.cshtml" />
     <Content Include="Views\ProjectCreate\EditAssessment.cshtml" />
     <Content Include="Views\Assessment\EditGoal.cshtml" />
@@ -2981,6 +2983,7 @@
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="Models\Generated\" />
     <Folder Include="Views\Help\" />
     <Folder Include="Views\ProjectGeospatialArea\" />
   </ItemGroup>

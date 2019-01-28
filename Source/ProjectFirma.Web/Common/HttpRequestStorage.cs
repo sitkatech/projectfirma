@@ -28,6 +28,7 @@ using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using Keystone.Common;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Common
@@ -81,7 +82,7 @@ namespace ProjectFirma.Web.Common
 
         private static DatabaseEntities MakeNewContext(bool autoDetectChangesEnabled)
         {
-            var databaseEntities = new DatabaseEntities();
+            var databaseEntities = new DatabaseEntities(Tenant.TenantID);
             databaseEntities.Configuration.AutoDetectChangesEnabled = autoDetectChangesEnabled;
             return databaseEntities;
         }

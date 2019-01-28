@@ -19,20 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using LtInfo.Common;
-
 namespace ProjectFirmaModels.Models
 {
     public partial class Tag : IAuditableEntity
     {
-        public HtmlString GetDisplayNameAsUrl()
-        {
-            return UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(this), GetDisplayName());
-        }
-
         public string GetDisplayName()
         {
             return TagName;
@@ -41,11 +31,6 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString()
         {
             return TagName;
-        }
-
-        public List<Project> GetAssociatedProjects(Person currentPerson)
-        {
-            return ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
     }
 }

@@ -25,6 +25,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectImageUpdate
 {
@@ -38,13 +39,13 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
         public override void UpdateModel(ProjectFirmaModels.Models.ProjectImageUpdate projectImageUpdate, Person person)
         {
             base.UpdateModel(projectImageUpdate, person);
-            projectImageUpdate.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            projectImageUpdate.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
             return errors;
         }
     }

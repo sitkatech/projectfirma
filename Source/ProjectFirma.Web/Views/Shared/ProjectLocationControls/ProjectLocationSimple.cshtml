@@ -19,10 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSimple
 
 <script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="ProjectLocationSimpleController">
     <div class="col-xs-12 col-md-5 col-lg-4">
         <form method="POST" action="@ViewDataTyped.MapPostUrl" id="@ViewDataTyped.MapFormID">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectLocation.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
             <strong>How do you want to specify your simple @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()?</strong>
             
             <div class="form-group">

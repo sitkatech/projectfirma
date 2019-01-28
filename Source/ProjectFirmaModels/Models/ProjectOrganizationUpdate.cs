@@ -4,7 +4,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Batch: {ProjectUpdateBatchID}, Organization: {OrganizationID}";
+            return $"Project Update Batch: {ProjectUpdateBatchID}, Organization: {OrganizationID}";
         }
     }
 }

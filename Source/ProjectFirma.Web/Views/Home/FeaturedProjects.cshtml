@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Home.FeaturedProjects
 
@@ -58,7 +59,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 <div class="col-sm-6">
                                     <a class="gallery" href="@featuredProject.GetKeyPhoto().GetPhotoUrl()" title="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" data-caption="@Html.Raw(featuredProject.GetKeyPhoto().GetCaptionOnFullView().HtmlEncodeWithBreaks())">
-                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.FileResourceUrlScaledForPrint" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" />
+                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.GetFileResourceUrlScaledForPrint()" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" />
                                     </a>
                                     <br />
                                     <div>@featuredProject.GetKeyPhoto().Caption</div>
@@ -72,7 +73,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     </tr>
                                     <tr>
                                         <th>@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</th>
-                                        <td>@ProjectModelExtensions.GetProjectOrganizationNamesForFactSheet(featuredProject)</td>
+                                        <td>@featuredProject.GetProjectOrganizationNamesForFactSheet()</td>
                                     </tr>
                                     <tr>
                                         <th>Stage</th>

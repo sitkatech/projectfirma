@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -58,5 +57,14 @@ namespace ProjectFirma.Web.Models
             var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && String.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
             return classification == null;
         }
+
+        public static List<Project> GetAssociatedProjects(this Classification classification, Person person)
+        {
+            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals()).ToList();
+        }
+
+        public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResource != null
+            ? classification.KeyImageFileResource.GetFileResourceUrlScaledForPrint()
+            : "http://placehold.it/280x210";
     }
 }

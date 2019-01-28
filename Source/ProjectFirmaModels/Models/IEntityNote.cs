@@ -24,10 +24,6 @@ namespace ProjectFirmaModels.Models
 {
     public interface IEntityNote
     {
-        DateTime GetLastUpdated();
-        string GetLastUpdatedBy();
-        string GetDeleteUrl();
-        string GetEditUrl();
         string Note { get; set; }
         int PrimaryKey { get; set; }
         DateTime CreateDate { get; set; }

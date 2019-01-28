@@ -22,7 +22,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
-                        var latestApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(y);
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch == null &&
                                (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate());
                     });
@@ -57,8 +57,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated();
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
@@ -67,8 +67,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted();
                     });
                 },
                 75, DhtmlxGridColumnAggregationType.Total);
@@ -77,8 +77,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(y);
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned();
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
-                        var latestApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(y);
+                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();
                     });
                 },

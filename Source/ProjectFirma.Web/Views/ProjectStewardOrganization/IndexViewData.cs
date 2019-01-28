@@ -20,19 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectStewardOrganization
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly List<ProjectFirmaModels.Models.Organization> ProjectStewardOrganizations;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public List<ProjectFirmaModels.Models.Organization> ProjectStewardOrganizations { get; }
 
         public IndexViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> projectStewardOrganizations, ProjectFirmaModels.Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)

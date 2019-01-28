@@ -19,17 +19,15 @@ namespace ProjectFirmaModels.Models
 {
     public partial class DatabaseEntities : DbContext, LtInfo.Common.EntityModelBinding.ILtInfoEntityTypeLoader
     {
-        public int TenantID { get; }
-
         static DatabaseEntities()
         {
             System.Data.Entity.Database.SetInitializer<DatabaseEntities>(null);
         }
 
+        public int TenantID { get; }
         public DatabaseEntities(int tenantID)
             : base("name=DatabaseEntities")
         {
-            TenantID = tenantID;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -55,6 +53,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
+            modelBuilder.Configurations.Add(new FundingTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingTypeDataConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
@@ -170,6 +169,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingTypeData> AllFundingTypeDatas { get; set; }
         public virtual IQueryable<FundingTypeData> FundingTypeDatas { get { return AllFundingTypeDatas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FundingType> FundingTypes { get; set; }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
@@ -409,9 +409,7 @@ namespace ProjectFirmaModels.Models
                     return FundingTypeDatas.GetFundingTypeData(primaryKey);
 
                 case "FundingType":
-                    var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
-                    return fundingType;
+                    return FundingTypes.GetFundingType(primaryKey);
 
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);

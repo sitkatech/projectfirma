@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);
             }
-            fundingSource.DeleteFundingSource();
+            fundingSource.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {name} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }

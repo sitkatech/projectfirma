@@ -37,16 +37,6 @@ namespace ProjectFirmaModels.UnitTestCommon
                 return projectNote;
             }
 
-            public static ProjectNote Create(DatabaseEntities dbContext)
-            {
-                var project = TestProject.Create(dbContext);
-                var projectNote = ProjectNote.CreateNewBlank(project);
-                projectNote.Note = MakeTestProjectNoteString();
-                projectNote.CreateDate = DateTime.Now;
-                dbContext.AllProjectNotes.Add(projectNote);
-                return projectNote;
-            }
-
             private static string MakeTestProjectNoteString()
             {
                 return MakeTestName("TestProjectNote", ProjectNote.FieldLengths.Note);

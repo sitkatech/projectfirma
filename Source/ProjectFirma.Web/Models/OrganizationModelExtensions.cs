@@ -25,16 +25,17 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
-using LtInfo.Common.Mvc;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class OrganizationModelExtensions
     {
@@ -65,6 +66,31 @@ namespace ProjectFirmaModels.Models
         public static string GetDetailUrl(this Organization organization)
         {
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
+        }
+
+        public static string GetDisplayNameWithoutAbbreviation(this Organization organization) => organization.IsUnknown()
+            ? "Unknown or unspecified"
+            : $"{organization.OrganizationName}{(!organization.IsActive ? " (Inactive)" : String.Empty)}";
+
+        public static string GetOrganizationNamePossessive(this Organization organization)
+        {
+            if (organization.IsUnknown())
+            {
+                return organization.OrganizationName;
+            }
+
+            var postFix = organization.OrganizationName.EndsWith("s") ? "'" : "'s";
+            return $"{organization.OrganizationName}{postFix}";
+        }
+
+        public static string GetOrganizationShortNameIfAvailable(this Organization organization)
+        {
+            if (organization.IsUnknown())
+            {
+                return "Unknown or Unassigned";
+            }
+
+            return organization.OrganizationShortName ?? organization.OrganizationName;
         }
 
         public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
@@ -129,7 +155,7 @@ namespace ProjectFirmaModels.Models
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                return allActiveProjectsAndProposals.Where(x => ProjectModelExtensions.GetCanStewardProjectsOrganization(x) == organization).ToList();
+                return allActiveProjectsAndProposals.Where(x => x.GetCanStewardProjectsOrganization() == organization).ToList();
             }
 
             return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == organization).ToList();
@@ -173,9 +199,6 @@ namespace ProjectFirmaModels.Models
             return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
         }
 
-        public const string OrganizationSitka = "Sitka Technology Group";
-        public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
-
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
         {
             var organization =
@@ -213,5 +236,29 @@ namespace ProjectFirmaModels.Models
 
             return geoJsons.Select(x => new OrganizationBoundaryStaging(organization, x.Key, x.Value)).ToList();
         }
+
+        public static HtmlString GetPrimaryContactPersonAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        public static HtmlString GetPrimaryContactPersonWithOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        /// <summary>
+        /// Use for security situations where the user summary is not displayable, but the Organization is.
+        /// </summary>
+        public static HtmlString GetPrimaryContactPersonAsStringAndOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        public static string GetPrimaryContactPersonWithOrgAsString(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrg()
+            : ViewUtilities.NoneString;
+
+        public static string GetPrimaryContactPersonAsString(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLast()
+            : ViewUtilities.NoneString;
+
     }
 }

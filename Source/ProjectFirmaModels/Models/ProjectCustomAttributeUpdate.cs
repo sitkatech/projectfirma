@@ -7,7 +7,7 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString()
         {
             return
-                $"Custom Attribute (type: {ProjectCustomAttributeTypeID}, {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update: {ProjectUpdateBatchID})";
+                $"Custom Attribute (type: {ProjectCustomAttributeTypeID})";
         }
 
         public void SetCustomAttributeValues(IEnumerable<IProjectCustomAttributeValue> value) =>

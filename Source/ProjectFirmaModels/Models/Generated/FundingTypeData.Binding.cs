@@ -61,6 +61,8 @@ namespace ProjectFirmaModels.Models
             // Mark this as a new object by setting primary key with special value
             this.FundingTypeDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.FundingTypeID = fundingType.FundingTypeID;
+            this.FundingType = fundingType;
+            fundingType.FundingTypeDatas.Add(this);
             this.FundingTypeDisplayName = fundingTypeDisplayName;
             this.FundingTypeShortName = fundingTypeShortName;
             this.SortOrder = sortOrder;
@@ -109,7 +111,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return FundingTypeDataID; } set { FundingTypeDataID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
+        public virtual FundingType FundingType { get; set; }
 
         public static class FieldLengths
         {

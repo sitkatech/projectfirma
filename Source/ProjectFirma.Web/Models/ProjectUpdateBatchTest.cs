@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.IsCreated(), Is.True);
             Assert.That(projectUpdateBatch.InEditableState(), Is.True);
 
-            var preconditionException = Assert.Catch<PreconditionException>(() => ProjectUpdateBatchModelExtensions.SubmitToReviewer(projectUpdateBatch, person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
+            var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a Project update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ProjectLocationSimpleTypeID = ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID;
             projectUpdate.ProjectLocationNotes = "No location for now";
 
-            ProjectUpdateBatchModelExtensions.SubmitToReviewer(projectUpdateBatch, person, DateTime.Now.AddDays(1));
+            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
             preconditionException =
                 Assert.Catch<PreconditionException>(
                     () =>
-                        ProjectUpdateBatchModelExtensions.Approve(projectUpdateBatch, person,
+                        projectUpdateBatch.Approve(person,
                             DateTime.Now.AddDays(4),
                             new List<ProjectExemptReportingYear>(),
                             new List<ProjectFundingSourceExpenditure>(),
@@ -115,14 +115,14 @@ namespace ProjectFirma.Web.Models
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
 
             // we have to re submit to get to approve
-            ProjectUpdateBatchModelExtensions.SubmitToReviewer(projectUpdateBatch, person, DateTime.Now.AddDays(3));
+            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(3));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
             Assert.That(projectUpdateBatch.IsCreated(), Is.False);
             Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
-            ProjectUpdateBatchModelExtensions.Approve(projectUpdateBatch, person,
+            projectUpdateBatch.Approve(person,
                 DateTime.Now.AddDays(4),
                 new List<ProjectExemptReportingYear>(),
                 new List<ProjectFundingSourceExpenditure>(),
@@ -672,7 +672,7 @@ namespace ProjectFirma.Web.Models
             bool isValid,
             string assertionMessage)
         {
-            var result = ProjectUpdateBatchModelExtensions.ValidateExpendituresAndForceValidation(projectUpdateBatch);
+            var result = projectUpdateBatch.ValidateExpendituresAndForceValidation();
             if (isValid)
             {
                 Assert.That(result, Is.Empty, "Should be valid");
@@ -724,7 +724,7 @@ namespace ProjectFirma.Web.Models
             bool isValid,
             string assertionMessage)
         {
-            var result = ProjectUpdateBatchModelExtensions.ValidatePerformanceMeasures(projectUpdateBatch);
+            var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
 
             var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();

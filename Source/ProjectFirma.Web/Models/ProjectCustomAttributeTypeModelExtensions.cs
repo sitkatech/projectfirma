@@ -1,9 +1,9 @@
 ﻿using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectCustomAttributeTypeModelExtensions
     {
@@ -19,9 +19,9 @@ namespace ProjectFirmaModels.Models
         public static readonly UrlTemplate<int> DescriptionUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Description(UrlTemplate.Parameter1Int)));
 
-        public static string GetDeleteUrl(ProjectCustomAttributeType projectCustomAttributeType) => DeleteUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
-        public static string GetEditUrl(ProjectCustomAttributeType projectCustomAttributeType) => EditUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
-        public static string GetDetailUrl(ProjectCustomAttributeType projectCustomAttributeType) => DetailUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
-        public static string GetDescriptionUrl(ProjectCustomAttributeType projectCustomAttributeType) => DescriptionUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
+        public static string GetDeleteUrl(this ProjectCustomAttributeType projectCustomAttributeType) => DeleteUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
+        public static string GetEditUrl(this ProjectCustomAttributeType projectCustomAttributeType) => EditUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
+        public static string GetDetailUrl(this ProjectCustomAttributeType projectCustomAttributeType) => DetailUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
+        public static string GetDescriptionUrl(this ProjectCustomAttributeType projectCustomAttributeType) => DescriptionUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
     }
 }

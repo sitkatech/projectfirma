@@ -23,9 +23,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Tag.Detail
 
 @section JavascriptAndStylesContent
@@ -40,13 +41,13 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="panel-body">
         <table class="summaryLayout">
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagName)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagName.ToType())</th>
                 <td>
                     @ViewDataTyped.Tag.TagName
                 </td>
             </tr>
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagDescription)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagDescription.ToType())</th>
                 <td>
                     @Html.Raw(ViewDataTyped.Tag.TagDescription.HtmlEncodeWithBreaks())
                 </td>

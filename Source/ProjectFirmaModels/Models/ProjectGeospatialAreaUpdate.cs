@@ -7,7 +7,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"GeospatialArea: {GeospatialAreaID}, {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Batch: {ProjectUpdateBatchID}";
+            return $"GeospatialArea: {GeospatialAreaID}, Project Update Batch: {ProjectUpdateBatchID}";
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)

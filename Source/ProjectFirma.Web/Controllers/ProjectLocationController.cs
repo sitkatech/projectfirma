@@ -158,8 +158,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                project.ProjectLocationStagings.ToList().DeleteProjectLocationStaging();
-                project.ProjectLocationStagings.Clear();
+                foreach (var projectLocationStaging in project.ProjectLocationStagings)
+                {
+                    projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
                 ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
             }
             return ApproveGisUpload(project);
@@ -213,9 +215,10 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
         {
-            var projectLocations = project.ProjectLocations.ToList();
-            projectLocations.DeleteProjectLocation();
-            project.ProjectLocations.Clear();
+            foreach (var projectLocation in project.ProjectLocations.ToList())
+            {
+                projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
             if (viewModel.WktAndAnnotations != null)
             {
                 foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)

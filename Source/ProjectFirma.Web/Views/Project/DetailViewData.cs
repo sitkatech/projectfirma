@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -140,7 +141,7 @@ namespace ProjectFirma.Web.Views.Project
             var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
             var backToAllPendingProjectsText = $"Back to all Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            if (ProjectFirmaModels.Models.ProjectModelExtensions.IsRejected(project))
+            if (project.IsRejected())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
@@ -151,12 +152,12 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl =
                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 CanLaunchProjectOrProposalWizard = userCanEditProposal;
-                if (ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project))
+                if (project.IsProposal())
                 {
                     ProjectListUrl = proposedProjectListUrl;
                     BackToProjectsText = backToAllProposalsText;
                 }
-                else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsPendingProject(project))
+                else if (project.IsPendingProject())
                 {
                     ProjectListUrl = pendingProjectsListUrl;
                     BackToProjectsText = backToAllPendingProjectsText;
@@ -168,7 +169,7 @@ namespace ProjectFirma.Web.Views.Project
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
                 }
             }            
-            else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsProposal(project))
+            else if (project.IsProposal())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
@@ -187,7 +188,7 @@ namespace ProjectFirma.Web.Views.Project
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
                 }
             }
-            else if (ProjectFirmaModels.Models.ProjectModelExtensions.IsPendingProject(project))
+            else if (project.IsPendingProject())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;
                 ProjectUpdateButtonText =
@@ -318,7 +319,7 @@ namespace ProjectFirma.Web.Views.Project
 
             //ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson, !project.IsProposal());
             ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
-                EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
+                EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission);
         }

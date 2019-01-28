@@ -18,7 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -30,10 +31,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <table class="table table-striped table-hover table-condensed">
     <tr style="background-color: #999">     
-        <th colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectName)</th>        
-        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStage)</th>
-        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear)</th>
-        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.CompletionYear)</th>
+        <th colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectName.ToType())</th>
+        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStage.ToType())</th>
+        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear.ToType())</th>
+        <th style="white-space: nowrap; text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.CompletionYear.ToType())</th>
     </tr>
     @foreach (var project in ViewDataTyped.Projects)
     {

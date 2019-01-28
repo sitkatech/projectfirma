@@ -43,15 +43,5 @@ namespace ProjectFirmaModels.Models
 
             return "System";
         }
-
-        public string GetDeleteUrl()
-        {
-            return ProjectNoteUpdateModelExtensions.GetDeleteUrlImpl(this);
-        }
-
-        public string GetEditUrl()
-        {
-            return ProjectNoteUpdateModelExtensions.GetEditUrlImpl(this);
-        }
     }
 }

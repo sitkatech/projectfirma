@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -29,10 +28,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleViewData : ProjectUpdateViewData
     {
-        public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly string RefreshUrl;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
+        public ProjectLocationSimpleViewData ProjectLocationSimpleViewData { get; }
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public string RefreshUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
 
         public LocationSimpleViewData(Person currentPerson,
             ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
@@ -48,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x =>
                 x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(
-                projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
+                projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             ValidationWarnings = locationSimpleValidationResult.GetWarningMessages();
         }
     }

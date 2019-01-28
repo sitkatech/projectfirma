@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Controllers
             var userCanAddPhotosToHomePage = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             var newPhotoForProjectUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
             var galleryName = "HomePageImagesGallery";
-            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList(); 
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
             var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 firmaHomePageImages,
@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
                 newPhotoForProjectUrl,
                 null,
                 true,
-                x => x.GetCaptionOnFullView(),
+                x => x.CaptionOnFullView,
                 "Photo");
             return imageGalleryViewData;
         }

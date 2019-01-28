@@ -27,14 +27,9 @@ namespace ProjectFirmaModels.Models
 {
     public partial class Person : IAuditableEntity, IKeystoneUser
     {
-        public bool IsAnonymousUser() => PersonID == PersonModelExtensions.AnonymousPersonID;
+        public const int AnonymousPersonID = -999;
 
         public string GetFullNameFirstLast() => $"{FirstName} {LastName}";
-
-        public string GetFullNameFirstLastAndOrg() => $"{FirstName} {LastName} - {Organization.GetDisplayName()}";
-
-        public string GetFullNameFirstLastAndOrgShortName() =>
-            $"{FirstName} {LastName} ({Organization.GetOrganizationShortNameIfAvailable()})";
 
         public string GetFullNameLastFirst() => $"{LastName}, {FirstName}";
 
@@ -57,6 +52,8 @@ namespace ProjectFirmaModels.Models
             return notifications.OrderByDescending(y => y.NotificationDate).First();
         }
 
+        public bool IsAnonymousUser() => PersonID == AnonymousPersonID;
+
         /// <summary>
         /// All role names of BOTH types used by Keystone not for user display 
         /// </summary>
@@ -74,9 +71,7 @@ namespace ProjectFirmaModels.Models
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {
-            PersonModelExtensions.SetKeystoneUserClaims(this, keystoneUserClaims);
+            // intentionally left blank
         }
-
-        public bool IsAnonymousOrUnassigned() => IsAnonymousUser() || Role == Role.Unassigned;
     }
 }

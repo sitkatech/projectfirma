@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure

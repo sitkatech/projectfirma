@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
@@ -28,17 +29,17 @@ namespace ProjectFirma.Web.Views.Results
     public class OrganizationAccomplishmentsViewData
     {
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
-        public ITaxonomyTier TaxonomyTier { get; }
+        public TaxonomyTier TaxonomyTier { get; }
         public string PerformanceMeasureDisplayName { get; }
         public string OrganizationDisplayName { get; }
         public string PerformanceMeasureDisplayNamePluralized { get; }
         public string TaxonomyTierDisplayName { get; }
 
-        public OrganizationAccomplishmentsViewData(List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, ITaxonomyTier taxonomyTier, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
+        public OrganizationAccomplishmentsViewData(List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyTier taxonomyTier, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
             TaxonomyTier = taxonomyTier;
-            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.ToType().GetFieldDefinition().ToType().GetFieldDefinitionLabel();
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
             var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure;
             PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabel();
             PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized();

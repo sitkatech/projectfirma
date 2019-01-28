@@ -76,6 +76,11 @@ namespace ProjectFirmaModels.Models
                 : ViewUtilities.NoneString;
         }
 
+        public static List<PerformanceMeasureReportedValue> MakeFromList(IEnumerable<PerformanceMeasureActual> performanceMeasureActuals)
+        {
+            return performanceMeasureActuals.Select(x => new PerformanceMeasureReportedValue(x)).ToList();
+        }
+
         public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions() =>
             new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);
     }

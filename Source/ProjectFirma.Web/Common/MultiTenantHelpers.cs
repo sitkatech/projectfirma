@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantSquareLogoUrl()
         {
             return GetTenantAttribute().TenantSquareLogoFileResource != null
-                ? GetTenantAttribute().TenantSquareLogoFileResource.FileResourceUrl
+                ? GetTenantAttribute().TenantSquareLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantBannerLogoUrl()
         {
             return GetTenantAttribute().TenantBannerLogoFileResource != null
-                ? GetTenantAttribute().TenantBannerLogoFileResource.FileResourceUrl
+                ? GetTenantAttribute().TenantBannerLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
@@ -135,20 +135,20 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttribute().RecaptchaPublicKey;
         }
 
-        public static List<ITaxonomyTier> GetTopLevelTaxonomyTiers()
+        public static List<TaxonomyTier> GetTopLevelTaxonomyTiers()
         {
             var taxonomyLevel = GetTaxonomyLevel();
             if (taxonomyLevel == TaxonomyLevel.Trunk)
             {
-                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList());
+                return HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().Select(x => new TaxonomyTier(x)).ToList();
             }
 
             if (taxonomyLevel == TaxonomyLevel.Branch)
             {
-                return new List<ITaxonomyTier>(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList());
+                return HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().Select(x => new TaxonomyTier(x)).ToList();
             }
 
-            return new List<ITaxonomyTier>();
+            return new List<TaxonomyTier>();
         }
 
         public static TaxonomyLevel GetTaxonomyLevel()

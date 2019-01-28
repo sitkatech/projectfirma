@@ -20,13 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {

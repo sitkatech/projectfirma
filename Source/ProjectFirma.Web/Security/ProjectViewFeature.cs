@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -48,7 +49,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (ProjectModelExtensions.IsProposal(contextModelObject) && person.IsAnonymousUser())
+            if (contextModelObject.IsProposal() && person.IsAnonymousUser())
             {
                 // do not allow if user is anonymous and do not show proposals to public
                 if (!MultiTenantHelpers.ShowProposalsToThePublic())

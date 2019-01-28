@@ -18,17 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class SearchResultsViewData : FirmaViewData
     {
-        public readonly List<ProjectFirmaModels.Models.Project> EntitySearchResults;
-        public readonly string SearchCriteria;
-        public Func<String, string> UrlGeneratingFunctor;
+        public List<ProjectFirmaModels.Models.Project> EntitySearchResults { get; }
+        public string SearchCriteria { get; }
 
         public SearchResultsViewData(Person currentPerson, List<ProjectFirmaModels.Models.Project> entitySearchResults, string searchCriteria) : base(currentPerson)
         {

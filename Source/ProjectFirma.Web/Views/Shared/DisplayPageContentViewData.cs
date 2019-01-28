@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -27,10 +26,15 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public readonly ViewPageContentViewData ViewWholePageContentViewData;
 
-        public DisplayPageContentViewData(Person currentPerson, IFirmaPage firmaPage, bool showEditButton) : base(currentPerson)
+        public DisplayPageContentViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton) : base(currentPerson)
         {
             PageTitle = firmaPage.GetFirmaPageDisplayName();            
             ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
+        }
+        public DisplayPageContentViewData(Person currentPerson, ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton) : base(currentPerson)
+        {
+            PageTitle = customPage.GetFirmaPageDisplayName();            
+            ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton);
         }
     }
 }

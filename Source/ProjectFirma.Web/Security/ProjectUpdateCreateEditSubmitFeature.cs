@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -48,14 +49,14 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
 
-            if (ProjectModelExtensions.IsProposal(contextModelObject))
+            if (contextModelObject.IsProposal())
             {
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} cannot be updated through the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process.");
             }
 
             if (!contextModelObject.IsUpdatableViaProjectUpdateProcess())
             {
-                return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not updatable via the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process");
+                return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not updateable via the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process");
             }
 
             var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(person, contextModelObject).HasPermission || contextModelObject.IsMyProject(person);

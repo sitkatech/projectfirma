@@ -181,10 +181,10 @@ namespace ProjectFirma.Web.Views.Organization
             var allAssociatedProjects = Organization.GetAllAssociatedProjects();
             NumberOfStewardedProjects = allAssociatedProjects
                 .Distinct()
-                .Count(x => ProjectFirmaModels.Models.ProjectModelExtensions.IsActiveProject(x) && ProjectFirmaModels.Models.ProjectModelExtensions.GetCanStewardProjectsOrganization(x) == Organization);
+                .Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
             NumberOfLeadImplementedProjects = allAssociatedProjects
                 .Distinct()
-                .Count(x => ProjectFirmaModels.Models.ProjectModelExtensions.IsActiveProject(x) && x.GetPrimaryContactOrganization() == Organization);
+                .Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.Distinct().ToList().GetActiveProjects().Count;
         }
     }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
-    public class EntityDocument : IEntityDocument
+    public class EntityDocument
     {
         private readonly string _deleteUrl;
         private readonly string _editUrl;
@@ -45,7 +46,11 @@ namespace ProjectFirmaModels.Models
             Description = description;
         }
 
-        public static List<EntityDocument> CreateFromEntityDocument(List<IEntityDocument> entityDocuments)
+        public static List<EntityDocument> CreateFromEntityDocument(IEnumerable<ProjectDocument> entityDocuments)
+        {
+            return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.FileResource, null, x.DisplayName, x.Description)).ToList();
+        }
+        public static List<EntityDocument> CreateFromEntityDocument(IEnumerable<ProjectDocumentUpdate> entityDocuments)
         {
             return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.FileResource, null, x.DisplayName, x.Description)).ToList();
         }

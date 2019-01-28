@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class TaxonomyTrunkModelExtensions
     {
-        public static string GetDeleteUrl(TaxonomyTrunk taxonomyTrunk)
+        public static string GetDeleteUrl(this TaxonomyTrunk taxonomyTrunk)
         {
             return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(c => c.DeleteTaxonomyTrunk(taxonomyTrunk.TaxonomyTrunkID));
         }
 
-        public static HtmlString GetDisplayNameAsUrl(TaxonomyTrunk taxonomyTrunk)
+        public static HtmlString GetDisplayNameAsUrl(this TaxonomyTrunk taxonomyTrunk)
         {
             return UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName());
         }
 
-        public static string GetDetailUrl(TaxonomyTrunk taxonomyTrunk)
+        public static string GetDetailUrl(this TaxonomyTrunk taxonomyTrunk)
         {
             return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(x => x.Detail(taxonomyTrunk.TaxonomyTrunkID));
         }
@@ -39,7 +39,12 @@ namespace ProjectFirmaModels.Models
             return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyTrunk, taxonomyTrunk.TaxonomyTrunkID.ToString(), ProjectColorByType.ProjectStage);
         }
 
-        public static FancyTreeNode ToFancyTreeNode(TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        public static List<Project> GetAssociatedProjects(this TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        {
+            return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+        }
+
+        public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName())}",
                 taxonomyTrunk.TaxonomyTrunkID.ToString(), true)

@@ -19,15 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.FundingSource.Detail
 
 @section JavascriptAndStylesContent
@@ -56,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-7">@Html.Raw(ViewDataTyped.FundingSource.FundingSourceDescription.HtmlEncodeWithBreaks())</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization)</div>
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</div>
                         <div class="col-xs-7">@ViewDataTyped.FundingSource.Organization.GetDisplayNameAsUrl()</div>
                     </div>
                     <div class="row">
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-7">@ViewDataTyped.FundingSource.IsActive.ToYesNo()</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceAmount)</div>
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceAmount.ToType())</div>
                         <div class="col-xs-7">
                             @if (ViewDataTyped.FundingSource.FundingSourceAmount != null)
                             {

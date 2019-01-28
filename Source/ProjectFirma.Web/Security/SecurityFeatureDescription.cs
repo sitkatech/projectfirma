@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -29,15 +30,15 @@ namespace ProjectFirma.Web.Security
 
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum).ToType().GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, fieldDefinitionEnum.ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum1).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum2).ToType().GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, fieldDefinitionEnum1.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum2.ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2, FieldDefinitionEnum fieldDefinitionEnum3)
         {
-            DescriptionMessage = string.Format(formatString, FieldDefinitionEnum.ToType(fieldDefinitionEnum1).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum2).ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ToType(fieldDefinitionEnum3).ToType().GetFieldDefinitionLabel());
+            DescriptionMessage = string.Format(formatString, fieldDefinitionEnum1.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum2.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum3.ToType().GetFieldDefinitionLabel());
         }
         public SecurityFeatureDescription(string descriptionMessage)
         {

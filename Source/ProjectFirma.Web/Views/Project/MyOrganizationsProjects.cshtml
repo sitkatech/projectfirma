@@ -23,8 +23,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Project.MyOrganizationsProjects
 
 @section JavascriptAndStylesContent
@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Project, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectsGridSpec, ViewDataTyped.ProjectsGridName, ViewDataTyped.ProjectsGridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -52,11 +52,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Proposal, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()</h2>
+        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Proposal.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
         <div>
-            @Html.DhtmlxGrid(ViewDataTyped.ProposalsesGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
         </div>
     </div>
 </div>

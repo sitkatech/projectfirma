@@ -21,23 +21,15 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class TaxonomyTrunk : IAuditableEntity, ITaxonomyTier
+    public partial class TaxonomyTrunk : IAuditableEntity, IHaveASortOrder
     {
         public void SetSortOrder(int? value) => TaxonomyTrunkSortOrder = value;
 
         public int? GetSortOrder() => TaxonomyTrunkSortOrder;
         public int GetID() => TaxonomyTrunkID;
-
-        public string GetDeleteUrl()
-        {
-            return TaxonomyTrunkModelExtensions.GetDeleteUrl(this);
-        }
-
-        public int GetTaxonomyTierID() => TaxonomyTrunkID;
 
         public string GetDisplayName()
         {
@@ -45,21 +37,6 @@ namespace ProjectFirmaModels.Models
                 ? string.Empty
                 : $"{TaxonomyTrunkCode}: ";
             return $"{taxonomyPrefix}{TaxonomyTrunkName}";
-        }
-
-        public HtmlString GetDisplayNameAsUrl()
-        {
-            return TaxonomyTrunkModelExtensions.GetDisplayNameAsUrl(this);
-        }
-
-        public string GetDetailUrl()
-        {
-            return TaxonomyTrunkModelExtensions.GetDetailUrl(this);
-        }
-
-        public List<Project> GetAssociatedProjects(Person currentPerson)
-        {
-            return TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
         public string GetAuditDescriptionString()
@@ -75,11 +52,6 @@ namespace ProjectFirmaModels.Models
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
             return GetTaxonomyLeafs().SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(x => x.PerformanceMeasure).ToList();
-        }
-
-        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
-        {
-            return TaxonomyTrunkModelExtensions.ToFancyTreeNode(this, currentPerson);
         }
     }
 }

@@ -44,16 +44,6 @@ namespace ProjectFirmaModels.Models
             return "System";
         }
 
-        public string GetDeleteUrl()
-        {
-            return PerformanceMeasureNoteModelExtensions.GetDeleteUrl(this);
-        }
-
-        public string GetEditUrl()
-        {
-            return PerformanceMeasureNoteModelExtensions.GetEditUrl(this);
-        }
-
         public string GetAuditDescriptionString()
         {
             return $"Performance Measure: {PerformanceMeasureID} Note";

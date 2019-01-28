@@ -19,24 +19,24 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly ProjectFirmaModels.Models.Tag Tag;
-        public readonly string EditTagUrl;
-        public readonly string ManageTagsUrl;
-        public readonly bool UserHasTagManagePermissions;
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
+        public ProjectFirmaModels.Models.Tag Tag { get; }
+        public string EditTagUrl { get; }
+        public string ManageTagsUrl { get; }
+        public bool UserHasTagManagePermissions { get; }
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tag tag) : base(currentPerson)
         {

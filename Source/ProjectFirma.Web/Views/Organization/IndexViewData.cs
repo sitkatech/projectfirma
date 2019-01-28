@@ -21,21 +21,19 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-
-        public readonly string PullOrganizationFromKeystoneUrl;
-        public readonly bool UserIsSitkaAdmin;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string PullOrganizationFromKeystoneUrl { get; }
+        public bool UserIsSitkaAdmin { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)

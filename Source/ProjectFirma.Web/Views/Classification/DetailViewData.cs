@@ -18,29 +18,29 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly ProjectFirmaModels.Models.Classification Classification;
-        public readonly string EditClassificationUrl;
-        public readonly string IndexUrl;
-        public readonly bool UserHasClassificationManagePermissions;
+        public ProjectFirmaModels.Models.Classification Classification { get; }
+        public string EditClassificationUrl { get; }
+        public string IndexUrl { get; }
+        public bool UserHasClassificationManagePermissions { get; }
 
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
 
-        public readonly string ClassificationDisplayName;
-        public readonly string ClassificationDisplayNamePluralized;
+        public string ClassificationDisplayName { get; }
+        public string ClassificationDisplayNamePluralized { get; }
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Classification classification)
             : base(currentPerson)

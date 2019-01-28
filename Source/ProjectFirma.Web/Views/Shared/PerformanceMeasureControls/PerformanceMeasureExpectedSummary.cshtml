@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureExpectedSummary
@@ -28,9 +27,9 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <table class="summaryLayout table table-borderless">
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory)</th>
-            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
+            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
         {

@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -135,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
             var project = projectImage.Project;
-            new[] {projectImage}.DeleteProjectImages();
+            projectImage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             // reset key photo if needed
             if (projectImage.IsKeyPhoto)
             {

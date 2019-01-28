@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.Basics
 
@@ -59,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
         // ]]>
     </script>
 }
-<p>Add your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s basic information here.</p>
+<p>Add your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s basic information here.</p>
 <hr />
 
 @using (Html.BeginForm())

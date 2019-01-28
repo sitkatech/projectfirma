@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(t => t.EditProjectClassificationsForProject(project, classificationSystem));
         }
 
-        public static string GetContentUrl(ClassificationSystem classificationSystem)
+        public static string GetContentUrl(this ClassificationSystem classificationSystem)
         {
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x =>
                 x.FieldDefinitionDetailsForClassificationSystem(classificationSystem.ClassificationSystemID));

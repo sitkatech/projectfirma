@@ -18,15 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectControls
+namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ImportGdbFileViewModel : IValidatableObject
     {
@@ -43,7 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
             return errors;
         }
     }

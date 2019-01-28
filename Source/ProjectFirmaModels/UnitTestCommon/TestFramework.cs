@@ -147,7 +147,7 @@ namespace ProjectFirmaModels.UnitTestCommon
 
         public static void AssertInvalidCharacters(IEnumerable<ValidationResult> validationResults)
         {
-            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains(FirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)),
+            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains("Only letters, numbers, spaces, dashes and underscores are allowed.")),
                 Is.True,
                 "Should have error message");
         }

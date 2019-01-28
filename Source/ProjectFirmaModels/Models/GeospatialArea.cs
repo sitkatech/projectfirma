@@ -19,29 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using LtInfo.Common.GeoJson;
-using GeoJSON.Net.Feature;
-
 namespace ProjectFirmaModels.Models
 {
     public partial class GeospatialArea : IAuditableEntity
     {
         public string GetDisplayName() => GeospatialAreaName;
 
-        public List<Project> GetAssociatedProjects(Person person)
-        {
-            return ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
-        }
-
         public string GetAuditDescriptionString() => GeospatialAreaName;
-
-        public Feature MakeFeatureWithRelevantProperties()
-        {
-            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(GeospatialAreaFeature);
-            feature.Properties.Add(GeospatialAreaType.GeospatialAreaTypeName, this.GetDisplayNameAsUrl().ToString());
-            return feature;
-        }
     }
 }

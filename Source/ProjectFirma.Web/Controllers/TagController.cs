@@ -151,8 +151,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTag(tag, viewModel);
             }
-            tag.ProjectTags.DeleteProjectTag();
-            tag.DeleteTag();
+            tag.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -177,7 +176,7 @@ namespace ProjectFirma.Web.Controllers
             }
             // find tag, remove it from this project
             var existingTag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(viewModel.TagName);
-            existingTag?.ProjectTags.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList().DeleteProjectTag();
+            existingTag.DeleteChildren(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

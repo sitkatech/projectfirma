@@ -20,10 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
@@ -34,17 +33,17 @@ namespace ProjectFirma.Web.Views.Home
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly ViewPageContentViewData CustomHomePageTextViewData;
-        public readonly ViewPageContentViewData CustomHomePageAdditionalInfoTextViewData;
-        public readonly ViewPageContentViewData CustomHomePageMapTextViewData;
-        public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
-        public readonly string FullMapUrl;
-        public readonly List<ProjectFirmaModels.Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
-        public readonly string ProposeNewProjectUrl;
-        public readonly string ProjectUpdatesUrl;
-        public readonly bool DisplayActionButtons;
+        public ViewPageContentViewData CustomHomePageTextViewData { get; }
+        public ViewPageContentViewData CustomHomePageAdditionalInfoTextViewData { get; }
+        public ViewPageContentViewData CustomHomePageMapTextViewData { get; }
+        public FeaturedProjectsViewData FeaturedProjectsViewData { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public string FullMapUrl { get; }
+        public List<ProjectFirmaModels.Models.FirmaHomePageImage> FirmaHomePageCarouselImages { get; }
+        public string ProposeNewProjectUrl { get; }
+        public string ProjectUpdatesUrl { get; }
+        public bool DisplayActionButtons { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage, ProjectFirmaModels.Models.FirmaPage firmaPageAdditionalInfo, ProjectFirmaModels.Models.FirmaPage firmaPageMapInfo,
             FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,

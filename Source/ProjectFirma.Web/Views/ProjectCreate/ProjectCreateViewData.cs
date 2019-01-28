@@ -28,6 +28,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -80,8 +81,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             // ReSharper restore PossibleNullReferenceException
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(project));
-            var pagetitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" : $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
-            PageTitle = $"{pagetitle}: {project.GetDisplayName()}";
+            var pageTitle = project.ProjectStage == ProjectStage.Proposal ? $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" : $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
+            PageTitle = $"{pageTitle}: {project.GetDisplayName()}";
 
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));

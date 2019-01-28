@@ -25,6 +25,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using MoreLinq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 else if (!projectClassificationSimple.Selected && alreadySelected)
                 {
                     var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
-                    existingProjectClassification.DeleteProjectClassification();
+                    existingProjectClassification.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
             }
         }

@@ -5,6 +5,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectInternalNote(projectInternalNote, viewModel);
             }
-            projectInternalNote.DeleteProjectInternalNote();
+            projectInternalNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

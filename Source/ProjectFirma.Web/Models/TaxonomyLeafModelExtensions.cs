@@ -53,6 +53,11 @@ namespace ProjectFirma.Web.Models
                 c.DeleteTaxonomyLeaf(taxonomyLeaf.TaxonomyLeafID));
         }
 
+        public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        {
+            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+        }
+
         public static IEnumerable<SelectListItem> ToGroupedSelectList(this List<TaxonomyLeaf> taxonomyLeafs)
         {
             var selectListItems = new List<SelectListItem>();
@@ -166,14 +171,14 @@ namespace ProjectFirma.Web.Models
             return taxonomyLeaf == null;
         }
 
-        public static FancyTreeNode ToFancyTreeNode(Person currentPerson, TaxonomyLeaf taxonomyLeaf)
+        public static FancyTreeNode ToFancyTreeNode(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyLeaf.GetDetailUrl(), taxonomyLeaf.GetDisplayName())}",
                 taxonomyLeaf.TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = String.IsNullOrWhiteSpace(taxonomyLeaf.ThemeColor) ? taxonomyLeaf.TaxonomyBranch.ThemeColor : taxonomyLeaf.ThemeColor,
                 MapUrl = GetCustomizedMapUrl(taxonomyLeaf),
-                Children = taxonomyLeaf.GetAssociatedProjects(currentPerson).Select(x => ProjectModelExtensions.ToFancyTreeNode(x)).OrderBy(x => x.Title).ToList()
+                Children = taxonomyLeaf.GetAssociatedProjects(currentPerson).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
             };
             return fancyTreeNode;
         }

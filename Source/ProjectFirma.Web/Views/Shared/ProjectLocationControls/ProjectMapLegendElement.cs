@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             LegendText = legendText;
         }
 
-        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<ITaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
+        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
         {
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {
@@ -48,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 },
                 {
                     MultiTenantHelpers.IsTaxonomyLevelTrunk() ? ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier,
-                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.GetTaxonomyTierID(), x.ThemeColor, x.GetDisplayName())).ToList()
+                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName)).ToList()
                 }
             };
 

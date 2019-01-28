@@ -1,5 +1,6 @@
 ﻿using Hangfire.Dashboard;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs

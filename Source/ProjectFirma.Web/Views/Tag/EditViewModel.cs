@@ -25,6 +25,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Views.Tag
             var errors = new List<ValidationResult>();
 
             var existingTags = HttpRequestStorage.DatabaseEntities.Tags.ToList();
-            if (!ProjectFirmaModels.Models.TagModelExtensions.IsTagNameUnique(existingTags, TagName, TagID))
+            if (!TagModelExtensions.IsTagNameUnique(existingTags, TagName, TagID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.TagNameUnique, x => x.TagName));
             }

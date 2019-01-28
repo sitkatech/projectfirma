@@ -238,7 +238,8 @@ namespace ProjectFirma.Web.Controllers
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var viewData = new BasicsViewData(CurrentPerson, FundingType.All, taxonomyLeafs, newProjectIsHistoric, instructionsPageUrl, projectCustomAttributeTypes);
+            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
+            var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric, instructionsPageUrl, projectCustomAttributeTypes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -268,7 +269,8 @@ namespace ProjectFirma.Web.Controllers
             
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs, FundingType.All, projectCustomAttributeTypes);
+            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -291,15 +293,24 @@ namespace ProjectFirma.Web.Controllers
             if (project.ProjectStage == ProjectStage.Proposal)
             {
                 DeletePerformanceMeasureActuals(project);
-                project.GetPerformanceMeasuresExemptReportingYears().DeleteProjectExemptReportingYear();
-                project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
-                project.GetExpendituresExemptReportingYears().DeleteProjectExemptReportingYear();
+                foreach (var projectExemptReportingYear in project.ProjectExemptReportingYears)
+                {
+                    projectExemptReportingYear.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+
+                foreach (var projectFundingSourceExpenditure in project.ProjectFundingSourceExpenditures)
+                {
+                    projectFundingSourceExpenditure.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             if (project.ProjectStage == ProjectStage.PlanningDesign)
             {
                 DeletePerformanceMeasureActuals(project);
-                project.GetPerformanceMeasuresExemptReportingYears().DeleteProjectExemptReportingYear();
+                foreach (var projectExemptReportingYear in project.GetPerformanceMeasuresExemptReportingYears())
+                {
+                    projectExemptReportingYear.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -803,8 +814,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                project.ProjectLocationStagings.ToList().DeleteProjectLocationStaging();
-                project.ProjectLocationStagings.Clear();
+                foreach (var projectLocationStaging in project.ProjectLocationStagings)
+                {
+                    projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
                 ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
             }
             return ApproveGisUpload(project);
@@ -859,8 +872,10 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
         {
             var projectLocations = project.ProjectLocations.ToList();
-            projectLocations.DeleteProjectLocation();
-            project.ProjectLocations.Clear();
+            foreach (var projectLocation in projectLocations)
+            {
+                projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
             if (viewModel.WktAndAnnotations != null)
             {
                 foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
@@ -955,14 +970,13 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var entityNotes = new List<IEntityNote>(project.ProjectNotes);
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
             var canEditNotesAndDocuments = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditNotesAndDocuments);
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditNotesAndDocuments);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var projectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
-                EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(project.ProjectDocuments)),
+                EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
                 SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewDocument(project)), project.ProjectName,
                 canEditNotesAndDocuments);
             var viewData = new DocumentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
@@ -1053,7 +1067,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteNote(projectNote, viewModel);
             }
-            projectNote.DeleteProjectNote();
+            projectNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1145,7 +1159,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteDocument(projectDocument, viewModel);
             }
-            projectDocument.DeleteProjectDocument();
+            projectDocument.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1163,7 +1177,7 @@ namespace ProjectFirma.Web.Controllers
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.NewFromProposal(project));
             var galleryName = $"ProjectImage{project.ProjectID}";
             var projectImages = project.ProjectImages.ToList();
-            var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages, newPhotoForProjectUrl, x => x.GetCaptionOnFullView(), project, proposalSectionsStatus);
+            var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages.Select(x => new FileResourcePhoto(x)), newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
             return imageGalleryViewData;
         }
 
@@ -1371,8 +1385,10 @@ namespace ProjectFirma.Web.Controllers
 
         private void DeletePerformanceMeasureActuals(Project project)
         {
-            project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureActualSubcategoryOptionID)).ToList().DeletePerformanceMeasureActualSubcategoryOption();
-            project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+            foreach (var performanceMeasureActual in project.PerformanceMeasureActuals)
+            {
+                performanceMeasureActual.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
             project.PerformanceMeasureActualYearsExemptionExplanation = null;
         }
 

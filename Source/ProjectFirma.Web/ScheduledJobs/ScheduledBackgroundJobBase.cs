@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         protected ScheduledBackgroundJobBase()
         {
             Logger = LogManager.GetLogger(GetType());
-            var databaseEntities = new DatabaseEntities();
+            var databaseEntities = new DatabaseEntities(Tenant.SitkaTechnologyGroup.TenantID); // default to Sitka
             databaseEntities.Configuration.AutoDetectChangesEnabled = false;
             DbContext = databaseEntities;
         }

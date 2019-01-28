@@ -26,6 +26,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.FirmaHomePageImage;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -58,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var firmaHomePageImage = new FirmaHomePageImage(-1, null, 0);
+            var firmaHomePageImage = new FirmaHomePageImage(ModelObjectHelpers.NotYetAssignedID, null, 0);
             viewModel.UpdateModel(firmaHomePageImage, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFirmaHomePageImages.Add(firmaHomePageImage);
             return new ModalDialogFormJsonResult();
@@ -126,7 +127,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFirmaHomePageImage(firmaHomePageImage, viewModel);
             }
-            firmaHomePageImage.DeleteFirmaHomePageImage();
+            firmaHomePageImage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
       

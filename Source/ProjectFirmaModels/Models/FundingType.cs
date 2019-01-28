@@ -1,10 +1,12 @@
+﻿using System.Linq;
+
 namespace ProjectFirmaModels.Models
 {
     public partial class FundingType
     {
         public FundingTypeData GetFundingTypeData()
         {
-            return HttpRequestStorage.DatabaseEntities.FundingTypeDatas.GetFundingTypeDataByFundingType(this);
+            return FundingTypeDatas.SingleOrDefault();
         }
 
         public string GetFundingTypeDisplayName()

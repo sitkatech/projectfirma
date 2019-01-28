@@ -25,6 +25,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -114,7 +115,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectNote(projectNote, viewModel);
             }
-            projectNote.DeleteProjectNote();
+            projectNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

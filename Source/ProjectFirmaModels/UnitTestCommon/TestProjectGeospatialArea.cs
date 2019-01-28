@@ -34,13 +34,6 @@ namespace ProjectFirmaModels.UnitTestCommon
                 return Create(project, geospatialArea);
             }
 
-            public static ProjectGeospatialArea Create(DatabaseEntities dbContext)
-            {
-                var project = TestProject.Create(dbContext);
-                var geospatialArea = TestGeospatialArea.Create(dbContext);
-                return Create(project, geospatialArea);
-            }
-
             public static ProjectGeospatialArea Create(Project project, GeospatialArea geospatialArea)
             {
                 var projectGeospatialArea = ProjectGeospatialArea.CreateNewBlank(project, geospatialArea);

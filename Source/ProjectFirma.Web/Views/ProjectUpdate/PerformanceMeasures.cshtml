@@ -24,10 +24,10 @@
 @using ProjectFirma.Web.Controllers
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits PerformanceMeasures
 
@@ -69,7 +69,7 @@
         <li>Enter the accomplishment value</li>
         <li>
             You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Start and Completion
-            Years (or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinitionEnum.ReportingYear, string.Format("current {0}", FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
+            Years (or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinitionEnum.ReportingYear.ToType(), string.Format("current {0}", FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
         </li>
     </ul>
     Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view reporting guidance

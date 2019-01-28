@@ -19,8 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.Classification
                     30,DhtmlxGridColumnFilterType.None);
             }
 
-            Add(classificationSystem.ToType().ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
-            Add(FieldDefinitionEnum.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
-            Add(FieldDefinitionEnum.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
+            Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
+            Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
+            Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
             Add("Sort Order", a => a.ClassificationSortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }

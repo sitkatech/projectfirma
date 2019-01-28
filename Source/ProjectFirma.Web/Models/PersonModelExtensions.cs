@@ -24,22 +24,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Keystone.Common;
+using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     /// <summary>
     /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object
     /// </summary>
     public static class PersonModelExtensions
     {
-        public const int AnonymousPersonID = -999;
-
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
             return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
@@ -66,6 +64,12 @@ namespace ProjectFirmaModels.Models
             return new HtmlString($"{userString} - {orgUrl}");
         }
 
+        public static string GetFullNameFirstLastAndOrg(this Person person) => $"{person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()}";
+
+        public static string GetFullNameFirstLastAndOrgShortName(this Person person) =>
+            $"{person.FirstName} {person.LastName} ({person.Organization.GetOrganizationShortNameIfAvailable()})";
+
+
         public static string GetEditUrl(this Person person)
         {
             return SitkaRoute<UserController>.BuildUrlFromExpression(t => t.EditRoles(person));
@@ -82,6 +86,8 @@ namespace ProjectFirmaModels.Models
         {
             return DetailUrlTemplate.ParameterReplace(person.PersonID);
         }
+
+        public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
 
         public static bool IsSitkaAdministrator(this Person person)
         {
@@ -117,7 +123,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public static Person GetAnonymousSitkaUser()
         {
-            var anonymousSitkaUser = new Person(AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
+            var anonymousSitkaUser = new Person(Person.AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
             // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
             return anonymousSitkaUser;
         }
@@ -154,14 +160,6 @@ namespace ProjectFirmaModels.Models
             return Role.ProjectSteward.RoleID == person.RoleID;
         }
 
-        public static void SetKeystoneUserClaims(this Person person, IKeystoneUserClaims keystoneUserClaims)
-        {
-            person.Organization = HttpRequestStorage.DatabaseEntities.Organizations.Where(x => x.OrganizationGuid.HasValue)
-                .SingleOrDefault(x => x.OrganizationGuid == keystoneUserClaims.OrganizationGuid);
-            person.Phone = keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
-            person.Email = keystoneUserClaims.Email;
-        }
-
         public static bool CanViewProposals(this Person person) => MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsAnonymousOrUnassigned();
 
         public static List<HtmlString> GetProjectStewardshipAreaHtmlStringList(this Person person)
@@ -174,6 +172,57 @@ namespace ProjectFirmaModels.Models
         public static bool CanStewardProject(this Person person, Project project)
         {
             return MultiTenantHelpers.GetProjectStewardshipAreaType()?.CanStewardProject(person, project) ?? true;
+        }
+
+        public static Person GetPersonByEmail(this IQueryable<Person> people, string email)
+        {
+            return GetPersonByEmail(people, email, true);
+        }
+
+        public static Person GetPersonByEmail(this IQueryable<Person> people, string email, bool requireRecordFound)
+        {
+            var person = people.SingleOrDefault(x => x.Email == email);
+            if (requireRecordFound)
+            {
+                Check.RequireNotNullThrowNotFound(person, email);
+            }
+            return person;
+        }
+
+        public static Person GetPersonByPersonGuid(this IQueryable<Person> people, Guid personGuid)
+        {
+            return GetPersonByPersonGuid(people, personGuid, false);
+        }
+
+        public static Person GetPersonByPersonGuid(this IQueryable<Person> people, Guid personGuid, bool requireRecordFound)
+        {
+            var person = people.SingleOrDefault(x => x.PersonGuid == personGuid);
+            if (requireRecordFound)
+            {
+                Check.RequireNotNullThrowNotFound(person, personGuid.ToString());
+            }
+            return person;
+        }
+
+        public static Person GetPersonByWebServiceAccessToken(this IQueryable<Person> people, Guid webServiceAccessToken)
+        {
+            var person = people.SingleOrDefault(x => x.WebServiceAccessToken == webServiceAccessToken);
+            return person;
+        }
+
+        public static List<Person> GetActivePeople(this IQueryable<Person> people)
+        {
+            return people.Where(x => x.IsActive).ToList().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+        }
+
+        public static List<Person> GetPeopleWhoReceiveNotifications(this IQueryable<Person> people)
+        {
+            return people.ToList().Where(x => x.ShouldReceiveNotifications()).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+        }
+
+        public static List<Person> GetPeopleWhoReceiveSupportEmails(this IQueryable<Person> people)
+        {
+            return people.ToList().Where(x => x.ReceiveSupportEmails && x.IsActive).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
     }
 }

@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.ParticipatingOrganizations
 
@@ -36,7 +37,7 @@
                         <figure style="text-align: center;">
                             @if (organizationGrouping.Key.LogoFileResource != null)
                             {
-                                <img class="img-responsive logoImage" src="@organizationGrouping.Key.LogoFileResource.FileResourceUrl" alt="Organization Logo">
+                                <img class="img-responsive logoImage" src="@organizationGrouping.Key.LogoFileResource.GetFileResourceUrl()" alt="Organization Logo">
                             }
                         </figure>
                     </div>

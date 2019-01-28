@@ -21,7 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFundingRequestsDetail
 
 <table class="summaryLayout">
@@ -32,9 +33,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <col>
     </colgroup>
     <tr>
-        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
-        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</th>
-        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding)</th>
+        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
+        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
         <th style="text-align: right">Total</th>
     </tr>
     @foreach (var fundingSourceRequestAmount in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.FundingSourceName))

@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -30,11 +29,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class GeospatialAreaViewData : ProjectUpdateViewData
     {
-        public readonly EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData;
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly string RefreshUrl;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly GeospatialAreaType GeospatialAreaType;
+        public EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData { get; }
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public string RefreshUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public GeospatialAreaType GeospatialAreaType { get; }
 
         public GeospatialAreaViewData(Person currentPerson,
             ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
@@ -46,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectGeospatialArea(projectUpdate.ProjectUpdateBatch.Project, geospatialAreaType));
-            SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             GeospatialAreaType = geospatialAreaType;
         } 
     }

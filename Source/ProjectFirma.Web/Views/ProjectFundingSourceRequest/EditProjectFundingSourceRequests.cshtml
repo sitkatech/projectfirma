@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceRequest.EditProjectFundingSourceRequests
 <script type="text/javascript">
     // <![CDATA[
@@ -118,9 +118,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tbody>
                 <tr>
                     <th></th>
-                    <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromFundingSource ? Html.LabelWithSugarFor(FieldDefinitionEnum.Project) : Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource))</th>
-                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</th>
-                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding)</th>
+                    <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromFundingSource ? Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType()) : Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
+                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
+                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
                     <th style="text-align: right;">Total</th>
                 </tr>
                 <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName, getProjectName]" style="padding-bottom: 2px;">

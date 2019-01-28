@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
                 notificationPeople.Add(primaryContactPerson);
             }
 
-            Notification.SendMessageAndLogNotification(mailMessage,
+            NotificationModelExtensions.SendMessageAndLogNotification(mailMessage,
                 emailsToSendTo,
                 emailsToReplyTo,
                 emailsToCc,
@@ -177,7 +177,7 @@ Thank you,<br />
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
-            var emailsToSendTo = Enumerable.Select<Person, string>(GetProjectStewardPeople(project), x => x.Email).Distinct().ToList();
+            var emailsToSendTo = GetProjectStewardPeople(project).Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { submitterPerson.Email };
             var primaryContactPerson = project.PrimaryContactPerson;
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
@@ -217,7 +217,7 @@ Thank you,<br />
                 mailMessage,
                 emailsToSendTo,
                 emailsToReplyTo,
-                Enumerable.Select<Person, string>(GetProjectStewardPeople(project), x => x.Email).ToList(),
+                GetProjectStewardPeople(project).Select(x => x.Email).ToList(),
                 NotificationType.ProjectUpdateApproved);
         }
 
@@ -229,7 +229,7 @@ Thank you,<br />
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} {ProjectFirmaModels.Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
 <p>The {fieldDefinitionLabelProject} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this {fieldDefinitionLabelProject} can move forward.</p>
 <a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
@@ -244,7 +244,7 @@ Thank you,<br />
                 emailsToSendTo.Add(primaryContactPerson.Email);
             }
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = Enumerable.Select<Person, string>(GetProjectStewardPeople(project), x => x.Email).ToList();
+            var emailsToCc = GetProjectStewardPeople(project).Select(x => x.Email).ToList();
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectReturned);
         }
 
@@ -264,7 +264,7 @@ Thank you,<br />
                 notificationPeople.Add(primaryContactPerson);
             }
 
-            Notification.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc);
+            NotificationModelExtensions.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc);
             var notifications = new List<Notification>();
             foreach (var notificationPerson in notificationPeople)
             {
@@ -277,7 +277,7 @@ Thank you,<br />
 
         private static List<Person> GetProjectStewardPeople(Project project)
         {
-            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(ProjectModelExtensions.GetProjectStewards(project)).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
     }
 }

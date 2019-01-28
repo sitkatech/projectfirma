@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectUpdateSectionModelExtensions
     {
@@ -22,17 +19,17 @@ namespace ProjectFirmaModels.Models
                 case ProjectUpdateSectionEnum.Basics:
                     return projectUpdateBatch.AreProjectBasicsValid();
                 case ProjectUpdateSectionEnum.LocationSimple:
-                    return ProjectUpdateBatchModelExtensions.IsProjectLocationSimpleValid(projectUpdateBatch);
+                    return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:
-                    return ProjectUpdateBatchModelExtensions.AreOrganizationsValid(projectUpdateBatch);
+                    return projectUpdateBatch.AreOrganizationsValid();
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectUpdateSectionEnum.PerformanceMeasures:
-                    return ProjectUpdateBatchModelExtensions.ArePerformanceMeasuresValid(projectUpdateBatch);
+                    return projectUpdateBatch.ArePerformanceMeasuresValid();
                 case ProjectUpdateSectionEnum.ExpectedFunding:
                     return true;
                 case ProjectUpdateSectionEnum.Expenditures:
-                    return ProjectUpdateBatchModelExtensions.AreExpendituresValid(projectUpdateBatch);
+                    return projectUpdateBatch.AreExpendituresValid();
                 case ProjectUpdateSectionEnum.Photos:
                     return true;
                 case ProjectUpdateSectionEnum.ExternalLinks:
@@ -46,7 +43,7 @@ namespace ProjectFirmaModels.Models
         public static string GetSectionUrl(this ProjectUpdateSection projectUpdateSection, Project project)
         {
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(
-                ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project).ProjectUpdateBatchID))
+                project.GetLatestNotApprovedUpdateBatch().ProjectUpdateBatchID))
             {
                 return null;
             }

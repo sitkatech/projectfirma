@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
             project.ImplementationStartYear = 2017;
             project.CompletionYear = 2035;
             project.EstimatedAnnualOperatingCost = 100000m;
-            project.FundingTypeID = FundingType.OperationsAndMaintenance.FundingTypeID;
+            project.FundingTypeID = (int) FundingTypeEnum.OperationsAndMaintenance;
 
             var expectedTotalOperatingCost = 2329737m; //From Karen Fink's calculations
             var totalOperatingCost = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCostImpl(project.EstimatedAnnualOperatingCost.Value,

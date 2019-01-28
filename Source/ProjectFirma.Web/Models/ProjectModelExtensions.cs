@@ -54,7 +54,7 @@ namespace ProjectFirmaModels.Models
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
         public static string GetEditUrl(this Project project)
         {
-            return IsProposal(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.EditBasics(project.ProjectID)) : EditUrlTemplate.ParameterReplace(project.ProjectID);
+            return project.IsProposal() ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.EditBasics(project.ProjectID)) : EditUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
         public static readonly UrlTemplate<int> ProjectCreateUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.EditBasics(UrlTemplate.Parameter1Int)));
@@ -97,6 +97,11 @@ namespace ProjectFirmaModels.Models
         public static string GetProjectSimpleMapPopupUrl(this Project project)
         {
             return ProjectMapSimplePopuUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static bool IsMyProject(this Project project, Person person)
+        {
+            return !person.IsAnonymousUser() && (project.IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(project) || person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -201,7 +206,7 @@ namespace ProjectFirmaModels.Models
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint()).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select<Project, Feature>(project => MakePointFeatureWithRelevantProperties(project, project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
+            featureCollection.Features.AddRange(filteredProjectList.Select<Project, Feature>(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
         }
 
@@ -209,13 +214,12 @@ namespace ProjectFirmaModels.Models
         /// Note this will do a deep delete of this project image, meaning it will remove it from a ProjectImageUpdate if it is tied to that
         /// </summary>
         /// <param name="projectImages"></param>
-        public static void DeleteProjectImages(this ICollection<ProjectImage> projectImages)
+        public static void DeleteProjectImages(this Project project)
         {
-            var projectImageFileResourceIDsToDelete = projectImages.Select(x => x.FileResourceID).ToList();
-            var projectImageIDsToDelete = projectImages.Select(x => x.ProjectImageID).ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectImageUpdates.Where(x => x.ProjectImageID.HasValue && projectImageIDsToDelete.Contains(x.ProjectImageID.Value)).ToList().DeleteProjectImageUpdate();
-            projectImages.DeleteProjectImage();
-            projectImageFileResourceIDsToDelete.DeleteFileResource();
+            foreach (var fileResource in project.ProjectImages.Select(x => x.FileResource))
+            {
+                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
         public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(this Project project, bool ignoreStatus)
@@ -262,7 +266,7 @@ namespace ProjectFirmaModels.Models
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures(this Project project)
         {
-            var reportedPerformanceMeasures = GetNonVirtualPerformanceMeasureReportedValues(project);
+            var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
 
             // Idaho's special PM.
             // There Might Be A Better Way To Do This™
@@ -414,18 +418,18 @@ namespace ProjectFirmaModels.Models
         public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
         {
             return showProposals
-                ? projects.Where(x => IsActiveProposal(x)).OrderBy(x => x.GetDisplayName()).ToList()
+                ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.GetDisplayName()).ToList()
                 : new List<Project>();
         }
 
         public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
         {
-            return projects.Where(x => IsProposal(x) && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
+            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
         }
 
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
         {
-            return showPendingProjects ? projects.Where(x => IsPendingProject(x)).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
+            return showPendingProjects ? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
         }
 
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
@@ -435,67 +439,67 @@ namespace ProjectFirmaModels.Models
 
         public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
         {
-            return projects.Where(x => IsUpdateMandatory(x)).ToList();
+            return projects.Where(x => x.IsUpdateMandatory()).ToList();
         }
 
-        public static bool IsActiveProject(Project project)
+        public static bool IsActiveProject(this Project project)
         {
-            return !IsProposal(project) && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+            return !project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
         }
 
-        public static bool IsProposal(Project project)
+        public static bool IsProposal(this Project project)
         {
             return project.ProjectStage == ProjectStage.Proposal;
         }
 
-        public static bool IsActiveProposal(Project project)
+        public static bool IsActiveProposal(this Project project)
         {
-            return IsProposal(project) && project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+            return project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
 
-        public static bool IsPendingProject(Project project)
+        public static bool IsPendingProject(this Project project)
         {
-            return !IsProposal(project) && project.ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+            return !project.IsProposal() && project.ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
 
-        public static bool IsRejected(Project project)
+        public static bool IsRejected(this Project project)
         {
             return project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
-        public static bool IsForwardLookingFactSheetRelevant(Project project)
+        public static bool IsForwardLookingFactSheetRelevant(this Project project)
         {
             return ProjectStage.ForwardLookingFactSheetProjectStages.Contains(project.ProjectStage);
         }
 
-        public static bool IsBackwardLookingFactSheetRelevant(Project project)
+        public static bool IsBackwardLookingFactSheetRelevant(this Project project)
         {
-            return !IsForwardLookingFactSheetRelevant(project);
+            return !project.IsForwardLookingFactSheetRelevant();
         }
 
-        public static bool IsExpectedFundingRelevant(Project project)
+        public static bool IsExpectedFundingRelevant(this Project project)
         {
             // todo: Always relevant for pending projects, otherwise relevant for every stage except terminated/completed
             return true;
         }
 
-        public static bool AreReportedPerformanceMeasuresRelevant(Project project)
+        public static bool AreReportedPerformanceMeasuresRelevant(this Project project)
         {
             return project.ProjectStage != ProjectStage.Proposal && project.ProjectStage != ProjectStage.PlanningDesign;
         }
 
-        public static bool AreReportedExpendituresRelevant(Project project)
+        public static bool AreReportedExpendituresRelevant(this Project project)
         {
             return project.ProjectStage != ProjectStage.Proposal;
         }
 
-        public static DateTime? GetLatestUpdateSubmittalDate(Project project)
+        public static DateTime? GetLatestUpdateSubmittalDate(this Project project)
         {
-            var notNullSubmittalDates = project.ProjectUpdateBatches.Select(x => x.GetLatestSubmittalDate())).Where(x => x.HasValue).ToList();
+            var notNullSubmittalDates = project.ProjectUpdateBatches.Select(x => x.GetLatestSubmittalDate()).Where(x => x.HasValue).ToList();
             return notNullSubmittalDates.Any() ? notNullSubmittalDates.Max() : null;
         }
 
-        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(Project project, GeospatialAreaType geospatialAreaType)
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
             var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             return new HtmlString(projectGeospatialAreas.Any()
@@ -503,7 +507,7 @@ namespace ProjectFirmaModels.Models
                 : ViewUtilities.NaString);
         }
 
-        public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(Project project)
+        public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
             var performanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
                 .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
@@ -511,7 +515,7 @@ namespace ProjectFirmaModels.Models
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
-        public static Feature MakePointFeatureWithRelevantProperties(Project project, DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)
+        public static Feature MakePointFeatureWithRelevantProperties(this Project project, DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
             feature.Properties.Add("TaxonomyTrunkID", project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
@@ -547,7 +551,7 @@ namespace ProjectFirmaModels.Models
         /// Returns a commma-separated list of organizations that doesn't include the lead implementer or the funders and only includes the relationships that are configured to show on the fact sheet
         /// </summary>
         /// <param name="project"></param>
-        public static string GetProjectOrganizationNamesForFactSheet(Project project)
+        public static string GetProjectOrganizationNamesForFactSheet(this Project project)
         {
             // get the list of funders so we can exclude any that have other project associations
             var fundingOrganizations = project.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
@@ -562,24 +566,24 @@ namespace ProjectFirmaModels.Models
             return organizationNames.Any() ? String.Join(", ", organizationNames) : String.Empty;
         }
 
-        public static string GetFundingOrganizationNamesForFactSheet(Project project)
+        public static string GetFundingOrganizationNamesForFactSheet(this Project project)
         {
             return String.Join(", ",
                 project.GetFundingOrganizations().OrderBy(x => x.Organization.OrganizationName)
                     .Select(x => x.Organization.OrganizationName));
         }
 
-        public static FancyTreeNode ToFancyTreeNode(Project project)
+        public static FancyTreeNode ToFancyTreeNode(this Project project)
         {
             var fancyTreeNode = new FancyTreeNode(
                 $"{UrlTemplate.MakeHrefString(project.GetFactSheetUrl(), project.ProjectName, project.ProjectName)}", project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 
-        public static IEnumerable<Person> GetProjectStewards(Project project)
+        public static IEnumerable<Person> GetProjectStewards(this Project project)
         {
-            return Enumerable.Where<Person>(Project.GetCanStewardProjectsOrganization(project)?.People, y => y.RoleID == Role.ProjectSteward.RoleID)
-                       .ToList() ?? new List<Person>();
+            return project.GetCanStewardProjectsOrganization()?.People.Where(y => y.RoleID == Role.ProjectSteward.RoleID)
+                .ToList();
         }
 
         public static ProjectUpdateBatch GetLatestNotApprovedUpdateBatch(this Project project)
@@ -587,21 +591,21 @@ namespace ProjectFirmaModels.Models
             return project.ProjectUpdateBatches.SingleOrDefault(x => x.ProjectUpdateState != ProjectUpdateState.Approved);
         }
 
-        public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(Project project)
+        public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();
             return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
         }
 
-        public static ProjectUpdateBatch GetLatestUpdateBatch(Project project)
+        public static ProjectUpdateBatch GetLatestUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.ToList();
             return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
         }
 
-        public static bool IsUpdateMandatory(Project project)
+        public static bool IsUpdateMandatory(this Project project)
         {
-            if (IsPendingProject(project))
+            if (project.IsPendingProject())
             {
                 return false;
             }
@@ -611,7 +615,7 @@ namespace ProjectFirmaModels.Models
                 return false;
             }
 
-            var latestUpdateBatch = GetLatestUpdateBatch(project);
+            var latestUpdateBatch = project.GetLatestUpdateBatch();
 
             if (latestUpdateBatch == null)
             {
@@ -626,7 +630,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public static bool IsUpdatableViaProjectUpdateProcess(this Project project) => !IsPendingProject(project) &&
+        public static bool IsUpdatableViaProjectUpdateProcess(this Project project) => !project.IsPendingProject() &&
                                                             (project.ProjectStage.RequiresReportedExpenditures() ||
                                                              project.ProjectStage.RequiresPerformanceMeasureActuals());
 
@@ -641,7 +645,7 @@ namespace ProjectFirmaModels.Models
 
             if (project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && project.HasProjectLocationPoint())
             {
-                featureCollection.Features.Add(MakePointFeatureWithRelevantProperties(project, project.ProjectLocationPoint, addProjectProperties, true));
+                featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
             }
             return featureCollection;
         }

@@ -26,6 +26,7 @@ using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {

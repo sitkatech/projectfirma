@@ -23,6 +23,7 @@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
 @section JavascriptAndStylesContent
@@ -148,7 +149,7 @@
                                     <select id="taxonomyTierDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
                                         @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers)
                                         {
-                                            <option value="@taxonomyTier.GetTaxonomyTierID()" data-detailUrl="@taxonomyTier.GetDetailUrl()">@taxonomyTier.GetDisplayName()</option>
+                                            <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.DetailUrl">@taxonomyTier.DisplayName</option>
                                         }
                                     </select>
                                 </div>

@@ -31,6 +31,7 @@ using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
 using Keystone.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {

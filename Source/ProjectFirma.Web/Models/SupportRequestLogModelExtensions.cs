@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
             mailMessage.ReplyToList.Add(supportRequestLog.RequestPersonEmail);
 
             // TO field
-            supportRequestLog.SupportRequestType.SetEmailRecipientsOfSupportRequest(databaseEntities, mailMessage, defaultSupportPersonID);
+            SupportRequestTypeModelExtensions.SetEmailRecipientsOfSupportRequest(databaseEntities, mailMessage, defaultSupportPersonID);
 
             SitkaSmtpClient.Send(mailMessage);
         }

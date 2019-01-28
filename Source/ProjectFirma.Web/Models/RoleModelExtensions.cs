@@ -1,4 +1,8 @@
-﻿using ProjectFirmaModels.Models;
+﻿using System.Web;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -19,5 +23,9 @@ namespace ProjectFirma.Web.Models
             return role.RoleDisplayName;
         }
 
+        public static HtmlString GetDisplayNameAsUrl(this Role role)
+        {
+            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(role.RoleID)), role.GetRoleDisplayName());
+        }
     }
 }

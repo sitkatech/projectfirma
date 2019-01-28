@@ -25,6 +25,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -117,7 +118,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectNoteUpdate, viewModel);
             }
             projectNoteUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            projectNoteUpdate.DeleteProjectNoteUpdate();
+            projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

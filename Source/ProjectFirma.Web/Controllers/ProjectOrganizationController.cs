@@ -26,6 +26,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Controllers

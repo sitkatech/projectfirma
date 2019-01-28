@@ -23,10 +23,8 @@ using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Service.ServiceModels
@@ -39,7 +37,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             KeyPhotoUrl = project.GetKeyPhoto() != null
-                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.GetKeyPhoto().FileResource.FileResourceGUIDAsString))
+                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.GetKeyPhoto().FileResource.GetFileResourceGUIDAsString()))
                 : ViewUtilities.NoneString;
         }
 

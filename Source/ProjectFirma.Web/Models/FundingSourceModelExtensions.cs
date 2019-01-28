@@ -1,10 +1,13 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class FundingSourceModelExtensions
     {
@@ -24,5 +27,49 @@ namespace ProjectFirmaModels.Models
         {
             return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Detail(fundingSource.FundingSourceID));
         }
+
+        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, Person person)
+        {
+            return fundingSource.ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+        }
+
+        public static string GetDisplayName(this FundingSource fundingSource) =>
+            $"{fundingSource.FundingSourceName} ({fundingSource.Organization.GetOrganizationShortNameIfAvailable()}){(!fundingSource.IsActive ? " (Inactive)" : string.Empty)}";
+
+        public static string GetFixedLengthDisplayName(this FundingSource fundingSource)
+        {
+            if (fundingSource.Organization.IsUnknown())
+            {
+                return fundingSource.Organization.GetOrganizationShortNameIfAvailable();
+            }
+
+            var organizationShortNameIfAvailable = $"({fundingSource.Organization.GetOrganizationShortNameIfAvailable()})";
+            return organizationShortNameIfAvailable.Length < 45
+                ? $"{fundingSource.FundingSourceName.ToEllipsifiedString(45 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}"
+                : $"{fundingSource.FundingSourceName} {organizationShortNameIfAvailable}";
+        }
+
+
+        public static bool IsFundingSourceNameUnique(IEnumerable<FundingSource> fundingSources, string fundingSourceName, int currentFundingSourceID)
+        {
+            var fundingSource =
+                fundingSources.SingleOrDefault(x => x.FundingSourceID != currentFundingSourceID && String.Equals(x.FundingSourceName, fundingSourceName, StringComparison.InvariantCultureIgnoreCase));
+            return fundingSource == null;
+        }
+
+        public static int? GetProjectsWhereYouAreTheFundingSourceMinCalendarYear(this FundingSource fundingSource)
+        {
+            return fundingSource.ProjectFundingSourceExpenditures.Any()
+                ? fundingSource.ProjectFundingSourceExpenditures.Min(x => x.CalendarYear)
+                : (int?)null;
+        }
+
+        public static int? GetProjectsWhereYouAreTheFundingSourceMaxCalendarYear(this FundingSource fundingSource)
+        {
+            return fundingSource.ProjectFundingSourceExpenditures.Any()
+                ? fundingSource.ProjectFundingSourceExpenditures.Max(x => x.CalendarYear)
+                : (int?)null;
+        }
+
     }
 }

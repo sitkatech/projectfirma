@@ -30,6 +30,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Organization
@@ -99,7 +100,7 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationUrl = OrganizationUrl;
             if (LogoFileResourceData != null)
             {
-                organization.LogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
+                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
             }
 
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);

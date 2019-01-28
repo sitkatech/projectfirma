@@ -5,8 +5,7 @@ using Newtonsoft.Json;
 namespace ProjectFirmaModels.Models
 {
     public partial class ProjectCustomAttributeType : IAuditableEntity {
-        public string GetAuditDescriptionString() =>
-            $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()}: {ProjectCustomAttributeTypeName}";
+        public string GetAuditDescriptionString() => $"Custom Attribute Type: {ProjectCustomAttributeTypeName}";
 
         public string GetMeasurementUnitDisplayName()
         {

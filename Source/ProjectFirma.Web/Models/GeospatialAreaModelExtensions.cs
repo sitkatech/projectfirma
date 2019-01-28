@@ -24,12 +24,13 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.Mvc;
+using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class GeospatialAreaModelExtensions
     {
@@ -95,5 +96,18 @@ namespace ProjectFirmaModels.Models
             var projects = geospatialArea.GetAssociatedProjects(currentPerson);
             return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
         }
+
+        public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, Person person)
+        {
+            return geospatialArea.ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+        }
+
+        public static Feature MakeFeatureWithRelevantProperties(this GeospatialArea geospatialArea)
+        {
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(geospatialArea.GeospatialAreaFeature);
+            feature.Properties.Add(geospatialArea.GeospatialAreaType.GeospatialAreaTypeName, geospatialArea.GetDisplayNameAsUrl().ToString());
+            return feature;
+        }
+
     }
 }

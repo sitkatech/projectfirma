@@ -21,24 +21,15 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class TaxonomyBranch : IAuditableEntity, ITaxonomyTier
+    public partial class TaxonomyBranch : IAuditableEntity, IHaveASortOrder
     {
         public void SetSortOrder(int? value) => TaxonomyBranchSortOrder = value;
 
         public int? GetSortOrder() => TaxonomyBranchSortOrder;
         public int GetID() => TaxonomyBranchID;
-
-        public List<Project> GetAssociatedProjects(Person person)
-        {
-            return TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
-        }
-
-        public int GetTaxonomyTierID() => TaxonomyBranchID;
 
         public string GetDisplayName()
         {
@@ -47,27 +38,12 @@ namespace ProjectFirmaModels.Models
                 : $"{TaxonomyBranchCode}: ";
             return $"{taxonomyPrefix}{TaxonomyBranchName}";
         }
-
-        public HtmlString GetDisplayNameAsUrl()
-        {
-            return UrlTemplate.MakeHrefString(GetDetailUrl(), GetDisplayName());
-        }
-
-        public string GetDetailUrl()
-        {
-            return TaxonomyBranchModelExtensions.GetDetailUrl(this);
-        }
-
+        
         public string GetAuditDescriptionString() => TaxonomyBranchName;
 
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
             return TaxonomyLeafs.SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(y => y.PerformanceMeasure).ToList();
-        }
-
-        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
-        {
-            return TaxonomyBranchModelExtensions.ToFancyTreeNode(this, currentPerson);
         }
     }
 }

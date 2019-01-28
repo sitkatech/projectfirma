@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -38,9 +35,9 @@ namespace ProjectFirma.Web.Models
         {
             
             ProjectUpdateBatch projectUpdateBatch;
-            if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
+            if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
-                projectUpdateBatch = ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project);
+                projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             }
             else
             {
@@ -60,12 +57,15 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
+        public static DateTime? GetLatestSubmittalDate(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted()?.TransitionDate;
+
+
         public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, Person currentPerson)
         {
             var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentPerson);
 
             // basics & map
-            ProjectUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.CreateFromProject();
 
             // expenditures
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -128,151 +128,123 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
-        private static void RefreshFromDatabase(IEnumerable updates)
+        public static void DeleteProjectImageUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            ((IObjectContextAdapter)HttpRequestStorage.DatabaseEntities).ObjectContext.Refresh(RefreshMode.StoreWins, updates);
+            foreach (var fileResource in projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource))
+            {
+                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectImageUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectExternalLinkUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            DeleteProjectImageUpdates(projectUpdateBatch.ProjectImageUpdates);
-            RefreshFromDatabase(projectUpdateBatch.ProjectImageUpdates);
+            foreach (var projectNoteUpdate in projectUpdateBatch.ProjectExternalLinkUpdates)
+            {
+                projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectImageUpdates(ICollection<ProjectImageUpdate> projectImageUpdates)
+        public static void DeleteProjectNoteUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectImageFileResourceIDsToDelete = projectImageUpdates.Where(x => x.FileResourceID.HasValue).Select(x => x.FileResourceID.Value).ToList();
-            projectImageUpdates.DeleteProjectImageUpdate();
-            projectImageFileResourceIDsToDelete.DeleteFileResource();
+            foreach (var projectNoteUpdate in projectUpdateBatch.ProjectNoteUpdates)
+            {
+                projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectExternalLinkUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectDocumentUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectExternalLinkUpdates.DeleteProjectExternalLinkUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectExternalLinkUpdates);
+            foreach (var projectDocumentUpdate in projectUpdateBatch.ProjectDocumentUpdates)
+            {
+                projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectNoteUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeletePerformanceMeasuresProjectExemptReportingYearUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectNoteUpdates.DeleteProjectNoteUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectNoteUpdates);
-        }
-
-        public static void DeleteProjectDocumentUpdates(ProjectUpdateBatch projectUpdateBatch)
-        {
-            projectUpdateBatch.ProjectDocumentUpdates.DeleteProjectDocumentUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectDocumentUpdates);
-        }
-
-        public static void DeleteProjectUpdateHistories(ProjectUpdateBatch projectUpdateBatch)
-        {
-            projectUpdateBatch.ProjectUpdateHistories.DeleteProjectUpdateHistory();
-            RefreshFromDatabase(projectUpdateBatch.ProjectUpdateHistories);
-        }
-
-        public static void DeletePerformanceMeasuresProjectExemptReportingYearUpdates(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var performanceMeasuresExemptReportingYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears();
-            performanceMeasuresExemptReportingYears.DeleteProjectExemptReportingYearUpdate();
-            projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation = null;
-            RefreshFromDatabase(performanceMeasuresExemptReportingYears);
-        }
-
-        public static void DeleteExpendituresProjectExemptReportingYearUpdates(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var performanceMeasuresExemptReportingYears = projectUpdateBatch.GetExpendituresExemptReportingYears();
-            performanceMeasuresExemptReportingYears.DeleteProjectExemptReportingYearUpdate();
+            foreach (var projectExemptReportingYearUpdate in projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears())
+            {
+                projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
             projectUpdateBatch.NoExpendituresToReportExplanation = null;
-            RefreshFromDatabase(performanceMeasuresExemptReportingYears);
         }
 
-        public static void DeleteProjectFundingSourceExpenditureUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteExpendituresProjectExemptReportingYearUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.DeleteProjectFundingSourceExpenditureUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates);
+            foreach (var projectExemptReportingYearUpdate in projectUpdateBatch.GetExpendituresExemptReportingYears())
+            {
+                projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+            projectUpdateBatch.NoExpendituresToReportExplanation = null;
         }
 
-        public static void DeleteProjectFundingSourceRequestUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectFundingSourceExpenditureUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectFundingSourceRequestUpdates.DeleteProjectFundingSourceRequestUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectFundingSourceRequestUpdates);
+            foreach (var projectFundingSourceExpenditureUpdate in projectUpdateBatch.ProjectFundingSourceExpenditureUpdates)
+            {
+                projectFundingSourceExpenditureUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectBudgetUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectFundingSourceRequestUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //projectUpdateBatch.ProjectBudgetUpdates.DeleteProjectBudgetUpdate();
-            //RefreshFromDatabase(projectUpdateBatch.ProjectBudgetUpdates);
+            foreach (var projectFundingSourceRequestUpdate in projectUpdateBatch.ProjectFundingSourceRequestUpdates)
+            {
+                projectFundingSourceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeletePerformanceMeasureActualUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeletePerformanceMeasureActualUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.PerformanceMeasureActualUpdates.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates.Select(y => y.PerformanceMeasureActualSubcategoryOptionUpdateID)).ToList().DeletePerformanceMeasureActualSubcategoryOptionUpdate();
-            projectUpdateBatch.PerformanceMeasureActualUpdates.DeletePerformanceMeasureActualUpdate();
-            RefreshFromDatabase(projectUpdateBatch.PerformanceMeasureActualUpdates);
+            foreach (var performanceMeasureActualUpdate in projectUpdateBatch.PerformanceMeasureActualUpdates)
+            {
+                performanceMeasureActualUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectLocationUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectLocationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectLocationUpdates.DeleteProjectLocationUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectLocationUpdates);
+            foreach (var projectLocationUpdate in projectUpdateBatch.ProjectLocationUpdates)
+            {
+                projectLocationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectLocationStagingUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectLocationStagingUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectLocationStagingUpdates.DeleteProjectLocationStagingUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectLocationStagingUpdates);
+            foreach (var projectLocationStagingUpdate in projectUpdateBatch.ProjectLocationStagingUpdates)
+            {
+                projectLocationStagingUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectGeospatialAreaUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectGeospatialAreaUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectGeospatialAreaUpdates.DeleteProjectGeospatialAreaUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectGeospatialAreaUpdates);
+            foreach (var projectGeospatialAreaUpdate in projectUpdateBatch.ProjectGeospatialAreaUpdates)
+            {
+                projectGeospatialAreaUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteProjectOrganizationUpdates(ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectOrganizationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            projectUpdateBatch.ProjectOrganizationUpdates.DeleteProjectOrganizationUpdate();
-            RefreshFromDatabase(projectUpdateBatch.ProjectOrganizationUpdates);
+            foreach (var projectOrganizationUpdate in projectUpdateBatch.ProjectOrganizationUpdates)
+            {
+                projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
-        public static void DeleteAll(ProjectUpdateBatch projectUpdateBatch)
-        {
-            DeleteProjectLocationStagingUpdates(projectUpdateBatch);
-            DeleteProjectLocationUpdates(projectUpdateBatch);
-            DeletePerformanceMeasureActualUpdates(projectUpdateBatch);
-            DeletePerformanceMeasuresProjectExemptReportingYearUpdates(projectUpdateBatch);
-            DeleteProjectFundingSourceExpenditureUpdates(projectUpdateBatch);
-            DeleteProjectFundingSourceRequestUpdates(projectUpdateBatch);
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//            DeleteProjectBudgetUpdates();
-            DeleteProjectImageUpdates(projectUpdateBatch);
-            DeleteProjectExternalLinkUpdates(projectUpdateBatch);
-            DeleteProjectNoteUpdates(projectUpdateBatch);
-            DeleteProjectUpdateHistories(projectUpdateBatch);
-            DeleteProjectUpdate(projectUpdateBatch);
-            DeleteProjectGeospatialAreaUpdates(projectUpdateBatch);
-            DeleteProjectOrganizationUpdates(projectUpdateBatch);
-            DeleteProjectDocumentUpdates(projectUpdateBatch);
-            projectUpdateBatch.DeleteProjectUpdateBatch();
-        }
-
-        private static void DeleteProjectUpdate(ProjectUpdateBatch projectUpdateBatch)
-        {
-            projectUpdateBatch.ProjectUpdate.DeleteProjectUpdate();
-        }
-
-        public static BasicsValidationResult ValidateProjectBasics(ProjectUpdateBatch projectUpdateBatch)
+        public static BasicsValidationResult ValidateProjectBasics(this ProjectUpdateBatch projectUpdateBatch)
         {
             return new BasicsValidationResult(projectUpdateBatch.ProjectUpdate);
         }
 
         public static bool AreProjectBasicsValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return ValidateProjectBasics(projectUpdateBatch).IsValid;
+            return projectUpdateBatch.ValidateProjectBasics().IsValid;
         }
 
-        public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures(ProjectUpdateBatch projectUpdateBatch)
+        public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (!projectUpdateBatch.AreProjectBasicsValid())
             {
@@ -289,26 +261,26 @@ namespace ProjectFirma.Web.Models
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-            var performanceMeasureActualUpdatesWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualUpdateRow(projectUpdateBatch);
+            var performanceMeasureActualUpdatesWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow();
 
             //validation 3: duplicate PM row
-            var performanceMeasureActualUpdatesWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualUpdateRow(projectUpdateBatch);
+            var performanceMeasureActualUpdatesWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow();
 
             //validation4: data entered for exempt years
-            var performanceMeasureActualUpdatesWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow(projectUpdateBatch);
+            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
 
             var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings, performanceMeasureActualUpdatesWithExemptYear);
             return performanceMeasuresValidationResult;
         }
 
-        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(ProjectUpdateBatch projectUpdateBatch)
+        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch)
         {
             var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
                 x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
             return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(ProjectUpdateBatch projectUpdateBatch)
+        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
             {
@@ -324,7 +296,7 @@ namespace ProjectFirma.Web.Models
             return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(ProjectUpdateBatch projectUpdateBatch)
+        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
             {
@@ -337,22 +309,22 @@ namespace ProjectFirma.Web.Models
             return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        public static bool ArePerformanceMeasuresValid(ProjectUpdateBatch projectUpdateBatch)
+        public static bool ArePerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.NewStageIsPlanningDesign() || ValidatePerformanceMeasures(projectUpdateBatch).IsValid;
+            return projectUpdateBatch.NewStageIsPlanningDesign() || projectUpdateBatch.ValidatePerformanceMeasures().IsValid;
         }
 
-        public static List<string> ValidateExpendituresAndForceValidation(ProjectUpdateBatch projectUpdateBatch)
+        public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return ValidateExpenditures(projectUpdateBatch);
+            return projectUpdateBatch.ValidateExpenditures();
         }
 
-        public static ExpectedFundingValidationResult ValidateExpectedFunding(ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceRequestSimple> newProjectFundingSourceRequests)
+        public static ExpectedFundingValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceRequestSimple> newProjectFundingSourceRequests)
         {
             return new ExpectedFundingValidationResult();
         }
 
-        public static List<string> ValidateExpenditures(ProjectUpdateBatch projectUpdateBatch)
+        public static List<string> ValidateExpenditures(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (!projectUpdateBatch.AreProjectBasicsValid())
             {
@@ -370,23 +342,23 @@ namespace ProjectFirma.Web.Models
             return new List<string>();
         }
 
-        public static bool AreExpendituresValid(ProjectUpdateBatch projectUpdateBatch)
+        public static bool AreExpendituresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return ValidateExpenditures(projectUpdateBatch).Count == 0;
+            return projectUpdateBatch.ValidateExpenditures().Count == 0;
         }
 
-        public static OrganizationsValidationResult ValidateOrganizations(ProjectUpdateBatch projectUpdateBatch)
+        public static OrganizationsValidationResult ValidateOrganizations(this ProjectUpdateBatch projectUpdateBatch)
         {
             return new OrganizationsValidationResult(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationSimple(x))
                 .ToList());
         }
 
-        public static bool AreOrganizationsValid(ProjectUpdateBatch projectUpdateBatch)
+        public static bool AreOrganizationsValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return ValidateOrganizations(projectUpdateBatch).IsValid;
+            return projectUpdateBatch.ValidateOrganizations().IsValid;
         }
 
-        public static LocationSimpleValidationResult ValidateProjectLocationSimple(ProjectUpdateBatch projectUpdateBatch)
+        public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
             var incomplete = projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null &&
                              String.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
@@ -396,12 +368,12 @@ namespace ProjectFirma.Web.Models
             return locationSimpleValidationResult;
         }
 
-        public static bool IsProjectLocationSimpleValid(ProjectUpdateBatch projectUpdateBatch)
+        public static bool IsProjectLocationSimpleValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return ValidateProjectLocationSimple(projectUpdateBatch).IsValid;
+            return projectUpdateBatch.ValidateProjectLocationSimple().IsValid;
         }
 
-        public static GeospatialAreaValidationResult ValidateProjectGeospatialArea(ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType)
+        public static GeospatialAreaValidationResult ValidateProjectGeospatialArea(this ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType)
         {
             var projectGeospatialAreaTypeNoteUpdate = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
             var incomplete = projectUpdateBatch.ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
@@ -409,18 +381,18 @@ namespace ProjectFirma.Web.Models
             return geospatialAreaValidationResult;
         }
 
-        public static bool IsProjectGeospatialAreaValid(ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType)
+        public static bool IsProjectGeospatialAreaValid(this ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType)
         {
-            return ValidateProjectGeospatialArea(projectUpdateBatch, geospatialAreaType).IsValid;
+            return projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
-        public static void SubmitToReviewer(ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void SubmitToReviewer(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsReadyToSubmit(), $"You cannot submit a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that is not ready to be submitted!");
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Submitted, currentPerson, transitionDate);
         }
 
-        public static void Return(ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void Return(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot return a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
@@ -428,7 +400,7 @@ namespace ProjectFirma.Web.Models
 
         public static void Approve( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //IList<ProjectBudget> projectBudgets, 
-            ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
+            this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
@@ -583,8 +555,8 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => IsProjectGeospatialAreaValid(projectUpdateBatch, geospatialAreaType));
-            return projectUpdateBatch.AreProjectBasicsValid() && AreExpendituresValid(projectUpdateBatch) && ArePerformanceMeasuresValid(projectUpdateBatch) && IsProjectLocationSimpleValid(projectUpdateBatch) &&
+            var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
+            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.ArePerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
                    areAllProjectGeospatialAreasValid;
         }
     }

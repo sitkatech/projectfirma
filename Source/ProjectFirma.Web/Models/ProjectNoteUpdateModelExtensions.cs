@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectNoteUpdateModelExtensions
     {
-        public static string GetDeleteUrlImpl(ProjectNoteUpdate projectNoteUpdate)
+        public static string GetDeleteUrl(this ProjectNoteUpdate projectNoteUpdate)
         {
             return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(c => c.Delete(projectNoteUpdate.ProjectNoteUpdateID));
         }
 
-        public static string GetEditUrlImpl(ProjectNoteUpdate projectNoteUpdate)
+        public static string GetEditUrl(this ProjectNoteUpdate projectNoteUpdate)
         {
             return SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(c => c.Edit(projectNoteUpdate.ProjectNoteUpdateID));
         }

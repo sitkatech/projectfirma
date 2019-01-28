@@ -133,8 +133,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImageUpdate(projectImageUpdate, viewModel);
             }
             var projectUpdateBatch = projectImageUpdate.ProjectUpdateBatch;
-
-            ProjectUpdateBatchModelExtensions.DeleteProjectImageUpdates(new[] { projectImageUpdate });
+            projectImageUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             
             // reset key photo if needed
             if (projectImageUpdate.IsKeyPhoto)

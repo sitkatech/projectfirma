@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectWorkflowSectionGroupingModelExtensions
     {
@@ -35,19 +34,19 @@ namespace ProjectFirmaModels.Models
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding, ProjectCreateSection.ReportedExpenditures }).ToList();
-                    if (project != null && ProjectModelExtensions.IsExpectedFundingRelevant(project))
+                    if (project != null && project.IsExpectedFundingRelevant())
                     {
                         projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ExpectedFunding);
                     }
 
-                    if (project != null && ProjectModelExtensions.AreReportedExpendituresRelevant(project))
+                    if (project != null && project.AreReportedExpendituresRelevant())
                     {
                         projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ReportedExpenditures);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForExpenditures, ignoreStatus);
 
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
-                    if (project != null && ProjectModelExtensions.AreReportedPerformanceMeasuresRelevant(project))    
+                    if (project != null && project.AreReportedPerformanceMeasuresRelevant())    
                     {
                         return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                     }
@@ -105,7 +104,7 @@ namespace ProjectFirmaModels.Models
                                 projectUpdateBatch.IsNew() ? null :
                                     SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y =>
                                         y.GeospatialArea(projectUpdateBatch.Project, geospatialAreaType)),
-                                projectUpdateStatus != null && ProjectUpdateBatchModelExtensions.IsProjectGeospatialAreaValid(projectUpdateBatch, geospatialAreaType),
+                                projectUpdateStatus != null && projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType),
                                 projectUpdateStatus != null && IsGeospatialAreaUpdated(projectUpdateBatch, geospatialAreaType)
                             )));
                     return projectUpdateSections;

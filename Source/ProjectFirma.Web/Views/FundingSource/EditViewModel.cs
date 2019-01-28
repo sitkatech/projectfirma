@@ -27,6 +27,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             var errors = new List<ValidationResult>();
 
             var existingFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => x.OrganizationID == OrganizationID).ToList();
-            if (!ProjectFirmaModels.Models.FundingSource.IsFundingSourceNameUnique(existingFundingSources, FundingSourceName, FundingSourceID))
+            if (!FundingSourceModelExtensions.IsFundingSourceNameUnique(existingFundingSources, FundingSourceName, FundingSourceID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.FundingSourceNameUnique, x => x.FundingSourceName));
             }

@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanCalculateCapitalCostInYearOfExpenditure(IProject project)
         {
-            return project.FundingType == FundingType.Capital 
+            return project.FundingType == FundingTypeEnum.Capital.ToType() 
                    && project.EstimatedTotalCost.HasValue
                    && project.CompletionYear.HasValue 
                    && project.CompletionYear >= GetCurrentRTPYearForPVCalculations()
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
 
         public static decimal? CalculateTotalRemainingOperatingCost(IProject project)
         {
-            if (!CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(project))
+            if (!project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
                 return null;
 
             return CalculateTotalRemainingOperatingCostImpl(project.EstimatedAnnualOperatingCost.Value, GetLatestInflationRate(), GetCurrentRTPYearForPVCalculations(),
@@ -65,9 +65,9 @@ namespace ProjectFirma.Web.Models
             return totalOperatingCost;
         }
 
-        public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(IProject project)
+        public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
-            return project.FundingType == FundingType.OperationsAndMaintenance 
+            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType() 
                    && project.EstimatedAnnualOperatingCost.HasValue
                    && project.CompletionYear.HasValue 
                    && project.ImplementationStartYear.HasValue 
@@ -75,17 +75,17 @@ namespace ProjectFirma.Web.Models
                    && project.ProjectStage.IsStagedIncludedInTransporationCostCalculations();
         }
 
-        public static decimal? LifecycleOperatingCost(IProject project)
+        public static decimal? LifecycleOperatingCost(this IProject project)
         {
-            if (!CanCalculateLifecycleOperatingCost(project))
+            if (!project.CanCalculateLifecycleOperatingCost())
                 return null;
 
             return (project.CompletionYear - project.ImplementationStartYear)*project.EstimatedAnnualOperatingCost;
         }
 
-        public static bool CanCalculateLifecycleOperatingCost(IProject project)
+        public static bool CanCalculateLifecycleOperatingCost(this IProject project)
         {
-            return project.FundingType == FundingType.OperationsAndMaintenance
+            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType()
                    && project.EstimatedAnnualOperatingCost.HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue;

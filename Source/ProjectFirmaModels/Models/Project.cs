@@ -104,11 +104,6 @@ namespace ProjectFirmaModels.Models
             _hasCheckedProjectUpdateHistories = true;
         }
 
-        public bool IsMyProject(Person person)
-        {
-            return !person.IsAnonymousUser() && (IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(this) || person.PersonStewardOrganizations.Any(x=>x.Organization.IsMyProject(this)));
-        }
-
         public bool IsPersonThePrimaryContact(Person person)
         {
             if (person == null)

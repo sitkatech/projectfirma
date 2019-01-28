@@ -26,15 +26,14 @@
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits Detail
 
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
-    <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasureMonitoringProgram/PerformanceMeasureMonitoringProgramController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
 
     <style>
@@ -70,12 +69,6 @@
     </style>
 }
 
-@*@section RightOfPageTitle
-    {
-        <div>
-            <a class="btn" href="@ViewDataTyped.PerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Info Sheet</a>
-        </div>
-    }*@
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
@@ -98,15 +91,15 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureType, string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureType.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureType.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureType.ToType().GetFieldDefinitionLabel()))</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit, string.Format("{0}", FieldDefinitionEnum.MeasurementUnit.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType(), string.Format("{0}", FieldDefinitionEnum.MeasurementUnit.ToType().GetFieldDefinitionLabel()))</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.SingularDisplayName (@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName)</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsAggregatable, string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureIsAggregatable.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsAggregatable.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureIsAggregatable.ToType().GetFieldDefinitionLabel()))</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsAggregatable.ToYesNo()</div>
                 </div>
                 <div class="row">
@@ -167,7 +160,7 @@
                 <h2>
                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
                              MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
@@ -177,7 +170,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategoryOption, string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized()))</th>
+                                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized()))</th>
                             </tr>
                         </thead>
                         <tbody>

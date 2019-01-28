@@ -26,12 +26,12 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Detail
 
@@ -77,7 +77,7 @@
         </div>
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>  @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranchDescription, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.TaxonomyBranchDescription.ToType().GetFieldDefinitionLabel()</h2>
+                <h2>  @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranchDescription.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.TaxonomyBranchDescription.ToType().GetFieldDefinitionLabel()</h2>
             </div>
             <div class="panel-body">
                 <div>
@@ -110,7 +110,7 @@
 
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
                         @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyBranch.TaxonomyLeafs.SortByOrderThenName())
                         {

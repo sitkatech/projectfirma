@@ -18,75 +18,30 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
-using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
-using LtInfo.Common.Views;
 
 namespace ProjectFirmaModels.Models
 {
     public partial class Organization : IAuditableEntity
     {
-        public string GetDisplayName() => IsUnknown()
+        public const string OrganizationSitka = "Sitka Technology Group";
+        public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
+
+        public bool IsUnknown() => !String.IsNullOrWhiteSpace(this.OrganizationName) &&
+                                                                        this.OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
+
+        public string GetDisplayName() => this.IsUnknown()
             ? "Unknown or unspecified"
-            : $"{OrganizationName}{(!String.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : String.Empty)}{(!IsActive ? " (Inactive)" : String.Empty)}";
+            : $"{this.OrganizationName}{(!String.IsNullOrWhiteSpace(this.OrganizationShortName) ? $" ({this.OrganizationShortName})" : String.Empty)}{(!this.IsActive ? " (Inactive)" : String.Empty)}";
 
-        public string GetDisplayNameWithoutAbbreviation() => IsUnknown()
-            ? "Unknown or unspecified"
-            : $"{OrganizationName}{(!IsActive ? " (Inactive)" : String.Empty)}";
-
-        public string GetOrganizationNamePossessive()
-        {
-            if (IsUnknown())
-            {
-                return OrganizationName;
-            }
-
-            var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
-            return $"{OrganizationName}{postFix}";
-        }
-
-        public string GetOrganizationShortNameIfAvailable()
-        {
-            if (IsUnknown())
-            {
-                return "Unknown or Unassigned";
-            }
-
-            return OrganizationShortName ?? OrganizationName;
-        }
-
-        public HtmlString GetPrimaryContactPersonAsUrl() => PrimaryContactPerson != null
-            ? PrimaryContactPerson.GetFullNameFirstLastAsUrl()
-            : new HtmlString(ViewUtilities.NoneString);
-
-        public HtmlString GetPrimaryContactPersonWithOrgAsUrl() => PrimaryContactPerson != null
-            ? PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl()
-            : new HtmlString(ViewUtilities.NoneString);
-
-        /// <summary>
-        /// Use for security situations where the user summary is not displayable, but the Organization is.
-        /// </summary>
-        public HtmlString GetPrimaryContactPersonAsStringAndOrgAsUrl() => PrimaryContactPerson != null
-            ? PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
-            : new HtmlString(ViewUtilities.NoneString);
-
-        public string GetPrimaryContactPersonWithOrgAsString() => PrimaryContactPerson != null
-            ? PrimaryContactPerson.GetFullNameFirstLastAndOrg()
-            : ViewUtilities.NoneString;
-
-        public string GetPrimaryContactPersonAsString() => PrimaryContactPerson != null
-            ? PrimaryContactPerson.GetFullNameFirstLast()
-            : ViewUtilities.NoneString;
 
         public string GetAuditDescriptionString() => OrganizationName;
 
         public bool IsInKeystone() => OrganizationGuid.HasValue;
-
-        public bool IsUnknown() => !String.IsNullOrWhiteSpace(OrganizationName) &&
-                                   OrganizationName.Equals(OrganizationModelExtensions.OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {

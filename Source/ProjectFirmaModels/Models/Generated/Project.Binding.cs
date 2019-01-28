@@ -114,6 +114,8 @@ namespace ProjectFirmaModels.Models
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
             this.FundingTypeID = fundingType.FundingTypeID;
+            this.FundingType = fundingType;
+            fundingType.Projects.Add(this);
             this.ProjectApprovalStatusID = projectApprovalStatus.ProjectApprovalStatusID;
         }
 
@@ -316,7 +318,7 @@ namespace ProjectFirmaModels.Models
         public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
-        public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
+        public virtual FundingType FundingType { get; set; }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }

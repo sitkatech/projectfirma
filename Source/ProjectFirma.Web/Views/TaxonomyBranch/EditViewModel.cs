@@ -27,6 +27,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
@@ -80,7 +81,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             var errors = new List<ValidationResult>();
             var existingTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-            if (!ProjectFirmaModels.Models.TaxonomyBranchModelExtensions.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
+            if (!TaxonomyBranchModelExtensions.IsTaxonomyBranchNameUnique(existingTaxonomyBranches, TaxonomyBranchName, TaxonomyBranchID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyBranchName));
             }

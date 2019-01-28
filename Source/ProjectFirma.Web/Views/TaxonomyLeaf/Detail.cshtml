@@ -23,12 +23,12 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.PerformanceMeasure
@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeafDescription, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.TaxonomyLeafDescription.ToType().GetFieldDefinitionLabel()</h2>
+                <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeafDescription.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.TaxonomyLeafDescription.ToType().GetFieldDefinitionLabel()</h2>
             </div>
             <div class="panel-body">
                 <div>

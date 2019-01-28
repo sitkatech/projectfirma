@@ -2,23 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectImageUpdateModelExtensions
     {
-        public static string GetDeleteUrlImpl(ProjectImageUpdate projectImageUpdate)
+        public static string GetDeleteUrl(this ProjectImageUpdate projectImageUpdate)
         {
             return SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x =>
                 x.DeleteProjectImageUpdate(projectImageUpdate.ProjectImageUpdateID));
         }
 
-        public static string GetEditUrlImpl(ProjectImageUpdate projectImageUpdate)
+        public static string GetEditUrl(this ProjectImageUpdate projectImageUpdate)
         {
             return SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.Edit(projectImageUpdate.ProjectImageUpdateID));
+        }
+
+        public static string GetCaptionOnFullView(this ProjectImageUpdate projectImageUpdate)
+        {
+            var creditString = string.IsNullOrWhiteSpace(projectImageUpdate.Credit) ? string.Empty : $"\r\nCredit: {projectImageUpdate.Credit}";
+            return $"{projectImageUpdate.GetCaptionOnGallery()}{creditString}";
+        }
+
+        public static string GetCaptionOnGallery(this ProjectImageUpdate projectImageUpdate)
+        {
+            return $"{projectImageUpdate.Caption}\r\n(Timing: {projectImageUpdate.ProjectImageTiming.ProjectImageTimingDisplayName}) {projectImageUpdate.FileResource.GetFileResourceDataLengthString()}";
+        }
+
+        public static string GetPhotoUrl(this ProjectImageUpdate projectImageUpdate)
+        {
+            return projectImageUpdate.FileResource.GetFileResourceUrl();
+        }
+
+        public static string GetPhotoUrlScaledThumbnail(this ProjectImageUpdate projectImageUpdate)
+        {
+            return projectImageUpdate.FileResource.FileResourceUrlScaledThumbnail(150);
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)

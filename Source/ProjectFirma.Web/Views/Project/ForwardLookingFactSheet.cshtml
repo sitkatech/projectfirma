@@ -27,6 +27,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ForwardLookingFactSheet
 
 @{
@@ -84,7 +85,7 @@
             @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
-                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
+                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().GetFileResourceUrl()" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
             }
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
@@ -98,7 +99,7 @@
                 </div>
             </div>
             @{
-                var stewardingOrganization = ProjectModelExtensions.GetCanStewardProjectsOrganization(ViewDataTyped.Project);
+                var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
             }
             @if (stewardingOrganization != null)
             {
@@ -126,7 +127,7 @@
                 </div>
             }
             @{
-                var projectFundingOrganizationNamesForFactSheet = ProjectModelExtensions.GetFundingOrganizationNamesForFactSheet(ViewDataTyped.Project);
+                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
             }
             @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
             {
@@ -141,7 +142,7 @@
             }
 
             @{
-                var projectOtherOrganizationNamesForFactSheet = ProjectModelExtensions.GetProjectOrganizationNamesForFactSheet(ViewDataTyped.Project);
+                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
             }
             @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
             {
@@ -364,7 +365,7 @@
                     <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
                 </div>
                 <div class="col-xs-12" style="margin: 0 15px;">
-                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
                     {
                         <div class="row">
                             @foreach (var projectImage in projectImageBatch)

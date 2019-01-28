@@ -26,6 +26,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {

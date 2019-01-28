@@ -80,12 +80,12 @@ namespace ProjectFirma.Web.Views.Project
             var galleryName = $"ProjectImage{project.ProjectID}";
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
-                project.ProjectImages,
+                project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
-                x => x.GetCaptionOnFullView(),
+                x => x.CaptionOnFullView,
                 "Photo");
 
             PerformanceMeasureReportedValues =

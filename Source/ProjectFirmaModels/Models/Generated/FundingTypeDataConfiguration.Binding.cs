@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsRequired();
 
             // Foreign keys
-
+            HasRequired(a => a.FundingType).WithMany(b => b.FundingTypeDatas).HasForeignKey(c => c.FundingTypeID).WillCascadeOnDelete(false); // FK_FundingTypeData_FundingType_FundingTypeID
         }
     }
 }

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using ProjectFirma.Web.Common;
 using FluentValidation;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -46,10 +47,10 @@ namespace ProjectFirma.Web.Views.Organization
                 .NotEmpty()
                 .WithMessage("Organization name is required")
                 .Length(1, ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationName)
-                .Must((viewModel, organizationName) => ProjectFirmaModels.Models.OrganizationModelExtensions.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
+                .Must((viewModel, organizationName) => OrganizationModelExtensions.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationNameUnique);
             RuleFor(x => x.OrganizationShortName)
-                .Must((viewModel, organizationShortName) => ProjectFirmaModels.Models.OrganizationModelExtensions.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
+                .Must((viewModel, organizationShortName) => OrganizationModelExtensions.IsOrganizationShortNameUniqueIfProvided(Organizations(), organizationShortName, viewModel.OrganizationID))
                 .WithMessage(FirmaValidationMessages.OrganizationShortNameUnique);
             RuleFor(x => x.IsActive).NotEmpty().WithMessage("Is Active is required");
         }

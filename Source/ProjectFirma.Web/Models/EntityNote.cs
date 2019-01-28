@@ -18,11 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public class EntityNote
     {
@@ -64,7 +66,20 @@ namespace ProjectFirmaModels.Models
             DisplayCssClass = displayCssClass;
         }
 
-        public static List<EntityNote> CreateFromEntityNote(List<IEntityNote> entityNotes)
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<ProjectNote> entityNotes)
+        {
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        }
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<ProjectNoteUpdate> entityNotes)
+        {
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        }
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<ProjectInternalNote> entityNotes)
+        {
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        }
+
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<PerformanceMeasureNote> entityNotes)
         {
             return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }

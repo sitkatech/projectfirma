@@ -24,6 +24,7 @@ using ApprovalUtilities.Utilities;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Controllers

@@ -23,9 +23,9 @@
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ExpectedFunding
 
 @section JavascriptAndStylesContent
@@ -97,9 +97,9 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
                     <tr>
                         <th></th>
-                        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource)</th>
-                        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</th>
-                        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding)</th>
+                        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
+                        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
                         <th style="text-align: right">Total</th>
                     </tr>
                     <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
@@ -136,7 +136,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 <p>
                     <label class="control-label">Summary of Total @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Costs and Funding:</label>
                 </p>
-                @if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
+                @if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
                 {
                     <table>
                         <tr>
@@ -157,7 +157,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 else
                 {
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType()):</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{ AngularViewData.EstimatedTotalCost | currency:"$"}}
@@ -166,7 +166,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()):</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{getSecuredTotal() | currency:"$"}}
@@ -175,7 +175,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType()):</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
@@ -184,7 +184,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                         <div class="col-sm-6 text-right" ng-show="getUnsecuredTotal() > 0">
                             (<span>
                                 {{(getUnsecuredTotal()) | currency:"$"}}
-                            </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding))
+                            </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType()))
                         </div>
                     </div>
                 }

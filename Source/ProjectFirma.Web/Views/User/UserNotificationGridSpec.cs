@@ -23,6 +23,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -32,10 +33,7 @@ namespace ProjectFirma.Web.Views.User
         {
             Add("Date", x => x.NotificationDate, 120);
             Add("Notification Type", x => x.NotificationType.NotificationTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Notification",
-                x => x.NotificationType.GetFullDescriptionFromUserPerspective(x),
-                500,
-                DhtmlxGridColumnFilterType.Html);
+            Add("Notification", x => x.GetFullDescriptionFromUserPerspective(), 500, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x =>
             {

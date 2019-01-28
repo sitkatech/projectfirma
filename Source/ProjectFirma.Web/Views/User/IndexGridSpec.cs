@@ -22,6 +22,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.User

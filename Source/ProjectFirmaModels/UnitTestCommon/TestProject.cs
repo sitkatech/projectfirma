@@ -32,28 +32,9 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
                 var projectStage = ProjectStage.PlanningDesign;
-                // TODO: Verify that "Approved" is the correct project state or use the correct value
-                var project = Project.CreateNewBlank(taxonomyLeaf, projectStage, ProjectLocationSimpleType.None,
-                    FundingType.Capital, ProjectApprovalStatus.Approved);
-                return project;
-            }
-
-            public static Project Create(DatabaseEntities dbContext)
-            {
-                var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create(dbContext);
-
-                var projectStage = ProjectStage.PlanningDesign;
-                var project = new Project(taxonomyLeaf,
-                    projectStage,
-                    string.Format("Test Project Name {0}", Guid.NewGuid()),
-                    MakeTestName("Test Project Description"),
-                    false,
-                    ProjectLocationSimpleType.None,
-                    FundingType.Capital,
-                    // TODO: Verify that this is correct or use the correct value
-                    ProjectApprovalStatus.Approved);
-
-                dbContext.AllProjects.Add(project);
+                var project = new Project(taxonomyLeaf.TaxonomyLeafID, projectStage.ProjectStageID,
+                    $"Test Project Name {Guid.NewGuid()}", null, false, ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
+                    (int) FundingTypeEnum.Capital, ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
                 return project;
             }
 
@@ -61,8 +42,9 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
                 var projectStage = ProjectStage.Implementation;
-                // TODO: Verify that "Approved" is the correct project state or use the correct value
-                var project = new Project(taxonomyLeaf, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital, ProjectApprovalStatus.Approved)
+                var project = new Project(taxonomyLeaf.TaxonomyLeafID, projectStage.ProjectStageID,
+                    projectName, "Some description", false, ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
+                    (int)FundingTypeEnum.Capital, ProjectApprovalStatus.Approved.ProjectApprovalStatusID)
                 {
                     ProjectID = projectID
                 };

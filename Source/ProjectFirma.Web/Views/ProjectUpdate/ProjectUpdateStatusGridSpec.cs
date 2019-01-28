@@ -32,6 +32,7 @@ using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     var projectUpdateState = x.GetLatestUpdateState();
                     if (projectUpdateState == null ||
-                        (projectUpdateState == ProjectUpdateState.Approved && ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(x).LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
+                        (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
                         return "Not Started";
 
                     return projectUpdateState.ToEnum.ToString();
@@ -76,11 +77,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
 
             Add("Last Updated", x => !x.ProjectUpdateBatches.Any() ? (DateTime?) null : x.ProjectUpdateBatches.Max(y => y.LastUpdateDate), 120);
-            Add("Last Submitted", x => ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestUpdateSubmittalDate(x), 120);
+            Add("Last Submitted", x => x.GetLatestUpdateSubmittalDate(), 120);
 
             Add("Last Approved", x =>
             {
-                var latestApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestApprovedUpdateBatch(x);
+                var latestApprovedUpdateBatch = x.GetLatestApprovedUpdateBatch();
                 return latestApprovedUpdateBatch?.LastUpdateDate;
             }, 120);
         }
@@ -91,12 +92,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x =>
                 {
                     // get the current batch if any
-                    var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(x);
+                    var latestNotApprovedUpdateBatch = x.GetLatestNotApprovedUpdateBatch();
                     if (latestNotApprovedUpdateBatch != null)
                     {
-                        if (latestNotApprovedUpdateBatch.IsReadyToSubmit)
+                        if (latestNotApprovedUpdateBatch.IsReadyToSubmit())
                         {
-                            var submitText = latestNotApprovedUpdateBatch.IsReturned ? "Re-Submit" : "Submit";
+                            var submitText = latestNotApprovedUpdateBatch.IsReturned() ? "Re-Submit" : "Submit";
                             var submitLink = DhtmlxGridHtmlHelpers.MakeModalDialogLink(
                                 $"<span style=\"display:none\">Ready to</span> {submitText}",
                                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y => y.Submit(x)),
@@ -110,7 +111,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                 null);
                             return submitLink;
                         }
-                        if (latestNotApprovedUpdateBatch.IsSubmitted)
+                        if (latestNotApprovedUpdateBatch.IsSubmitted())
                         {
                             return new HtmlString("<span style='display:none'>Already </span>Submitted");
                         }
@@ -138,23 +139,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(String.Empty,
                 x =>
                 {
-                    var latestNotApprovedUpdateBatch = ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(x);
+                    var latestNotApprovedUpdateBatch = x.GetLatestNotApprovedUpdateBatch();
                     if (latestNotApprovedUpdateBatch == null)
                     {
                         return MakeAlertButton("Unable to View",
                             $"The Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because no Update is in progress. The most recent Update was already approved.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has already been approved</span>");
                     }
-                    if (latestNotApprovedUpdateBatch.IsCreated)
+                    if (latestNotApprovedUpdateBatch.IsCreated())
                     {
                         return MakeAlertButton("Unable to View",
                             $"The Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because a new Update has already been started. Go to the All My Projects list to edit the new Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: A new Update has been started</span>");
                     }
-                    if (latestNotApprovedUpdateBatch.IsReturned && ProjectFirmaModels.Models.ProjectModelExtensions.IsUpdateMandatory(x))
+                    if (latestNotApprovedUpdateBatch.IsReturned() && x.IsUpdateMandatory())
                     {
                         return MakeAlertButton("Unable to View",
                             $"The Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because the Update has been returned for mandatory correction. Go to the My Projects Requiring an Update list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
-                    if (latestNotApprovedUpdateBatch.IsReturned && !ProjectFirmaModels.Models.ProjectModelExtensions.IsUpdateMandatory(x))
+                    if (latestNotApprovedUpdateBatch.IsReturned() && !x.IsUpdateMandatory())
                     {
                         return MakeAlertButton("Unable to View",
                             $"The Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {x.GetDisplayName()} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
@@ -173,7 +174,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     var latestUpdateState = x.GetLatestUpdateState();
 
-                    if (!ProjectFirmaModels.Models.ProjectModelExtensions.IsUpdateMandatory(x) && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
+                    if (!x.IsUpdateMandatory() && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
                     {
                         return
                             ModalDialogFormHelper.ModalDialogFormLink("Begin",

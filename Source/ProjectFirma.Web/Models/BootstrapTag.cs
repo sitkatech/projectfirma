@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Classification.DatabaseContextExtensions.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BootstrapTag.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,18 +18,28 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
-using LtInfo.Common.DesignByContract;
 
-namespace ProjectFirmaModels.Models
+using ProjectFirmaModels.Models;
+
+namespace ProjectFirma.Web.Models
 {
-    public static partial class DatabaseContextExtensions
+    public class BootstrapTag
     {
-        public static Classification GetClassificationByClassificationName(this IQueryable<Classification> classifications, string displayName)
+        public string id;
+        public string text;
+        public string url;
+        public int num;
+
+        public BootstrapTag(string id, string text, string url, int num)
         {
-            var classification = classifications.SingleOrDefault(x => x.GetDisplayName() == displayName);
-            Check.RequireNotNullThrowNotFound(classification, FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), displayName);
-            return classification;
+            this.id = id;
+            this.text = text;
+            this.url = url;
+            this.num = num;
+        }
+
+        public BootstrapTag(Tag tag) : this(tag.TagName, tag.TagName, TagModelExtensions.GetDetailUrl(tag), tag.ProjectTags.Count)
+        {
         }
     }
 }

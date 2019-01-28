@@ -18,20 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditStylesheetViewModel : FormViewModel, IValidatableObject
+    public class EditStylesheetViewModel : FormViewModel
     {
         [Required]
         public int? TenantID { get; set; }
@@ -58,15 +57,8 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
         {
-           attribute.TenantStyleSheetFileResource?.DeleteFileResource();
-           attribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-
-            return errors;
-        }
+           attribute.TenantStyleSheetFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+           attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
+        }        
     }
 }

@@ -29,6 +29,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -65,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.ExcelXLS:
                 case FileResourceMimeTypeEnum.ExcelXLSX:
                 case FileResourceMimeTypeEnum.xExcelXLSX:
-                    return new ExcelResult(new MemoryStream(fileResource.FileResourceData), fileResource.OriginalCompleteFileName);
+                    return new ExcelResult(new MemoryStream(fileResource.FileResourceData), fileResource.GetOriginalCompleteFileName());
                 case FileResourceMimeTypeEnum.PDF:
                     return new PdfResult(fileResource);
                 case FileResourceMimeTypeEnum.WordDOCX:
@@ -73,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
                 case FileResourceMimeTypeEnum.PowerpointPPT:
                 case FileResourceMimeTypeEnum.CSS:
-                    return new FileResourceResult(fileResource.OriginalCompleteFileName, fileResource.FileResourceData, fileResource.FileResourceMimeType);
+                    return new FileResourceResult(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData, fileResource.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:
                 case FileResourceMimeTypeEnum.TIFF:
@@ -164,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResource(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
@@ -190,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForFirmaPage(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
@@ -215,9 +216,9 @@ namespace ProjectFirma.Web.Controllers
         [FieldDefinitionManageFeature]
         public ContentResult CkEditorUploadFileResourceForFieldDefinition(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
-            var image = new FieldDefinitionDataImage(fieldDefinition.ToType().GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
+            var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
             HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDataImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
@@ -234,7 +235,7 @@ namespace ProjectFirma.Web.Controllers
                 var ckEditorJavascriptContentToReturn = $@"
 <script language=""javascript"" type=""text/javascript"">
     // <![CDATA[
-    window.parent.CKEDITOR.tools.callFunction({CKEditorFuncNum}, {fileResource.FileResourceUrl.ToJS()});
+    window.parent.CKEDITOR.tools.callFunction({CKEditorFuncNum}, {fileResource.GetFileResourceUrl().ToJS()});
     // ]]>
 </script>";
                 return ckEditorJavascriptContentToReturn;
@@ -260,7 +261,7 @@ namespace ProjectFirma.Web.Controllers
         [CustomPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey customPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var customPage = customPagePrimaryKey.EntityObject;
             var ppImage = new CustomPageImage(customPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllCustomPageImages.Add(ppImage);

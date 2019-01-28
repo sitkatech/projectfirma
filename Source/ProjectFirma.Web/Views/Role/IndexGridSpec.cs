@@ -18,9 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Role
 {
@@ -28,8 +30,8 @@ namespace ProjectFirma.Web.Views.Role
     {
         public IndexGridSpec()
         {
-            Add("Role", a => a.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
-            Add("Count", a => a.GetPeopleWithRole().Count, 50);
+            Add("Role", x => x.GetDisplayNameWithUrl(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Count", x => x.GetPeopleWithRole().Count, 50);
         }
     }
 }

@@ -28,7 +28,6 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectLocationFilterType
     {
         public abstract Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues);
-        public abstract string DisplayName { get; }
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTrunk
@@ -37,8 +36,6 @@ namespace ProjectFirmaModels.Models
         {
             return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
         }
-
-        public override string DisplayName => FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyBranch
@@ -47,8 +44,6 @@ namespace ProjectFirmaModels.Models
         {
             return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranchID);
         }
-
-        public override string DisplayName => FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyLeaf
@@ -57,8 +52,6 @@ namespace ProjectFirmaModels.Models
         {
             return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyLeafID);
         }
-
-        public override string DisplayName => FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeClassification
@@ -67,8 +60,6 @@ namespace ProjectFirmaModels.Models
         {
             return project => filterValues.Intersect(project.GetProjectClassificationsForMap().Select(x => x.ClassificationID)).Any();
         }
-
-        public override string DisplayName => FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeProjectStage
@@ -77,8 +68,6 @@ namespace ProjectFirmaModels.Models
         {
             return project => filterValues.Contains(project.ProjectStage.ProjectStageID);
         }
-
-        public override string DisplayName => FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel();
     }
   
 }

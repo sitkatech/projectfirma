@@ -4,7 +4,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"GeospatialAreaType: {GeospatialAreaTypeID}, {Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}: {ProjectID}";
+            return $"GeospatialAreaType: {GeospatialAreaTypeID}, Project: {ProjectID}";
         }
     }
 }

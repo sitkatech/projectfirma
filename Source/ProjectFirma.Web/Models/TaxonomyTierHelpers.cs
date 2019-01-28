@@ -1,6 +1,7 @@
 ﻿using System;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class TaxonomyTierHelpers
     {
@@ -14,11 +15,11 @@ namespace ProjectFirmaModels.Models
             switch (taxonomyLevelEnum)
             {
                 case TaxonomyLevelEnum.Leaf:
-                    return FieldDefinitionEnum.TaxonomyLeaf;
+                    return FieldDefinitionEnum.TaxonomyLeaf.ToType();
                 case TaxonomyLevelEnum.Branch:
-                    return FieldDefinitionEnum.TaxonomyBranch;
+                    return FieldDefinitionEnum.TaxonomyBranch.ToType();
                 case TaxonomyLevelEnum.Trunk:
-                    return FieldDefinitionEnum.TaxonomyTrunk;
+                    return FieldDefinitionEnum.TaxonomyTrunk.ToType();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

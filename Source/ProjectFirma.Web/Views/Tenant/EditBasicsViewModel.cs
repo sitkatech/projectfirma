@@ -26,6 +26,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
@@ -136,18 +137,18 @@ namespace ProjectFirma.Web.Views.Tenant
 
             if (TenantStyleSheetFileResourceData != null)
             {
-                attribute.TenantStyleSheetFileResource?.DeleteFileResource();
-                attribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
+                attribute.TenantStyleSheetFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
             }
             if (TenantSquareLogoFileResourceData != null)
             {
-                attribute.TenantSquareLogoFileResource?.DeleteFileResource();
-                attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                attribute.TenantSquareLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                attribute.TenantBannerLogoFileResource?.DeleteFileResource();
-                attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                attribute.TenantBannerLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
             }
         }
 

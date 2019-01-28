@@ -22,10 +22,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LtInfo.Common.HtmlHelperExtensions;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -44,17 +43,17 @@ namespace ProjectFirma.Web.Views.Shared
         {
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             TaxonomyTierPerformanceMeasures = taxonomyTierPerformanceMeasures;
-            var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure;
-            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabel();
-            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized();
+            var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure.ToType();
+            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel();
+            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
             PerformanceMeasureHeaderDisplayName = showHelpLinks
                 ? LabelWithSugarForExtensions.LabelWithSugarFor(
                     fieldDefinitionForPerformanceMeasure, LabelWithSugarForExtensions.DefaultPopupWidth,
                     LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, PerformanceMeasureDisplayName)
                 : new HtmlString(PerformanceMeasureDisplayName);
-            var fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.ToType().GetFieldDefinition();
-            var fieldDefinitionIsPrimaryTaxonomyBranch = FieldDefinitionEnum.IsPrimaryTaxonomyBranch;
-            var isPrimaryTaxonomyBranchLabel = $"Is Primary {fieldDefinitionForTaxonomyTier.ToType().GetFieldDefinitionLabel()}";
+            var fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
+            var fieldDefinitionIsPrimaryTaxonomyBranch = FieldDefinitionEnum.IsPrimaryTaxonomyBranch.ToType();
+            var isPrimaryTaxonomyBranchLabel = $"Is Primary {fieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel()}";
             IsPrimaryTaxonomyTierHeaderDisplayName = showHelpLinks
                 ? LabelWithSugarForExtensions.LabelWithSugarFor(
                     fieldDefinitionIsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DefaultPopupWidth,

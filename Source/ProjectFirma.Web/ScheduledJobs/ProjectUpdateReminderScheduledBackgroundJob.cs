@@ -29,45 +29,45 @@ namespace ProjectFirma.Web.ScheduledJobs
             Logger.Info($"Processing '{JobName}' notifications.");
 
             // we're "tenant-agnostic" right now
-            var projectUpdateConfigurations = DbContext.AllProjectUpdateConfigurations.ToList();
+            var projectUpdateSettings = DbContext.AllProjectUpdateSettings.ToList();
             var reminderSubject = "Time to update your Projects";
 
-            foreach (var projectUpdateConfiguration in projectUpdateConfigurations)
+            foreach (var projectUpdateSetting in projectUpdateSettings)
             {
-                List<Notification> notifications = new List<Notification>();
-                var tenant = projectUpdateConfiguration.Tenant;
+                var notifications = new List<Notification>();
+                var tenant = projectUpdateSetting.Tenant;
                 HttpRequestStorage
                     .SetTenantForHangfire(
                         tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
                 // now that HRS.Tenant is set to the one we want, this is just that tenant's projects.
                 var projects = DbContext.Projects;
 
-                if (projectUpdateConfiguration.EnableProjectUpdateReminders)
+                if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
-                    var projectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
+                    var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                                                        projectUpdateConfiguration.ProjectUpdateKickOffIntroContent, tenant, true));
+                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, tenant, true));
                     }
                 }
 
-                if (projectUpdateConfiguration.SendPeriodicReminders)
+                if (projectUpdateSetting.SendPeriodicReminders)
                 {
-                    if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
+                    if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateSetting))
                     {
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateConfiguration.ProjectUpdateReminderIntroContent, tenant, false));
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, tenant, false));
                         // notiftyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
-                if (projectUpdateConfiguration.SendCloseOutNotification)
+                if (projectUpdateSetting.SendCloseOutNotification)
                 {
-                    var projectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
+                    var projectUpdateCloseOutDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent, tenant, false));
+                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, tenant, false));
                     }
                 }
 
@@ -77,10 +77,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         }
 
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(
-            ProjectUpdateConfiguration projectUpdateConfiguration)
+            ProjectUpdateSetting projectUpdateSetting)
         {
-            return (DateTime.Today - projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
-                   .Days % projectUpdateConfiguration.ProjectUpdateReminderInterval == 0;
+            return (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
+                   .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
         }
 
         /// <summary>

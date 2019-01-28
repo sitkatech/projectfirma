@@ -22,6 +22,7 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @using MoreLinq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications
 
 <style>
@@ -37,7 +38,7 @@
 @using (Html.BeginForm())
 {
     <div>
-        Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinitionEnum.Classification, FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized())).
+        Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinitionEnum.Classification.ToType(), FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
 

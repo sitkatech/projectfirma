@@ -18,20 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditTenantLogoViewModel : FormViewModel, IValidatableObject
+    public class EditTenantLogoViewModel : FormViewModel
     {
         [Required]
         public int? TenantID { get; set; }
@@ -64,21 +63,14 @@ namespace ProjectFirma.Web.Views.Tenant
            
             if (TenantSquareLogoFileResourceData != null)
             {
-                attribute.TenantSquareLogoFileResource?.DeleteFileResource();
-                attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                attribute.TenantSquareLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                attribute.TenantBannerLogoFileResource?.DeleteFileResource();
-                attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                attribute.TenantBannerLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
             }
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-
-            return errors;
         }
     }
 }

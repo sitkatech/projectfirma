@@ -147,7 +147,7 @@
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>
-                                        @FieldDefinitionEnum.Project.FieldDefinitionDisplayName Attributes
+                                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
                                     </h3>
                                 </div>
                                 <div class="panel-body">
@@ -158,7 +158,7 @@
                                         <dt style="white-space: normal;">
                                             @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                                             {
-                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), ProjectCustomAttributeTypeModelExtensions.GetDescriptionUrl(projectCustomAttributeType), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
                                             }
                                             @projectCustomAttributeType.ProjectCustomAttributeTypeName
                                         </dt>
@@ -264,7 +264,7 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        @if (ProjectModelExtensions.IsProposal(ViewDataTyped.Project))
+                        @if (ViewDataTyped.Project.IsProposal())
                         {
                             <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
@@ -289,19 +289,19 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
                         </div>
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
                         </div>
                         <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed)</label>
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType())</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
                             @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
                                         {
-                                <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding))</div>
+                                <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType()))</div>
                             }
                         </div>
                         <hr />
@@ -319,7 +319,7 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        @if (ProjectModelExtensions.IsProposal(ViewDataTyped.Project))
+                        @if (ViewDataTyped.Project.IsProposal())
                         {
                             <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
@@ -398,7 +398,7 @@
                     <div class="panel-heading panelTitle">
                         <h3>
                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
-                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.FieldDefinitionDisplayName
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabel()
                         </h3>
                     </div>
                     <div class="panel-body">

@@ -22,8 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
@@ -32,16 +31,16 @@ namespace ProjectFirma.Web.Views.Results
     {
         public List<OrganizationType> OrganizationTypes { get; }
         public List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; }
-        public List<ITaxonomyTier> TaxonomyTiers { get; }
+        public List<TaxonomyTier> TaxonomyTiers { get; }
         public string TaxonomyTierDisplayName { get; }
         public Dictionary<int, IEnumerable<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>> ProjectFundingSourceExpendituresByTaxonomyTierID { get; }
 
-        public SpendingByOrganizationTypeByOrganizationViewData(TenantAttribute tenantAttribute, List<OrganizationType> organizationTypes, List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<ITaxonomyTier> taxonomyTiers)
+        public SpendingByOrganizationTypeByOrganizationViewData(TenantAttribute tenantAttribute, List<OrganizationType> organizationTypes, List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<TaxonomyTier> taxonomyTiers)
         {
             OrganizationTypes = organizationTypes;
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
             TaxonomyTiers = taxonomyTiers;
-            TaxonomyTierDisplayName = TaxonomyTierHelpers.ToType().GetFieldDefinitionForTaxonomyLevel(tenantAttribute.TaxonomyLevel).ToType().GetFieldDefinitionLabel();
+            TaxonomyTierDisplayName = TaxonomyTierHelpers.GetFieldDefinitionForTaxonomyLevel(tenantAttribute.TaxonomyLevel).GetFieldDefinitionLabel();
 
             ProjectFundingSourceExpendituresByTaxonomyTierID = ProjectFundingSourceExpenditures.GroupBy(x => {
                     switch (tenantAttribute.TaxonomyLevel.ToEnum)

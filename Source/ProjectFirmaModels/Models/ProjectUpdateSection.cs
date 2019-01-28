@@ -2,15 +2,6 @@
 {
     public partial class ProjectUpdateSection
     {
-        public bool IsComplete(ProjectUpdateBatch projectUpdateBatch)
-        {
-            return ProjectUpdateSectionModelExtensions.IsComplete(this, projectUpdateBatch);
-        }
-
-        public string GetSectionUrl(Project project)
-        {
-            return ProjectUpdateSectionModelExtensions.GetSectionUrl(this, project);
-        }
         public abstract bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus);
     }
 

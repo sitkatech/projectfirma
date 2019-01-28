@@ -20,8 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
@@ -31,10 +33,10 @@ namespace ProjectFirma.Web.Views.Tag
         {            
             if (hasDeletePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(ProjectFirmaModels.Models.TagModelExtensions.GetDeleteUrl(x), true), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(TagModelExtensions.GetDeleteUrl(x), true), 30);
             }
 
-            Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(ProjectFirmaModels.Models.TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.TagDescription.ToType().ToGridHeaderString(), a => a.TagDescription, 600);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
         }

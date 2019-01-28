@@ -88,9 +88,10 @@ namespace ProjectFirma.Web.Controllers
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
-                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), FundingType.All, organizations,
+                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), fundingTypes, organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,
@@ -152,12 +153,12 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
             var projectNotesViewData = new EntityNotesViewData(
-                EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
+                EntityNote.CreateFromEntityNote(project.ProjectNotes),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
                 project.GetDisplayName(),
                 userHasEditProjectPermissions);
             var internalNotesViewData = new EntityNotesViewData(
-                EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectInternalNotes)),
+                EntityNote.CreateFromEntityNote(project.ProjectInternalNotes),
                 SitkaRoute<ProjectInternalNoteController>.BuildUrlFromExpression(x => x.New(project)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
                 project.GetDisplayName(),
                 userHasEditProjectPermissions);
@@ -253,12 +254,12 @@ namespace ProjectFirma.Web.Controllers
             var galleryName = $"ProjectImage{project.ProjectID}";
             var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
-                project.ProjectImages,
+                project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
-                x => x.GetCaptionOnFullView(),
+                x => x.CaptionOnFullView,
                 "Photo");
             return imageGalleryViewData;
         }

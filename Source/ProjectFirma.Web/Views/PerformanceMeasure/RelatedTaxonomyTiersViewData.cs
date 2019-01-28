@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LtInfo.Common.HtmlHelperExtensions;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string TaxonomyTierDisplayNamePluralized { get; set; }
         public string TaxonomyTierDisplayName { get; set; }
         public string PerformanceMeasureDisplayName { get; set; }
-        public IEnumerable<IGrouping<ITaxonomyTier, TaxonomyLeafPerformanceMeasure>> TaxonomyLeafPerformanceMeasures { get; }
+        public IEnumerable<IGrouping<TaxonomyTier, TaxonomyLeafPerformanceMeasure>> TaxonomyLeafPerformanceMeasures { get; }
         public HtmlString TaxonomyTierHeaderDisplayName { get; }
         public HtmlString IsPrimaryTaxonomyTierHeaderDisplayName { get; }
 

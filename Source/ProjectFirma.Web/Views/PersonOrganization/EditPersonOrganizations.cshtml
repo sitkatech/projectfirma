@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.PersonOrganization.EditPersonOrganizations
 <script type="text/javascript">
     // <![CDATA[
@@ -48,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
         </tr>
         <tr ng-repeat="OrganizationID in AngularModel.OrganizationIDs">
             <td>

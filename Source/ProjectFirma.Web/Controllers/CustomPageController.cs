@@ -27,10 +27,8 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.CustomPage;
-using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using MoreLinq;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 
@@ -206,8 +204,7 @@ namespace ProjectFirma.Web.Controllers
             }
             SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
-            customPage.CustomPageImages.DeleteCustomPageImage();
-            customPage.DeleteCustomPage();
+            customPage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

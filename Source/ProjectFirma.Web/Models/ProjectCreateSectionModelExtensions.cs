@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectCreateSectionModelExtensions
     {

@@ -26,6 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -113,13 +114,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
 
-            if (FundingTypeID == FundingType.Capital.FundingTypeID)
+            if (FundingTypeID == (int) FundingTypeEnum.Capital)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.EstimatedAnnualOperatingCost = null;
 
             }
-            else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
+            else if (FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
             {
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Security.Principal;
 using System.Web.Mvc;
@@ -29,6 +30,7 @@ using Keystone.Common;
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Controllers

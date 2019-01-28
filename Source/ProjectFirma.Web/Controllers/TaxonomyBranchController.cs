@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTaxonomyBranch(taxonomyBranch, viewModel);
             }
-            taxonomyBranch.DeleteTaxonomyBranch();
+            taxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

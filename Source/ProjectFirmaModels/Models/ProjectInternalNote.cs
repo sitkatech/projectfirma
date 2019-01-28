@@ -2,7 +2,7 @@ using System;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectInternalNote : IEntityNote, IAuditableEntity
+    public partial class ProjectInternalNote : IAuditableEntity, IEntityNote
     {
         public DateTime GetLastUpdated()
         {
@@ -22,16 +22,6 @@ namespace ProjectFirmaModels.Models
             }
 
             return "System";
-        }
-
-        public string GetDeleteUrl()
-        {
-            return ProjectInternalNoteModelExtensions.GetDeleteUrl(this);
-        }
-
-        public string GetEditUrl()
-        {
-            return ProjectInternalNoteModelExtensions.GetEditUrl(this);
         }
 
         public string GetAuditDescriptionString()

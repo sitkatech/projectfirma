@@ -19,23 +19,23 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class MyOrganizationsProjectsViewData : FirmaViewData
     {
-        public readonly BasicProjectInfoGridSpec ProjectsGridSpec;
-        public readonly string ProjectsGridName;
-        public readonly string ProjectsGridDataUrl;
+        public BasicProjectInfoGridSpec ProjectsGridSpec { get; }
+        public string ProjectsGridName { get; }
+        public string ProjectsGridDataUrl { get; }
 
-        public readonly ProposalsGridSpec ProposalsesGridSpec;
-        public readonly string ProposalsGridName;
-        public readonly string ProposalsGridDataUrl;
-        public readonly string ProposeNewProjectUrl;
+        public ProposalsGridSpec ProposalsGridSpec { get; }
+        public string ProposalsGridName { get; }
+        public string ProposalsGridDataUrl { get; }
+        public string ProposeNewProjectUrl { get; }
 
 
         public MyOrganizationsProjectsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
 
             ProposalsGridName = "myOrganizationsProposalsGrid";
-            ProposalsesGridSpec = new ProposalsGridSpec(currentPerson)
+            ProposalsGridSpec = new ProposalsGridSpec(currentPerson)
             {
                 ObjectNameSingular = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}",

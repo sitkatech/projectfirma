@@ -4,7 +4,7 @@ using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ClassificationSystem : IAuditableEntity, IFieldDefinitionData, IFieldDefinition
+    public partial class ClassificationSystem : IAuditableEntity, IFieldDefinitionData
     {
         public string GetAuditDescriptionString() => ClassificationSystemName;
 
@@ -14,21 +14,6 @@ namespace ProjectFirmaModels.Models
         public int FieldDefinitionDataID { get; }
         public string FieldDefinitionLabel => ClassificationSystemName;
         public HtmlString FieldDefinitionDataValueHtmlString => ClassificationSystemDefinitionHtmlString;      
-
-        public IFieldDefinitionData GetFieldDefinitionData()
-        {
-            return this;
-        }
-
-        public string GetFieldDefinitionLabel()
-        {
-            return ClassificationSystemName;
-        }
-
-        public string GetContentUrl()
-        {
-            return ClassificationSystemModelExtensions.GetContentUrlImpl(this);
-        }
 
         public bool HasClassifications => Classifications.Any();
     }

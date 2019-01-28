@@ -23,7 +23,6 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -38,7 +37,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             if (new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(ProjectFirmaModels.Models.TaxonomyBranchModelExtensions.GetDeleteUrl(x), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
 
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())

@@ -30,6 +30,8 @@ using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -170,6 +172,14 @@ namespace ProjectFirma.Web.Common
         {
             return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth);
         }
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, ClassificationSystem classificationSystem)
+        {
+            return LabelWithSugarFor(html, classificationSystem, DisplayStyle.HelpIconWithLabel);
+        }
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, ClassificationSystem classificationSystem, DisplayStyle displayStyle)
+        {
+            return LabelWithSugarFor(classificationSystem, classificationSystem.ClassificationSystemName.Replace(" ", ""), DefaultPopupWidth, displayStyle, false, classificationSystem.ClassificationSystemName, classificationSystem.GetContentUrl());
+        }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon and with custom label text
@@ -280,7 +290,7 @@ namespace ProjectFirma.Web.Common
             return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, popupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
         }
 
-        private static MvcHtmlString LabelWithSugarFor(IFieldDefinitionData fieldDefinitionData, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText, string urlToContent)
+        public static MvcHtmlString LabelWithSugarFor(IFieldDefinitionData fieldDefinitionData, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText, string urlToContent)
         {
             return LabelWithFieldDefinitionForImpl(labelText, fullHtmlFieldID, fieldDefinitionData, urlToContent, popupWidth, displayStyle, hasRequiredAttribute);
         }

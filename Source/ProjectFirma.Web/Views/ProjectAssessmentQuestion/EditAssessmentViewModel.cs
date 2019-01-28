@@ -45,7 +45,10 @@ namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
-            project.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
+            foreach (var projectAssessmentQuestion in project.ProjectAssessmentQuestions)
+            {
+                projectAssessmentQuestion.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
             foreach (var simple in ProjectAssessmentQuestionSimples)
             {
                 project.ProjectAssessmentQuestions.Add(new ProjectFirmaModels.Models.ProjectAssessmentQuestion(simple));

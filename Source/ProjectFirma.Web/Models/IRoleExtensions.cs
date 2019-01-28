@@ -22,6 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
@@ -48,5 +53,21 @@ namespace ProjectFirma.Web.Models
             return featurePermissions;
         }
 
+        public static List<Person> GetPeopleWithRole(this IRole role)
+        {
+            if (role.RoleID == ModelObjectHelpers.NotYetAssignedID)
+            {
+                return new List<Person>();
+            }
+            return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID == role.RoleID).ToList();
+        }
+        public static HtmlString GetDisplayNameWithUrl(this IRole role)
+        {
+            return UrlTemplate.MakeHrefString(
+                role.RoleID == ModelObjectHelpers.NotYetAssignedID
+                    ? SitkaRoute<RoleController>.BuildUrlFromExpression(x => x.Anonymous())
+                    : SitkaRoute<RoleController>.BuildUrlFromExpression(x => x.Detail(role.RoleID)),
+                role.RoleDisplayName);
+        }
     }
 }
