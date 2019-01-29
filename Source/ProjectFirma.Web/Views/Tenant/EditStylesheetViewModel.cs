@@ -31,11 +31,7 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditStylesheetViewModel : FormViewModel
-    {
-        [Required]
-        public int? TenantID { get; set; }
-
-        
+    {        
         [DisplayName("Tenant Style Sheet")]
         [SitkaFileExtensions("css")]
         [Required]
@@ -50,14 +46,8 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditStylesheetViewModel(ProjectFirmaModels.Models.Tenant tenant)
-        {
-            TenantID = tenant.TenantID; 
-        }
-
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
         {
-           attribute.TenantStyleSheetFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
            attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
         }        
     }

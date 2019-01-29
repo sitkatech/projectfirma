@@ -512,6 +512,7 @@
     <Compile Include="Models\TaxonomyBranch.cs" />
     <Compile Include="Models\TaxonomyLeaf.cs" />
     <Compile Include="Models\TaxonomyTrunk.cs" />
+    <Compile Include="Models\TenantAttribute.cs" />
     <Compile Include="UnitTestCommon\AssertCustom.cs" />
     <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
     <Compile Include="UnitTestCommon\TestClassification.cs" />

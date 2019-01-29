@@ -197,8 +197,7 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public PartialViewResult EditStylesheet()
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var viewModel = new EditStylesheetViewModel(tenant);
+            var viewModel = new EditStylesheetViewModel();
             return ViewEditStylesheet(viewModel);
         }
 
@@ -212,10 +211,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditStylesheet(viewModel);
             }
 
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
-           
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
-            
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();           
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson);            
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
