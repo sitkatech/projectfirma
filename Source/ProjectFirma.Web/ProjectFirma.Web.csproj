@@ -138,6 +138,9 @@
     <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
@@ -155,6 +158,7 @@
       <DependentUpon>actionagenda.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.less" />
+    <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

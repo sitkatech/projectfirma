@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.GeospatialArea;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.CustomPage;
 using Detail = ProjectFirma.Web.Views.GeospatialArea.Detail;
 using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
 using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
@@ -149,5 +150,36 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new MapTooltipViewData(CurrentPerson, geospatialAreaPrimaryKey.EntityObject);
             return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
         }
+
+        [HttpGet]
+        [GeospatialAreaManageFeature]
+        public PartialViewResult EditInDialog(GeospatialAreaTypePrimaryKey customPagePrimaryKey)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            var viewModel = new EditGeospatialAreaTypeIntroTextViewModel(customPage);
+            return ViewEditInDialog(viewModel);
+        }
+
+        [HttpPost]
+        [GeospatialAreaManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditInDialog(GeospatialAreaTypePrimaryKey customPagePrimaryKey, EditGeospatialAreaTypeIntroTextViewModel viewModel)
+        {
+            var customPage = customPagePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditInDialog(viewModel);
+            }
+            viewModel.UpdateModel(customPage);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditInDialog(EditGeospatialAreaTypeIntroTextViewModel viewModel)
+        {
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
+            var viewData = new EditGeospatialAreaTypeIntroTextViewData(ckEditorToolbar);
+            return RazorPartialView<EditGeospatialAreaTypeIntroText, EditGeospatialAreaTypeIntroTextViewData, EditGeospatialAreaTypeIntroTextViewModel>(viewData, viewModel);
+        }
+
     }
 }

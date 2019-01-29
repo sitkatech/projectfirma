@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="GeospatialAreaManageFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,10 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Security
+using ProjectFirma.Web.Common;
+
+namespace ProjectFirma.Web.Views.GeospatialArea
 {
-    [SecurityFeatureDescription("Manage Geospatial Area")]
-    public class GeospatialAreaManageFeature : FirmaAdminFeature
+    public class EditGeospatialAreaTypeIntroTextViewData : FirmaUserControlViewData
     {
+        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
+
+        public EditGeospatialAreaTypeIntroTextViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar)
+        {
+            CkEditorToolbar = ckEditorToolbar;
+        }
     }
 }

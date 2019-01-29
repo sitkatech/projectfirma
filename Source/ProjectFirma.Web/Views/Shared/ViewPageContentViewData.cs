@@ -32,13 +32,13 @@ namespace ProjectFirma.Web.Views.Shared
             EditPageContentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(customPage));
         }
 
-        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, bool showEditButton)
+        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, Person currentPerson)
         {
             FirmaPageContentHtmlString = geospatialAreaType.GetFirmaPageContentHtmlString();
             FirmaPageDisplayName = geospatialAreaType.GetFirmaPageDisplayName();
-            ShowEditButton = showEditButton;
+            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
             HasPageContent = geospatialAreaType.HasPageContent();
-            EditPageContentUrl = string.Empty;
+            EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditInDialog(geospatialAreaType));
         }
 
         public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, Person currentPerson)
