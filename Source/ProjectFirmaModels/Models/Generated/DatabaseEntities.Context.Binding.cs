@@ -25,7 +25,6 @@ namespace ProjectFirmaModels.Models
         }
 
         public int TenantID { get; set; }
-
         public DatabaseEntities(int tenantID)
             : base("name=DatabaseEntities")
         {

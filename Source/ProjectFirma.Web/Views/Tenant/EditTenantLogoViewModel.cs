@@ -58,18 +58,20 @@ namespace ProjectFirma.Web.Views.Tenant
             TenantID = tenant.TenantID;
         }
 
-        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, Person currentPerson, DatabaseEntities databaseEntities)
         {
            
             if (TenantSquareLogoFileResourceData != null)
             {
-                attribute.TenantSquareLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                var attributeTenantSquareLogoFileResource = attribute.TenantSquareLogoFileResource;
                 attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                attributeTenantSquareLogoFileResource?.Delete(databaseEntities);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                attribute.TenantBannerLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                var attributeTenantBannerLogoFileResource = attribute.TenantBannerLogoFileResource;
                 attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
             }
         }
     }

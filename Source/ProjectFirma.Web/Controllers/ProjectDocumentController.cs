@@ -92,7 +92,6 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var project = projectDocument.Project;
             var displayName = projectDocument.DisplayName;
             if (!ModelState.IsValid)
             {

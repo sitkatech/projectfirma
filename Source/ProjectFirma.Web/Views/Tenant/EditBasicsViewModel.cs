@@ -132,24 +132,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             attribute.MinimumYear = MinimumYear ?? 0;
 
-
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
-
-            if (TenantStyleSheetFileResourceData != null)
-            {
-                attribute.TenantStyleSheetFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
-                attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
-            }
-            if (TenantSquareLogoFileResourceData != null)
-            {
-                attribute.TenantSquareLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
-                attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
-            }
-            if (TenantBannerLogoFileResourceData != null)
-            {
-                attribute.TenantBannerLogoFileResource?.DeleteFull(HttpRequestStorage.DatabaseEntities);
-                attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
