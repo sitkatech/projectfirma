@@ -147,5 +147,37 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new MapTooltipViewData(CurrentPerson, geospatialAreaPrimaryKey.EntityObject);
             return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
         }
+
+
+        [HttpGet]
+        [GeospatialAreaManageFeature]
+        public PartialViewResult EditInDialog(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var viewModel = new EditGeospatialAreaTypeIntroTextViewModel(geospatialAreaType);
+            return ViewEditInDialog(viewModel);
+        }
+
+        [HttpPost]
+        [GeospatialAreaManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditInDialog(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, EditGeospatialAreaTypeIntroTextViewModel viewModel)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditInDialog(viewModel);
+            }
+            viewModel.UpdateModel(geospatialAreaType);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditInDialog(EditGeospatialAreaTypeIntroTextViewModel viewModel)
+        {
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
+            var viewData = new EditGeospatialAreaTypeIntroTextViewData(ckEditorToolbar);
+            return RazorPartialView<EditGeospatialAreaTypeIntroText, EditGeospatialAreaTypeIntroTextViewData, EditGeospatialAreaTypeIntroTextViewModel>(viewData, viewModel);
+        }
+
     }
 }

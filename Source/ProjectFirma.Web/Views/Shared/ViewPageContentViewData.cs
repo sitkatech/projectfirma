@@ -1,4 +1,6 @@
 ﻿using System.Web;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
@@ -24,6 +26,15 @@ namespace ProjectFirma.Web.Views.Shared
         public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
             : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
         {
+        }
+
+        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, Person currentPerson)
+        {
+            FirmaPageContentHtmlString = geospatialAreaType.FirmaPageContentHtmlString;
+            FirmaPageDisplayName = geospatialAreaType.FirmaPageDisplayName;
+            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
+            HasPageContent = geospatialAreaType.HasPageContent;
+            EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditInDialog(geospatialAreaType));
         }
     }
 }
