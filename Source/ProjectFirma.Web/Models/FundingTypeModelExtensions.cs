@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
 
         public static FundingTypeData GetFundingTypeData(this FundingType fundingType)
         {
-            return fundingType.FundingTypeDatas.SingleOrDefault();
+            return fundingType.FundingTypeDatas.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
 
         public static string GetFundingTypeDisplayName(this FundingType fundingType)
