@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateSetting))
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, tenant, false));
-                        // notiftyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
+                        // notifyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 }
 
                 DbContext.AllNotifications.AddRange(notifications);
-                DbContext.SaveChanges();
+                DbContext.SaveChangesWithNoAuditing();
             }
         }
 

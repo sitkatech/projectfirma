@@ -45,9 +45,9 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 try
                 {
-                    Logger.Info($"Begin Corral Job {JobName}");
+                    Logger.Info($"Begin Firma Job {JobName}");
                     RunJobImplementation();
-                    Logger.Info($"End Corral Job {JobName}");
+                    Logger.Info($"End Firma Job {JobName}");
                 }
                 catch (Exception ex)
                 {
