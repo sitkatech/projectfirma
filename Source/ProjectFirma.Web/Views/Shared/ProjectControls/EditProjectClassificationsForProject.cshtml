@@ -39,7 +39,7 @@
 @using (Html.BeginForm())
 {
 <div>
-    Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @ViewDataTyped.ClassificationSystem.ClassificationSystemNamePluralized.
+    Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem)).
 </div>
     <div>
             @{ var classificationIndex = 0;}

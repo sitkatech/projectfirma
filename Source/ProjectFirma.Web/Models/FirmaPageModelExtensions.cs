@@ -10,18 +10,17 @@ namespace ProjectFirma.Web.Models
     {
         public static FirmaPageType ToType(this FirmaPageTypeEnum psInfoPageTypeEnum)
         {
-            return HttpRequestStorage.DatabaseEntities.FirmaPageTypes.SingleOrDefault(x =>
-                x.FirmaPageTypeID == (int)psInfoPageTypeEnum);
+            return ToType((int)psInfoPageTypeEnum);
         }
+
         public static FirmaPageType ToType(int fieldDefinitionID)
         {
-            return HttpRequestStorage.DatabaseEntities.FirmaPageTypes.SingleOrDefault(x =>
-                x.FirmaPageTypeID == fieldDefinitionID);
+            return HttpRequestStorage.DatabaseEntities.FirmaPageTypes.SingleOrDefault(x => x.FirmaPageTypeID == fieldDefinitionID);
         }
 
         public static FirmaPage GetFirmaPage(this FirmaPageType firmaPageType)
         {
-            return firmaPageType.FirmaPages.SingleOrDefault();
+            return firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
         public static FirmaPage GetFirmaPage(this FirmaPageTypeEnum firmaPageTypeEnum)
         {

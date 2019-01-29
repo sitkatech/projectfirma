@@ -91,7 +91,7 @@
                     <dd>@ViewDataTyped.EstimatedTotalCost</dd>
                     @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
                     {
-                        <dt><strong>@classificationSystem.Key.ClassificationSystemNamePluralized:</strong></dt>
+                        <dt><strong>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem.Key):</strong></dt>
                         <dd>@classificationSystem.Value</dd>
                     }
                 </dl>

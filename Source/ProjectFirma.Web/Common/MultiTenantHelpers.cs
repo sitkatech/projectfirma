@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Common
 
         public static TenantAttribute GetTenantAttribute()
         {
-            return HttpRequestStorage.DatabaseEntities.TenantAttributes.Single(a => a.TenantID == HttpRequestStorage.Tenant.TenantID);
+            return HttpRequestStorage.DatabaseEntities.TenantAttributes.Single();
         }
 
         public static string GetTaxonomySystemName()

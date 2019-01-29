@@ -2,6 +2,8 @@
 {
     public partial class ProjectOrganization : IAuditableEntity, IProjectOrganization
     {
+        private string _displayCssClass;
+
         public string GetAuditDescriptionString()
         {
             return $"Project: {ProjectID}, Organization: {OrganizationID}";
@@ -11,10 +13,18 @@
         {
             Organization = organization;
             RelationshipType = relationshipType;
-            DisplayCssClass = displayCssClass;
+            SetDisplayCssClass(displayCssClass);
         }
 
-        public string DisplayCssClass { get; set; }
+        public void SetDisplayCssClass(string value)
+        {
+            _displayCssClass = value;
+        }
+
+        public string GetDisplayCssClass()
+        {
+            return _displayCssClass;
+        }
 
         public ProjectOrganization(IProjectOrganization projectOrganization)
         {

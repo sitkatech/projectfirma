@@ -46,12 +46,12 @@ namespace ProjectFirma.Web.Views.Classification
             : base(currentPerson)
         {
             Classification = classification;
-            PageTitle = classification.ClassificationSystem.ClassificationSystemNamePluralized;
+            PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
 
             UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            ClassificationDisplayNamePluralized = classification.ClassificationSystem.ClassificationSystemNamePluralized;
+            ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";

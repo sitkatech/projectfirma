@@ -78,7 +78,7 @@
         </ul>
         <p>
             After you upload your file, you will be able to preview and verify the uploaded data. Note that once you accept the uploaded data,
-            any existing @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()) boundary for <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
+            any existing @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary for <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
         </p>
         <form id="uploadGisForm" method="post" action="@ViewDataTyped.EditBoundaryUrl" endtype="multipart/form-data">
             <div class="form-group">

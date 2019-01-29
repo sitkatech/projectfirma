@@ -16,5 +16,28 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.FundingTypes.SingleOrDefault(x =>
                 x.FundingTypeID == fieldDefinitionID);
         }
+
+        public static FundingTypeData GetFundingTypeData(this FundingType fundingType)
+        {
+            return fundingType.FundingTypeDatas.SingleOrDefault();
+        }
+
+        public static string GetFundingTypeDisplayName(this FundingType fundingType)
+        {
+            var fundingTypeData = fundingType.GetFundingTypeData();
+            return fundingTypeData.FundingTypeDisplayName;
+        }
+
+        public static string GetFundingTypeShortName(this FundingType fundingType)
+        {
+            var fundingTypeData = fundingType.GetFundingTypeData();
+            return fundingTypeData.FundingTypeShortName;
+        }
+
+        public static int GetFundingTypeSortOrder(this FundingType fundingType)
+        {
+            var fundingTypeData = fundingType.GetFundingTypeData();
+            return fundingTypeData.SortOrder;
+        }
     }
 }

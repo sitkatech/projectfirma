@@ -47,6 +47,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
+    <Compile Include="Common\IFieldDefinition.cs" />
+    <Compile Include="Common\IFieldDefinitionDisplayAttribute.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
     <Compile Include="Common\SitkaController.cs" />

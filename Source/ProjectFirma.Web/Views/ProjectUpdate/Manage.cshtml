@@ -46,7 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.ProjectsWithNoContactCount > 0)
 {
-    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() which require an update but do not have a @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel(). No reminders will be sent for these @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().</p>
+    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() which require an update but do not have a @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()). No reminders will be sent for these @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()).</p>
 }
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }

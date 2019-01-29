@@ -282,7 +282,7 @@
                 @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
                 {
                     <div class="col-xs-12">
-                        <h4>@classificationSystem.ClassificationSystemNamePluralized</h4>
+                        <h4>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h4>
                         @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
                         {
                             <ul>
@@ -295,7 +295,7 @@
                         }
                         else
                         {
-                            <div class="systemText">No @classificationSystem.ClassificationSystemNamePluralized provided</div>
+                            <div class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) provided</div>
                         }
                     </div>
                 }

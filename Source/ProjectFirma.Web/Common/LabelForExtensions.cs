@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common;
@@ -35,109 +34,6 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
-    public static class AngularExtensions
-    {
-        public static MvcHtmlString AngularDropdownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, TProperty>> expression,
-            string ngModel,
-            string ngOptions,
-            string optionValue,
-            string optionText,
-            string ngSelected,
-            string optionEmptyRowText,
-            string optionEmptyRowValue,
-            object htmlAttributes = null)
-        {
-            if (expression == null)
-            {
-                throw new ArgumentNullException("expression");
-            }
-            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            var name = ExpressionHelper.GetExpressionText(expression);
-            return AngularDropdownList(htmlHelper,
-                metadata,
-                name,
-                ngModel,
-                ngOptions,
-                optionValue,
-                optionText,
-                ngSelected,
-                optionEmptyRowText,
-                optionEmptyRowValue,
-                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-        }
-
-        private static MvcHtmlString AngularDropdownList(this HtmlHelper htmlHelper,
-            ModelMetadata metadata,
-            string name,
-            string ngModel,
-            string ngOptions,
-            string optionValue,
-            string optionText,
-            string ngSelected,
-            string optionEmptyRowText,
-            string optionEmptyRowValue,
-            IDictionary<string, object> htmlAttributes)
-        {
-            var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
-            if (String.IsNullOrEmpty(fullName))
-            {
-                throw new ArgumentException("name");
-            }
-            fullName = fullName.Replace("0", "{{$index}}");
-
-            var dropdown = new TagBuilder("select");
-            dropdown.Attributes.Add("name", fullName);
-            dropdown.Attributes.Add("data-ng-model", ngModel);
-            dropdown.MergeAttributes(htmlAttributes);
-            dropdown.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata));
-
-            var options = new StringBuilder();
-            // Make optionLabel the first item that gets rendered.
-            if (optionEmptyRowText != null)
-            {
-                options.AppendFormat("<option value=\"{0}\">{1}</option>", optionEmptyRowValue, optionEmptyRowText);
-                options.AppendLine();
-            }
-            options.AppendFormat("<option data-ng-repeat=\"{0}\" value=\"{1}\" data-ng-bind=\"{2}\" data-ng-selected=\"{3}\"></option>", ngOptions, optionValue, optionText, ngSelected);
-
-            dropdown.InnerHtml = options.ToString();
-            return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
-        }
-
-        public static MvcHtmlString AngularTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper,
-            Expression<Func<TModel, TProperty>> expression,
-            string ngModel,
-            object htmlAttributes = null)
-        {
-            if (expression == null)
-            {
-                throw new ArgumentNullException("expression");
-            }
-            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            var name = ExpressionHelper.GetExpressionText(expression);
-            return AngularTextBox(htmlHelper, metadata, name, ngModel, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-        }
-
-        private static MvcHtmlString AngularTextBox(this HtmlHelper htmlHelper, ModelMetadata metadata, string name, string ngModel, IDictionary<string, object> htmlAttributes)
-        {
-            var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
-            if (String.IsNullOrEmpty(fullName))
-            {
-                throw new ArgumentException("name");
-            }
-            fullName = fullName.Replace("0", "{{$index}}");
-
-            var input = new TagBuilder("input");
-            input.Attributes.Add("name", fullName);
-            input.Attributes.Add("data-ng-model", ngModel);
-            input.MergeAttributes(htmlAttributes);
-            input.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata));
-
-            return MvcHtmlString.Create(input.ToString(TagRenderMode.Normal));
-        }
-    }
-
     public static class LabelWithSugarForExtensions
     {
         public enum DisplayStyle
@@ -168,7 +64,7 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition)
         {
             return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth);
         }
@@ -184,7 +80,7 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon and with custom label text
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, string labelText)
         {
             return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, DisplayStyle.HelpIconWithLabel, labelText);
         }
@@ -192,7 +88,7 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, int popupWidth)
         {
             return LabelWithSugarFor(html, fieldDefinition, popupWidth, DisplayStyle.HelpIconWithLabel);
         }
@@ -200,7 +96,7 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, DisplayStyle displayStyle)
         {
             return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth, displayStyle);
         }
@@ -208,7 +104,7 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
         {
             return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, displayStyle, labelText);
         }
@@ -216,17 +112,17 @@ namespace ProjectFirma.Web.Common
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
         {
             return LabelWithSugarFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
         }
 
-        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
+        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
         {
             return LinkWithFieldDefinitionFor(html, fieldDefinition, linkText, DefaultPopupWidth, cssClasses);
         }
 
-        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string linkText, int popupWidth, List<string> cssClasses)
+        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, int popupWidth, List<string> cssClasses)
         {
             var fieldDefinitionLinkTag = new TagBuilder("a");
             fieldDefinitionLinkTag.Attributes.Add("href", "javascript:void(0)");
@@ -283,7 +179,7 @@ namespace ProjectFirma.Web.Common
             return LabelWithRequiredTagForImpl(html, metadata, htmlFieldName, hasRequiredAttribute, null, null);
         }
 
-        public static MvcHtmlString LabelWithSugarFor(IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(FieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
         {
             var fullHtmlFieldID = labelText.Replace(" ", "");
             // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery

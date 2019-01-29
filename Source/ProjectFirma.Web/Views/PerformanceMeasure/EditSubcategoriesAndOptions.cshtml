@@ -119,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <tbody>
                                             <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
                                                 <td colspan="3">
-                                                    <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized() on this @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel().</div>
+                                                    <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()).</div>
                                                 </td>
                                             </tr>
                                             <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">

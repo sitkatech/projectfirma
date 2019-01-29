@@ -504,7 +504,7 @@ namespace ProjectFirma.Web.Controllers
                 var projectClassificationSpec = new ProjectClassificationExcelSpec();
                 var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).Where(x => x.Classification.ClassificationSystem == c).ToList();
                 var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
-                    c.ClassificationSystemNamePluralized, projectClassificationSpec, projectClassifications);
+                    ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(c), projectClassificationSpec, projectClassifications);
                 workSheets.Add(wsProjectClassifications);
             });
 

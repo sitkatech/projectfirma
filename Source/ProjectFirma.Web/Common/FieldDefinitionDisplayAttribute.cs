@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.ComponentModel;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.HtmlHelperExtensions;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Common
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public sealed class FieldDefinitionDisplayAttribute : DisplayNameAttribute, IFieldDefinitionDisplayAttribute
     {
-        public IFieldDefinition FieldDefinition { get; private set; }
+        public FieldDefinition FieldDefinition { get; }
 
         public FieldDefinitionDisplayAttribute(FieldDefinitionEnum fieldDefinitionEnum) : base(fieldDefinitionEnum.ToType().GetFieldDefinitionLabel())
         {

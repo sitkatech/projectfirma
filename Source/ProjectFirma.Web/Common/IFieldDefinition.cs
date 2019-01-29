@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace LtInfo.Common.HtmlHelperExtensions
+using LtInfo.Common.HtmlHelperExtensions;
+
+namespace ProjectFirma.Web.Common
 {    
     public interface IFieldDefinition
     {

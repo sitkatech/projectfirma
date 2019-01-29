@@ -130,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </thead>
             <tbody>
                 <tr style="font-weight: bold;">
-                    <td>All @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()s:</td>
+                    <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
                     <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
                         {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
                     </td>

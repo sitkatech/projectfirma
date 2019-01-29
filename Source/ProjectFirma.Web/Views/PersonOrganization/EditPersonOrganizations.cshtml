@@ -42,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="EditPersonOrganizationsApp" ng-controller="PersonOrganizationController">
 
-   @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() to Add:
+    @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() to Add:
     <select ng-model="OrganizationToAdd" ng-options="Organization.DisplayName for Organization in filteredOrganizations()" style="width: 700px"></select>
 
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>

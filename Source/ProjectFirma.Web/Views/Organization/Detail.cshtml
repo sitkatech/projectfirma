@@ -179,7 +179,7 @@
                                 }
                                 else
                                 {
-                                    <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() set for this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() set for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                 }
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                                         }
                                         else
                                         {
-                                            <p class="systemText">No spatial data associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel().</p>
+                                            <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                         }
                                     </div>
                                     <div class="col-xs-12">
@@ -340,7 +340,7 @@
                                 }
                                 else
                                 {
-                                    <p class="systemText">No Users belong to this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No Users belong to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                 }
                             </div>
                         </div>
@@ -420,7 +420,7 @@
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
                     <p>
-                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                     </p>
                     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                     {
@@ -445,7 +445,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="systemText">
-                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel().
+                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
                             </p>
                         </div>
                     </div>

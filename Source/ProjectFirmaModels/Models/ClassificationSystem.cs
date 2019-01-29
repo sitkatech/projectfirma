@@ -8,8 +8,6 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString() => ClassificationSystemName;
 
-        public string ClassificationSystemNamePluralized => FieldDefinition.PluralizationService.Pluralize(ClassificationSystemName);
-
 
         public int FieldDefinitionDataID { get; }
         public string FieldDefinitionLabel => ClassificationSystemName;

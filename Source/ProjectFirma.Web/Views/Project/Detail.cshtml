@@ -332,12 +332,12 @@
 
                 @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                                         {
-                    <h2 data-toc-skip class="sectionHeader">@classificationSystem.ClassificationSystemNamePluralized</h2>
+                    <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h2>
-                                @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", classificationSystem.ClassificationSystemNamePluralized), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
-                                @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @classificationSystem.ClassificationSystemNamePluralized
+                                @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
+                                @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
                             </h2>
                         </div>
                         <div class="panel-body">
@@ -360,7 +360,7 @@
                             }
                             else
                             {
-                                    <p class="systemText">No @classificationSystem.ClassificationSystemNamePluralized set for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                             }
                         </div>
                     </div>

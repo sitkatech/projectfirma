@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(ClassificationSystem classificationSystem, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(classificationSystem.Classifications), classificationSystem.ClassificationSystemNamePluralized);
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(classificationSystem.Classifications), ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem));
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 

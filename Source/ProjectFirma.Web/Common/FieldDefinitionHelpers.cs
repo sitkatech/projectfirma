@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.HtmlHelperExtensions;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -27,27 +26,27 @@ namespace ProjectFirma.Web.Common
 {
     public static class FieldDefinitionHelpers
     {
-        public static string ToGridHeaderString(this IFieldDefinition fieldDefinition)
+        public static string ToGridHeaderString(this FieldDefinition fieldDefinition)
         {
             return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, fieldDefinition.GetFieldDefinitionLabel());
         }
 
-        public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, string linkText)
+        public static string ToGridHeaderString(this FieldDefinition fieldDefinition, string linkText)
         {
             return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, linkText);
         }
 
-        public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth)
+        public static string ToGridHeaderString(this FieldDefinition fieldDefinition, int popupWidth)
         {
             return fieldDefinition.ToGridHeaderString(popupWidth, fieldDefinition.GetFieldDefinitionLabel());
         }
 
-        public static string ToGridHeaderStringPlural(this IFieldDefinition fieldDefinition, string displayNamePlural) //there should be a better way to pass this
+        public static string ToGridHeaderStringPlural(this FieldDefinition fieldDefinition, string displayNamePlural) //there should be a better way to pass this
         {
             return fieldDefinition.ToGridHeaderString(displayNamePlural);
         }
 
-        private static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
+        private static string ToGridHeaderString(this FieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
         {
             return
                 LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition, popupWidth,

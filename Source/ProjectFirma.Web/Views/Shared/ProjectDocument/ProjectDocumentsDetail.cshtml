@@ -12,7 +12,7 @@
 
 @if (!ViewDataTyped.Documents.Any())
 {
-    <p class="systemText">No documents associated with this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
+    <p class="systemText">No documents associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }
 
 @foreach (var projectDocument in ViewDataTyped.Documents)

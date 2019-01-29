@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
                 {
-                    AddColumn(y.ClassificationSystemNamePluralized, x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));
+                    AddColumn(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(y), x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));
                 });
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {

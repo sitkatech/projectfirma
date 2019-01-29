@@ -216,7 +216,8 @@ Source code is available upon request via <support@sitkatech.com>.
         var modalTitle = jQuery(".ui-dialog-title");
         if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
         {
-            modalTitle.html("@(string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()))");
+            modalTitle.html(
+                "@string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel())");
         }
     });
 

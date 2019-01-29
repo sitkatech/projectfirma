@@ -1315,9 +1315,6 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
             var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
-            //var allProjectBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
@@ -1347,8 +1344,6 @@ namespace ProjectFirma.Web.Controllers
                 DateTime.Now,
                 allProjectExemptReportingYears,
                 allProjectFundingSourceExpenditures,
-                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//                allProjectBudgets,
                 allPerformanceMeasureActuals,
                 allPerformanceMeasureActualSubcategoryOptions,
                 allProjectExternalLinks,
@@ -2006,116 +2001,6 @@ namespace ProjectFirma.Web.Controllers
             return partialViewAsString;
         }
 
-        //[HttpGet]
-        //[ProjectUpdateCreateEditSubmitFeature]
-        //public PartialViewResult DiffBudgets(ProjectPrimaryKey projectPrimaryKey)
-        //{
-        //    var htmlDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
-        //    var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
-        //    return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
-        //}
-
-        //private HtmlDiffContainer DiffBudgetsImpl(ProjectPrimaryKey projectPrimaryKey)
-        //{
-        //    var project = projectPrimaryKey.EntityObject;
-        //    var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.DisplayName}");
-
-        //    var projectBudgetsOriginal = project.ProjectBudgets.ToList();
-        //    var calendarYearsOriginal = projectBudgetsOriginal.CalculateCalendarYearRangeForBudgets(project);
-        //    var projectBudgetsUpdated = projectUpdateBatch.ProjectBudgetUpdates.ToList();
-        //    var calendarYearsUpdated = projectBudgetsUpdated.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
-
-        //    var originalHtml = GeneratePartialViewForOriginalBudgets(new List<IProjectBudgetAmount>(projectBudgetsOriginal),
-        //        calendarYearsOriginal,
-        //        new List<IProjectBudgetAmount>(projectBudgetsUpdated),
-        //        calendarYearsUpdated);
-
-        //    var updatedHtml = GeneratePartialViewForModifiedBudgets(new List<IProjectBudgetAmount>(projectBudgetsOriginal),
-        //        calendarYearsOriginal,
-        //        new List<IProjectBudgetAmount>(projectBudgetsUpdated),
-        //        calendarYearsUpdated);
-        //    var htmlDiffContainer = new HtmlDiffContainer(originalHtml, updatedHtml);
-        //    return htmlDiffContainer;
-        //}
-
-        //private string GeneratePartialViewForBudgetsAsString(List<ProjectBudgetAmount2> projectBudgetAmounts, List<CalendarYearString> calendarYearStrings)
-        //{
-        //    var viewData = new Views.Shared.ProjectUpdateDiffControls.ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearStrings);
-        //    var partialViewAsString = RenderPartialViewToString(TransporationBudgetsPartialViewPath, viewData);
-        //    return partialViewAsString;
-        //}
-
-        //private string GeneratePartialViewForOriginalBudgets(List<IProjectBudgetAmount> projectBudgetAmountsOriginal,
-        //    List<int> calendarYearsOriginal,
-        //    List<IProjectBudgetAmount> projectBudgetAmountsUpdated,
-        //    List<int> calendarYearsUpdated)
-        //{
-        //    var fundingSourcesInOriginal = projectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
-        //    var fundingSourcesInUpdated = projectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
-        //    var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
-
-        //    var projectBudgetAmountsInOriginal = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsOriginal,
-        //        calendarYearsOriginal);
-        //    // we need to zero out calendar year values only in original
-        //    foreach (var projectBudgetAmount2 in projectBudgetAmountsInOriginal)
-        //    {
-        //        ZeroOutBudget(projectBudgetAmount2, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
-        //    }
-
-        //    var projectBudgetAmountsInUpdated = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsUpdated, calendarYearsUpdated);
-
-        //    // find the ones that are only in the modified set and add them and mark them as "added"
-        //    projectBudgetAmountsInOriginal.AddRange(
-        //        projectBudgetAmountsInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
-        //            .Select(x => ProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
-        //            .ToList());
-        //    // find the ones only in original and mark them as "deleted"
-        //    projectBudgetAmountsInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID))
-        //        .ForEach(x =>
-        //        {
-        //            ZeroOutBudget(x, calendarYearsOriginal);
-        //            x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
-        //        });
-
-        //    var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
-        //    return GeneratePartialViewForBudgetsAsString(projectBudgetAmountsInOriginal, calendarYearStrings);
-        //}
-
-        //private static void ZeroOutBudget(ProjectBudgetAmount2 projectBudgetAmount2, List<int> calendarYearsToZeroOut)
-        //{
-        //    foreach (var projectCostTypeCalendarYearBudget in projectBudgetAmount2.ProjectCostTypeCalendarYearBudgets)
-        //    {
-        //        foreach (var calendarYear in calendarYearsToZeroOut)
-        //        {
-        //            projectCostTypeCalendarYearBudget.CalendarYearBudget[calendarYear] = 0;
-        //        }                
-        //    }
-        //}
-
-        //private string GeneratePartialViewForModifiedBudgets(List<IProjectBudgetAmount> projectBudgetAmountsOriginal,
-        //    List<int> calendarYearsOriginal,
-        //    List<IProjectBudgetAmount> projectBudgetAmountsUpdated,
-        //    List<int> calendarYearsUpdated)
-        //{
-        //    var fundingSourcesInOriginal = projectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
-        //    var fundingSourcesInUpdated = projectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
-        //    var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
-
-        //    var projectBudgetAmountsInOriginal = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsOriginal, calendarYearsOriginal);
-        //    var projectBudgetAmountsInUpdated = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsUpdated, calendarYearsUpdated);
-
-        //    // find the ones that are only in the original set and add them and mark them as "deleted"
-        //    projectBudgetAmountsInUpdated.AddRange(
-        //        projectBudgetAmountsInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
-        //            .Select(x => ProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
-        //            .ToList());
-        //    // find the ones only in modified and mark them as "added"
-        //    projectBudgetAmountsInUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-
-        //    var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
-        //    return GeneratePartialViewForBudgetsAsString(projectBudgetAmountsInUpdated, calendarYearStrings);
-        //}
-
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffPhotos(ProjectPrimaryKey projectPrimaryKey)
@@ -2613,7 +2498,7 @@ namespace ProjectFirma.Web.Controllers
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
-                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
 
             return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate.GetPrimaryContact());
         }
@@ -2633,14 +2518,14 @@ namespace ProjectFirma.Web.Controllers
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
-                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
 
             return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project.GetPrimaryContact());
         }
 
         private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.RelationshipType, x.DisplayCssClass)).ToList(), primaryContactPerson);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.RelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }

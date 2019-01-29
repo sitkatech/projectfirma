@@ -1,5 +1,4 @@
-﻿using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
+﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
@@ -17,5 +16,8 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x =>
                 x.FieldDefinitionDetailsForClassificationSystem(classificationSystem.ClassificationSystemID));
         }
+
+        public static string GetClassificationSystemNamePluralized(ClassificationSystem classificationSystem) =>
+            FieldDefinitionModelExtensions.PluralizationService.Pluralize(classificationSystem.ClassificationSystemName);
     }
 }

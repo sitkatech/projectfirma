@@ -24,6 +24,7 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
@@ -39,13 +40,13 @@ namespace ProjectFirma.Web.Views.Classification
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
-            PageTitle = classificationSystem.ClassificationSystemNamePluralized;
+            PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
 
             HasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             GridSpec = new IndexGridSpec(HasClassificationManagePermissions, classificationSystem)
             {
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,
-                ObjectNamePlural = classificationSystem.ClassificationSystemNamePluralized,
+                ObjectNamePlural = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem),
                 SaveFiltersInCookie = true,
                 CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem)), $"New {classificationSystem.ClassificationSystemName}"),
             };

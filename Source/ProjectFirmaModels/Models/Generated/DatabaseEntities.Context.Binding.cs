@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
         public DatabaseEntities(int tenantID)
             : base("name=DatabaseEntities")
         {
+            TenantID = tenantID;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

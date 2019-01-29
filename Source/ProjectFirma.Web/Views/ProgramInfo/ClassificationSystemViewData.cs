@@ -24,6 +24,7 @@ using System.Linq;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 
         public ClassificationSystemViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
-            PageTitle = classificationSystem.ClassificationSystemNamePluralized;
+            PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
             Classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             ClassificationSystem = classificationSystem;
             ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, null).HasPermission;

@@ -212,9 +212,7 @@
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
-    <Compile Include="HtmlHelperExtensions\IFieldDefinition.cs" />
     <Compile Include="HtmlHelperExtensions\IFieldDefinitionData.cs" />
-    <Compile Include="HtmlHelperExtensions\IFieldDefinitionDisplayAttribute.cs" />
     <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpers.cs" />
     <Compile Include="HtmlHelperExtensions\TextAreaForExtensions.cs" />
     <Compile Include="LoggingFilters\SemRushFilter.cs" />
