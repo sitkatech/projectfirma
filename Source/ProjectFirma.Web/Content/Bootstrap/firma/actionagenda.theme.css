@@ -76,6 +76,7 @@ span.keyPhotoButton label {
   vertical-align: bottom;
   text-transform: uppercase;
   letter-spacing: 3px;
+  margin-bottom: 0;
 }
 .header .headerText a {
   color: #fff;
@@ -97,6 +98,35 @@ span.keyPhotoButton label {
   border: none;
   border-radius: 0;
   margin-bottom: 0;
+}
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer {
+  min-height: 80px;
+  padding: 15px 8px 0px 8px;
+  background-color: transparent;
+}
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .menuDivider {
+  border-left: 3px solid #fff;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  height: 50px;
+}
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .siteLink {
+  font-size: 28px;
+  font-weight: 700;
+}
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .nav li a {
+  color: #fff;
+}
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .nav li a:hover,
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .nav li a:focus,
+.projectFirmaNavbar.actionAgendaCustomSiteExplorer .nav li a:active {
+  color: #f6b330;
+  background-color: transparent;
+  text-decoration: none;
+}
+.projectFirmaNavbar .headerLogo {
+  height: 40px;
+  margin-top: 5px;
 }
 .projectFirmaNavbar .nav li {
   font-weight: 400;
@@ -433,7 +463,7 @@ nav#tableOfContents ul.nav ul.nav {
   padding: 0 0 0 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
-  padding: 0 0 0 15px ;
+  padding: 0 0 0 15px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
