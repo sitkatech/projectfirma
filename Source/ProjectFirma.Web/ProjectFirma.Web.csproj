@@ -764,6 +764,25 @@
     <Content Include="Content\Bootstrap\firma\rcd.theme.min.css">
       <DependentUpon>rcd.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-114x114.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-120x120.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-144x144.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-152x152.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-57x57.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-60x60.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-72x72.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\apple-touch-icon-76x76.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon-128.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon-16x16.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon-196x196.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon-32x32.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon-96x96.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\favicon.ico" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\mstile-144x144.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\mstile-150x150.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\mstile-310x150.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\mstile-310x310.png" />
+    <Content Include="Content\img\ActionAgendaForPugetSound\mstile-70x70.png" />
     <Content Include="Content\img\ClackamasPartnership\apple-icon-114x114.png" />
     <Content Include="Content\img\ClackamasPartnership\apple-icon-120x120.png" />
     <Content Include="Content\img\ClackamasPartnership\apple-icon-57x57.png" />
