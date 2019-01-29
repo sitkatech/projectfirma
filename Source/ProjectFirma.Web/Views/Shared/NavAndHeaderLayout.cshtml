@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using System.Diagnostics
+@using System.Web.UI.WebControls
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Project
@@ -47,6 +48,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ Html.RenderRazorSitkaPartial<FirmaIncludes>(); }
 
     <link href="@Url.Content("~/Content/Bootstrap/firma/base.theme.min.css")" rel="stylesheet" type="text/css" />
+    
 
     <link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />
     
@@ -62,9 +64,38 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="optionalContainer">
                 <div class="row">
                     <div class="headerText col-sm-12 col-md-8">
-                        <a href="@ViewDataTyped.FirmaHomeUrl">
-                            <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
-                        </a>
+                        @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
+                        {
+                            <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
+                                <div class="navbar-header">
+                                    <a href="@FirmaWebConfiguration.PsInfoUrl">
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" />
+                                    </a>
+                                </div>
+                                <ul class="nav navbar-nav navbar-left">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-menu-down"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
+                                            <li class="divider"></li>
+                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">Action Agenda</a></li>
+                                            <li class=""><a title="National Estuary Program" href="#" class="navigation-dropdown-item">National Estuary Program</a></li>
+                                            <li class=""><a title="Vital Signs" href="@FirmaWebConfiguration.VitalSignsUrl" class="navigation-dropdown-item">Vital Signs</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menuDivider"></li>
+                                    <li>
+                                        <a class="siteLink" href="@ViewDataTyped.FirmaHomeUrl" title="Action Agenda">Action Agenda</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
+                        else
+                        {
+                            <a href="@ViewDataTyped.FirmaHomeUrl">
+                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
+                            </a>
+                        }
                     </div>
                     <div class="col-sm-12 col-md-4">
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex;margin-top: 17px;">

@@ -31,6 +31,8 @@
     <add key="OgrInfoExecutable" value="C:\Program Files\GDAL\ogrinfo.exe"/>
     <add key="DefaultSupportPersonID" value="2"/>
     <add key="LogFileFolder" value="${application-root-dir}\Logs"/>
+    <add key="PsInfoUrl" value="${psinfo-url}"/>
+    <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="KeystoneUrl" value="https://${keystone-base-url}"/>
     <add key="KeystoneRegisterUserUrl" value="${keystone-register-endpoint}"/>
     <add key="KeystoneUserProfileUrl" value="${keystone-user-profile-endpoint}"/>
