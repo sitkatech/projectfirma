@@ -24,7 +24,8 @@ namespace ProjectFirmaModels.Models
             System.Data.Entity.Database.SetInitializer<DatabaseEntities>(null);
         }
 
-        public int TenantID { get; }
+        public int TenantID { get; set; }
+
         public DatabaseEntities(int tenantID)
             : base("name=DatabaseEntities")
         {

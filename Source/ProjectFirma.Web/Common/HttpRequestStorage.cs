@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Common
         public static void SetTenantForHangfire(Tenant tenant)
         {
             SetValue(TenantKey, tenant);
+            DatabaseEntities.TenantID = tenant.TenantID;
         }
 
         public static void EndContextForTest()
