@@ -277,7 +277,9 @@ Thank you,<br />
 
         private static List<Person> GetProjectStewardPeople(Project project)
         {
-            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+            var projectStewards = project.GetProjectStewards() ?? new List<Person>();
+            var peopleWhoReceiveNotifications = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
+            return peopleWhoReceiveNotifications.Union(projectStewards).Distinct().OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
     }
 }
