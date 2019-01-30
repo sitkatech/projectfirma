@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectFirmaModels.Models
@@ -31,11 +30,6 @@ namespace ProjectFirmaModels.Models
         public bool HasRealSubcategories()
         {
             return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1);
-        }
-
-        public List<PerformanceMeasureSubcategory> GetSubcategoriesForPerformanceMeasureChart()
-        {
-            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart()).ToList();
         }
 
         public int GetRealSubcategoryCount()

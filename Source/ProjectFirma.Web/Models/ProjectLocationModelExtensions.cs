@@ -18,20 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectLocationModelExtensions
     {
         public static GeoJSON.Net.Feature.FeatureCollection ToGeoJsonFeatureCollection(this IEnumerable<IProjectLocation> projectLocations)
         {
-            return new GeoJSON.Net.Feature.FeatureCollection(projectLocations.Where(x => DbGeometryToGeoJsonHelper.CanParseGeometry(x.ProjectLocationGeometry)).Select(x =>
+            return new GeoJSON.Net.Feature.FeatureCollection(projectLocations.Where(x => DbGeometryToGeoJsonHelper.CanParseGeometry(x.GetProjectLocationGeometry())).Select(x =>
             {
-                var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(x.ProjectLocationGeometry);
+                var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(x.GetProjectLocationGeometry());
                 feature.Properties.Add("Info", x.Annotation);
                 return feature;
             }).ToList());

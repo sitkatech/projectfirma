@@ -38,11 +38,7 @@ namespace ProjectFirmaModels.Models
             return "Shape deleted";
         }
 
-        public DbGeometry ProjectLocationGeometry
-        {
-            get { return ProjectLocationUpdateGeometry; }
-            set { ProjectLocationUpdateGeometry = value; }
-        }
+        public DbGeometry GetProjectLocationGeometry() => ProjectLocationUpdateGeometry;
 
         public void SetDbGeometry(DbGeometry value)
         {
@@ -82,7 +78,7 @@ namespace ProjectFirmaModels.Models
                 // Completely rebuild the list
                 projectUpdateBatch.ProjectLocationUpdates.ToList().ForEach(x =>
                 {
-                    var projectLocation = new ProjectLocation(project, x.ProjectLocationGeometry, x.Annotation);
+                    var projectLocation = new ProjectLocation(project, x.ProjectLocationUpdateGeometry, x.Annotation);
                     allProjectLocations.Add(projectLocation);
                 });
             }

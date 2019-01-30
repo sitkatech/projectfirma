@@ -36,6 +36,8 @@ namespace ProjectFirmaModels.Models
             return "Shape deleted";
         }
 
+        public DbGeometry GetProjectLocationGeometry() => ProjectLocationGeometry;
+
         public void SetDbGeometry(DbGeometry value)
         {
             ProjectLocationGeometry = value;

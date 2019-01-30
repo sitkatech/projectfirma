@@ -9,14 +9,14 @@ namespace ProjectFirmaModels.Models
             DatabaseEntities databaseEntities, PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             // the source for this PM is "Technical Assistance Provided to Conservation Districts"
-            var technicalAssistanceHours = databaseEntities.PerformanceMeasures.SingleOrDefault(x=>x.PerformanceMeasureID == TechnicalAssistanceProvidedPMID);
-            if (technicalAssistanceHours == null)
+
+            if (performanceMeasure.PerformanceMeasureID != TechnicalAssistanceProvidedPMID)
             {
                 // should not be calling this from a context where that PM doesn't exist anyway, but let's not die if we do.
                 return new List<PerformanceMeasureReportedValue>();
             }
 
-            var performanceMeasureReportedValues = Project.GetReportedPerformanceMeasureValues(databaseEntities, technicalAssistanceHours, projects).Where(x =>
+            var performanceMeasureReportedValues = Project.GetReportedPerformanceMeasureValues(databaseEntities, performanceMeasure, projects).Where(x =>
             {
                 var performanceMeasureValueSubcategoryOptionIDs = x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOptionID).ToList();
                 return performanceMeasureValueSubcategoryOptionIDs

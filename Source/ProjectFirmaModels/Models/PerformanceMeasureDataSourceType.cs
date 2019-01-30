@@ -15,14 +15,13 @@ namespace ProjectFirmaModels.Models
             List<PerformanceMeasureActual> performanceMeasureActualsFiltered;
             if (projects == null || !projects.Any())
             {
-                performanceMeasureActualsFiltered = databaseEntities.PerformanceMeasureActuals.Where(pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList();
+                performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActuals.ToList();
             }
             else
             {
                 var projectIDs = projects.Select(x => x.ProjectID).ToList();
                 performanceMeasureActualsFiltered =
-                    databaseEntities.PerformanceMeasureActuals.Where(
-                        pmav => pmav.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID && projectIDs.Contains(pmav.Project.ProjectID)).ToList();
+                    performanceMeasure.PerformanceMeasureActuals.Where(x => projectIDs.Contains(x.Project.ProjectID)).ToList();
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();

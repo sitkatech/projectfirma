@@ -216,7 +216,7 @@ namespace ProjectFirma.Web.Models
 
             if (project.GetProjectLocationDetails().Any())
             {
-                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
+                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.GetProjectLocationGeometry()));
             }
 
             if (project.ProjectLocationPoint != null)

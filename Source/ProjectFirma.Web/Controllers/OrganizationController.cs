@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Projects", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
             }
 
-            var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.ProjectLocations).ToGeoJsonFeatureCollection();
             if (projectDetailLocationsFeatureCollection.Features.Any())
             {
                 hasSpatialData = true;

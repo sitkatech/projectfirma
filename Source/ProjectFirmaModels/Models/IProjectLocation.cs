@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
 {
     public interface IProjectLocation
     {
-        DbGeometry ProjectLocationGeometry { get; set; }
+        DbGeometry GetProjectLocationGeometry();
         string Annotation { get; set; }
     }
 }

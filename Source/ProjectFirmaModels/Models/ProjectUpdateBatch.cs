@@ -23,7 +23,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectUpdateBatch
+    public partial class ProjectUpdateBatch : IAuditableEntity
     {
         public bool IsApproved() => ProjectUpdateState == ProjectUpdateState.Approved;
 
@@ -64,5 +64,9 @@ namespace ProjectFirmaModels.Models
         }
 
         public bool NewStageIsPlanningDesign() => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;
+        public string GetAuditDescriptionString()
+        {
+            return $"Project Update Batch {ProjectUpdateBatchID} updated";
+        }
     }
 }

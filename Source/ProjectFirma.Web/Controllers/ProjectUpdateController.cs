@@ -2088,7 +2088,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
-            var originalLocationDetailed = project.GetProjectLocationDetails().ToList();
+            var originalLocationDetailed = project.ProjectLocations;
             var updatedLocationDetailed = projectUpdateBatch.ProjectLocationUpdates;
 
             if (!originalLocationDetailed.Any() && !updatedLocationDetailed.Any())
@@ -2098,7 +2098,7 @@ namespace ProjectFirma.Web.Controllers
                 return true;
 
             var originalLocationAsListOfStrings = originalLocationDetailed.Select(x => x.ProjectLocationGeometry.ToString() + x.Annotation).ToList();
-            var updatedLocationAsListOfStrings = updatedLocationDetailed.Select(x => x.ProjectLocationGeometry.ToString() + x.Annotation).ToList();
+            var updatedLocationAsListOfStrings = updatedLocationDetailed.Select(x => x.ProjectLocationUpdateGeometry.ToString() + x.Annotation).ToList();
 
             var enumerable = originalLocationAsListOfStrings.Except(updatedLocationAsListOfStrings);
             return enumerable.Any();
